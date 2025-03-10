@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CodeSnippets xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+	<CodeSnippet Format="1.0.0">
+		<Header>
+			<Title>JungObjCpp</Title>
+			<Shortcut>JungObjCpp</Shortcut>
+			<Description>클래스용 코드 조각</Description>
+			<Author>Microsoft Corporation</Author>
+			<SnippetTypes>
+				<SnippetType>Expansion</SnippetType>
+				<SnippetType>SurroundsWith</SnippetType>
+			</SnippetTypes>
+		</Header>
+		<Snippet>
+			<Declarations>
+				<Literal>
+					<ID>Name</ID>
+					<ToolTip>클래스 이름</ToolTip>
+					<Default>MyClass</Default>
+				</Literal>
+				<Literal>
+					<ID>Parent</ID>
+					<ToolTip>부모클래스 이름</ToolTip>
+					<Default>ParentClass</Default>
+				</Literal>
+			</Declarations>
+			<Code Language="cpp">
+					<![CDATA[// 내 클래스 이름 : $Name$
+// 부모 클래스 이름 : $Parent$
+
+#include "$Name$.h"
+#include "GameInstance.h"
+
+C$Name$::C$Name$(LPDIRECT3DDEVICE9 pGraphic_Device)
+    : C$Parent$ { pGraphic_Device }
+{
+}
+
+C$Name$::C$Name$(const C$Name$& Prototype)
+	: C$Parent$ (Prototype)
+{
+}
+
+HRESULT C$Name$::Initialize_Prototype()
+{
+	return S_OK;
+}
+
+HRESULT C$Name$::Initialize(void* pArg)
+{
+	m_eLevelID = LEVEL_STATIC;
+	m_szTextureID = TEXT("$Name$");
+	m_szBufferType = TEXT("Rect");
+
+	if (FAILED(__super::Initialize(pArg)))
+		return E_FAIL;
+	
+	return S_OK;
+}
+
+void C$Name$::Priority_Update(_float fTimeDelta)
+{
+	__super::Priority_Update(fTimeDelta);
+}
+
+void C$Name$::Update(_float fTimeDelta)
+{
+	__super::Update(fTimeDelta);
+}
+
+void C$Name$::Late_Update(_float fTimeDelta)
+{
+	__super::Late_Update(fTimeDelta);
+}
+
+HRESULT C$Name$::Render()
+{
+    return __super::Render();
+}
+
+C$Name$* C$Name$::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
+{
+	C$Name$* pInstance = new C$Name$(pGraphic_Device);
+
+	if (FAILED(pInstance->Initialize_Prototype()))
+	{
+		MSG_BOX("Failed to Created : C$Name$");
+		Safe_Release(pInstance);
+	}
+
+	return pInstance;
+}
+
+CGameObject* C$Name$::Clone(void* pArg)
+{	
+	C$Name$* pInstance = new C$Name$(*this);
+
+	if (FAILED(pInstance->Initialize(pArg)))
+	{
+		MSG_BOX("Failed to Clone : C$Name$");
+		Safe_Release(pInstance);
+	}
+
+	return pInstance;
+}
+
+void C$Name$::Free()
+{
+	__super::Free();
+}]]>
+			</Code>
+		</Snippet>
+	</CodeSnippet>
+</CodeSnippets>

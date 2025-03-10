@@ -1,0 +1,9 @@
+#pragma once
+
+namespace Engine
+{
+	enum class PROTOTYPE { TYPE_GAMEOBJECT, TYPE_COMPONENT };
+
+	enum DIMK { DIMK_LUBUTTON, DIMK_RBUTTON, DIMK_WHEEL, DIMK_END };
+	enum DIMM { DIMM_X, DIMM_Y, DIMM_WHEEL, DIMM_END };
+}

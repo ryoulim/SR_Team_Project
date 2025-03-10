@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CodeSnippets xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+	<CodeSnippet Format="1.0.0">
+		<Header>
+			<Title>JungObjH</Title>
+			<Shortcut>JungObjH</Shortcut>
+			<Description>클래스용 코드 조각</Description>
+			<Author>Microsoft Corporation</Author>
+			<SnippetTypes>
+				<SnippetType>Expansion</SnippetType>
+				<SnippetType>SurroundsWith</SnippetType>
+			</SnippetTypes>
+		</Header>
+		<Snippet>
+			<Declarations>
+				<Literal>
+					<ID>Name</ID>
+					<ToolTip>클래스 이름</ToolTip>
+					<Default>MyClass</Default>
+				</Literal>
+				<Literal>
+					<ID>Parent</ID>
+					<ToolTip>부모 클래스 이름</ToolTip>
+					<Default>ParentClass</Default>
+				</Literal>
+			</Declarations>
+			<Code Language="cpp">
+					<![CDATA[// 내 클래스 이름 : $Name$
+// 부모 클래스 이름 : $Parent$
+
+#pragma once
+#include "$Parent$.h"
+
+BEGIN(Client)
+
+class C$Name$ final : public C$Parent$
+{
+public:
+	typedef struct tag$Name$Desc : public C$Parent$::DESC
+	{
+	
+	}DESC;
+	
+private:
+	C$Name$(LPDIRECT3DDEVICE9 pGraphic_Device);
+	C$Name$(const C$Name$& Prototype);
+	virtual ~C$Name$() = default;
+
+public:	
+	virtual HRESULT Initialize_Prototype() override;	
+	virtual HRESULT Initialize(void* pArg) override;
+	virtual void Priority_Update(_float fTimeDelta) override;
+	virtual void Update(_float fTimeDelta) override;
+	virtual void Late_Update(_float fTimeDelta) override;
+	virtual HRESULT Render() override;
+
+public:
+	static C$Name$* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
+	virtual CGameObject* Clone(void* pArg) override;
+	virtual void Free();
+};
+
+END]]>
+			</Code>
+		</Snippet>
+	</CodeSnippet>
+</CodeSnippets>
