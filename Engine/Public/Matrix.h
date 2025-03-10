@@ -21,22 +21,30 @@ typedef struct ENGINE_DLL tagMatrix : public D3DXMATRIX
 
     //뷰 행렬용 생성자
     tagMatrix(const D3DXVECTOR3& _vCamera, const D3DXVECTOR3& _vLook, const D3DXVECTOR3& _vUp = { 0.f,1.f,0.f });
+
     //원근투영 행렬용 생성자
     tagMatrix(FLOAT _fFOV, FLOAT _fWinSizeX, FLOAT _fWinSizeY, FLOAT _fNear, FLOAT _fFar);
+
     //직교투영 행렬용 생성자
     tagMatrix(FLOAT _fWinSizeX, FLOAT _fWinSizeY, FLOAT _fNear, FLOAT _fFar);
+
+    //회전행렬용 생성자
+    tagMatrix(const D3DXVECTOR3& vector, FLOAT Angle);
     
     //뷰 행렬을 새로 계산해준다.
-    void MakeViewMat(const D3DXVECTOR3& _vCamera, const D3DXVECTOR3& _vLook, const D3DXVECTOR3& _vUp = { 0.f,1.f,0.f });
+    const tagMatrix& MakeViewMat(const D3DXVECTOR3& _vCamera, const D3DXVECTOR3& _vLook, const D3DXVECTOR3& _vUp = { 0.f,1.f,0.f });
 
     //원근 투영행렬을 새로 계산해준다.
-    void MakePerspectiveProjMat(FLOAT _fFOV, FLOAT _fWinSizeX, FLOAT _fWinSizeY, FLOAT _fNear, FLOAT _fFar);
+    const tagMatrix& MakePerspectiveProjMat(FLOAT _fFOV, FLOAT _fWinSizeX, FLOAT _fWinSizeY, FLOAT _fNear, FLOAT _fFar);
 
     //직교투영 행렬용 생성자
-    void MakeOrthoProjMat(FLOAT _fWinSizeX, FLOAT _fWinSizeY, FLOAT _fNear, FLOAT _fFar);
+    const tagMatrix& MakeOrthoProjMat(FLOAT _fWinSizeX, FLOAT _fWinSizeY, FLOAT _fNear, FLOAT _fFar);
 
     // 이 행렬을 매개변수의 역행렬로 만든다.
-    void MakeInverseMat(const D3DXMATRIX& Matrix);
+    const tagMatrix& MakeInverseMat(const D3DXMATRIX& Matrix);
+
+    // 회전행렬을 새로 계산해준다.
+    const tagMatrix& MakeRotationMat(const D3DXVECTOR3& vector, FLOAT Angle);
 
 } MATRIX, WORLDMAT, VIEWMAT, PROJMAT, *LPMATRIX;
 
