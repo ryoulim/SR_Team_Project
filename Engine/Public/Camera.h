@@ -12,8 +12,7 @@ public:
 		_float3		vEye; //À§Ä¡
 		_float3		vAt;
 
-		_float		fAspect;
-		_float		fFovy;
+		_float		fFov;
 		_float		fNear;
 		_float		fFar;
 
@@ -32,15 +31,22 @@ public:
 	virtual void Late_Update(_float fTimeDelta);
 	virtual HRESULT Render();
 
-public:
-	void Add_Fov(_float fAspect) { m_CameraDesc.fFovy += fAspect; }
+protected:
+	_float4x4				m_ViewMatrix;
+	_float4x4				m_ProjMatrix;
+	_float					m_fFov = {};
+	_float					m_fAspect = {};
+	_float					m_fNear = {};
+	_float					m_fFar = {};
+
+	class CTransform* m_pTransformCom = { nullptr };
 
 protected:
-	HRESULT Bind_Projection_Transform();
+	HRESULT Bind_Resource();
 
-protected:
-	class CTransform* m_pTransform = nullptr;
-	DESC			m_CameraDesc = {};
+private:
+	virtual void Update_Projection_Matrix() PURE;
+	virtual HRESULT Ready_Components(void* pArg) PURE;
 
 public:
 	virtual CCamera* Clone(void* pArg) PURE;

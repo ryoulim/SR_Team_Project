@@ -28,6 +28,10 @@ public:
 		return reinterpret_cast<const _float3*>(m_WorldMatrix.m[eState]);
 	}
 
+	const _float4x4& Get_WorldMatrix_Inverse(_float4x4& rhsOut) {
+		return rhsOut.MakeInverseMat(m_WorldMatrix);
+	}
+
 	void Set_State(TRANSFORMSTATE eState, const _float3& vState) {
 		memcpy(&m_WorldMatrix.m[eState][0], &vState, sizeof vState);
 	}
@@ -38,7 +42,6 @@ public:
 
 public:
 	HRESULT			Bind_Resource();
-	HRESULT			Bind_View_Transform();
 
 	_float3 Compute_Scaled() const;
 	void Scaling(_float Ratio);
@@ -55,7 +58,7 @@ public:
 	void Rotation(const _float3& vAxis, _float fRadian);
 
 private:
-	_float4x4				m_WorldMatrix = {};
+	_float4x4				m_WorldMatrix;
 
 	_float					m_fSpeedPerSec = {};
 	_float					m_fRotationPerSec = {};

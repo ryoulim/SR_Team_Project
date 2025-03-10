@@ -12,15 +12,26 @@ typedef struct ENGINE_DLL tagVector : public D3DXVECTOR3
 	tagVector(FLOAT x, FLOAT y, FLOAT z) : D3DXVECTOR3(x, y, z) {}
 
 	// 정규벡터를 만들어준다.
-	void Normalize();
+	const tagVector& Normalize();
+
 	// 길이를 구해준다
-	FLOAT Length();
+	FLOAT Length() const;
+
 	// 벡터간 거리를 구해준다
-	FLOAT Distance(const D3DXVECTOR3& _vector);
+	FLOAT Distance(const D3DXVECTOR3& _vector) const;
+
 	// 매개변수와의 내적값을 구해준다.
-	FLOAT Dot(const D3DXVECTOR3& _vector);
+	FLOAT Dot(const D3DXVECTOR3& _vector) const;
+
 	// 매개변수와의 외적값을 구해준다.
-	tagVector* Cross(const D3DXVECTOR3& _vector);
+	tagVector Cross(const D3DXVECTOR3& _vector) const;
+
+	// 방향벡터에 행렬곱셈 연산
+	const tagVector& TransformNormal(const D3DXMATRIX& _matrix);
+
+	// 위치벡터에 행렬곱셈 연산
+	const tagVector& TransformCoord(const D3DXMATRIX& _matrix);
+
 }VECTOR, *LPVECTOR;
 
 END

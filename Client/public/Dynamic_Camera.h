@@ -5,6 +5,12 @@ BEGIN(Client)
 
 class CDynamic_Camera final : public CCamera
 {
+public:
+	typedef struct tagDynamic_CameraDesc : public CCamera::DESC
+	{
+		_float			fMouseSensor;
+
+	}DESC;
 private: 
 	CDynamic_Camera(LPDIRECT3DDEVICE9 pGraphicDevice);
 	CDynamic_Camera(const CDynamic_Camera& Prototype);
@@ -19,11 +25,15 @@ public:
 	virtual HRESULT Render();
 
 private:
+	_float				m_fMouseSensor = {};
+
+private:
+	virtual void		Update_Projection_Matrix() override;
+	virtual HRESULT		Ready_Components(void* pArg) override;
+
 	void				Key_Input(_float fTimeDelta);
 	void				Mouse_Move();
 	void				Mouse_Fix();
-
-	HRESULT				Ready_Components(void* pArg);
 
 public:
 	static CDynamic_Camera* Create(LPDIRECT3DDEVICE9 pGraphicDevice);

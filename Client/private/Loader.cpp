@@ -89,7 +89,6 @@ HRESULT CLoader::Loading_For_Logo()
 
 #pragma region PRTOBJ
 	lstrcpy(m_szLoadingText, TEXT("원형객체을(를) 로딩중입니다."));
-	ADD_PRTOBJ(UI_Camera);
 	ADD_PRTOBJ(BackGround);
 	Add_Data(TEXT("GamePlayLevelData.csv"));
 #pragma endregion
@@ -123,8 +122,6 @@ HRESULT CLoader::Loading_For_GamePlay()
 #pragma region PRTOBJ
 	lstrcpy(m_szLoadingText, TEXT("원형객체을(를) 로딩중입니다."));
 	ADD_PRTOBJ(Terrain);
-	ADD_PRTOBJ(Dynamic_Camera);
-	ADD_PRTOBJ(UI_Camera);
 	ADD_PRTOBJ(MyCube);
 	ADD_PRTOBJ(Aim);
 	ADD_PRTOBJ(Portrait);
