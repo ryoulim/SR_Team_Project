@@ -33,13 +33,6 @@ HRESULT CTransform::Bind_Resource()
 	return m_pGraphic_Device->SetTransform(D3DTS_WORLD, &m_WorldMatrix);
 }
 
-HRESULT CTransform::Bind_View_Transform()
-{
-	_float4x4 matView = {};
-
-	return m_pGraphic_Device->SetTransform(D3DTS_VIEW, &_float4x4().MakeInverseMat(m_WorldMatrix));
-}
-
 _float3 CTransform::Compute_Scaled() const
 {
 	return _float3(Get_State(STATE_RIGHT)->Length(),

@@ -22,13 +22,8 @@ HRESULT CUI_Camera::Initialize(void* pArg)
 	if (pArg == nullptr)
 		return E_FAIL;
 
-	m_CameraDesc = *static_cast<DESC*>(pArg);
-	if (FAILED(Ready_Components()))
+	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
-
-	//어짜피 항등행렬로 쓸거니..
-	//m_pTransform->LookAt(m_CameraDesc.vAt);
-	//m_pTransform->Set_State(CTransform::STATE_POSITION, m_CameraDesc.vEye);
 
 	return S_OK;
 }
@@ -48,9 +43,7 @@ void CUI_Camera::Late_Update(_float fTimeDelta)
 
 HRESULT CUI_Camera::Render() // UI설정 전 필요한 각종 셋팅 몰아두기
 {
-	if(FAILED(m_pTransform->Bind_View_Transform()))
-		return E_FAIL;
-	if (FAILED(Bind_Projection_Transform()))
+	if (FAILED(Bind_Resource()))
 		return E_FAIL;
 	if (FAILED(m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE)))
 		return E_FAIL;
@@ -62,20 +55,16 @@ HRESULT CUI_Camera::Render() // UI설정 전 필요한 각종 셋팅 몰아두기
 	return S_OK;
 }
 
-HRESULT CUI_Camera::Bind_Projection_Transform()
+void CUI_Camera::Update_Projection_Matrix()
 {
-	_float4x4 ProjMat{};
-
-	D3DXMatrixOrthoLH(&ProjMat, g_iWinSizeX, g_iWinSizeY, m_CameraDesc.fNear, m_CameraDesc.fFar);
-
-	return m_pGraphic_Device->SetTransform(D3DTS_PROJECTION, &ProjMat);
+	m_ProjMatrix.MakeOrthoProjMat(FWINCX, FWINCY, m_fNear, m_fFar);
 }
 
-HRESULT CUI_Camera::Ready_Components()
+HRESULT CUI_Camera::Ready_Components(void* pArg)
 {
 	/* For.Prototype_Component_Transform */
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Transform"),
-		TEXT("Com_Transform"), reinterpret_cast<CComponent**>(&m_pTransform))))
+		TEXT("Com_Transform"), reinterpret_cast<CComponent**>(&m_pTransformCom),pArg)))
 		return E_FAIL;
 
 	return S_OK;

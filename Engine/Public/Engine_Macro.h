@@ -3,6 +3,13 @@
 #define BEGIN(NAMESPACE) namespace NAMESPACE { 
 #define END }
 
+#define RADIAN		D3DXToRadian
+#define DEGREE		D3DXToDegree
+#define PI			D3DX_PI	
+#define SQUARE(X)   (X)*(X)
+#define G_FORCE     ((FLOAT)9.80665f)
+#define PERCENT(X)	(X) - rand()%100 > 0
+
 #ifdef ENGINE_EXPORTS
 #define ENGINE_DLL _declspec(dllexport)
 #else
@@ -43,8 +50,3 @@ unsigned int ClassName::Destroy_Instance()				\
 	}													\
 	return iRefCnt;										\
 }
-
-#define OBJ_DEAD 1
-#define OBJ_NOEVENT 0
-#define	VK_MAX		0xff
-#define NONE_HEIGHT		9999999.f

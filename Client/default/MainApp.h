@@ -26,6 +26,7 @@ private:
 private:
 	HRESULT Open_Level(LEVEL eLevelID);
 	HRESULT Ready_Component_For_Static();
+	HRESULT Ready_Object_For_Static();
 
 public:
 	static CMainApp* Create();

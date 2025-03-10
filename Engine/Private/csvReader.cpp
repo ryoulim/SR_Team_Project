@@ -57,6 +57,8 @@ HRESULT CcsvReader::Readcsv(const _wstring& strcsvPath, CLevelData* pDatas)
 		for (_uint i = 0; i < iNum; i++)
 		{
 			getline(linestream, strData, L',');
+			if (strData.empty())
+				continue;
 			fCell = stof(strData);
 			if (nullptr != pAddress)
 			{

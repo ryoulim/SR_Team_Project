@@ -6,6 +6,11 @@ BEGIN(Client)
 
 class CUI_Camera final : public CCamera
 {
+public:
+	typedef struct tagUI_CameraDesc : public CCamera::DESC
+	{
+
+	}DESC;
 private:
 	CUI_Camera(LPDIRECT3DDEVICE9 pGraphicDevice);
 	CUI_Camera(const CUI_Camera& Prototype);
@@ -20,8 +25,8 @@ public:
 	virtual HRESULT Render();
 
 private:
-	HRESULT Bind_Projection_Transform();
-	HRESULT	Ready_Components();
+	virtual void		Update_Projection_Matrix() override;
+	virtual HRESULT		Ready_Components(void* pArg) override;
 
 public:
 	static CUI_Camera* Create(LPDIRECT3DDEVICE9 pGraphic_Device);

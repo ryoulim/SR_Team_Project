@@ -18,6 +18,27 @@ HRESULT CCamera::Initialize_Prototype()
 
 HRESULT CCamera::Initialize(void * pArg)
 {
+    if (FAILED(Ready_Components(pArg)))
+        return E_FAIL;
+
+    if (nullptr == m_pTransformCom)
+        return E_FAIL;
+
+    DESC* pDesc = static_cast<DESC*>(pArg);
+
+    m_pTransformCom->Set_State(CTransform::STATE_POSITION, pDesc->vEye);
+    m_pTransformCom->LookAt(pDesc->vAt);
+
+    m_fFov = RADIAN(pDesc->fFov);
+    m_fNear = pDesc->fNear;
+    m_fFar = pDesc->fFar;
+
+    D3DVIEWPORT9            ViewportDesc{};
+    m_pGraphic_Device->GetViewport(&ViewportDesc);
+
+    m_fAspect = static_cast<_float>(ViewportDesc.Width) / ViewportDesc.Height;
+
+	Update_Projection_Matrix();
 	return S_OK;
 }
 
@@ -38,21 +59,17 @@ HRESULT CCamera::Render()
 	return S_OK;
 }
 
-HRESULT CCamera::Bind_Projection_Transform()
+HRESULT CCamera::Bind_Resource()
 {
-	_float4x4 ProjMat{};
+	m_pGraphic_Device->SetTransform(D3DTS_VIEW, &m_pTransformCom->Get_WorldMatrix_Inverse(m_ViewMatrix));
 
-	D3DXMatrixPerspectiveFovLH(&ProjMat,
-		m_CameraDesc.fFovy,
-		m_CameraDesc.fAspect,
-		m_CameraDesc.fNear,
-		m_CameraDesc.fFar);
+	m_pGraphic_Device->SetTransform(D3DTS_PROJECTION, &m_ProjMatrix);
 
-	return m_pGraphic_Device->SetTransform(D3DTS_PROJECTION, &ProjMat);
+	return S_OK;
 }
 
 void CCamera::Free()
 {
 	__super::Free();
-	Safe_Release(m_pTransform);
+	Safe_Release(m_pTransformCom);
 }

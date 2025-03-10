@@ -4,6 +4,12 @@
 #include "Level_Logo.h"
 #include "Level_Loading.h"
 
+#include "Dynamic_Camera.h"
+#include "UI_Camera.h"
+
+// 매크로를 위한 매크로(건드리지 마시오)
+#define m_eNextLevelID LEVEL_STATIC
+
 CMainApp::CMainApp()
 	: m_pGameInstance{ CGameInstance::Get_Instance() }
 {
@@ -24,6 +30,9 @@ HRESULT CMainApp::Initialize()
 		return E_FAIL;
 
 	if (FAILED(Ready_Component_For_Static()))
+		return E_FAIL;
+
+	if(FAILED(Ready_Object_For_Static()))
 		return E_FAIL;
 
 	/* 최초 보여줄 레벨을 할당하자. */
@@ -54,12 +63,18 @@ HRESULT CMainApp::Render()
 
 HRESULT CMainApp::Ready_Component_For_Static()
 {
-	LEVEL m_eNextLevelID = LEVEL_STATIC;
-
 	ADD_MODEL(Cube);
 	ADD_MODEL(Rect);
 	ADD_MODEL_EX(Terrain, 256, 256);
 	ADD_PRTCOM(Transform);
+
+	return S_OK;
+}
+
+HRESULT CMainApp::Ready_Object_For_Static()
+{
+	ADD_PRTOBJ(Dynamic_Camera);
+	ADD_PRTOBJ(UI_Camera);
 
 	return S_OK;
 }

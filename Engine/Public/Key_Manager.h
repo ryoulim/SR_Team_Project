@@ -1,6 +1,7 @@
 #pragma once
-
 #include "Base.h"
+
+#define	VK_MAX		0xff
 
 BEGIN(Engine)
 

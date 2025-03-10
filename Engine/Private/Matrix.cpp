@@ -41,12 +41,12 @@ const tagMatrix& tagMatrix::MakeViewMat(const D3DXVECTOR3& _vCamera, const D3DXV
 	return *this;
 }
 
-const tagMatrix& tagMatrix::MakePerspectiveProjMat(FLOAT _fFOV, FLOAT _fWinSizeX, FLOAT _fWinSizeY, FLOAT _fNear, FLOAT _fFar)
+const tagMatrix& tagMatrix::MakePerspectiveProjMat(FLOAT _fFOV, FLOAT _fAspect, FLOAT _fNear, FLOAT _fFar)
 {
 	D3DXMatrixPerspectiveFovLH(
 		this,
 		_fFOV,
-		_fWinSizeX / _fWinSizeY,
+		_fAspect,
 		_fNear,
 		_fFar);
 	return *this;

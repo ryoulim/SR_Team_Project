@@ -35,9 +35,9 @@ typedef struct ENGINE_DLL tagMatrix : public D3DXMATRIX
     const tagMatrix& MakeViewMat(const D3DXVECTOR3& _vCamera, const D3DXVECTOR3& _vLook, const D3DXVECTOR3& _vUp = { 0.f,1.f,0.f });
 
     //원근 투영행렬을 새로 계산해준다.
-    const tagMatrix& MakePerspectiveProjMat(FLOAT _fFOV, FLOAT _fWinSizeX, FLOAT _fWinSizeY, FLOAT _fNear, FLOAT _fFar);
+    const tagMatrix& MakePerspectiveProjMat(FLOAT _fFOV, FLOAT _fAspect, FLOAT _fNear, FLOAT _fFar);
 
-    //직교투영 행렬용 생성자
+    //직교투영 행렬용 새로 계산해준다.
     const tagMatrix& MakeOrthoProjMat(FLOAT _fWinSizeX, FLOAT _fWinSizeY, FLOAT _fNear, FLOAT _fFar);
 
     // 이 행렬을 매개변수의 역행렬로 만든다.
