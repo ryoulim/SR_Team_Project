@@ -88,6 +88,9 @@
     <Filter Include="02.GameObjects\UI\Font\Font_ItemDialog">
       <UniqueIdentifier>{74b6fc8d-b0fe-4cb1-aee6-ddc4604bd8d4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\Statue\Trapezoid">
+      <UniqueIdentifier>{a339b7fc-a5ec-4540-b4db-8ad27a50bc8f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -183,6 +186,9 @@
     <ClInclude Include="..\public\Font_ItemDialog.h">
       <Filter>02.GameObjects\UI\Font\Font_ItemDialog</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\Trapezoid.h">
+      <Filter>02.GameObjects\Statue\Trapezoid</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -272,6 +278,9 @@
     </ClCompile>
     <ClCompile Include="..\private\Font_ItemDialog.cpp">
       <Filter>02.GameObjects\UI\Font\Font_ItemDialog</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Trapezoid.cpp">
+      <Filter>02.GameObjects\Statue\Trapezoid</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

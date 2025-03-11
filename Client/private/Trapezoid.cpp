@@ -33,9 +33,9 @@ void CTrapezoid::Priority_Update(_float fTimeDelta)
 	__super::Priority_Update(fTimeDelta);
 }
 
-void CTrapezoid::Update(_float fTimeDelta)
+EVENT CTrapezoid::Update(_float fTimeDelta)
 {
-	__super::Update(fTimeDelta);
+	return __super::Update(fTimeDelta);
 }
 
 void CTrapezoid::Late_Update(_float fTimeDelta)
@@ -46,11 +46,6 @@ void CTrapezoid::Late_Update(_float fTimeDelta)
 HRESULT CTrapezoid::Render()
 {
 	return __super::Render();
-}
-
-HRESULT CTrapezoid::Render_Rect()
-{
-	return E_NOTIMPL;
 }
 
 CTrapezoid* CTrapezoid::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
