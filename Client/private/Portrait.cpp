@@ -62,7 +62,7 @@ void CPortrait::Late_Update(_float fTimeDelta)
 
 HRESULT CPortrait::Render()
 {
-	m_pFont->Render_Text(L"Hello World", CFont::MEDIUMBLUE, CFont::CENTER, 0.f, 0.f);
+	m_pFont->Render_Text(L"Obtained Loverboy AMMO * 12", CFont::MEDIUMBLUE, CFont::LEFT, -(g_iWinSizeX / 2.f) + 20.f, g_iWinSizeY / 2.f - 20.f);
 	return __super::Render();
 }
 
@@ -95,4 +95,5 @@ CGameObject* CPortrait::Clone(void* pArg)
 void CPortrait::Free()
 {
 	__super::Free();
+	Safe_Release(m_pFont);
 }

@@ -54,6 +54,7 @@ public:
 
 public:
 	virtual HRESULT Render_Text(const wstring& _text, FONTTYPE _type, FONTALIGN _align, _float _posX, _float _posY);
+	virtual HRESULT Render_Num(_uint& _num, FONTTYPE _type, FONTALIGN _align, _float _posX, _float _posY);
 
 protected:
 	virtual _uint	Find_TextureNum() PURE;

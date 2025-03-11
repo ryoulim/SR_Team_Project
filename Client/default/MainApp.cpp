@@ -69,7 +69,7 @@ HRESULT CMainApp::Ready_Component_For_Static()
 	ADD_MODEL_EX(Terrain, 256, 256);
 	ADD_PRTCOM(Transform);
 
-	ADD_TEXTURE(Font_ItemDialog, "../Bin/Resources/Textures/Font/font%d.PNG", 94);
+	ADD_TEXTURE(Font_ItemDialog, "../Bin/Resources/Textures/UI/Font/font%d.PNG", 94);
 
 	return S_OK;
 }

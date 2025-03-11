@@ -54,37 +54,54 @@ HRESULT CFont::Render()
 HRESULT CFont::Render_Text(const wstring& _text, FONTTYPE _type, FONTALIGN _align, _float _posX, _float _posY)
 {
 	m_uiTextWidth = _text.length();
-	//Calc_TextWidth(_text);
+	
+	_float startPosX = {};
+	if (_align == LEFT)
+		startPosX = _posX;
+	else if (_align == CENTER)
+		startPosX = _posX - m_uiTextWidth / 2.f * 14.f;
+
+
 	if (_type != MEDIUMBLUE)
 	{
 		for (auto ch : _text)
 		{
-
+			/* 다른 폰트 추가 필요 */
 		}
 	}
 	else
 	{
-		_float temp{};
+		_float fontWidth{};
 		for (auto ch : _text)
 		{
 			if (ch != L' ')
 			{
+				m_fTextureNum = toascii(ch) - 33;
+				m_pTransformCom->Set_State(CTransform::STATE_POSITION, _float3(startPosX + fontWidth, _posY, 1.f));
+
+				/* Scale 초기화 함수 필요? */
 				_float3 vRight{}, vLook{}, vUp{};
 				D3DXVec3Normalize(&vRight, m_pTransformCom->Get_State(CTransform::STATE_RIGHT));
 				D3DXVec3Normalize(&vLook, m_pTransformCom->Get_State(CTransform::STATE_LOOK));
 				D3DXVec3Normalize(&vUp, m_pTransformCom->Get_State(CTransform::STATE_UP));
-				m_fTextureNum = toascii(ch) - 33;
-				m_pTransformCom->Set_State(CTransform::STATE_POSITION, _float3(10.f + temp, 10.5f, 1.f));
 				m_pTransformCom->Set_State(CTransform::STATE_RIGHT, vRight);
 				m_pTransformCom->Set_State(CTransform::STATE_LOOK, vLook);
 				m_pTransformCom->Set_State(CTransform::STATE_UP, vUp);
 				
-				m_pTransformCom->Scaling(_float3(13.f, 18.f, 1.f));
+				m_pTransformCom->Scaling(_float3(12.f, 15.f, 1.f));
 				Render();
-				temp += 13.f;
+				fontWidth += 12.f;
 			}
+			else
+				fontWidth += 10.f;
 		}
 	}
+	return S_OK;
+}
+
+HRESULT CFont::Render_Num(_uint& _num, FONTTYPE _type, FONTALIGN _align, _float _posX, _float _posY)
+{
+	/* 숫자용? */
 	return S_OK;
 }
 
