@@ -40,6 +40,15 @@ public:
 	// 매개변수에 맞는 레이어의 오브젝트 벡터를 찾아서 반환해준다.
 	vector<CGameObject*>& Find_Objects(_uint iLevelIndex, const _wstring& strLayerTag);
 
+	// 오브젝트 풀 생성
+	HRESULT Create_Object_Pool(_uint iPrototypeLevelIndex, const _wstring& strPrototypeTag, const _wstring& strObjectTag, _uint iPoolSize);
+	// 오브젝트 풀 삭제
+	HRESULT Release_Object_Pool(const _wstring& strObjectTag);
+	// 오브젝트 풀에서 객체 하나를 오브젝트 리스트에 넣는다.
+	_uint Active_Object(const _wstring& strObjectTag, _uint iLevelIndex, const _wstring& strLayerTag, void* pArg = nullptr);
+	// 오브젝트 리스트에서 해당객체를 빼서 오브젝트 풀에 반환한다. ( 구현중 )
+	_uint Deactive_Object();
+
 #pragma endregion
 
 #pragma region RENDERER

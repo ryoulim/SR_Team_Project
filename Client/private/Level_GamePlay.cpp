@@ -71,8 +71,12 @@ HRESULT CLevel_GamePlay::Ready_Layer_Camera(const _wstring& strLayerTag)
 
 HRESULT CLevel_GamePlay::Ready_Layer_Object(const _wstring& strLayerTag)
 {
-	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_MyCube"),
-		LEVEL_GAMEPLAY, strLayerTag, m_pData->Find_Data(TEXT("MyCube1")))))
+	//if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_MyCube"),
+	//	LEVEL_GAMEPLAY, strLayerTag, m_pData->Find_Data(TEXT("MyCube1")))))
+	//	return E_FAIL;
+
+	if(FAILED(m_pGameInstance->Active_Object(TEXT("ObjectPool_MyCube"), LEVEL_GAMEPLAY,
+		strLayerTag, m_pData->Find_Data(TEXT("MyCube1")))))
 		return E_FAIL;
 
 	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_MyCube"),

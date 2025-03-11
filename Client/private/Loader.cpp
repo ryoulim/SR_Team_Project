@@ -90,7 +90,12 @@ HRESULT CLoader::Loading_For_Logo()
 #pragma region PRTOBJ
 	lstrcpy(m_szLoadingText, TEXT("원형객체을(를) 로딩중입니다."));
 	ADD_PRTOBJ(BackGround);
+#pragma endregion
+
+#pragma region DATA
+	lstrcpy(m_szLoadingText, TEXT("데이터를 읽어들이는 중입니다."));
 	Add_Data(TEXT("GamePlayLevelData.csv"));
+
 #pragma endregion
 
 	lstrcpy(m_szLoadingText, TEXT("로딩이 완료되었습니다."));
@@ -126,9 +131,16 @@ HRESULT CLoader::Loading_For_GamePlay()
 	ADD_PRTOBJ(Aim);
 	ADD_PRTOBJ(Portrait);
 	ADD_PRTOBJ(Explosion);
-	Add_Data(TEXT("GamePlayLevelData.csv"));
 
 #pragma endregion
+
+#pragma region DATA
+	lstrcpy(m_szLoadingText, TEXT("데이터를 읽어들이는 중입니다."));
+	Add_Data(TEXT("GamePlayLevelData.csv"));
+	CRETAE_OBJ_POOL(MyCube, 50);
+
+#pragma endregion
+
 
 	lstrcpy(m_szLoadingText, TEXT("로딩이 완료되었습니다."));
 	m_isFinished = true;

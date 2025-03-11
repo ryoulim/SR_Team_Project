@@ -22,19 +22,26 @@ public:
 	void Clear(_uint iLevelIndex);
 
 public:
-	// 매개변수에 맞는 오브젝트를 찾아서 반환해준다.
 	class CGameObject* Find_Object(_uint iLevelIndex, const _wstring& strLayerTag, _uint iVectorIndex = 0);
-	// 매개변수에 맞는 레이어의 오브젝트 벡터를 찾아서 반환해준다.
 	vector<CGameObject*>& Find_Objects(_uint iLevelIndex, const _wstring& strLayerTag);
+
+	HRESULT Create_Object_Pool(_uint iPrototypeLevelIndex, const _wstring& strPrototypeTag, const _wstring& strObjectTag, _uint iPoolSize);
+	HRESULT Release_Object_Pool(const _wstring& strObjectTag);
+	_uint Active_Object(const _wstring& strObjectTag, _uint iLevelIndex, const _wstring& strLayerTag, void* pArg);
+	_uint Deactive_Object();
+
+public:
 
 private:	
 	_uint								m_iNumLevels = {};
+	unordered_map<_wstring, class CObjectPool*>	m_ObjectPool;
 	typedef unordered_map<_wstring, class CLayer*> LAYERS;
 	LAYERS*								m_pLayers = { nullptr };
 	class CGameInstance*				m_pGameInstance = { nullptr };
 
 private:
 	class CLayer* Find_Layer(_uint iLevelIndex, const _wstring& strLayerTag);
+	class CObjectPool* Find_Object_Pool(const _wstring& strObjectTag);
 
 public:
 	static CObject_Manager* Create(_uint iNumLevels);
