@@ -36,9 +36,9 @@ void CFont_ItemDialog::Priority_Update(_float fTimeDelta)
 	__super::Priority_Update(fTimeDelta);
 }
 
-void CFont_ItemDialog::Update(_float fTimeDelta)
+EVENT CFont_ItemDialog::Update(_float fTimeDelta)
 {
-	__super::Update(fTimeDelta);
+	return __super::Update(fTimeDelta);
 }
 
 void CFont_ItemDialog::Late_Update(_float fTimeDelta)

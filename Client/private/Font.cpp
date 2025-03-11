@@ -36,9 +36,9 @@ void CFont::Priority_Update(_float fTimeDelta)
 	__super::Priority_Update(fTimeDelta);
 }
 
-void CFont::Update(_float fTimeDelta)
+EVENT CFont::Update(_float fTimeDelta)
 {
-	__super::Update(fTimeDelta);
+	return __super::Update(fTimeDelta);
 }
 
 void CFont::Late_Update(_float fTimeDelta)

@@ -64,20 +64,6 @@
     <Filter Include="02.GameObjects\Effect\Explosion">
       <UniqueIdentifier>{01009920-271b-44a0-8d6f-a1b2c2207162}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\UI\Font">
-      <UniqueIdentifier>{f82e3730-c25f-4030-9faa-2a99cbb15c6c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\UI\WeaponList">
-      <UniqueIdentifier>{03279506-68b4-4ed0-a539-63960c1a406f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\UI\Armor">
-      <UniqueIdentifier>{e33b6a49-a601-4d23-9432-9f710be18ba3}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\UI\Ammo">
-      <UniqueIdentifier>{a4e57257-bd7a-4596-b99c-42c698abc1b5}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\UI\Font\ItemDialog">
-      <UniqueIdentifier>{2808c521-8f2c-48b2-9f6f-4e16999f02d7}</UniqueIdentifier>
     <Filter Include="02.GameObjects\Pawn">
       <UniqueIdentifier>{c35da08a-421c-4a11-ba53-b81fa4888a6e}</UniqueIdentifier>
     </Filter>
@@ -95,6 +81,12 @@
     </Filter>
     <Filter Include="02.GameObjects\Map">
       <UniqueIdentifier>{d2a1c4aa-b5fb-4b02-8851-a076935131e0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\Font">
+      <UniqueIdentifier>{f5358a75-78d6-4a59-9a31-e6b08e83845b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\Font\Font_ItemDialog">
+      <UniqueIdentifier>{74b6fc8d-b0fe-4cb1-aee6-ddc4604bd8d4}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -167,11 +159,6 @@
     <ClInclude Include="..\public\Explosion.h">
       <Filter>02.GameObjects\Effect\Explosion</Filter>
     </ClInclude>
-    <ClInclude Include="..\public\Font.h">
-      <Filter>02.GameObjects\UI\Font</Filter>
-    </ClInclude>
-    <ClInclude Include="..\public\Font_ItemDialog.h">
-      <Filter>02.GameObjects\UI\Font\ItemDialog</Filter>
     <ClInclude Include="..\public\Pawn.h">
       <Filter>02.GameObjects\Pawn</Filter>
     </ClInclude>
@@ -189,6 +176,12 @@
     </ClInclude>
     <ClInclude Include="..\public\Map.h">
       <Filter>02.GameObjects\Map</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Font.h">
+      <Filter>02.GameObjects\UI\Font</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Font_ItemDialog.h">
+      <Filter>02.GameObjects\UI\Font\Font_ItemDialog</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -256,11 +249,6 @@
     <ClCompile Include="..\private\Explosion.cpp">
       <Filter>02.GameObjects\Effect\Explosion</Filter>
     </ClCompile>
-    <ClCompile Include="..\private\Font.cpp">
-      <Filter>02.GameObjects\UI\Font</Filter>
-    </ClCompile>
-    <ClCompile Include="..\private\Font_ItemDialog.cpp">
-      <Filter>02.GameObjects\UI\Font\ItemDialog</Filter>
     <ClCompile Include="..\private\Pawn.cpp">
       <Filter>02.GameObjects\Pawn</Filter>
     </ClCompile>
@@ -278,6 +266,12 @@
     </ClCompile>
     <ClCompile Include="..\private\Map.cpp">
       <Filter>02.GameObjects\Map</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Font.cpp">
+      <Filter>02.GameObjects\UI\Font</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Font_ItemDialog.cpp">
+      <Filter>02.GameObjects\UI\Font\Font_ItemDialog</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
