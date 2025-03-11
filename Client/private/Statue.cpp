@@ -46,7 +46,8 @@ void CStatue::Late_Update(_float fTimeDelta)
 
 HRESULT CStatue::Render()
 {
-	m_pTransformCom->Bind_Resource();
+	if (FAILED(m_pTransformCom->Bind_Resource()))
+		return E_FAIL;
 
 	if (FAILED(m_pTextureCom->Bind_Resource(static_cast<_uint>(m_fTextureNum))))
 		return E_FAIL;

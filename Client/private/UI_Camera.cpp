@@ -89,7 +89,7 @@ CCamera* CUI_Camera::Clone(void* pArg)
 
 	if (FAILED(pInstance->Initialize(pArg)))
 	{
-		MSG_BOX("Failed to Cloned : CUI_Camera");
+		MSG_BOX("Failed to Clone : CUI_Camera");
 		Safe_Release(pInstance);
 	}
 

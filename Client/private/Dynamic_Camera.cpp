@@ -139,7 +139,7 @@ CCamera* CDynamic_Camera::Clone(void* pArg)
 
 	if (FAILED(pInstance->Initialize(pArg)))
 	{
-		MSG_BOX("Failed to Cloned : CDynamic_Camera");
+		MSG_BOX("Failed to Clone : CDynamic_Camera");
 		Safe_Release(pInstance);
 	}
 

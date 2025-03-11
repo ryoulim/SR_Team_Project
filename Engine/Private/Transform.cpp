@@ -156,9 +156,9 @@ void CTransform::Rotation(const _float3& vAxis, _float fRadian)
 {
 	_float3		vScaled = Compute_Scaled();
 
-	_float3			vRight = _float3(1.f, 0.f, 0.f) * vScaled.x;
-	_float3			vUp = _float3(0.f, 1.f, 0.f) * vScaled.y;
-	_float3			vLook = _float3(0.f, 0.f, 1.f) * vScaled.z;
+	_float3		vRight = _float3{ 1.f, 0.f, 0.f } * vScaled.x;
+	_float3		vUp = _float3{ 0.f, 1.f, 0.f } * vScaled.y;
+	_float3		vLook = _float3{ 0.f, 0.f, 1.f } * vScaled.z;
 
 	_float4x4		RotationMatrix{ vAxis,fRadian };
 
@@ -186,7 +186,7 @@ CComponent* CTransform::Clone(void* pArg)
 
 	if (FAILED(pInstance->Initialize(pArg)))
 	{
-		MSG_BOX("Failed to Created : CTransform");
+		MSG_BOX("Failed to Clone : CTransform");
 		Safe_Release(pInstance);
 	}
 
