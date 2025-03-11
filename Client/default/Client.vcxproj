@@ -167,6 +167,7 @@
     <ClInclude Include="..\public\Loader.h" />
     <ClInclude Include="..\public\MyCube.h" />
     <ClInclude Include="..\public\Terrain.h" />
+    <ClInclude Include="..\public\Trapezoid.h" />
     <ClInclude Include="..\public\UI.h" />
     <ClInclude Include="..\public\UI_Camera.h" />
     <ClInclude Include="Client.h" />
@@ -197,6 +198,7 @@
     <ClCompile Include="..\private\Loader.cpp" />
     <ClCompile Include="..\private\MyCube.cpp" />
     <ClCompile Include="..\private\Terrain.cpp" />
+    <ClCompile Include="..\private\Trapezoid.cpp" />
     <ClCompile Include="..\private\UI.cpp" />
     <ClCompile Include="..\private\UI_Camera.cpp" />
     <ClCompile Include="Client.cpp" />

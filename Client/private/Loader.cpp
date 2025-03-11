@@ -9,6 +9,7 @@
 #include "Portrait.h"
 #include "Aim.h"
 #include "Explosion.h"
+#include "Trapezoid.h"
 
 CLoader::CLoader(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: m_pGraphic_Device { pGraphic_Device }
@@ -20,7 +21,7 @@ CLoader::CLoader(LPDIRECT3DDEVICE9 pGraphic_Device)
 
 _uint APIENTRY LoadingMain(void* pArg)
 {
-	/* ÀÚ¿ø·ÎµùÇÑ´Ù. */
+	/* ìì›ë¡œë”©í•œë‹¤. */
 	CLoader*		pLoader = static_cast<CLoader*>(pArg);
 
 	if (FAILED(pLoader->Loading()))
@@ -75,30 +76,30 @@ HRESULT CLoader::Loading()
 HRESULT CLoader::Loading_For_Logo()
 {
 #pragma region TEXTURE
-	lstrcpy(m_szLoadingText, TEXT("ÅØ½ºÃÄÀ»(¸¦) ·ÎµùÁßÀÔ´Ï´Ù."));
+	lstrcpy(m_szLoadingText, TEXT("í…ìŠ¤ì³ì„(ë¥¼) ë¡œë”©ì¤‘ì…ë‹ˆë‹¤."));
 	ADD_TEXTURE(BackGround, "../Bin/Resources/Textures/Default%d.jpg", 2);
 #pragma endregion
 
 #pragma region MODEL
-	lstrcpy(m_szLoadingText, TEXT("¸ğµ¨À»(¸¦) ·ÎµùÁßÀÔ´Ï´Ù."));
+	lstrcpy(m_szLoadingText, TEXT("ëª¨ë¸ì„(ë¥¼) ë¡œë”©ì¤‘ì…ë‹ˆë‹¤."));
 #pragma endregion
 
 #pragma region SOUND
-	lstrcpy(m_szLoadingText, TEXT("»ç¿îµåÀ»(¸¦) ·ÎµùÁßÀÔ´Ï´Ù."));
+	lstrcpy(m_szLoadingText, TEXT("ì‚¬ìš´ë“œì„(ë¥¼) ë¡œë”©ì¤‘ì…ë‹ˆë‹¤."));
 #pragma endregion
 
 #pragma region PRTOBJ
-	lstrcpy(m_szLoadingText, TEXT("¿øÇü°´Ã¼À»(¸¦) ·ÎµùÁßÀÔ´Ï´Ù."));
+	lstrcpy(m_szLoadingText, TEXT("ì›í˜•ê°ì²´ì„(ë¥¼) ë¡œë”©ì¤‘ì…ë‹ˆë‹¤."));
 	ADD_PRTOBJ(BackGround);
 #pragma endregion
 
 #pragma region DATA
-	lstrcpy(m_szLoadingText, TEXT("µ¥ÀÌÅÍ¸¦ ÀĞ¾îµéÀÌ´Â ÁßÀÔ´Ï´Ù."));
+	lstrcpy(m_szLoadingText, TEXT("ë°ì´í„°ë¥¼ ì½ì–´ë“¤ì´ëŠ” ì¤‘ì…ë‹ˆë‹¤."));
 	Add_Data(TEXT("GamePlayLevelData.csv"));
 
 #pragma endregion
 
-	lstrcpy(m_szLoadingText, TEXT("·ÎµùÀÌ ¿Ï·áµÇ¾ú½À´Ï´Ù."));
+	lstrcpy(m_szLoadingText, TEXT("ë¡œë”©ì´ ì™„ë£Œë˜ì—ˆìŠµë‹ˆë‹¤."));
 	m_isFinished = true;
 	return S_OK;
 }
@@ -106,43 +107,47 @@ HRESULT CLoader::Loading_For_Logo()
 HRESULT CLoader::Loading_For_GamePlay()
 {
 #pragma region TEXTURE
-	lstrcpy(m_szLoadingText, TEXT("ÅØ½ºÃÄÀ»(¸¦) ·ÎµùÁßÀÔ´Ï´Ù."));
+	lstrcpy(m_szLoadingText, TEXT("í…ìŠ¤ì³ì„(ë¥¼) ë¡œë”©ì¤‘ì…ë‹ˆë‹¤."));
 	ADD_TEXTURE(Terrain, "../Bin/Resources/Textures/Map/tile6191.PNG", 1);
 	ADD_TEXTURE(MyCube, "../Bin/Resources/Textures/Snow/Snow.png", 1);
 	ADD_TEXTURE(Aim, "../Bin/Resources/Textures/Aim/tile11426.PNG", 1);
 	ADD_TEXTURE(Portrait, "../Bin/Resources/Textures/UI/tile5535.PNG", 1);
 	ADD_TEXTURE(Explosion, "../Bin/Resources/Textures/Explosion/Explosion%d.png", 90);
 
+	ADD_TEXTURE(Box, "../Bin/Resources/Textures/Object/Box/tile6628.png", 1);
+	ADD_TEXTURE(Trapezoid, "../Bin/Resources/Textures/Object/Trapezoid/tile6153.png", 1);
+	//ADD_TEXTURE(Trapezoid, "../Bin/Resources/Textures/Object/Trapezoid/tile9896.png", 1);
+	
 #pragma endregion
 
 #pragma region MODEL
-	lstrcpy(m_szLoadingText, TEXT("¸ğµ¨À»(¸¦) ·ÎµùÁßÀÔ´Ï´Ù."));
+	lstrcpy(m_szLoadingText, TEXT("ëª¨ë¸ì„(ë¥¼) ë¡œë”©ì¤‘ì…ë‹ˆë‹¤."));
 
 #pragma endregion
 
 #pragma region SOUND
-	lstrcpy(m_szLoadingText, TEXT("»ç¿îµåÀ»(¸¦) ·ÎµùÁßÀÔ´Ï´Ù."));
+	lstrcpy(m_szLoadingText, TEXT("ì‚¬ìš´ë“œì„(ë¥¼) ë¡œë”©ì¤‘ì…ë‹ˆë‹¤."));
 #pragma endregion
 
 #pragma region PRTOBJ
-	lstrcpy(m_szLoadingText, TEXT("¿øÇü°´Ã¼À»(¸¦) ·ÎµùÁßÀÔ´Ï´Ù."));
+	lstrcpy(m_szLoadingText, TEXT("ì›í˜•ê°ì²´ì„(ë¥¼) ë¡œë”©ì¤‘ì…ë‹ˆë‹¤."));
 	ADD_PRTOBJ(Terrain);
 	ADD_PRTOBJ(MyCube);
 	ADD_PRTOBJ(Aim);
 	ADD_PRTOBJ(Portrait);
 	ADD_PRTOBJ(Explosion);
-
+  ADD_PRTOBJ(Trapezoid);
 #pragma endregion
 
 #pragma region DATA
-	lstrcpy(m_szLoadingText, TEXT("µ¥ÀÌÅÍ¸¦ ÀĞ¾îµéÀÌ´Â ÁßÀÔ´Ï´Ù."));
+	lstrcpy(m_szLoadingText, TEXT("ë°ì´í„°ë¥¼ ì½ì–´ë“¤ì´ëŠ” ì¤‘ì…ë‹ˆë‹¤."));
 	Add_Data(TEXT("GamePlayLevelData.csv"));
 	CRETAE_OBJ_POOL(MyCube, 50);
 
 #pragma endregion
 
 
-	lstrcpy(m_szLoadingText, TEXT("·ÎµùÀÌ ¿Ï·áµÇ¾ú½À´Ï´Ù."));
+	lstrcpy(m_szLoadingText, TEXT("ë¡œë”©ì´ ì™„ë£Œë˜ì—ˆìŠµë‹ˆë‹¤."));
 	m_isFinished = true;
 	return S_OK;
 }
