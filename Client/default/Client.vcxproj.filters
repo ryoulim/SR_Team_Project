@@ -64,6 +64,18 @@
     <Filter Include="02.GameObjects\Effect\Explosion">
       <UniqueIdentifier>{01009920-271b-44a0-8d6f-a1b2c2207162}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\UI\Font">
+      <UniqueIdentifier>{f82e3730-c25f-4030-9faa-2a99cbb15c6c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\WeaponList">
+      <UniqueIdentifier>{03279506-68b4-4ed0-a539-63960c1a406f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\Armor">
+      <UniqueIdentifier>{e33b6a49-a601-4d23-9432-9f710be18ba3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\Ammo">
+      <UniqueIdentifier>{a4e57257-bd7a-4596-b99c-42c698abc1b5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -135,6 +147,9 @@
     <ClInclude Include="..\public\Explosion.h">
       <Filter>02.GameObjects\Effect\Explosion</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\Font.h">
+      <Filter>02.GameObjects\UI\Font</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -201,8 +216,15 @@
     <ClCompile Include="..\private\Explosion.cpp">
       <Filter>02.GameObjects\Effect\Explosion</Filter>
     </ClCompile>
+    <ClCompile Include="..\private\Font.cpp">
+      <Filter>02.GameObjects\UI\Font</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ClassDiagram.cd" />
+    <None Include="ClassDiagram1.cd" />
   </ItemGroup>
 </Project>

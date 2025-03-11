@@ -3,6 +3,7 @@
 CTexture::CTexture(LPDIRECT3DDEVICE9 pGraphic_Device)
     : CComponent { pGraphic_Device }
 {
+
 }
 
 CTexture::CTexture(const CTexture& Prototype)

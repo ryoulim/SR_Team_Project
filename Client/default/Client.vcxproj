@@ -147,6 +147,7 @@
     <ClInclude Include="..\public\BackGround.h" />
     <ClInclude Include="..\public\Effect.h" />
     <ClInclude Include="..\public\Explosion.h" />
+    <ClInclude Include="..\public\Font.h" />
     <ClInclude Include="..\public\Portrait.h" />
     <ClInclude Include="..\public\Statue.h" />
     <ClInclude Include="..\public\Client_Defines.h" />
@@ -172,6 +173,7 @@
     <ClCompile Include="..\Private\BackGround.cpp" />
     <ClCompile Include="..\private\Effect.cpp" />
     <ClCompile Include="..\private\Explosion.cpp" />
+    <ClCompile Include="..\private\Font.cpp" />
     <ClCompile Include="..\private\Portrait.cpp" />
     <ClCompile Include="..\private\Statue.cpp" />
     <ClCompile Include="..\private\Dynamic_Camera.cpp" />
@@ -195,6 +197,10 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ClassDiagram.cd" />
+    <None Include="ClassDiagram1.cd" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
