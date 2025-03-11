@@ -44,6 +44,15 @@ HRESULT CGameObject::Render()
 	return S_OK;
 }
 
+CComponent* CGameObject::Find_Component(const _wstring& strComponentTag)
+{
+	auto Iter = m_Components.find(strComponentTag);
+	if (Iter == m_Components.end())
+		return nullptr;
+
+	return Iter->second;
+}
+
 HRESULT CGameObject::Add_Component(_uint iLevelIndex, const _wstring& strPrototypeTag, const _wstring& strComponentTag, CComponent** ppOut, void* pArg)
 {
 	if (m_Components.end() != m_Components.find(strComponentTag))

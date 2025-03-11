@@ -20,6 +20,13 @@ public:
 	void Update(_float fTimeDelta);
 	void Late_Update(_float fTimeDelta);
 	void Clear(_uint iLevelIndex);
+
+public:
+	// 매개변수에 맞는 오브젝트를 찾아서 반환해준다.
+	class CGameObject* Find_Object(_uint iLevelIndex, const _wstring& strLayerTag, _uint iVectorIndex = 0);
+	// 매개변수에 맞는 레이어의 오브젝트 벡터를 찾아서 반환해준다.
+	vector<CGameObject*>& Find_Objects(_uint iLevelIndex, const _wstring& strLayerTag);
+
 private:	
 	_uint								m_iNumLevels = {};
 	typedef unordered_map<_wstring, class CLayer*> LAYERS;

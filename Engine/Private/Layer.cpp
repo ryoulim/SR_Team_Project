@@ -46,6 +46,14 @@ void CLayer::Late_Update(_float fTimeDelta)
 	}
 }
 
+CGameObject* CLayer::Find_Object(_uint iVectorIndex)
+{
+	if (iVectorIndex >= m_GameObjects.size())
+		return nullptr;
+	
+	return m_GameObjects[iVectorIndex];
+}
+
 CLayer* CLayer::Create()
 {
 	return new CLayer();

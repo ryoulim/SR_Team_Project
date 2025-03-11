@@ -79,6 +79,9 @@
     <Filter Include="02.GameObjects\Monster">
       <UniqueIdentifier>{77e476b8-1434-4864-aee9-655662cb4f88}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\Map">
+      <UniqueIdentifier>{d2a1c4aa-b5fb-4b02-8851-a076935131e0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -165,6 +168,9 @@
     <ClInclude Include="..\public\Bullet.h">
       <Filter>02.GameObjects\Bullet</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\Map.h">
+      <Filter>02.GameObjects\Map</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -245,6 +251,9 @@
     </ClCompile>
     <ClCompile Include="..\private\Bullet.cpp">
       <Filter>02.GameObjects\Bullet</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Map.cpp">
+      <Filter>02.GameObjects\Map</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

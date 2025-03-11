@@ -21,13 +21,14 @@ public:
 	virtual void Update(_float fTimeDelta);
 	virtual void Late_Update(_float fTimeDelta);
 	virtual HRESULT Render();
+	class CComponent* Find_Component(const _wstring& strComponentTag);
 
 protected:
 	LPDIRECT3DDEVICE9				m_pGraphic_Device = { nullptr };
 	class CGameInstance*			m_pGameInstance = { nullptr };
 
 protected:
-	map<const _wstring, class CComponent*>	m_Components;
+	unordered_map<_wstring, class CComponent*>	m_Components;
 	_float									m_fTextureNum = {};
 
 protected:

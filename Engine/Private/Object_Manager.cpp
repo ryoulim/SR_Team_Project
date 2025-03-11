@@ -81,6 +81,16 @@ void CObject_Manager::Clear(_uint iLevelIndex)
 	m_pLayers[iLevelIndex].clear();
 }
 
+CGameObject* CObject_Manager::Find_Object(_uint iLevelIndex, const _wstring& strLayerTag, _uint iVectorIndex)
+{
+	return Find_Layer(iLevelIndex, strLayerTag)->Find_Object(iVectorIndex);
+}
+
+vector<CGameObject*>& CObject_Manager::Find_Objects(_uint iLevelIndex, const _wstring& strLayerTag)
+{
+	return Find_Layer(iLevelIndex, strLayerTag)->Get_Objects();
+}
+
 CLayer* CObject_Manager::Find_Layer(_uint iLevelIndex, const _wstring& strLayerTag)
 {
 	auto	iter = m_pLayers[iLevelIndex].find(strLayerTag);
