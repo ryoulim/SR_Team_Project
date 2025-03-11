@@ -36,14 +36,14 @@ void CExplosion::Priority_Update(_float fTimeDelta)
 	__super::Priority_Update(fTimeDelta);
 }
 
-void CExplosion::Update(_float fTimeDelta)
+EVENT CExplosion::Update(_float fTimeDelta)
 {
 	m_fTextureNum += 50 * fTimeDelta;
 
 	if (m_fTextureNum > 90)
 		m_fTextureNum = 0.f;
 
-	__super::Update(fTimeDelta);
+	return __super::Update(fTimeDelta);
 }
 
 void CExplosion::Late_Update(_float fTimeDelta)

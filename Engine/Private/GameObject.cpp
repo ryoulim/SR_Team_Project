@@ -31,8 +31,9 @@ void CGameObject::Priority_Update(_float fTimeDelta)
 {
 }
 
-void CGameObject::Update(_float fTimeDelta)
+EVENT CGameObject::Update(_float fTimeDelta)
 {
+	return EVN_NONE;
 }
 
 void CGameObject::Late_Update(_float fTimeDelta)
@@ -44,10 +45,19 @@ HRESULT CGameObject::Render()
 	return S_OK;
 }
 
+CComponent* CGameObject::Find_Component(const _wstring& strComponentTag)
+{
+	auto Iter = m_Components.find(strComponentTag);
+	if (Iter == m_Components.end())
+		return nullptr;
+
+	return Iter->second;
+}
+
 HRESULT CGameObject::Add_Component(_uint iLevelIndex, const _wstring& strPrototypeTag, const _wstring& strComponentTag, CComponent** ppOut, void* pArg)
 {
 	if (m_Components.end() != m_Components.find(strComponentTag))
-		return E_FAIL;
+		return S_SKIP;
 
 	CComponent*		pComponent = dynamic_cast<CComponent*>(m_pGameInstance->Clone_Prototype(PROTOTYPE::TYPE_COMPONENT, iLevelIndex, strPrototypeTag, pArg));
 	if (nullptr == pComponent)

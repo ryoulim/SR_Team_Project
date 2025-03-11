@@ -1,9 +1,6 @@
 #include "Level_GamePlay.h"
 #include "Explosion.h"
 
-#include "MyCube.h"
-
-
 #define CurLevel LEVEL_GAMEPLAY
 
 CLevel_GamePlay::CLevel_GamePlay(LPDIRECT3DDEVICE9 pGraphic_Device)
@@ -34,7 +31,6 @@ HRESULT CLevel_GamePlay::Initialize(class CLevelData* pLevelData)
 
 void CLevel_GamePlay::Update(_float fTimeDelta)
 {
-	int a = 10;
 }
 
 HRESULT CLevel_GamePlay::Render()
@@ -71,8 +67,12 @@ HRESULT CLevel_GamePlay::Ready_Layer_Camera(const _wstring& strLayerTag)
 
 HRESULT CLevel_GamePlay::Ready_Layer_Object(const _wstring& strLayerTag)
 {
-	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_MyCube"),
-		LEVEL_GAMEPLAY, strLayerTag, m_pData->Find_Data(TEXT("MyCube1")))))
+	//if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_MyCube"),
+	//	LEVEL_GAMEPLAY, strLayerTag, m_pData->Find_Data(TEXT("MyCube1")))))
+	//	return E_FAIL;
+
+	if(FAILED(m_pGameInstance->Active_Object(TEXT("ObjectPool_MyCube"), LEVEL_GAMEPLAY,
+		strLayerTag, m_pData->Find_Data(TEXT("MyCube1")))))
 		return E_FAIL;
 
 	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_MyCube"),

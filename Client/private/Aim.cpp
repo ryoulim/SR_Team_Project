@@ -36,9 +36,9 @@ void CAim::Priority_Update(_float fTimeDelta)
 	__super::Priority_Update(fTimeDelta);
 }
 
-void CAim::Update(_float fTimeDelta)
+EVENT CAim::Update(_float fTimeDelta)
 {
-	__super::Update(fTimeDelta);
+	return __super::Update(fTimeDelta);
 }
 
 void CAim::Late_Update(_float fTimeDelta)

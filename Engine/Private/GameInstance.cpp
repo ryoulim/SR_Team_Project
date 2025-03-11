@@ -126,6 +126,36 @@ HRESULT CGameInstance::Add_GameObject(_uint iPrototypeLevelIndex, const _wstring
 	return m_pObject_Manager->Add_GameObject(iPrototypeLevelIndex, strPrototypeTag, iLevelIndex, strLayerTag, pArg);
 }
 
+CGameObject* CGameInstance::Find_Object(_uint iLevelIndex, const _wstring& strLayerTag, _uint iVectorIndex)
+{
+	return m_pObject_Manager->Find_Object(iLevelIndex,strLayerTag,iVectorIndex);
+}
+
+vector<CGameObject*>& CGameInstance::Find_Objects(_uint iLevelIndex, const _wstring& strLayerTag)
+{
+	return m_pObject_Manager->Find_Objects(iLevelIndex, strLayerTag);
+}
+
+HRESULT CGameInstance::Create_Object_Pool(_uint iPrototypeLevelIndex, const _wstring& strPrototypeTag, const _wstring& strObjectTag, _uint iPoolSize)
+{
+	return m_pObject_Manager->Create_Object_Pool(iPrototypeLevelIndex, strPrototypeTag, strObjectTag, iPoolSize);
+}
+
+HRESULT CGameInstance::Release_Object_Pool(const _wstring& strObjectTag)
+{
+	return m_pObject_Manager->Release_Object_Pool(strObjectTag);
+}
+
+_uint CGameInstance::Active_Object(const _wstring& strObjectTag, _uint iLevelIndex, const _wstring& strLayerTag, void* pArg)
+{
+	return m_pObject_Manager->Active_Object(strObjectTag, iLevelIndex, strLayerTag, pArg);
+}
+
+_uint CGameInstance::Deactive_Object(const _wstring& strObjectTag, CGameObject* pObject)
+{
+	return m_pObject_Manager->Deactive_Object(strObjectTag, pObject);
+}
+
 #pragma endregion
 
 #pragma region RENDERER

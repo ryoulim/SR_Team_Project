@@ -42,16 +42,24 @@ _float3 CTransform::Compute_Scaled() const
 
 void CTransform::Scaling(_float Ratio)
 {
-	Set_State(STATE_RIGHT, *Get_State(STATE_RIGHT) * Ratio);
-	Set_State(STATE_UP, *Get_State(STATE_UP) * Ratio);
-	Set_State(STATE_LOOK, *Get_State(STATE_LOOK) * Ratio);
+	_float3 vRight{ *Get_State(STATE_RIGHT) };
+	_float3 vUp{ *Get_State(STATE_UP) };
+	_float3 vLook{ *Get_State(STATE_LOOK) };
+
+	Set_State(STATE_RIGHT, vRight.Normalize() * Ratio);
+	Set_State(STATE_UP, vUp.Normalize() * Ratio);
+	Set_State(STATE_LOOK, vLook.Normalize() * Ratio);
 }
 
 void CTransform::Scaling(_float3 Ratio)
 {
-	Set_State(STATE_RIGHT, *Get_State(STATE_RIGHT) * Ratio.x);
-	Set_State(STATE_UP, *Get_State(STATE_UP) * Ratio.y);
-	Set_State(STATE_LOOK, *Get_State(STATE_LOOK) * Ratio.z);
+	_float3 vRight{ *Get_State(STATE_RIGHT) };
+	_float3 vUp{ *Get_State(STATE_UP) };
+	_float3 vLook{ *Get_State(STATE_LOOK) };
+
+	Set_State(STATE_RIGHT, vRight.Normalize() * Ratio.x);
+	Set_State(STATE_UP, vUp.Normalize() * Ratio.y);
+	Set_State(STATE_LOOK, vLook.Normalize() * Ratio.z);
 }
 
 void CTransform::Go_Straight(_float fTimeDelta)
@@ -156,9 +164,9 @@ void CTransform::Rotation(const _float3& vAxis, _float fRadian)
 {
 	_float3		vScaled = Compute_Scaled();
 
-	_float3			vRight = _float3(1.f, 0.f, 0.f) * vScaled.x;
-	_float3			vUp = _float3(0.f, 1.f, 0.f) * vScaled.y;
-	_float3			vLook = _float3(0.f, 0.f, 1.f) * vScaled.z;
+	_float3		vRight = _float3{ 1.f, 0.f, 0.f } * vScaled.x;
+	_float3		vUp = _float3{ 0.f, 1.f, 0.f } * vScaled.y;
+	_float3		vLook = _float3{ 0.f, 0.f, 1.f } * vScaled.z;
 
 	_float4x4		RotationMatrix{ vAxis,fRadian };
 
@@ -186,7 +194,7 @@ CComponent* CTransform::Clone(void* pArg)
 
 	if (FAILED(pInstance->Initialize(pArg)))
 	{
-		MSG_BOX("Failed to Created : CTransform");
+		MSG_BOX("Failed to Clone : CTransform");
 		Safe_Release(pInstance);
 	}
 

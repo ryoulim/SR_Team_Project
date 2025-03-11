@@ -11,7 +11,7 @@ HRESULT CPrototype_Manager::Initialize(_uint iNumLevels)
 {
 	m_iNumLevels = iNumLevels;
 
-	m_pPrototypes = new /*map<const _wstring, class CBase*>*/PROTOTYPES[iNumLevels];	
+	m_pPrototypes = new PROTOTYPES[iNumLevels];	
 
     return S_OK;
 }

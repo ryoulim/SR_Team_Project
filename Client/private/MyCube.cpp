@@ -36,9 +36,17 @@ void CMyCube::Priority_Update(_float fTimeDelta)
 	__super::Priority_Update(fTimeDelta);
 }
 
-void CMyCube::Update(_float fTimeDelta)
+EVENT CMyCube::Update(_float fTimeDelta)
 {
-	__super::Update(fTimeDelta);
+	m_fTimeAcc += fTimeDelta;
+	if (m_fTimeAcc > 3.f)
+	{
+		m_fTimeAcc = 0.f;
+		m_pGameInstance->Deactive_Object(TEXT("ObjectPool_MyCube"), this);
+		return EVN_OFF;
+	}
+
+	return __super::Update(fTimeDelta);
 }
 
 void CMyCube::Late_Update(_float fTimeDelta)

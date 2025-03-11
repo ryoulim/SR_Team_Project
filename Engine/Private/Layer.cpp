@@ -21,18 +21,28 @@ void CLayer::Priority_Update(_float fTimeDelta)
 	{
 		if (nullptr != pGameObject)
 			pGameObject->Priority_Update(fTimeDelta);
-
 	}
 		
 }
 
 void CLayer::Update(_float fTimeDelta)
 {
-	for (auto& pGameObject : m_GameObjects)
+	EVENT ObjEvent{};
+	for (auto Iter = m_GameObjects.begin();
+		Iter != m_GameObjects.end();)
 	{
-		if (nullptr != pGameObject)
-			pGameObject->Update(fTimeDelta);
-
+		if (nullptr != *Iter)
+		{
+			ObjEvent = (*Iter)->Update(fTimeDelta);
+			if (EVN_NONE != ObjEvent)
+			{
+				if(EVN_DEAD == ObjEvent)
+					Safe_Release(*Iter);
+				Iter = m_GameObjects.erase(Iter);
+			}
+			else
+				Iter++;
+		}
 	}
 }
 
@@ -44,6 +54,14 @@ void CLayer::Late_Update(_float fTimeDelta)
 			pGameObject->Late_Update(fTimeDelta);
 
 	}
+}
+
+CGameObject* CLayer::Find_Object(_uint iVectorIndex)
+{
+	if (iVectorIndex >= m_GameObjects.size())
+		return nullptr;
+	
+	return m_GameObjects[iVectorIndex];
 }
 
 CLayer* CLayer::Create()
