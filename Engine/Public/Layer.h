@@ -17,8 +17,14 @@ public:
 	void Priority_Update(_float fTimeDelta);
 	void Update(_float fTimeDelta);
 	void Late_Update(_float fTimeDelta);
+
+	class CGameObject* Find_Object(_uint iVectorIndex);
+	vector<CGameObject*>& Get_Objects() {
+		return m_GameObjects;
+	}
+
 private:
-	list<class CGameObject*>			m_GameObjects;
+	vector<class CGameObject*>			m_GameObjects;
 
 public:
 	static CLayer* Create();

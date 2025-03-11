@@ -20,13 +20,32 @@ public:
 	void Update(_float fTimeDelta);
 	void Late_Update(_float fTimeDelta);
 	void Clear(_uint iLevelIndex);
+
+public:
+	class CGameObject* Find_Object(_uint iLevelIndex, const _wstring& strLayerTag, _uint iVectorIndex = 0);
+	vector<CGameObject*>& Find_Objects(_uint iLevelIndex, const _wstring& strLayerTag);
+
+	// 오브젝트 풀 생성
+	HRESULT Create_Object_Pool(_uint iPrototypeLevelIndex, const _wstring& strPrototypeTag, const _wstring& strObjectTag, _uint iPoolSize);
+	// 오브젝트 풀 삭제
+	HRESULT Release_Object_Pool(const _wstring& strObjectTag);
+	// 풀에서 오브젝트를 꺼내서 활성화 (이니셜라이즈 재호출)
+	_uint Active_Object(const _wstring& strObjectTag, _uint iLevelIndex, const _wstring& strLayerTag, void* pArg);
+	// 오브젝트를 다시 풀로 반환 (초기화따윈 없음)
+	_uint Deactive_Object(const _wstring& strObjectTag, class CGameObject* pObject);
+
+public:
+
 private:	
 	_uint								m_iNumLevels = {};
-	map<const _wstring, class CLayer*>* m_pLayers = { nullptr };
+	unordered_map<_wstring, class CObjectPool*>	m_ObjectPool;
+	typedef unordered_map<_wstring, class CLayer*> LAYERS;
+	LAYERS*								m_pLayers = { nullptr };
 	class CGameInstance*				m_pGameInstance = { nullptr };
 
 private:
 	class CLayer* Find_Layer(_uint iLevelIndex, const _wstring& strLayerTag);
+	class CObjectPool* Find_Object_Pool(const _wstring& strObjectTag);
 
 public:
 	static CObject_Manager* Create(_uint iNumLevels);

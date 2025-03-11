@@ -39,10 +39,20 @@ void CDynamic_Camera::Priority_Update(_float fTimeDelta)
 	Mouse_Move();
 	Mouse_Fix();
 }
+#include "Mycube.h"
 
-void CDynamic_Camera::Update(_float fTimeDelta)
+EVENT CDynamic_Camera::Update(_float fTimeDelta)
 {
+	if (KEY_DOWN(VK_SPACE))
+	{
+		CMyCube::DESC CameraDesc{};
+		CameraDesc.vInitPos = *m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+		CameraDesc.vScale = { 5.f,5.f,5.f };
+		m_pGameInstance->Active_Object(TEXT("ObjectPool_MyCube"), LEVEL_GAMEPLAY,
+			TEXT("Layer_Object"), &CameraDesc);
+	}
 
+	return __super::Update(fTimeDelta);
 }
 
 void CDynamic_Camera::Late_Update(_float fTimeDelta)
@@ -139,7 +149,7 @@ CCamera* CDynamic_Camera::Clone(void* pArg)
 
 	if (FAILED(pInstance->Initialize(pArg)))
 	{
-		MSG_BOX("Failed to Cloned : CDynamic_Camera");
+		MSG_BOX("Failed to Clone : CDynamic_Camera");
 		Safe_Release(pInstance);
 	}
 

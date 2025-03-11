@@ -15,7 +15,7 @@ public:
 	void*   Find_Data(const _wstring& strDataTag);
 
 private:
-	map<const _wstring, void*> m_pData;
+	unordered_map<_wstring, void*> m_pData;
 
 public:
 	static CLevelData* Create();

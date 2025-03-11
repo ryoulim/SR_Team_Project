@@ -13,6 +13,8 @@
 #include <map>
 #include <list>
 #include <vector>
+#include <unordered_map>
+#include <forward_list>
 using namespace std;
 
 #include "Engine_Macro.h"
