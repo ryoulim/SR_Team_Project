@@ -25,6 +25,20 @@ HRESULT CPortrait::Initialize(void* pArg)
 	m_szTextureID = TEXT("Portrait");
 	m_szBufferType = TEXT("Rect");
 
+	//if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_Font_ItemDialog"),
+	//	LEVEL_STATIC, L"Layer_UI")))
+
+
+
+	m_pFont = dynamic_cast<CFont*>(m_pGameInstance->Clone_Prototype(PROTOTYPE::TYPE_GAMEOBJECT, LEVEL_STATIC, TEXT("Prototype_GameObject_Font_ItemDialog")));
+	if (nullptr == m_pFont)
+		return E_FAIL;
+
+
+
+
+
+
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
 
@@ -48,6 +62,7 @@ void CPortrait::Late_Update(_float fTimeDelta)
 
 HRESULT CPortrait::Render()
 {
+	m_pFont->Render_Text(L"Obtained Loverboy AMMO * 12", CFont::MEDIUMBLUE, CFont::LEFT, -(g_iWinSizeX / 2.f) + 20.f, g_iWinSizeY / 2.f - 20.f);
 	return __super::Render();
 }
 
@@ -80,4 +95,5 @@ CGameObject* CPortrait::Clone(void* pArg)
 void CPortrait::Free()
 {
 	__super::Free();
+	Safe_Release(m_pFont);
 }

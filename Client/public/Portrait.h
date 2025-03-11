@@ -3,6 +3,7 @@
 
 #pragma once
 #include "UI.h"
+#include <Font_ItemDialog.h>
 
 BEGIN(Client)
 
@@ -26,6 +27,9 @@ public:
 	virtual EVENT Update(_float fTimeDelta) override;
 	virtual void Late_Update(_float fTimeDelta) override;
 	virtual HRESULT Render() override;
+
+private:
+	CFont* m_pFont = { nullptr };
 
 public:
 	static CPortrait* Create(LPDIRECT3DDEVICE9 pGraphicDevice);

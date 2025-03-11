@@ -6,6 +6,7 @@
 
 #include "Dynamic_Camera.h"
 #include "UI_Camera.h"
+#include "Font_ItemDialog.h"
 
 // 매크로를 위한 매크로(건드리지 마시오)
 #define m_eNextLevelID LEVEL_STATIC
@@ -68,6 +69,8 @@ HRESULT CMainApp::Ready_Component_For_Static()
 	ADD_MODEL_EX(Terrain, 256, 256);
 	ADD_PRTCOM(Transform);
 
+	ADD_TEXTURE(Font_ItemDialog, "../Bin/Resources/Textures/UI/Font/font%d.PNG", 94);
+
 	return S_OK;
 }
 
@@ -75,6 +78,7 @@ HRESULT CMainApp::Ready_Object_For_Static()
 {
 	ADD_PRTOBJ(Dynamic_Camera);
 	ADD_PRTOBJ(UI_Camera);
+	ADD_PRTOBJ(Font_ItemDialog);
 
 	return S_OK;
 }
