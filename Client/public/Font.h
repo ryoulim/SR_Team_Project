@@ -7,7 +7,7 @@
 
 BEGIN(Client)
 
-class CFont final : public CUI
+class CFont : public CUI
 {
 public:
 	//enum FONTSORT { FNUM = 0, FUP = 10, FLO = 36 };
@@ -39,7 +39,7 @@ public:
 		RIGHT
 	};
 
-private:
+protected:
 	CFont(LPDIRECT3DDEVICE9 pGraphic_Device);
 	CFont(const CFont& Prototype);
 	virtual ~CFont() = default;
@@ -53,17 +53,17 @@ public:
 	virtual HRESULT Render() override;
 
 public:
-	HRESULT Render_Text(const wstring& _text, FONTTYPE _type, FONTALIGN _align, _uint _x, _uint _y);
+	virtual HRESULT Render_Text(const wstring& _text, FONTTYPE _type, FONTALIGN _align, _float _posX, _float _posY);
 
-private:
-	void	Calc_TextWidth(const wstring& _text);
+protected:
+	virtual _uint	Find_TextureNum() PURE;
 
-private:
+protected:
 	_uint		m_uiTextWidth = {};
 
 public:
-	static CFont* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
-	virtual CGameObject* Clone(void* pArg) override;
+	//static CFont* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
+	//virtual CGameObject* Clone(void* pArg) override;
 	virtual void Free();
 };
 

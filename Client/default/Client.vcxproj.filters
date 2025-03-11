@@ -76,6 +76,9 @@
     <Filter Include="02.GameObjects\UI\Ammo">
       <UniqueIdentifier>{a4e57257-bd7a-4596-b99c-42c698abc1b5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\UI\Font\ItemDialog">
+      <UniqueIdentifier>{2808c521-8f2c-48b2-9f6f-4e16999f02d7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -150,6 +153,9 @@
     <ClInclude Include="..\public\Font.h">
       <Filter>02.GameObjects\UI\Font</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\Font_ItemDialog.h">
+      <Filter>02.GameObjects\UI\Font\ItemDialog</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -218,6 +224,9 @@
     </ClCompile>
     <ClCompile Include="..\private\Font.cpp">
       <Filter>02.GameObjects\UI\Font</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Font_ItemDialog.cpp">
+      <Filter>02.GameObjects\UI\Font\ItemDialog</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

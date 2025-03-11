@@ -22,7 +22,7 @@ HRESULT CFont::Initialize_Prototype()
 HRESULT CFont::Initialize(void* pArg)
 {
 	m_eLevelID = LEVEL_STATIC;
-	m_szTextureID = TEXT("Font");
+	//m_szTextureID = TEXT("Font");
 	m_szBufferType = TEXT("Rect");
 
 	if (FAILED(__super::Initialize(pArg)))
@@ -51,7 +51,7 @@ HRESULT CFont::Render()
 	return __super::Render();
 }
 
-HRESULT CFont::Render_Text(const wstring& _text, FONTTYPE _type, FONTALIGN _align, _uint _posX, _uint _posY)
+HRESULT CFont::Render_Text(const wstring& _text, FONTTYPE _type, FONTALIGN _align, _float _posX, _float _posY)
 {
 	m_uiTextWidth = _text.length();
 	//Calc_TextWidth(_text);
@@ -64,44 +64,56 @@ HRESULT CFont::Render_Text(const wstring& _text, FONTTYPE _type, FONTALIGN _alig
 	}
 	else
 	{
+		_float temp{};
 		for (auto ch : _text)
 		{
-			m_fTextureNum = toascii(ch) - 33;
-			Render();
+			if (ch != L' ')
+			{
+				_float3 vRight{}, vLook{}, vUp{};
+				D3DXVec3Normalize(&vRight, m_pTransformCom->Get_State(CTransform::STATE_RIGHT));
+				D3DXVec3Normalize(&vLook, m_pTransformCom->Get_State(CTransform::STATE_LOOK));
+				D3DXVec3Normalize(&vUp, m_pTransformCom->Get_State(CTransform::STATE_UP));
+				m_fTextureNum = toascii(ch) - 33;
+				m_pTransformCom->Set_State(CTransform::STATE_POSITION, _float3(10.f + temp, 10.5f, 1.f));
+				m_pTransformCom->Set_State(CTransform::STATE_RIGHT, vRight);
+				m_pTransformCom->Set_State(CTransform::STATE_LOOK, vLook);
+				m_pTransformCom->Set_State(CTransform::STATE_UP, vUp);
+				
+				m_pTransformCom->Scaling(_float3(13.f, 18.f, 1.f));
+				Render();
+				temp += 13.f;
+			}
 		}
 	}
 	return S_OK;
 }
 
-void CFont::Calc_TextWidth(const wstring& _text)
-{
-}
 
-CFont* CFont::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
-{
-	CFont* pInstance = new CFont(pGraphic_Device);
+//CFont* CFont::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
+//{
+//	CFont* pInstance = new CFont(pGraphic_Device);
+//
+//	if (FAILED(pInstance->Initialize_Prototype()))
+//	{
+//		MSG_BOX("Failed to Created : CFont");
+//		Safe_Release(pInstance);
+//	}
+//
+//	return pInstance;
+//}
 
-	if (FAILED(pInstance->Initialize_Prototype()))
-	{
-		MSG_BOX("Failed to Created : CFont");
-		Safe_Release(pInstance);
-	}
-
-	return pInstance;
-}
-
-CGameObject* CFont::Clone(void* pArg)
-{
-	CFont* pInstance = new CFont(*this);
-
-	if (FAILED(pInstance->Initialize(pArg)))
-	{
-		MSG_BOX("Failed to Clone : CFont");
-		Safe_Release(pInstance);
-	}
-
-	return pInstance;
-}
+//CGameObject* CFont::Clone(void* pArg)
+//{
+//	CFont* pInstance = new CFont(*this);
+//
+//	if (FAILED(pInstance->Initialize(pArg)))
+//	{
+//		MSG_BOX("Failed to Clone : CFont");
+//		Safe_Release(pInstance);
+//	}
+//
+//	return pInstance;
+//}
 
 void CFont::Free()
 {
