@@ -1,9 +1,6 @@
 #include "Level_GamePlay.h"
 #include "Explosion.h"
 
-#include "MyCube.h"
-
-
 #define CurLevel LEVEL_GAMEPLAY
 
 CLevel_GamePlay::CLevel_GamePlay(LPDIRECT3DDEVICE9 pGraphic_Device)
@@ -34,7 +31,6 @@ HRESULT CLevel_GamePlay::Initialize(class CLevelData* pLevelData)
 
 void CLevel_GamePlay::Update(_float fTimeDelta)
 {
-	int a = 10;
 }
 
 HRESULT CLevel_GamePlay::Render()

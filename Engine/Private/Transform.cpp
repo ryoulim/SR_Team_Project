@@ -42,16 +42,24 @@ _float3 CTransform::Compute_Scaled() const
 
 void CTransform::Scaling(_float Ratio)
 {
-	Set_State(STATE_RIGHT, *Get_State(STATE_RIGHT) * Ratio);
-	Set_State(STATE_UP, *Get_State(STATE_UP) * Ratio);
-	Set_State(STATE_LOOK, *Get_State(STATE_LOOK) * Ratio);
+	_float3 vRight{ *Get_State(STATE_RIGHT) };
+	_float3 vUp{ *Get_State(STATE_UP) };
+	_float3 vLook{ *Get_State(STATE_LOOK) };
+
+	Set_State(STATE_RIGHT, vRight.Normalize() * Ratio);
+	Set_State(STATE_UP, vUp.Normalize() * Ratio);
+	Set_State(STATE_LOOK, vLook.Normalize() * Ratio);
 }
 
 void CTransform::Scaling(_float3 Ratio)
 {
-	Set_State(STATE_RIGHT, *Get_State(STATE_RIGHT) * Ratio.x);
-	Set_State(STATE_UP, *Get_State(STATE_UP) * Ratio.y);
-	Set_State(STATE_LOOK, *Get_State(STATE_LOOK) * Ratio.z);
+	_float3 vRight{ *Get_State(STATE_RIGHT) };
+	_float3 vUp{ *Get_State(STATE_UP) };
+	_float3 vLook{ *Get_State(STATE_LOOK) };
+
+	Set_State(STATE_RIGHT, vRight.Normalize() * Ratio.x);
+	Set_State(STATE_UP, vUp.Normalize() * Ratio.y);
+	Set_State(STATE_LOOK, vLook.Normalize() * Ratio.z);
 }
 
 void CTransform::Go_Straight(_float fTimeDelta)

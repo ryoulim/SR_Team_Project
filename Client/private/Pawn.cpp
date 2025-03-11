@@ -34,8 +34,9 @@ void CPawn::Priority_Update(_float fTimeDelta)
 {
 }
 
-void CPawn::Update(_float fTimeDelta)
+EVENT CPawn::Update(_float fTimeDelta)
 {
+	return EVN_NONE;
 }
 
 void CPawn::Late_Update(_float fTimeDelta)

@@ -143,9 +143,11 @@ _uint CObject_Manager::Active_Object(const _wstring& strObjectTag, _uint iLevelI
 	return iReturn;
 }
 
-_uint CObject_Manager::Deactive_Object()
+_uint CObject_Manager::Deactive_Object(const _wstring& strObjectTag, class CGameObject* pObject)
 {
-	return E_NOTIMPL;
+	auto ObjPool = Find_Object_Pool(strObjectTag);
+	_uint iReturn = ObjPool->DeActive(pObject);
+	return iReturn;
 }
 
 CLayer* CObject_Manager::Find_Layer(_uint iLevelIndex, const _wstring& strLayerTag)

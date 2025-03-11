@@ -34,8 +34,9 @@ void CEffect::Priority_Update(_float fTimeDelta)
 {
 }
 
-void CEffect::Update(_float fTimeDelta)
+EVENT CEffect::Update(_float fTimeDelta)
 {
+	return EVN_NONE;
 }
 
 void CEffect::Late_Update(_float fTimeDelta)

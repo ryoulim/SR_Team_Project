@@ -34,8 +34,9 @@ void CItem::Priority_Update(_float fTimeDelta)
 {
 }
 
-void CItem::Update(_float fTimeDelta)
+EVENT CItem::Update(_float fTimeDelta)
 {
+	return EVN_NONE;
 }
 
 void CItem::Late_Update(_float fTimeDelta)

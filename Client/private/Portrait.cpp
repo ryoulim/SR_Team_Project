@@ -36,9 +36,9 @@ void CPortrait::Priority_Update(_float fTimeDelta)
 	__super::Priority_Update(fTimeDelta);
 }
 
-void CPortrait::Update(_float fTimeDelta)
+EVENT CPortrait::Update(_float fTimeDelta)
 {
-	__super::Update(fTimeDelta);
+	return __super::Update(fTimeDelta);
 }
 
 void CPortrait::Late_Update(_float fTimeDelta)

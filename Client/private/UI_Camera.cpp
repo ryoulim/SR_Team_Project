@@ -30,10 +30,12 @@ HRESULT CUI_Camera::Initialize(void* pArg)
 
 void CUI_Camera::Priority_Update(_float fTimeDelta)
 {
+	__super::Priority_Update(fTimeDelta);
 }
 
-void CUI_Camera::Update(_float fTimeDelta)
+EVENT CUI_Camera::Update(_float fTimeDelta)
 {
+	return __super::Update(fTimeDelta);
 }
 
 void CUI_Camera::Late_Update(_float fTimeDelta)

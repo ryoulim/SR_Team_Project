@@ -34,8 +34,9 @@ void CBoss::Priority_Update(_float fTimeDelta)
 {
 }
 
-void CBoss::Update(_float fTimeDelta)
+EVENT CBoss::Update(_float fTimeDelta)
 {
+	return EVN_NONE;
 }
 
 void CBoss::Late_Update(_float fTimeDelta)

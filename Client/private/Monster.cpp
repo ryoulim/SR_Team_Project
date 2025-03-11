@@ -34,8 +34,9 @@ void CMonster::Priority_Update(_float fTimeDelta)
 {
 }
 
-void CMonster::Update(_float fTimeDelta)
+EVENT CMonster::Update(_float fTimeDelta)
 {
+	return EVN_NONE;
 }
 
 void CMonster::Late_Update(_float fTimeDelta)

@@ -34,8 +34,9 @@ void CStatue::Priority_Update(_float fTimeDelta)
 {
 }
 
-void CStatue::Update(_float fTimeDelta)
+EVENT CStatue::Update(_float fTimeDelta)
 {
+	return EVN_NONE;
 }
 
 void CStatue::Late_Update(_float fTimeDelta)

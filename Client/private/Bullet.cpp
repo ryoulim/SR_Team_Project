@@ -34,8 +34,9 @@ void CBullet::Priority_Update(_float fTimeDelta)
 {
 }
 
-void CBullet::Update(_float fTimeDelta)
+EVENT CBullet::Update(_float fTimeDelta)
 {
+	return EVN_NONE;
 }
 
 void CBullet::Late_Update(_float fTimeDelta)

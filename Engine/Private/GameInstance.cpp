@@ -151,9 +151,9 @@ _uint CGameInstance::Active_Object(const _wstring& strObjectTag, _uint iLevelInd
 	return m_pObject_Manager->Active_Object(strObjectTag, iLevelIndex, strLayerTag, pArg);
 }
 
-_uint CGameInstance::Deactive_Object()
+_uint CGameInstance::Deactive_Object(const _wstring& strObjectTag, CGameObject* pObject)
 {
-	return _uint();
+	return m_pObject_Manager->Deactive_Object(strObjectTag, pObject);
 }
 
 #pragma endregion
