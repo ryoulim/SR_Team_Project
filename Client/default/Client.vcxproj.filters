@@ -64,6 +64,21 @@
     <Filter Include="02.GameObjects\Effect\Explosion">
       <UniqueIdentifier>{01009920-271b-44a0-8d6f-a1b2c2207162}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\Pawn">
+      <UniqueIdentifier>{c35da08a-421c-4a11-ba53-b81fa4888a6e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Item">
+      <UniqueIdentifier>{ad5b920c-bc1b-4ece-bc65-fdfb9440ecab}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Bullet">
+      <UniqueIdentifier>{c524e1eb-809f-4b51-8e3c-f61d479c62da}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Boss">
+      <UniqueIdentifier>{4edcbe90-d066-43a7-a6df-4f0e2eabebb4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Monster">
+      <UniqueIdentifier>{77e476b8-1434-4864-aee9-655662cb4f88}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -135,6 +150,21 @@
     <ClInclude Include="..\public\Explosion.h">
       <Filter>02.GameObjects\Effect\Explosion</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\Pawn.h">
+      <Filter>02.GameObjects\Pawn</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Monster.h">
+      <Filter>02.GameObjects\Monster</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Boss.h">
+      <Filter>02.GameObjects\Boss</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Item.h">
+      <Filter>02.GameObjects\Item</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Bullet.h">
+      <Filter>02.GameObjects\Bullet</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -200,6 +230,21 @@
     </ClCompile>
     <ClCompile Include="..\private\Explosion.cpp">
       <Filter>02.GameObjects\Effect\Explosion</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Pawn.cpp">
+      <Filter>02.GameObjects\Pawn</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Monster.cpp">
+      <Filter>02.GameObjects\Monster</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Boss.cpp">
+      <Filter>02.GameObjects\Boss</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Item.cpp">
+      <Filter>02.GameObjects\Item</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Bullet.cpp">
+      <Filter>02.GameObjects\Bullet</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

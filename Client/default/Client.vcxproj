@@ -145,8 +145,13 @@
   <ItemGroup>
     <ClInclude Include="..\public\Aim.h" />
     <ClInclude Include="..\public\BackGround.h" />
+    <ClInclude Include="..\public\Boss.h" />
+    <ClInclude Include="..\public\Bullet.h" />
     <ClInclude Include="..\public\Effect.h" />
     <ClInclude Include="..\public\Explosion.h" />
+    <ClInclude Include="..\public\Item.h" />
+    <ClInclude Include="..\public\Monster.h" />
+    <ClInclude Include="..\public\Pawn.h" />
     <ClInclude Include="..\public\Portrait.h" />
     <ClInclude Include="..\public\Statue.h" />
     <ClInclude Include="..\public\Client_Defines.h" />
@@ -170,8 +175,13 @@
   <ItemGroup>
     <ClCompile Include="..\private\Aim.cpp" />
     <ClCompile Include="..\Private\BackGround.cpp" />
+    <ClCompile Include="..\private\Boss.cpp" />
+    <ClCompile Include="..\private\Bullet.cpp" />
     <ClCompile Include="..\private\Effect.cpp" />
     <ClCompile Include="..\private\Explosion.cpp" />
+    <ClCompile Include="..\private\Item.cpp" />
+    <ClCompile Include="..\private\Monster.cpp" />
+    <ClCompile Include="..\private\Pawn.cpp" />
     <ClCompile Include="..\private\Portrait.cpp" />
     <ClCompile Include="..\private\Statue.cpp" />
     <ClCompile Include="..\private\Dynamic_Camera.cpp" />
