@@ -9,6 +9,7 @@
 #include "Portrait.h"
 #include "Aim.h"
 #include "Explosion.h"
+#include "Trapezoid.h"
 
 CLoader::CLoader(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: m_pGraphic_Device { pGraphic_Device }
@@ -108,6 +109,10 @@ HRESULT CLoader::Loading_For_GamePlay()
 	ADD_TEXTURE(Portrait, "../Bin/Resources/Textures/UI/tile5535.PNG", 1);
 	ADD_TEXTURE(Explosion, "../Bin/Resources/Textures/Explosion/Explosion%d.png", 90);
 
+	ADD_TEXTURE(Box, "../Bin/Resources/Textures/Object/Box/tile6628.png", 1);
+	ADD_TEXTURE(Trapezoid, "../Bin/Resources/Textures/Object/Trapezoid/tile6153.png", 1);
+	//ADD_TEXTURE(Trapezoid, "../Bin/Resources/Textures/Object/Trapezoid/tile9896.png", 1);
+	
 #pragma endregion
 
 #pragma region MODEL
@@ -126,6 +131,7 @@ HRESULT CLoader::Loading_For_GamePlay()
 	ADD_PRTOBJ(Aim);
 	ADD_PRTOBJ(Portrait);
 	ADD_PRTOBJ(Explosion);
+	ADD_PRTOBJ(Trapezoid);
 	Add_Data(TEXT("GamePlayLevelData.csv"));
 
 #pragma endregion

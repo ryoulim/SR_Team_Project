@@ -64,6 +64,9 @@
     <Filter Include="02.GameObjects\Effect\Explosion">
       <UniqueIdentifier>{01009920-271b-44a0-8d6f-a1b2c2207162}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\Statue\Trapezoid">
+      <UniqueIdentifier>{07d21f98-0a6c-4730-a4c7-232855667250}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -135,6 +138,9 @@
     <ClInclude Include="..\public\Explosion.h">
       <Filter>02.GameObjects\Effect\Explosion</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\Trapezoid.h">
+      <Filter>02.GameObjects\Statue\Trapezoid</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -200,6 +206,9 @@
     </ClCompile>
     <ClCompile Include="..\private\Explosion.cpp">
       <Filter>02.GameObjects\Effect\Explosion</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Trapezoid.cpp">
+      <Filter>02.GameObjects\Statue\Trapezoid</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

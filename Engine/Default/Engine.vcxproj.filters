@@ -97,6 +97,9 @@
     <ClInclude Include="..\Public\Vector.h">
       <Filter>92.Vector</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\VIBuffer_Trapezoid.h">
+      <Filter>04.Components\VIBuffer\Trapezoid</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="99.Headers">
@@ -186,6 +189,9 @@
     <Filter Include="93.Matrix">
       <UniqueIdentifier>{0c6983b9-14e1-415b-bc12-b1ef475b7bef}</UniqueIdentifier>
     </Filter>
+    <Filter Include="04.Components\VIBuffer\Trapezoid">
+      <UniqueIdentifier>{d5d10191-cf37-49a3-aec8-5087e36b57a6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Private\Base.cpp">
@@ -265,6 +271,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\Vector.cpp">
       <Filter>92.Vector</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\VIBuffer_Trapezoid.cpp">
+      <Filter>04.Components\VIBuffer\Trapezoid</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

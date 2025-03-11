@@ -65,6 +65,7 @@ HRESULT CMainApp::Ready_Component_For_Static()
 {
 	ADD_MODEL(Cube);
 	ADD_MODEL(Rect);
+	ADD_MODEL(Trapezoid);
 	ADD_MODEL_EX(Terrain, 256, 256);
 	ADD_PRTCOM(Transform);
 

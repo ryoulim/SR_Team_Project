@@ -79,6 +79,10 @@ HRESULT CLevel_GamePlay::Ready_Layer_Object(const _wstring& strLayerTag)
 		LEVEL_GAMEPLAY, strLayerTag, m_pData->Find_Data(TEXT("MyCube2")))))
 		return E_FAIL;
 
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Trapezoid"),
+		LEVEL_GAMEPLAY, strLayerTag, m_pData->Find_Data(TEXT("Trapezoid")))))
+		return E_FAIL;
+
 	CExplosion::DESC ExplosionDesc{};
 
 	ExplosionDesc.vInitPos = { 160.f,60.f,200.f };
