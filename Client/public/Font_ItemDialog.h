@@ -1,24 +1,23 @@
-// 내 클래스 이름 : Portrait
-// 부모 클래스 이름 : UI
+// 내 클래스 이름 : Font_ItemDialog
+// 부모 클래스 이름 : Font
 
 #pragma once
-#include "UI.h"
-#include <Font_ItemDialog.h>
+#include "Font.h"
 
 BEGIN(Client)
 
-class CPortrait final : public CUI
+class CFont_ItemDialog final : public CFont
 {
 public:
-	typedef struct tagPortraitDesc : public CUI::DESC
+	typedef struct tagFont_ItemDialogDesc : public CFont::DESC
 	{
 
 	}DESC;
 
 private:
-	CPortrait(LPDIRECT3DDEVICE9 pGraphic_Device);
-	CPortrait(const CPortrait& Prototype);
-	virtual ~CPortrait() = default;
+	CFont_ItemDialog(LPDIRECT3DDEVICE9 pGraphic_Device);
+	CFont_ItemDialog(const CFont_ItemDialog& Prototype);
+	virtual ~CFont_ItemDialog() = default;
 
 public:
 	virtual HRESULT Initialize_Prototype() override;
@@ -29,10 +28,10 @@ public:
 	virtual HRESULT Render() override;
 
 private:
-	CFont* m_pFont = { nullptr };
+	virtual _uint	Find_TextureNum() override { return 0; };
 
 public:
-	static CPortrait* Create(LPDIRECT3DDEVICE9 pGraphicDevice);
+	static CFont_ItemDialog* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
 	virtual CGameObject* Clone(void* pArg) override;
 	virtual void Free();
 };

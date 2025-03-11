@@ -18,23 +18,24 @@ public:
 	virtual HRESULT Initialize(void* pArg);
 
 	virtual void Priority_Update(_float fTimeDelta);
-	virtual void Update(_float fTimeDelta);
+	virtual EVENT Update(_float fTimeDelta);
 	virtual void Late_Update(_float fTimeDelta);
 	virtual HRESULT Render();
+
+	class CComponent* Find_Component(const _wstring& strComponentTag);
 
 protected:
 	LPDIRECT3DDEVICE9				m_pGraphic_Device = { nullptr };
 	class CGameInstance*			m_pGameInstance = { nullptr };
 
 protected:
-	map<const _wstring, class CComponent*>	m_Components;
-	_float									m_fTextureNum = {};
+	unordered_map<_wstring, class CComponent*>	m_Components;
+	_float							m_fTextureNum = {};
 
 protected:
 	HRESULT Add_Component(_uint iLevelIndex, const _wstring& strPrototypeTag, const _wstring& strComponentTag, CComponent** ppOut, void* pArg = nullptr);
-
 public:
-	virtual CGameObject* Clone(void* pArg) = 0;
+	virtual CGameObject* Clone(void* pArg) PURE;
 	virtual void Free();
 };
 

@@ -97,8 +97,8 @@
     <ClInclude Include="..\Public\Vector.h">
       <Filter>92.Vector</Filter>
     </ClInclude>
-    <ClInclude Include="..\public\VIBuffer_Trapezoid.h">
-      <Filter>04.Components\VIBuffer\Trapezoid</Filter>
+    <ClInclude Include="..\public\ObjectPool.h">
+      <Filter>02.GameObject\Manager\ObjectPool</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -189,8 +189,8 @@
     <Filter Include="93.Matrix">
       <UniqueIdentifier>{0c6983b9-14e1-415b-bc12-b1ef475b7bef}</UniqueIdentifier>
     </Filter>
-    <Filter Include="04.Components\VIBuffer\Trapezoid">
-      <UniqueIdentifier>{d5d10191-cf37-49a3-aec8-5087e36b57a6}</UniqueIdentifier>
+    <Filter Include="02.GameObject\Manager\ObjectPool">
+      <UniqueIdentifier>{4fbcb975-7b7a-4572-a7a8-8eadeb594170}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -272,8 +272,8 @@
     <ClCompile Include="..\Private\Vector.cpp">
       <Filter>92.Vector</Filter>
     </ClCompile>
-    <ClCompile Include="..\private\VIBuffer_Trapezoid.cpp">
-      <Filter>04.Components\VIBuffer\Trapezoid</Filter>
+    <ClCompile Include="..\private\ObjectPool.cpp">
+      <Filter>02.GameObject\Manager\ObjectPool</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

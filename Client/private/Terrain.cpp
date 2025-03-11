@@ -36,9 +36,9 @@ void CTerrain::Priority_Update(_float fTimeDelta)
 	__super::Priority_Update(fTimeDelta);
 }
 
-void CTerrain::Update(_float fTimeDelta)
+EVENT CTerrain::Update(_float fTimeDelta)
 {
-	__super::Update(fTimeDelta);
+	return __super::Update(fTimeDelta);
 }
 
 void CTerrain::Late_Update(_float fTimeDelta)

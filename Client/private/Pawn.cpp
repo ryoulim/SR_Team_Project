@@ -1,21 +1,21 @@
-#include "UI.h"
+#include "Pawn.h"
 
-CUI::CUI(LPDIRECT3DDEVICE9 pGraphic_Device)
+CPawn::CPawn(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CGameObject{ pGraphic_Device }
 {
 }
 
-CUI::CUI(const CUI& Prototype)
+CPawn::CPawn(const CPawn& Prototype)
 	: CGameObject(Prototype)
 {
 }
 
-HRESULT CUI::Initialize_Prototype()
+HRESULT CPawn::Initialize_Prototype()
 {
 	return S_OK;
 }
 
-HRESULT CUI::Initialize(void* pArg)
+HRESULT CPawn::Initialize(void* pArg)
 {
 	if (FAILED(Ready_Components(pArg)))
 		return E_FAIL;
@@ -30,24 +30,24 @@ HRESULT CUI::Initialize(void* pArg)
 	return S_OK;
 }
 
-void CUI::Priority_Update(_float fTimeDelta)
+void CPawn::Priority_Update(_float fTimeDelta)
 {
 }
 
-EVENT CUI::Update(_float fTimeDelta)
+EVENT CPawn::Update(_float fTimeDelta)
 {
 	return EVN_NONE;
 }
 
-void CUI::Late_Update(_float fTimeDelta)
+void CPawn::Late_Update(_float fTimeDelta)
 {
-	if (FAILED(m_pGameInstance->Add_RenderGroup(CRenderer::RG_UI, this)))
+	if (FAILED(m_pGameInstance->Add_RenderGroup(CRenderer::RG_NONBLEND, this)))
 		return;
 }
 
-HRESULT CUI::Render()
+HRESULT CPawn::Render()
 {
-	if(FAILED(m_pTransformCom->Bind_Resource()))
+	if (FAILED(m_pTransformCom->Bind_Resource()))
 		return E_FAIL;
 
 	if (FAILED(m_pTextureCom->Bind_Resource(static_cast<_uint>(m_fTextureNum))))
@@ -62,7 +62,7 @@ HRESULT CUI::Render()
 	return S_OK;
 }
 
-HRESULT CUI::Ready_Components(void* pArg)
+HRESULT CPawn::Ready_Components(void* pArg)
 {
 	/* For.Com_Texture */
 	if (FAILED(__super::Add_Component(m_eLevelID, _wstring(TEXT("Prototype_Component_Texture_")) + m_szTextureID,
@@ -81,7 +81,7 @@ HRESULT CUI::Ready_Components(void* pArg)
 
 	return S_OK;
 }
-void CUI::Free()
+void CPawn::Free()
 {
 	__super::Free();
 

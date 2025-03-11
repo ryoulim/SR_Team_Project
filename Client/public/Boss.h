@@ -12,19 +12,19 @@ END
 
 BEGIN(Client)
 
-class CStatue abstract : public CGameObject
+class CBoss abstract : public CGameObject
 {
 public:
-	typedef struct tagStatueDesc : public CTransform::DESC
+	typedef struct tagBossDesc : public CTransform::DESC
 	{
 		_float3 vInitPos;
 		_float3 vScale;
 	}DESC;
 
 protected:
-	CStatue(LPDIRECT3DDEVICE9 pGraphic_Device);
-	CStatue(const CStatue& Prototype);
-	virtual ~CStatue() = default;
+	CBoss(LPDIRECT3DDEVICE9 pGraphic_Device);
+	CBoss(const CBoss& Prototype);
+	virtual ~CBoss() = default;
 
 public:
 	virtual HRESULT Initialize_Prototype() override;

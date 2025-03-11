@@ -3,6 +3,7 @@
 CTexture::CTexture(LPDIRECT3DDEVICE9 pGraphic_Device)
     : CComponent { pGraphic_Device }
 {
+
 }
 
 CTexture::CTexture(const CTexture& Prototype)
@@ -67,7 +68,7 @@ CComponent* CTexture::Clone(void* pArg)
 
 	if (FAILED(pInstance->Initialize(pArg)))
 	{
-		MSG_BOX("Failed to Created : CTexture");
+		MSG_BOX("Failed to Clone : CTexture");
 		Safe_Release(pInstance);
 	}
 

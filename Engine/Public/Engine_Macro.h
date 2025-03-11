@@ -3,6 +3,7 @@
 #define BEGIN(NAMESPACE) namespace NAMESPACE { 
 #define END }
 
+#define S_SKIP		S_OK
 #define RADIAN		D3DXToRadian
 #define DEGREE		D3DXToDegree
 #define PI			D3DX_PI	
