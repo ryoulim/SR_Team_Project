@@ -22,4 +22,12 @@ typedef struct tagVertexPositionTexcoord
 	D3DXVECTOR2		vTexcoord;	
 }VTXPOSTEX;
 
+typedef struct tagVertexPositionNormalTexcoord
+{
+	VECTOR			vPosition;
+	VECTOR			vNormal;
+	D3DXVECTOR2		vTexcoord;
+
+}VTXPOSNORTEX;
+
 END

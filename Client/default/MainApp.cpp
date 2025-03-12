@@ -8,7 +8,7 @@
 #include "UI_Camera.h"
 #include "Font_ItemDialog.h"
 
-// ¸ÅÅ©·Î¸¦ À§ÇÑ ¸ÅÅ©·Î(°Çµå¸®Áö ¸¶½Ã¿À)
+// ë§¤í¬ë¡œë¥¼ ìœ„í•œ ë§¤í¬ë¡œ(ê±´ë“œë¦¬ì§€ ë§ˆì‹œì˜¤)
 #define m_eNextLevelID LEVEL_STATIC
 
 CMainApp::CMainApp()
@@ -36,11 +36,10 @@ HRESULT CMainApp::Initialize()
 	if(FAILED(Ready_Object_For_Static()))
 		return E_FAIL;
 
-	/* ÃÖÃÊ º¸¿©ÁÙ ·¹º§À» ÇÒ´çÇÏÀÚ. */
+	/* ìµœì´ˆ ë³´ì—¬ì¤„ ë ˆë²¨ì„ í• ë‹¹í•˜ìž. */
 	if (FAILED(Open_Level(LEVEL_LOGO)))
 		return E_FAIL;
 	
-
 	m_pGraphic_Device->SetRenderState(D3DRS_LIGHTING, FALSE);
 
 	return S_OK;
@@ -68,7 +67,8 @@ HRESULT CMainApp::Ready_Component_For_Static()
 	ADD_MODEL(Rect);
 	ADD_MODEL(Trapezoid);
 	ADD_MODEL(Cabinet);
-	ADD_MODEL_EX(Terrain, 256, 256);
+	ADD_MODEL_EX(Terrain, 256, 256,TEXT("../Bin/Resources/Textures/Terrain/Height__.bmp"));
+
 	ADD_PRTCOM(Transform);
 
 	ADD_TEXTURE(Font_ItemDialog, "../Bin/Resources/Textures/UI/Font/font%d.PNG", 94);
@@ -114,6 +114,6 @@ void CMainApp::Free()
 
 	m_pGameInstance->Release_Engine();
 
-	/* ³»¸â¹ö¸¦ Á¤¸®ÇÑ´Ù.*/	
+	/* ë‚´ë©¤ë²„ë¥¼ ì •ë¦¬í•œë‹¤.*/	
 	Safe_Release(m_pGameInstance);
 }

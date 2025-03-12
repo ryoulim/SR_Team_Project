@@ -17,7 +17,7 @@ protected:
 public:
 	virtual HRESULT Initialize_Prototype() override;
 	virtual HRESULT Initialize(void* pArg) override;
-	virtual HRESULT Render();
+	virtual HRESULT Render(_uint Surface = 0);
 
 public:
 	HRESULT Bind_Buffers();
@@ -41,7 +41,7 @@ protected:
 	HRESULT Create_IndexBuffer();
 
 public:
-	virtual CComponent* Clone(void* pArg) = 0;
+	virtual CComponent* Clone(void* pArg) PURE;
 	virtual void Free() override;
 };
 

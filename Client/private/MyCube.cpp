@@ -14,6 +14,19 @@ CMyCube::CMyCube(const CMyCube& Prototype)
 {
 }
 
+HRESULT CMyCube::Reset(void* pArg)
+{
+	if (pArg != nullptr)
+	{
+		DESC* pDesc = static_cast<DESC*>(pArg);
+		m_pTransformCom->Set_State(CTransform::STATE_POSITION, pDesc->vInitPos);
+		m_pTransformCom->LookAt(pDesc->vInitPos+pDesc->vLook);
+		m_pTransformCom->Scaling(pDesc->vScale);
+	}
+
+	return m_pTransformCom->Initialize(pArg);
+}
+
 HRESULT CMyCube::Initialize_Prototype()
 {
 	return S_OK;
@@ -27,6 +40,12 @@ HRESULT CMyCube::Initialize(void* pArg)
 
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
+	
+	if (pArg != nullptr)
+	{
+		DESC* pDesc = static_cast<DESC*>(pArg);
+		m_pTransformCom->LookAt(pDesc->vLook);
+	}
 
 	return S_OK;
 }
@@ -38,6 +57,8 @@ void CMyCube::Priority_Update(_float fTimeDelta)
 
 EVENT CMyCube::Update(_float fTimeDelta)
 {
+	m_pTransformCom->Go_Straight(fTimeDelta);
+
 	m_fTimeAcc += fTimeDelta;
 	if (m_fTimeAcc > 3.f)
 	{

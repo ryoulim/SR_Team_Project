@@ -1,13 +1,17 @@
-#include "Statue.h"
+// 내 클래스 이름 : Armor
+// 부모 클래스 이름 : UI
+
+#pragma once
+#include "UI.h"
 
 BEGIN(Client)
 
-class CTrapezoid final : public CStatue
+class CArmor final : public CUI
 {
 private:
-	CTrapezoid(LPDIRECT3DDEVICE9 pGraphic_Device);
-	CTrapezoid(const CTrapezoid& Prototype);
-	virtual ~CTrapezoid() = default;
+	CArmor(LPDIRECT3DDEVICE9 pGraphic_Device);
+	CArmor(const CArmor& Prototype);
+	virtual ~CArmor() = default;
 
 public:
 	virtual HRESULT Initialize_Prototype() override;
@@ -18,11 +22,9 @@ public:
 	virtual HRESULT Render() override;
 
 public:
-	static CTrapezoid* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
+	static CArmor* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
 	virtual CGameObject* Clone(void* pArg) override;
 	virtual void Free();
 };
 
 END
-
-

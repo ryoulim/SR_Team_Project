@@ -12,7 +12,7 @@ private:
 	virtual ~CVIBuffer_Terrain() = default;
 
 public:
-	virtual HRESULT Initialize_Prototype(_uint iNumVerticesX, _uint iNumVerticesZ);
+	virtual HRESULT Initialize_Prototype(_uint iNumVerticesX, _uint iNumVerticesZ, const _tchar* szHeightImagePath);
 	virtual HRESULT Initialize(void* pArg) override;
 
 private:
@@ -20,7 +20,7 @@ private:
 	_uint				m_iNumVerticesZ = {};
 
 public:
-	static CVIBuffer_Terrain* Create(LPDIRECT3DDEVICE9 pGraphic_Device, _uint iNumVerticesX, _uint iNumVerticesZ);
+	static CVIBuffer_Terrain* Create(LPDIRECT3DDEVICE9 pGraphic_Device, _uint iNumVerticesX, _uint iNumVerticesZ, const _tchar* szHeightImagePath);
 	virtual CComponent* Clone(void* pArg) override;
 	virtual void Free() override;
 };

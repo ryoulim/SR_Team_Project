@@ -8,12 +8,6 @@ BEGIN(Client)
 
 class CFont_ItemDialog final : public CFont
 {
-public:
-	typedef struct tagFont_ItemDialogDesc : public CFont::DESC
-	{
-
-	}DESC;
-
 private:
 	CFont_ItemDialog(LPDIRECT3DDEVICE9 pGraphic_Device);
 	CFont_ItemDialog(const CFont_ItemDialog& Prototype);
@@ -26,9 +20,6 @@ public:
 	virtual EVENT Update(_float fTimeDelta) override;
 	virtual void Late_Update(_float fTimeDelta) override;
 	virtual HRESULT Render() override;
-
-private:
-	virtual _uint	Find_TextureNum() override { return 0; };
 
 public:
 	static CFont_ItemDialog* Create(LPDIRECT3DDEVICE9 pGraphic_Device);

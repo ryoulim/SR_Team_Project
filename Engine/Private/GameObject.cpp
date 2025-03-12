@@ -17,6 +17,11 @@ CGameObject::CGameObject(const CGameObject& Prototype)
 	Safe_AddRef(m_pGameInstance);
 }
 
+HRESULT CGameObject::Reset(void* pArg)
+{
+	return S_OK;
+}
+
 HRESULT CGameObject::Initialize_Prototype()
 {
 	return S_OK;

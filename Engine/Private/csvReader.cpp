@@ -17,16 +17,13 @@ HRESULT CcsvReader::Readcsv(const _wstring& strcsvPath, CLevelData* pDatas)
 {
 	wifstream fin;
 
-#ifdef _DEBUG
-#undef new  // 'new' 매크로를 일시적으로 해제
-#endif
+#pragma push_macro("new")
+#undef new
 
 	fin.imbue(locale(locale::empty(), new codecvt_utf8<wchar_t>));
 
-#ifdef _DEBUG
-#define DBG_NEW new ( _NORMAL_BLOCK , FILE , LINE )
-#define new DBG_NEW
-#endif
+#pragma pop_macro("new")
+
 
 	fin.open(strcsvPath, ios::in);
 
@@ -142,14 +139,7 @@ bool CcsvReader::IsNum(const _wstring& strCell)
 
 CcsvReader* CcsvReader::Create()
 {
-#ifdef _DEBUG
-#undef new  // 'new' 매크로를 일시적으로 해제
-#endif
-	return new CcsvReader();
-#ifdef _DEBUG
-#define DBG_NEW new ( _NORMAL_BLOCK , FILE , LINE )
-#define new DBG_NEW
-#endif
+	return new CcsvReader;
 }
 
 void CcsvReader::Free()

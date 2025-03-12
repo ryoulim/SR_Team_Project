@@ -6,6 +6,8 @@
 #include "Dynamic_Camera.h"
 #include "MyCube.h"
 #include "UI_Camera.h"
+#include "Ammo.h"
+#include "Armor.h"
 #include "Portrait.h"
 #include "Aim.h"
 #include "Explosion.h"
@@ -112,13 +114,14 @@ HRESULT CLoader::Loading_For_GamePlay()
 	ADD_TEXTURE(Terrain, "../Bin/Resources/Textures/Map/tile6191.PNG", 1);
 	ADD_TEXTURE(MyCube, "../Bin/Resources/Textures/Snow/Snow.png", 1);
 	ADD_TEXTURE(Aim, "../Bin/Resources/Textures/Aim/tile11426.PNG", 1);
-	ADD_TEXTURE(Portrait, "../Bin/Resources/Textures/UI/tile5535.PNG", 1);
+	ADD_TEXTURE(Armor, "../Bin/Resources/Textures/UI/Armor/armor%d.PNG", 3);
+	ADD_TEXTURE(Ammo, "../Bin/Resources/Textures/UI/Ammo/ammo%d.PNG", 8);
+  	ADD_TEXTURE(Portrait, "../Bin/Resources/Textures/UI/Portrait/portrait%d.PNG", 25);
 	ADD_TEXTURE(Explosion, "../Bin/Resources/Textures/Explosion/Explosion%d.png", 90);
 
 	ADD_TEXTURE(Box, "../Bin/Resources/Textures/Object/Box/tile6628.png", 1);
-	ADD_TEXTURE(Trapezoid, "../Bin/Resources/Textures/Object/Trapezoid/tile6153.png", 1);
 	ADD_TEXTURE(Cabinet, "../Bin/Resources/Textures/Object/Cabinet/tile8270.png", 1);
-	//ADD_TEXTURE(Trapezoid, "../Bin/Resources/Textures/Object/Trapezoid/tile9896.png", 1);
+	ADD_TEXTURE(Trapezoid, "../Bin/Resources/Textures/Object/Trapezoid/Trapezoid%d.png", 2);
 	
 #pragma endregion
 
@@ -136,6 +139,8 @@ HRESULT CLoader::Loading_For_GamePlay()
 	ADD_PRTOBJ(Terrain);
 	ADD_PRTOBJ(MyCube);
 	ADD_PRTOBJ(Aim);
+	ADD_PRTOBJ(Armor);
+	ADD_PRTOBJ(Ammo);
 	ADD_PRTOBJ(Portrait);
 	ADD_PRTOBJ(Explosion);
 	ADD_PRTOBJ(Trapezoid);
@@ -146,7 +151,7 @@ HRESULT CLoader::Loading_For_GamePlay()
 	lstrcpy(m_szLoadingText, TEXT("데이터를 읽어들이는 중입니다."));
 	Add_Data(TEXT("GamePlayLevelData.csv"));
 	CRETAE_OBJ_POOL(MyCube, 50);
-
+	
 #pragma endregion
 
 	lstrcpy(m_szLoadingText, TEXT("로딩이 완료되었습니다."));

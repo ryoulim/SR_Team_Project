@@ -144,10 +144,12 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="..\public\Aim.h" />
+    <ClInclude Include="..\public\Ammo.h" />
+    <ClInclude Include="..\public\Armor.h" />
     <ClInclude Include="..\public\BackGround.h" />
     <ClInclude Include="..\public\Boss.h" />
     <ClInclude Include="..\public\Bullet.h" />
-    <ClInclude Include="..\public\Cabinet.h" />
+    <ClInclude Include="..\public\Common_Shape.h" />
     <ClInclude Include="..\public\Effect.h" />
     <ClInclude Include="..\public\Explosion.h" />
     <ClInclude Include="..\public\Font.h" />
@@ -179,10 +181,12 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\private\Aim.cpp" />
+    <ClCompile Include="..\private\Ammo.cpp" />
+    <ClCompile Include="..\private\Armor.cpp" />
     <ClCompile Include="..\Private\BackGround.cpp" />
     <ClCompile Include="..\private\Boss.cpp" />
     <ClCompile Include="..\private\Bullet.cpp" />
-    <ClCompile Include="..\private\Cabinet.cpp" />
+    <ClCompile Include="..\private\Common_Shape.cpp" />
     <ClCompile Include="..\private\Effect.cpp" />
     <ClCompile Include="..\private\Explosion.cpp" />
     <ClCompile Include="..\private\Font.cpp" />

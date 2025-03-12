@@ -1,5 +1,5 @@
-// ³» Å¬·¡½º ÀÌ¸§ : VIBuffer_Trapezoid
-// ºÎ¸ğ Å¬·¡½º ÀÌ¸§ : CVIBuffer
+// ë‚´ í´ë˜ìŠ¤ ì´ë¦„ : VIBuffer_Trapezoid
+// ë¶€ëª¨ í´ë˜ìŠ¤ ì´ë¦„ : CVIBuffer
 
 #pragma once
 #include "VIBuffer.h"
@@ -8,6 +8,9 @@ BEGIN(Engine)
 
 class ENGINE_DLL CVIBuffer_Trapezoid final : public CVIBuffer
 {
+public:
+	enum SURFACE {COMMON,TOP};
+  
 private:
 	CVIBuffer_Trapezoid(LPDIRECT3DDEVICE9 pGraphic_Device);
 	CVIBuffer_Trapezoid(const CVIBuffer_Trapezoid& Prototype);
@@ -16,6 +19,7 @@ private:
 public:
 	virtual HRESULT Initialize_Prototype() override;
 	virtual HRESULT Initialize(void* pArg) override;
+	virtual HRESULT Render(_uint Surface) override;
 
 private:
 	void Set_IndexBuffer(_ushort* pIndices, _uint StartIndex, _uint LT, _uint RT, _uint RB, _uint LB);

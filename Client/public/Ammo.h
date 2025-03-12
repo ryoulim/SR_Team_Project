@@ -1,26 +1,31 @@
-// 내 클래스 이름 : MyCube
-// 부모 클래스 이름 : Statue
+// 내 클래스 이름 : Ammo
+// 부모 클래스 이름 : UI
 
 #pragma once
-#include "Statue.h"
+#include "UI.h"
 
 BEGIN(Client)
 
-class CMyCube final : public CStatue
+class CAmmo final : public CUI
 {
-public:
-	typedef struct tagMyCubeDesc : public CStatue::DESC
-	{
-		_float3 vLook;
-	}DESC;
+public:	
+	enum AMMOTYPE {
+		LOVERBOY,
+		DISPERSER_SHELL,
+		DISPERSER_GRENADE,
+		PENETRATOR,
+		CHAINGUN,
+		BOWLINGBOMB,
+		IONBOW,
+		CLUSTERPUCK = 7
+	};
 
 private:
-	CMyCube(LPDIRECT3DDEVICE9 pGraphic_Device);
-	CMyCube(const CMyCube& Prototype);
-	virtual ~CMyCube() = default;
+	CAmmo(LPDIRECT3DDEVICE9 pGraphic_Device);
+	CAmmo(const CAmmo& Prototype);
+	virtual ~CAmmo() = default;
 
 public:
-	virtual HRESULT Reset(void* pArg) override;
 	virtual HRESULT Initialize_Prototype() override;
 	virtual HRESULT Initialize(void* pArg) override;
 	virtual void Priority_Update(_float fTimeDelta) override;
@@ -29,9 +34,10 @@ public:
 	virtual HRESULT Render() override;
 
 private:
-	_float				m_fTimeAcc{};
+	AMMOTYPE	m_eAmmoType = { LOVERBOY };
+
 public:
-	static CMyCube* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
+	static CAmmo* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
 	virtual CGameObject* Clone(void* pArg) override;
 	virtual void Free();
 };

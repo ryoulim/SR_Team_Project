@@ -26,7 +26,10 @@ private:
 	HRESULT Ready_Layer_Camera(const _wstring& strLayerTag);
 	HRESULT Ready_Layer_Object(const _wstring& strLayerTag);
 	HRESULT Ready_Layer_UI(const _wstring& strLayerTag);
+	HRESULT Ready_Light();
 
+private:
+	_int m_iIndex{-1};
 public:
 	static CLevel_GamePlay* Create(LPDIRECT3DDEVICE9 pGraphic_Device, class CLevelData* pLevelData);
 	virtual void Free() override;
