@@ -68,7 +68,7 @@
       <Filter>97.Device\Input</Filter>
     </ClInclude>
     <ClInclude Include="..\public\Transform.h">
-      <Filter>04.Components\Transform</Filter>
+      <Filter>04.Components\VIBuffer\Transform</Filter>
     </ClInclude>
     <ClInclude Include="..\public\Camera.h">
       <Filter>02.GameObject\Camera</Filter>
@@ -102,6 +102,9 @@
     </ClInclude>
     <ClInclude Include="..\public\VIBuffer_Trapezoid.h">
       <Filter>04.Components\VIBuffer\Trapezoid</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\VIBuffer_Cabinet.h">
+      <Filter>04.Components\VIBuffer\Cabinet</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -162,9 +165,6 @@
     <Filter Include="04.Components\VIBuffer\Terrain">
       <UniqueIdentifier>{688c68fb-dda6-432a-bcbf-b68cb6fec7bf}</UniqueIdentifier>
     </Filter>
-    <Filter Include="04.Components\Transform">
-      <UniqueIdentifier>{b20f2232-3955-44e4-8a5f-78d251aab896}</UniqueIdentifier>
-    </Filter>
     <Filter Include="97.Device\Input">
       <UniqueIdentifier>{04776061-ce83-4782-abcf-5951e4ae31e2}</UniqueIdentifier>
     </Filter>
@@ -197,6 +197,12 @@
     </Filter>
     <Filter Include="04.Components\VIBuffer\Trapezoid">
       <UniqueIdentifier>{8045495a-7080-4cce-b237-13d898a49c82}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04.Components\VIBuffer\Cabinet">
+      <UniqueIdentifier>{8add8500-3e0e-4032-9220-0d5a712bd592}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04.Components\VIBuffer\Transform">
+      <UniqueIdentifier>{b20f2232-3955-44e4-8a5f-78d251aab896}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -249,7 +255,7 @@
       <Filter>97.Device\Input</Filter>
     </ClCompile>
     <ClCompile Include="..\private\Transform.cpp">
-      <Filter>04.Components\Transform</Filter>
+      <Filter>04.Components\VIBuffer\Transform</Filter>
     </ClCompile>
     <ClCompile Include="..\private\Camera.cpp">
       <Filter>02.GameObject\Camera</Filter>
@@ -283,6 +289,9 @@
     </ClCompile>
     <ClCompile Include="..\private\VIBuffer_Trapezoid.cpp">
       <Filter>04.Components\VIBuffer\Trapezoid</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\VIBuffer_Cabinet.cpp">
+      <Filter>04.Components\VIBuffer\Cabinet</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
