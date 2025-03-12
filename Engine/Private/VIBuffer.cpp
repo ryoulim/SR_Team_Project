@@ -30,14 +30,12 @@ HRESULT CVIBuffer::Initialize(void* pArg)
     return S_OK;
 }
 
-HRESULT CVIBuffer::Render()
+HRESULT CVIBuffer::Render(_uint Surface)
 {  
     /* 정점들을 이용해서 정해놓은 방식대로 도형들을 그려라.  */
     /*m_pGraphic_Device->DrawPrimitive(D3DPT_TRIANGLELIST, 0, m_iNumPritimive);*/
 
-    m_pGraphic_Device->DrawIndexedPrimitive(D3DPT_TRIANGLELIST, 0, 0, m_iNumVertices, 0, m_iNumPritimive);
-
-    return S_OK;
+    return m_pGraphic_Device->DrawIndexedPrimitive(D3DPT_TRIANGLELIST, 0, 0, m_iNumVertices, 0, m_iNumPritimive);
 }
 
 HRESULT CVIBuffer::Bind_Buffers()

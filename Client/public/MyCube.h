@@ -11,7 +11,7 @@ class CMyCube final : public CStatue
 public:
 	typedef struct tagMyCubeDesc : public CStatue::DESC
 	{
-
+		_float3 vLook;
 	}DESC;
 
 private:
@@ -20,6 +20,7 @@ private:
 	virtual ~CMyCube() = default;
 
 public:
+	virtual HRESULT Reset(void* pArg) override;
 	virtual HRESULT Initialize_Prototype() override;
 	virtual HRESULT Initialize(void* pArg) override;
 	virtual void Priority_Update(_float fTimeDelta) override;

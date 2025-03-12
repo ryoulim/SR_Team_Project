@@ -48,6 +48,8 @@ EVENT CDynamic_Camera::Update(_float fTimeDelta)
 		CMyCube::DESC CameraDesc{};
 		CameraDesc.vInitPos = *m_pTransformCom->Get_State(CTransform::STATE_POSITION);
 		CameraDesc.vScale = { 5.f,5.f,5.f };
+		CameraDesc.vLook = *m_pTransformCom->Get_State(CTransform::STATE_LOOK);
+		CameraDesc.fSpeedPerSec = 500.f;
 		m_pGameInstance->Active_Object(TEXT("ObjectPool_MyCube"), LEVEL_GAMEPLAY,
 			TEXT("Layer_Object"), &CameraDesc);
 	}
