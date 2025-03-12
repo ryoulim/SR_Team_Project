@@ -31,9 +31,6 @@
     <Filter Include="02.GameObjects\UI">
       <UniqueIdentifier>{23b9363e-bdd8-4f3b-9f9c-091e08b9493e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\UI\Aim">
-      <UniqueIdentifier>{0dbc93d8-f8a4-41c6-a1d1-63543326afe3}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02.GameObjects\Camera">
       <UniqueIdentifier>{9c2a241e-1c06-4f33-a61d-8fd9f461b352}</UniqueIdentifier>
     </Filter>
@@ -48,9 +45,6 @@
     </Filter>
     <Filter Include="02.GameObjects\Statue\Mycube">
       <UniqueIdentifier>{866631c5-e2bd-4cb1-8c4f-cb7e7ba7d676}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\UI\Portrait">
-      <UniqueIdentifier>{1f143357-a3b6-4a71-9cbc-224e93371894}</UniqueIdentifier>
     </Filter>
     <Filter Include="02.GameObjects\Statue\Terrain">
       <UniqueIdentifier>{9de21c46-a0f5-43b6-8a26-1378d9bcc1aa}</UniqueIdentifier>
@@ -82,14 +76,44 @@
     <Filter Include="02.GameObjects\Map">
       <UniqueIdentifier>{d2a1c4aa-b5fb-4b02-8851-a076935131e0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\Statue\Trapezoid">
+      <UniqueIdentifier>{a339b7fc-a5ec-4540-b4db-8ad27a50bc8f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\GamePlayUI">
+      <UniqueIdentifier>{8a2688ce-7eca-4744-84a6-c3f46738eb5a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\MenuUI">
+      <UniqueIdentifier>{17a3f522-58e3-4264-ba9a-2a4adb2d3cc9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\GamePlayUI\Portrait">
+      <UniqueIdentifier>{1f143357-a3b6-4a71-9cbc-224e93371894}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\GamePlayUI\Aim">
+      <UniqueIdentifier>{0dbc93d8-f8a4-41c6-a1d1-63543326afe3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\GamePlayUI\Armor">
+      <UniqueIdentifier>{a7860868-7166-44f9-9da5-547dfe0e27fc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\GamePlayUI\Ammo">
+      <UniqueIdentifier>{6ac6bbd6-0b08-4490-b991-2038eb8d0333}</UniqueIdentifier>
+    </Filter>
     <Filter Include="02.GameObjects\UI\Font">
       <UniqueIdentifier>{f5358a75-78d6-4a59-9a31-e6b08e83845b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\UI\Font\Font_ItemDialog">
+    <Filter Include="02.GameObjects\UI\Font\Font_MediumBlue">
       <UniqueIdentifier>{74b6fc8d-b0fe-4cb1-aee6-ddc4604bd8d4}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\Statue\Trapezoid">
-      <UniqueIdentifier>{a339b7fc-a5ec-4540-b4db-8ad27a50bc8f}</UniqueIdentifier>
+    <Filter Include="02.GameObjects\UI\Font\Font_BigOrange">
+      <UniqueIdentifier>{de8b3aab-47b1-4af0-9049-cc8f4c254de1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\Font\Font_DefaultDialog">
+      <UniqueIdentifier>{e73131f6-e2be-489a-84c2-c9a3ae0eb8c1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\MenuUI\MainMenu">
+      <UniqueIdentifier>{6b26a339-37a9-45ca-8210-9c9622a84f31}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\MenuUI\GameMenu">
+      <UniqueIdentifier>{b2fb4625-0e8e-4c39-b7ae-7227d0c7990f}</UniqueIdentifier>
     </Filter>
     <Filter Include="02.GameObjects\Statue\Common_Shape">
       <UniqueIdentifier>{77614cdc-4d81-4123-8816-10d06f2ae14c}</UniqueIdentifier>
@@ -147,14 +171,11 @@
     <ClInclude Include="..\public\UI.h">
       <Filter>02.GameObjects\UI</Filter>
     </ClInclude>
-    <ClInclude Include="..\public\Aim.h">
-      <Filter>02.GameObjects\UI\Aim</Filter>
-    </ClInclude>
     <ClInclude Include="..\public\Statue.h">
       <Filter>02.GameObjects\Statue</Filter>
     </ClInclude>
     <ClInclude Include="..\public\Portrait.h">
-      <Filter>02.GameObjects\UI\Portrait</Filter>
+      <Filter>02.GameObjects\UI\GamePlayUI\Portrait</Filter>
     </ClInclude>
     <ClInclude Include="..\public\Loader.h">
       <Filter>01.Levels\Loading\Loader</Filter>
@@ -183,14 +204,23 @@
     <ClInclude Include="..\public\Map.h">
       <Filter>02.GameObjects\Map</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\Trapezoid.h">
+      <Filter>02.GameObjects\Statue\Trapezoid</Filter>
+    </ClInclude>
     <ClInclude Include="..\public\Font.h">
       <Filter>02.GameObjects\UI\Font</Filter>
     </ClInclude>
     <ClInclude Include="..\public\Font_ItemDialog.h">
-      <Filter>02.GameObjects\UI\Font\Font_ItemDialog</Filter>
+      <Filter>02.GameObjects\UI\Font\Font_MediumBlue</Filter>
     </ClInclude>
-    <ClInclude Include="..\public\Trapezoid.h">
-      <Filter>02.GameObjects\Statue\Trapezoid</Filter>
+    <ClInclude Include="..\public\Aim.h">
+      <Filter>02.GameObjects\UI\GamePlayUI\Aim</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Armor.h">
+      <Filter>02.GameObjects\UI\GamePlayUI\Armor</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Ammo.h">
+      <Filter>02.GameObjects\UI\GamePlayUI\Ammo</Filter>
     </ClInclude>
     <ClInclude Include="..\public\Common_Shape.h">
       <Filter>02.GameObjects\Statue\Common_Shape</Filter>
@@ -246,14 +276,11 @@
     <ClCompile Include="..\private\UI.cpp">
       <Filter>02.GameObjects\UI</Filter>
     </ClCompile>
-    <ClCompile Include="..\private\Aim.cpp">
-      <Filter>02.GameObjects\UI\Aim</Filter>
-    </ClCompile>
     <ClCompile Include="..\private\Statue.cpp">
       <Filter>02.GameObjects\Statue</Filter>
     </ClCompile>
     <ClCompile Include="..\private\Portrait.cpp">
-      <Filter>02.GameObjects\UI\Portrait</Filter>
+      <Filter>02.GameObjects\UI\GamePlayUI\Portrait</Filter>
     </ClCompile>
     <ClCompile Include="..\private\Effect.cpp">
       <Filter>02.GameObjects\Effect</Filter>
@@ -279,14 +306,23 @@
     <ClCompile Include="..\private\Map.cpp">
       <Filter>02.GameObjects\Map</Filter>
     </ClCompile>
+    <ClCompile Include="..\private\Trapezoid.cpp">
+      <Filter>02.GameObjects\Statue\Trapezoid</Filter>
+    </ClCompile>
     <ClCompile Include="..\private\Font.cpp">
       <Filter>02.GameObjects\UI\Font</Filter>
     </ClCompile>
     <ClCompile Include="..\private\Font_ItemDialog.cpp">
-      <Filter>02.GameObjects\UI\Font\Font_ItemDialog</Filter>
+      <Filter>02.GameObjects\UI\Font\Font_MediumBlue</Filter>
     </ClCompile>
-    <ClCompile Include="..\private\Trapezoid.cpp">
-      <Filter>02.GameObjects\Statue\Trapezoid</Filter>
+    <ClCompile Include="..\private\Aim.cpp">
+      <Filter>02.GameObjects\UI\GamePlayUI\Aim</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Armor.cpp">
+      <Filter>02.GameObjects\UI\GamePlayUI\Armor</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Ammo.cpp">
+      <Filter>02.GameObjects\UI\GamePlayUI\Ammo</Filter>
     </ClCompile>
     <ClCompile Include="..\private\Common_Shape.cpp">
       <Filter>02.GameObjects\Statue\Common_Shape</Filter>
