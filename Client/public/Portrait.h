@@ -3,17 +3,31 @@
 
 #pragma once
 #include "UI.h"
-#include <Font_ItemDialog.h>
+#include "Font_ItemDialog.h"
 
 BEGIN(Client)
 
 class CPortrait final : public CUI
 {
 public:
-	typedef struct tagPortraitDesc : public CUI::DESC
+	enum HPSTATUS {
+		HP100 = 0,
+		HP80 = 5,
+		HP40 = 10,
+		HP25 = 15,
+		HP10 = 18,
+		HP0 = 21,
+		HP200 = 24
+	};
+	enum PORTRAITSTATUS
 	{
-
-	}DESC;
+		PORTRAIT_IDLE,
+		PORTRAIT_ANGER,
+		PORTRAIT_SMILE,
+		PORTRAIT_LOOKL,
+		PORTRAIT_LOOKR,
+		PORTRAIT_DEAD
+	};
 
 private:
 	CPortrait(LPDIRECT3DDEVICE9 pGraphic_Device);
@@ -29,7 +43,13 @@ public:
 	virtual HRESULT Render() override;
 
 private:
-	CFont* m_pFont = { nullptr };
+	void	Change_Face(_float fTimeDelta);
+
+private:
+	CFont*	m_pFont = { nullptr };
+	_float	m_fAnimTick = {};
+	PORTRAITSTATUS	m_eFace = { PORTRAIT_IDLE };
+	HPSTATUS		m_eHPStatus = { HP25 };
 
 public:
 	static CPortrait* Create(LPDIRECT3DDEVICE9 pGraphicDevice);

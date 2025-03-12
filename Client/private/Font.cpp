@@ -51,7 +51,7 @@ HRESULT CFont::Render()
 	return __super::Render();
 }
 
-HRESULT CFont::Render_Text(const wstring& _text, FONTTYPE _type, FONTALIGN _align, _float _posX, _float _posY)
+HRESULT CFont::Render_Text(const string& _text, FONTTYPE _type, FONTALIGN _align, _float _posX, _float _posY)
 {
 	m_uiTextWidth = _text.length();
 	
@@ -99,9 +99,58 @@ HRESULT CFont::Render_Text(const wstring& _text, FONTTYPE _type, FONTALIGN _alig
 	return S_OK;
 }
 
-HRESULT CFont::Render_Num(_uint& _num, FONTTYPE _type, FONTALIGN _align, _float _posX, _float _posY)
+HRESULT CFont::Render_Text(const _int _val, FONTTYPE _type, FONTALIGN _align, _float _posX, _float _posY)
 {
-	/* 숫자용? */
+	_int val = _val;
+	m_uiTextWidth = 0;
+	if (val != 0)
+	{
+		while (_val % 10)
+		{
+			m_uiTextWidth++;
+			val /= 10;
+		}
+	}
+	else
+		m_uiTextWidth = 1;
+
+	_float startPosX = {};
+	if (_align == LEFT)
+		startPosX = _posX;
+	else if (_align == CENTER)
+		startPosX = _posX - m_uiTextWidth / 2.f * 14.f;
+
+
+	if (_type != MEDIUMBLUE)
+	{
+		for (size_t i = 0; i < m_uiTextWidth; i++)
+		{
+			/* 다른 폰트 추가 필요 */
+		}
+	}
+	else
+	{
+		_float fontWidth{};
+		for (size_t i = 0; i < m_uiTextWidth; i++)
+		{
+			m_fTextureNum = val % 10;
+			m_pTransformCom->Set_State(CTransform::STATE_POSITION, _float3(startPosX + fontWidth, _posY, 1.f));
+
+			/* Scale 초기화 함수 필요? */
+			_float3 vRight{}, vLook{}, vUp{};
+			D3DXVec3Normalize(&vRight, m_pTransformCom->Get_State(CTransform::STATE_RIGHT));
+			D3DXVec3Normalize(&vLook, m_pTransformCom->Get_State(CTransform::STATE_LOOK));
+			D3DXVec3Normalize(&vUp, m_pTransformCom->Get_State(CTransform::STATE_UP));
+			m_pTransformCom->Set_State(CTransform::STATE_RIGHT, vRight);
+			m_pTransformCom->Set_State(CTransform::STATE_LOOK, vLook);
+			m_pTransformCom->Set_State(CTransform::STATE_UP, vUp);
+
+			m_pTransformCom->Scaling(_float3(12.f, 15.f, 1.f));
+			Render();
+			val /= 10;
+			fontWidth += 12.f;
+		}
+	}
 	return S_OK;
 }
 

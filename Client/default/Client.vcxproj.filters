@@ -85,11 +85,23 @@
     <Filter Include="02.GameObjects\UI\Font">
       <UniqueIdentifier>{f5358a75-78d6-4a59-9a31-e6b08e83845b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\UI\Font\Font_ItemDialog">
-      <UniqueIdentifier>{74b6fc8d-b0fe-4cb1-aee6-ddc4604bd8d4}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02.GameObjects\Statue\Trapezoid">
       <UniqueIdentifier>{a339b7fc-a5ec-4540-b4db-8ad27a50bc8f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\MainMenu">
+      <UniqueIdentifier>{6b26a339-37a9-45ca-8210-9c9622a84f31}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\Font\Font_DefaultDialog">
+      <UniqueIdentifier>{e73131f6-e2be-489a-84c2-c9a3ae0eb8c1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\Font\Font_BigOrange">
+      <UniqueIdentifier>{de8b3aab-47b1-4af0-9049-cc8f4c254de1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\Font\Font_MediumBlue">
+      <UniqueIdentifier>{74b6fc8d-b0fe-4cb1-aee6-ddc4604bd8d4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\Armor">
+      <UniqueIdentifier>{a7860868-7166-44f9-9da5-547dfe0e27fc}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -184,10 +196,13 @@
       <Filter>02.GameObjects\UI\Font</Filter>
     </ClInclude>
     <ClInclude Include="..\public\Font_ItemDialog.h">
-      <Filter>02.GameObjects\UI\Font\Font_ItemDialog</Filter>
+      <Filter>02.GameObjects\UI\Font\Font_MediumBlue</Filter>
     </ClInclude>
     <ClInclude Include="..\public\Trapezoid.h">
       <Filter>02.GameObjects\Statue\Trapezoid</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Armor.h">
+      <Filter>02.GameObjects\UI\Armor</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -277,10 +292,13 @@
       <Filter>02.GameObjects\UI\Font</Filter>
     </ClCompile>
     <ClCompile Include="..\private\Font_ItemDialog.cpp">
-      <Filter>02.GameObjects\UI\Font\Font_ItemDialog</Filter>
+      <Filter>02.GameObjects\UI\Font\Font_MediumBlue</Filter>
     </ClCompile>
     <ClCompile Include="..\private\Trapezoid.cpp">
       <Filter>02.GameObjects\Statue\Trapezoid</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Armor.cpp">
+      <Filter>02.GameObjects\UI\Armor</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

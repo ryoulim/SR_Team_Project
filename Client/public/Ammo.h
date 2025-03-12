@@ -1,23 +1,23 @@
-// 내 클래스 이름 : Font_ItemDialog
-// 부모 클래스 이름 : Font
+// 내 클래스 이름 : Ammo
+// 부모 클래스 이름 : UI
 
 #pragma once
-#include "Font.h"
+#include "UI.h"
 
 BEGIN(Client)
 
-class CFont_ItemDialog final : public CFont
+class CAmmo final : public CUI
 {
 public:
-	typedef struct tagFont_ItemDialogDesc : public CFont::DESC
+	typedef struct tagAmmoDesc : public CUI::DESC
 	{
 
 	}DESC;
 
 private:
-	CFont_ItemDialog(LPDIRECT3DDEVICE9 pGraphic_Device);
-	CFont_ItemDialog(const CFont_ItemDialog& Prototype);
-	virtual ~CFont_ItemDialog() = default;
+	CAmmo(LPDIRECT3DDEVICE9 pGraphic_Device);
+	CAmmo(const CAmmo& Prototype);
+	virtual ~CAmmo() = default;
 
 public:
 	virtual HRESULT Initialize_Prototype() override;
@@ -28,7 +28,7 @@ public:
 	virtual HRESULT Render() override;
 
 public:
-	static CFont_ItemDialog* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
+	static CAmmo* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
 	virtual CGameObject* Clone(void* pArg) override;
 	virtual void Free();
 };
