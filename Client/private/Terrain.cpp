@@ -25,6 +25,9 @@ HRESULT CTerrain::Initialize(void* pArg)
 	m_szTextureID = TEXT("Terrain");
 	m_szBufferType = TEXT("Terrain");
 
+	if (FAILED(Ready_Material()))
+		return E_FAIL;
+
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
 
@@ -48,7 +51,31 @@ void CTerrain::Late_Update(_float fTimeDelta)
 
 HRESULT CTerrain::Render()
 {
-	return __super::Render();
+	if(FAILED(m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE)))
+		return E_FAIL;
+	if (FAILED(__super::Render()))
+		return E_FAIL;
+	if (FAILED(m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW)))
+		return E_FAIL;
+
+	return S_OK;
+}
+
+HRESULT CTerrain::Ready_Material()
+{
+	D3DMATERIAL9		tMtrl;
+	ZeroMemory(&tMtrl, sizeof(D3DMATERIAL9));
+
+	tMtrl.Diffuse = { 1.f, 1.f, 1.f, 1.f };
+	tMtrl.Specular = { 1.f, 1.f, 1.f, 1.f };
+	tMtrl.Ambient = { 0.2f, 0.2f, 0.2f, 1.f };
+
+	tMtrl.Emissive = { 0.f, 0.f, 0.f, 0.f };
+	tMtrl.Power = 0.f;
+
+	m_pGraphic_Device->SetMaterial(&tMtrl);
+
+	return S_OK;
 }
 
 CTerrain* CTerrain::Create(LPDIRECT3DDEVICE9 pGraphic_Device)

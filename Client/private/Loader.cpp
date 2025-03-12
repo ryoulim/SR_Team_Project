@@ -115,8 +115,7 @@ HRESULT CLoader::Loading_For_GamePlay()
 	ADD_TEXTURE(Explosion, "../Bin/Resources/Textures/Explosion/Explosion%d.png", 90);
 
 	ADD_TEXTURE(Box, "../Bin/Resources/Textures/Object/Box/tile6628.png", 1);
-	ADD_TEXTURE(Trapezoid, "../Bin/Resources/Textures/Object/Trapezoid/tile6153.png", 1);
-	//ADD_TEXTURE(Trapezoid, "../Bin/Resources/Textures/Object/Trapezoid/tile9896.png", 1);
+	ADD_TEXTURE(Trapezoid, "../Bin/Resources/Textures/Object/Trapezoid/Trapezoid%d.png", 2);
 	
 #pragma endregion
 
@@ -136,14 +135,14 @@ HRESULT CLoader::Loading_For_GamePlay()
 	ADD_PRTOBJ(Aim);
 	ADD_PRTOBJ(Portrait);
 	ADD_PRTOBJ(Explosion);
-  ADD_PRTOBJ(Trapezoid);
+	ADD_PRTOBJ(Trapezoid);
 #pragma endregion
 
 #pragma region DATA
 	lstrcpy(m_szLoadingText, TEXT("데이터를 읽어들이는 중입니다."));
 	Add_Data(TEXT("GamePlayLevelData.csv"));
 	CRETAE_OBJ_POOL(MyCube, 50);
-
+	
 #pragma endregion
 
 	lstrcpy(m_szLoadingText, TEXT("로딩이 완료되었습니다."));

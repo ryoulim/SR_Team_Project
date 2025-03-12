@@ -34,11 +34,6 @@ HRESULT CPortrait::Initialize(void* pArg)
 	if (nullptr == m_pFont)
 		return E_FAIL;
 
-
-
-
-
-
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
 

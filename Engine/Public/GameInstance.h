@@ -44,9 +44,9 @@ public:
 	HRESULT Create_Object_Pool(_uint iPrototypeLevelIndex, const _wstring& strPrototypeTag, const _wstring& strObjectTag, _uint iPoolSize);
 	// 오브젝트 풀 삭제
 	HRESULT Release_Object_Pool(const _wstring& strObjectTag);
-	// 오브젝트 풀에서 객체 하나를 오브젝트 리스트에 넣는다.
+	// 오브젝트 풀에서 객체 하나를 오브젝트 리스트에 넣는다.(Reset 함수 호출)
 	_uint Active_Object(const _wstring& strObjectTag, _uint iLevelIndex, const _wstring& strLayerTag, void* pArg = nullptr);
-	// 오브젝트 리스트에서 해당객체를 빼서 오브젝트 풀에 반환한다. ( 구현중 )
+	// 오브젝트 리스트에서 해당객체를 빼서 오브젝트 풀에 반환한다.
 	_uint Deactive_Object(const _wstring& strObjectTag, class CGameObject* pObject);
 
 #pragma endregion
