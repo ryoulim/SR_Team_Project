@@ -8,12 +8,6 @@ BEGIN(Client)
 
 class CFont_ItemDialog final : public CFont
 {
-public:
-	typedef struct tagFont_ItemDialogDesc : public CFont::DESC
-	{
-
-	}DESC;
-
 private:
 	CFont_ItemDialog(LPDIRECT3DDEVICE9 pGraphic_Device);
 	CFont_ItemDialog(const CFont_ItemDialog& Prototype);

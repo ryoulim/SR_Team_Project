@@ -26,7 +26,7 @@ HRESULT CArmor::Initialize(void* pArg)
 	m_szBufferType = TEXT("Rect");
 
 	DESC Desc{};
-	Desc.vScale = _float3(83.f, 83.f, 1.f);
+	Desc.vScale = _float3(82.f, 82.f, 1.f);
 	Desc.vInitPos = _float3(-(g_iWinSizeX / 2.f) + 208.f, -(g_iWinSizeY / 2.f) + Desc.vScale.y / 2.f, 1.f);
 	m_fTextureNum = 1;
 

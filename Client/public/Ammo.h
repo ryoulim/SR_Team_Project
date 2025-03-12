@@ -8,11 +8,17 @@ BEGIN(Client)
 
 class CAmmo final : public CUI
 {
-public:
-	typedef struct tagAmmoDesc : public CUI::DESC
-	{
-
-	}DESC;
+public:	
+	enum AMMOTYPE {
+		LOVERBOY,
+		DISPERSER_SHELL,
+		DISPERSER_GRENADE,
+		PENETRATOR,
+		CHAINGUN,
+		BOWLINGBOMB,
+		IONBOW,
+		CLUSTERPUCK = 7
+	};
 
 private:
 	CAmmo(LPDIRECT3DDEVICE9 pGraphic_Device);
@@ -26,6 +32,9 @@ public:
 	virtual EVENT Update(_float fTimeDelta) override;
 	virtual void Late_Update(_float fTimeDelta) override;
 	virtual HRESULT Render() override;
+
+private:
+	AMMOTYPE	m_eAmmoType = { LOVERBOY };
 
 public:
 	static CAmmo* Create(LPDIRECT3DDEVICE9 pGraphic_Device);

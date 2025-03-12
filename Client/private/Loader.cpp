@@ -6,6 +6,7 @@
 #include "Dynamic_Camera.h"
 #include "MyCube.h"
 #include "UI_Camera.h"
+#include "Ammo.h"
 #include "Armor.h"
 #include "Portrait.h"
 #include "Aim.h"
@@ -113,6 +114,7 @@ HRESULT CLoader::Loading_For_GamePlay()
 	ADD_TEXTURE(MyCube, "../Bin/Resources/Textures/Snow/Snow.png", 1);
 	ADD_TEXTURE(Aim, "../Bin/Resources/Textures/Aim/tile11426.PNG", 1);
 	ADD_TEXTURE(Armor, "../Bin/Resources/Textures/UI/Armor/armor%d.PNG", 3);
+	ADD_TEXTURE(Ammo, "../Bin/Resources/Textures/UI/Ammo/ammo%d.PNG", 8);
   	ADD_TEXTURE(Portrait, "../Bin/Resources/Textures/UI/Portrait/portrait%d.PNG", 25);
 	ADD_TEXTURE(Explosion, "../Bin/Resources/Textures/Explosion/Explosion%d.png", 90);
 
@@ -137,6 +139,7 @@ HRESULT CLoader::Loading_For_GamePlay()
 	ADD_PRTOBJ(MyCube);
 	ADD_PRTOBJ(Aim);
 	ADD_PRTOBJ(Armor);
+	ADD_PRTOBJ(Ammo);
 	ADD_PRTOBJ(Portrait);
 	ADD_PRTOBJ(Explosion);
     ADD_PRTOBJ(Trapezoid);
