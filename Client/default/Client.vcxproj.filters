@@ -118,6 +118,9 @@
     <Filter Include="02.GameObjects\Statue\Common_Shape">
       <UniqueIdentifier>{77614cdc-4d81-4123-8816-10d06f2ae14c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\Statue\Cabinet">
+      <UniqueIdentifier>{abf68af6-0c29-4236-b45e-f71cab6a041e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -225,6 +228,9 @@
     <ClInclude Include="..\public\Common_Shape.h">
       <Filter>02.GameObjects\Statue\Common_Shape</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\Cabinet.h">
+      <Filter>02.GameObjects\Statue\Cabinet</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -326,6 +332,9 @@
     </ClCompile>
     <ClCompile Include="..\private\Common_Shape.cpp">
       <Filter>02.GameObjects\Statue\Common_Shape</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Cabinet.cpp">
+      <Filter>02.GameObjects\Statue\Cabinet</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
