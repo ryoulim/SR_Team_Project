@@ -67,7 +67,7 @@ HRESULT CMainApp::Ready_Component_For_Static()
 	ADD_MODEL(Rect);
 	ADD_MODEL(Trapezoid);
 	ADD_MODEL(Cabinet);
-	ADD_MODEL_EX(Terrain, 256, 256,TEXT("../Bin/Resources/Textures/Terrain/Height__.bmp"));
+	ADD_MODEL_EX(Terrain, 129, 129, TEXT("../Bin/Resources/Textures/Terrain/Height__.bmp"));
 
 	ADD_PRTCOM(Transform);
 
