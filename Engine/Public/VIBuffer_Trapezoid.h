@@ -8,14 +8,17 @@ BEGIN(Engine)
 
 class ENGINE_DLL CVIBuffer_Trapezoid final : public CVIBuffer
 {
-//public:
-//	typedef struct tagTrapezoidDesc
-//	{
-//		_float fLongWidth;
-//		_float fShortWidth;
-//		_float fHegith;
-//		_float fDepth;
-//	}DESC;
+	//public:
+	//	typedef struct tagTrapezoidDesc
+	//	{
+	//		_float fLongWidth;
+	//		_float fShortWidth;
+	//		_float fHegith;
+	//		_float fDepth;
+	//	}DESC;
+
+public:
+	enum SURFACE {COMMON,TOP};
 
 private:
 	CVIBuffer_Trapezoid(LPDIRECT3DDEVICE9 pGraphic_Device);
@@ -25,6 +28,7 @@ private:
 public:
 	virtual HRESULT Initialize_Prototype() override;
 	virtual HRESULT Initialize(void* pArg) override;
+	virtual HRESULT Render(_uint Surface) override;
 
 private:
 	void Set_IndexBuffer(_ushort* pIndices, _uint StartIndex, _uint LT, _uint RT, _uint RB, _uint LB);

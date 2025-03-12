@@ -1,4 +1,4 @@
-// 내 클래스 이름 : Terrain
+// 내 클래스 이름 : Common_Shape
 // 부모 클래스 이름 : Statue
 
 #pragma once
@@ -6,18 +6,20 @@
 
 BEGIN(Client)
 
-class CTerrain final : public CStatue
+class CCommon_Shape final : public CStatue
 {
 public:
-	typedef struct tagTerrainDesc : public CStatue::DESC
+	typedef struct tagCommon_ShapeDesc : public CStatue::DESC
 	{
-
+		LEVEL eLevelID;
+		const _tchar* szTextureID;
+		const _tchar* szBufferType;
 	}DESC;
 
 private:
-	CTerrain(LPDIRECT3DDEVICE9 pGraphic_Device);
-	CTerrain(const CTerrain& Prototype);
-	virtual ~CTerrain() = default;
+	CCommon_Shape(LPDIRECT3DDEVICE9 pGraphic_Device);
+	CCommon_Shape(const CCommon_Shape& Prototype);
+	virtual ~CCommon_Shape() = default;
 
 public:
 	virtual HRESULT Initialize_Prototype() override;
@@ -28,10 +30,7 @@ public:
 	virtual HRESULT Render() override;
 
 public:
-	HRESULT Ready_Material();
-
-public:
-	static CTerrain* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
+	static CCommon_Shape* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
 	virtual CGameObject* Clone(void* pArg) override;
 	virtual void Free();
 };

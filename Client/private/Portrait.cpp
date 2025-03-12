@@ -1,5 +1,5 @@
-// ³» Å¬·¡½º ÀÌ¸§ : Portrait
-// ºÎ¸ğ Å¬·¡½º ÀÌ¸§ : UI
+// ë‚´ í´ë˜ìŠ¤ ì´ë¦„ : Portrait
+// ë¶€ëª¨ í´ë˜ìŠ¤ ì´ë¦„ : UI
 
 #include "Portrait.h"
 #include "GameInstance.h"
@@ -48,7 +48,7 @@ HRESULT CPortrait::Initialize(void* pArg)
 void CPortrait::Priority_Update(_float fTimeDelta)
 {
 
-#pragma region Å×½ºÆ®¿ë
+#pragma region í…ŒìŠ¤íŠ¸ìš©
 	if (GetKeyState('1') & 0x8000)
 	{
 		m_eFace = PORTRAIT_ANGER;

@@ -46,6 +46,8 @@ return E_FAIL
 
 #pragma region 유틸리티
 
+#define _VUp		_float3(0.f,1.f,0.f)
+
 #define FWINCX static_cast<_float>(g_iWinSizeX)
 #define FWINCY static_cast<_float>(g_iWinSizeY)
 

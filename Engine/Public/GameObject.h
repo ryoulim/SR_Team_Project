@@ -12,6 +12,7 @@ protected:
 	virtual ~CGameObject() = default;
 
 public:
+	virtual HRESULT Reset(void* pArg);
 	/* 원형이 호출하는 함수. 오래걸릴 수 있는 초기화작업 */
 	virtual HRESULT Initialize_Prototype();
 	/* 사본이 호출하는 함수. */

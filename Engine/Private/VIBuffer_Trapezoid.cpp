@@ -74,18 +74,20 @@ HRESULT CVIBuffer_Trapezoid::Initialize_Prototype()
 
 	m_pIB->Lock(0, 0, reinterpret_cast<void**>(&pIndices), 0);
 	
-	Set_IndexBuffer(pIndices, 0, 4, 1, 2, 3);
+	Set_IndexBuffer(pIndices, 0, 4, 1, 2, 3); // 좌
 	pIndices[6] = 0;
 	pIndices[7] = 1;
 	pIndices[8] = 4;
-	Set_IndexBuffer(pIndices, 9, 5, 7, 8, 9);
+
+	Set_IndexBuffer(pIndices, 9, 5, 7, 8, 9); // 우
 	pIndices[15] = 5;
 	pIndices[16] = 6;
 	pIndices[17] = 7;
-	Set_IndexBuffer(pIndices, 18, 6, 0, 3, 8);
-	Set_IndexBuffer(pIndices, 24, 1, 5, 9, 2);
-	Set_IndexBuffer(pIndices, 30, 0, 6, 5, 1);
-	Set_IndexBuffer(pIndices, 36, 2, 9, 8, 3);
+
+	Set_IndexBuffer(pIndices, 18, 6, 0, 3, 8); // 뒤
+	Set_IndexBuffer(pIndices, 24, 1, 5, 9, 2); // 앞
+	Set_IndexBuffer(pIndices, 30, 2, 9, 8, 3); // 아래
+	Set_IndexBuffer(pIndices, 36, 0, 6, 5, 1); // 위
 
 	m_pIB->Unlock();
 #pragma endregion
@@ -95,6 +97,12 @@ HRESULT CVIBuffer_Trapezoid::Initialize_Prototype()
 HRESULT CVIBuffer_Trapezoid::Initialize(void* pArg)
 {
 	return S_OK;
+}
+
+HRESULT CVIBuffer_Trapezoid::Render(_uint Surface)
+{		
+	Surface *= 36;
+	return m_pGraphic_Device->DrawIndexedPrimitive(D3DPT_TRIANGLELIST, 0, 0, m_iNumVertices, Surface, m_iNumPritimive);
 }
 
 void CVIBuffer_Trapezoid::Set_IndexBuffer(_ushort* pIndices, _uint StartIndex, _uint LT, _uint RT, _uint RB, _uint LB)

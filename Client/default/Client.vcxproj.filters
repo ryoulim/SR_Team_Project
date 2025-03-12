@@ -115,6 +115,9 @@
     <Filter Include="02.GameObjects\UI\MenuUI\GameMenu">
       <UniqueIdentifier>{b2fb4625-0e8e-4c39-b7ae-7227d0c7990f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\Statue\Common_Shape">
+      <UniqueIdentifier>{77614cdc-4d81-4123-8816-10d06f2ae14c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -219,6 +222,9 @@
     <ClInclude Include="..\public\Ammo.h">
       <Filter>02.GameObjects\UI\GamePlayUI\Ammo</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\Common_Shape.h">
+      <Filter>02.GameObjects\Statue\Common_Shape</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -317,6 +323,9 @@
     </ClCompile>
     <ClCompile Include="..\private\Ammo.cpp">
       <Filter>02.GameObjects\UI\GamePlayUI\Ammo</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Common_Shape.cpp">
+      <Filter>02.GameObjects\Statue\Common_Shape</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

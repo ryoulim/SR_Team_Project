@@ -40,7 +40,6 @@ HRESULT CMainApp::Initialize()
 	if (FAILED(Open_Level(LEVEL_LOGO)))
 		return E_FAIL;
 	
-
 	m_pGraphic_Device->SetRenderState(D3DRS_LIGHTING, FALSE);
 
 	return S_OK;
@@ -67,7 +66,8 @@ HRESULT CMainApp::Ready_Component_For_Static()
 	ADD_MODEL(Cube);
 	ADD_MODEL(Rect);
 	ADD_MODEL(Trapezoid);
-	ADD_MODEL_EX(Terrain, 256, 256);
+	if ((((HRESULT)(m_pGameInstance->Add_Prototype(LEVEL_STATIC, _wstring(L"Prototype_Component_VIBuffer_") + L"Terrain", 
+		CVIBuffer_Terrain::Create(m_pGraphic_Device, 129, 129, L"../Bin/Resources/Textures/Terrain/Height__.bmp")))) < 0)) return ((HRESULT)0x80004005L);
 	ADD_PRTCOM(Transform);
 
 	ADD_TEXTURE(Font_ItemDialog, "../Bin/Resources/Textures/UI/Font/font%d.PNG", 94);
