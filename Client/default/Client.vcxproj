@@ -115,6 +115,7 @@
       <PreprocessorDefinitions>_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>../Public/;../../EngineSDK/Inc/</AdditionalIncludeDirectories>
+      <DisableSpecificWarnings>4819;%(DisableSpecificWarnings)</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -132,6 +133,7 @@
       <PreprocessorDefinitions>NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>../Public/;../../EngineSDK/Inc/</AdditionalIncludeDirectories>
+      <DisableSpecificWarnings>4819;%(DisableSpecificWarnings)</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -155,15 +157,20 @@
     <ClInclude Include="..\public\DebugMode.h" />
     <ClInclude Include="..\public\Effect.h" />
     <ClInclude Include="..\public\Explosion.h" />
+    <ClInclude Include="..\public\Firework.h" />
     <ClInclude Include="..\public\Font.h" />
     <ClInclude Include="..\public\Font_ItemDialog.h" />
+    <ClInclude Include="..\public\Gun.h" />
     <ClInclude Include="..\public\Item.h" />
     <ClInclude Include="..\public\MainMenu.h" />
     <ClInclude Include="..\public\Map.h" />
     <ClInclude Include="..\public\Monster.h" />
+    <ClInclude Include="..\public\Particle_Define.h" />
     <ClInclude Include="..\public\Pawn.h" />
     <ClInclude Include="..\public\Player.h" />
     <ClInclude Include="..\public\Portrait.h" />
+    <ClInclude Include="..\public\PSystem.h" />
+    <ClInclude Include="..\public\Rain.h" />
     <ClInclude Include="..\public\Statue.h" />
     <ClInclude Include="..\public\Client_Defines.h" />
     <ClInclude Include="..\public\Client_Enum.h" />
@@ -198,15 +205,20 @@
     <ClCompile Include="..\private\DebugMode.cpp" />
     <ClCompile Include="..\private\Effect.cpp" />
     <ClCompile Include="..\private\Explosion.cpp" />
+    <ClCompile Include="..\private\Firework.cpp" />
     <ClCompile Include="..\private\Font.cpp" />
     <ClCompile Include="..\private\Font_ItemDialog.cpp" />
+    <ClCompile Include="..\private\Gun.cpp" />
     <ClCompile Include="..\private\Item.cpp" />
     <ClCompile Include="..\private\MainMenu.cpp" />
     <ClCompile Include="..\private\Map.cpp" />
     <ClCompile Include="..\private\Monster.cpp" />
+    <ClCompile Include="..\private\Particle_Define.cpp" />
     <ClCompile Include="..\private\Pawn.cpp" />
     <ClCompile Include="..\private\Player.cpp" />
     <ClCompile Include="..\private\Portrait.cpp" />
+    <ClCompile Include="..\private\PSystem.cpp" />
+    <ClCompile Include="..\private\Rain.cpp" />
     <ClCompile Include="..\private\Statue.cpp" />
     <ClCompile Include="..\private\Dynamic_Camera.cpp" />
     <ClCompile Include="..\private\Level_GamePlay.cpp" />

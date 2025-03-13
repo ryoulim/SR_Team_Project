@@ -26,6 +26,9 @@ HRESULT CLevel_GamePlay::Initialize(class CLevelData* pLevelData)
 	if (FAILED(Ready_Layer_Statue(TEXT("Layer_Statue"))))
 		return E_FAIL;
 
+	if (FAILED(Ready_Layer_Particle(TEXT("Layer_Particle"))))
+		return E_FAIL;
+
 	if (FAILED(Ready_Layer_UI(TEXT("Layer_UI"))))
 		return E_FAIL;
 
@@ -102,6 +105,21 @@ HRESULT CLevel_GamePlay::Ready_Layer_Statue(const _wstring& strLayerTag)
 		LEVEL_GAMEPLAY, strLayerTag, &ExplosionDesc)))
 		return E_FAIL;
 
+	return S_OK;
+}
+
+HRESULT CLevel_GamePlay::Ready_Layer_Particle(const _wstring& strLayerTag)
+{
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Snow"),
+		LEVEL_GAMEPLAY, strLayerTag)))
+		return E_FAIL;
+
+	
+	_float3 FireworkPos = { 300.f, 0.f, 200.f };
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Firework"),
+		LEVEL_GAMEPLAY, strLayerTag, &FireworkPos)))
+		return E_FAIL;
+	
 	return S_OK;
 }
 

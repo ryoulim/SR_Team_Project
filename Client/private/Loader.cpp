@@ -16,6 +16,12 @@
 #include "Cabinet.h"
 #include "Player.h"
 
+//파티클 인클루드
+#include "Firework.h"
+#include "Gun.h"
+#include "Rain.h"
+
+
 CLoader::CLoader(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: m_pGraphic_Device { pGraphic_Device }
 	, m_pGameInstance { CGameInstance::Get_Instance() }
@@ -127,6 +133,11 @@ HRESULT CLoader::Loading_For_GamePlay()
 	ADD_TEXTURE(Box, "../Bin/Resources/Textures/Object/Box/tile6628.png", 1);
 	ADD_TEXTURE(Cabinet, "../Bin/Resources/Textures/Object/Cabinet/Cabinet%d.png", 3);
 	ADD_TEXTURE(Trapezoid, "../Bin/Resources/Textures/Object/Trapezoid/Trapezoid%d.png", 2);
+
+	//파티클
+	ADD_TEXTURE(PC_Bullet, "../Bin/Resources/Textures/Particle/PC_Bullet.png", 1);
+	ADD_TEXTURE(PS_Firework, "../Bin/Resources/Textures/Particle/PS_Firework%d.png", 4);
+	ADD_TEXTURE(PC_Rain, "../Bin/Resources/Textures/Particle/PC_Rain.png", 1);
 	
 #pragma endregion
 
@@ -151,6 +162,22 @@ HRESULT CLoader::Loading_For_GamePlay()
 	ADD_PRTOBJ(Trapezoid);
 	ADD_PRTOBJ(Cabinet);
 	ADD_PRTOBJ(Player);
+
+#pragma region 파티클 원형객체
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Snow"),
+		CRain::Create(m_pGraphic_Device, L"PARTICLE_SNOW", 5000, _float3(0.f, 0.f, 0.f), _float3(500.f, 500.f, 500.f)))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Firework"),
+		CFirework::Create(m_pGraphic_Device, L"PARTICLE_FIREWORK"))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Gun"),
+		CGun::Create(m_pGraphic_Device, L"PARTICLE_GUN"))))
+		return E_FAIL;
+#pragma endregion
+
+
 #pragma endregion
 
 #pragma region DATA
