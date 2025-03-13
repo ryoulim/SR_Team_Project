@@ -52,6 +52,19 @@ HRESULT CFont::Render()
 	if (FAILED(Bind_Texture_To_Transform()))
 		return E_FAIL;
 
+	//if (FAILED(m_pTextureCom->Bind_Resource(static_cast<_uint>(m_fTextureNum))))
+	//	return E_FAIL;
+
+	//if (FAILED(m_pTextureCom->Get_TextureSize(static_cast<_uint>(m_fTextureNum), &m_vSize)))
+	//	return E_FAIL;
+
+	//m_pTransformCom->Scaling(m_vSize);
+
+	//if (FAILED(m_pTransformCom->Bind_Resource()))
+	//	return E_FAIL;
+
+
+
 	if (FAILED(m_pVIBufferCom->Bind_Buffers()))
 		return E_FAIL;
 

@@ -21,7 +21,7 @@ HRESULT CMainMenu::Initialize_Prototype()
 
 HRESULT CMainMenu::Initialize(void* pArg)
 {
-	m_eLevelID = LEVEL_STATIC;
+	m_eLevelID = LEVEL_LOGO;
 	m_szTextureID = TEXT("MainMenu");
 	m_szBufferType = TEXT("Rect");
 
@@ -44,12 +44,35 @@ EVENT CMainMenu::Update(_float fTimeDelta)
 
 void CMainMenu::Late_Update(_float fTimeDelta)
 {
+
 	__super::Late_Update(fTimeDelta);
 }
 
 HRESULT CMainMenu::Render()
 {
-	return __super::Render();
+	if (FAILED(m_pTextureCom->Bind_Resource(static_cast<_uint>(m_fTextureNum))))
+		return E_FAIL;
+
+	if (FAILED(m_pTextureCom->Get_TextureSize(static_cast<_uint>(m_fTextureNum), &m_vSize)))
+		return E_FAIL;
+
+	m_vSize.x *= g_iWinSizeY / m_vSize.y; m_vSize.y = g_iWinSizeY;
+
+
+	m_pTransformCom->Scaling(m_vSize);
+
+	if (FAILED(m_pTransformCom->Bind_Resource()))
+		return E_FAIL;
+
+
+
+	if (FAILED(m_pVIBufferCom->Bind_Buffers()))
+		return E_FAIL;
+
+	if (FAILED(m_pVIBufferCom->Render()))
+		return E_FAIL;
+
+	return S_OK;
 }
 
 CMainMenu* CMainMenu::Create(LPDIRECT3DDEVICE9 pGraphic_Device)

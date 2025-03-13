@@ -2,6 +2,7 @@
 #include "LevelData.h"
 
 #include "BackGround.h"
+#include "MainMenu.h"
 #include "Terrain.h"
 #include "Dynamic_Camera.h"
 #include "MyCube.h"
@@ -82,7 +83,8 @@ HRESULT CLoader::Loading_For_Logo()
 #pragma region TEXTURE
 	lstrcpy(m_szLoadingText, TEXT("텍스쳐을(를) 로딩중입니다."));
 	ADD_TEXTURE(BackGround, "../Bin/Resources/Textures/Default%d.jpg", 2);
-	//ADD_TEXTURE(MainMenu, "../Bin/Resources/Textures/Default%d.jpg", 2);
+	ADD_TEXTURE(MainMenu, "../Bin/Resources/Textures/UI/Background/MainMenu_Background.PNG", 1);
+	ADD_TEXTURE(Save_Background, "../Bin/Resources/Textures/UI/Background/Save_Background.PNG", 1);
 #pragma endregion
 
 #pragma region MODEL
@@ -96,6 +98,7 @@ HRESULT CLoader::Loading_For_Logo()
 #pragma region PRTOBJ
 	lstrcpy(m_szLoadingText, TEXT("원형객체을(를) 로딩중입니다."));
 	ADD_PRTOBJ(BackGround);
+	ADD_PRTOBJ(MainMenu);
 #pragma endregion
 
 #pragma region DATA

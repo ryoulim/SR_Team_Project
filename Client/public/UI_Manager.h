@@ -15,7 +15,6 @@ private:
 	virtual ~CUI_Manager() = default;
 
 public:
-	HRESULT Initialize_Prototype() ;
 	HRESULT Initialize(void* pArg) ;
 	void Priority_Update(_float fTimeDelta) ;
 	void Update(_float fTimeDelta) ;
@@ -28,7 +27,7 @@ public:
 
 public:
 	enum FONTTYPE { MEDIUMBLUE, TINYBLUE, NEONLIGHTS, THICKNEONLIGHTS, BIGORANGE, BIGSILVER, GRAFFITI, FONT_END };
-	vector<class CFont*>		m_Fonts[FONT_END];
+	class CFont*		m_Fonts[FONT_END];
 		
 public:
 	virtual void Free();
