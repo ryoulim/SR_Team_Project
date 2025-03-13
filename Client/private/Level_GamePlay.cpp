@@ -20,7 +20,10 @@ HRESULT CLevel_GamePlay::Initialize(class CLevelData* pLevelData)
 	if (FAILED(Ready_Layer_Terrain(TEXT("Layer_Terrain"))))
 		return E_FAIL;
 
-	if (FAILED(Ready_Layer_Object(TEXT("Layer_Object"))))
+	if (FAILED(Ready_Layer_Pawn(TEXT("Layer_Pawn"))))
+		return E_FAIL;
+
+	if (FAILED(Ready_Layer_Statue(TEXT("Layer_Statue"))))
 		return E_FAIL;
 
 	if (FAILED(Ready_Layer_UI(TEXT("Layer_UI"))))
@@ -45,12 +48,24 @@ HRESULT CLevel_GamePlay::Render()
 
 HRESULT CLevel_GamePlay::Ready_Layer_Terrain(const _wstring& strLayerTag)
 {
-	//CTerrain::DESC TerrainDesc{};
-	//TerrainDesc.vScale = { 128.f,128.f,128.f };
 	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Terrain"),
 		LEVEL_GAMEPLAY, strLayerTag, m_pData->Find_Data(TEXT("Terrain")))))
 		return E_FAIL;
-	
+
+
+	auto pTerrain = m_pGameInstance->
+		Find_Object(LEVEL_GAMEPLAY, strLayerTag);
+	auto pTerrainBuffer = static_cast<CVIBuffer_Terrain*>(pTerrain->
+		Find_Component(TEXT("Com_VIBuffer")));
+	auto pTerrainTransform = static_cast<CTransform*>(pTerrain->
+		Find_Component(TEXT("Com_Transform")));
+
+	CGravity::DESC GravityDesc{};
+	GravityDesc.fTerrainScale = pTerrainTransform->Compute_Scaled().x;
+	GravityDesc.pTerrainVtxPos = pTerrainBuffer->Get_VertexPos();
+	GravityDesc.iTerrainVtxNumX = 129;
+	GravityDesc.iTerrainVtxNumZ = 129;
+	CGravity::Set_TerrainInfo(GravityDesc);
 
 	return S_OK;
 }
@@ -68,15 +83,8 @@ HRESULT CLevel_GamePlay::Ready_Layer_Camera(const _wstring& strLayerTag)
 	return S_OK;
 }
 
-#include "Player.h"
-
-HRESULT CLevel_GamePlay::Ready_Layer_Object(const _wstring& strLayerTag)
+HRESULT CLevel_GamePlay::Ready_Layer_Statue(const _wstring& strLayerTag)
 {
-	CPlayer::DESC PlayerDesc{};
-	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Player"),
-		LEVEL_GAMEPLAY, strLayerTag, &PlayerDesc)))
-		return E_FAIL;
-
 	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Trapezoid"),
 		LEVEL_GAMEPLAY, strLayerTag, m_pData->Find_Data(TEXT("Trapezoid")))))
 		return E_FAIL;
@@ -85,8 +93,9 @@ HRESULT CLevel_GamePlay::Ready_Layer_Object(const _wstring& strLayerTag)
 		LEVEL_GAMEPLAY, strLayerTag, m_pData->Find_Data(TEXT("Cabinet")))))
 		return E_FAIL;
 
-	CExplosion::DESC ExplosionDesc{};
 
+
+	CExplosion::DESC ExplosionDesc{};
 	ExplosionDesc.vInitPos = { 160.f,60.f,200.f };
 	ExplosionDesc.vScale = { 120.f,160.f,1.f };
 	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Explosion"),
@@ -94,6 +103,21 @@ HRESULT CLevel_GamePlay::Ready_Layer_Object(const _wstring& strLayerTag)
 		return E_FAIL;
 
 	return S_OK;
+}
+
+#include "Player.h"
+
+HRESULT CLevel_GamePlay::Ready_Layer_Pawn(const _wstring& strLayerTag)
+{
+	CPlayer::DESC PlayerDesc{};
+	PlayerDesc.vInitPos = { 10.f,10.f,10.f };
+	PlayerDesc.vScale = { 5.f,5.f,5.f };
+	PlayerDesc.fRotationPerSec = RADIAN(180.f);
+	PlayerDesc.fSpeedPerSec = 300.f;
+
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Player"),
+		LEVEL_GAMEPLAY, strLayerTag, &PlayerDesc)))
+		return E_FAIL;
 }
 
 HRESULT CLevel_GamePlay::Ready_Layer_UI(const _wstring& strLayerTag)

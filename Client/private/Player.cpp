@@ -22,7 +22,7 @@ HRESULT CPlayer::Initialize_Prototype()
 HRESULT CPlayer::Initialize(void* pArg)
 {
 	m_eLevelID = LEVEL_GAMEPLAY;
-	m_szTextureID = TEXT("Snow");
+	m_szTextureID = TEXT("MyCube");
 	m_szBufferType = TEXT("Cube");
 
 	if (FAILED(__super::Initialize(pArg)))
@@ -38,12 +38,31 @@ void CPlayer::Priority_Update(_float fTimeDelta)
 
 EVENT CPlayer::Update(_float fTimeDelta)
 {
+	if (KEY_PRESSING(VK_UP))
+	{
+		m_pTransformCom->Go_Straight(fTimeDelta);
+	}
+	if (KEY_PRESSING(VK_DOWN))
+	{
+		m_pTransformCom->Go_Backward(fTimeDelta);
+	}
+	if (KEY_PRESSING(VK_LEFT))
+	{
+		m_pTransformCom->Turn(_float3{ 0.f,1.f,0.f },-fTimeDelta);
+	}
+	if (KEY_PRESSING(VK_RIGHT))
+	{
+		m_pTransformCom->Turn(_float3{ 0.f,1.f,0.f }, fTimeDelta);
+	}
+
 	return __super::Update(fTimeDelta);
 }
 
 void CPlayer::Late_Update(_float fTimeDelta)
 {
-	//__super::Late_Update(fTimeDelta);
+	m_pGravityCom->Update();
+
+	__super::Late_Update(fTimeDelta);
 }
 
 HRESULT CPlayer::Render()

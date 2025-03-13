@@ -9,7 +9,9 @@ CVIBuffer_Terrain::CVIBuffer_Terrain(const CVIBuffer_Terrain& Prototype)
 	: CVIBuffer(Prototype)
 	, m_iNumVerticesX { Prototype.m_iNumVerticesX }
 	, m_iNumVerticesZ { Prototype.m_iNumVerticesZ }
+	, m_pVertexPos{ Prototype.m_pVertexPos}
 {
+	m_iCloneCount++;
 }
 
 HRESULT CVIBuffer_Terrain::Initialize_Prototype(_uint iNumVerticesX, _uint iNumVerticesZ, const _tchar* szHeightImagePath)
@@ -43,12 +45,12 @@ HRESULT CVIBuffer_Terrain::Initialize_Prototype(_uint iNumVerticesX, _uint iNumV
 
 	BITMAPFILEHEADER fH{};
 	BITMAPINFOHEADER iH{};
-	ReadFile(hFile, &fH, sizeof(BITMAPFILEHEADER), &dwByte, NULL);
-	ReadFile(hFile, &iH, sizeof(BITMAPINFOHEADER), &dwByte, NULL);
+	BOOL dwResult = ReadFile(hFile, &fH, sizeof(BITMAPFILEHEADER), &dwByte, NULL);
+	dwResult = ReadFile(hFile, &iH, sizeof(BITMAPINFOHEADER), &dwByte, NULL);
 
 	_ulong* pPixel = new _ulong[iH.biWidth * iH.biHeight];
 
-	ReadFile(hFile, pPixel, sizeof(_ulong) * iH.biWidth * iH.biHeight, &dwByte, NULL);
+	dwResult = ReadFile(hFile, pPixel, sizeof(_ulong) * iH.biWidth * iH.biHeight, &dwByte, NULL);
 
 	CloseHandle(hFile);
 
@@ -56,6 +58,7 @@ HRESULT CVIBuffer_Terrain::Initialize_Prototype(_uint iNumVerticesX, _uint iNumV
 
 	m_pVB->Lock(0, 0, (void**)&pVertices, 0);
 
+	m_pVertexPos = new _float3[m_iNumVertices];
 
 	for (_ulong i = 0; i < m_iNumVerticesZ; ++i)
 	{
@@ -72,9 +75,10 @@ HRESULT CVIBuffer_Terrain::Initialize_Prototype(_uint iNumVerticesX, _uint iNumV
 
 			pVertices[iIndex].vTexcoord = _float2((_float(j) / (m_iNumVerticesX - 1)) * m_iNumVerticesX,
 				(_float(i) / (m_iNumVerticesZ - 1)) * m_iNumVerticesZ);
+
+			m_pVertexPos[iIndex] = pVertices[iIndex].vPosition;
 		}
 	}
-
 
 	Safe_Delete_Array(pPixel);
 
@@ -168,6 +172,8 @@ CComponent* CVIBuffer_Terrain::Clone(void* pArg)
 void CVIBuffer_Terrain::Free()
 {
 	__super::Free();
-
-
+	if (m_iCloneCount)
+		m_iCloneCount--;
+	else
+		Safe_Delete_Array(m_pVertexPos);
 }

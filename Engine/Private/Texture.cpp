@@ -83,5 +83,4 @@ void CTexture::Free()
 		Safe_Release(pTexture);
 
 	m_Textures.clear();
-
 }
