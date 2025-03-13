@@ -59,7 +59,7 @@ HRESULT CUI_Camera::Render() // UI설정 전 필요한 각종 셋팅 몰아두기
 
 void CUI_Camera::Update_Projection_Matrix()
 {
-	m_ProjMatrix.MakeOrthoProjMat(FWINCX, FWINCY, m_fNear, m_fFar);
+	m_ProjMatrix.MakeOrthoProjMat(FWINCX, FWINCY, 0.f, 1.f);
 }
 
 HRESULT CUI_Camera::Ready_Components(void* pArg)

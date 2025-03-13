@@ -48,12 +48,22 @@ void CFont::Late_Update(_float fTimeDelta)
 
 HRESULT CFont::Render()
 {
-	return __super::Render();
+
+	if (FAILED(Bind_Texture_To_Transform()))
+		return E_FAIL;
+
+	if (FAILED(m_pVIBufferCom->Bind_Buffers()))
+		return E_FAIL;
+
+	if (FAILED(m_pVIBufferCom->Render()))
+		return E_FAIL;
+
+	return S_OK;
 }
 
 HRESULT CFont::Render_Text(const string& _text, FONTTYPE _type, FONTALIGN _align, _float _posX, _float _posY)
 {
-	m_uiTextWidth = _text.length();
+	m_uiTextWidth = static_cast<_uint>(_text.length());
 	
 	_float startPosX = {};
 	if (_align == LEFT)
@@ -76,9 +86,9 @@ HRESULT CFont::Render_Text(const string& _text, FONTTYPE _type, FONTALIGN _align
 		{
 			if (ch != L' ')
 			{
-				m_fTextureNum = toascii(ch) - 33;
-				m_pTransformCom->Set_State(CTransform::STATE_POSITION, _float3(startPosX + fontWidth, _posY, 1.f));
-
+				m_fTextureNum = static_cast<_float>(toascii(ch) - 33);
+				m_pTransformCom->Set_State(CTransform::STATE_POSITION, _float3(startPosX + fontWidth, _posY, 0.f));
+				                                 
 				/* Scale 초기화 함수 필요? */
 				_float3 vRight{}, vLook{}, vUp{};
 				D3DXVec3Normalize(&vRight, m_pTransformCom->Get_State(CTransform::STATE_RIGHT));
@@ -87,10 +97,12 @@ HRESULT CFont::Render_Text(const string& _text, FONTTYPE _type, FONTALIGN _align
 				m_pTransformCom->Set_State(CTransform::STATE_RIGHT, vRight);
 				m_pTransformCom->Set_State(CTransform::STATE_LOOK, vLook);
 				m_pTransformCom->Set_State(CTransform::STATE_UP, vUp);
-				
-				m_pTransformCom->Scaling(_float3(12.f, 15.f, 1.f));
+				m_pGraphic_Device->SetSamplerState(0, D3DSAMP_MINFILTER, D3DTEXF_POINT);
+				m_pGraphic_Device->SetSamplerState(0, D3DSAMP_MAGFILTER, D3DTEXF_POINT);
+				m_pGraphic_Device->SetSamplerState(0, D3DSAMP_MIPFILTER, D3DTEXF_POINT);
+				//m_pTransformCom->Scaling(_float3(12.f, 15.f, 1.f));
 				Render();
-				fontWidth += 12.f;
+				fontWidth += m_vSize.x;
 			}
 			else
 				fontWidth += 10.f;
@@ -133,7 +145,7 @@ HRESULT CFont::Render_Text(const _int _val, FONTTYPE _type, FONTALIGN _align, _f
 		_float fontWidth{};
 		for (size_t i = 0; i < m_uiTextWidth; i++)
 		{
-			m_fTextureNum = val % 10;
+			m_fTextureNum = static_cast<_float>(val % 10);
 			m_pTransformCom->Set_State(CTransform::STATE_POSITION, _float3(startPosX + fontWidth, _posY, 1.f));
 
 			/* Scale 초기화 함수 필요? */
@@ -145,12 +157,28 @@ HRESULT CFont::Render_Text(const _int _val, FONTTYPE _type, FONTALIGN _align, _f
 			m_pTransformCom->Set_State(CTransform::STATE_LOOK, vLook);
 			m_pTransformCom->Set_State(CTransform::STATE_UP, vUp);
 
-			m_pTransformCom->Scaling(_float3(12.f, 15.f, 1.f));
+			//m_pTransformCom->Scaling(_float3(12.f, 15.f, 1.f));
 			Render();
 			val /= 10;
-			fontWidth += 12.f;
+			fontWidth += m_vSize.x;
 		}
 	}
+	return S_OK;
+}
+
+HRESULT CFont::Bind_Texture_To_Transform()
+{
+	if (FAILED(m_pTextureCom->Bind_Resource(static_cast<_uint>(m_fTextureNum))))
+		return E_FAIL;
+
+	if (FAILED(m_pTextureCom->Get_TextureSize(static_cast<_uint>(m_fTextureNum), &m_vSize)))
+		return E_FAIL;
+
+	m_pTransformCom->Scaling(m_vSize);
+
+	if (FAILED(m_pTransformCom->Bind_Resource()))
+		return E_FAIL;
+
 	return S_OK;
 }
 

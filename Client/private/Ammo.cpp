@@ -52,7 +52,7 @@ EVENT CAmmo::Update(_float fTimeDelta)
 			tmp = 0;
 		m_eAmmoType = AMMOTYPE(tmp);
 	}
-	m_fTextureNum = m_eAmmoType;
+	m_fTextureNum = static_cast<_float>(m_eAmmoType);
 	return __super::Update(fTimeDelta);
 }
 

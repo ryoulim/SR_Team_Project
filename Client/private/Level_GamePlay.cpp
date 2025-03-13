@@ -72,10 +72,10 @@ HRESULT CLevel_GamePlay::Ready_Layer_Camera(const _wstring& strLayerTag)
 
 HRESULT CLevel_GamePlay::Ready_Layer_Object(const _wstring& strLayerTag)
 {
-	CPlayer::DESC PlayerDesc{};
-	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Player"),
-		LEVEL_GAMEPLAY, strLayerTag, &PlayerDesc)))
-		return E_FAIL;
+	//CPlayer::DESC PlayerDesc{};
+	//if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Player"),
+	//	LEVEL_GAMEPLAY, strLayerTag, &PlayerDesc)))
+	//	return E_FAIL;
 
 	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Trapezoid"),
 		LEVEL_GAMEPLAY, strLayerTag, m_pData->Find_Data(TEXT("Trapezoid")))))
@@ -146,7 +146,7 @@ CLevel_GamePlay* CLevel_GamePlay::Create(LPDIRECT3DDEVICE9 pGraphic_Device, clas
 {
 	CLevel_GamePlay* pInstance = new CLevel_GamePlay(pGraphic_Device);
 
-	if (FAILED(pInstance->Initialize(pLevelData)))
+  	if (FAILED(pInstance->Initialize(pLevelData)))
 	{
 		MSG_BOX("Failed to Created : CLevel_GamePlay");
 		Safe_Release(pInstance);

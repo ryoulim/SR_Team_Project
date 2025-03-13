@@ -127,6 +127,9 @@
     <Filter Include="02.GameObjects\Pawn\Player">
       <UniqueIdentifier>{7824ea17-ff1a-481c-ab6e-d2abce003704}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\UI\Button">
+      <UniqueIdentifier>{937bf65c-143e-4511-9751-c73394a273b4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -243,6 +246,9 @@
     <ClInclude Include="..\public\Player.h">
       <Filter>02.GameObjects\Pawn\Player</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\Button.h">
+      <Filter>02.GameObjects\UI\Button</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -353,6 +359,9 @@
     </ClCompile>
     <ClCompile Include="..\private\Player.cpp">
       <Filter>02.GameObjects\Pawn\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Button.cpp">
+      <Filter>02.GameObjects\UI\Button</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

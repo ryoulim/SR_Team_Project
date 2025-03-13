@@ -49,6 +49,21 @@ HRESULT CTexture::Bind_Resource(_uint iIndex)
 	return m_pGraphic_Device->SetTexture(0, m_Textures[iIndex]);		
 }
 
+HRESULT CTexture::Get_TextureSize(_uint iIndex, _float3* ppOut)
+{
+	if (iIndex >= m_iNumTextures)
+		return E_FAIL;
+
+	D3DSURFACE_DESC Desc{};
+	if (FAILED(m_Textures[iIndex]->GetLevelDesc(0, &Desc)))
+		return E_FAIL;
+
+	ppOut->x = static_cast<_float>(Desc.Width);
+	ppOut->y = static_cast<_float>(Desc.Height);
+
+	return S_OK;
+}
+
 CTexture* CTexture::Create(LPDIRECT3DDEVICE9 pGraphic_Device, const _tchar* pTextureFilePath, _uint iNumTextures)
 {
 	CTexture* pInstance = new CTexture(pGraphic_Device);

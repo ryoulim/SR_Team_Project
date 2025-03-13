@@ -23,10 +23,13 @@ HRESULT CUI::Initialize(void* pArg)
 	if (pArg != nullptr)
 	{
 		DESC* pDesc = static_cast<DESC*>(pArg);
-		m_pTransformCom->Set_State(CTransform::STATE_POSITION, pDesc->vInitPos);
-		m_pTransformCom->Scaling(pDesc->vScale);
+		m_vPos = pDesc->vInitPos;
+		m_vPos.z = 0.f;
+		m_vSize = pDesc->vScale;
+		m_vSize.z = 1.f;
+		m_pTransformCom->Set_State(CTransform::STATE_POSITION, m_vPos);
+		m_pTransformCom->Scaling(m_vSize);
 	}
-
 	return S_OK;
 }
 
@@ -81,6 +84,16 @@ HRESULT CUI::Ready_Components(void* pArg)
 
 	return S_OK;
 }
+
+void CUI::Update_Rect()
+{
+	// 이게 정말 맞는 걸까요?
+	m_tRect.left	= LONG(m_vPos.x - (m_vSize.x * 0.5f));
+	m_tRect.top		= LONG(m_vPos.y - (m_vSize.y * 0.5f));
+	m_tRect.right	= LONG(m_vPos.x + (m_vSize.x * 0.5f));
+	m_tRect.bottom	= LONG(m_vPos.y + (m_vSize.y * 0.5f));
+}
+
 void CUI::Free()
 {
 	__super::Free();

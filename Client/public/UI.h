@@ -36,14 +36,18 @@ public:
 
 protected:
 	virtual HRESULT Ready_Components(void* pArg);
+    void Update_Rect();
 
 protected:
-	LEVEL m_eLevelID = { LEVEL_END };
-	const _tchar* m_szTextureID = { nullptr };
-	const _tchar* m_szBufferType = { nullptr };
-	CTexture* m_pTextureCom = { nullptr };
-	CVIBuffer* m_pVIBufferCom = { nullptr };
-	CTransform* m_pTransformCom = { nullptr };
+	LEVEL           m_eLevelID = { LEVEL_END };
+	const _tchar*   m_szTextureID = { nullptr };
+	const _tchar*   m_szBufferType = { nullptr };
+	CTexture*       m_pTextureCom = { nullptr };
+	CVIBuffer*      m_pVIBufferCom = { nullptr };
+	CTransform*     m_pTransformCom = { nullptr };
+    _float3         m_vPos{};
+    _float3         m_vSize{};
+    RECT            m_tRect = {};
 
 public:
 	virtual CGameObject* Clone(void* pArg) PURE;
