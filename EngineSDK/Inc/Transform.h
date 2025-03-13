@@ -50,6 +50,8 @@ public:
 	void Go_Backward(_float fTimeDelta);
 	void Go_Left(_float fTimeDelta);
 	void Go_Right(_float fTimeDelta);
+	void Go_Up(_float fTimeDelta);
+	void Go_Down(_float fTimeDelta);
 
 	void LookAt(const _float3& vTargetPos);
 	void Chase(const _float3& vTargetPos, _float fTimeDelta, _float fMinDistance = 0.1f);

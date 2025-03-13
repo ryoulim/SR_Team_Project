@@ -32,6 +32,9 @@ HRESULT CMainApp::Initialize()
 	if (FAILED(m_pGameInstance->Initialize_Engine(Desc, &m_pGraphic_Device)))
 		return E_FAIL;
 
+	if (FAILED(Ready_Default_Setting()))
+		return E_FAIL;
+
 	if (FAILED(Ready_Component_For_Static()))
 		return E_FAIL;
 
@@ -44,9 +47,6 @@ HRESULT CMainApp::Initialize()
 
 	if (FAILED(Ready_Debug_Mode()))
 		return E_FAIL;
-	
-	m_pGraphic_Device->SetRenderState(D3DRS_LIGHTING, FALSE);
-
 
 	return S_OK;
 }
@@ -75,6 +75,7 @@ HRESULT CMainApp::Ready_Component_For_Static()
 	ADD_MODEL_EX(Terrain, 129, 129, TEXT("../Bin/Resources/Textures/Terrain/Height__.bmp"));
 
 	ADD_PRTCOM(Transform);
+	ADD_PRTCOM(Gravity);
 
 	ADD_TEXTURE(Font_ItemDialog, "../Bin/Resources/Textures/UI/Font/font%d.PNG", 94);
 
@@ -105,6 +106,20 @@ HRESULT CMainApp::Open_Level(LEVEL eLevelID)
 {
 	if (FAILED(m_pGameInstance->Change_Level(LEVEL_LOADING, CLevel_Loading::Create(m_pGraphic_Device, eLevelID))))
 		return E_FAIL;
+
+	return S_OK;
+}
+
+HRESULT CMainApp::Ready_Default_Setting()
+{
+	m_pGraphic_Device->SetSamplerState(0, D3DSAMP_MINFILTER, D3DTEXF_LINEAR);
+	m_pGraphic_Device->SetSamplerState(0, D3DSAMP_MAGFILTER, D3DTEXF_LINEAR);
+	m_pGraphic_Device->SetSamplerState(0, D3DSAMP_MIPFILTER, D3DTEXF_LINEAR);
+
+	m_pGraphic_Device->SetSamplerState(0, D3DSAMP_ADDRESSU, D3DTADDRESS_WRAP);
+	m_pGraphic_Device->SetSamplerState(0, D3DSAMP_ADDRESSV, D3DTADDRESS_WRAP);
+
+	m_pGraphic_Device->SetRenderState(D3DRS_LIGHTING, false);
 
 	return S_OK;
 }

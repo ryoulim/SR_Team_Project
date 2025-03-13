@@ -27,6 +27,8 @@ HRESULT CDynamic_Camera::Initialize(void* pArg)
 
 	DESC* pDesc = static_cast<DESC*>(pArg);
 	m_fMouseSensor =  pDesc->fMouseSensor;
+	m_vInitPos = pDesc->vEye;
+	m_vInitLook = pDesc->vAt;
 
 	ShowCursor(FALSE);
 
@@ -41,9 +43,10 @@ void CDynamic_Camera::Priority_Update(_float fTimeDelta)
 		Mouse_Move();
 		Mouse_Fix();
 	}
+	Bind_Resource();
 }
-#include "Mycube.h"
 
+#include "Mycube.h"
 EVENT CDynamic_Camera::Update(_float fTimeDelta)
 {
 	if (KEY_DOWN(VK_SPACE))
@@ -67,8 +70,6 @@ void CDynamic_Camera::Late_Update(_float fTimeDelta)
 
 HRESULT CDynamic_Camera::Render() // 기본오브젝트 랜더 셋팅
 {
-	if (FAILED(Bind_Resource()))
-		return E_FAIL;
 	if(FAILED(m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE)))
 		return E_FAIL;
 	return S_OK;
@@ -80,19 +81,37 @@ void CDynamic_Camera::Key_Input(_float fTimeDelta)
 	{
 		m_pTransformCom->Go_Left(fTimeDelta);
 	}
-	else if (KEY_PRESSING('D'))
+	if (KEY_PRESSING('D'))
 	{
 		m_pTransformCom->Go_Right(fTimeDelta);
 	}
-	else if (KEY_PRESSING('W'))
+	if (KEY_PRESSING('W'))
 	{
 		m_pTransformCom->Go_Straight(fTimeDelta);
 	}
-	else if (KEY_PRESSING('S'))
+	if (KEY_PRESSING('S'))
 	{
 		m_pTransformCom->Go_Backward(fTimeDelta);
 	}
-	else if (KEY_DOWN(VK_TAB))
+
+
+	if (KEY_PRESSING('Q'))
+	{
+		m_pTransformCom->Go_Up(fTimeDelta);
+	}
+
+	if (KEY_PRESSING('E'))
+	{
+		m_pTransformCom->Go_Down(fTimeDelta);
+	}
+
+	if (KEY_DOWN('R'))
+	{
+		m_pTransformCom->Set_State(CTransform::STATE_POSITION, m_vInitPos);
+		m_pTransformCom->LookAt(m_vInitLook);
+	}
+
+	if (KEY_DOWN(VK_TAB))
 	{
 		m_bBouseFixMod = !m_bBouseFixMod;
 	}

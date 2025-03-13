@@ -79,6 +79,12 @@ HRESULT CPawn::Ready_Components(void* pArg)
 		TEXT("Com_Transform"), reinterpret_cast<CComponent**>(&m_pTransformCom), pArg)))
 		return E_FAIL;
 
+	auto pPosition = const_cast<_float3*>(m_pTransformCom->Get_State(CTransform::STATE_POSITION));
+	/* For.Com_Gravity */
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Gravity"),
+		TEXT("Com_Gravity"), reinterpret_cast<CComponent**>(&m_pGravityCom), pPosition)))
+		return E_FAIL;
+
 	return S_OK;
 }
 void CPawn::Free()
@@ -88,4 +94,5 @@ void CPawn::Free()
 	Safe_Release(m_pVIBufferCom);
 	Safe_Release(m_pTextureCom);
 	Safe_Release(m_pTransformCom);
+	Safe_Release(m_pGravityCom);
 }

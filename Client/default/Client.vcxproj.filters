@@ -16,12 +16,6 @@
     <Filter Include="01.Levels\Logo">
       <UniqueIdentifier>{a926e41f-b171-4b7c-90c8-605be1a166f7}</UniqueIdentifier>
     </Filter>
-    <Filter Include="01.Levels\Loading">
-      <UniqueIdentifier>{cd6f1077-a658-4259-ad08-ca7b827e1e50}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="01.Levels\Loading\Loader">
-      <UniqueIdentifier>{a4567c73-3efb-4ce1-a29b-da4945a9cb93}</UniqueIdentifier>
-    </Filter>
     <Filter Include="01.Levels\GamePlay">
       <UniqueIdentifier>{efb49076-2627-4a87-abf5-c51f865b5c61}</UniqueIdentifier>
     </Filter>
@@ -127,6 +121,12 @@
     <Filter Include="02.GameObjects\Pawn\Player">
       <UniqueIdentifier>{7824ea17-ff1a-481c-ab6e-d2abce003704}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01.Levels\Loading">
+      <UniqueIdentifier>{cd6f1077-a658-4259-ad08-ca7b827e1e50}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Levels\Loading\Loader">
+      <UniqueIdentifier>{a4567c73-3efb-4ce1-a29b-da4945a9cb93}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -155,9 +155,6 @@
     </ClInclude>
     <ClInclude Include="..\public\Level_Loading.h">
       <Filter>01.Levels\Loading</Filter>
-    </ClInclude>
-    <ClInclude Include="..\public\Level_GamePlay.h">
-      <Filter>01.Levels\GamePlay</Filter>
     </ClInclude>
     <ClInclude Include="..\public\BackGround.h">
       <Filter>02.GameObjects\Statue\BackGround</Filter>
@@ -243,6 +240,9 @@
     <ClInclude Include="..\public\Player.h">
       <Filter>02.GameObjects\Pawn\Player</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\Level_GamePlay.h">
+      <Filter>01.Levels\GamePlay</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -272,9 +272,6 @@
     </ClCompile>
     <ClCompile Include="..\private\Loader.cpp">
       <Filter>01.Levels\Loading\Loader</Filter>
-    </ClCompile>
-    <ClCompile Include="..\private\Level_GamePlay.cpp">
-      <Filter>01.Levels\GamePlay</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\BackGround.cpp">
       <Filter>02.GameObjects\Statue\BackGround</Filter>
@@ -353,6 +350,9 @@
     </ClCompile>
     <ClCompile Include="..\private\Player.cpp">
       <Filter>02.GameObjects\Pawn\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Level_GamePlay.cpp">
+      <Filter>01.Levels\GamePlay</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

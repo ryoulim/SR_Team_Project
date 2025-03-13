@@ -8,16 +8,10 @@ BEGIN(Client)
 
 class CTerrain final : public CStatue
 {
-public:
-	typedef struct tagTerrainDesc : public CStatue::DESC
-	{
-
-	}DESC;
-
 private:
 	CTerrain(LPDIRECT3DDEVICE9 pGraphic_Device);
 	CTerrain(const CTerrain& Prototype);
-	virtual ~CTerrain() = default;
+	virtual ~CTerrain() = default;	
 
 public:
 	virtual HRESULT Initialize_Prototype() override;
