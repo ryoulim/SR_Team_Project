@@ -121,8 +121,11 @@
     <Filter Include="02.GameObjects\Statue\Cabinet">
       <UniqueIdentifier>{abf68af6-0c29-4236-b45e-f71cab6a041e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\DebugMode">
+    <Filter Include="02.GameObjects\__DebugMode">
       <UniqueIdentifier>{b4ef907c-f7c8-4b01-a74d-47b229dc7d06}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Pawn\Player">
+      <UniqueIdentifier>{7824ea17-ff1a-481c-ab6e-d2abce003704}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -235,7 +238,10 @@
       <Filter>02.GameObjects\Statue\Cabinet</Filter>
     </ClInclude>
     <ClInclude Include="..\public\DebugMode.h">
-      <Filter>02.GameObjects\DebugMode</Filter>
+      <Filter>02.GameObjects\__DebugMode</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Player.h">
+      <Filter>02.GameObjects\Pawn\Player</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -343,7 +349,10 @@
       <Filter>02.GameObjects\Statue\Cabinet</Filter>
     </ClCompile>
     <ClCompile Include="..\private\DebugMode.cpp">
-      <Filter>02.GameObjects\DebugMode</Filter>
+      <Filter>02.GameObjects\__DebugMode</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Player.cpp">
+      <Filter>02.GameObjects\Pawn\Player</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

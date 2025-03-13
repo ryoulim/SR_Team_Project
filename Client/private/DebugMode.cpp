@@ -30,7 +30,7 @@ EVENT CDebugMode::Update(_float fTimeDelta)
 	m_iFPSConter++;
 	if (m_fTimeAcc >= 1.f)
 	{
-		m_strFPS = TEXT("FPS :");
+		m_strFPS = TEXT("FPS : ");
 		m_strFPS += to_wstring(m_iFPSConter);
 		m_fTimeAcc = 0.f;
 		m_iFPSConter = 0;
