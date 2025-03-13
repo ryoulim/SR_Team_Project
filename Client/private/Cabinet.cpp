@@ -72,6 +72,8 @@ HRESULT CCabinet::Render()
 	if (FAILED(m_pVIBufferCom->Render(CVIBuffer_Cabinet::SIDE)))
 		return E_FAIL;
 #pragma endregion
+
+	return S_OK;
 }
 
 CCabinet* CCabinet::Create(LPDIRECT3DDEVICE9 pGraphic_Device)

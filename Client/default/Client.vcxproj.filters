@@ -127,6 +127,33 @@
     <Filter Include="01.Levels\Loading\Loader">
       <UniqueIdentifier>{a4567c73-3efb-4ce1-a29b-da4945a9cb93}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\UI\Button">
+      <UniqueIdentifier>{4a9434f2-285b-4625-b208-c24b1d822db7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\MainMenu">
+      <UniqueIdentifier>{04875778-f4e3-4346-b072-3a384173ac90}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Particle">
+      <UniqueIdentifier>{3845da3f-5600-47ea-9730-6da610be76f0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Particle\Define">
+      <UniqueIdentifier>{14992e28-53f8-4c75-9fd1-77ff56588016}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Particle\System">
+      <UniqueIdentifier>{45fe0e3e-a769-4370-b7cb-f9be6b2b1544}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Particle\Firework">
+      <UniqueIdentifier>{969a81fd-fdd0-49e2-981c-a9e19b61be79}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Particle\Gun">
+      <UniqueIdentifier>{f0e372d5-eb30-435c-9f67-b6cb449f4d50}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Particle\Rain">
+      <UniqueIdentifier>{96189cf7-b7c7-40be-95de-e7268c1111c0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\Manager">
+      <UniqueIdentifier>{fc895246-0b92-4f60-9433-e7a515c057b1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -243,6 +270,30 @@
     <ClInclude Include="..\public\Level_GamePlay.h">
       <Filter>01.Levels\GamePlay</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\Button.h">
+      <Filter>02.GameObjects\UI\Button</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\MainMenu.h">
+      <Filter>02.GameObjects\UI\MainMenu</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\PSystem.h">
+      <Filter>02.GameObjects\Particle\System</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Particle_Define.h">
+      <Filter>02.GameObjects\Particle\Define</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Firework.h">
+      <Filter>02.GameObjects\Particle\Firework</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Gun.h">
+      <Filter>02.GameObjects\Particle\Gun</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Rain.h">
+      <Filter>02.GameObjects\Particle\Rain</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\UI_Manager.h">
+      <Filter>02.GameObjects\UI\Manager</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -353,6 +404,30 @@
     </ClCompile>
     <ClCompile Include="..\private\Level_GamePlay.cpp">
       <Filter>01.Levels\GamePlay</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Button.cpp">
+      <Filter>02.GameObjects\UI\Button</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\MainMenu.cpp">
+      <Filter>02.GameObjects\UI\MainMenu</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\PSystem.cpp">
+      <Filter>02.GameObjects\Particle\System</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Particle_Define.cpp">
+      <Filter>02.GameObjects\Particle\Define</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Firework.cpp">
+      <Filter>02.GameObjects\Particle\Firework</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Gun.cpp">
+      <Filter>02.GameObjects\Particle\Gun</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Rain.cpp">
+      <Filter>02.GameObjects\Particle\Rain</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\UI_Manager.cpp">
+      <Filter>02.GameObjects\UI\Manager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
