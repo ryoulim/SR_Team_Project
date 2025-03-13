@@ -28,7 +28,6 @@ HRESULT CPortrait::Initialize(void* pArg)
 	m_szTextureID = TEXT("Portrait");
 	m_szBufferType = TEXT("Rect");
 
-
 	m_pFont = dynamic_cast<CFont*>(m_pGameInstance->Clone_Prototype(PROTOTYPE::TYPE_GAMEOBJECT, LEVEL_STATIC, TEXT("Prototype_GameObject_Font_ItemDialog")));
 	if (nullptr == m_pFont)
 		return E_FAIL;
@@ -36,7 +35,7 @@ HRESULT CPortrait::Initialize(void* pArg)
 
 
 	DESC Desc{};
-	Desc.vScale = _float3(82.f, 82.f, 1.f);
+	Desc.vScale = _float3(80.f, 80.f, 1.f); // 고정
 	Desc.vInitPos = _float3(-(g_iWinSizeX / 2.f) + Desc.vScale.x / 2.f - 10.f, -(g_iWinSizeY / 2.f) + Desc.vScale.y / 2.f, 1.f);
 
 	if (FAILED(__super::Initialize(&Desc)))

@@ -82,6 +82,7 @@ HRESULT CLoader::Loading_For_Logo()
 #pragma region TEXTURE
 	lstrcpy(m_szLoadingText, TEXT("텍스쳐을(를) 로딩중입니다."));
 	ADD_TEXTURE(BackGround, "../Bin/Resources/Textures/Default%d.jpg", 2);
+	//ADD_TEXTURE(MainMenu, "../Bin/Resources/Textures/Default%d.jpg", 2);
 #pragma endregion
 
 #pragma region MODEL

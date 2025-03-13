@@ -130,6 +130,9 @@
     <Filter Include="02.GameObjects\UI\Button">
       <UniqueIdentifier>{937bf65c-143e-4511-9751-c73394a273b4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\UI\Manager">
+      <UniqueIdentifier>{c5611db4-ddb7-4f30-a03e-242e75c84bbe}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -249,6 +252,12 @@
     <ClInclude Include="..\public\Button.h">
       <Filter>02.GameObjects\UI\Button</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\MainMenu.h">
+      <Filter>02.GameObjects\UI\MenuUI\MainMenu</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\UI_Manager.h">
+      <Filter>02.GameObjects\UI\Manager</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -362,6 +371,12 @@
     </ClCompile>
     <ClCompile Include="..\private\Button.cpp">
       <Filter>02.GameObjects\UI\Button</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\MainMenu.cpp">
+      <Filter>02.GameObjects\UI\MenuUI\MainMenu</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\UI_Manager.cpp">
+      <Filter>02.GameObjects\UI\Manager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
