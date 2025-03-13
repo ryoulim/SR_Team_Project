@@ -17,8 +17,8 @@ HRESULT CLevel_GamePlay::Initialize(class CLevelData* pLevelData)
 	if (FAILED(Ready_Layer_Camera(TEXT("Layer_Camera"))))
 		return E_FAIL;
 
-	if (FAILED(Ready_Layer_Terrain(TEXT("Layer_Terrain"))))
-		return E_FAIL;
+	//if (FAILED(Ready_Layer_Terrain(TEXT("Layer_Terrain"))))
+		//return E_FAIL;
 
 	if (FAILED(Ready_Layer_Pawn(TEXT("Layer_Pawn"))))
 		return E_FAIL;
@@ -158,7 +158,7 @@ HRESULT CLevel_GamePlay::Ready_Light()
 	m_pGraphic_Device->SetLight(m_iIndex, &tLightInfo);
 
 	m_pGraphic_Device->LightEnable(m_iIndex, TRUE);
-
+	
 	m_pGraphic_Device->SetRenderState(D3DRS_LIGHTING, TRUE);
 
 	m_pGraphic_Device->SetRenderState(D3DRS_AMBIENT, D3DCOLOR_XRGB(50, 50, 50));
