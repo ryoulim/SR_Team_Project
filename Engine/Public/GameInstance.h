@@ -23,8 +23,11 @@ public:
 	HRESULT Draw();	
 	void Clear(_uint iLevelIndex);
 
+#pragma region GRAPHIC_DEVICE 
+	HRESULT		Draw_Font(const _wstring& str, LPRECT pRect);
+#pragma endregion
+
 #pragma region LEVEL_MANAGER
-public:
 	HRESULT Change_Level(_uint iLevelIndex, class CLevel* pNewLevel);
 #pragma endregion
 

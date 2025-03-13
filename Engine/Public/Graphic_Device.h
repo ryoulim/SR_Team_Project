@@ -13,7 +13,8 @@ private:
 public:
 	HRESULT		Initialize(HWND hWnd, _bool isWindowed, _uint iWinSizeX, _uint iWinSizeY, LPDIRECT3DDEVICE9* ppOut);
 	void		Render_Begin();
-	void		Render_End(HWND hWnd = nullptr);	
+	void		Render_End(HWND hWnd = nullptr);
+	HRESULT		Draw_Font(const _wstring& str, LPRECT pRect);
 
 private:
 	void		Set_Parameters(D3DPRESENT_PARAMETERS& d3dpp,

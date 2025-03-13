@@ -114,6 +114,21 @@ void CGraphic_Device::Render_End(HWND hWnd)
 	// 3인자 : 출력 대상 윈도우 핸들, NULL인 경우에는 Set_Parameters에서 지정한 핸들 값으로 지정
 }
 
+HRESULT CGraphic_Device::Draw_Font(const _wstring& str, LPRECT pRect)
+{
+	m_pSprite->Begin(D3DXSPRITE_ALPHABLEND);
+
+	if (FAILED(m_pFont->DrawText(m_pSprite,
+		str.c_str(), str.length(), pRect,
+		DT_LEFT | DT_VCENTER | DT_WORDBREAK,
+		D3DCOLOR_ARGB(255, 0, 0, 0))))
+		return E_FAIL;
+
+	m_pSprite->End();
+
+	return S_OK;
+}
+
 
 
 void CGraphic_Device::Set_Parameters(D3DPRESENT_PARAMETERS& d3dpp, HWND hWnd, _bool isWindowed, _uint iWinSizeX, _uint iWinSizeY)

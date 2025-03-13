@@ -25,7 +25,8 @@ public:
 	virtual HRESULT Render();
 
 private:
-	_float				m_fMouseSensor = {};
+	_float				m_fMouseSensor{};
+	_bool				m_bBouseFixMod{TRUE};
 
 private:
 	virtual void		Update_Projection_Matrix() override;
