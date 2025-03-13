@@ -98,6 +98,11 @@ void CGameInstance::Clear(_uint iLevelIndex)
 	m_pPrototype_Manager->Clear(iLevelIndex);
 }
 
+HRESULT CGameInstance::Draw_Font(const _wstring& str, LPRECT pRect)
+{
+	return m_pGraphic_Device->Draw_Font(str,pRect);
+}
+
 #pragma region LEVEL_MANAGER
 
 HRESULT CGameInstance::Change_Level(_uint iLevelIndex, CLevel* pNewLevel)

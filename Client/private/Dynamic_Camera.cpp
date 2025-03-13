@@ -36,8 +36,11 @@ HRESULT CDynamic_Camera::Initialize(void* pArg)
 void CDynamic_Camera::Priority_Update(_float fTimeDelta)
 {
 	Key_Input(fTimeDelta);
-	Mouse_Move();
-	Mouse_Fix();
+	if (m_bBouseFixMod)
+	{
+		Mouse_Move();
+		Mouse_Fix();
+	}
 }
 #include "Mycube.h"
 
@@ -88,6 +91,10 @@ void CDynamic_Camera::Key_Input(_float fTimeDelta)
 	else if (KEY_PRESSING('S'))
 	{
 		m_pTransformCom->Go_Backward(fTimeDelta);
+	}
+	else if (KEY_DOWN(VK_TAB))
+	{
+		m_bBouseFixMod = !m_bBouseFixMod;
 	}
 }
 

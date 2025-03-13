@@ -68,19 +68,14 @@ HRESULT CLevel_GamePlay::Ready_Layer_Camera(const _wstring& strLayerTag)
 	return S_OK;
 }
 
+#include "Player.h"
+
 HRESULT CLevel_GamePlay::Ready_Layer_Object(const _wstring& strLayerTag)
 {
-	//if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_MyCube"),
-	//	LEVEL_GAMEPLAY, strLayerTag, m_pData->Find_Data(TEXT("MyCube1")))))
-	//	return E_FAIL;
-
-	//if(FAILED(m_pGameInstance->Active_Object(TEXT("ObjectPool_MyCube"), LEVEL_GAMEPLAY,
-	//	strLayerTag, m_pData->Find_Data(TEXT("MyCube1")))))
-	//	return E_FAIL;
-
-	//if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_MyCube"),
-	//	LEVEL_GAMEPLAY, strLayerTag, m_pData->Find_Data(TEXT("MyCube2")))))
-	//	return E_FAIL;
+	CPlayer::DESC PlayerDesc{};
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Player"),
+		LEVEL_GAMEPLAY, strLayerTag, &PlayerDesc)))
+		return E_FAIL;
 
 	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Trapezoid"),
 		LEVEL_GAMEPLAY, strLayerTag, m_pData->Find_Data(TEXT("Trapezoid")))))

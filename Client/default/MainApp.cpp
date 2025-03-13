@@ -8,6 +8,8 @@
 #include "UI_Camera.h"
 #include "Font_ItemDialog.h"
 
+#include "DebugMode.h"
+
 // 매크로를 위한 매크로(건드리지 마시오)
 #define m_eNextLevelID LEVEL_STATIC
 
@@ -39,8 +41,12 @@ HRESULT CMainApp::Initialize()
 	/* 최초 보여줄 레벨을 할당하자. */
 	if (FAILED(Open_Level(LEVEL_LOGO)))
 		return E_FAIL;
+
+	if (FAILED(Ready_Debug_Mode()))
+		return E_FAIL;
 	
 	m_pGraphic_Device->SetRenderState(D3DRS_LIGHTING, FALSE);
+
 
 	return S_OK;
 }
@@ -55,7 +61,6 @@ void CMainApp::Update(_float fTimeDelta)
 
 HRESULT CMainApp::Render()
 {
-
 	m_pGameInstance->Draw();
 
 	return S_OK;
@@ -81,6 +86,17 @@ HRESULT CMainApp::Ready_Object_For_Static()
 	ADD_PRTOBJ(Dynamic_Camera);
 	ADD_PRTOBJ(UI_Camera);
 	ADD_PRTOBJ(Font_ItemDialog);
+
+	return S_OK;
+}
+
+HRESULT CMainApp::Ready_Debug_Mode()
+{
+	ADD_PRTOBJ(DebugMode);
+
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_DebugMode"),
+		LEVEL_STATIC, TEXT("Layer_DebugMode"))))
+		return E_FAIL;
 
 	return S_OK;
 }

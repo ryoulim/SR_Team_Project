@@ -13,6 +13,7 @@
 #include "Explosion.h"
 #include "Trapezoid.h"
 #include "Cabinet.h"
+#include "Player.h"
 
 CLoader::CLoader(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: m_pGraphic_Device { pGraphic_Device }
@@ -145,6 +146,7 @@ HRESULT CLoader::Loading_For_GamePlay()
 	ADD_PRTOBJ(Explosion);
 	ADD_PRTOBJ(Trapezoid);
 	ADD_PRTOBJ(Cabinet);
+	ADD_PRTOBJ(Player);
 #pragma endregion
 
 #pragma region DATA

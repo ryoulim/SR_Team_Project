@@ -27,7 +27,7 @@ private:
 	HRESULT Open_Level(LEVEL eLevelID);
 	HRESULT Ready_Component_For_Static();
 	HRESULT Ready_Object_For_Static();
-
+	HRESULT Ready_Debug_Mode();
 public:
 	static CMainApp* Create();
 	virtual void Free() override;
