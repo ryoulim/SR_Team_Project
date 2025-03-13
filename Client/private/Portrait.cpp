@@ -155,7 +155,7 @@ void CPortrait::Change_Face(_float fTimeDelta)
 		break;
 	}
 
-	m_fTextureNum = m_eHPStatus + m_eFace;
+	m_fTextureNum = _float(m_eHPStatus + m_eFace);
 }
 
 CPortrait* CPortrait::Create(LPDIRECT3DDEVICE9 pGraphic_Device)

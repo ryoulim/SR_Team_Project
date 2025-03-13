@@ -41,6 +41,9 @@ void CDynamic_Camera::Priority_Update(_float fTimeDelta)
 		Mouse_Move();
 		Mouse_Fix();
 	}
+
+
+	Bind_Resource();
 }
 #include "Mycube.h"
 
@@ -67,8 +70,7 @@ void CDynamic_Camera::Late_Update(_float fTimeDelta)
 
 HRESULT CDynamic_Camera::Render() // 기본오브젝트 랜더 셋팅
 {
-	if (FAILED(Bind_Resource()))
-		return E_FAIL;
+
 	if(FAILED(m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE)))
 		return E_FAIL;
 	return S_OK;
@@ -80,19 +82,19 @@ void CDynamic_Camera::Key_Input(_float fTimeDelta)
 	{
 		m_pTransformCom->Go_Left(fTimeDelta);
 	}
-	else if (KEY_PRESSING('D'))
+	if (KEY_PRESSING('D'))
 	{
 		m_pTransformCom->Go_Right(fTimeDelta);
 	}
-	else if (KEY_PRESSING('W'))
+	if (KEY_PRESSING('W'))
 	{
 		m_pTransformCom->Go_Straight(fTimeDelta);
 	}
-	else if (KEY_PRESSING('S'))
+	if (KEY_PRESSING('S'))
 	{
 		m_pTransformCom->Go_Backward(fTimeDelta);
 	}
-	else if (KEY_DOWN(VK_TAB))
+	if (KEY_DOWN(VK_TAB))
 	{
 		m_bBouseFixMod = !m_bBouseFixMod;
 	}

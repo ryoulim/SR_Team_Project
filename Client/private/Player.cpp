@@ -22,7 +22,7 @@ HRESULT CPlayer::Initialize_Prototype()
 HRESULT CPlayer::Initialize(void* pArg)
 {
 	m_eLevelID = LEVEL_GAMEPLAY;
-	m_szTextureID = TEXT("Snow");
+	m_szTextureID = TEXT("MyCube");
 	m_szBufferType = TEXT("Cube");
 
 	if (FAILED(__super::Initialize(pArg)))

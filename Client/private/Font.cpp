@@ -53,7 +53,7 @@ HRESULT CFont::Render()
 
 HRESULT CFont::Render_Text(const string& _text, FONTTYPE _type, FONTALIGN _align, _float _posX, _float _posY)
 {
-	m_uiTextWidth = _text.length();
+	m_uiTextWidth = (_uint)_text.length();
 	
 	_float startPosX = {};
 	if (_align == LEFT)
@@ -76,7 +76,7 @@ HRESULT CFont::Render_Text(const string& _text, FONTTYPE _type, FONTALIGN _align
 		{
 			if (ch != L' ')
 			{
-				m_fTextureNum = toascii(ch) - 33;
+				m_fTextureNum = toascii(ch) - 33.f;
 				m_pTransformCom->Set_State(CTransform::STATE_POSITION, _float3(startPosX + fontWidth, _posY, 1.f));
 
 				/* Scale 초기화 함수 필요? */
@@ -133,7 +133,7 @@ HRESULT CFont::Render_Text(const _int _val, FONTTYPE _type, FONTALIGN _align, _f
 		_float fontWidth{};
 		for (size_t i = 0; i < m_uiTextWidth; i++)
 		{
-			m_fTextureNum = val % 10;
+			m_fTextureNum = static_cast<_float>(val % 10);
 			m_pTransformCom->Set_State(CTransform::STATE_POSITION, _float3(startPosX + fontWidth, _posY, 1.f));
 
 			/* Scale 초기화 함수 필요? */

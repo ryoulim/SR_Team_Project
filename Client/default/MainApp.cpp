@@ -10,6 +10,7 @@
 
 #include "DebugMode.h"
 
+
 // 매크로를 위한 매크로(건드리지 마시오)
 #define m_eNextLevelID LEVEL_STATIC
 

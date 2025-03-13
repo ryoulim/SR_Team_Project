@@ -127,6 +127,24 @@
     <Filter Include="02.GameObjects\Pawn\Player">
       <UniqueIdentifier>{7824ea17-ff1a-481c-ab6e-d2abce003704}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\Particle">
+      <UniqueIdentifier>{33984262-9367-47e0-930c-67ba2381c90d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Particle\PSystem">
+      <UniqueIdentifier>{72e5be5b-5a20-4585-b994-67e7e2946710}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Particle\Firework">
+      <UniqueIdentifier>{aaa94b9b-b9dd-4ead-b80c-c663168cb181}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Particle\Particle_Define">
+      <UniqueIdentifier>{71011d6a-a546-4e6a-9463-30f42793bd34}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Particle\Gun">
+      <UniqueIdentifier>{9b100089-3b2b-4050-922a-571b20246ed3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Particle\Snow">
+      <UniqueIdentifier>{3e9385c2-1c3d-4b02-950f-3fd97c878c40}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -243,6 +261,21 @@
     <ClInclude Include="..\public\Player.h">
       <Filter>02.GameObjects\Pawn\Player</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\Firework.h">
+      <Filter>02.GameObjects\Particle\Firework</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Gun.h">
+      <Filter>02.GameObjects\Particle\Gun</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Particle_Define.h">
+      <Filter>02.GameObjects\Particle\Particle_Define</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\PSystem.h">
+      <Filter>02.GameObjects\Particle\PSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Rain.h">
+      <Filter>02.GameObjects\Particle\Snow</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -353,6 +386,21 @@
     </ClCompile>
     <ClCompile Include="..\private\Player.cpp">
       <Filter>02.GameObjects\Pawn\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Firework.cpp">
+      <Filter>02.GameObjects\Particle\Firework</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Gun.cpp">
+      <Filter>02.GameObjects\Particle\Gun</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Particle_Define.cpp">
+      <Filter>02.GameObjects\Particle\Particle_Define</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\PSystem.cpp">
+      <Filter>02.GameObjects\Particle\PSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Rain.cpp">
+      <Filter>02.GameObjects\Particle\Snow</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

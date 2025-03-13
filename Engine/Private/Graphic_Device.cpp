@@ -119,7 +119,7 @@ HRESULT CGraphic_Device::Draw_Font(const _wstring& str, LPRECT pRect)
 	m_pSprite->Begin(D3DXSPRITE_ALPHABLEND);
 
 	if (FAILED(m_pFont->DrawText(m_pSprite,
-		str.c_str(), str.length(), pRect,
+		str.c_str(), (int)str.length(), pRect,
 		DT_LEFT | DT_VCENTER | DT_WORDBREAK,
 		D3DCOLOR_ARGB(255, 0, 0, 0))))
 		return E_FAIL;

@@ -25,6 +25,7 @@ private:
 	HRESULT Ready_Layer_Terrain(const _wstring& strLayerTag);
 	HRESULT Ready_Layer_Camera(const _wstring& strLayerTag);
 	HRESULT Ready_Layer_Object(const _wstring& strLayerTag);
+	HRESULT Ready_Layer_Particle(const _wstring& strLayerTag);
 	HRESULT Ready_Layer_UI(const _wstring& strLayerTag);
 	HRESULT Ready_Light();
 
