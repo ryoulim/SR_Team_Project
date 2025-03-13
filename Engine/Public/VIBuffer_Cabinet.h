@@ -8,6 +8,9 @@ BEGIN(Engine)
 
 class ENGINE_DLL CVIBuffer_Cabinet final : public CVIBuffer
 {
+public:
+	enum CABINET_SURFACE { COMMON, BACK, SIDE };
+
 private:
 	CVIBuffer_Cabinet(LPDIRECT3DDEVICE9 pGraphic_Device);
 	CVIBuffer_Cabinet(const CVIBuffer_Cabinet& Prototype);
@@ -16,6 +19,7 @@ private:
 public:
 	virtual HRESULT Initialize_Prototype() override;
 	virtual HRESULT Initialize(void* pArg) override;
+	virtual HRESULT Render(_uint Surface) override;
 
 private:
 	void Set_IndexBuffer(_ushort* pIndices, _uint StartIndex, _uint LT, _uint RT, _uint RB, _uint LB);
