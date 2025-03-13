@@ -170,7 +170,7 @@ CLevel_GamePlay* CLevel_GamePlay::Create(LPDIRECT3DDEVICE9 pGraphic_Device, clas
 {
 	CLevel_GamePlay* pInstance = new CLevel_GamePlay(pGraphic_Device);
 
-	if (FAILED(pInstance->Initialize(pLevelData)))
+  	if (FAILED(pInstance->Initialize(pLevelData)))
 	{
 		MSG_BOX("Failed to Created : CLevel_GamePlay");
 		Safe_Release(pInstance);

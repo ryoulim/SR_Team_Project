@@ -16,6 +16,10 @@ HRESULT CLevel_Logo::Initialize(class CLevelData* pLevelData)
 	if (FAILED(Ready_Layer_BackGround(TEXT("Layer_Background"))))
 		return E_FAIL;
 
+
+
+
+
 	return S_OK;
 }
 
@@ -45,6 +49,17 @@ HRESULT CLevel_Logo::Ready_Layer_BackGround(const _wstring& strLayerTag)
 	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_LOGO, TEXT("Prototype_GameObject_BackGround"),
 		LEVEL_LOGO, strLayerTag, &BackGroundDesc)))
 		return E_FAIL;
+
+
+
+
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_LOGO, TEXT("Prototype_GameObject_MainMenu"),
+		LEVEL_LOGO, TEXT("Layer_UI"), &BackGroundDesc)))
+		return E_FAIL;
+
+
+
+
 
 	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_UI_Camera"),
 		LEVEL_LOGO, strLayerTag, m_pData->Find_Data(TEXT("UI_Camera")))))

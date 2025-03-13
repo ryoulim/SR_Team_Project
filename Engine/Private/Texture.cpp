@@ -27,8 +27,36 @@ HRESULT CTexture::Initialize_Prototype(const _tchar* pTextureFilePath, _uint iNu
 
 		wsprintf(szTextureFileName, pTextureFilePath, i);
 
-		if (FAILED(D3DXCreateTextureFromFile(m_pGraphic_Device, szTextureFileName, &pTexture)))
-			return E_FAIL;
+
+
+		D3DXIMAGE_INFO imageInfo;
+
+		// 먼저 이미지 정보를 가져옴
+		if (FAILED(D3DXGetImageInfoFromFile(szTextureFileName, &imageInfo)))
+			return E_FAIL; // 이미지 정보를 가져오지 못한 경우
+
+		// 비정규 텍스처 크기를 유지하도록 텍스처 생성
+		if (FAILED(D3DXCreateTextureFromFileEx(
+			m_pGraphic_Device,
+			szTextureFileName,
+			imageInfo.Width,  // 원본 너비
+			imageInfo.Height, // 원본 높이
+			D3DX_DEFAULT,
+			0,
+			D3DFMT_UNKNOWN,
+			D3DPOOL_MANAGED,
+			D3DX_DEFAULT,
+			D3DX_DEFAULT,
+			0,
+			&imageInfo,
+			nullptr,
+			&pTexture
+		))) {
+			return E_FAIL; // 텍스처 생성 실패
+		}
+
+		//if (FAILED(D3DXCreateTextureFromFile(m_pGraphic_Device, szTextureFileName, &pTexture)))
+		//	return E_FAIL;
 
 		m_Textures.push_back(pTexture);
 	}
@@ -47,6 +75,22 @@ HRESULT CTexture::Bind_Resource(_uint iIndex)
 		return E_FAIL;
 
 	return m_pGraphic_Device->SetTexture(0, m_Textures[iIndex]);		
+}
+
+HRESULT CTexture::Get_TextureSize(_uint iIndex, _float3* ppOut)
+{
+	if (iIndex >= m_iNumTextures)
+		return E_FAIL;
+
+	D3DSURFACE_DESC Desc{};
+	if (FAILED(m_Textures[iIndex]->GetLevelDesc(0, &Desc)))
+		return E_FAIL;
+	
+
+	ppOut->x = static_cast<_float>(Desc.Width);
+	ppOut->y = static_cast<_float>(Desc.Height);
+
+	return S_OK;
 }
 
 CTexture* CTexture::Create(LPDIRECT3DDEVICE9 pGraphic_Device, const _tchar* pTextureFilePath, _uint iNumTextures)

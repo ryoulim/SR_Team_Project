@@ -49,7 +49,7 @@ private:
 	CFont*	m_pFont = { nullptr };
 	_float	m_fAnimTick = {};
 	PORTRAITSTATUS	m_eFace = { PORTRAIT_IDLE };
-	HPSTATUS		m_eHPStatus = { HP25 };
+	HPSTATUS		m_eHPStatus = { HP100 };
 
 public:
 	static CPortrait* Create(LPDIRECT3DDEVICE9 pGraphicDevice);

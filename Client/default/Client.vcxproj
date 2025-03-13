@@ -149,6 +149,7 @@
     <ClInclude Include="..\public\BackGround.h" />
     <ClInclude Include="..\public\Boss.h" />
     <ClInclude Include="..\public\Bullet.h" />
+    <ClInclude Include="..\public\Button.h" />
     <ClInclude Include="..\public\Cabinet.h" />
     <ClInclude Include="..\public\Common_Shape.h" />
     <ClInclude Include="..\public\DebugMode.h" />
@@ -157,6 +158,7 @@
     <ClInclude Include="..\public\Font.h" />
     <ClInclude Include="..\public\Font_ItemDialog.h" />
     <ClInclude Include="..\public\Item.h" />
+    <ClInclude Include="..\public\MainMenu.h" />
     <ClInclude Include="..\public\Map.h" />
     <ClInclude Include="..\public\Monster.h" />
     <ClInclude Include="..\public\Pawn.h" />
@@ -176,6 +178,7 @@
     <ClInclude Include="..\public\Trapezoid.h" />
     <ClInclude Include="..\public\UI.h" />
     <ClInclude Include="..\public\UI_Camera.h" />
+    <ClInclude Include="..\public\UI_Manager.h" />
     <ClInclude Include="Client.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="MainApp.h" />
@@ -189,6 +192,7 @@
     <ClCompile Include="..\Private\BackGround.cpp" />
     <ClCompile Include="..\private\Boss.cpp" />
     <ClCompile Include="..\private\Bullet.cpp" />
+    <ClCompile Include="..\private\Button.cpp" />
     <ClCompile Include="..\private\Cabinet.cpp" />
     <ClCompile Include="..\private\Common_Shape.cpp" />
     <ClCompile Include="..\private\DebugMode.cpp" />
@@ -197,6 +201,7 @@
     <ClCompile Include="..\private\Font.cpp" />
     <ClCompile Include="..\private\Font_ItemDialog.cpp" />
     <ClCompile Include="..\private\Item.cpp" />
+    <ClCompile Include="..\private\MainMenu.cpp" />
     <ClCompile Include="..\private\Map.cpp" />
     <ClCompile Include="..\private\Monster.cpp" />
     <ClCompile Include="..\private\Pawn.cpp" />
@@ -213,6 +218,7 @@
     <ClCompile Include="..\private\Trapezoid.cpp" />
     <ClCompile Include="..\private\UI.cpp" />
     <ClCompile Include="..\private\UI_Camera.cpp" />
+    <ClCompile Include="..\private\UI_Manager.cpp" />
     <ClCompile Include="Client.cpp" />
     <ClCompile Include="MainApp.cpp" />
   </ItemGroup>

@@ -15,6 +15,8 @@ public:
 	virtual HRESULT Initialize(void* pArg) override;
 public:
 	HRESULT Bind_Resource(_uint iIndex);
+	HRESULT	Get_TextureSize(_uint iIndex, _float3* ppOut);
+	
 private:
 	_uint							m_iNumTextures = { };
 	vector<LPDIRECT3DTEXTURE9>		m_Textures;

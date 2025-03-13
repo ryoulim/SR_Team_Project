@@ -10,34 +10,8 @@ BEGIN(Client)
 class CFont : public CUI
 {
 public:
-	//enum FONTSORT { FNUM = 0, FUP = 10, FLO = 36 };
-	//enum class MEDIUMBLUE { F0 = 2837, FLA = 2886, FUA = 2854 };
-	//enum class TINYBLUE { F0 = 3087, FLA = 3104, FUA = 3104 };
-	//enum class NEONLIGHTS { F0 = 10020, FLA = 10030, FUA = 10030 };
-	//enum class THICKNEONLIGHTS { F0 = 10095, FLA = 10069, FUA = 10069 };
-	//enum class BIGORANGE { F0 = 2930, FLA = 2940, FUA = 2940 };
-	//enum class BIGSILVER { F0 = 2992, FLA = 2966, FUA = 2966 };
-	//enum class GRAFFITI { F0 = 10566, FLA = 10540, FUA = 10540 };
-
-	enum FONTSORT {
-
-	};
-
-	enum FONTTYPE {
-		MEDIUMBLUE,
-		TINYBLUE,
-		NEONLIGHTS,
-		THICKNEONLIGHTS,
-		BIGORANGE,
-		BIGSILVER,
-		GRAFFITI
-	};
-
-	enum FONTALIGN {
-		LEFT,
-		CENTER,
-		RIGHT
-	};
+	enum FONTTYPE { MEDIUMBLUE, TINYBLUE, NEONLIGHTS, THICKNEONLIGHTS, BIGORANGE, BIGSILVER, GRAFFITI };
+	enum FONTALIGN { LEFT, CENTER, RIGHT };
 
 protected:
 	CFont(LPDIRECT3DDEVICE9 pGraphic_Device);
@@ -53,11 +27,19 @@ public:
 	virtual HRESULT Render() override;
 
 public:
+	// 텍스트 출력 용, 매개변수 wstring 아님에 주의
 	virtual HRESULT Render_Text(const string& _text, FONTTYPE _type, FONTALIGN _align, _float _posX, _float _posY);
+	// 숫자 출력 용
 	virtual HRESULT Render_Text(const _int _val, FONTTYPE _type, FONTALIGN _align, _float _posX, _float _posY);
 
 protected:
+	HRESULT Bind_Texture_To_Transform();
+
+protected:
 	_uint		m_uiTextWidth = {};
+	FONTTYPE	m_eFontType = { MEDIUMBLUE };
+
+
 
 public:
 	//static CFont* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
