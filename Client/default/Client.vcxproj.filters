@@ -154,6 +154,9 @@
     <Filter Include="02.GameObjects\UI\Manager">
       <UniqueIdentifier>{fc895246-0b92-4f60-9433-e7a515c057b1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\Statue\Signboard">
+      <UniqueIdentifier>{f980a65b-3298-4b0b-98a2-1d08187c11b7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -294,6 +297,9 @@
     <ClInclude Include="..\public\UI_Manager.h">
       <Filter>02.GameObjects\UI\Manager</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\Signboard.h">
+      <Filter>02.GameObjects\Statue\Signboard</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -428,6 +434,9 @@
     </ClCompile>
     <ClCompile Include="..\private\UI_Manager.cpp">
       <Filter>02.GameObjects\UI\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Signboard.cpp">
+      <Filter>02.GameObjects\Statue\Signboard</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

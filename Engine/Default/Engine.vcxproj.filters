@@ -109,6 +109,9 @@
     <ClInclude Include="..\public\Gravity.h">
       <Filter>04.Components\Gravity</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\VIBuffer_Signboard.h">
+      <Filter>04.Components\VIBuffer\Signboard</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="99.Headers">
@@ -210,6 +213,9 @@
     <Filter Include="04.Components\Transform">
       <UniqueIdentifier>{b20f2232-3955-44e4-8a5f-78d251aab896}</UniqueIdentifier>
     </Filter>
+    <Filter Include="04.Components\VIBuffer\Signboard">
+      <UniqueIdentifier>{41a8d6a0-ba8e-42fa-bad9-9a7eed81e6cf}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Private\Base.cpp">
@@ -301,6 +307,9 @@
     </ClCompile>
     <ClCompile Include="..\private\Gravity.cpp">
       <Filter>04.Components\Gravity</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\VIBuffer_Signboard.cpp">
+      <Filter>04.Components\VIBuffer\Signboard</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
