@@ -44,15 +44,15 @@ private:
 	void	Set_GameInstance(CGameInstance* pGameInstance) { m_pGameInstance = pGameInstance; Safe_AddRef(m_pGameInstance); }
 
 public:
-	HRESULT Render_Text(const string& _text, CFont::FONTTYPE _type, CFont::FONTALIGN _align, _float _posX, _float _posY) {
+	HRESULT Render_Text(const string& _text, CFont::FONTTYPE _type, CFont::FONTALIGN _align, _float _posX, _float _posY, _float vSizeMul = 1.f) {
 		if (m_Fonts[_type] == nullptr)
 			return E_FAIL;
-		return m_Fonts[_type]->Render_Text(_text, _align, _posX, _posY);
+		return m_Fonts[_type]->Render_Text(_text, _align, _posX, _posY, vSizeMul);
 	}
-	HRESULT Render_Text(const _int _val, CFont::FONTTYPE _type, CFont::FONTALIGN _align, _float _posX, _float _posY) {
+	HRESULT Render_Text(const _int _val, CFont::FONTTYPE _type, CFont::FONTALIGN _align, _float _posX, _float _posY, _float vSizeMul = 1.f) {
 		if (m_Fonts[_type] == nullptr)
 			return E_FAIL;
-		return m_Fonts[_type]->Render_Text(_val, _align, _posX, _posY);
+		return m_Fonts[_type]->Render_Text(_val, _align, _posX, _posY, vSizeMul);
 	}
 
 
@@ -64,5 +64,15 @@ public:
 public:
 	virtual void Free();
 };
+
+#define RENDER_ITEMDIALOG(message, fposY) Render_Text(message, CFont::LEFT, -(g_iWinSizeX / 2.f) + 20.f, fposY)
+
+// Render_Text BigOrangeCenter
+// ³ë¶õ ±Û¾¾ Áß¾Ó Á¤·Ä
+#define RENDER_TEXT_BOC(message, fX, fY, fSize) CUI_Manager::Get_Instance(m_pGameInstance)->Render_Text(message, CFont::BIGORANGE, CFont::CENTER, fX, fY, fSize)
+// Render_Text BigOrangeLeft
+// ³ë¶õ ±Û¾¾ ÁÂÃø Á¤·Ä
+#define RENDER_TEXT_BOL(message, fX, fY, fSize) CUI_Manager::Get_Instance(m_pGameInstance)->Render_Text(message, CFont::BIGORANGE, CFont::LEFT, fX, fY, fSize)
+
 
 END

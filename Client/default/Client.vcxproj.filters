@@ -100,9 +100,6 @@
     <Filter Include="02.GameObjects\UI\Font\Font_BigOrange">
       <UniqueIdentifier>{de8b3aab-47b1-4af0-9049-cc8f4c254de1}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\UI\Font\Font_DefaultDialog">
-      <UniqueIdentifier>{e73131f6-e2be-489a-84c2-c9a3ae0eb8c1}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02.GameObjects\UI\MenuUI\MainMenu">
       <UniqueIdentifier>{6b26a339-37a9-45ca-8210-9c9622a84f31}</UniqueIdentifier>
     </Filter>
@@ -150,6 +147,12 @@
     </Filter>
     <Filter Include="02.GameObjects\UI\Manager">
       <UniqueIdentifier>{fc895246-0b92-4f60-9433-e7a515c057b1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\Font\Font_TinyBlue">
+      <UniqueIdentifier>{e73131f6-e2be-489a-84c2-c9a3ae0eb8c1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\Font\Font_BigSilver">
+      <UniqueIdentifier>{9f63eadd-9790-4713-be66-28482d1458fb}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -291,6 +294,15 @@
     <ClInclude Include="..\public\MainMenu.h">
       <Filter>02.GameObjects\UI\MenuUI\MainMenu</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\Font_BigOrange.h">
+      <Filter>02.GameObjects\UI\Font\Font_BigOrange</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Font_BigSilver.h">
+      <Filter>02.GameObjects\UI\Font\Font_BigSilver</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Font_TinyBlue.h">
+      <Filter>02.GameObjects\UI\Font\Font_TinyBlue</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -425,6 +437,15 @@
     </ClCompile>
     <ClCompile Include="..\private\MainMenu.cpp">
       <Filter>02.GameObjects\UI\MenuUI\MainMenu</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Font_TinyBlue.cpp">
+      <Filter>02.GameObjects\UI\Font\Font_TinyBlue</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Font_BigSilver.cpp">
+      <Filter>02.GameObjects\UI\Font\Font_BigSilver</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Font_BigOrange.cpp">
+      <Filter>02.GameObjects\UI\Font\Font_BigOrange</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

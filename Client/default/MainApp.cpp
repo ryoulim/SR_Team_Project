@@ -6,7 +6,9 @@
 
 #include "Dynamic_Camera.h"
 #include "UI_Camera.h"
+
 #include "Font_MediumBlue.h"
+#include "Font_BigOrange.h"
 #include "UI_Manager.h"
 
 #include "DebugMode.h"
@@ -79,7 +81,10 @@ HRESULT CMainApp::Ready_Component_For_Static()
 	ADD_PRTCOM(Transform);
 	ADD_PRTCOM(Gravity);
 
-	ADD_TEXTURE(Font_MediumBlue, "../Bin/Resources/Textures/UI/Font/font%d.PNG", 94);
+	ADD_TEXTURE(Font_MediumBlue, "../Bin/Resources/Textures/UI/Font/Font_MediumBlue/font%d.PNG", 94);
+	ADD_TEXTURE(Font_BigOrange, "../Bin/Resources/Textures/UI/Font/Font_BigOrange/font%d.PNG", 46);
+	//ADD_TEXTURE(Font_TinyBlue, "../Bin/Resources/Textures/UI/Font/Font_TinyBlue/font%d.PNG", 94);
+	//ADD_TEXTURE(Font_BigSilver, "../Bin/Resources/Textures/UI/Font/Font_BigSilver/font%d.PNG", 94);
 
 	return S_OK;
 }
@@ -89,6 +94,7 @@ HRESULT CMainApp::Ready_Object_For_Static()
 	ADD_PRTOBJ(Dynamic_Camera);
 	ADD_PRTOBJ(UI_Camera);
 	ADD_PRTOBJ(Font_MediumBlue);
+	ADD_PRTOBJ(Font_BigOrange);
 
 	return S_OK;
 }

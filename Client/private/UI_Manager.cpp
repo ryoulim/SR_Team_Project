@@ -41,6 +41,19 @@ HRESULT CUI_Manager::Initialize()
 	m_Fonts[CFont::MEDIUMBLUE] = dynamic_cast<CFont*>(m_pGameInstance->Clone_Prototype(PROTOTYPE::TYPE_GAMEOBJECT, LEVEL_STATIC, TEXT("Prototype_GameObject_Font_MediumBlue")));
 	if (nullptr == m_Fonts[CFont::MEDIUMBLUE])
 		return E_FAIL;
+	m_Fonts[CFont::BIGORANGE] = dynamic_cast<CFont*>(m_pGameInstance->Clone_Prototype(PROTOTYPE::TYPE_GAMEOBJECT, LEVEL_STATIC, TEXT("Prototype_GameObject_Font_BigOrange")));
+	if (nullptr == m_Fonts[CFont::BIGORANGE])
+		return E_FAIL;
+	//m_Fonts[CFont::BIGSILVER] = dynamic_cast<CFont*>(m_pGameInstance->Clone_Prototype(PROTOTYPE::TYPE_GAMEOBJECT, LEVEL_STATIC, TEXT("Prototype_GameObject_Font_BigSilver")));
+	//if (nullptr == m_Fonts[CFont::BIGSILVER])
+	//	return E_FAIL;
+	//m_Fonts[CFont::TINYBLUE] = dynamic_cast<CFont*>(m_pGameInstance->Clone_Prototype(PROTOTYPE::TYPE_GAMEOBJECT, LEVEL_STATIC, TEXT("Prototype_GameObject_Font_TinyBlue")));
+	//if (nullptr == m_Fonts[CFont::TINYBLUE])
+	//	return E_FAIL;
+
+
+
+
 	return S_OK;
 }
 
@@ -71,4 +84,4 @@ void CUI_Manager::Free()
 		if (m_Fonts[i] != nullptr)
 			Safe_Release(m_Fonts[i]);
 	}
-}
+} 

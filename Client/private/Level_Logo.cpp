@@ -2,6 +2,7 @@
 #include "GameInstance.h"
 #include "Level_Loading.h"
 #include "BackGround.h"
+#include "Button.h"
 
 CLevel_Logo::CLevel_Logo(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CLevel { pGraphic_Device }
@@ -14,6 +15,8 @@ HRESULT CLevel_Logo::Initialize(class CLevelData* pLevelData)
 	if (FAILED(__super::Initialize(pLevelData)))
 		return E_FAIL;
 	if (FAILED(Ready_Layer_BackGround(TEXT("Layer_Background"))))
+		return E_FAIL;
+	if (FAILED(Ready_Layer_UI(TEXT("Layer_UI"))))
 		return E_FAIL;
 
 
@@ -63,6 +66,15 @@ HRESULT CLevel_Logo::Ready_Layer_BackGround(const _wstring& strLayerTag)
 
 	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_UI_Camera"),
 		LEVEL_LOGO, strLayerTag, m_pData->Find_Data(TEXT("UI_Camera")))))
+		return E_FAIL;
+
+	return S_OK;
+}
+
+HRESULT CLevel_Logo::Ready_Layer_UI(const _wstring& strLayerTag)
+{
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_LOGO, TEXT("Prototype_GameObject_Button"),
+		LEVEL_LOGO, strLayerTag)))
 		return E_FAIL;
 
 	return S_OK;

@@ -5,7 +5,6 @@
 #include "GameInstance.h"
 #include "UI_Manager.h"
 
-#define RENDER_ITEMDIALOG(message, fposY) Render_Text(message, CFont::LEFT, -(g_iWinSizeX / 2.f) + 20.f, fposY)
 
 CPortrait::CPortrait(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CUI{ pGraphic_Device }
@@ -97,7 +96,7 @@ HRESULT CPortrait::Render()
 {
 	//CUI_Manager::Get_Instance(m_pGameInstance)->Render_Text("armor fragment x4", CFont::LEFT, CFont::MEDIUMBLUE, -(g_iWinSizeX / 2.f) + 20.f, g_iWinSizeY / 2.f - 20.f);
 	CUI_Manager::Get_Instance(m_pGameInstance)->Render_Text(
-		"Hello World!",
+		"Hello World!!",
 		CFont::MEDIUMBLUE, 
 		CFont::LEFT, 
 		(float)(-(g_iWinSizeX / 2.f) + 20.f),

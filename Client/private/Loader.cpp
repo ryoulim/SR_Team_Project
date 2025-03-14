@@ -2,15 +2,10 @@
 #include "LevelData.h"
 
 #include "BackGround.h"
-#include "MainMenu.h"
 #include "Terrain.h"
 #include "Dynamic_Camera.h"
-#include "MyCube.h"
 #include "UI_Camera.h"
-#include "Ammo.h"
-#include "Armor.h"
-#include "Portrait.h"
-#include "Aim.h"
+#include "MyCube.h"
 #include "Explosion.h"
 #include "Trapezoid.h"
 #include "Cabinet.h"
@@ -21,6 +16,13 @@
 #include "Gun.h"
 #include "Rain.h"
 
+//UI 인클루드
+#include "Aim.h"
+#include "Ammo.h"
+#include "Armor.h"
+#include "Portrait.h"
+#include "MainMenu.h"
+#include "Button.h"
 
 CLoader::CLoader(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: m_pGraphic_Device { pGraphic_Device }
@@ -105,6 +107,7 @@ HRESULT CLoader::Loading_For_Logo()
 	lstrcpy(m_szLoadingText, TEXT("원형객체을(를) 로딩중입니다."));
 	ADD_PRTOBJ(BackGround);
 	ADD_PRTOBJ(MainMenu);
+	ADD_PRTOBJ(Button);
 #pragma endregion
 
 #pragma region DATA
