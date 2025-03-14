@@ -85,6 +85,7 @@ HRESULT CMainApp::Ready_Component_For_Static()
 	ADD_TEXTURE(Font_BigOrange, "../Bin/Resources/Textures/UI/Font/Font_BigOrange/font%d.PNG", 46);
 	//ADD_TEXTURE(Font_TinyBlue, "../Bin/Resources/Textures/UI/Font/Font_TinyBlue/font%d.PNG", 94);
 	//ADD_TEXTURE(Font_BigSilver, "../Bin/Resources/Textures/UI/Font/Font_BigSilver/font%d.PNG", 94);
+	//ADD_TEXTURE(Logo, )
 
 	return S_OK;
 }

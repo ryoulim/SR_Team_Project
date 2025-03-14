@@ -152,6 +152,7 @@
     <ClInclude Include="..\public\Boss.h" />
     <ClInclude Include="..\public\Bullet.h" />
     <ClInclude Include="..\public\Button.h" />
+    <ClInclude Include="..\public\Button_Test.h" />
     <ClInclude Include="..\public\Cabinet.h" />
     <ClInclude Include="..\public\Common_Shape.h" />
     <ClInclude Include="..\public\DebugMode.h" />
@@ -165,6 +166,7 @@
     <ClInclude Include="..\public\Font_TinyBlue.h" />
     <ClInclude Include="..\public\Gun.h" />
     <ClInclude Include="..\public\Item.h" />
+    <ClInclude Include="..\public\Logo.h" />
     <ClInclude Include="..\public\MainMenu.h" />
     <ClInclude Include="..\public\Map.h" />
     <ClInclude Include="..\public\Monster.h" />
@@ -203,6 +205,7 @@
     <ClCompile Include="..\private\Boss.cpp" />
     <ClCompile Include="..\private\Bullet.cpp" />
     <ClCompile Include="..\private\Button.cpp" />
+    <ClCompile Include="..\private\Button_Test.cpp" />
     <ClCompile Include="..\private\Cabinet.cpp" />
     <ClCompile Include="..\private\Common_Shape.cpp" />
     <ClCompile Include="..\private\DebugMode.cpp" />
@@ -216,6 +219,7 @@
     <ClCompile Include="..\private\Font_TinyBlue.cpp" />
     <ClCompile Include="..\private\Gun.cpp" />
     <ClCompile Include="..\private\Item.cpp" />
+    <ClCompile Include="..\private\Logo.cpp" />
     <ClCompile Include="..\private\MainMenu.cpp" />
     <ClCompile Include="..\private\Map.cpp" />
     <ClCompile Include="..\private\Monster.cpp" />

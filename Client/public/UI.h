@@ -45,10 +45,10 @@ protected:
 	CTexture*       m_pTextureCom = { nullptr };
 	CVIBuffer*      m_pVIBufferCom = { nullptr };
 	CTransform*     m_pTransformCom = { nullptr };
-    _float3         m_vPos{};
-    _float3         m_vSize{};
+    _float3         m_vPos = {};
+    _float3         m_vSize = {};
     RECT            m_tRect = {};
-    //DWORD           m_OrigSamplerState;
+    _float          m_fDepth = {};
 
 
 public:
