@@ -31,8 +31,10 @@ private:
 	CGameInstance* m_pGameInstance = { nullptr };
 
 #pragma endregion
-
+		
 public:
+	// »ý°¢ 
+	enum tempui {UI_BACKGROUND, UI_INVENTORY, UI_BUTTON, UI_DIALOG, UI_NOIDEA};
 public:
 	HRESULT Initialize() ;
 	void Priority_Update(_float fTimeDelta) ;
@@ -65,7 +67,7 @@ public:
 	virtual void Free();
 };
 
-#define RENDER_ITEMDIALOG(message, fposY) Render_Text(message, CFont::LEFT, -(g_iWinSizeX / 2.f) + 20.f, fposY)
+#define RENDER_ITEMDIALOG(message, fposY)  CUI_Manager::Get_Instance(m_pGameInstance)->Render_Text(message, CFont::MEDIUMBLUE, CFont::LEFT, -(g_iWinSizeX / 2.f) + 20.f, fposY)
 
 // Render_Text BigOrangeCenter
 // ³ë¶õ ±Û¾¾ Áß¾Ó Á¤·Ä

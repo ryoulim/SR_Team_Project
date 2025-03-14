@@ -36,7 +36,7 @@ public:
 
 protected:
 	virtual HRESULT Ready_Components(void* pArg);
-    void Update_Rect();
+    virtual void Update_Rect();
 
 protected:
 	LEVEL           m_eLevelID = { LEVEL_END };

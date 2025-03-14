@@ -83,7 +83,7 @@ HRESULT CFont::Render_Text(const string& _text,FONTALIGN _align, _float _posX, _
 				return E_FAIL;
 			m_vSize *= vSizeMul;
 			fontWidth += m_vSize.x;
-			m_pTransformCom->Set_State(CTransform::STATE_POSITION, _float3(startPosX + fontWidth, _posY, 0.f));
+			m_pTransformCom->Set_State(CTransform::STATE_POSITION, _float3(startPosX + fontWidth, _posY, 0.5f));
 				                                 
 			Render();
 		}
