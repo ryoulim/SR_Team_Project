@@ -75,7 +75,7 @@ HRESULT CLevel_GamePlay::Ready_Layer_Terrain(const _wstring& strLayerTag)
 
 HRESULT CLevel_GamePlay::Ready_Layer_Camera(const _wstring& strLayerTag)
 {
-	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_Dynamic_Camera"),
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_FPS_Camera"),
 		LEVEL_GAMEPLAY, strLayerTag, m_pData->Find_Data(TEXT("Dynamic_Camera")))))
 		return E_FAIL;
 

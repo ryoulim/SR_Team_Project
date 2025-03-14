@@ -160,6 +160,7 @@
     <ClInclude Include="..\public\Firework.h" />
     <ClInclude Include="..\public\Font.h" />
     <ClInclude Include="..\public\Font_ItemDialog.h" />
+    <ClInclude Include="..\public\FPS_Camera.h" />
     <ClInclude Include="..\public\Gun.h" />
     <ClInclude Include="..\public\Item.h" />
     <ClInclude Include="..\public\MainMenu.h" />
@@ -208,6 +209,7 @@
     <ClCompile Include="..\private\Firework.cpp" />
     <ClCompile Include="..\private\Font.cpp" />
     <ClCompile Include="..\private\Font_ItemDialog.cpp" />
+    <ClCompile Include="..\private\FPS_Camera.cpp" />
     <ClCompile Include="..\private\Gun.cpp" />
     <ClCompile Include="..\private\Item.cpp" />
     <ClCompile Include="..\private\MainMenu.cpp" />

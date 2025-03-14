@@ -1,4 +1,5 @@
 #include "Gravity.h"
+#include "Transform.h"
 
 const _float3*  CGravity::m_pTerrainVtxPos = { nullptr };
 _uint			CGravity::m_iTerrainVtxNumX = {};
@@ -25,7 +26,7 @@ HRESULT CGravity::Initialize(void* pArg)
 	if (pArg == nullptr)
 		return E_FAIL;
 
-	m_pPosition = static_cast<_float3*>(pArg);
+	m_pMyTransform = static_cast<CTransform*>(pArg);
 
 	return S_OK;
 }
@@ -40,6 +41,9 @@ void CGravity::Set_TerrainInfo(const DESC& Desc)
 
 void CGravity::Update()
 {
+	pPosition = m_pMyTransform->Get_State();
+
+
 	_uint	iIndex = _uint(m_pPosition->z / m_fTerrainScale) * m_iTerrainVtxNumX 
 		+ _uint(m_pPosition->x / m_fTerrainScale);
 
@@ -48,6 +52,7 @@ void CGravity::Update()
 
 	D3DXPLANE	Plane;
 
+	
 	_float3 VtxPos[4]{
 		m_pTerrainVtxPos[iIndex + m_iTerrainVtxNumX] * m_fTerrainScale,
 		m_pTerrainVtxPos[iIndex + m_iTerrainVtxNumX + 1] * m_fTerrainScale,

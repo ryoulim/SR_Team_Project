@@ -26,7 +26,8 @@ public:
 	void Update();
 
 private:
-	_float3*				m_pPosition{nullptr};
+	class CTransform*		m_pMyTransform{ nullptr };
+	_float					m_fHeight;
 	_float3					m_vOldPosition{};
 
 	static const _float3*	m_pTerrainVtxPos;

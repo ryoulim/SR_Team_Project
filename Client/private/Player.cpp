@@ -28,6 +28,9 @@ HRESULT CPlayer::Initialize(void* pArg)
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
 
+	auto pFPS_Camera = m_pGameInstance->Find_Object(m_eLevelID, TEXT("Layer_Camera"));
+	m_pFPSCameraTransform = static_cast<CTransform*>(pFPS_Camera->Find_Component(TEXT("Com_Transform")));
+
 	return S_OK;
 }
 
@@ -61,7 +64,7 @@ EVENT CPlayer::Update(_float fTimeDelta)
 void CPlayer::Late_Update(_float fTimeDelta)
 {
 	m_pGravityCom->Update();
-
+	m_pFPSCameraTransform->Set_State(CTransform::STATE_POSITION, *m_pTransformCom->Get_State(CTransform::STATE_POSITION));
 	__super::Late_Update(fTimeDelta);
 }
 

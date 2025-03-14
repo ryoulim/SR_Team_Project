@@ -5,6 +5,7 @@
 #include "Level_Loading.h"
 
 #include "Dynamic_Camera.h"
+#include "FPS_Camera.h"
 #include "UI_Camera.h"
 #include "Font_ItemDialog.h"
 
@@ -86,6 +87,7 @@ HRESULT CMainApp::Ready_Component_For_Static()
 HRESULT CMainApp::Ready_Object_For_Static()
 {
 	ADD_PRTOBJ(Dynamic_Camera);
+	ADD_PRTOBJ(FPS_Camera);
 	ADD_PRTOBJ(UI_Camera);
 	ADD_PRTOBJ(Font_ItemDialog);
 
