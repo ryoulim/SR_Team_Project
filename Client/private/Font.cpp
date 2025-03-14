@@ -74,7 +74,7 @@ HRESULT CFont::Render()
 	return S_OK;
 }
 
-HRESULT CFont::Render_Text(const string& _text, FONTTYPE _type, FONTALIGN _align, _float _posX, _float _posY)
+HRESULT CFont::Render_Text(const string& _text,FONTALIGN _align, _float _posX, _float _posY)
 {
 	m_uiTextWidth = static_cast<_uint>(_text.length());
 	
@@ -85,7 +85,7 @@ HRESULT CFont::Render_Text(const string& _text, FONTTYPE _type, FONTALIGN _align
 		startPosX = _posX - m_uiTextWidth / 2.f * 14.f;
 
 
-	if (_type != MEDIUMBLUE)
+	if (m_eFontType != MEDIUMBLUE)
 	{
 		for (auto ch : _text)
 		{
@@ -110,6 +110,8 @@ HRESULT CFont::Render_Text(const string& _text, FONTTYPE _type, FONTALIGN _align
 				m_pTransformCom->Set_State(CTransform::STATE_RIGHT, vRight);
 				m_pTransformCom->Set_State(CTransform::STATE_LOOK, vLook);
 				m_pTransformCom->Set_State(CTransform::STATE_UP, vUp);
+
+				// SetSamplerState 사용 하는지 확인 .. 
 				m_pGraphic_Device->SetSamplerState(0, D3DSAMP_MINFILTER, D3DTEXF_POINT);
 				m_pGraphic_Device->SetSamplerState(0, D3DSAMP_MAGFILTER, D3DTEXF_POINT);
 				m_pGraphic_Device->SetSamplerState(0, D3DSAMP_MIPFILTER, D3DTEXF_POINT);
@@ -124,7 +126,7 @@ HRESULT CFont::Render_Text(const string& _text, FONTTYPE _type, FONTALIGN _align
 	return S_OK;
 }
 
-HRESULT CFont::Render_Text(const _int _val, FONTTYPE _type, FONTALIGN _align, _float _posX, _float _posY)
+HRESULT CFont::Render_Text(const _int _val, FONTALIGN _align, _float _posX, _float _posY)
 {
 	_int val = _val;
 	m_uiTextWidth = 0;
@@ -146,7 +148,7 @@ HRESULT CFont::Render_Text(const _int _val, FONTTYPE _type, FONTALIGN _align, _f
 		startPosX = _posX - m_uiTextWidth / 2.f * 14.f;
 
 
-	if (_type != MEDIUMBLUE)
+	if (m_eFontType != MEDIUMBLUE)
 	{
 		for (size_t i = 0; i < m_uiTextWidth; i++)
 		{
@@ -225,4 +227,5 @@ HRESULT CFont::Bind_Texture_To_Transform()
 void CFont::Free()
 {
 	__super::Free();
+
 }

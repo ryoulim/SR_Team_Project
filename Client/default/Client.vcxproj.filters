@@ -130,9 +130,6 @@
     <Filter Include="02.GameObjects\UI\Button">
       <UniqueIdentifier>{4a9434f2-285b-4625-b208-c24b1d822db7}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\UI\MainMenu">
-      <UniqueIdentifier>{04875778-f4e3-4346-b072-3a384173ac90}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02.GameObjects\Particle">
       <UniqueIdentifier>{3845da3f-5600-47ea-9730-6da610be76f0}</UniqueIdentifier>
     </Filter>
@@ -243,7 +240,7 @@
     <ClInclude Include="..\public\Font.h">
       <Filter>02.GameObjects\UI\Font</Filter>
     </ClInclude>
-    <ClInclude Include="..\public\Font_ItemDialog.h">
+    <ClInclude Include="..\public\Font_MediumBlue.h">
       <Filter>02.GameObjects\UI\Font\Font_MediumBlue</Filter>
     </ClInclude>
     <ClInclude Include="..\public\Aim.h">
@@ -273,9 +270,6 @@
     <ClInclude Include="..\public\Button.h">
       <Filter>02.GameObjects\UI\Button</Filter>
     </ClInclude>
-    <ClInclude Include="..\public\MainMenu.h">
-      <Filter>02.GameObjects\UI\MainMenu</Filter>
-    </ClInclude>
     <ClInclude Include="..\public\PSystem.h">
       <Filter>02.GameObjects\Particle\System</Filter>
     </ClInclude>
@@ -293,6 +287,9 @@
     </ClInclude>
     <ClInclude Include="..\public\UI_Manager.h">
       <Filter>02.GameObjects\UI\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\MainMenu.h">
+      <Filter>02.GameObjects\UI\MenuUI\MainMenu</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -378,7 +375,7 @@
     <ClCompile Include="..\private\Font.cpp">
       <Filter>02.GameObjects\UI\Font</Filter>
     </ClCompile>
-    <ClCompile Include="..\private\Font_ItemDialog.cpp">
+    <ClCompile Include="..\private\Font_MediumBlue.cpp">
       <Filter>02.GameObjects\UI\Font\Font_MediumBlue</Filter>
     </ClCompile>
     <ClCompile Include="..\private\Aim.cpp">
@@ -408,9 +405,6 @@
     <ClCompile Include="..\private\Button.cpp">
       <Filter>02.GameObjects\UI\Button</Filter>
     </ClCompile>
-    <ClCompile Include="..\private\MainMenu.cpp">
-      <Filter>02.GameObjects\UI\MainMenu</Filter>
-    </ClCompile>
     <ClCompile Include="..\private\PSystem.cpp">
       <Filter>02.GameObjects\Particle\System</Filter>
     </ClCompile>
@@ -428,6 +422,9 @@
     </ClCompile>
     <ClCompile Include="..\private\UI_Manager.cpp">
       <Filter>02.GameObjects\UI\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\MainMenu.cpp">
+      <Filter>02.GameObjects\UI\MenuUI\MainMenu</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

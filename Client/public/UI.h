@@ -48,6 +48,8 @@ protected:
     _float3         m_vPos{};
     _float3         m_vSize{};
     RECT            m_tRect = {};
+    //DWORD           m_OrigSamplerState;
+
 
 public:
 	virtual CGameObject* Clone(void* pArg) PURE;

@@ -3,8 +3,9 @@
 
 #include "Portrait.h"
 #include "GameInstance.h"
+#include "UI_Manager.h"
 
-#define RENDER_ITEMDIALOG(message, fposY) Render_Text(message, CFont::MEDIUMBLUE, CFont::LEFT, -(g_iWinSizeX / 2.f) + 20.f, fposY)
+#define RENDER_ITEMDIALOG(message, fposY) Render_Text(message, CFont::LEFT, -(g_iWinSizeX / 2.f) + 20.f, fposY)
 
 CPortrait::CPortrait(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CUI{ pGraphic_Device }
@@ -28,9 +29,9 @@ HRESULT CPortrait::Initialize(void* pArg)
 	m_szTextureID = TEXT("Portrait");
 	m_szBufferType = TEXT("Rect");
 
-	m_pFont = dynamic_cast<CFont*>(m_pGameInstance->Clone_Prototype(PROTOTYPE::TYPE_GAMEOBJECT, LEVEL_STATIC, TEXT("Prototype_GameObject_Font_ItemDialog")));
-	if (nullptr == m_pFont)
-		return E_FAIL;
+	//m_pFont = dynamic_cast<CFont*>(m_pGameInstance->Clone_Prototype(PROTOTYPE::TYPE_GAMEOBJECT, LEVEL_STATIC, TEXT("Prototype_GameObject_Font_MediumBlue")));
+	//if (nullptr == m_pFont)
+	//	return E_FAIL;
 
 
 
@@ -94,8 +95,16 @@ void CPortrait::Late_Update(_float fTimeDelta)
 
 HRESULT CPortrait::Render()
 {
+	//CUI_Manager::Get_Instance(m_pGameInstance)->Render_Text("armor fragment x4", CFont::LEFT, CFont::MEDIUMBLUE, -(g_iWinSizeX / 2.f) + 20.f, g_iWinSizeY / 2.f - 20.f);
+	CUI_Manager::Get_Instance(m_pGameInstance)->Render_Text(
+		"Hello World!",
+		CFont::MEDIUMBLUE, 
+		CFont::LEFT, 
+		(float)(-(g_iWinSizeX / 2.f) + 20.f),
+		(float)(g_iWinSizeY / 2.f - 20.f));
+
 	
-	m_pFont->RENDER_ITEMDIALOG("armor fragment x4", g_iWinSizeY / 2.f - 20.f);
+	
 	return __super::Render();
 }
 

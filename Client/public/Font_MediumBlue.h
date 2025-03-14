@@ -6,12 +6,12 @@
 
 BEGIN(Client)
 
-class CFont_ItemDialog final : public CFont
+class CFont_MediumBlue final : public CFont
 {
 private:
-	CFont_ItemDialog(LPDIRECT3DDEVICE9 pGraphic_Device);
-	CFont_ItemDialog(const CFont_ItemDialog& Prototype);
-	virtual ~CFont_ItemDialog() = default;
+	CFont_MediumBlue(LPDIRECT3DDEVICE9 pGraphic_Device);
+	CFont_MediumBlue(const CFont_MediumBlue& Prototype);
+	virtual ~CFont_MediumBlue() = default;
 
 public:
 	virtual HRESULT Initialize_Prototype() override;
@@ -21,8 +21,9 @@ public:
 	virtual void Late_Update(_float fTimeDelta) override;
 	virtual HRESULT Render() override;
 
+
 public:
-	static CFont_ItemDialog* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
+	static CFont_MediumBlue* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
 	virtual CGameObject* Clone(void* pArg) override;
 	virtual void Free();
 };

@@ -56,6 +56,8 @@ HRESULT CMainMenu::Render()
 	if (FAILED(m_pTextureCom->Get_TextureSize(static_cast<_uint>(m_fTextureNum), &m_vSize)))
 		return E_FAIL;
 
+
+	// 세로비 대로 이미지 맞춤
 	m_vSize.x *= g_iWinSizeY / m_vSize.y; m_vSize.y = g_iWinSizeY;
 
 
@@ -63,8 +65,6 @@ HRESULT CMainMenu::Render()
 
 	if (FAILED(m_pTransformCom->Bind_Resource()))
 		return E_FAIL;
-
-
 
 	if (FAILED(m_pVIBufferCom->Bind_Buffers()))
 		return E_FAIL;

@@ -30,6 +30,9 @@ HRESULT CUI_Camera::Initialize(void* pArg)
 
 void CUI_Camera::Priority_Update(_float fTimeDelta)
 {
+	m_pGraphic_Device->SetSamplerState(0, D3DSAMP_MINFILTER, D3DTEXF_LINEAR);
+	m_pGraphic_Device->SetSamplerState(0, D3DSAMP_MAGFILTER, D3DTEXF_LINEAR);
+	m_pGraphic_Device->SetSamplerState(0, D3DSAMP_MIPFILTER, D3DTEXF_LINEAR);
 	__super::Priority_Update(fTimeDelta);
 }
 
@@ -53,6 +56,10 @@ HRESULT CUI_Camera::Render() // UI설정 전 필요한 각종 셋팅 몰아두기
 		return E_FAIL;
 	if (FAILED(m_pGraphic_Device->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER)))
 		return E_FAIL;
+
+	m_pGraphic_Device->SetSamplerState(0, D3DSAMP_MINFILTER, D3DTEXF_POINT);
+	m_pGraphic_Device->SetSamplerState(0, D3DSAMP_MAGFILTER, D3DTEXF_POINT);
+	m_pGraphic_Device->SetSamplerState(0, D3DSAMP_MIPFILTER, D3DTEXF_POINT);
 
 	return S_OK;
 }

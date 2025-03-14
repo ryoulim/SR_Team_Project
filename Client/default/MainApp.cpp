@@ -6,7 +6,8 @@
 
 #include "Dynamic_Camera.h"
 #include "UI_Camera.h"
-#include "Font_ItemDialog.h"
+#include "Font_MediumBlue.h"
+#include "UI_Manager.h"
 
 #include "DebugMode.h"
 
@@ -39,7 +40,7 @@ HRESULT CMainApp::Initialize()
 	if (FAILED(Ready_Component_For_Static()))
 		return E_FAIL;
 
-	if(FAILED(Ready_Object_For_Static()))
+ 	if(FAILED(Ready_Object_For_Static()))
 		return E_FAIL;
 
 	/* 최초 보여줄 레벨을 할당하자. */
@@ -78,7 +79,7 @@ HRESULT CMainApp::Ready_Component_For_Static()
 	ADD_PRTCOM(Transform);
 	ADD_PRTCOM(Gravity);
 
-	ADD_TEXTURE(Font_ItemDialog, "../Bin/Resources/Textures/UI/Font/font%d.PNG", 94);
+	ADD_TEXTURE(Font_MediumBlue, "../Bin/Resources/Textures/UI/Font/font%d.PNG", 94);
 
 	return S_OK;
 }
@@ -87,7 +88,7 @@ HRESULT CMainApp::Ready_Object_For_Static()
 {
 	ADD_PRTOBJ(Dynamic_Camera);
 	ADD_PRTOBJ(UI_Camera);
-	ADD_PRTOBJ(Font_ItemDialog);
+	ADD_PRTOBJ(Font_MediumBlue);
 
 	return S_OK;
 }
@@ -141,6 +142,7 @@ CMainApp* CMainApp::Create()
 void CMainApp::Free()
 {
 	__super::Free();
+	CUI_Manager::Destroy_Instance();
 
 	Safe_Release(m_pGraphic_Device);
 

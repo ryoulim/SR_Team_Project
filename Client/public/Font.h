@@ -9,8 +9,8 @@ BEGIN(Client)
 
 class CFont : public CUI
 {
-public:
-	enum FONTTYPE { MEDIUMBLUE, TINYBLUE, NEONLIGHTS, THICKNEONLIGHTS, BIGORANGE, BIGSILVER, GRAFFITI };
+public:	
+	enum FONTTYPE { MEDIUMBLUE, TINYBLUE, NEONLIGHTS, THICKNEONLIGHTS, BIGORANGE, BIGSILVER, GRAFFITI, FONT_END };
 	enum FONTALIGN { LEFT, CENTER, RIGHT };
 
 protected:
@@ -28,16 +28,16 @@ public:
 
 public:
 	// 텍스트 출력 용, 매개변수 wstring 아님에 주의
-	virtual HRESULT Render_Text(const string& _text, FONTTYPE _type, FONTALIGN _align, _float _posX, _float _posY);
+	virtual HRESULT Render_Text(const string& _text, FONTALIGN _align, _float _posX, _float _posY);
 	// 숫자 출력 용
-	virtual HRESULT Render_Text(const _int _val, FONTTYPE _type, FONTALIGN _align, _float _posX, _float _posY);
+	virtual HRESULT Render_Text(const _int _val, FONTALIGN _align, _float _posX, _float _posY);
 
 protected:
 	HRESULT Bind_Texture_To_Transform();
 
 protected:
 	_uint		m_uiTextWidth = {};
-	FONTTYPE	m_eFontType = { MEDIUMBLUE };
+	FONTTYPE	m_eFontType = { FONT_END };
 
 
 
