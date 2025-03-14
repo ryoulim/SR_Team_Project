@@ -1,4 +1,4 @@
-// 내 클래스 이름 : VIBuffer_Trapezoid
+﻿// 내 클래스 이름 : VIBuffer_Trapezoid
 // 부모 클래스 이름 : CVIBuffer
 
 #pragma once

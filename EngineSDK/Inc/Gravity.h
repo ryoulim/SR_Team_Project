@@ -26,7 +26,8 @@ public:
 	void Update();
 
 private:
-	_float3*				m_pPosition;
+	_float3*				m_pPosition{nullptr};
+	_float3					m_vOldPosition{};
 
 	static const _float3*	m_pTerrainVtxPos;
 	static _uint			m_iTerrainVtxNumX;

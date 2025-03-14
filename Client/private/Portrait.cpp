@@ -1,4 +1,4 @@
-// 내 클래스 이름 : Portrait
+﻿// 내 클래스 이름 : Portrait
 // 부모 클래스 이름 : UI
 
 #include "Portrait.h"

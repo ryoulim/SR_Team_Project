@@ -11,6 +11,7 @@ typedef struct ENGINE_DLL tagVector : public D3DXVECTOR3
 	tagVector(CONST D3DXFLOAT16* _p) : D3DXVECTOR3(_p) {}
 	tagVector(FLOAT x, FLOAT y, FLOAT z) : D3DXVECTOR3(x, y, z) {}
 
+
 	// 정규벡터를 만들어준다.
 	const tagVector& Normalize();
 
