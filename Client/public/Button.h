@@ -27,7 +27,7 @@ public:
 	virtual HRESULT Render() override;
 
 protected:
-	CFont::FONTALIGN m_eAlign = { CFont::CENTER };
+	CFont::FONTALIGN m_eAlign = { CFont::LEFT };
 
 public:
 	static CButton* Create(LPDIRECT3DDEVICE9 pGraphic_Device);

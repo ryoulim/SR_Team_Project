@@ -103,7 +103,7 @@ HRESULT CButton::Render()
 		CUI_Manager::Get_Instance(m_pGameInstance)->Render_Text(
 			"New game P icked !",
 			CFont::BIGORANGE,
-			CFont::LEFT,
+			CFont::CENTER,
 			0.f,
 			0.f);
 		if (KEY_DOWN(VK_LBUTTON))
