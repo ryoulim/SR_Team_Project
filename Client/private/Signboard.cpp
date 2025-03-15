@@ -44,7 +44,52 @@ void CSignboard::Late_Update(_float fTimeDelta)
 
 HRESULT CSignboard::Render()
 {
-	return __super::Render();
+#pragma region ¾çÂÊ ±âµÕ
+	m_fTextureNum = 0.f;
+
+	if (FAILED(__super::Render()))
+		return E_FAIL;
+#pragma endregion
+
+#pragma region ´ëÇü ÆÇ³Ú »çÀÌµå
+	m_fTextureNum = 1.f;
+
+	if (FAILED(m_pTextureCom->Bind_Resource(static_cast<_uint>(m_fTextureNum))))
+		return E_FAIL;
+
+	if (FAILED(m_pVIBufferCom->Render(CVIBuffer_Signboard::PANELSIDE)))
+		return E_FAIL;
+#pragma endregion
+
+#pragma region ´ëÇü ÆÇ³Ú
+	m_fTextureNum = 2.f;
+
+	if (FAILED(m_pTextureCom->Bind_Resource(static_cast<_uint>(m_fTextureNum))))
+		return E_FAIL;
+
+	if (FAILED(m_pVIBufferCom->Render(CVIBuffer_Signboard::PANEL)))
+		return E_FAIL;
+#pragma endregion
+
+#pragma region ¹ßÆÇ
+	m_fTextureNum = 3.f;
+
+	if (FAILED(m_pTextureCom->Bind_Resource(static_cast<_uint>(m_fTextureNum))))
+		return E_FAIL;
+
+	if (FAILED(m_pVIBufferCom->Render(CVIBuffer_Signboard::FOOTSTONE)))
+		return E_FAIL;
+#pragma endregion
+
+#pragma region ¹ßÆÇ ºø¸é
+	m_fTextureNum = 4.f;
+
+	if (FAILED(m_pTextureCom->Bind_Resource(static_cast<_uint>(m_fTextureNum))))
+		return E_FAIL;
+
+	if (FAILED(m_pVIBufferCom->Render(CVIBuffer_Signboard::CONNECTION)))
+		return E_FAIL;
+#pragma endregion
 }
 
 CSignboard* CSignboard::Create(LPDIRECT3DDEVICE9 pGraphic_Device)

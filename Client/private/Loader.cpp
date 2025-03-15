@@ -134,7 +134,7 @@ HRESULT CLoader::Loading_For_GamePlay()
 	ADD_TEXTURE(Box, "../Bin/Resources/Textures/Object/Box/tile6628.png", 1);
 	ADD_TEXTURE(Cabinet, "../Bin/Resources/Textures/Object/Cabinet/Cabinet%d.png", 3);
 	ADD_TEXTURE(Trapezoid, "../Bin/Resources/Textures/Object/Trapezoid/Trapezoid%d.png", 2);
-	ADD_TEXTURE(Signboard, "../Bin/Resources/Textures/Object/Signboard/tile8610.png", 1);
+	ADD_TEXTURE(Signboard, "../Bin/Resources/Textures/Object/Signboard/Signboard%d.png", 5);
 
 	//파티클
 	ADD_TEXTURE(PC_Bullet, "../Bin/Resources/Textures/Particle/PC_Bullet.png", 1);

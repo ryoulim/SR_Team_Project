@@ -12,13 +12,13 @@ CVIBuffer_Signboard::CVIBuffer_Signboard(const CVIBuffer_Signboard& Prototype)
 
 HRESULT CVIBuffer_Signboard::Initialize_Prototype()
 {
-	m_iNumVertices = 48;					// 버텍스 갯수
+	m_iNumVertices = 64;					// 버텍스 갯수
 	m_iVertexStride = sizeof(VTXPOSTEX);	// 버텍스 크기
 	m_iFVF = D3DFVF_XYZ | D3DFVF_TEX1;		// 버텍스 타입
-	m_iNumPritimive = 84; // 60 + 24		// 삼각형 갯수
+	m_iNumPritimive = 88; 					// 삼각형 갯수
 
 	m_iIndexStride = 2;						// 인덱스 크기
-	m_iNumIndices = 228;					// 인덱스 갯수
+	m_iNumIndices = 252;					// 인덱스 갯수
 	m_eIndexFormat = D3DFMT_INDEX16;		// 인덱스 포맷
 
 #pragma region VERTEX_BUFFER
@@ -37,24 +37,38 @@ HRESULT CVIBuffer_Signboard::Initialize_Prototype()
 	pVertices[1].vTexcoord = _float2(1.f, 0.f);
 
 	pVertices[2].vPosition = _float3(-0.625f, -0.5f, -0.125f);
-	pVertices[2].vTexcoord = _float2(1.f, 1.f);
+	pVertices[2].vTexcoord = _float2(1.f, 2.f);
 
 	pVertices[3].vPosition = _float3(-0.875f, -0.5f, -0.125f);
-	pVertices[3].vTexcoord = _float2(0.f, 1.f);
+	pVertices[3].vTexcoord = _float2(0.f, 2.f);
 #pragma endregion
 
-#pragma region 대형 판넬 정면
+#pragma region 대형 판넬 정면 둘레
 	pVertices[8].vPosition = _float3(-0.625f, 0.75f, -0.125f);
-	pVertices[8].vTexcoord = _float2(0.f, 0.f);
+	pVertices[8].vTexcoord = _float2(0.f, 1.f);
 
 	pVertices[9].vPosition = _float3(0.625f, 0.75f, -0.125f);
-	pVertices[9].vTexcoord = _float2(1.f, 0.f);
+	pVertices[9].vTexcoord = _float2(1.f, 1.f);
 
 	pVertices[10].vPosition = _float3(0.625f, 0.f, -0.125f);
-	pVertices[10].vTexcoord = _float2(1.f, 1.f);
+	pVertices[10].vTexcoord = _float2(1.f, 0.f);
 
 	pVertices[11].vPosition = _float3(-0.625f, 0.f, -0.125f);
-	pVertices[11].vTexcoord = _float2(0.f, 1.f);
+	pVertices[11].vTexcoord = _float2(0.f, 0.f);
+#pragma endregion
+
+#pragma region 대형 판넬 정면 중간
+	pVertices[48].vPosition = _float3(-0.625f, 0.5f, -0.125f);
+	pVertices[48].vTexcoord = _float2(0.f, 0.f);
+
+	pVertices[49].vPosition = _float3(0.625f, 0.5f, -0.125f);
+	pVertices[49].vTexcoord = _float2(1.f, 0.f);
+
+	pVertices[50].vPosition = _float3(0.625f, 0.25f, -0.125f);
+	pVertices[50].vTexcoord = _float2(1.f, 1.f);
+
+	pVertices[51].vPosition = _float3(-0.625f, 0.25f, -0.125f);
+	pVertices[51].vTexcoord = _float2(0.f, 1.f);
 #pragma endregion
 
 #pragma region 오른쪽 기둥 정면
@@ -65,10 +79,10 @@ HRESULT CVIBuffer_Signboard::Initialize_Prototype()
 	pVertices[17].vTexcoord = _float2(1.f, 0.f);
 
 	pVertices[18].vPosition = _float3(0.875f, -0.5f, -0.125f);
-	pVertices[18].vTexcoord = _float2(1.f, 1.f);
+	pVertices[18].vTexcoord = _float2(1.f, 2.f);
 
 	pVertices[19].vPosition = _float3(0.625f, -0.5f, -0.125f);
-	pVertices[19].vTexcoord = _float2(0.f, 1.f);
+	pVertices[19].vTexcoord = _float2(0.f, 2.f);
 #pragma endregion
 
 #pragma region 왼쪽 아래 받침대 정면
@@ -107,24 +121,38 @@ HRESULT CVIBuffer_Signboard::Initialize_Prototype()
 	pVertices[5].vTexcoord = _float2(0.f, 0.f);
 
 	pVertices[6].vPosition = _float3(-0.625f, -0.5f, 0.125f);
-	pVertices[6].vTexcoord = _float2(0.f, 1.f);
+	pVertices[6].vTexcoord = _float2(0.f, 2.f);
 
 	pVertices[7].vPosition = _float3(-0.875f, -0.5f, 0.125f);
-	pVertices[7].vTexcoord = _float2(1.f, 1.f);
+	pVertices[7].vTexcoord = _float2(1.f, 2.f);
 #pragma endregion
 
-#pragma region 대형 판넬 후면
+#pragma region 대형 판넬 후면 둘레
 	pVertices[12].vPosition = _float3(-0.625f, 0.75f, 0.125f);
-	pVertices[12].vTexcoord = _float2(1.f, 0.f);
-
+	pVertices[12].vTexcoord = _float2(1.f, 1.f);
+	
 	pVertices[13].vPosition = _float3(0.625f, 0.75f, 0.125f);
-	pVertices[13].vTexcoord = _float2(0.f, 0.f);
+	pVertices[13].vTexcoord = _float2(0.f, 1.f);
 
 	pVertices[14].vPosition = _float3(0.625f, 0.f, 0.125f);
-	pVertices[14].vTexcoord = _float2(0.f, 1.f);
+	pVertices[14].vTexcoord = _float2(0.f, 0.f);
 
 	pVertices[15].vPosition = _float3(-0.625f, 0.f, 0.125f);
-	pVertices[15].vTexcoord = _float2(1.f, 1.f);
+	pVertices[15].vTexcoord = _float2(1.f, 0.f);
+#pragma endregion
+
+#pragma region 대형 판넬 후면 중간
+	pVertices[52].vPosition = _float3(-0.625f, 0.5f, 0.125f);
+	pVertices[52].vTexcoord = _float2(1.f, 0.f);
+	
+	pVertices[53].vPosition = _float3(0.625f, 0.5f, 0.125f);
+	pVertices[53].vTexcoord = _float2(0.f, 0.f);
+
+	pVertices[54].vPosition = _float3(0.625f, 0.25f, 0.125f);
+	pVertices[54].vTexcoord = _float2(0.f, 1.f);
+
+	pVertices[55].vPosition = _float3(-0.625f, 0.25f, 0.125f);
+	pVertices[55].vTexcoord = _float2(1.f, 1.f);
 #pragma endregion
 
 #pragma region 오른쪽 기둥 후면
@@ -135,10 +163,10 @@ HRESULT CVIBuffer_Signboard::Initialize_Prototype()
 	pVertices[21].vTexcoord = _float2(0.f, 0.f);
 
 	pVertices[22].vPosition = _float3(0.875f, -0.5f, 0.125f);
-	pVertices[22].vTexcoord = _float2(0.f, 1.f);
+	pVertices[22].vTexcoord = _float2(0.f, 2.f);
 
 	pVertices[23].vPosition = _float3(0.625f, -0.5f, 0.125f);
-	pVertices[23].vTexcoord = _float2(1.f, 1.f);
+	pVertices[23].vTexcoord = _float2(1.f, 2.f);
 #pragma endregion
 
 #pragma region 왼쪽 아래 받침대 후면
@@ -195,6 +223,35 @@ HRESULT CVIBuffer_Signboard::Initialize_Prototype()
 	pVertices[47].vTexcoord = _float2(0.f, 1.f);
 #pragma endregion
 
+
+
+#pragma region 텍스쳐 때문에 추가
+	pVertices[56].vPosition = _float3(-0.625f, 0.f, -0.125f);	//11
+	pVertices[56].vTexcoord = _float2(0.f, 0.f);
+
+	pVertices[57].vPosition = _float3(0.625f, 0.f, -0.125f);	//10
+	pVertices[57].vTexcoord = _float2(1.f, 0.f);
+
+	pVertices[58].vPosition = _float3(0.625f, 0.f, 0.125f);		//14
+	pVertices[58].vTexcoord = _float2(1.f, 1.f);
+
+	pVertices[59].vPosition = _float3(-0.625f, 0.f, 0.125f);	//15
+	pVertices[59].vTexcoord = _float2(0.f, 1.f);
+
+
+	pVertices[60].vPosition = _float3(-0.625f, 0.f, 0.125f);	//15
+	pVertices[60].vTexcoord = _float2(1.f, 0.f);
+	
+	pVertices[61].vPosition = _float3(-0.625f, 0.f, -0.125f);	//11
+	pVertices[61].vTexcoord = _float2(0.f, 0.f);
+
+	pVertices[62].vPosition = _float3(-0.625f, -0.5f, -0.125f);	//2
+	pVertices[62].vTexcoord = _float2(0.f, 0.75f);
+	
+	pVertices[63].vPosition = _float3(-0.625f, -0.5f, 0.125f);	//6
+	pVertices[63].vTexcoord = _float2(1.f, 0.75f);
+#pragma endregion
+
 	m_pVB->Unlock();
 
 #pragma endregion
@@ -209,63 +266,67 @@ HRESULT CVIBuffer_Signboard::Initialize_Prototype()
 
 #pragma region 정면
 	Set_IndexBuffer(pIndices, 0, 0, 1, 2, 3);
-	Set_IndexBuffer(pIndices, 6, 24, 25, 26, 27);
-	Set_IndexBuffer(pIndices, 12, 8, 9, 10, 11);
-	Set_IndexBuffer(pIndices, 18, 16, 17, 18, 19);
-	Set_IndexBuffer(pIndices, 24, 32, 33, 34, 35);
+	Set_IndexBuffer(pIndices, 6, 16, 17, 18, 19);
+	Set_IndexBuffer(pIndices, 72, 8, 9, 49, 48);
+	Set_IndexBuffer(pIndices, 78, 51, 50, 10, 11);
+	Set_IndexBuffer(pIndices, 108, 48, 49, 50, 51);
+	Set_IndexBuffer(pIndices, 120, 24, 25, 26, 27);
+	Set_IndexBuffer(pIndices, 126, 32, 33, 34, 35);
 #pragma endregion
-
+	
 #pragma region 후면
-	Set_IndexBuffer(pIndices, 30, 5, 4, 7, 6);
-	Set_IndexBuffer(pIndices, 36, 29, 28, 31, 30);
-	Set_IndexBuffer(pIndices, 42, 13, 12, 15, 14);
-	Set_IndexBuffer(pIndices, 48, 21, 20, 23, 22);
-	Set_IndexBuffer(pIndices, 54, 37, 36, 39, 38);
+	Set_IndexBuffer(pIndices, 12, 5, 4, 7, 6);
+	Set_IndexBuffer(pIndices, 18, 21, 20, 23, 22);
+	Set_IndexBuffer(pIndices, 84, 13, 12, 52, 53);
+	Set_IndexBuffer(pIndices, 90, 54, 55, 15, 14);
+	Set_IndexBuffer(pIndices, 114, 53, 52, 55, 54);
+	Set_IndexBuffer(pIndices, 132, 29, 28, 31, 30);
+	Set_IndexBuffer(pIndices, 138, 37, 36, 39, 38);
 #pragma endregion
-
+	
 #pragma region 왼쪽
-	Set_IndexBuffer(pIndices, 60, 4, 0, 3, 7);
-	Set_IndexBuffer(pIndices, 66, 28, 24, 27, 31);
-	Set_IndexBuffer(pIndices, 72, 20, 16, 9, 13);
-	Set_IndexBuffer(pIndices, 78, 14, 10, 19, 23);
-	Set_IndexBuffer(pIndices, 84, 36, 32, 35, 39);
+	Set_IndexBuffer(pIndices, 24, 4, 0, 3, 7);
+	Set_IndexBuffer(pIndices, 30, 20, 16, 9, 13);
+	Set_IndexBuffer(pIndices, 36, 14, 10, 19, 23);
+	Set_IndexBuffer(pIndices, 144, 28, 24, 27, 31);
+	Set_IndexBuffer(pIndices, 150, 36, 32, 35, 39);
 #pragma endregion
 
 #pragma region 오른쪽
-	Set_IndexBuffer(pIndices, 90, 1, 5, 12, 8);
-	Set_IndexBuffer(pIndices, 96, 11, 15, 6, 2);
-	Set_IndexBuffer(pIndices, 102, 25, 29, 30, 26);
-	Set_IndexBuffer(pIndices, 108, 17, 21, 22, 18);
-	Set_IndexBuffer(pIndices, 114, 33, 37, 38, 34);
+	Set_IndexBuffer(pIndices, 42, 1, 5, 12, 8);
+	Set_IndexBuffer(pIndices, 48, 61, 60, 63, 62);
+	Set_IndexBuffer(pIndices, 54, 17, 21, 22, 18);
+	Set_IndexBuffer(pIndices, 156, 25, 29, 30, 26);
+	Set_IndexBuffer(pIndices, 162, 33, 37, 38, 34);
 #pragma endregion
 
 #pragma region 위
-	Set_IndexBuffer(pIndices, 120, 4, 5, 1, 0);
-	Set_IndexBuffer(pIndices, 126, 12, 13, 9, 8);
-	Set_IndexBuffer(pIndices, 132, 20, 21, 17, 16);
+	Set_IndexBuffer(pIndices, 60, 4, 5, 1, 0);
+	Set_IndexBuffer(pIndices, 66, 20, 21, 17, 16);
+	Set_IndexBuffer(pIndices, 96, 12, 13, 9, 8);
 #pragma endregion
 
 #pragma region 아래
-	Set_IndexBuffer(pIndices, 138, 27, 26, 30, 31);
-	Set_IndexBuffer(pIndices, 144, 11, 10, 14, 15);
-	Set_IndexBuffer(pIndices, 150, 35, 34, 38, 39);
+	Set_IndexBuffer(pIndices, 168, 27, 26, 30, 31);
+	Set_IndexBuffer(pIndices, 174, 35, 34, 38, 39);
+	Set_IndexBuffer(pIndices, 102, 56, 57, 58, 59);
 #pragma endregion
 
 #pragma region 왼쪽 발판 삼각형
-	Set_IndexBuffer2(pIndices, 156, 24, 3, 40, 2, 25);
+	Set_IndexBuffer2(pIndices, 180, 24, 3, 40, 2, 25);
 	//pIndices[156] = 24; pIndices[157] = 3;	pIndices[158] = 40;
 	//pIndices[159] = 40; pIndices[160] = 3;	pIndices[161] = 2;
 	//pIndices[162] = 40;	pIndices[163] = 2;	pIndices[164] = 25;
-	Set_IndexBuffer2(pIndices, 165, 28, 7, 41, 3, 24);
-	Set_IndexBuffer2(pIndices, 174, 29, 6, 42, 7, 28);
-	Set_IndexBuffer2(pIndices, 183, 25, 2, 43, 6, 29);
+	Set_IndexBuffer2(pIndices, 189, 28, 7, 41, 3, 24);
+	Set_IndexBuffer2(pIndices, 198, 29, 6, 42, 7, 28);
+	Set_IndexBuffer2(pIndices, 207, 25, 2, 43, 6, 29);
 #pragma endregion
 
 #pragma region 오른쪽 발판 삼각형
-	Set_IndexBuffer2(pIndices, 192, 32, 19, 44, 18, 33);
-	Set_IndexBuffer2(pIndices, 201, 36, 23, 45, 19, 32);
-	Set_IndexBuffer2(pIndices, 210, 37, 22, 46, 23, 36);
-	Set_IndexBuffer2(pIndices, 219, 33, 18, 47, 22, 37);
+	Set_IndexBuffer2(pIndices, 216, 32, 19, 44, 18, 33);
+	Set_IndexBuffer2(pIndices, 225, 36, 23, 45, 19, 32);
+	Set_IndexBuffer2(pIndices, 234, 37, 22, 46, 23, 36);
+	Set_IndexBuffer2(pIndices, 243, 33, 18, 47, 22, 37);
 #pragma endregion
 
 
@@ -278,6 +339,40 @@ HRESULT CVIBuffer_Signboard::Initialize_Prototype()
 HRESULT CVIBuffer_Signboard::Initialize(void* pArg)
 {
     return S_OK;
+}
+
+HRESULT CVIBuffer_Signboard::Render(_uint Surface)
+{
+	_uint iNumber{ 0 };
+
+	switch (Surface)
+	{
+	case PILLAR:
+		iNumber = 0;
+		break;
+
+	case PANELSIDE:
+		iNumber = 72;
+		break;
+
+	case PANEL:
+		iNumber = 108;
+		break;
+
+	case FOOTSTONE:
+		iNumber = 120;
+		break;
+
+	case CONNECTION:
+		iNumber = 180;
+		break;
+
+	default:
+		return E_FAIL;
+		break;
+	}
+
+	return m_pGraphic_Device->DrawIndexedPrimitive(D3DPT_TRIANGLELIST, 0, 0, m_iNumVertices, iNumber, m_iNumPritimive);
 }
 
 void CVIBuffer_Signboard::Set_IndexBuffer(_ushort* pIndices, _uint StartIndex, _uint LT, _uint RT, _uint RB, _uint LB)
