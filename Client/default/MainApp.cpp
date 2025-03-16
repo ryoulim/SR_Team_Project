@@ -10,6 +10,7 @@
 #include "Font_ItemDialog.h"
 
 #include "DebugMode.h"
+#include "CameraManager.h"
 
 
 // 매크로를 위한 매크로(건드리지 마시오)
@@ -78,6 +79,10 @@ HRESULT CMainApp::Ready_Component_For_Static()
 
 	ADD_PRTCOM(Transform);
 	ADD_PRTCOM(Gravity);
+	ADD_PRTCOM(Collider_AABB_Cube);
+	ADD_PRTCOM(Collider_OBB_Cube);
+	ADD_PRTCOM(Collider_Sphere);
+	ADD_PRTCOM(Collider_Capsule);
 
 	ADD_TEXTURE(Font_ItemDialog, "../Bin/Resources/Textures/UI/Font/font%d.PNG", 94);
 
@@ -86,6 +91,7 @@ HRESULT CMainApp::Ready_Component_For_Static()
 
 HRESULT CMainApp::Ready_Object_For_Static()
 {
+	ADD_PRTOBJ(CameraManager);
 	ADD_PRTOBJ(Dynamic_Camera);
 	ADD_PRTOBJ(FPS_Camera);
 	ADD_PRTOBJ(UI_Camera);

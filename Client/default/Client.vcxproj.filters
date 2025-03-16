@@ -157,6 +157,9 @@
     <Filter Include="02.GameObjects\Camera\FPSCamera">
       <UniqueIdentifier>{3292d9e0-25c2-4673-a3a9-65c79f7f39bc}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\Camera\Manager">
+      <UniqueIdentifier>{251a835c-fe80-4960-8da5-f50344efc795}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -267,9 +270,6 @@
     <ClInclude Include="..\public\DebugMode.h">
       <Filter>02.GameObjects\__DebugMode</Filter>
     </ClInclude>
-    <ClInclude Include="..\public\Player.h">
-      <Filter>02.GameObjects\Pawn\Player</Filter>
-    </ClInclude>
     <ClInclude Include="..\public\Level_GamePlay.h">
       <Filter>01.Levels\GamePlay</Filter>
     </ClInclude>
@@ -299,6 +299,12 @@
     </ClInclude>
     <ClInclude Include="..\public\FPS_Camera.h">
       <Filter>02.GameObjects\Camera\FPSCamera</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\CameraManager.h">
+      <Filter>02.GameObjects\Camera\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Player.h">
+      <Filter>02.GameObjects\Pawn\Player</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -437,6 +443,9 @@
     </ClCompile>
     <ClCompile Include="..\private\FPS_Camera.cpp">
       <Filter>02.GameObjects\Camera\FPSCamera</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\CameraManager.cpp">
+      <Filter>02.GameObjects\Camera\Manager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

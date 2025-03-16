@@ -123,9 +123,8 @@
       <AdditionalDependencies>d3d9.lib;d3dx9.lib;dInput8.lib;dxguid.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>CD $(SolutionDir)
-
-CALL $(SolutionDir)\UpdateLib.bat</Command>
+      <Command>
+      </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -155,6 +154,11 @@ CALL $(SolutionDir)\UpdateLib.bat</Command>
   <ItemGroup>
     <ClInclude Include="..\Public\Base.h" />
     <ClInclude Include="..\public\Camera.h" />
+    <ClInclude Include="..\public\Collider.h" />
+    <ClInclude Include="..\public\Collider_AABB_Cube.h" />
+    <ClInclude Include="..\public\Collider_Capsule.h" />
+    <ClInclude Include="..\Public\Collider_OBB_Cube.h" />
+    <ClInclude Include="..\public\Collider_Sphere.h" />
     <ClInclude Include="..\public\Component.h" />
     <ClInclude Include="..\Public\csvReader.h" />
     <ClInclude Include="..\Public\Engine_Defines.h" />
@@ -193,6 +197,11 @@ CALL $(SolutionDir)\UpdateLib.bat</Command>
   <ItemGroup>
     <ClCompile Include="..\Private\Base.cpp" />
     <ClCompile Include="..\private\Camera.cpp" />
+    <ClCompile Include="..\private\Collider.cpp" />
+    <ClCompile Include="..\private\Collider_AABB_Cube.cpp" />
+    <ClCompile Include="..\private\Collider_Capsule.cpp" />
+    <ClCompile Include="..\Private\Collider_OBB_Cube.cpp" />
+    <ClCompile Include="..\private\Collider_Sphere.cpp" />
     <ClCompile Include="..\private\Component.cpp" />
     <ClCompile Include="..\Private\csvReader.cpp" />
     <ClCompile Include="..\private\GameInstance.cpp" />

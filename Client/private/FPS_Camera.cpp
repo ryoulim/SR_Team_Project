@@ -27,7 +27,7 @@ HRESULT CFPS_Camera::Initialize(void* pArg)
 		return E_FAIL;
 
 	DESC* pDesc = static_cast<DESC*>(pArg);
-	m_fMouseSensor = pDesc->fMouseSensor;
+	//m_fMouseSensor = pDesc->fMouseSensor;
 	m_vInitPos = pDesc->vEye;
 	m_vInitLook = pDesc->vAt;
 
@@ -38,11 +38,11 @@ HRESULT CFPS_Camera::Initialize(void* pArg)
 
 void CFPS_Camera::Priority_Update(_float fTimeDelta)
 {
-	if (m_bBouseFixMod)
-	{
-		Mouse_Move();
-		Mouse_Fix();
-	}
+	//if (m_bBouseFixMod)
+	//{
+	//	Mouse_Move();
+	//	Mouse_Fix();
+	//}
 	Bind_Resource();
 }
 
@@ -61,31 +61,6 @@ HRESULT CFPS_Camera::Render()
 	if (FAILED(m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE)))
 		return E_FAIL;
 	return S_OK;
-}
-
-void CFPS_Camera::Mouse_Move()
-{
-	_float		fMouseMoveX = { static_cast<_float>(m_pGameInstance->Get_DIMMoveState(DIMM_X)) };
-	_float		fMouseMoveY = { static_cast<_float>(m_pGameInstance->Get_DIMMoveState(DIMM_Y)) };
-
-	_float3		vRotationAxis = (*m_pTransformCom->Get_State(CTransform::STATE_RIGHT) * fMouseMoveY)
-		+ (*m_pTransformCom->Get_State(CTransform::STATE_UP) * fMouseMoveX);
-
-	_float fAngle = RADIAN(_float3(fMouseMoveX, fMouseMoveY, 0).Length() * m_fMouseSensor);
-
-	_float3 vLook = *m_pTransformCom->Get_State(CTransform::STATE_LOOK);
-
-	_float4x4 matRot{ vRotationAxis,fAngle };
-	vLook.TransformNormal(matRot);
-	m_pTransformCom->LookAt(*m_pTransformCom->Get_State(CTransform::STATE_POSITION) + vLook);
-}
-
-void CFPS_Camera::Mouse_Fix()
-{
-	POINT		ptMouse{ g_iWinSizeX >> 1, g_iWinSizeY >> 1 };
-
-	ClientToScreen(g_hWnd, &ptMouse);
-	SetCursorPos(ptMouse.x, ptMouse.y);
 }
 
 void CFPS_Camera::Update_Projection_Matrix()

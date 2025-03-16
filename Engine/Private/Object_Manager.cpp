@@ -4,6 +4,7 @@
 #include "GameInstance.h"
 #include "GameObject.h"
 #include "ObjectPool.h"
+#include "Collider.h"
 
 CObject_Manager::CObject_Manager()
 	: m_pGameInstance { CGameInstance::Get_Instance() }
@@ -149,6 +150,32 @@ _uint CObject_Manager::Deactive_Object(const _wstring& strObjectTag, class CGame
 	auto ObjPool = Find_Object_Pool(strObjectTag);
 	_uint iReturn = ObjPool->DeActive(pObject);
 	return iReturn;
+}
+
+void CObject_Manager::Intersect(_uint iLevelIndex, const _wstring& strLayerTag1, const _wstring& strLayerTag2)
+{
+	auto GroupA = Find_Layer(iLevelIndex, strLayerTag1)->Get_Objects();
+	auto GroupB = Find_Layer(iLevelIndex, strLayerTag2)->Get_Objects();
+
+	CCollider* pCollider1{ nullptr };
+	CCollider* pCollider2{ nullptr };
+
+	for (auto& Obj1 : GroupA)
+	{
+		for (auto& Obj2 : GroupB)
+		{
+			pCollider1 = static_cast<CCollider*>(Obj1->Find_Component(TEXT("Com_Collider")));
+			pCollider2 = static_cast<CCollider*>(Obj2->Find_Component(TEXT("Com_Collider")));
+
+			if (pCollider1 == nullptr || pCollider2 == nullptr)
+				continue;
+
+			if (pCollider1->Check_Intersect(pCollider2))
+			{
+				Obj1->On_Collision();
+			}
+		}
+	}
 }
 
 CLayer* CObject_Manager::Find_Layer(_uint iLevelIndex, const _wstring& strLayerTag)

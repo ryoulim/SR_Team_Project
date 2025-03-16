@@ -40,6 +40,7 @@ HRESULT CLevel_GamePlay::Initialize(class CLevelData* pLevelData)
 
 void CLevel_GamePlay::Update(_float fTimeDelta)
 {
+	m_pGameInstance->Intersect(LEVEL_GAMEPLAY, TEXT("Layer_Pawn"), TEXT("Layer_Statue"));
 }
 
 HRESULT CLevel_GamePlay::Render()
@@ -64,7 +65,7 @@ HRESULT CLevel_GamePlay::Ready_Layer_Terrain(const _wstring& strLayerTag)
 		Find_Component(TEXT("Com_Transform")));
 
 	CGravity::DESC GravityDesc{};
-	GravityDesc.fTerrainScale = pTerrainTransform->Compute_Scaled().x;
+	GravityDesc.vTerrainScale = pTerrainTransform->Compute_Scaled();
 	GravityDesc.pTerrainVtxPos = pTerrainBuffer->Get_VertexPos();
 	GravityDesc.iTerrainVtxNumX = 129;
 	GravityDesc.iTerrainVtxNumZ = 129;
@@ -75,9 +76,18 @@ HRESULT CLevel_GamePlay::Ready_Layer_Terrain(const _wstring& strLayerTag)
 
 HRESULT CLevel_GamePlay::Ready_Layer_Camera(const _wstring& strLayerTag)
 {
-	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_FPS_Camera"),
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_CameraManager"),
 		LEVEL_GAMEPLAY, strLayerTag, m_pData->Find_Data(TEXT("Dynamic_Camera")))))
 		return E_FAIL;
+
+
+	//if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_FPS_Camera"),
+	//	LEVEL_GAMEPLAY, strLayerTag, m_pData->Find_Data(TEXT("Dynamic_Camera")))))
+	//	return E_FAIL;
+
+	//if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_Dynamic_Camera"),
+	//	LEVEL_GAMEPLAY, strLayerTag, m_pData->Find_Data(TEXT("Dynamic_Camera")))))
+	//	return E_FAIL;
 
 	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_UI_Camera"),
 		LEVEL_GAMEPLAY, strLayerTag, m_pData->Find_Data(TEXT("UI_Camera")))))
@@ -86,8 +96,18 @@ HRESULT CLevel_GamePlay::Ready_Layer_Camera(const _wstring& strLayerTag)
 	return S_OK;
 }
 
+#include "MyCube.h"
+
 HRESULT CLevel_GamePlay::Ready_Layer_Statue(const _wstring& strLayerTag)
 {
+	CMyCube::DESC CubeDesc{};
+
+	CubeDesc.vInitPos = { 150.f,50.f,150.f };
+	CubeDesc.vScale = { 50.f,100.f,50.f };
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_MyCube"),
+		LEVEL_GAMEPLAY, strLayerTag, &CubeDesc)))
+		return E_FAIL;
+
 	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Trapezoid"),
 		LEVEL_GAMEPLAY, strLayerTag, m_pData->Find_Data(TEXT("Trapezoid")))))
 		return E_FAIL;
@@ -95,8 +115,6 @@ HRESULT CLevel_GamePlay::Ready_Layer_Statue(const _wstring& strLayerTag)
 	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Cabinet"),
 		LEVEL_GAMEPLAY, strLayerTag, m_pData->Find_Data(TEXT("Cabinet")))))
 		return E_FAIL;
-
-
 
 	CExplosion::DESC ExplosionDesc{};
 	ExplosionDesc.vInitPos = { 160.f,60.f,200.f };
@@ -128,10 +146,11 @@ HRESULT CLevel_GamePlay::Ready_Layer_Particle(const _wstring& strLayerTag)
 HRESULT CLevel_GamePlay::Ready_Layer_Pawn(const _wstring& strLayerTag)
 {
 	CPlayer::DESC PlayerDesc{};
-	PlayerDesc.vInitPos = { 10.f,10.f,10.f };
-	PlayerDesc.vScale = { 5.f,5.f,5.f };
+	PlayerDesc.vInitPos = { 10.f,20.f,10.f };
+	PlayerDesc.vScale = { 5.f, 30.f, 5.f };
 	PlayerDesc.fRotationPerSec = RADIAN(180.f);
-	PlayerDesc.fSpeedPerSec = 300.f;
+	PlayerDesc.fSpeedPerSec = 150.f;
+	PlayerDesc.fMouseSensor = 0.1f;
 
 	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Player"),
 		LEVEL_GAMEPLAY, strLayerTag, &PlayerDesc)))

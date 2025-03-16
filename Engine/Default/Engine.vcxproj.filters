@@ -109,6 +109,21 @@
     <ClInclude Include="..\public\Gravity.h">
       <Filter>04.Components\Gravity</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\Collider.h">
+      <Filter>04.Components\Collider</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Collider_AABB_Cube.h">
+      <Filter>04.Components\Collider\AABB_Cube</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Collider_OBB_Cube.h">
+      <Filter>04.Components\Collider\OBB_Cube</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Collider_Sphere.h">
+      <Filter>04.Components\Collider\Sphere</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Collider_Capsule.h">
+      <Filter>04.Components\Collider\Capsule</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="99.Headers">
@@ -210,6 +225,21 @@
     <Filter Include="04.Components\Transform">
       <UniqueIdentifier>{b20f2232-3955-44e4-8a5f-78d251aab896}</UniqueIdentifier>
     </Filter>
+    <Filter Include="04.Components\Collider">
+      <UniqueIdentifier>{da3b2615-9fbc-4fc4-96e8-169f7f7261b4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04.Components\Collider\AABB_Cube">
+      <UniqueIdentifier>{e11a361a-6245-437d-8546-4f501b8d72a5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04.Components\Collider\OBB_Cube">
+      <UniqueIdentifier>{7f4afaff-d225-440f-a075-e3f91e6081b4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04.Components\Collider\Sphere">
+      <UniqueIdentifier>{363cddbb-2bd8-46cc-be96-68226d0e499e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04.Components\Collider\Capsule">
+      <UniqueIdentifier>{16c87723-ef05-409a-ba4e-619f17fc0234}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Private\Base.cpp">
@@ -301,6 +331,21 @@
     </ClCompile>
     <ClCompile Include="..\private\Gravity.cpp">
       <Filter>04.Components\Gravity</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Collider.cpp">
+      <Filter>04.Components\Collider</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Collider_AABB_Cube.cpp">
+      <Filter>04.Components\Collider\AABB_Cube</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Collider_OBB_Cube.cpp">
+      <Filter>04.Components\Collider\OBB_Cube</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Collider_Sphere.cpp">
+      <Filter>04.Components\Collider\Sphere</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Collider_Capsule.cpp">
+      <Filter>04.Components\Collider\Capsule</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -8,8 +8,8 @@
 #define DEGREE		D3DXToDegree
 #define PI			D3DX_PI	
 #define SQUARE(X)   (X)*(X)
-#define G_FORCE     ((FLOAT)9.80665f)
-#define PERCENT(X)	(X) - rand()%100 > 0
+#define G_FORCE     9.80665f
+#define PERCENT(X)	((X) - rand()%100 > 0)
 
 #ifdef ENGINE_EXPORTS
 #define ENGINE_DLL _declspec(dllexport)

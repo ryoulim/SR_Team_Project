@@ -10,10 +10,20 @@ typedef struct ENGINE_DLL tagVector : public D3DXVECTOR3
 	tagVector(CONST D3DVECTOR& _rhs) : D3DXVECTOR3(_rhs) {}
 	tagVector(CONST D3DXFLOAT16* _p) : D3DXVECTOR3(_p) {}
 	tagVector(FLOAT x, FLOAT y, FLOAT z) : D3DXVECTOR3(x, y, z) {}
+	
+	using D3DXVECTOR3::operator*;
 
+	tagVector operator * (const tagVector& v) const;
+	tagVector& operator * (const tagVector& v);
+	tagVector& operator = (const D3DXPLANE& v);
+	bool operator != (const D3DXPLANE& v) const;
+	bool operator == (const D3DXPLANE& v) const;
 
 	// 정규벡터를 만들어준다.
 	const tagVector& Normalize();
+
+	// 정규벡터를 만들어준다.
+	const tagVector Normalize() const;
 
 	// 길이를 구해준다
 	FLOAT Length() const;

@@ -20,13 +20,6 @@ HRESULT CPawn::Initialize(void* pArg)
 	if (FAILED(Ready_Components(pArg)))
 		return E_FAIL;
 
-	if (pArg != nullptr)
-	{
-		DESC* pDesc = static_cast<DESC*>(pArg);
-		m_pTransformCom->Set_State(CTransform::STATE_POSITION, pDesc->vInitPos);
-		m_pTransformCom->Scaling(pDesc->vScale);
-	}
-
 	return S_OK;
 }
 
@@ -41,8 +34,7 @@ EVENT CPawn::Update(_float fTimeDelta)
 
 void CPawn::Late_Update(_float fTimeDelta)
 {
-	if (FAILED(m_pGameInstance->Add_RenderGroup(CRenderer::RG_NONBLEND, this)))
-		return;
+	m_pCollider->Update_Collider(m_pTransformCom);
 }
 
 HRESULT CPawn::Render()
@@ -79,10 +71,26 @@ HRESULT CPawn::Ready_Components(void* pArg)
 		TEXT("Com_Transform"), reinterpret_cast<CComponent**>(&m_pTransformCom), pArg)))
 		return E_FAIL;
 
-	auto pPosition = const_cast<_float3*>(m_pTransformCom->Get_State(CTransform::STATE_POSITION));
+	if (pArg != nullptr)
+	{
+		DESC* pDesc = static_cast<DESC*>(pArg);
+		m_pTransformCom->Set_State(CTransform::STATE_POSITION, pDesc->vInitPos);
+		m_pTransformCom->Scaling(pDesc->vScale);
+	}
+
+	DESC* pDesc = static_cast<DESC*>(pArg);
+	CCollider_Capsule::DESC ColliderDesc{};
+	ColliderDesc.pTransform = m_pTransformCom;
+	//ColliderDesc.vScale = pDesc->vScale;
+
+	/* For.Com_Collider */
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Collider_Capsule"),
+		TEXT("Com_Collider"), reinterpret_cast<CComponent**>(&m_pCollider), &ColliderDesc)))
+		return E_FAIL;
+
 	/* For.Com_Gravity */
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Gravity"),
-		TEXT("Com_Gravity"), reinterpret_cast<CComponent**>(&m_pGravityCom), pPosition)))
+		TEXT("Com_Gravity"), reinterpret_cast<CComponent**>(&m_pGravityCom), m_pTransformCom)))
 		return E_FAIL;
 
 	return S_OK;
@@ -95,4 +103,5 @@ void CPawn::Free()
 	Safe_Release(m_pTextureCom);
 	Safe_Release(m_pTransformCom);
 	Safe_Release(m_pGravityCom);
+	Safe_Release(m_pCollider);
 }

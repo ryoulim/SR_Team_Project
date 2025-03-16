@@ -36,8 +36,8 @@ HRESULT CTransform::Bind_Resource()
 _float3 CTransform::Compute_Scaled() const
 {
 	return _float3(Get_State(STATE_RIGHT)->Length(),
-		Get_State(STATE_RIGHT)->Length(),
-		Get_State(STATE_RIGHT)->Length());
+		Get_State(STATE_UP)->Length(),
+		Get_State(STATE_LOOK)->Length());
 }
 
 void CTransform::Scaling(_float Ratio)

@@ -183,7 +183,7 @@ HRESULT CLoader::Loading_For_GamePlay()
 #pragma region DATA
 	lstrcpy(m_szLoadingText, TEXT("데이터를 읽어들이는 중입니다."));
 	Add_Data(TEXT("GamePlayLevelData.csv"));
-	CRETAE_OBJ_POOL(MyCube, 50);
+	//CRETAE_OBJ_POOL(MyCube, 50);
 	
 #pragma endregion
 

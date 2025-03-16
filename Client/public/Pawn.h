@@ -4,12 +4,6 @@
 #include "GameInstance.h"
 #include "GameObject.h"
 
-BEGIN(Engine)
-class CTexture;
-class CVIBuffer_Rect;
-class CTransform;
-END
-
 BEGIN(Client)
 
 class CPawn abstract : public CGameObject
@@ -45,6 +39,7 @@ protected:
 	CVIBuffer* m_pVIBufferCom = { nullptr };
 	CTransform* m_pTransformCom = { nullptr };
 	CGravity* m_pGravityCom = { nullptr };
+	CCollider* m_pCollider = { nullptr };
 
 public:
 	virtual CGameObject* Clone(void* pArg) PURE;
