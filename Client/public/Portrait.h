@@ -50,6 +50,7 @@ private:
 	_float	m_fAnimTick = {};
 	PORTRAITSTATUS	m_eFace = { PORTRAIT_IDLE };
 	HPSTATUS		m_eHPStatus = { HP100 };
+	_uint			m_uiHP = {};
 
 public:
 	static CPortrait* Create(LPDIRECT3DDEVICE9 pGraphicDevice);

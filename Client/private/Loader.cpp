@@ -180,23 +180,53 @@ HRESULT CLoader::Loading_For_Logo()
 	ADD_TEXTURE(MainMenu, "../Bin/Resources/Textures/UI/Background/MainMenu_Background.PNG", 1);
 	ADD_TEXTURE(Save_Background, "../Bin/Resources/Textures/UI/Background/Save_Background.PNG", 1);
 	m_fLoadPercent = 1.f / 5.f;
+
+	for (size_t i = 0; i < 100000; i++)
+	{
+		for (size_t j = 0; j < 10000; j++)
+		{
+			int a = 0;
+		}
+	}
 #pragma endregion
 
 #pragma region MODEL
 	lstrcpy(m_szLoadingText, TEXT("모델을(를) 로딩중입니다."));
+	for (size_t i = 0; i < 10000; i++)
+	{
+		for (size_t j = 0; j < 10000; j++)
+		{
+			int a = 0;
+		}
+	}
 	m_fLoadPercent = 2.f / 5.f;
 #pragma endregion
 
 #pragma region SOUND
 	lstrcpy(m_szLoadingText, TEXT("사운드을(를) 로딩중입니다."));
+	for (size_t i = 0; i < 100000; i++)
+	{
+		for (size_t j = 0; j < 10000; j++)
+		{
+			int a = 0;
+		}
+	}
 	m_fLoadPercent = 3.f / 5.f;
 #pragma endregion
 
 #pragma region PRTOBJ
 	lstrcpy(m_szLoadingText, TEXT("원형객체을(를) 로딩중입니다."));
+
 	ADD_PRTOBJ(BackGround);
 	ADD_PRTOBJ(MainMenu);
 	ADD_PRTOBJ(Button);
+	for (size_t i = 0; i < 100000; i++)
+	{
+		for (size_t j = 0; j < 10000; j++)
+		{
+			int a = 0;
+		}
+	}
 	m_fLoadPercent = 4.f / 5.f;
 
 #pragma endregion
@@ -204,9 +234,22 @@ HRESULT CLoader::Loading_For_Logo()
 #pragma region DATA
 	lstrcpy(m_szLoadingText, TEXT("데이터를 읽어들이는 중입니다."));
 	Add_Data(TEXT("GamePlayLevelData.csv"));
+	for (size_t i = 0; i < 100000; i++)
+	{
+		for (size_t j = 0; j < 10000; j++)
+		{
+			int a = 0;
+		}
+	}
 	m_fLoadPercent = 5.f / 5.f;
 
-
+	for (size_t i = 0; i < 100000; i++)
+	{
+		for (size_t j = 0; j < 10000; j++)
+		{
+			int a = 0;
+		}
+	}
 #pragma endregion
 
 	lstrcpy(m_szLoadingText, TEXT("로딩이 완료되었습니다."));

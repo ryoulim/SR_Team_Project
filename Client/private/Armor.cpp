@@ -3,6 +3,7 @@
 
 #include "Armor.h"
 #include "GameInstance.h"
+#include "UI_Manager.h"
 
 CArmor::CArmor(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CUI{ pGraphic_Device }
@@ -53,6 +54,9 @@ void CArmor::Late_Update(_float fTimeDelta)
 
 HRESULT CArmor::Render()
 {
+	RENDER_TEXT_BOL(200,
+		-(g_iWinSizeX / 2.f) + m_vSize.x*3.f,
+		-(g_iWinSizeY / 2.f) + m_vSize.y / 2.f - 3.f, 1.1f);
 	return __super::Render();
 }
 

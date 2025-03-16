@@ -70,9 +70,6 @@ HRESULT CFont::Render_Text(const string& _text,FONTALIGN _align, _float _posX, _
 		startPosX = _posX;
 	else if (_align == CENTER)
 		startPosX = _posX - m_uiTextWidth / 2.f * 14.f;
-	/************** 중앙 정렬 수정 필요 !!! ***************/
-
-
 	_float fontWidth{};
 	for (auto ch : _text)
 	{
@@ -82,10 +79,11 @@ HRESULT CFont::Render_Text(const string& _text,FONTALIGN _align, _float _posX, _
 			if (FAILED(m_pTextureCom->Get_TextureSize(static_cast<_uint>(m_fTextureNum), &m_vSize)))
 				return E_FAIL;
 			m_vSize *= vSizeMul;
-			fontWidth += m_vSize.x;
+			fontWidth += m_vSize.x * 0.5f;
 			m_pTransformCom->Set_State(CTransform::STATE_POSITION, _float3(startPosX + fontWidth, _posY, 0.5f));
 				                                 
 			Render();
+			fontWidth += m_vSize.x * 0.5f + 1.f;
 		}
 		else
 			fontWidth += 10.f;

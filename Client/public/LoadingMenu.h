@@ -30,7 +30,7 @@ private:
 	CVIBuffer*	m_pVIBufferComForLoading[LOADERTEX_END] = { nullptr };
 	CTransform* m_pTransformComForLoading[LOADERTEX_END] = { nullptr };
 	_float		m_fAnimTick{};
-	_float		m_fLoadingGauge{};
+	_float		m_fLoadingGauge{0.1f};
 
 public:
 	void	Set_LoadingGauge(const _float percent) { m_fLoadingGauge = percent; }

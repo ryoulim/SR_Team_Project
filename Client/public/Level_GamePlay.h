@@ -33,7 +33,6 @@ private:
 	HRESULT Ready_Layer_Particle(const _wstring& strLayerTag);
 	HRESULT Ready_Layer_Effect(const _wstring& strLayerTag);
 	HRESULT Ready_Layer_UI(const _wstring& strLayerTag);
-	HRESULT Ready_Layer_Item(const _wstring& strLayerTag);
 	HRESULT Ready_Light();
 
 

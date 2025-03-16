@@ -195,9 +195,10 @@ HRESULT CLoadingMenu::Render_LoadingBar()
 	if (FAILED(m_pTextureComForLoading[LOADERTEX_BAR]->Bind_Resource(0)))
 		return E_FAIL;
 	_float fsize = 126.f * m_fLoadingGauge;
-	if (m_fLoadingGauge > 0.4f)
-		int a = 0;
-	m_pTransformComForLoading[LOADERTEX_BAR]->Set_State(CTransform::STATE_POSITION, { (g_iWinSizeX * 0.5f - 130.f) - 126.f * 0.5f, -(g_iWinSizeY * 0.5f) + 50.f, 0.01f });
+	m_pTransformComForLoading[LOADERTEX_BAR]->Set_State(CTransform::STATE_POSITION,
+		{ (g_iWinSizeX * 0.5f - 130.f) - (126.f  - 126.f * m_fLoadingGauge) * 0.5f,
+		-(g_iWinSizeY * 0.5f) + 50.f,
+		0.01f });
 	m_pTransformComForLoading[LOADERTEX_BAR]->Scaling({ fsize, 6.f, 1.f });
 
 	if (FAILED(m_pTransformComForLoading[LOADERTEX_BAR]->Bind_Resource()))

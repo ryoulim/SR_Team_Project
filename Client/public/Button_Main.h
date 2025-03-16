@@ -1,28 +1,22 @@
-// 내 클래스 이름 : Item_Ammo
-// 부모 클래스 이름 : Item
+// 내 클래스 이름 : Button
+// 부모 클래스 이름 : UI
 
 #pragma once
-#include "Item.h"
-//#include "Ammo.h"
+#include "Font.h"
 
 BEGIN(Client)
 
-class CItem_Ammo : public CItem
+class CButton : public CUI
 {
 public:
-	typedef struct tagItem_AmmoDesc : public CItem::DESC
+	typedef struct tagButtonDesc : public CUI::DESC
 	{
-
+		CFont::FONTALIGN eAlign;
 	}DESC;
-
 protected:
-	CItem_Ammo(LPDIRECT3DDEVICE9 pGraphic_Device);
-	CItem_Ammo(const CItem_Ammo& Prototype);
-	virtual ~CItem_Ammo() = default;
-
-protected:
-	//CItem_Ammo* Ammos[CAmmo::AMMO_END];
-	_float		m_fAmmoCnt = {};
+	CButton(LPDIRECT3DDEVICE9 pGraphic_Device);
+	CButton(const CButton& Prototype);
+	virtual ~CButton() = default;
 
 public:
 	virtual HRESULT Initialize_Prototype() override;
@@ -32,8 +26,11 @@ public:
 	virtual void Late_Update(_float fTimeDelta) override;
 	virtual HRESULT Render() override;
 
+protected:
+	CFont::FONTALIGN m_eAlign = { CFont::LEFT };
+
 public:
-	static CItem_Ammo* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
+	static CButton* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
 	virtual CGameObject* Clone(void* pArg) override;
 	virtual void Free();
 };

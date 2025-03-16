@@ -50,10 +50,6 @@ HRESULT CUI_Manager::Initialize()
 	//m_Fonts[CFont::TINYBLUE] = dynamic_cast<CFont*>(m_pGameInstance->Clone_Prototype(PROTOTYPE::TYPE_GAMEOBJECT, LEVEL_STATIC, TEXT("Prototype_GameObject_Font_TinyBlue")));
 	//if (nullptr == m_Fonts[CFont::TINYBLUE])
 	//	return E_FAIL;
-
-
-
-
 	return S_OK;
 }
 
@@ -83,5 +79,5 @@ void CUI_Manager::Free()
 	{
 		if (m_Fonts[i] != nullptr)
 			Safe_Release(m_Fonts[i]);
-	}
+	} 
 } 

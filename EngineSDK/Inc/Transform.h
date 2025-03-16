@@ -66,6 +66,8 @@ public:
 	void Turn_Immediately(const _float3& vAxis, _float fRadian);
 	void Rotation(const _float3& vAxis, _float fRadian);
 
+	void QuaternionRotation(const _float3& vAngle);
+
 private:
 	_float4x4				m_WorldMatrix;
 
