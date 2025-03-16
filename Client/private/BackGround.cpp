@@ -49,7 +49,8 @@ void CBackGround::Late_Update(_float fTimeDelta)
 
 HRESULT CBackGround::Render()
 {
-	return __super::Render();
+	return S_OK;
+	//return __super::Render();
 }
 
 CBackGround* CBackGround::Create(LPDIRECT3DDEVICE9 pGraphic_Device)

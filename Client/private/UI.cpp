@@ -61,7 +61,6 @@ HRESULT CUI::Render()
 
 	if (FAILED(m_pVIBufferCom->Render()))
 		return E_FAIL;
-
 	return S_OK;
 }
 
@@ -88,10 +87,14 @@ HRESULT CUI::Ready_Components(void* pArg)
 void CUI::Update_Rect()
 {
 	// 이게 정말 맞는 걸까요?
-	m_tRect.left	= LONG(m_vPos.x - (m_vSize.x * 0.5f));
-	m_tRect.top		= LONG(m_vPos.y - (m_vSize.y * 0.5f));
-	m_tRect.right	= LONG(m_vPos.x + (m_vSize.x * 0.5f));
-	m_tRect.bottom	= LONG(m_vPos.y + (m_vSize.y * 0.5f));
+	_float posx = m_vPos.x + g_iWinSizeX * 0.5f;
+	_float posy = -(m_vPos.y - g_iWinSizeY * 0.5f);
+
+
+	m_tRect.left	= LONG(posx - (m_vSize.x * 0.5f));
+	m_tRect.top		= LONG(posy - (m_vSize.y * 0.5f));
+	m_tRect.right	= LONG(posx + (m_vSize.x * 0.5f));
+	m_tRect.bottom	= LONG(posy + (m_vSize.y * 0.5f));
 }
 
 void CUI::Free()

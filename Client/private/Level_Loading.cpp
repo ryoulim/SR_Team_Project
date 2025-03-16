@@ -5,6 +5,7 @@
 #include "Loader.h"
 
 #include "GameInstance.h"
+#include <LoadingMenu.h>
 
 CLevel_Loading::CLevel_Loading(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CLevel { pGraphic_Device }
@@ -25,6 +26,15 @@ HRESULT CLevel_Loading::Initialize(LEVEL eNextLevelID)
 	m_pLoader = CLoader::Create(m_pGraphic_Device, m_eNextLevelID);
 	if (nullptr == m_pLoader)
 		return E_FAIL;
+
+	
+		
+ 	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_LoadingMenu"),
+		LEVEL_LOADING, TEXT("Layer_UI"))))
+		return E_FAIL;
+
+
+
 	
 	return S_OK;
 }

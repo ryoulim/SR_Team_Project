@@ -3,34 +3,80 @@
 
 #pragma once
 #include "Base.h"
+#include "GameInstance.h"
+#include "Client_Defines.h"
+#include "Font.h"
+
+BEGIN(Engine)
+class CGameInstance;
+END
 
 BEGIN(Client)
 
 class CUI_Manager final : public CBase
 {
-	DECLARE_SINGLETON(CUI_Manager)
-
+#pragma region DECLARE_SINGLETON
 private:
 	CUI_Manager();
 	virtual ~CUI_Manager() = default;
+	CUI_Manager(const CUI_Manager&) = delete;				
+	CUI_Manager& operator=(const CUI_Manager&) = delete;						
 
+public:												
+	static CUI_Manager* Get_Instance(CGameInstance* pGameInstance);
+	static unsigned int Destroy_Instance();	
+
+private:											
+	static CUI_Manager* m_pInstance;
+	CGameInstance* m_pGameInstance = { nullptr };
+
+#pragma endregion
+		
 public:
-	HRESULT Initialize(void* pArg) ;
+	// »ý°¢ 
+	enum tempui {UI_BACKGROUND, UI_INVENTORY, UI_BUTTON, UI_DIALOG, UI_NOIDEA};
+public:
+	HRESULT Initialize() ;
 	void Priority_Update(_float fTimeDelta) ;
 	void Update(_float fTimeDelta) ;
-	void Late_Update(_float fTimeDelta) ;
-	HRESULT Render() ;
+	void Late_Update(_float fTimeDelta);
+	HRESULT Render();
+
+private:
+	void	Set_GameInstance(CGameInstance* pGameInstance) { m_pGameInstance = pGameInstance; Safe_AddRef(m_pGameInstance); }
 
 public:
-	//vector<class CUI*>		m_vecUIs[LEVEL_END];
+	HRESULT Render_Text(const string& _text, CFont::FONTTYPE _type, CFont::FONTALIGN _align, _float _posX, _float _posY, _float vSizeMul = 1.f) {
+		if (m_Fonts[_type] == nullptr)
+			return E_FAIL;
+		return m_Fonts[_type]->Render_Text(_text, _align, _posX, _posY, vSizeMul);
+	}
+	HRESULT Render_Text(const _int _val, CFont::FONTTYPE _type, CFont::FONTALIGN _align, _float _posX, _float _posY, _float vSizeMul = 1.f) {
+		if (m_Fonts[_type] == nullptr)
+			return E_FAIL;
+		return m_Fonts[_type]->Render_Text(_val, _align, _posX, _posY, vSizeMul);
+	}
 
 
+	
 public:
-	enum FONTTYPE { MEDIUMBLUE, TINYBLUE, NEONLIGHTS, THICKNEONLIGHTS, BIGORANGE, BIGSILVER, GRAFFITI, FONT_END };
-	class CFont*		m_Fonts[FONT_END];
-		
+	class CFont*			m_Fonts[CFont::FONT_END] = {nullptr,};
+	vector<class CUI*>		m_vecUIs[LEVEL_END];
+
 public:
 	virtual void Free();
 };
+
+// Render_Text MediumBlueLeft
+// ÆÄ¶õ ±Û¾¾ (¾ÆÀÌÅÛ È¹µæ dialog¿ëµµ ÁÂÃø »ó´Ü °íÁ¤)
+#define RENDER_ITEMDIALOG(message, fposY)  CUI_Manager::Get_Instance(m_pGameInstance)->Render_Text(message, CFont::MEDIUMBLUE, CFont::LEFT, -(g_iWinSizeX / 2.f) + 20.f, fposY)
+
+// Render_Text BigOrangeCenter
+// ³ë¶õ ±Û¾¾ Áß¾Ó Á¤·Ä
+#define RENDER_TEXT_BOC(message, fX, fY, fSize) CUI_Manager::Get_Instance(m_pGameInstance)->Render_Text(message, CFont::BIGORANGE, CFont::CENTER, fX, fY, fSize)
+// Render_Text BigOrangeLeft
+// ³ë¶õ ±Û¾¾ ÁÂÃø Á¤·Ä
+#define RENDER_TEXT_BOL(message, fX, fY, fSize) CUI_Manager::Get_Instance(m_pGameInstance)->Render_Text(message, CFont::BIGORANGE, CFont::LEFT, fX, fY, fSize)
+
 
 END

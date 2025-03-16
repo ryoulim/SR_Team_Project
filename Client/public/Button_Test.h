@@ -1,17 +1,18 @@
-// 내 클래스 이름 : Font_ItemDialog
-// 부모 클래스 이름 : Font
+// 내 클래스 이름 : Button_Test
+// 부모 클래스 이름 : Button
 
 #pragma once
-#include "Font.h"
+#include "Button.h"
+
 
 BEGIN(Client)
 
-class CFont_ItemDialog final : public CFont
+class CButton_Test final : public CButton
 {
 private:
-	CFont_ItemDialog(LPDIRECT3DDEVICE9 pGraphic_Device);
-	CFont_ItemDialog(const CFont_ItemDialog& Prototype);
-	virtual ~CFont_ItemDialog() = default;
+	CButton_Test(LPDIRECT3DDEVICE9 pGraphic_Device);
+	CButton_Test(const CButton_Test& Prototype);
+	virtual ~CButton_Test() = default;
 
 public:
 	virtual HRESULT Initialize_Prototype() override;
@@ -22,7 +23,7 @@ public:
 	virtual HRESULT Render() override;
 
 public:
-	static CFont_ItemDialog* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
+	static CButton_Test* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
 	virtual CGameObject* Clone(void* pArg) override;
 	virtual void Free();
 };

@@ -3,7 +3,7 @@
 
 #pragma once
 #include "UI.h"
-#include "Font_ItemDialog.h"
+#include "Font_MediumBlue.h"
 
 BEGIN(Client)
 

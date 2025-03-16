@@ -17,7 +17,8 @@ public:
 		CHAINGUN,
 		BOWLINGBOMB,
 		IONBOW,
-		CLUSTERPUCK = 7
+		CLUSTERPUCK,
+		AMMO_END
 	};
 
 private:

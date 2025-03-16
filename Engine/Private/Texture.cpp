@@ -77,7 +77,7 @@ HRESULT CTexture::Bind_Resource(_uint iIndex)
 	return m_pGraphic_Device->SetTexture(0, m_Textures[iIndex]);		
 }
 
-HRESULT CTexture::Get_TextureSize(_uint iIndex, _float3* ppOut)
+HRESULT CTexture::Get_TextureSize(_uint iIndex, _float3* pOut)
 {
 	if (iIndex >= m_iNumTextures)
 		return E_FAIL;
@@ -87,8 +87,8 @@ HRESULT CTexture::Get_TextureSize(_uint iIndex, _float3* ppOut)
 		return E_FAIL;
 	
 
-	ppOut->x = static_cast<_float>(Desc.Width);
-	ppOut->y = static_cast<_float>(Desc.Height);
+	pOut->x = static_cast<_float>(Desc.Width);
+	pOut->y = static_cast<_float>(Desc.Height);
 
 	return S_OK;
 }

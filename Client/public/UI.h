@@ -36,7 +36,7 @@ public:
 
 protected:
 	virtual HRESULT Ready_Components(void* pArg);
-    void Update_Rect();
+    virtual void Update_Rect();
 
 protected:
 	LEVEL           m_eLevelID = { LEVEL_END };
@@ -45,9 +45,11 @@ protected:
 	CTexture*       m_pTextureCom = { nullptr };
 	CVIBuffer*      m_pVIBufferCom = { nullptr };
 	CTransform*     m_pTransformCom = { nullptr };
-    _float3         m_vPos{};
-    _float3         m_vSize{};
+    _float3         m_vPos = {};
+    _float3         m_vSize = {};
     RECT            m_tRect = {};
+    _float          m_fDepth = {};
+
 
 public:
 	virtual CGameObject* Clone(void* pArg) PURE;

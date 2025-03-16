@@ -2,6 +2,7 @@
 
 #include "Client_Defines.h"
 #include "Base.h"
+#include <LoadingMenu.h>
 
 BEGIN(Engine)
 class CGameInstance;
@@ -23,6 +24,9 @@ public:
 	CLevelData* Get_LevelData() const {
 		return m_pData;
 	}
+	_float Get_LoadPercent() const {
+		return m_fLoadPercent;
+	}
 
 public:
 	HRESULT Initialize(LEVEL eNextLevelID);
@@ -30,6 +34,9 @@ public:
 
 	void Output_LoadingText() {
 		SetWindowText(g_hWnd, m_szLoadingText);
+
+		auto LoadingMenu = m_pGameInstance->Find_Object(LEVEL_LOADING, TEXT("Layer_UI"));
+		dynamic_cast<CLoadingMenu*>(LoadingMenu)->Set_LoadingGauge(m_fLoadPercent);
 	}
 	
 
@@ -37,6 +44,7 @@ private:
 	LPDIRECT3DDEVICE9			m_pGraphic_Device = { nullptr };
 	LEVEL						m_eNextLevelID = { LEVEL_END };
 	_bool						m_isFinished = { false };
+	_float						m_fLoadPercent = {};
 	CGameInstance*				m_pGameInstance = { nullptr };
 
 private:
