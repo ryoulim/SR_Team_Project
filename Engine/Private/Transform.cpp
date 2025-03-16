@@ -228,6 +228,24 @@ void CTransform::Rotation(const _float3& vAxis, _float fRadian)
 	Set_State(STATE_LOOK, vLook.TransformNormal(RotationMatrix));
 }
 
+void CTransform::QuaternionRotation(const _float3& vAngle)
+{
+	_float3        vScaled = Compute_Scaled();
+
+	_float3        vRight = _float3{ 1.f, 0.f, 0.f } *vScaled.x;
+	_float3        vUp = _float3{ 0.f, 1.f, 0.f } *vScaled.y;
+	_float3        vLook = _float3{ 0.f, 0.f, 1.f } *vScaled.z;
+
+	D3DXQUATERNION Qur{};
+	_float4x4 RotationMatrix{};
+	D3DXQuaternionRotationYawPitchRoll(&Qur, vAngle.x, vAngle.y, vAngle.z);
+	D3DXMatrixRotationQuaternion(&RotationMatrix, &Qur);
+
+	Set_State(STATE_RIGHT, vRight.TransformNormal(RotationMatrix));
+	Set_State(STATE_UP, vUp.TransformNormal(RotationMatrix));
+	Set_State(STATE_LOOK, vLook.TransformNormal(RotationMatrix));
+}
+
 CTransform* CTransform::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 {
 	CTransform* pInstance = new CTransform(pGraphic_Device);

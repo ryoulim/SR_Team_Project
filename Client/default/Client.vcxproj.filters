@@ -348,7 +348,6 @@
     <ClInclude Include="..\public\LoadingMenu.h">
       <Filter>02.GameObjects\UI\MenuUI\LoadingMenu</Filter>
     </ClInclude>
-    <ClInclude Include="..\public\Item_Ammo.h" />
     <ClInclude Include="..\public\Smoke.h">
       <Filter>02.GameObjects\Particle\Smoke</Filter>
     </ClInclude>
@@ -360,6 +359,27 @@
     </ClInclude>
     <ClInclude Include="..\public\CameraSprite.h">
       <Filter>02.GameObjects\Effect\CameraSprite</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\FPS_Camera.h">
+      <Filter>02.GameObjects\Camera\FPSCamera</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\CameraManager.h">
+      <Filter>02.GameObjects\Camera\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Item_Ammo.h">
+      <Filter>02.GameObjects\Item\Item_Ammo</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Signboard.h">
+      <Filter>02.GameObjects\Statue\Signboard</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\TestBullet.h">
+      <Filter>02.GameObjects\Bullet\TestBullet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Player.h">
+      <Filter>02.GameObjects\Pawn\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\TestMonster.h">
+      <Filter>02.GameObjects\Monster\TestMonster</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -514,7 +534,6 @@
     <ClCompile Include="..\private\LoadingMenu.cpp">
       <Filter>02.GameObjects\UI\MenuUI\LoadingMenu</Filter>
     </ClCompile>
-    <ClCompile Include="..\private\Item_Ammo.cpp" />
     <ClCompile Include="..\private\Smoke.cpp">
       <Filter>02.GameObjects\Particle\Smoke</Filter>
     </ClCompile>
@@ -526,6 +545,24 @@
     </ClCompile>
     <ClCompile Include="..\private\CameraSprite.cpp">
       <Filter>02.GameObjects\Effect\CameraSprite</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\FPS_Camera.cpp">
+      <Filter>02.GameObjects\Camera\FPSCamera</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\CameraManager.cpp">
+      <Filter>02.GameObjects\Camera\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Item_Ammo.cpp">
+      <Filter>02.GameObjects\Item\Item_Ammo</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Signboard.cpp">
+      <Filter>02.GameObjects\Statue\Signboard</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\TestBullet.cpp">
+      <Filter>02.GameObjects\Bullet\TestBullet</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\TestMonster.cpp">
+      <Filter>02.GameObjects\Monster\TestMonster</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

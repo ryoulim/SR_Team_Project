@@ -287,5 +287,5 @@ void CFirework::Free()
 	__super::Free();
 	
 	Safe_Release(m_pTextureCom);
-	Safe_Release(m_Effect);
+	//Safe_Release(m_Effect); 이중삭제 되서 일단 주석인데 찾아주세요
 }

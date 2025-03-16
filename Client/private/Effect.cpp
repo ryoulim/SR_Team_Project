@@ -63,6 +63,7 @@ HRESULT CEffect::Render()
 	if (FAILED(m_pVIBufferCom->Bind_Buffers()))
 		return E_FAIL;
 
+	Billboard();
 	if (FAILED(m_pVIBufferCom->Render()))
 		return E_FAIL;
 
