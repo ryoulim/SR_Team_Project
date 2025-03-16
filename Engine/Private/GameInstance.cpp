@@ -161,6 +161,11 @@ _uint CGameInstance::Deactive_Object(const _wstring& strObjectTag, CGameObject* 
 	return m_pObject_Manager->Deactive_Object(strObjectTag, pObject);
 }
 
+void CGameInstance::Intersect(_uint iLevelIndex, const _wstring& strLayerTag1, const _wstring& strLayerTag2)
+{
+	m_pObject_Manager->Intersect(iLevelIndex, strLayerTag1, strLayerTag2);
+}
+
 #pragma endregion
 
 #pragma region RENDERER

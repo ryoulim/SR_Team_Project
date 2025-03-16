@@ -11,6 +11,7 @@ BEGIN(Engine)
 class ENGINE_DLL CTransform final : public CComponent
 {
 public:
+	friend class CGravity;
 	enum TRANSFORMSTATE { STATE_RIGHT, STATE_UP, STATE_LOOK, STATE_POSITION };
 
 	typedef struct tagTransformDesc
@@ -28,10 +29,10 @@ public:
 		return reinterpret_cast<const _float3*>(m_WorldMatrix.m[eState]);
 	}
 
-	const _float4x4& Get_WorldMatrix_Inverse(_float4x4& rhsOut) {
+	const _float4x4& Get_WorldMatrix_Inverse(_float4x4& rhsOut) const {
 		return rhsOut.MakeInverseMat(m_WorldMatrix);
 	}
-	const _float4x4* Get_WorldMatrix() { return &m_WorldMatrix; }
+	const _float4x4* Get_WorldMatrix() const { return &m_WorldMatrix; }
 
 	void Set_State(TRANSFORMSTATE eState, const _float3& vState) {
 		memcpy(&m_WorldMatrix.m[eState][0], &vState, sizeof vState);

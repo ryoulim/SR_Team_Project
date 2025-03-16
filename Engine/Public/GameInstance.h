@@ -52,6 +52,9 @@ public:
 	// 오브젝트 리스트에서 해당객체를 빼서 오브젝트 풀에 반환한다.
 	_uint Deactive_Object(const _wstring& strObjectTag, class CGameObject* pObject);
 
+	// A그룹과 B그룹의 충돌을 검사한다.
+	void Intersect(_uint iLevelIndex, const _wstring& strLayerTag1, const _wstring& strLayerTag2);
+
 #pragma endregion
 
 #pragma region RENDERER

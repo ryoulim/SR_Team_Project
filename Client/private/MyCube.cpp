@@ -41,11 +41,11 @@ HRESULT CMyCube::Initialize(void* pArg)
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
 	
-	if (pArg != nullptr)
-	{
-		DESC* pDesc = static_cast<DESC*>(pArg);
-		m_pTransformCom->LookAt(pDesc->vLook);
-	}
+	//if (pArg != nullptr)
+	//{
+	//	DESC* pDesc = static_cast<DESC*>(pArg);
+	//	m_pTransformCom->LookAt(pDesc->vLook);
+	//}
 
 	return S_OK;
 }
@@ -59,25 +59,44 @@ EVENT CMyCube::Update(_float fTimeDelta)
 {
 	m_pTransformCom->Go_Straight(fTimeDelta);
 
-	m_fTimeAcc += fTimeDelta;
-	if (m_fTimeAcc > 3.f)
-	{
-		m_fTimeAcc = 0.f;
-		m_pGameInstance->Deactive_Object(TEXT("ObjectPool_MyCube"), this);
-		return EVN_OFF;
-	}
+	//m_fTimeAcc += fTimeDelta;
+	//if (m_fTimeAcc > 3.f)
+	//{
+	//	m_fTimeAcc = 0.f;
+	//	m_pGameInstance->Deactive_Object(TEXT("ObjectPool_MyCube"), this);
+	//	return EVN_OFF;
+	//}
 
 	return __super::Update(fTimeDelta);
 }
 
 void CMyCube::Late_Update(_float fTimeDelta)
 {
+	m_pCollider->Update_Collider(m_pTransformCom);
 	__super::Late_Update(fTimeDelta);
 }
 
 HRESULT CMyCube::Render()
 {
 	return __super::Render();
+}
+
+HRESULT CMyCube::Ready_Components(void* pArg)
+{
+	if (FAILED(__super::Ready_Components(pArg)))
+		return E_FAIL;
+
+	DESC* pDesc = static_cast<DESC*>(pArg);
+	CCollider_AABB_Cube::DESC ColliderDesc{};
+	ColliderDesc.pTransform = m_pTransformCom;
+	ColliderDesc.vScale = pDesc->vScale;
+
+	/* For.Com_Collider */			
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Collider_AABB_Cube"),
+		TEXT("Com_Collider"), reinterpret_cast<CComponent**>(&m_pCollider), &ColliderDesc)))
+		return E_FAIL;
+
+	return S_OK;
 }
 
 CMyCube* CMyCube::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
@@ -109,4 +128,5 @@ CGameObject* CMyCube::Clone(void* pArg)
 void CMyCube::Free()
 {
 	__super::Free();
+	Safe_Release(m_pCollider);
 }

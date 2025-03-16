@@ -24,6 +24,7 @@ public:
 	virtual HRESULT Render();
 
 	class CComponent* Find_Component(const _wstring& strComponentTag);
+	virtual void On_Collision(CGameObject* pCollisionedObject) {};
 
 protected:
 	LPDIRECT3DDEVICE9				m_pGraphic_Device = { nullptr };

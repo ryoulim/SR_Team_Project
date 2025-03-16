@@ -15,6 +15,8 @@
 #include "Trapezoid.h"
 #include "Cabinet.h"
 #include "Player.h"
+#include "TestMonster.h"
+#include "TestBullet.h"
 
 //파티클 인클루드
 #include "Firework.h"
@@ -134,10 +136,15 @@ HRESULT CLoader::Loading_For_GamePlay()
 	ADD_TEXTURE(Cabinet, "../Bin/Resources/Textures/Object/Cabinet/Cabinet%d.png", 3);
 	ADD_TEXTURE(Trapezoid, "../Bin/Resources/Textures/Object/Trapezoid/Trapezoid%d.png", 2);
 
+	ADD_TEXTURE(TestBullet, "../Bin/Resources/Textures/Bullet/Test/tile7859.png", 1);
+	ADD_TEXTURE(TestMonster, "../Bin/Resources/Textures/Monster/Test/TestMonster%d.PNG", 2);
+
 	//파티클
 	ADD_TEXTURE(PC_Bullet, "../Bin/Resources/Textures/Particle/PC_Bullet.png", 1);
 	ADD_TEXTURE(PS_Firework, "../Bin/Resources/Textures/Particle/PS_Firework%d.png", 4);
 	ADD_TEXTURE(PC_Rain, "../Bin/Resources/Textures/Particle/PC_Rain.png", 1);
+
+
 	
 #pragma endregion
 
@@ -162,6 +169,8 @@ HRESULT CLoader::Loading_For_GamePlay()
 	ADD_PRTOBJ(Trapezoid);
 	ADD_PRTOBJ(Cabinet);
 	ADD_PRTOBJ(Player);
+	ADD_PRTOBJ(TestBullet);
+	ADD_PRTOBJ(TestMonster);
 
 #pragma region 파티클 원형객체
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Snow"),
@@ -183,7 +192,7 @@ HRESULT CLoader::Loading_For_GamePlay()
 #pragma region DATA
 	lstrcpy(m_szLoadingText, TEXT("데이터를 읽어들이는 중입니다."));
 	Add_Data(TEXT("GamePlayLevelData.csv"));
-	CRETAE_OBJ_POOL(MyCube, 50);
+	//CRETAE_OBJ_POOL(MyCube, 50);
 	
 #pragma endregion
 

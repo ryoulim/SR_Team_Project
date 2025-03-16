@@ -79,6 +79,13 @@ HRESULT CMonster::Ready_Components(void* pArg)
 		TEXT("Com_Transform"), reinterpret_cast<CComponent**>(&m_pTransformCom), pArg)))
 		return E_FAIL;
 
+	if (pArg != nullptr)
+	{
+		DESC* pDesc = static_cast<DESC*>(pArg);
+		m_pTransformCom->Set_State(CTransform::STATE_POSITION, pDesc->vInitPos);
+		m_pTransformCom->Scaling(pDesc->vScale);
+	}
+
 	return S_OK;
 }
 void CMonster::Free()
@@ -88,4 +95,5 @@ void CMonster::Free()
 	Safe_Release(m_pVIBufferCom);
 	Safe_Release(m_pTextureCom);
 	Safe_Release(m_pTransformCom);
+	Safe_Release(m_pCollider);
 }

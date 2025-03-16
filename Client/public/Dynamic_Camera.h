@@ -9,7 +9,6 @@ public:
 	typedef struct tagDynamic_CameraDesc : public CCamera::DESC
 	{
 		_float			fMouseSensor;
-
 	}DESC;
 private: 
 	CDynamic_Camera(LPDIRECT3DDEVICE9 pGraphicDevice);

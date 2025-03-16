@@ -70,7 +70,6 @@ void CDynamic_Camera::Late_Update(_float fTimeDelta)
 
 HRESULT CDynamic_Camera::Render() // 기본오브젝트 랜더 셋팅
 {
-
 	if(FAILED(m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE)))
 		return E_FAIL;
 	return S_OK;

@@ -8,6 +8,11 @@ BEGIN(Client)
 
 class CPlayer final : public CPawn
 {
+public:
+	typedef struct tagPlayerDesc : public CPawn::DESC
+	{
+		_float			fMouseSensor;
+	}DESC;
 private:
 	CPlayer(LPDIRECT3DDEVICE9 pGraphic_Device);
 	CPlayer(const CPlayer& Prototype);
@@ -20,6 +25,21 @@ public:
 	virtual EVENT Update(_float fTimeDelta) override;
 	virtual void Late_Update(_float fTimeDelta) override;
 	virtual HRESULT Render() override;
+
+	virtual void On_Collision(CGameObject* pCollisionedObject) override;
+
+private:
+	class CCameraManager*		m_pCameraManager {};
+	CTransform*				m_pCameraTransform{};
+	_float						m_fMouseSensor{};
+	_bool						m_bBouseFixMod{};
+	_bool						m_bFpsMode{TRUE};
+
+private:
+	void			Key_Input(_float fTimeDelta);
+	void			Mouse_Move();
+	void			Mouse_Fix();
+	void			Create_Bullet();
 
 public:
 	static CPlayer* Create(LPDIRECT3DDEVICE9 pGraphic_Device);

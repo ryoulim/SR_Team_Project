@@ -44,6 +44,7 @@ protected:
 	CTexture* m_pTextureCom = { nullptr };
 	CVIBuffer* m_pVIBufferCom = { nullptr };
 	CTransform* m_pTransformCom = { nullptr };
+	CCollider* m_pCollider = { nullptr };
 
 public:
 	virtual CGameObject* Clone(void* pArg) PURE;
