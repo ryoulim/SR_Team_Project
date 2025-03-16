@@ -30,20 +30,20 @@ HRESULT CUI_Camera::Initialize(void* pArg)
 
 void CUI_Camera::Priority_Update(_float fTimeDelta)
 {
-	m_pGraphic_Device->SetSamplerState(0, D3DSAMP_MINFILTER, D3DTEXF_LINEAR);
-	m_pGraphic_Device->SetSamplerState(0, D3DSAMP_MAGFILTER, D3DTEXF_LINEAR);
-	m_pGraphic_Device->SetSamplerState(0, D3DSAMP_MIPFILTER, D3DTEXF_LINEAR);
+	m_pGraphic_Device->SetSamplerState(0, D3DSAMP_MINFILTER, D3DTEXF_POINT);
+	m_pGraphic_Device->SetSamplerState(0, D3DSAMP_MAGFILTER, D3DTEXF_POINT);
+	m_pGraphic_Device->SetSamplerState(0, D3DSAMP_MIPFILTER, D3DTEXF_POINT);
 	__super::Priority_Update(fTimeDelta);
 }
 
 EVENT CUI_Camera::Update(_float fTimeDelta)
 {
+	m_pGameInstance->Add_RenderGroup(CRenderer::RG_UI, this);
 	return __super::Update(fTimeDelta);
 }
 
 void CUI_Camera::Late_Update(_float fTimeDelta)
 {
-	m_pGameInstance->Add_RenderGroup(CRenderer::RG_UI, this);
 }
 
 HRESULT CUI_Camera::Render() // UI설정 전 필요한 각종 셋팅 몰아두기

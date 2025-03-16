@@ -13,7 +13,7 @@ public:
 	{
 
 	}DESC;
-	enum LOADERTEXTURES { ROTATEANIM, LOADERBARBACK, LOADERBAR };
+	enum LOADERTEXTURES { LOADERTEX_ANIM, LOADERTEX_BARBACK, LOADERTEX_BAR, LOADERTEX_END };
 
 private:
 	CLoadingMenu(LPDIRECT3DDEVICE9 pGraphic_Device);
@@ -22,11 +22,18 @@ private:
 
 private:
 	HRESULT Ready_LoadingComponents();
+	HRESULT Render_Animation();
+	HRESULT Render_LoadingBar();
 
 private:
-	vector<CTexture*>	m_pTextureComForLoading = { nullptr };
-	vector<CVIBuffer*>	m_pVIBufferComForLoading = { nullptr };
-	vector<CTransform*> m_pTransformComForLoading = { nullptr };
+	CTexture* m_pTextureComForLoading[LOADERTEX_END] = {nullptr};
+	CVIBuffer*	m_pVIBufferComForLoading[LOADERTEX_END] = { nullptr };
+	CTransform* m_pTransformComForLoading[LOADERTEX_END] = { nullptr };
+	_float		m_fAnimTick{};
+	_float		m_fLoadingGauge{};
+
+public:
+	void	Set_LoadingGauge(const _float percent) { m_fLoadingGauge = percent; }
 
 public:
 	virtual HRESULT Initialize_Prototype() override;

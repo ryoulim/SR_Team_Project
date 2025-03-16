@@ -16,25 +16,90 @@ CLoadingMenu::CLoadingMenu(const CLoadingMenu& Prototype)
 
 HRESULT CLoadingMenu::Ready_LoadingComponents()
 {
+	/* For.Com_Texture */
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, _wstring(TEXT("Prototype_Component_Texture_")) + L"Loading_Anim",
+		TEXT("Com_Texture_Anim"), reinterpret_cast<CComponent**>(&m_pTextureComForLoading[LOADERTEX_ANIM]))))
+		return E_FAIL;
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, _wstring(TEXT("Prototype_Component_Texture_")) + L"Loading_BarBack",
+		TEXT("Com_Texture_BarBack"), reinterpret_cast<CComponent**>(&m_pTextureComForLoading[LOADERTEX_BARBACK]))))
+		return E_FAIL;
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, _wstring(TEXT("Prototype_Component_Texture_")) + L"Loading_Bar",
+		TEXT("Com_Texture_Bar"), reinterpret_cast<CComponent**>(&m_pTextureComForLoading[LOADERTEX_BAR]))))
+		return E_FAIL;
 
+
+	/* For.Com_VIBuffer */
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, _wstring(TEXT("Prototype_Component_VIBuffer_")) + m_szBufferType,
+		TEXT("Com_VIBuffer_Anim"), reinterpret_cast<CComponent**>(&m_pVIBufferComForLoading[LOADERTEX_ANIM]))))
+		return E_FAIL;
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, _wstring(TEXT("Prototype_Component_VIBuffer_")) + m_szBufferType,
+		TEXT("Com_VIBuffer_BarBack"), reinterpret_cast<CComponent**>(&m_pVIBufferComForLoading[LOADERTEX_BARBACK]))))
+		return E_FAIL;
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, _wstring(TEXT("Prototype_Component_VIBuffer_")) + m_szBufferType,
+		TEXT("Com_VIBuffer_Bar"), reinterpret_cast<CComponent**>(&m_pVIBufferComForLoading[LOADERTEX_BAR]))))
+		return E_FAIL;
+
+
+	CTransform::DESC pArg{};
+
+	pArg.fRotationPerSec = 1.f;
+	pArg.fSpeedPerSec = 1.f;
+
+	/* For.Com_Transform */
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Transform"),
+		TEXT("Com_Transform_Anim"), reinterpret_cast<CComponent**>(&m_pTransformComForLoading[LOADERTEX_ANIM]), &pArg)))
+		return E_FAIL;
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Transform"),
+		TEXT("Com_Transform_BarBack"), reinterpret_cast<CComponent**>(&m_pTransformComForLoading[LOADERTEX_BARBACK]), &pArg)))
+		return E_FAIL;
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Transform"),
+		TEXT("Com_Transform_Bar"), reinterpret_cast<CComponent**>(&m_pTransformComForLoading[LOADERTEX_BAR]), &pArg)))
+		return E_FAIL;
+	
 
 	return S_OK;
 }
 
 HRESULT CLoadingMenu::Initialize_Prototype()
 {
+
 	return S_OK;
 }
 
 HRESULT CLoadingMenu::Initialize(void* pArg)
 {
-	m_eLevelID = LEVEL_STATIC;
+	m_eLevelID = LEVEL_LOADING;
 	m_szTextureID = TEXT("LoadingMenu");
 	m_szBufferType = TEXT("Rect");
 
-	if (FAILED(__super::Initialize(pArg)))
+	/* For.Com_Texture */
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, _wstring(TEXT("Prototype_Component_Texture_")) + m_szTextureID,
+		TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
 		return E_FAIL;
 
+	/* For.Com_VIBuffer */
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, _wstring(TEXT("Prototype_Component_VIBuffer_")) + m_szBufferType,
+		TEXT("Com_VIBuffer"), reinterpret_cast<CComponent**>(&m_pVIBufferCom))))
+		return E_FAIL;
+
+	/* For.Com_Transform */
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Transform"),
+		TEXT("Com_Transform"), reinterpret_cast<CComponent**>(&m_pTransformCom), pArg)))
+		return E_FAIL;
+
+	Ready_LoadingComponents();
+
+
+	m_vPos = { 0.f,0.f,1.f };
+	m_vSize = { 1280.f, 720.f, 1.f };
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION, m_vPos);
+	m_pTransformCom->Scaling(m_vSize);
+	m_pTransformComForLoading[LOADERTEX_ANIM]->Set_State(CTransform::STATE_POSITION, { (g_iWinSizeX*0.5f - 130.f), -(g_iWinSizeY * 0.5f) + 130.f, 0.1f });
+	m_pTransformComForLoading[LOADERTEX_ANIM]->Scaling({ 128.f, 128.f, 1.f });
+	m_pTransformComForLoading[LOADERTEX_BARBACK]->Set_State(CTransform::STATE_POSITION, { (g_iWinSizeX * 0.5f - 130.f), -(g_iWinSizeY * 0.5f) + 50.f, 0.1f });
+	m_pTransformComForLoading[LOADERTEX_BARBACK]->Scaling({ 180.f, 28.f, 1.f });
+	m_pTransformComForLoading[LOADERTEX_BAR]->Set_State(CTransform::STATE_POSITION, { (g_iWinSizeX * 0.5f - 130.f) - 126.f * 0.5f, -(g_iWinSizeY * 0.5f) + 50.f, 0.1f });
+	m_pTransformComForLoading[LOADERTEX_BAR]->Scaling({ 1.f, 6.f, 1.f });
 	return S_OK;
 }
 
@@ -45,30 +110,39 @@ void CLoadingMenu::Priority_Update(_float fTimeDelta)
 
 EVENT CLoadingMenu::Update(_float fTimeDelta)
 {
+	m_fAnimTick += fTimeDelta;
+	if (m_fTextureNum != 0.f)
+	{
+		if (m_fAnimTick > 0.07f)
+		{
+			m_fTextureNum += 1.f;
+			if (m_fTextureNum > 7.f)
+				m_fTextureNum = 0.f;
+			m_fAnimTick = 0.f;
+		}
+	}
+	else
+	{
+		if (m_fAnimTick > 1.f)
+		{
+			m_fTextureNum += 1.f;
+			m_fAnimTick = 0.f;
+		}
+	}
+		
 	__super::Update(fTimeDelta);
 	return EVN_NONE;
 }
 
 void CLoadingMenu::Late_Update(_float fTimeDelta)
 {
-
 	__super::Late_Update(fTimeDelta);
 }
 
 HRESULT CLoadingMenu::Render()
 {
-	if (FAILED(m_pTextureCom->Bind_Resource(static_cast<_uint>(m_fTextureNum))))
+	if (FAILED(m_pTextureCom->Bind_Resource(0)))
 		return E_FAIL;
-
-	if (FAILED(m_pTextureCom->Get_TextureSize(static_cast<_uint>(m_fTextureNum), &m_vSize)))
-		return E_FAIL;
-
-
-	// 세로비 대로 이미지 맞춤
-	m_vSize.x *= g_iWinSizeY / m_vSize.y; m_vSize.y = g_iWinSizeY;
-
-
-	m_pTransformCom->Scaling(m_vSize);
 
 	if (FAILED(m_pTransformCom->Bind_Resource()))
 		return E_FAIL;
@@ -78,6 +152,63 @@ HRESULT CLoadingMenu::Render()
 
 	if (FAILED(m_pVIBufferCom->Render()))
 		return E_FAIL;
+
+	Render_Animation();
+	Render_LoadingBar();
+
+	return S_OK;
+}
+
+HRESULT CLoadingMenu::Render_Animation()
+{
+	if (FAILED(m_pTextureComForLoading[LOADERTEX_ANIM]->Bind_Resource(static_cast<_uint>(m_fTextureNum))))
+		return E_FAIL;
+
+	if (FAILED(m_pTransformComForLoading[LOADERTEX_ANIM]->Bind_Resource()))
+		return E_FAIL;
+
+	if (FAILED(m_pVIBufferComForLoading[LOADERTEX_ANIM]->Bind_Buffers()))
+		return E_FAIL;
+
+	if (FAILED(m_pVIBufferComForLoading[LOADERTEX_ANIM]->Render()))
+		return E_FAIL;
+
+	return S_OK;
+}
+
+HRESULT CLoadingMenu::Render_LoadingBar()
+{
+	if (FAILED(m_pTextureComForLoading[LOADERTEX_BARBACK]->Bind_Resource(0)))
+		return E_FAIL;
+
+	if (FAILED(m_pTransformComForLoading[LOADERTEX_BARBACK]->Bind_Resource()))
+		return E_FAIL;
+
+	if (FAILED(m_pVIBufferComForLoading[LOADERTEX_BARBACK]->Bind_Buffers()))
+		return E_FAIL;
+
+	if (FAILED(m_pVIBufferComForLoading[LOADERTEX_BARBACK]->Render()))
+		return E_FAIL;
+
+	/********************************************************************************/
+
+	if (FAILED(m_pTextureComForLoading[LOADERTEX_BAR]->Bind_Resource(0)))
+		return E_FAIL;
+	_float fsize = 126.f * m_fLoadingGauge;
+	if (m_fLoadingGauge > 0.4f)
+		int a = 0;
+	m_pTransformComForLoading[LOADERTEX_BAR]->Set_State(CTransform::STATE_POSITION, { (g_iWinSizeX * 0.5f - 130.f) - 126.f * 0.5f, -(g_iWinSizeY * 0.5f) + 50.f, 0.01f });
+	m_pTransformComForLoading[LOADERTEX_BAR]->Scaling({ fsize, 6.f, 1.f });
+
+	if (FAILED(m_pTransformComForLoading[LOADERTEX_BAR]->Bind_Resource()))
+		return E_FAIL;
+
+	if (FAILED(m_pVIBufferComForLoading[LOADERTEX_BAR]->Bind_Buffers()))
+		return E_FAIL;
+
+	if (FAILED(m_pVIBufferComForLoading[LOADERTEX_BAR]->Render()))
+		return E_FAIL;
+
 
 	return S_OK;
 }
@@ -111,5 +242,12 @@ CGameObject* CLoadingMenu::Clone(void* pArg)
 void CLoadingMenu::Free()
 {
 	__super::Free();
+
+	for (auto comp : m_pTextureComForLoading)
+		Safe_Release(comp);
+	for (auto comp : m_pTransformComForLoading)
+		Safe_Release(comp);
+	for (auto comp : m_pVIBufferComForLoading)
+		Safe_Release(comp);
 
 }

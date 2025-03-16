@@ -166,6 +166,8 @@
     <ClInclude Include="..\public\Font_TinyBlue.h" />
     <ClInclude Include="..\public\Gun.h" />
     <ClInclude Include="..\public\Item.h" />
+    <ClInclude Include="..\public\Item_Ammo.h" />
+    <ClInclude Include="..\public\LoadingMenu.h" />
     <ClInclude Include="..\public\Logo.h" />
     <ClInclude Include="..\public\MainMenu.h" />
     <ClInclude Include="..\public\Map.h" />
@@ -219,6 +221,8 @@
     <ClCompile Include="..\private\Font_TinyBlue.cpp" />
     <ClCompile Include="..\private\Gun.cpp" />
     <ClCompile Include="..\private\Item.cpp" />
+    <ClCompile Include="..\private\Item_Ammo.cpp" />
+    <ClCompile Include="..\private\LoadingMenu.cpp" />
     <ClCompile Include="..\private\Logo.cpp" />
     <ClCompile Include="..\private\MainMenu.cpp" />
     <ClCompile Include="..\private\Map.cpp" />

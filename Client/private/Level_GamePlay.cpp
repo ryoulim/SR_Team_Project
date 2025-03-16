@@ -1,5 +1,6 @@
 #include "Level_GamePlay.h"
 #include "Explosion.h"
+#include "UI_Camera.h"
 
 #define CurLevel LEVEL_GAMEPLAY
 
@@ -79,9 +80,10 @@ HRESULT CLevel_GamePlay::Ready_Layer_Camera(const _wstring& strLayerTag)
 		LEVEL_GAMEPLAY, strLayerTag, m_pData->Find_Data(TEXT("Dynamic_Camera")))))
 		return E_FAIL;
 
-	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_UI_Camera"),
-		LEVEL_GAMEPLAY, strLayerTag, m_pData->Find_Data(TEXT("UI_Camera")))))
-		return E_FAIL;
+
+	//if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_UI_Camera"),
+	//	LEVEL_GAMEPLAY, strLayerTag, m_pData->Find_Data(TEXT("UI_Camera")))))
+	//	return E_FAIL;
 
 	return S_OK;
 }
@@ -106,6 +108,15 @@ HRESULT CLevel_GamePlay::Ready_Layer_Statue(const _wstring& strLayerTag)
 		return E_FAIL;
 
 	return S_OK;
+}
+
+HRESULT CLevel_GamePlay::Ready_Layer_Item(const _wstring& strLayerTag)
+{
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Item_Ammo"),
+		LEVEL_GAMEPLAY, strLayerTag, m_pData->Find_Data(TEXT("Item_Ammo")))))
+		return E_FAIL;
+
+	return E_NOTIMPL;
 }
 
 HRESULT CLevel_GamePlay::Ready_Layer_Particle(const _wstring& strLayerTag)

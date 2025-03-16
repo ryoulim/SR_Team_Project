@@ -86,9 +86,7 @@ HRESULT CButton::Render()
 	
 	// 작은 글씨 너비 여백 출력 오류 있음 *** 수정필요 
 	RENDER_TEXT_BOL("NEW GAME",		280.f - g_iWinSizeX * 0.5f, g_iWinSizeY * 0.5f - 460.f, 0.6f);
-	RENDER_TEXT_BOL("CONT INUE",	280.f - g_iWinSizeX * 0.5f, g_iWinSizeY * 0.5f - 490.f, 0.6f);
 	RENDER_TEXT_BOL("OPT IONS",		280.f - g_iWinSizeX * 0.5f, g_iWinSizeY * 0.5f - 520.f, 0.6f);
-	RENDER_TEXT_BOL("READ ME !",	280.f - g_iWinSizeX * 0.5f, g_iWinSizeY * 0.5f - 550.f, 0.6f);
 	RENDER_TEXT_BOL("QU IT",		280.f - g_iWinSizeX * 0.5f, g_iWinSizeY * 0.5f - 580.f, 0.6f);
 
 	//140 20

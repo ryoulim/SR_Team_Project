@@ -67,6 +67,8 @@ public:
 	virtual void Free();
 };
 
+// Render_Text MediumBlueLeft
+// ÆÄ¶õ ±Û¾¾ (¾ÆÀÌÅÛ È¹µæ dialog¿ëµµ ÁÂÃø »ó´Ü °íÁ¤)
 #define RENDER_ITEMDIALOG(message, fposY)  CUI_Manager::Get_Instance(m_pGameInstance)->Render_Text(message, CFont::MEDIUMBLUE, CFont::LEFT, -(g_iWinSizeX / 2.f) + 20.f, fposY)
 
 // Render_Text BigOrangeCenter

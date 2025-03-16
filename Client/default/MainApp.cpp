@@ -9,6 +9,7 @@
 
 #include "Font_MediumBlue.h"
 #include "Font_BigOrange.h"
+#include "LoadingMenu.h"
 #include "UI_Manager.h"
 
 #include "DebugMode.h"
@@ -52,6 +53,8 @@ HRESULT CMainApp::Initialize()
 	if (FAILED(Ready_Debug_Mode()))
 		return E_FAIL;
 
+
+
 	return S_OK;
 }
 
@@ -85,7 +88,11 @@ HRESULT CMainApp::Ready_Component_For_Static()
 	ADD_TEXTURE(Font_BigOrange, "../Bin/Resources/Textures/UI/Font/Font_BigOrange/font%d.PNG", 46);
 	//ADD_TEXTURE(Font_TinyBlue, "../Bin/Resources/Textures/UI/Font/Font_TinyBlue/font%d.PNG", 94);
 	//ADD_TEXTURE(Font_BigSilver, "../Bin/Resources/Textures/UI/Font/Font_BigSilver/font%d.PNG", 94);
-	//ADD_TEXTURE(Logo, )
+
+	ADD_TEXTURE(LoadingMenu, "../Bin/Resources/Textures/UI/black.png", 1);
+	ADD_TEXTURE(Loading_Anim, "../Bin/Resources/Textures/UI/Loading/loadinganim%d.PNG", 8);
+	ADD_TEXTURE(Loading_BarBack, "../Bin/Resources/Textures/UI/Loading/loadingbar0.PNG", 1);
+	ADD_TEXTURE(Loading_Bar, "../Bin/Resources/Textures/UI/Loading/loadingbar1.PNG", 1);
 
 	return S_OK;
 }
@@ -96,6 +103,7 @@ HRESULT CMainApp::Ready_Object_For_Static()
 	ADD_PRTOBJ(UI_Camera);
 	ADD_PRTOBJ(Font_MediumBlue);
 	ADD_PRTOBJ(Font_BigOrange);
+	ADD_PRTOBJ(LoadingMenu);
 
 	return S_OK;
 }
@@ -113,6 +121,17 @@ HRESULT CMainApp::Ready_Debug_Mode()
 
 HRESULT CMainApp::Open_Level(LEVEL eLevelID)
 {
+	/* 둘만한 곳이 여기밖에 안 보여서 임시로 둡니다 .. */
+	CUI_Camera::DESC UIDesc{};
+	UIDesc.fFar = 1000.f;
+	UIDesc.fNear = 0.f;
+	UIDesc.fFov = 0;
+	UIDesc.vAt = {0.f,0.f,1.f};
+	UIDesc.vEye = { 0.f,0.f,0.f };
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_UI_Camera"),
+		LEVEL_STATIC, TEXT("Layer_Camera"), &UIDesc)))
+		return E_FAIL;
+
 	if (FAILED(m_pGameInstance->Change_Level(LEVEL_LOADING, CLevel_Loading::Create(m_pGraphic_Device, eLevelID))))
 		return E_FAIL;
 

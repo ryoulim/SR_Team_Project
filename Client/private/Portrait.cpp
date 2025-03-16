@@ -95,12 +95,12 @@ void CPortrait::Late_Update(_float fTimeDelta)
 HRESULT CPortrait::Render()
 {
 	//CUI_Manager::Get_Instance(m_pGameInstance)->Render_Text("armor fragment x4", CFont::LEFT, CFont::MEDIUMBLUE, -(g_iWinSizeX / 2.f) + 20.f, g_iWinSizeY / 2.f - 20.f);
-	CUI_Manager::Get_Instance(m_pGameInstance)->Render_Text(
-		"Hello World!!",
-		CFont::MEDIUMBLUE, 
-		CFont::LEFT, 
-		(float)(-(g_iWinSizeX / 2.f) + 20.f),
-		(float)(g_iWinSizeY / 2.f - 20.f));
+	//CUI_Manager::Get_Instance(m_pGameInstance)->Render_Text(
+	//	"Hello World!!",
+	//	CFont::MEDIUMBLUE, 
+	//	CFont::LEFT, 
+	//	(float)(-(g_iWinSizeX / 2.f) + 20.f),
+	//	(float)(g_iWinSizeY / 2.f - 20.f));
 
 	
 	
