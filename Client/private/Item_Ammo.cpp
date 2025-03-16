@@ -38,7 +38,7 @@ void CItem_Ammo::Priority_Update(_float fTimeDelta)
 
 EVENT CItem_Ammo::Update(_float fTimeDelta)
 {
-	__super::Update(fTimeDelta);
+	return __super::Update(fTimeDelta);
 }
 
 void CItem_Ammo::Late_Update(_float fTimeDelta)
