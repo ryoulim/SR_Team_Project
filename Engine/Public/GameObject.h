@@ -23,6 +23,9 @@ public:
 	virtual void Late_Update(_float fTimeDelta);
 	virtual HRESULT Render();
 
+	void FrameUpdate(float timeDelta, float _MaxFrame, bool isLoop);
+
+
 	class CComponent* Find_Component(const _wstring& strComponentTag);
 
 protected:
@@ -38,6 +41,10 @@ protected:
 public:
 	virtual CGameObject* Clone(void* pArg) PURE;
 	virtual void Free();
+
+protected:
+	float m_fAnimationFrame = 0;
+	float m_fAnimationMaxFrame = 0;
 };
 
 END

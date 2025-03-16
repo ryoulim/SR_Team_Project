@@ -50,6 +50,22 @@ HRESULT CGameObject::Render()
 	return S_OK;
 }
 
+void CGameObject::FrameUpdate(float timeDelta, float _MaxFrame, bool isLoop)
+{
+	if (isLoop)
+	{
+		if (m_fAnimationMaxFrame < m_fAnimationFrame)
+			m_fAnimationFrame = 0;
+	}
+	else
+	{
+		if (m_fAnimationMaxFrame < m_fAnimationFrame)
+			return;
+	}
+
+	m_fAnimationFrame += 15.f * timeDelta;
+}
+
 CComponent* CGameObject::Find_Component(const _wstring& strComponentTag)
 {
 	auto Iter = m_Components.find(strComponentTag);

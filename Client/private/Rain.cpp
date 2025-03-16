@@ -14,7 +14,7 @@ CRain::CRain(const CPSystem& Prototype)
 HRESULT CRain::Ready_Components()
 {
 	/* For.Com_Texture */
-	if (FAILED(__super::Add_Component(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_PC_Rain"),
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Texture_PC_Rain"),
 		TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
 		return E_FAIL;
 
@@ -31,7 +31,7 @@ void CRain::resetParticle(Attribute* attribute)
 	
 	//눈송이는 아래쪽으로 떨어지며 약간 왼쪽을 향한다.
 	attribute->_Velocity.x = GetRandomFloat(0.0f, 1.0f) * -3.0f;
-	attribute->_Velocity.y = GetRandomFloat(1.0f, 5.0f) * -60.0f;
+	attribute->_Velocity.y = GetRandomFloat(1.0f, 5.0f) * -120.0f;
 	attribute->_Velocity.z = 0.f;
 
 	//각종 파라미터값
@@ -169,7 +169,7 @@ CRain* CRain::Create(LPDIRECT3DDEVICE9 pGraphicDev, wstring _strObjName, int num
 
 	//스노우 파티클 정보
 	pInstance->m_vbSize = 2048;		//  GPU가 한번에 그릴 수 있는 파티클 개수, CPU가 GPU로 파티클 정점 버퍼에 담을 수 있는 개수
-	pInstance->m_fSize = 0.8f;		//  파티클의 크기
+	pInstance->m_fSize = 1.5f;		//  파티클의 크기
 	pInstance->m_vbOffset = 0;		//  세그먼트의 배치사이즈를 옮길때 쓰는 오프셋(0고정)
 	pInstance->m_vbBatchSize = 512;	//  세그먼트 배치사이즈 크기(한번에 옮길 수 있는 정점들의 개수)
 	pInstance->m_vMin = MinBox;		//  바운딩박스의 최소크기

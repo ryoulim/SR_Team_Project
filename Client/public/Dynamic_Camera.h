@@ -24,6 +24,9 @@ public:
 	virtual void Late_Update(_float fTimeDelta);
 	virtual HRESULT Render();
 
+public:
+	CTransform* GetTransform(){ return m_pTransformCom; }
+
 private:
 	_float3				m_vInitPos{};
 	_float3				m_vInitLook{};

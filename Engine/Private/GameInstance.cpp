@@ -131,6 +131,11 @@ HRESULT CGameInstance::Add_GameObject(_uint iPrototypeLevelIndex, const _wstring
 	return m_pObject_Manager->Add_GameObject(iPrototypeLevelIndex, strPrototypeTag, iLevelIndex, strLayerTag, pArg);
 }
 
+HRESULT CGameInstance::Add_GameObjectReturn(_uint iPrototypeLevelIndex, const _wstring& strPrototypeTag, _uint iLevelIndex, const _wstring& strLayerTag, CGameObject** ppOut, void* pArg)
+{
+	return m_pObject_Manager->Add_GameObjectReturn(iPrototypeLevelIndex, strPrototypeTag, iLevelIndex, strLayerTag, ppOut, pArg);
+}
+
 CGameObject* CGameInstance::Find_Object(_uint iLevelIndex, const _wstring& strLayerTag, _uint iVectorIndex)
 {
 	return m_pObject_Manager->Find_Object(iLevelIndex,strLayerTag,iVectorIndex);

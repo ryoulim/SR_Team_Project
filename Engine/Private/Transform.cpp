@@ -33,6 +33,41 @@ HRESULT CTransform::Bind_Resource()
 	return m_pGraphic_Device->SetTransform(D3DTS_WORLD, &m_WorldMatrix);
 }
 
+void CTransform::Billboard()
+{
+	//객체 스케일
+	_float3	vScaled = Compute_Scaled();
+	//객체 포지션
+	_float3	vPosition = *Get_State(CTransform::STATE_POSITION);
+
+	//카메라 포지션
+	_float4x4 matCamWorld;
+	m_pGraphic_Device->GetTransform(D3DTS_VIEW, &matCamWorld);
+	D3DXMatrixInverse(&matCamWorld, NULL, &matCamWorld);
+	_float3 vCameraPos = { matCamWorld._41, matCamWorld._42, matCamWorld._43 };
+
+	//카메라를 바라보는 룩벡터
+	_float3		vLook = vCameraPos - vPosition;
+
+	//라이트
+	_float3		vRight = {};
+	_float3		vUpDir{ 0.f, 1.f, 0.f };
+	D3DXVec3Cross(&vRight, &vUpDir, &vLook);
+
+	//업벡터를 구함
+	_float3		vUp = { 0.f, 1.f, 0.f };
+
+	//각 축을 노말라이즈 x 스케일값으로 세팅
+
+	_float3 vecRight = *D3DXVec3Normalize(&vRight, &vRight) * vScaled.x;
+	_float3 vecUp = *D3DXVec3Normalize(&vRight, &vRight) * vScaled.x;
+	_float3 vecLook = *D3DXVec3Normalize(&vRight, &vRight) * vScaled.x;
+
+	Set_State(CTransform::STATE_RIGHT, *D3DXVec3Normalize(&vRight, &vRight) * vScaled.x);
+	Set_State(CTransform::STATE_UP, *D3DXVec3Normalize(&vUp, &vUp) * vScaled.y);
+	Set_State(CTransform::STATE_LOOK, *D3DXVec3Normalize(&vLook, &vLook) * vScaled.z);
+}
+
 _float3 CTransform::Compute_Scaled() const
 {
 	return _float3(Get_State(STATE_RIGHT)->Length(),

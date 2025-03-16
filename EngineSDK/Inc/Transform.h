@@ -32,6 +32,10 @@ public:
 		return rhsOut.MakeInverseMat(m_WorldMatrix);
 	}
 	const _float4x4* Get_WorldMatrix() { return &m_WorldMatrix; }
+	void Set_WorldMatrix(const _float4x4* pWorld)
+	{
+		m_WorldMatrix = *pWorld;
+	}
 
 	void Set_State(TRANSFORMSTATE eState, const _float3& vState) {
 		memcpy(&m_WorldMatrix.m[eState][0], &vState, sizeof vState);
@@ -44,6 +48,7 @@ public:
 public:
 	HRESULT			Bind_Resource();
 
+	void Billboard();
 	_float3 Compute_Scaled() const;
 	void Scaling(_float Ratio);
 	void Scaling(_float3 Ratio);

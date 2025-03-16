@@ -1,102 +1,102 @@
-#include "Gun.h"
+#include "BulletTracer.h"
 #include "GameInstance.h"
 #include "Transform.h"
 
-CGun::CGun(LPDIRECT3DDEVICE9 pGraphicDev, wstring _strObjName)
+CBulletTracer::CBulletTracer(LPDIRECT3DDEVICE9 pGraphicDev, wstring _strObjName)
 	:CPSystem(pGraphicDev, _strObjName)
 {
 }
 
-CGun::CGun(const CPSystem& Prototype)
+CBulletTracer::CBulletTracer(const CPSystem& Prototype)
 	: CPSystem(Prototype)
 {
 }
 
-void CGun::resetParticle(Attribute* attribute)
+void CBulletTracer::resetParticle(Attribute* attribute)
 {
+	attribute->_isAlive = true;
+	
 	_float4x4 matCamWorld;
 
-	m_pGraphic_Device->GetTransform(D3DTS_VIEW, &matCamWorld);
-
-	D3DXMatrixInverse(&matCamWorld, NULL, &matCamWorld);
-
-	attribute->_isAlive = true;
-
 	//카메라의 위치저장
-	_float3 vCameraPos;
-	vCameraPos = { matCamWorld._41, matCamWorld._42, matCamWorld._43 };
+	m_pGraphic_Device->GetTransform(D3DTS_VIEW, &matCamWorld);
+	D3DXMatrixInverse(&matCamWorld, NULL, &matCamWorld);
+	_float3 vCameraPos = { matCamWorld._41, matCamWorld._42, matCamWorld._43 };
 	
-	//카메라의 룩벡터 저장
-	_float3 vCameraLook;
-	vCameraLook = { matCamWorld._31, matCamWorld._32, matCamWorld._33 };
-	
-	attribute->_Position = vCameraPos;
-	attribute->_Position.y -= 0.5f;
-	attribute->_Position.x += 1.f;
 
-	attribute->_Velocity = vCameraLook * 200.f;
+	//카메라 라이트,업,룩 벡터 저장
+	_float3 vCameraRight = { matCamWorld._11, matCamWorld._12, matCamWorld._13 };
+	_float3 vCameraUp = { matCamWorld._21, matCamWorld._22, matCamWorld._23 };
+	_float3 vCameraLook = { matCamWorld._31, matCamWorld._32, matCamWorld._33 };
+
+	//파티클 위치 설정 (카메라가 바라보는 화면의 오른쪽 아래에서 시작)
+	attribute->_Position = vCameraPos;
+	attribute->_Position += vCameraRight * 1.5f; // 오른쪽으로 이동
+	attribute->_Position += vCameraUp * -1.0f; // 아래쪽으로 이동
+
+	attribute->_Position += vCameraLook * 3.f;
+
+	// 탄피의 초기 속도 방향 (카메라의 오른쪽 방향)
+	attribute->_Velocity = vCameraRight * GetRandomFloat(10.0f, 30.0f);
+
+	// 탄피가 위로 살짝 튀도록 Y축 속도 추가
+	attribute->_Velocity.y += GetRandomFloat(1.0f, 30.0f);
+
+	// 탄피가 날아가는 동안 중력 적용 (서서히 떨어지게)
+	attribute->_Accelerator = { 0.0f, -98.0f, 0.0f }; // 중력 가속도 적용 (y 방향으로 하락)
 
 
 	//각종 파라미터값
-	D3DXCOLOR Color = { 1.f , 1.f, 1.f, 1.f };
-
-	attribute->_Accelerator = _float3(0.f, 0.f, 0.f);	// 가속도
 	attribute->_Age = 0.f;								// 나이
-	attribute->_Color = Color;							// 색상
+	attribute->_Color = WHITE;							// 색상
 	attribute->_ColorFade = WHITE;						// 디졸브색상
-	attribute->_LifeTime = 0.1f;						// 라이프타임
+	attribute->_LifeTime = 0.5f;						// 라이프타임
 
-	//파티클 개별 사이즈 : 그래픽 카드에서 지원안함 gg
-	//attribute->_Size = GetRandomFloat(m_fSize - 3.f, m_fSize + 3.f);
 
 }
 
-EVENT CGun::Update(_float timeDelta)
+EVENT CBulletTracer::Update(_float timeDelta)
 {
 	list<Attribute>::iterator i;
 	for (i = m_Particles.begin(); i != m_Particles.end(); i++)
-	{		
-		i->_Position += i->_Velocity * timeDelta;
+	{
+		//생존한 파티클만 갱신한다.
+		if (i->_isAlive)
+		{
+			// 속도 업데이트 (중력 적용)
+			i->_Velocity.y += i->_Accelerator.y * timeDelta;
+			i->_Position += i->_Velocity * timeDelta;
+			i->_Age += timeDelta;
 
-		i->_Age += timeDelta;
-
-		if (i->_Age > i->_LifeTime)
-			i->_isAlive = false;
+			if (i->_Age > i->_LifeTime)
+			{
+				i->_isAlive = false;
+				//resetParticle(&(*i));
+			}
+		}
 	}
+
 
 	//죽은 놈 삭제하기
 	removeDeadParticle();
+
+
 	FrameUpdate(timeDelta);
-
-	//이거 고치긴해야함
 	Late_Update();
-
 
 	return EVN_NONE;
 }
 
-HRESULT CGun::SetUp_RenderState()
-{
-	CPSystem::SetUp_RenderState();
-
-	m_pGraphic_Device->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_ONE);
-	m_pGraphic_Device->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_ONE);
-
-	m_pGraphic_Device->SetRenderState(D3DRS_ZWRITEENABLE, false);
-
-	return S_OK;
-}
-
-HRESULT CGun::Render()
+HRESULT CBulletTracer::Render()
 {
 	if (!m_Particles.empty())
 	{
 		//렌더 상태를 지정한다.
 		SetUp_RenderState();
 		
-		m_pTextureCom->Bind_Resource(0);
-		//m_pTextureCom->Bind_Resource((_uint)m_fFrame);
-
+		//m_pTextureCom->Bind_Resource(0);
+		m_pTextureCom->Bind_Resource((_uint)m_fFrame);
+		//m_pGraphic_Device->SetTexture(0, nullptr);
 		m_pGraphic_Device->SetFVF(Particle::FVF);
 		m_pGraphic_Device->SetStreamSource(0, m_pVB, 0, sizeof(Particle));
 
@@ -174,20 +174,12 @@ HRESULT CGun::Render()
 	return S_OK;
 }
 
-HRESULT CGun::Release_RenderState()
-{
-	CPSystem::Release_RenderState();
-	m_pGraphic_Device->SetRenderState(D3DRS_ZWRITEENABLE, true);
-
-	return S_OK;
-}
-
-HRESULT CGun::Initialize(void* pArg)
+HRESULT CBulletTracer::Initialize(void* pArg)
 {
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
 
-	int numparticles = 10;
+	int numparticles = 1;
 	for (int i = 0; i < numparticles; i++)
 	{
 		addParticle();
@@ -196,10 +188,10 @@ HRESULT CGun::Initialize(void* pArg)
 	return S_OK;
 }
 
-HRESULT CGun::Ready_Components()
+HRESULT CBulletTracer::Ready_Components()
 {
 	/* For.Com_Texture */
-	if (FAILED(__super::Add_Component(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Bullet"),
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Texture_PC_BulletShell"),
 		TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
 		return E_FAIL;
 
@@ -207,15 +199,15 @@ HRESULT CGun::Ready_Components()
 }
 
 
-CGun* CGun::Create(LPDIRECT3DDEVICE9 pGraphicDev, wstring _strObjName)
+CBulletTracer* CBulletTracer::Create(LPDIRECT3DDEVICE9 pGraphicDev, wstring _strObjName)
 {
-	CGun* pInstance = new CGun(pGraphicDev, _strObjName);
+	CBulletTracer* pInstance = new CBulletTracer(pGraphicDev, _strObjName);
 
 	//스노우 파티클 정보
 	pInstance->m_vbSize = 2048;				//  GPU가 한번에 그릴 수 있는 파티클 개수, CPU가 GPU로 파티클 정점 버퍼에 담을 수 있는 개수
-	pInstance->m_fSize = 0.05f;				//  파티클의 크기
+	pInstance->m_fSize = 0.1f;				//  파티클의 크기
 	pInstance->m_vbOffset = 0;				//  세그먼트의 배치사이즈를 옮길때 쓰는 오프셋(0고정)
-	pInstance->m_vbBatchSize = 10;			//  세그먼트 배치사이즈 크기(한번에 옮길 수 있는 정점들의 개수)
+	pInstance->m_vbBatchSize = 1;			//  세그먼트 배치사이즈 크기(한번에 옮길 수 있는 정점들의 개수)
 	pInstance->m_vMin = _float3{ 0.f,0.f,0.f };				//  바운딩박스의 최소크기
 	pInstance->m_vMax = _float3{ 1.f,1.f,1.f };				//  바운딩박스의 최대크기
 
@@ -228,7 +220,7 @@ CGun* CGun::Create(LPDIRECT3DDEVICE9 pGraphicDev, wstring _strObjName)
 	return pInstance;
 }
 
-float CGun::GetRandomColor(float lowBound, float highBound)
+float CBulletTracer::GetRandomColor(float lowBound, float highBound)
 {
 	if (lowBound >= highBound)
 		return lowBound;
@@ -238,28 +230,28 @@ float CGun::GetRandomColor(float lowBound, float highBound)
 	return (f * (highBound - lowBound)) + lowBound;
 }
 
-void CGun::FrameUpdate(float timeDelta)
+void CBulletTracer::FrameUpdate(float timeDelta)
 {
-	m_fFrame += 32.f * timeDelta;
+	m_fFrame += 50.f * timeDelta;
 
-	if (4.f < m_fFrame)
+	if (6.f < m_fFrame)
 		m_fFrame = 0;
 }
 
-CGameObject* CGun::Clone(void* pArg)
+CGameObject* CBulletTracer::Clone(void* pArg)
 {
-	CGun* pInstance = new CGun(*this);
+	CBulletTracer* pInstance = new CBulletTracer(*this);
 
 	if (FAILED(pInstance->Initialize(pArg)))
 	{
-		MSG_BOX("Failed to Created : CGun");
+		MSG_BOX("Failed to Created : CBulletTracer");
 		Safe_Release(pInstance);
 	}
 
 	return pInstance;
 }
 
-void CGun::Free()
+void CBulletTracer::Free()
 {
 	__super::Free();
 
