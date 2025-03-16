@@ -160,6 +160,12 @@
     <Filter Include="02.GameObjects\Camera\Manager">
       <UniqueIdentifier>{251a835c-fe80-4960-8da5-f50344efc795}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\Bullet\TestBullet">
+      <UniqueIdentifier>{550edbb4-3757-490f-81e5-8aa4b514eba1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Monster\TestMonster">
+      <UniqueIdentifier>{3674c8bc-204a-4475-9166-b2788d2c5c42}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -306,6 +312,12 @@
     <ClInclude Include="..\public\Player.h">
       <Filter>02.GameObjects\Pawn\Player</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\TestBullet.h">
+      <Filter>02.GameObjects\Bullet\TestBullet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\TestMonster.h">
+      <Filter>02.GameObjects\Monster\TestMonster</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -446,6 +458,12 @@
     </ClCompile>
     <ClCompile Include="..\private\CameraManager.cpp">
       <Filter>02.GameObjects\Camera\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\TestBullet.cpp">
+      <Filter>02.GameObjects\Bullet\TestBullet</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\TestMonster.cpp">
+      <Filter>02.GameObjects\Monster\TestMonster</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

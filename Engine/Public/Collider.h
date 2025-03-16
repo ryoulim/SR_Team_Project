@@ -6,8 +6,8 @@ BEGIN(Engine)
 
 class ENGINE_DLL CCollider abstract : public CComponent
 {
-public:
-	enum COLLIDER_TYPE {AABB_CUBE,OBB_CUBE,CAPSULE,SPHERE};
+protected:
+	enum COLLIDER_TYPE {AABB_CUBE,OBB_CUBE,CAPSULE,SPHERE,LINE,RECT};
 protected:
 	CCollider(LPDIRECT3DDEVICE9 pGraphic_Device);
 	CCollider(const CCollider& Prototype);

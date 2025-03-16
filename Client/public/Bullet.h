@@ -19,6 +19,7 @@ public:
 	{
 		_float3 vInitPos;
 		_float3 vScale;
+		_float3 vLook;
 	}DESC;
 
 protected:
@@ -34,6 +35,8 @@ public:
 	virtual void Late_Update(_float fTimeDelta) override;
 	virtual HRESULT Render() override;
 
+	virtual void On_Collision(CGameObject* pCollisionedObject) override;
+
 protected:
 	virtual HRESULT Ready_Components(void* pArg);
 
@@ -44,6 +47,13 @@ protected:
 	CTexture* m_pTextureCom = { nullptr };
 	CVIBuffer* m_pVIBufferCom = { nullptr };
 	CTransform* m_pTransformCom = { nullptr };
+	CCollider* m_pCollider = { nullptr };
+	_bool m_bDead{ FALSE };
+	_float m_fTimeAcc{};
+	_float m_fTimeLimit{ 3.f };
+	
+private:
+	
 
 public:
 	virtual CGameObject* Clone(void* pArg) PURE;

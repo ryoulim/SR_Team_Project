@@ -83,6 +83,7 @@ HRESULT CMainApp::Ready_Component_For_Static()
 	ADD_PRTCOM(Collider_OBB_Cube);
 	ADD_PRTCOM(Collider_Sphere);
 	ADD_PRTCOM(Collider_Capsule);
+	ADD_PRTCOM(Collider_Line);
 
 	ADD_TEXTURE(Font_ItemDialog, "../Bin/Resources/Textures/UI/Font/font%d.PNG", 94);
 

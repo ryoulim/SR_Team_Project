@@ -154,8 +154,14 @@ _uint CObject_Manager::Deactive_Object(const _wstring& strObjectTag, class CGame
 
 void CObject_Manager::Intersect(_uint iLevelIndex, const _wstring& strLayerTag1, const _wstring& strLayerTag2)
 {
-	auto GroupA = Find_Layer(iLevelIndex, strLayerTag1)->Get_Objects();
-	auto GroupB = Find_Layer(iLevelIndex, strLayerTag2)->Get_Objects();
+	auto Layer1 = Find_Layer(iLevelIndex, strLayerTag1);
+	auto Layer2 = Find_Layer(iLevelIndex, strLayerTag2);
+	
+	if (Layer1 == nullptr || Layer2 == nullptr)
+		return;
+
+	auto GroupA = Layer1->Get_Objects();
+	auto GroupB = Layer2->Get_Objects();
 
 	CCollider* pCollider1{ nullptr };
 	CCollider* pCollider2{ nullptr };
@@ -172,7 +178,7 @@ void CObject_Manager::Intersect(_uint iLevelIndex, const _wstring& strLayerTag1,
 
 			if (pCollider1->Check_Intersect(pCollider2))
 			{
-				Obj1->On_Collision();
+				Obj1->On_Collision(Obj2);
 			}
 		}
 	}

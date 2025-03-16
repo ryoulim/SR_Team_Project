@@ -35,8 +35,8 @@ HRESULT CPlayer::Initialize(void* pArg)
 
 	auto FPS_Camera = m_pCameraManager->Get_Camera(CCameraManager::FPS);
 
-	m_pFPSCameraTransform = static_cast<CTransform*>(FPS_Camera->Find_Component(TEXT("Com_Transform")));
-	Safe_AddRef(m_pFPSCameraTransform);
+	m_pCameraTransform = static_cast<CTransform*>(FPS_Camera->Find_Component(TEXT("Com_Transform")));
+	Safe_AddRef(m_pCameraTransform);
 
 	if (pArg != nullptr)
 	{
@@ -79,19 +79,22 @@ void CPlayer::Late_Update(_float fTimeDelta)
 
 		_float3 Scale = m_pTransformCom->Compute_Scaled();
 
-		m_pTransformCom->Set_State(CTransform::STATE_RIGHT,
-			*m_pFPSCameraTransform->Get_State(CTransform::STATE_RIGHT) * Scale.x);
+		const _float3* pCameraRight = m_pCameraTransform->Get_State(CTransform::STATE_RIGHT);
 
-		m_pTransformCom->Set_State(CTransform::STATE_UP,
-			*m_pFPSCameraTransform->Get_State(CTransform::STATE_UP) * Scale.y);
+		m_pTransformCom->Set_State(CTransform::STATE_RIGHT,
+			*pCameraRight * Scale.x);
 
 		m_pTransformCom->Set_State(CTransform::STATE_LOOK,
-			*m_pFPSCameraTransform->Get_State(CTransform::STATE_LOOK) * Scale.z);
+			pCameraRight->Cross({ 0.f,1.f,0.f }) * Scale.z);
 
-		m_pFPSCameraTransform->Set_State(CTransform::STATE_POSITION,
+		m_pCameraTransform->Set_State(CTransform::STATE_POSITION,
 			*m_pTransformCom->Get_State(CTransform::STATE_POSITION) + _float3{ 0.f,Scale.y * 0.5f ,0.f });
 
 		__super::Late_Update(fTimeDelta);
+	}
+	else
+	{
+		m_pGameInstance->Add_RenderGroup(CRenderer::RG_NONBLEND, this);
 	}
 }
 
@@ -100,12 +103,12 @@ HRESULT CPlayer::Render()
 	return __super::Render();
 }
 
-void CPlayer::On_Collision()
+void CPlayer::On_Collision(CGameObject* pCollisionedObject)
 {
 	//m_pCollider->Get_Last_Collision_Pos();
 
 	_float3 vPos = *m_pTransformCom->Get_State(CTransform::STATE_POSITION);
-	_float3 vPos2 = *m_pFPSCameraTransform->Get_State(CTransform::STATE_POSITION);
+	_float3 vPos2 = *m_pCameraTransform->Get_State(CTransform::STATE_POSITION);
 
 	_float3 Depth = m_pCollider->Get_Last_Collision_Depth();
 
@@ -113,7 +116,7 @@ void CPlayer::On_Collision()
 	vPos2 += Depth;
 
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, vPos);
-	m_pFPSCameraTransform->Set_State(CTransform::STATE_POSITION, vPos2);
+	m_pCameraTransform->Set_State(CTransform::STATE_POSITION, vPos2);
 	
 }
 
@@ -143,6 +146,10 @@ void CPlayer::Key_Input(_float fTimeDelta)
 	{
 		m_pGravityCom->Jump(50.f);
 	}
+	if (KEY_DOWN(VK_LBUTTON))
+	{
+		Create_Bullet();
+	}
 }
 
 void CPlayer::Mouse_Move()
@@ -150,16 +157,16 @@ void CPlayer::Mouse_Move()
 	_float		fMouseMoveX = { static_cast<_float>(m_pGameInstance->Get_DIMMoveState(DIMM_X)) };
 	_float		fMouseMoveY = { static_cast<_float>(m_pGameInstance->Get_DIMMoveState(DIMM_Y)) };
 
-	_float3		vRotationAxis = (*m_pFPSCameraTransform->Get_State(CTransform::STATE_RIGHT) * fMouseMoveY)
-		+ (*m_pFPSCameraTransform->Get_State(CTransform::STATE_UP) * fMouseMoveX);
+	_float3		vRotationAxis = (*m_pCameraTransform->Get_State(CTransform::STATE_RIGHT) * fMouseMoveY)
+		+ (*m_pCameraTransform->Get_State(CTransform::STATE_UP) * fMouseMoveX);
 
 	_float fAngle = RADIAN(_float3(fMouseMoveX, fMouseMoveY, 0).Length() * m_fMouseSensor);
 
-	_float3 vLook = *m_pFPSCameraTransform->Get_State(CTransform::STATE_LOOK);
+	_float3 vLook = *m_pCameraTransform->Get_State(CTransform::STATE_LOOK);
 
 	_float4x4 matRot{ vRotationAxis,fAngle };
 	vLook.TransformNormal(matRot);
-	m_pFPSCameraTransform->LookAt(*m_pFPSCameraTransform->Get_State(CTransform::STATE_POSITION) + vLook);
+	m_pCameraTransform->LookAt(*m_pCameraTransform->Get_State(CTransform::STATE_POSITION) + vLook);
 }
 
 void CPlayer::Mouse_Fix()
@@ -168,6 +175,20 @@ void CPlayer::Mouse_Fix()
 
 	ClientToScreen(g_hWnd, &ptMouse);
 	SetCursorPos(ptMouse.x, ptMouse.y);
+}
+
+#include "TestBullet.h"
+void CPlayer::Create_Bullet()
+{
+	CTestBullet::DESC BulletDesc{};
+	BulletDesc.fSpeedPerSec = 1500.f;
+	BulletDesc.vInitPos = *m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+	BulletDesc.vScale = {5.f,5.f,5.f};
+	BulletDesc.vLook = *m_pTransformCom->Get_State(CTransform::STATE_LOOK);
+
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_TestBullet"),
+		LEVEL_GAMEPLAY, TEXT("Layer_PBullet"), &BulletDesc)))
+		return;
 }
 
 CPlayer* CPlayer::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
@@ -200,5 +221,5 @@ void CPlayer::Free()
 {
 	__super::Free();
 	Safe_Release(m_pCameraManager);
-	Safe_Release(m_pFPSCameraTransform);
+	Safe_Release(m_pCameraTransform);
 }

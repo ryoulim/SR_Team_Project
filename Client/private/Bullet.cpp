@@ -20,13 +20,6 @@ HRESULT CBullet::Initialize(void* pArg)
 	if (FAILED(Ready_Components(pArg)))
 		return E_FAIL;
 
-	if (pArg != nullptr)
-	{
-		DESC* pDesc = static_cast<DESC*>(pArg);
-		m_pTransformCom->Set_State(CTransform::STATE_POSITION, pDesc->vInitPos);
-		m_pTransformCom->Scaling(pDesc->vScale);
-	}
-
 	return S_OK;
 }
 
@@ -41,6 +34,7 @@ EVENT CBullet::Update(_float fTimeDelta)
 
 void CBullet::Late_Update(_float fTimeDelta)
 {
+	m_pCollider->Update_Collider(m_pTransformCom);
 	if (FAILED(m_pGameInstance->Add_RenderGroup(CRenderer::RG_NONBLEND, this)))
 		return;
 }
@@ -62,6 +56,12 @@ HRESULT CBullet::Render()
 	return S_OK;
 }
 
+void CBullet::On_Collision(CGameObject* pCollisionedObject)
+{
+	m_bDead = TRUE;
+	pCollisionedObject->On_Collision(this);
+}
+
 HRESULT CBullet::Ready_Components(void* pArg)
 {
 	/* For.Com_Texture */
@@ -79,6 +79,14 @@ HRESULT CBullet::Ready_Components(void* pArg)
 		TEXT("Com_Transform"), reinterpret_cast<CComponent**>(&m_pTransformCom), pArg)))
 		return E_FAIL;
 
+	if (pArg != nullptr)
+	{
+		DESC* pDesc = static_cast<DESC*>(pArg);
+		m_pTransformCom->Set_State(CTransform::STATE_POSITION, pDesc->vInitPos);
+		m_pTransformCom->Scaling(pDesc->vScale);
+		m_pTransformCom->LookAt(pDesc->vInitPos + pDesc->vLook);
+	}
+
 	return S_OK;
 }
 void CBullet::Free()
@@ -88,4 +96,5 @@ void CBullet::Free()
 	Safe_Release(m_pVIBufferCom);
 	Safe_Release(m_pTextureCom);
 	Safe_Release(m_pTransformCom);
+	Safe_Release(m_pCollider);
 }

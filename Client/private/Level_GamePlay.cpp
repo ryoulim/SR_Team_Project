@@ -23,6 +23,9 @@ HRESULT CLevel_GamePlay::Initialize(class CLevelData* pLevelData)
 	if (FAILED(Ready_Layer_Pawn(TEXT("Layer_Pawn"))))
 		return E_FAIL;
 
+	if (FAILED(Ready_Layer_Monster(TEXT("Layer_Monster"))))
+		return E_FAIL;
+
 	if (FAILED(Ready_Layer_Statue(TEXT("Layer_Statue"))))
 		return E_FAIL;
 
@@ -41,6 +44,7 @@ HRESULT CLevel_GamePlay::Initialize(class CLevelData* pLevelData)
 void CLevel_GamePlay::Update(_float fTimeDelta)
 {
 	m_pGameInstance->Intersect(LEVEL_GAMEPLAY, TEXT("Layer_Pawn"), TEXT("Layer_Statue"));
+	m_pGameInstance->Intersect(LEVEL_GAMEPLAY, TEXT("Layer_PBullet"), TEXT("Layer_Monster"));
 }
 
 HRESULT CLevel_GamePlay::Render()
@@ -154,6 +158,20 @@ HRESULT CLevel_GamePlay::Ready_Layer_Pawn(const _wstring& strLayerTag)
 
 	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Player"),
 		LEVEL_GAMEPLAY, strLayerTag, &PlayerDesc)))
+		return E_FAIL;
+
+	return S_OK;
+}
+
+#include "TestMonster.h"
+HRESULT CLevel_GamePlay::Ready_Layer_Monster(const _wstring& strLayerTag)
+{
+	CTestMonster::DESC MonsterDesc{};
+	MonsterDesc.vInitPos = { 400.f,25.f,200.f };
+	MonsterDesc.vScale = {20.f,50.f,20.f};
+
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_TestMonster"),
+		LEVEL_GAMEPLAY, strLayerTag, &MonsterDesc)))
 		return E_FAIL;
 
 	return S_OK;

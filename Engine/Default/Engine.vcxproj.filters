@@ -124,6 +124,9 @@
     <ClInclude Include="..\public\Collider_Capsule.h">
       <Filter>04.Components\Collider\Capsule</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\Collider_Line.h">
+      <Filter>04.Components\Collider\Line</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="99.Headers">
@@ -240,6 +243,12 @@
     <Filter Include="04.Components\Collider\Capsule">
       <UniqueIdentifier>{16c87723-ef05-409a-ba4e-619f17fc0234}</UniqueIdentifier>
     </Filter>
+    <Filter Include="04.Components\Collider\Line">
+      <UniqueIdentifier>{00be9faa-a1ba-4551-9dcc-d44dd468399e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04.Components\Collider\Rect">
+      <UniqueIdentifier>{708cfec0-f8e3-4081-90b7-7667aa838bb3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Private\Base.cpp">
@@ -346,6 +355,9 @@
     </ClCompile>
     <ClCompile Include="..\private\Collider_Capsule.cpp">
       <Filter>04.Components\Collider\Capsule</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Collider_Line.cpp">
+      <Filter>04.Components\Collider\Line</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
