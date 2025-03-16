@@ -120,6 +120,11 @@ HRESULT CLevel_GamePlay::Ready_Layer_Statue(const _wstring& strLayerTag)
 		LEVEL_GAMEPLAY, strLayerTag, m_pData->Find_Data(TEXT("Cabinet")))))
 		return E_FAIL;
 
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Signboard"),
+		LEVEL_GAMEPLAY, strLayerTag, m_pData->Find_Data(TEXT("Signboard")))))
+		return E_FAIL;
+
+
 	CExplosion::DESC ExplosionDesc{};
 	ExplosionDesc.vInitPos = { 160.f,60.f,200.f };
 	ExplosionDesc.vScale = { 120.f,160.f,1.f };

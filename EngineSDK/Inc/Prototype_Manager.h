@@ -1,5 +1,6 @@
 #pragma once
 
+#include "VIBuffer_Signboard.h"
 #include "VIBuffer_Cabinet.h"
 #include "VIBuffer_Trapezoid.h"
 #include "VIBuffer_Terrain.h"

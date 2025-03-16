@@ -71,6 +71,14 @@ HRESULT CVIBuffer::Create_IndexBuffer()
     return S_OK;
 }
 
+VECTOR CVIBuffer::ComputeNormal(_float3* p0, _float3* p1, _float3* p2)
+{
+    VECTOR u = *p1 - *p0;
+    VECTOR v = *p2 - *p0;
+    
+    return (u.Cross(v)).Normalize();
+}
+
 void CVIBuffer::Free()
 {
     __super::Free();

@@ -14,6 +14,7 @@
 #include "Explosion.h"
 #include "Trapezoid.h"
 #include "Cabinet.h"
+#include "Signboard.h"
 #include "Player.h"
 #include "TestMonster.h"
 #include "TestBullet.h"
@@ -135,6 +136,7 @@ HRESULT CLoader::Loading_For_GamePlay()
 	ADD_TEXTURE(Box, "../Bin/Resources/Textures/Object/Box/tile6628.png", 1);
 	ADD_TEXTURE(Cabinet, "../Bin/Resources/Textures/Object/Cabinet/Cabinet%d.png", 3);
 	ADD_TEXTURE(Trapezoid, "../Bin/Resources/Textures/Object/Trapezoid/Trapezoid%d.png", 2);
+	ADD_TEXTURE(Signboard, "../Bin/Resources/Textures/Object/Signboard/Signboard%d.png", 5);
 
 	ADD_TEXTURE(TestBullet, "../Bin/Resources/Textures/Bullet/Test/tile7859.png", 1);
 	ADD_TEXTURE(TestMonster, "../Bin/Resources/Textures/Monster/Test/TestMonster%d.PNG", 2);
@@ -168,6 +170,7 @@ HRESULT CLoader::Loading_For_GamePlay()
 	ADD_PRTOBJ(Explosion);
 	ADD_PRTOBJ(Trapezoid);
 	ADD_PRTOBJ(Cabinet);
+	ADD_PRTOBJ(Signboard);
 	ADD_PRTOBJ(Player);
 	ADD_PRTOBJ(TestBullet);
 	ADD_PRTOBJ(TestMonster);
