@@ -1,6 +1,7 @@
 ﻿#include "Firework.h"
 #include "GameInstance.h"
 
+
 CFirework::CFirework(LPDIRECT3DDEVICE9 pGraphicDev, wstring _strObjName)
 	:CPSystem(pGraphicDev, _strObjName)
 {
@@ -16,9 +17,13 @@ HRESULT CFirework::Initialize(void* pArg)
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
 
-	m_vPosition = *static_cast<_float3*>(pArg);
+	DESC* FireworkDS = static_cast<DESC*>(pArg);
+	m_vPosition = FireworkDS->vPosition;
+	
+	m_Effect = dynamic_cast<CEffect*>(*FireworkDS->ppOut);
+	m_Effect->SetPosition(m_vPosition);
 
-	int numparticles = 50;
+	int numparticles = 7;
 	for (int i = 0; i < numparticles; i++)
 	{
 		addParticle();
@@ -45,24 +50,20 @@ HRESULT CFirework::Ready_Particle()
 		0
 	);
 
+	return S_OK;
+}
+
+HRESULT CFirework::Ready_Components()
+{
 	//트랜스폼 컴포넌트 장착
 	CTransform::DESC		TransformDesc{ 10.f, D3DXToRadian(90.f) };
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Transform"),
 		TEXT("Com_Transform"), reinterpret_cast<CComponent**>(&m_pTransForm), &TransformDesc)))
 		return E_FAIL;
 
-	//텍스처 컴포넌트 장작(아직없음)
-	//if (FAILED(__super::Add_Component(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Terrain"),
-	//	TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
-	//	return E_FAIL;
 
-	return S_OK;
-}
-
-HRESULT CFirework::Ready_Components()
-{
-	/* For.Com_Texture */
-	if (FAILED(__super::Add_Component(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_PS_Firework"),
+	//텍스처 컴포넌트 장착
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Texture_PS_Firework"),
 		TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
 		return E_FAIL;
 
@@ -89,8 +90,8 @@ void CFirework::resetParticle(Attribute* attribute)
 	GetRandomVector(&attribute->_Velocity, &min, &max);
 	attribute->_Velocity.y = GetRandomFloat(5.0f, 15.0f);
 	D3DXVec3Normalize(&attribute->_Velocity, &attribute->_Velocity);
-	attribute->_Velocity *= 200.f; // 전체 속도 조정
-	attribute->_Accelerator = { 0.0f, -350.f, 0.0f };
+	attribute->_Velocity *= 500.f; // 전체 속도 조정
+	attribute->_Accelerator = { 0.0f, -1550.f, 0.0f };
 
 	//각종 파라미터값
 	D3DXCOLOR Color = { GetRandomColor(0.6f, 1.f),GetRandomColor(0.6f, 1.f) ,GetRandomColor(0.6f, 1.f) , 1.f };
@@ -123,7 +124,8 @@ EVENT CFirework::Update(_float timeDelta)
 
 			if (i->_Age > i->_LifeTime)
 			{
-				resetParticle(&(*i));
+				i->_isAlive = false;
+				//resetParticle(&(*i));
 			}
 		}
 	}
@@ -285,4 +287,5 @@ void CFirework::Free()
 	__super::Free();
 	
 	Safe_Release(m_pTextureCom);
+	Safe_Release(m_Effect);
 }

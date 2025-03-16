@@ -1,8 +1,19 @@
 #pragma once
 #include "PSystem.h"
+#include "Effect.h"
+
+BEGIN(Engine)
+class CGameObject;
+END
 
 class CFirework : public CPSystem
 {
+public:
+	typedef struct tagFireworkDesc : public CPSystem::DESC
+	{
+		CGameObject** ppOut;
+	}DESC;
+
 public:
 	CFirework(LPDIRECT3DDEVICE9 pGraphicDev, wstring _strObjName);
 	CFirework(const CPSystem& Prototype);
@@ -26,6 +37,7 @@ public:
 	virtual void Free();
 	
 private:
-	float m_fFrame = 0;
+	CEffect*	m_Effect = nullptr;
+	float		m_fFrame = 0;
 };
 

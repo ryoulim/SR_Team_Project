@@ -21,8 +21,8 @@ HRESULT CExplosion::Initialize_Prototype()
 
 HRESULT CExplosion::Initialize(void* pArg)
 {
-	m_eLevelID = LEVEL_GAMEPLAY;
-	m_szTextureID = TEXT("Explosion");
+	m_eLevelID = LEVEL_STATIC;
+	m_szTextureID = TEXT("PC_Explosion");
 	m_szBufferType = TEXT("Rect");
 
 	if (FAILED(__super::Initialize(pArg)))
@@ -38,10 +38,14 @@ void CExplosion::Priority_Update(_float fTimeDelta)
 
 EVENT CExplosion::Update(_float fTimeDelta)
 {
-	m_fTextureNum += 50 * fTimeDelta;
+	if (m_fTextureNum > 14)
+	{
+		return EVN_NONE;
+	}
 
-	if (m_fTextureNum > 90)
-		m_fTextureNum = 0.f;
+	
+	m_fTextureNum += 15.f * fTimeDelta;
+
 
 	return __super::Update(fTimeDelta);
 }
@@ -53,6 +57,11 @@ void CExplosion::Late_Update(_float fTimeDelta)
 
 HRESULT CExplosion::Render()
 {
+	if (m_fTextureNum > 14)
+	{
+		return EVN_NONE;
+	}
+
 	return __super::Render();
 }
 
@@ -85,4 +94,5 @@ CGameObject* CExplosion::Clone(void* pArg)
 void CExplosion::Free()
 {
 	__super::Free();
+
 }

@@ -116,13 +116,15 @@ HRESULT CPSystem::SetUp_RenderState()
 	m_pGraphic_Device->SetRenderState(D3DRS_POINTSPRITEENABLE, true);
 	m_pGraphic_Device->SetRenderState(D3DRS_POINTSCALEENABLE, true);
 	m_pGraphic_Device->SetRenderState(D3DRS_POINTSIZE, FtoDW(m_fSize));
-	m_pGraphic_Device->SetRenderState(D3DRS_POINTSIZE_MIN, FtoDW(0.01f));
+	m_pGraphic_Device->SetRenderState(D3DRS_POINTSIZE_MIN, FtoDW(0.1f));
+	m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 
 	//거리에 따른 파티클 크기조절
 	//m_pGraphic_Device->SetRenderState(D3DRS_POINTSCALEENABLE, FALSE);
-	m_pGraphic_Device->SetRenderState(D3DRS_POINTSCALE_A, FtoDW(0.0f));
-	m_pGraphic_Device->SetRenderState(D3DRS_POINTSCALE_B, FtoDW(0.2f));
-	m_pGraphic_Device->SetRenderState(D3DRS_POINTSCALE_C, FtoDW(0.2f));
+	m_pGraphic_Device->SetRenderState(D3DRS_POINTSCALE_A, FtoDW(1.0f)); 
+	m_pGraphic_Device->SetRenderState(D3DRS_POINTSCALE_B, FtoDW(0.1f)); 
+	m_pGraphic_Device->SetRenderState(D3DRS_POINTSCALE_C, FtoDW(0.05f));
+
 
 
 #pragma region 텍스처의 알파(온/오프)
@@ -236,6 +238,7 @@ HRESULT CPSystem::Release_RenderState()
 	m_pGraphic_Device->SetRenderState(D3DRS_POINTSPRITEENABLE, false);
 	m_pGraphic_Device->SetRenderState(D3DRS_POINTSCALEENABLE, false);
 	m_pGraphic_Device->SetRenderState(D3DRS_ZWRITEENABLE, true);
+	m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
 
 	// 알파 블렌딩을 끈다 (기본값: false) - > 이거 밑에줄 다 삭제? 일단 밑에 줄은 
 	//m_pGraphic_Device->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
@@ -287,6 +290,8 @@ void CPSystem::removeDeadParticle()
 		}
 	}
 }
+
+
 
 void CPSystem::Free()
 {

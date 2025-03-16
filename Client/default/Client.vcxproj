@@ -154,6 +154,7 @@
     <ClInclude Include="..\public\Button.h" />
     <ClInclude Include="..\public\Button_Test.h" />
     <ClInclude Include="..\public\Cabinet.h" />
+    <ClInclude Include="..\public\CameraSprite.h" />
     <ClInclude Include="..\public\CameraManager.h" />
     <ClInclude Include="..\public\Common_Shape.h" />
     <ClInclude Include="..\public\DebugMode.h" />
@@ -161,6 +162,7 @@
     <ClInclude Include="..\public\Explosion.h" />
     <ClInclude Include="..\public\Firework.h" />
     <ClInclude Include="..\public\Font.h" />
+    <ClInclude Include="..\public\BulletTracer.h" />
     <ClInclude Include="..\public\Font_BigOrange.h" />
     <ClInclude Include="..\public\Font_BigSilver.h" />
     <ClInclude Include="..\public\Font_MediumBlue.h" />
@@ -180,6 +182,8 @@
     <ClInclude Include="..\public\Portrait.h" />
     <ClInclude Include="..\public\PSystem.h" />
     <ClInclude Include="..\public\Rain.h" />
+    <ClInclude Include="..\public\Smoke.h" />
+    <ClInclude Include="..\public\Sprite.h" />
     <ClInclude Include="..\public\Signboard.h" />
     <ClInclude Include="..\public\Statue.h" />
     <ClInclude Include="..\public\Client_Defines.h" />
@@ -192,6 +196,7 @@
     <ClInclude Include="..\public\Loader.h" />
     <ClInclude Include="..\public\MyCube.h" />
     <ClInclude Include="..\public\Terrain.h" />
+    <ClInclude Include="..\public\Tornado.h" />
     <ClInclude Include="..\public\TestBullet.h" />
     <ClInclude Include="..\public\TestMonster.h" />
     <ClInclude Include="..\public\Trapezoid.h" />
@@ -215,12 +220,14 @@
     <ClCompile Include="..\private\Button_Test.cpp" />
     <ClCompile Include="..\private\Cabinet.cpp" />
     <ClCompile Include="..\private\CameraManager.cpp" />
+    <ClCompile Include="..\private\CameraSprite.cpp" />
     <ClCompile Include="..\private\Common_Shape.cpp" />
     <ClCompile Include="..\private\DebugMode.cpp" />
     <ClCompile Include="..\private\Effect.cpp" />
     <ClCompile Include="..\private\Explosion.cpp" />
     <ClCompile Include="..\private\Firework.cpp" />
     <ClCompile Include="..\private\Font.cpp" />
+    <ClCompile Include="..\private\BulletTracer.cpp" />
     <ClCompile Include="..\private\Font_BigOrange.cpp" />
     <ClCompile Include="..\private\Font_BigSilver.cpp" />
     <ClCompile Include="..\private\Font_MediumBlue.cpp" />
@@ -241,6 +248,8 @@
     <ClCompile Include="..\private\PSystem.cpp" />
     <ClCompile Include="..\private\Rain.cpp" />
     <ClCompile Include="..\private\Signboard.cpp" />
+    <ClCompile Include="..\private\Smoke.cpp" />
+    <ClCompile Include="..\private\Sprite.cpp" />
     <ClCompile Include="..\private\Statue.cpp" />
     <ClCompile Include="..\private\Dynamic_Camera.cpp" />
     <ClCompile Include="..\private\Level_GamePlay.cpp" />
@@ -249,6 +258,7 @@
     <ClCompile Include="..\private\Loader.cpp" />
     <ClCompile Include="..\private\MyCube.cpp" />
     <ClCompile Include="..\private\Terrain.cpp" />
+    <ClCompile Include="..\private\Tornado.cpp" />
     <ClCompile Include="..\private\TestBullet.cpp" />
     <ClCompile Include="..\private\TestMonster.cpp" />
     <ClCompile Include="..\private\Trapezoid.cpp" />

@@ -4,6 +4,7 @@
 #include "GameInstance.h"
 #include "GameObject.h"
 
+
 BEGIN(Engine)
 class CTexture;
 class CVIBuffer_Rect;
@@ -30,6 +31,8 @@ protected:
 public:
 	virtual HRESULT Initialize_Prototype() override;
 	virtual HRESULT Initialize(void* pArg) override;
+
+
 	virtual void Priority_Update(_float fTimeDelta) override;
 	virtual EVENT Update(_float fTimeDelta) override;
 	virtual void Late_Update(_float fTimeDelta) override;
@@ -37,6 +40,11 @@ public:
 
 protected:
 	virtual HRESULT Ready_Components(void* pArg);
+
+
+public:
+	void SetPosition(_float3 _Pos);
+	void Billboard();
 
 protected:
 	LEVEL m_eLevelID = { LEVEL_END };
@@ -49,6 +57,7 @@ protected:
 public:
 	virtual CGameObject* Clone(void* pArg) PURE;
 	virtual void Free();
+
 };
 
 END
