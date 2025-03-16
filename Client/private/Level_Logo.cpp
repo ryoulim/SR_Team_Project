@@ -70,9 +70,15 @@ HRESULT CLevel_Logo::Ready_Layer_UI(const _wstring& strLayerTag)
 	TestButtonDesc.vInitPos = { 280.f - g_iWinSizeX * 0.5f, g_iWinSizeY * 0.5f - 460.f,1.f };
 	TestButtonDesc.vScale = { 200.f, 38.f, 0.1f };
 
-	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_LOGO, TEXT("Prototype_GameObject_Button"),
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_LOGO, TEXT("Prototype_GameObject_Button_Main"),
 		LEVEL_LOGO, strLayerTag, &TestButtonDesc)))
 		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_LOGO, TEXT("Prototype_GameObject_Logo"),
+		LEVEL_LOGO, strLayerTag)))
+		return E_FAIL;
+
+
 	
 	return S_OK;
 }

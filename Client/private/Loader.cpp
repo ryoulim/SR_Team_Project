@@ -30,7 +30,7 @@
 #include "Armor.h"
 #include "Portrait.h"
 #include "MainMenu.h"
-#include "Button.h"
+#include "Button_Main.h"
 
 CLoader::CLoader(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: m_pGraphic_Device { pGraphic_Device }
@@ -219,7 +219,7 @@ HRESULT CLoader::Loading_For_Logo()
 
 	ADD_PRTOBJ(BackGround);
 	ADD_PRTOBJ(MainMenu);
-	ADD_PRTOBJ(Button);
+	ADD_PRTOBJ(Button_Main);
 	for (size_t i = 0; i < 100000; i++)
 	{
 		for (size_t j = 0; j < 10000; j++)

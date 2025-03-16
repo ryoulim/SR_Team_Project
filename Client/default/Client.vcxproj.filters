@@ -381,6 +381,10 @@
     <ClInclude Include="..\public\TestMonster.h">
       <Filter>02.GameObjects\Monster\TestMonster</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\Item_Ammo_Loverboy.h" />
+    <ClInclude Include="..\public\Button_Main.h">
+      <Filter>02.GameObjects\UI\Button</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -563,6 +567,10 @@
     </ClCompile>
     <ClCompile Include="..\private\TestMonster.cpp">
       <Filter>02.GameObjects\Monster\TestMonster</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Item_Ammo_Loverboy.cpp" />
+    <ClCompile Include="..\private\Button_Main.cpp">
+      <Filter>02.GameObjects\UI\Button</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

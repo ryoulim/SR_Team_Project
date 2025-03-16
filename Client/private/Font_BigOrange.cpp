@@ -84,6 +84,7 @@ HRESULT CFont_BigOrange::Render_Text(const string& _text, FONTALIGN _align, _flo
 			else if (ch == '%') m_fTextureNum = 43.f;
 			else if (ch == '\'') m_fTextureNum = 44.f;
 			else if (ch == '-') m_fTextureNum = 45.f;
+			else m_fTextureNum = 39.f;
 			if (FAILED(m_pTextureCom->Get_TextureSize(static_cast<_uint>(m_fTextureNum), &m_vSize)))
 				return E_FAIL;
 

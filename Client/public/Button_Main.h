@@ -1,4 +1,4 @@
-// 내 클래스 이름 : Button
+// 내 클래스 이름 : Button_Main
 // 부모 클래스 이름 : UI
 
 #pragma once
@@ -6,17 +6,18 @@
 
 BEGIN(Client)
 
-class CButton : public CUI
+class CButton_Main : public CUI
 {
 public:
-	typedef struct tagButtonDesc : public CUI::DESC
+	typedef struct tagButton_MainDesc : public CUI::DESC
 	{
 		CFont::FONTALIGN eAlign;
 	}DESC;
+	enum BUTTONTYPE {GAMESTART, OPTIONS, QUIT, BUTTON_END};
 protected:
-	CButton(LPDIRECT3DDEVICE9 pGraphic_Device);
-	CButton(const CButton& Prototype);
-	virtual ~CButton() = default;
+	CButton_Main(LPDIRECT3DDEVICE9 pGraphic_Device);
+	CButton_Main(const CButton_Main& Prototype);
+	virtual ~CButton_Main() = default;
 
 public:
 	virtual HRESULT Initialize_Prototype() override;
@@ -27,10 +28,16 @@ public:
 	virtual HRESULT Render() override;
 
 protected:
+	void	Initialize_ButtonRect();
+	HRESULT	Pick_Button();
+
+protected:
 	CFont::FONTALIGN m_eAlign = { CFont::LEFT };
+	RECT	m_tButton[BUTTON_END];
+
 
 public:
-	static CButton* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
+	static CButton_Main* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
 	virtual CGameObject* Clone(void* pArg) override;
 	virtual void Free();
 };
