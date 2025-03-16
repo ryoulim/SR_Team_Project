@@ -15,9 +15,14 @@
 #include "TestBullet.h"
 
 //파티클 인클루드
+#include "Explosion.h"
 #include "Firework.h"
-#include "Gun.h"
+#include "BulletTracer.h"
 #include "Rain.h"
+#include "Sprite.h"
+#include "Tornado.h"
+#include "Smoke.h"
+#include "CameraSprite.h"
 
 //UI 인클루드
 #include "Aim.h"
@@ -91,54 +96,104 @@ HRESULT CLoader::Loading()
 
 HRESULT CLoader::Loading_For_Logo()
 {
+#pragma region 파티클 준비물(스테틱)
+
+	///////////////////////////////////////////스프라이트//////////////////////////////////////////////////////
+
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_GameObject_PC_Sprite"),
+		CSprite::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_GameObject_PC_Explosion"),
+		CExplosion::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_GameObject_PC_CameraSprite"),
+		CCameraSprite::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	////////////////////////////////////////////파티클//////////////////////////////////////////////////////
+
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_GameObject_PC_Tornado"),
+		CTornado::Create(m_pGraphic_Device, L"PARTICLE_Tornado"))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_GameObject_PC_Rain"),
+		CRain::Create(m_pGraphic_Device, L"PARTICLE_SNOW", 200, _float3(0.f, 0.f, 0.f), _float3(500.f, 500.f, 500.f)))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_GameObject_PC_Firework"),
+		CFirework::Create(m_pGraphic_Device, L"PARTICLE_FIREWORK"))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_GameObject_PC_Smoke"),
+		CSmoke::Create(m_pGraphic_Device, L"PARTICLE_SMOKE"))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_GameObject_PC_BulletTracer"),
+		CBulletTracer::Create(m_pGraphic_Device, L"PARTICLE_BULLETTRACER"))))
+		return E_FAIL;
+
+	////////////////////////////////////////////텍스처//////////////////////////////////////////////////////
+
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Check_Tile"),
+		CTexture::Create(m_pGraphic_Device, TEXT("../Bin/Resources/Textures/Particle/Check_Tile.png"), 1))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_PC_Small_Fire"),
+		CTexture::Create(m_pGraphic_Device, TEXT("../Bin/Resources/Textures/Particle/PC_Small_Fire%d.png"), 5))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_PC_Tornado"),
+		CTexture::Create(m_pGraphic_Device, TEXT("../Bin/Resources/Textures/Particle/PC_Tornado%d.png"), 25))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_PC_Small_Smoke"),
+		CTexture::Create(m_pGraphic_Device, TEXT("../Bin/Resources/Textures/Particle/PC_Small_Smoke%d.png"), 20))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_PC_Explosion"),
+		CTexture::Create(m_pGraphic_Device, TEXT("../Bin/Resources/Textures/Particle/PS_EXPLOSION%d.png"), 14))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_PC_BulletShell"),
+		CTexture::Create(m_pGraphic_Device, TEXT("../Bin/Resources/Textures/Particle/PC_BulletShell%d.png"), 7))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_PS_Firework"),
+		CTexture::Create(m_pGraphic_Device, TEXT("../Bin/Resources/Textures/Particle/PS_Firework%d.png"), 4))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_PC_Rain"),
+		CTexture::Create(m_pGraphic_Device, TEXT("../Bin/Resources/Textures/Particle/PC_Rain.png"), 1))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_PC_Fire"),
+		CTexture::Create(m_pGraphic_Device, TEXT("../Bin/Resources/Textures/Particle/PC_Fire%d.png"), 20))))
+		return E_FAIL;
+
+#pragma endregion
+
 #pragma region TEXTURE
 	lstrcpy(m_szLoadingText, TEXT("텍스쳐을(를) 로딩중입니다."));
 	ADD_TEXTURE(BackGround, "../Bin/Resources/Textures/Default%d.jpg", 2);
 	ADD_TEXTURE(MainMenu, "../Bin/Resources/Textures/UI/Background/MainMenu_Background.PNG", 1);
 	ADD_TEXTURE(Save_Background, "../Bin/Resources/Textures/UI/Background/Save_Background.PNG", 1);
-	for (size_t i = 0; i < 10000; i++)
-	{
-		for (size_t j = 0; j < 10000; j++)
-		{
-			int a = 0;
-		}
-	}
 	m_fLoadPercent = 1.f / 5.f;
 #pragma endregion
 
 #pragma region MODEL
 	lstrcpy(m_szLoadingText, TEXT("모델을(를) 로딩중입니다."));
-	for (size_t i = 0; i < 10000; i++)
-	{
-		for (size_t j = 0; j < 10000; j++)
-		{
-			int a = 0;
-		}
-	}
 	m_fLoadPercent = 2.f / 5.f;
 #pragma endregion
 
 #pragma region SOUND
 	lstrcpy(m_szLoadingText, TEXT("사운드을(를) 로딩중입니다."));
-	for (size_t i = 0; i < 10000; i++)
-	{
-		for (size_t j = 0; j < 10000; j++)
-		{
-			int a = 0;
-		}
-	}
 	m_fLoadPercent = 3.f / 5.f;
 #pragma endregion
 
 #pragma region PRTOBJ
 	lstrcpy(m_szLoadingText, TEXT("원형객체을(를) 로딩중입니다."));
-	for (size_t i = 0; i < 10000; i++)
-	{
-		for (size_t j = 0; j < 10000; j++)
-		{
-			int a = 0;
-		}
-	}
 	ADD_PRTOBJ(BackGround);
 	ADD_PRTOBJ(MainMenu);
 	ADD_PRTOBJ(Button);
@@ -148,13 +203,6 @@ HRESULT CLoader::Loading_For_Logo()
 
 #pragma region DATA
 	lstrcpy(m_szLoadingText, TEXT("데이터를 읽어들이는 중입니다."));
-	for (size_t i = 0; i < 100000; i++)
-	{
-		for (size_t j = 0; j < 100000; j++)
-		{
-			int a = 0;
-		}
-	}
 	Add_Data(TEXT("GamePlayLevelData.csv"));
 	m_fLoadPercent = 5.f / 5.f;
 
@@ -177,7 +225,6 @@ HRESULT CLoader::Loading_For_GamePlay()
 	ADD_TEXTURE(Armor, "../Bin/Resources/Textures/UI/Armor/armor%d.PNG", 3);
 	ADD_TEXTURE(Ammo, "../Bin/Resources/Textures/UI/Ammo/ammo%d.PNG", 8);
   	ADD_TEXTURE(Portrait, "../Bin/Resources/Textures/UI/Portrait/portrait%d.PNG", 25);
-	ADD_TEXTURE(Explosion, "../Bin/Resources/Textures/Explosion/Explosion%d.png", 90);
 
 	ADD_TEXTURE(Box, "../Bin/Resources/Textures/Object/Box/tile6628.png", 1);
 	ADD_TEXTURE(Cabinet, "../Bin/Resources/Textures/Object/Cabinet/Cabinet%d.png", 3);
@@ -186,11 +233,6 @@ HRESULT CLoader::Loading_For_GamePlay()
 
 	ADD_TEXTURE(TestBullet, "../Bin/Resources/Textures/Bullet/Test/tile7859.png", 1);
 	ADD_TEXTURE(TestMonster, "../Bin/Resources/Textures/Monster/Test/TestMonster%d.PNG", 2);
-
-	//파티클
-	ADD_TEXTURE(PC_Bullet, "../Bin/Resources/Textures/Particle/PC_Bullet.png", 1);
-	ADD_TEXTURE(PS_Firework, "../Bin/Resources/Textures/Particle/PS_Firework%d.png", 4);
-	ADD_TEXTURE(PC_Rain, "../Bin/Resources/Textures/Particle/PC_Rain.png", 1);
 
 
 	
@@ -213,7 +255,6 @@ HRESULT CLoader::Loading_For_GamePlay()
 	ADD_PRTOBJ(Armor);
 	ADD_PRTOBJ(Ammo);
 	ADD_PRTOBJ(Portrait);
-	ADD_PRTOBJ(Explosion);
 	ADD_PRTOBJ(Trapezoid);
 	ADD_PRTOBJ(Cabinet);
 	ADD_PRTOBJ(Signboard);
@@ -221,19 +262,7 @@ HRESULT CLoader::Loading_For_GamePlay()
 	ADD_PRTOBJ(TestBullet);
 	ADD_PRTOBJ(TestMonster);
 
-#pragma region 파티클 원형객체
-	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Snow"),
-		CRain::Create(m_pGraphic_Device, L"PARTICLE_SNOW", 5000, _float3(0.f, 0.f, 0.f), _float3(500.f, 500.f, 500.f)))))
-		return E_FAIL;
 
-	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Firework"),
-		CFirework::Create(m_pGraphic_Device, L"PARTICLE_FIREWORK"))))
-		return E_FAIL;
-
-	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Gun"),
-		CGun::Create(m_pGraphic_Device, L"PARTICLE_GUN"))))
-		return E_FAIL;
-#pragma endregion
 
 
 #pragma endregion

@@ -1,13 +1,16 @@
-#include "Level_GamePlay.h"
+﻿#include "Level_GamePlay.h"
 #include "Explosion.h"
-#include "UI_Camera.h"
+#include "Firework.h"
+#include "GameInstance.h"
+#include "BulletTracer.h"
+#include "Sprite.h"
 
 #define CurLevel LEVEL_GAMEPLAY
 
 CLevel_GamePlay::CLevel_GamePlay(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CLevel { pGraphic_Device }
+	, m_Gen(m_Rd())
 {
-
 }
 
 HRESULT CLevel_GamePlay::Initialize(class CLevelData* pLevelData)
@@ -30,6 +33,9 @@ HRESULT CLevel_GamePlay::Initialize(class CLevelData* pLevelData)
 	if (FAILED(Ready_Layer_Statue(TEXT("Layer_Statue"))))
 		return E_FAIL;
 
+	if (FAILED(Ready_Layer_Effect(TEXT("Layer_Effect"))))
+		return E_FAIL;
+
 	if (FAILED(Ready_Layer_Particle(TEXT("Layer_Particle"))))
 		return E_FAIL;
 
@@ -39,18 +45,37 @@ HRESULT CLevel_GamePlay::Initialize(class CLevelData* pLevelData)
 	//if(FAILED(Ready_Light()))
 	//	return E_FAIL;
 
+
 	return S_OK;
 }
 
 void CLevel_GamePlay::Update(_float fTimeDelta)
+{	
+	SpawnMultipleExplosions(fTimeDelta);
+	SpawnMultipleExplosions(fTimeDelta);
+
+	//탄피 생성
+	if (KEY_PRESSING(VK_LBUTTON))
+	{
+		if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_PC_BulletTracer"),
+			LEVEL_GAMEPLAY, L"Layer_Particle")))
+			return;
+	}
 {
 	m_pGameInstance->Intersect(LEVEL_GAMEPLAY, TEXT("Layer_Pawn"), TEXT("Layer_Statue"));
 	m_pGameInstance->Intersect(LEVEL_GAMEPLAY, TEXT("Layer_PBullet"), TEXT("Layer_Monster"));
 }
 
+	//카메라 스프라이트 테스트
+	if (KEY_DOWN(VK_LBUTTON))
+	{
+		SpawnGunFire();
+	}
+}
+
 HRESULT CLevel_GamePlay::Render()
 {
-	SetWindowText(g_hWnd, TEXT("�����÷��� �����Դϴ�."));
+	SetWindowText(g_hWnd, TEXT("게임플레이 레벨입니다."));
 
 	return S_OK;
 }
@@ -118,13 +143,6 @@ HRESULT CLevel_GamePlay::Ready_Layer_Statue(const _wstring& strLayerTag)
 		return E_FAIL;
 
 
-	CExplosion::DESC ExplosionDesc{};
-	ExplosionDesc.vInitPos = { 160.f,60.f,200.f };
-	ExplosionDesc.vScale = { 120.f,160.f,1.f };
-	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Explosion"),
-		LEVEL_GAMEPLAY, strLayerTag, &ExplosionDesc)))
-		return E_FAIL;
-
 	return S_OK;
 }
 
@@ -139,16 +157,28 @@ HRESULT CLevel_GamePlay::Ready_Layer_Item(const _wstring& strLayerTag)
 
 HRESULT CLevel_GamePlay::Ready_Layer_Particle(const _wstring& strLayerTag)
 {
-	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Snow"),
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_PC_Rain"),
 		LEVEL_GAMEPLAY, strLayerTag)))
 		return E_FAIL;
+	
+	//토네이도
+	for (int i = 0; i < 2; ++i)
+	{
+		_float3 vPosition = { GetRandomValue(100, 700) , 25.f , GetRandomValue(100, 700) };
+		SpawnTornado(vPosition);
+	}
+	//불지르기
+	for (int i = 0; i < 20; ++i)
+	{
+		_float3 vPosition = { GetRandomValue(100, 700) , 25.f , GetRandomValue(100, 700) };
+		SpawnFire(vPosition);
+	}
 
-	
-	_float3 FireworkPos = { 300.f, 0.f, 200.f };
-	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Firework"),
-		LEVEL_GAMEPLAY, strLayerTag, &FireworkPos)))
-		return E_FAIL;
-	
+	return S_OK;
+}
+
+HRESULT CLevel_GamePlay::Ready_Layer_Effect(const _wstring& strLayerTag)
+{
 	return S_OK;
 }
 
@@ -228,6 +258,109 @@ HRESULT CLevel_GamePlay::Ready_Light()
 	m_pGraphic_Device->SetRenderState(D3DRS_AMBIENT, D3DCOLOR_XRGB(50, 50, 50));
 
 	return S_OK;
+}
+
+void CLevel_GamePlay::SpawnExplosion(_float3 _vPosition)
+{
+	CExplosion::DESC ExplosionDesc{};
+	ExplosionDesc.vInitPos = { 0.f,0.f,0.f };
+	ExplosionDesc.vScale = { 120.f,160.f,1.f };
+
+	CGameObject* pObject = nullptr;
+	CGameObject** ppOut = &pObject;
+
+	if (FAILED(m_pGameInstance->Add_GameObjectReturn(LEVEL_STATIC, TEXT("Prototype_GameObject_PC_Explosion"),
+		LEVEL_GAMEPLAY, L"Layer_Effect", ppOut, &ExplosionDesc)))
+		return;
+
+	//위치정보와 ppOut을 넘긴다.
+	CFirework::DESC FireworkDesc{};
+	FireworkDesc.vPosition = _vPosition;
+	FireworkDesc.ppOut = ppOut;
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_PC_Firework"),
+		LEVEL_GAMEPLAY, L"Layer_Particle", &FireworkDesc)))
+		return;
+
+	//스모크의 위치정보를 넘긴다.
+	CPSystem::DESC SmokeDesc{};
+	SmokeDesc.vPosition = _vPosition;
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_PC_Smoke"),
+		LEVEL_GAMEPLAY, L"Layer_Particle", &SmokeDesc)))
+		return;
+}
+
+void CLevel_GamePlay::SpawnFire(_float3 _vPosition)
+{
+	CSprite::DESC SpriteDesc{};
+	SpriteDesc.bLoop = true;
+	SpriteDesc.fMaxFrame = 18;
+	SpriteDesc.fRotationPerSec = RADIAN(180.f);
+	SpriteDesc.fSpeedPerSec = 100.f;
+	SpriteDesc.szTextureTag = TEXT("PC_Fire");
+	SpriteDesc.vInitPos = _vPosition;
+	SpriteDesc.vScale = _float3{ 60.f, 60.f, 1.f };
+
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_PC_Sprite"),
+		LEVEL_GAMEPLAY, L"Layer_Particle", &SpriteDesc)))
+		return;
+}
+
+void CLevel_GamePlay::SpawnGunFire()
+{
+	CSprite::DESC SpriteDesc{};
+	SpriteDesc.bLoop = false;
+	SpriteDesc.fMaxFrame = 10;
+	SpriteDesc.fRotationPerSec = RADIAN(180.f);
+	SpriteDesc.fSpeedPerSec = 100.f;
+	SpriteDesc.szTextureTag = TEXT("Check_Tile");
+	SpriteDesc.vInitPos = _float3{0.f, 0.f, 0.f};
+	SpriteDesc.vScale = _float3{ 100.f, 100.f, 1.f };
+
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_PC_CameraSprite"),
+		LEVEL_GAMEPLAY, L"Layer_Particle", &SpriteDesc)))
+		return;
+}
+
+void CLevel_GamePlay::SpawnTornado(_float3 _vPosition)
+{
+	CSprite::DESC SpriteDesc{};
+	SpriteDesc.bLoop = true;
+	SpriteDesc.fMaxFrame = 24;
+	SpriteDesc.fRotationPerSec = RADIAN(180.f);
+	SpriteDesc.fSpeedPerSec = 100.f;
+	SpriteDesc.szTextureTag = TEXT("PC_Tornado");
+	SpriteDesc.vInitPos = _vPosition;
+	SpriteDesc.vInitPos.y += 90.f;
+	
+	SpriteDesc.vScale = _float3{ 250.f, 250.f, 1.f };
+
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_PC_Sprite"),
+		LEVEL_GAMEPLAY, L"Layer_Particle", &SpriteDesc)))
+		return;
+
+	CPSystem::DESC TornadoDesc{};
+	TornadoDesc.vPosition = _vPosition;
+	TornadoDesc.vPosition.y += -20;
+
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_PC_Tornado"),
+		LEVEL_GAMEPLAY, L"Layer_Particle", &TornadoDesc)))
+		return;
+
+}
+
+void CLevel_GamePlay::SpawnMultipleExplosions(_float fTimeDelta)
+{
+	static float fTimer = 0.0f;
+	const float fInterval = 0.2f; //반복주기
+
+	fTimer += fTimeDelta;
+	if (fTimer >= fInterval)
+	{
+		_float3 vPosition = { GetRandomValue(200, 800) , GetRandomValue(100, 200) , GetRandomValue(100, 800) };
+		SpawnExplosion(vPosition);
+
+		fTimer = 0.0f;
+	}
 }
 
 CLevel_GamePlay* CLevel_GamePlay::Create(LPDIRECT3DDEVICE9 pGraphic_Device, class CLevelData* pLevelData)

@@ -2,18 +2,22 @@
 #include "PSystem.h"
 #include "Dynamic_Camera.h"
 
-class CGun : public CPSystem
+class CBulletTracer : public CPSystem
 {
 public:
-	CGun(LPDIRECT3DDEVICE9 pGraphicDev, wstring _strObjName);
-	CGun(const CPSystem& Prototype);
-	virtual ~CGun() = default;
+	typedef struct tagPSystemDesc
+	{
+		_float3 vMoveCamera;
+	}DESC;
+
+public:
+	CBulletTracer(LPDIRECT3DDEVICE9 pGraphicDev, wstring _strObjName);
+	CBulletTracer(const CPSystem& Prototype);
+	virtual ~CBulletTracer() = default;
 
 	virtual void resetParticle(Attribute* attribute);
 	virtual EVENT Update(_float timeDelta);
-	virtual HRESULT SetUp_RenderState() override;
 	virtual HRESULT Render() override;
-	virtual HRESULT Release_RenderState() override;
 
 	virtual HRESULT Initialize(void* pArg)override;
 
@@ -23,12 +27,11 @@ public:
 	void FrameUpdate(float timeDelta);
 
 public:
-	static CGun* Create(LPDIRECT3DDEVICE9 pGraphicDev, wstring _strObjName);
+	static CBulletTracer* Create(LPDIRECT3DDEVICE9 pGraphicDev, wstring _strObjName);
 	virtual CGameObject* Clone(void* pArg) override;
 	virtual void Free();
 
 private:
-	float m_fFrame = 0;
-
+	float	m_fFrame = 0;
 };
 

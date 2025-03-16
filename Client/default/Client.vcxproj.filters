@@ -49,9 +49,6 @@
     <Filter Include="02.GameObjects\Effect">
       <UniqueIdentifier>{8a9aaaa4-6267-428d-b1c8-d878c6c1a50a}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\Effect\Explosion">
-      <UniqueIdentifier>{01009920-271b-44a0-8d6f-a1b2c2207162}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02.GameObjects\Pawn">
       <UniqueIdentifier>{c35da08a-421c-4a11-ba53-b81fa4888a6e}</UniqueIdentifier>
     </Filter>
@@ -136,14 +133,32 @@
     <Filter Include="02.GameObjects\Particle\Firework">
       <UniqueIdentifier>{969a81fd-fdd0-49e2-981c-a9e19b61be79}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\Particle\Gun">
-      <UniqueIdentifier>{f0e372d5-eb30-435c-9f67-b6cb449f4d50}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02.GameObjects\Particle\Rain">
       <UniqueIdentifier>{96189cf7-b7c7-40be-95de-e7268c1111c0}</UniqueIdentifier>
     </Filter>
     <Filter Include="02.GameObjects\UI\Manager">
       <UniqueIdentifier>{fc895246-0b92-4f60-9433-e7a515c057b1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Effect\WithParticle">
+      <UniqueIdentifier>{a808fd5a-7a9a-4779-a0db-c168d38ff4ed}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Effect\WithParticle\Explosion">
+      <UniqueIdentifier>{01009920-271b-44a0-8d6f-a1b2c2207162}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Particle\Smoke">
+      <UniqueIdentifier>{85f8522c-054a-4781-bfc6-a727b69453d8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Effect\Sprite">
+      <UniqueIdentifier>{b3565773-83e2-4e30-8f32-cab1a75b2fc7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Particle\Tornado">
+      <UniqueIdentifier>{3cff84a0-00a8-4421-9aa5-494530f71777}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Effect\CameraSprite">
+      <UniqueIdentifier>{781a6385-c83d-44c7-bb96-3ed6a3445a65}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Particle\BulletTracer">
+      <UniqueIdentifier>{f0e372d5-eb30-435c-9f67-b6cb449f4d50}</UniqueIdentifier>
     </Filter>
     <Filter Include="02.GameObjects\Camera\FPSCamera">
       <UniqueIdentifier>{3292d9e0-25c2-4673-a3a9-65c79f7f39bc}</UniqueIdentifier>
@@ -177,9 +192,6 @@
     </Filter>
     <Filter Include="02.GameObjects\Item\Item_Medkit">
       <UniqueIdentifier>{c4d0bab2-7f74-4cea-a8bd-ecf3b8c3154e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Item\Item_Ammo\Item_Ammo_Loverboy">
-      <UniqueIdentifier>{d27e7444-f1bd-4d8c-9553-271448bc4f34}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -244,7 +256,7 @@
       <Filter>02.GameObjects\Effect</Filter>
     </ClInclude>
     <ClInclude Include="..\public\Explosion.h">
-      <Filter>02.GameObjects\Effect\Explosion</Filter>
+      <Filter>02.GameObjects\Effect\WithParticle\Explosion</Filter>
     </ClInclude>
     <ClInclude Include="..\public\Pawn.h">
       <Filter>02.GameObjects\Pawn</Filter>
@@ -306,8 +318,8 @@
     <ClInclude Include="..\public\Firework.h">
       <Filter>02.GameObjects\Particle\Firework</Filter>
     </ClInclude>
-    <ClInclude Include="..\public\Gun.h">
-      <Filter>02.GameObjects\Particle\Gun</Filter>
+    <ClInclude Include="..\public\BulletTracer.h">
+      <Filter>02.GameObjects\Particle\BulletTracer</Filter>
     </ClInclude>
     <ClInclude Include="..\public\Rain.h">
       <Filter>02.GameObjects\Particle\Rain</Filter>
@@ -336,11 +348,38 @@
     <ClInclude Include="..\public\LoadingMenu.h">
       <Filter>02.GameObjects\UI\MenuUI\LoadingMenu</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\Smoke.h">
+      <Filter>02.GameObjects\Particle\Smoke</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Sprite.h">
+      <Filter>02.GameObjects\Effect\Sprite</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Tornado.h">
+      <Filter>02.GameObjects\Particle\Tornado</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\CameraSprite.h">
+      <Filter>02.GameObjects\Effect\CameraSprite</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\FPS_Camera.h">
+      <Filter>02.GameObjects\Camera\FPSCamera</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\CameraManager.h">
+      <Filter>02.GameObjects\Camera\Manager</Filter>
+    </ClInclude>
     <ClInclude Include="..\public\Item_Ammo.h">
       <Filter>02.GameObjects\Item\Item_Ammo</Filter>
     </ClInclude>
-    <ClInclude Include="..\public\Item_Ammo_Loverboy.h">
-      <Filter>02.GameObjects\Item\Item_Ammo\Item_Ammo_Loverboy</Filter>
+    <ClInclude Include="..\public\Signboard.h">
+      <Filter>02.GameObjects\Statue\Signboard</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\TestBullet.h">
+      <Filter>02.GameObjects\Bullet\TestBullet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Player.h">
+      <Filter>02.GameObjects\Pawn\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\TestMonster.h">
+      <Filter>02.GameObjects\Monster\TestMonster</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -400,7 +439,7 @@
       <Filter>02.GameObjects\Effect</Filter>
     </ClCompile>
     <ClCompile Include="..\private\Explosion.cpp">
-      <Filter>02.GameObjects\Effect\Explosion</Filter>
+      <Filter>02.GameObjects\Effect\WithParticle\Explosion</Filter>
     </ClCompile>
     <ClCompile Include="..\private\Pawn.cpp">
       <Filter>02.GameObjects\Pawn</Filter>
@@ -465,8 +504,8 @@
     <ClCompile Include="..\private\Firework.cpp">
       <Filter>02.GameObjects\Particle\Firework</Filter>
     </ClCompile>
-    <ClCompile Include="..\private\Gun.cpp">
-      <Filter>02.GameObjects\Particle\Gun</Filter>
+    <ClCompile Include="..\private\BulletTracer.cpp">
+      <Filter>02.GameObjects\Particle\BulletTracer</Filter>
     </ClCompile>
     <ClCompile Include="..\private\Rain.cpp">
       <Filter>02.GameObjects\Particle\Rain</Filter>
@@ -495,11 +534,35 @@
     <ClCompile Include="..\private\LoadingMenu.cpp">
       <Filter>02.GameObjects\UI\MenuUI\LoadingMenu</Filter>
     </ClCompile>
+    <ClCompile Include="..\private\Smoke.cpp">
+      <Filter>02.GameObjects\Particle\Smoke</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Sprite.cpp">
+      <Filter>02.GameObjects\Effect\Sprite</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Tornado.cpp">
+      <Filter>02.GameObjects\Particle\Tornado</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\CameraSprite.cpp">
+      <Filter>02.GameObjects\Effect\CameraSprite</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\FPS_Camera.cpp">
+      <Filter>02.GameObjects\Camera\FPSCamera</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\CameraManager.cpp">
+      <Filter>02.GameObjects\Camera\Manager</Filter>
+    </ClCompile>
     <ClCompile Include="..\private\Item_Ammo.cpp">
       <Filter>02.GameObjects\Item\Item_Ammo</Filter>
     </ClCompile>
-    <ClCompile Include="..\private\Item_Ammo_Loverboy.cpp">
-      <Filter>02.GameObjects\Item\Item_Ammo\Item_Ammo_Loverboy</Filter>
+    <ClCompile Include="..\private\Signboard.cpp">
+      <Filter>02.GameObjects\Statue\Signboard</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\TestBullet.cpp">
+      <Filter>02.GameObjects\Bullet\TestBullet</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\TestMonster.cpp">
+      <Filter>02.GameObjects\Monster\TestMonster</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

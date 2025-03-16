@@ -90,6 +90,7 @@ HRESULT CSignboard::Render()
 	if (FAILED(m_pVIBufferCom->Render(CVIBuffer_Signboard::CONNECTION)))
 		return E_FAIL;
 #pragma endregion
+	return S_OK;
 }
 
 CSignboard* CSignboard::Create(LPDIRECT3DDEVICE9 pGraphic_Device)

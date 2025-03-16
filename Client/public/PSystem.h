@@ -13,6 +13,13 @@ END
 
 class CPSystem : public CGameObject
 {
+public:
+	typedef struct tagPSystemDesc
+	{
+		_float3 vPosition;
+	}DESC;
+
+
 protected:
 	CPSystem() = delete;
 	CPSystem(LPDIRECT3DDEVICE9 pGraphic_Device) = delete;
@@ -56,6 +63,9 @@ public: //생존
 
 protected: //청소
 	virtual void removeDeadParticle();
+
+public:
+	HRESULT Add_GameObject(_uint iPrototypeLevelIndex, const _wstring& strPrototypeTag, _uint iLevelIndex, const _wstring& strLayerTag, void* pArg);
 
 
 
