@@ -15,13 +15,14 @@ public:
 
 	}DESC;
 
-private:
+protected:
 	CItem_Ammo(LPDIRECT3DDEVICE9 pGraphic_Device);
 	CItem_Ammo(const CItem_Ammo& Prototype);
 	virtual ~CItem_Ammo() = default;
 
-private:
+protected:
 	//CItem_Ammo* Ammos[CAmmo::AMMO_END];
+	_float		m_fAmmoCnt;
 
 public:
 	virtual HRESULT Initialize_Prototype() override;

@@ -96,9 +96,9 @@ HRESULT CLoader::Loading_For_Logo()
 	ADD_TEXTURE(BackGround, "../Bin/Resources/Textures/Default%d.jpg", 2);
 	ADD_TEXTURE(MainMenu, "../Bin/Resources/Textures/UI/Background/MainMenu_Background.PNG", 1);
 	ADD_TEXTURE(Save_Background, "../Bin/Resources/Textures/UI/Background/Save_Background.PNG", 1);
-	for (size_t i = 0; i < 100000; i++)
+	for (size_t i = 0; i < 10000; i++)
 	{
-		for (size_t j = 0; j < 100000; j++)
+		for (size_t j = 0; j < 10000; j++)
 		{
 			int a = 0;
 		}
@@ -108,9 +108,9 @@ HRESULT CLoader::Loading_For_Logo()
 
 #pragma region MODEL
 	lstrcpy(m_szLoadingText, TEXT("모델을(를) 로딩중입니다."));
-	for (size_t i = 0; i < 100000; i++)
+	for (size_t i = 0; i < 10000; i++)
 	{
-		for (size_t j = 0; j < 100000; j++)
+		for (size_t j = 0; j < 10000; j++)
 		{
 			int a = 0;
 		}
@@ -120,9 +120,9 @@ HRESULT CLoader::Loading_For_Logo()
 
 #pragma region SOUND
 	lstrcpy(m_szLoadingText, TEXT("사운드을(를) 로딩중입니다."));
-	for (size_t i = 0; i < 100000; i++)
+	for (size_t i = 0; i < 10000; i++)
 	{
-		for (size_t j = 0; j < 100000; j++)
+		for (size_t j = 0; j < 10000; j++)
 		{
 			int a = 0;
 		}
@@ -132,9 +132,9 @@ HRESULT CLoader::Loading_For_Logo()
 
 #pragma region PRTOBJ
 	lstrcpy(m_szLoadingText, TEXT("원형객체을(를) 로딩중입니다."));
-	for (size_t i = 0; i < 100000; i++)
+	for (size_t i = 0; i < 10000; i++)
 	{
-		for (size_t j = 0; j < 100000; j++)
+		for (size_t j = 0; j < 10000; j++)
 		{
 			int a = 0;
 		}

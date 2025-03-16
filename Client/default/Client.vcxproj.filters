@@ -178,6 +178,9 @@
     <Filter Include="02.GameObjects\Item\Item_Medkit">
       <UniqueIdentifier>{c4d0bab2-7f74-4cea-a8bd-ecf3b8c3154e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\Item\Item_Ammo\Item_Ammo_Loverboy">
+      <UniqueIdentifier>{d27e7444-f1bd-4d8c-9553-271448bc4f34}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -333,7 +336,12 @@
     <ClInclude Include="..\public\LoadingMenu.h">
       <Filter>02.GameObjects\UI\MenuUI\LoadingMenu</Filter>
     </ClInclude>
-    <ClInclude Include="..\public\Item_Ammo.h" />
+    <ClInclude Include="..\public\Item_Ammo.h">
+      <Filter>02.GameObjects\Item\Item_Ammo</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Item_Ammo_Loverboy.h">
+      <Filter>02.GameObjects\Item\Item_Ammo\Item_Ammo_Loverboy</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -487,7 +495,12 @@
     <ClCompile Include="..\private\LoadingMenu.cpp">
       <Filter>02.GameObjects\UI\MenuUI\LoadingMenu</Filter>
     </ClCompile>
-    <ClCompile Include="..\private\Item_Ammo.cpp" />
+    <ClCompile Include="..\private\Item_Ammo.cpp">
+      <Filter>02.GameObjects\Item\Item_Ammo</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Item_Ammo_Loverboy.cpp">
+      <Filter>02.GameObjects\Item\Item_Ammo\Item_Ammo_Loverboy</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />

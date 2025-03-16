@@ -169,6 +169,7 @@
     <ClInclude Include="..\public\Gun.h" />
     <ClInclude Include="..\public\Item.h" />
     <ClInclude Include="..\public\Item_Ammo.h" />
+    <ClInclude Include="..\public\Item_Ammo_Loverboy.h" />
     <ClInclude Include="..\public\LoadingMenu.h" />
     <ClInclude Include="..\public\Logo.h" />
     <ClInclude Include="..\public\MainMenu.h" />
@@ -229,6 +230,7 @@
     <ClCompile Include="..\private\Gun.cpp" />
     <ClCompile Include="..\private\Item.cpp" />
     <ClCompile Include="..\private\Item_Ammo.cpp" />
+    <ClCompile Include="..\private\Item_Ammo_Loverboy.cpp" />
     <ClCompile Include="..\private\LoadingMenu.cpp" />
     <ClCompile Include="..\private\Logo.cpp" />
     <ClCompile Include="..\private\MainMenu.cpp" />

@@ -42,7 +42,7 @@ HRESULT CLevel_Loading::Initialize(LEVEL eNextLevelID)
 void CLevel_Loading::Update(_float fTimeDelta)
 {
 
-	if (KEY_DOWN(VK_SPACE))
+	//if (KEY_DOWN(VK_SPACE))
 	{
 		if (true == m_pLoader->isFinished())
 		{
