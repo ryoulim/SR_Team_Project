@@ -50,6 +50,15 @@ void CUI::Late_Update(_float fTimeDelta)
 
 HRESULT CUI::Render()
 {
+	if (m_pEffect != nullptr)
+	{
+		m_pEffect->Begin(NULL, 0);
+		m_pEffect->BeginPass(0);
+		m_pGraphic_Device->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
+		m_pGraphic_Device->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
+		m_pGraphic_Device->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
+	}
+
 	if(FAILED(m_pTransformCom->Bind_Resource()))
 		return E_FAIL;
 
@@ -61,6 +70,13 @@ HRESULT CUI::Render()
 
 	if (FAILED(m_pVIBufferCom->Render()))
 		return E_FAIL;
+
+	if (m_pEffect != nullptr)
+	{
+		m_pEffect->EndPass();
+		m_pEffect->End();
+		m_pGraphic_Device->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
+	}
 	return S_OK;
 }
 
@@ -97,6 +113,14 @@ void CUI::Update_Rect()
 	m_tRect.bottom	= LONG(posy + (m_vSize.y * 0.5f));
 }
 
+HRESULT CUI::Ready_Shader(const _tchar* szEffectPath)
+{
+	if (FAILED(D3DXCreateEffectFromFile(m_pGraphic_Device, szEffectPath, NULL, NULL, D3DXSHADER_DEBUG, NULL, &m_pEffect, NULL)))
+		return E_FAIL;
+
+	m_hTex = m_pEffect->GetParameterByName(NULL, "Tex");
+}
+
 void CUI::Free()
 {
 	__super::Free();
@@ -104,4 +128,5 @@ void CUI::Free()
 	Safe_Release(m_pVIBufferCom);
 	Safe_Release(m_pTextureCom);
 	Safe_Release(m_pTransformCom);
+	Safe_Release(m_pEffect);
 }

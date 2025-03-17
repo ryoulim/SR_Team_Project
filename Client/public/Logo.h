@@ -31,8 +31,11 @@ private:
 	HRESULT Ready_Component_For_Shadow(void* pArg);
 
 private:
-	CTexture* m_pTextureCom_For_Shadow = { nullptr };
-	CVIBuffer* m_pVIBufferCom_For_Shadow = { nullptr };
+	CTexture*	m_pTextureCom_For_Shadow = { nullptr };
+	CVIBuffer*	m_pVIBufferCom_For_Shadow = { nullptr };
+	_float		m_fAnimTick = {};
+	_float		m_fOpacity = {0.8f};
+	_float		m_fOpacityChangeVar = {1.f};
 
 public:
 	static CLogo* Create(LPDIRECT3DDEVICE9 pGraphic_Device);

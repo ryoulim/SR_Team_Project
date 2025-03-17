@@ -27,7 +27,15 @@ HRESULT CMainMenu::Initialize(void* pArg)
 
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
+	if (FAILED(m_pTextureCom->Get_TextureSize(0, &m_vSize)))
+		return E_FAIL;
 
+
+	// 세로비 대로 이미지 맞춤
+	m_vSize.x *= g_iWinSizeY / m_vSize.y; m_vSize.y = g_iWinSizeY;
+
+
+	m_pTransformCom->Scaling(m_vSize);
 	return S_OK;
 }
 
@@ -53,15 +61,7 @@ HRESULT CMainMenu::Render()
 	if (FAILED(m_pTextureCom->Bind_Resource(static_cast<_uint>(m_fTextureNum))))
 		return E_FAIL;
 
-	if (FAILED(m_pTextureCom->Get_TextureSize(static_cast<_uint>(m_fTextureNum), &m_vSize)))
-		return E_FAIL;
 
-
-	// 세로비 대로 이미지 맞춤
-	m_vSize.x *= g_iWinSizeY / m_vSize.y; m_vSize.y = g_iWinSizeY;
-
-
-	m_pTransformCom->Scaling(m_vSize);
 
 	if (FAILED(m_pTransformCom->Bind_Resource()))
 		return E_FAIL;

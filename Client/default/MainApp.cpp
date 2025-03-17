@@ -12,6 +12,7 @@
 #include "Font_BigOrange.h"
 #include "LoadingMenu.h"
 #include "UI_Manager.h"
+#include "FadeUI.h"
 
 #include "DebugMode.h"
 #include "CameraManager.h"
@@ -94,13 +95,14 @@ HRESULT CMainApp::Ready_Component_For_Static()
 
 	ADD_TEXTURE(Font_MediumBlue, "../Bin/Resources/Textures/UI/Font/Font_MediumBlue/font%d.PNG", 94);
 	ADD_TEXTURE(Font_BigOrange, "../Bin/Resources/Textures/UI/Font/Font_BigOrange/font%d.PNG", 46);
-	//ADD_TEXTURE(Font_TinyBlue, "../Bin/Resources/Textures/UI/Font/Font_TinyBlue/font%d.PNG", 94);
-	//ADD_TEXTURE(Font_BigSilver, "../Bin/Resources/Textures/UI/Font/Font_BigSilver/font%d.PNG", 94);
 
-	ADD_TEXTURE(LoadingMenu, "../Bin/Resources/Textures/UI/black.png", 1);
+	ADD_TEXTURE(LoadingMenu, "../Bin/Resources/Textures/UI/Background/MainMenu_Background_Orig.png", 1);
 	ADD_TEXTURE(Loading_Anim, "../Bin/Resources/Textures/UI/Loading/loadinganim%d.PNG", 8);
 	ADD_TEXTURE(Loading_BarBack, "../Bin/Resources/Textures/UI/Loading/loadingbar0.PNG", 1);
 	ADD_TEXTURE(Loading_Bar, "../Bin/Resources/Textures/UI/Loading/loadingbar1.PNG", 1);
+
+	ADD_TEXTURE(FadeUI, "../Bin/Resources/Textures/UI/black.PNG", 1);
+	//ADD_TEXTURE(DipWhiteUI, "../Bin/Resources/Textures/UI/white.PNG", 1);
 
 	return S_OK;
 }
@@ -114,6 +116,7 @@ HRESULT CMainApp::Ready_Object_For_Static()
 	ADD_PRTOBJ(Font_MediumBlue);
 	ADD_PRTOBJ(Font_BigOrange);
 	ADD_PRTOBJ(LoadingMenu);
+	ADD_PRTOBJ(FadeUI);
 
 	return S_OK;
 }

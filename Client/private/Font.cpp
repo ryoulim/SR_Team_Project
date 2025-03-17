@@ -28,6 +28,8 @@ HRESULT CFont::Initialize(void* pArg)
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
 
+	Ready_Shader(L"../bin/Shader_ShadeChange.hlsl");
+
 	return S_OK;
 }
 
@@ -48,14 +50,31 @@ void CFont::Late_Update(_float fTimeDelta)
 
 HRESULT CFont::Render()
 {
+	
 	if (FAILED(Bind_Texture_To_Transform()))
 		return E_FAIL;
 
-	if (FAILED(m_pVIBufferCom->Bind_Buffers()))
-		return E_FAIL;
+
+	//if (m_pEffect != nullptr)
+	//{
+	//	m_pEffect->Begin(NULL, 0);
+	//	m_pEffect->BeginPass(0);
+	//	//m_pGraphic_Device->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
+	//	//m_pGraphic_Device->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
+	//	//m_pGraphic_Device->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
+	//	m_pEffect->SetFloat("darknessFactor", m_fShadeVal);
+	//	m_pTextureCom->Bind_Shader_To_Texture(m_pEffect, m_hTex, m_fTextureNum);
+	//}
 
 	if (FAILED(m_pVIBufferCom->Render()))
 		return E_FAIL;
+
+	//if (m_pEffect != nullptr)
+	//{
+	//	m_pEffect->EndPass();
+	//	m_pEffect->End();
+	//	//m_pGraphic_Device->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
+	//}
 
 	return S_OK;
 }
@@ -111,6 +130,13 @@ HRESULT CFont::Bind_Texture_To_Transform()
 
 	if (FAILED(m_pTransformCom->Bind_Resource()))
 		return E_FAIL;
+	if (FAILED(m_pVIBufferCom->Bind_Buffers()))
+		return E_FAIL;
+	if (m_pEffect != nullptr)
+	{
+		//m_hTex = m_pEffect->GetParameterByName(NULL, "Tex");
+		m_pTextureCom->Bind_Shader_To_Texture(m_pEffect, m_hTex, m_fTextureNum);
+	}
 
 	return S_OK;
 }

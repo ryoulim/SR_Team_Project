@@ -35,7 +35,7 @@ private:
 	/* UI매니저로 쓰려 했는데 구조를 못잡아서 폰트 말고 기능이 없음 ..*/
 public:
 	// 생각 
-	enum tempui {UI_BACKGROUND, UI_INVENTORY, UI_BUTTON, UI_DIALOG, UI_NOIDEA};
+	//enum tempui {UI_BACKGROUND,UI_DIALOG, UI_NOIDEA};
 public:
 	HRESULT Initialize() ;
 	void Priority_Update(_float fTimeDelta) ;
@@ -57,27 +57,55 @@ public:
 			return E_FAIL;
 		return m_Fonts[_type]->Render_Text(_val, _align, _posX, _posY, vSizeMul);
 	}
+	void	Set_ButtonBrightness(_float val, CFont::FONTTYPE _type) { 
+		m_Fonts[_type]->Set_Brightness(val); 
+	}
 
-
+private:
+	HRESULT	Initialize_Font();
+	HRESULT Initialize_FadeUI();
 	
-public:
+private:
 	class CFont*			m_Fonts[CFont::FONT_END] = {nullptr,};
-	vector<class CUI*>		m_vecUIs[LEVEL_END];
+	//vector<class CUI*>		m_vecUIs[LEVEL_END];
+
+	class CUI*				m_FadeUI = { nullptr };
+	_float					m_fFadeOpacity = {};
+	_bool					m_isFadeOn = { false };
 
 public:
 	virtual void Free();
 };
 
+
+#pragma region UI_MANAGER 용 매크로 
 // Render_Text MediumBlueLeft
 // 파란 글씨 (아이템 획득 dialog용도 좌측 상단 고정)
 #define RENDER_ITEMDIALOG(message, fposY)  CUI_Manager::Get_Instance(m_pGameInstance)->Render_Text(message, CFont::MEDIUMBLUE, CFont::LEFT, -(g_iWinSizeX / 2.f) + 20.f, fposY)
 
 // Render_Text BigOrangeCenter
 // 노란 글씨 중앙 정렬
-#define RENDER_TEXT_BOC(message, fX, fY, fSize) CUI_Manager::Get_Instance(m_pGameInstance)->Render_Text(message, CFont::BIGORANGE, CFont::CENTER, fX, fY, fSize)
+#define RENDER_TEXT_BOC(message, fX, fY, fSize) \
+CUI_Manager::Get_Instance(m_pGameInstance)->Set_ButtonBrightness(1.f, CFont::BIGORANGE);\
+CUI_Manager::Get_Instance(m_pGameInstance)->Render_Text(message, CFont::BIGORANGE, CFont::CENTER, fX, fY, fSize)
 // Render_Text BigOrangeLeft
 // 노란 글씨 좌측 정렬
-#define RENDER_TEXT_BOL(message, fX, fY, fSize) CUI_Manager::Get_Instance(m_pGameInstance)->Render_Text(message, CFont::BIGORANGE, CFont::LEFT, fX, fY, fSize)
+#define RENDER_TEXT_BOL(message, fX, fY, fSize) \
+CUI_Manager::Get_Instance(m_pGameInstance)->Set_ButtonBrightness(1.f, CFont::BIGORANGE);\
+CUI_Manager::Get_Instance(m_pGameInstance)->Render_Text(message, CFont::BIGORANGE, CFont::LEFT, fX, fY, fSize)
+
+// Render_Text BigOrangeCenter Dark
+// 노란 글씨 중앙 정렬, 어둡게
+#define RENDER_TEXT_BOC_DARK(message, fX, fY, fSize) \
+CUI_Manager::Get_Instance(m_pGameInstance)->Set_ButtonBrightness(0.6f, CFont::BIGORANGE);\
+CUI_Manager::Get_Instance(m_pGameInstance)->Render_Text(message, CFont::BIGORANGE, CFont::CENTER, fX, fY, fSize)
+// Render_Text BigOrangeLeft Dark
+// 노란 글씨 좌측 정렬
+#define RENDER_TEXT_BOL_DARK(message, fX, fY, fSize) \
+CUI_Manager::Get_Instance(m_pGameInstance)->Set_ButtonBrightness(0.6f, CFont::BIGORANGE);\
+CUI_Manager::Get_Instance(m_pGameInstance)->Render_Text(message, CFont::BIGORANGE, CFont::LEFT, fX, fY, fSize)
+
+#pragma endregion
 
 
 END

@@ -35,6 +35,7 @@ HRESULT CLogo::Initialize(void* pArg)
 		return E_FAIL;
 
 
+	Ready_Shader(L"../bin/Shader_AlphaChange.hlsl");
 	Ready_Component_For_Shadow(&pDesc);
 
 	m_pTextureCom->Get_TextureSize(0, &(pDesc.vScale));
@@ -50,6 +51,22 @@ void CLogo::Priority_Update(_float fTimeDelta)
 
 EVENT CLogo::Update(_float fTimeDelta)
 {
+	// 시간 따라 opacity 바꾸는 코드,
+	m_fOpacity *= 1.0 + fTimeDelta * 0.5f * m_fOpacityChangeVar;
+	if (m_fOpacity > 0.99f)
+	{
+		m_fAnimTick += fTimeDelta;
+		m_fOpacity = 0.99f;
+		if (m_fAnimTick > 0.5f)
+		{
+			m_fOpacityChangeVar *= -1.f;
+			m_fAnimTick = 0.f;
+		}
+	}
+	if (m_fOpacity < 0.8f)
+		m_fOpacityChangeVar *= -1.f;
+
+	
 	return __super::Update(fTimeDelta);
 }
 
@@ -59,9 +76,7 @@ void CLogo::Late_Update(_float fTimeDelta)
 }
 
 HRESULT CLogo::Render()
-
 {
-
 	if (FAILED(m_pTransformCom->Bind_Resource()))
 		return E_FAIL;
 
@@ -74,7 +89,12 @@ HRESULT CLogo::Render()
 	if (FAILED(m_pVIBufferCom_For_Shadow->Render()))
 		return E_FAIL;
 
+
+	m_pEffect->SetFloat("opacity", m_fOpacity);
+	m_pTextureCom->Bind_Shader_To_Texture(m_pEffect, m_hTex, 0);
+
 	__super::Render();
+
 
 	return EVN_NONE;
 }

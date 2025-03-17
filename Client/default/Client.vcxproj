@@ -161,6 +161,7 @@
     <ClInclude Include="..\public\DebugMode.h" />
     <ClInclude Include="..\public\Effect.h" />
     <ClInclude Include="..\public\Explosion.h" />
+    <ClInclude Include="..\public\FadeUI.h" />
     <ClInclude Include="..\public\Firework.h" />
     <ClInclude Include="..\public\Font.h" />
     <ClInclude Include="..\public\BulletTracer.h" />
@@ -204,6 +205,7 @@
     <ClInclude Include="..\public\UI.h" />
     <ClInclude Include="..\public\UI_Camera.h" />
     <ClInclude Include="..\public\UI_Manager.h" />
+    <ClInclude Include="..\public\WeaponList.h" />
     <ClInclude Include="Client.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="MainApp.h" />
@@ -227,6 +229,7 @@
     <ClCompile Include="..\private\DebugMode.cpp" />
     <ClCompile Include="..\private\Effect.cpp" />
     <ClCompile Include="..\private\Explosion.cpp" />
+    <ClCompile Include="..\private\FadeUI.cpp" />
     <ClCompile Include="..\private\Firework.cpp" />
     <ClCompile Include="..\private\Font.cpp" />
     <ClCompile Include="..\private\BulletTracer.cpp" />
@@ -267,6 +270,7 @@
     <ClCompile Include="..\private\UI.cpp" />
     <ClCompile Include="..\private\UI_Camera.cpp" />
     <ClCompile Include="..\private\UI_Manager.cpp" />
+    <ClCompile Include="..\private\WeaponList.cpp" />
     <ClCompile Include="Client.cpp" />
     <ClCompile Include="MainApp.cpp" />
   </ItemGroup>

@@ -9,7 +9,7 @@ BEGIN(Client)
 
 class CFont : public CUI
 {
-public:	
+public:
 	enum FONTTYPE { MEDIUMBLUE, TINYBLUE, NEONLIGHTS, THICKNEONLIGHTS, BIGORANGE, BIGSILVER, GRAFFITI, FONT_END };
 	enum FONTALIGN { LEFT, CENTER, RIGHT };
 
@@ -31,6 +31,7 @@ public:
 	virtual HRESULT Render_Text(const string& _text, FONTALIGN _align, _float _posX, _float _posY, _float vSizeMul = 1.f);
 	// 숫자 출력 용
 	virtual HRESULT Render_Text(const _int _val, FONTALIGN _align, _float _posX, _float _posY, _float vSizeMul = 1.f);
+	void	Set_Brightness(_float val) { m_fShadeVal = val; }
 
 protected:
 	HRESULT Bind_Texture_To_Transform();
@@ -38,7 +39,7 @@ protected:
 protected:
 	_uint		m_uiTextWidth = {};
 	FONTTYPE	m_eFontType = { FONT_END };
-
+	_float		m_fShadeVal = {1.f};
 
 
 public:

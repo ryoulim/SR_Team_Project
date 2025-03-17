@@ -33,7 +33,7 @@ protected:
 
 protected:
 	CFont::FONTALIGN m_eAlign = { CFont::LEFT };
-	RECT	m_tButton[BUTTON_END];
+	RECT	m_tButton[BUTTON_END] = { };
 
 
 public:

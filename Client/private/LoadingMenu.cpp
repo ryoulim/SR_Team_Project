@@ -88,12 +88,14 @@ HRESULT CLoadingMenu::Initialize(void* pArg)
 		return E_FAIL;
 
 	Ready_LoadingComponents();
-
+	if (FAILED(m_pTextureCom->Get_TextureSize(0, &m_vSize)))
+		return E_FAIL;
+	// 세로비 대로 이미지 맞춤
+	m_vSize.x *= g_iWinSizeY / m_vSize.y; m_vSize.y = g_iWinSizeY;
+	m_pTransformCom->Scaling(m_vSize);
 
 	m_vPos = { 0.f,0.f,1.f };
-	m_vSize = { 1280.f, 720.f, 1.f };
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, m_vPos);
-	m_pTransformCom->Scaling(m_vSize);
 	m_pTransformComForLoading[LOADERTEX_ANIM]->Set_State(CTransform::STATE_POSITION, { (g_iWinSizeX*0.5f - 130.f), -(g_iWinSizeY * 0.5f) + 130.f, 0.1f });
 	m_pTransformComForLoading[LOADERTEX_ANIM]->Scaling({ 128.f, 128.f, 1.f });
 	m_pTransformComForLoading[LOADERTEX_BARBACK]->Set_State(CTransform::STATE_POSITION, { (g_iWinSizeX * 0.5f - 130.f), -(g_iWinSizeY * 0.5f) + 50.f, 0.1f });
@@ -110,25 +112,13 @@ void CLoadingMenu::Priority_Update(_float fTimeDelta)
 
 EVENT CLoadingMenu::Update(_float fTimeDelta)
 {
-	m_fAnimTick += fTimeDelta;
-	if (m_fTextureNum != 0.f)
-	{
-		if (m_fAnimTick > 0.07f)
-		{
-			m_fTextureNum += 1.f;
-			if (m_fTextureNum > 7.f)
-				m_fTextureNum = 0.f;
-			m_fAnimTick = 0.f;
-		}
-	}
+	if (m_fTextureNum < 1.f)
+		m_fTextureNum += fTimeDelta;
 	else
-	{
-		if (m_fAnimTick > 1.f)
-		{
-			m_fTextureNum += 1.f;
-			m_fAnimTick = 0.f;
-		}
-	}
+		m_fTextureNum += fTimeDelta * 15;
+	if (m_fTextureNum >= 7.9f)
+		m_fTextureNum = 0.f;
+
 		
 	__super::Update(fTimeDelta);
 	return EVN_NONE;

@@ -193,6 +193,12 @@
     <Filter Include="02.GameObjects\Item\Item_Medkit">
       <UniqueIdentifier>{c4d0bab2-7f74-4cea-a8bd-ecf3b8c3154e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\UI\GamePlayUI\WeaponList">
+      <UniqueIdentifier>{2a134408-ffd8-4d4a-9df4-8f2350d5c157}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\MenuUI\UIEffect">
+      <UniqueIdentifier>{fe4ceac3-41ab-4515-9fd0-732d7a00b63a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -385,6 +391,10 @@
     <ClInclude Include="..\public\Button_Main.h">
       <Filter>02.GameObjects\UI\Button</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\WeaponList.h" />
+    <ClInclude Include="..\public\FadeUI.h">
+      <Filter>02.GameObjects\UI\MenuUI\UIEffect</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -571,6 +581,10 @@
     <ClCompile Include="..\private\Item_Ammo_Loverboy.cpp" />
     <ClCompile Include="..\private\Button_Main.cpp">
       <Filter>02.GameObjects\UI\Button</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\WeaponList.cpp" />
+    <ClCompile Include="..\private\FadeUI.cpp">
+      <Filter>02.GameObjects\UI\MenuUI\UIEffect</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

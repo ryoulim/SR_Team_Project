@@ -37,6 +37,8 @@ public:
 protected:
 	virtual HRESULT Ready_Components(void* pArg);
     virtual void Update_Rect();
+    // 셰이더 파일 경로(.vcxproj 파일 기준)
+    HRESULT Ready_Shader(const _tchar* szEffectPath);
 
 protected:
 	LEVEL           m_eLevelID = { LEVEL_END };
@@ -49,7 +51,8 @@ protected:
     _float3         m_vSize = {};
     RECT            m_tRect = {};
     _float          m_fDepth = {};
-
+    LPD3DXEFFECT    m_pEffect = { nullptr };
+    D3DXHANDLE      m_hTex = { nullptr };
 
 public:
 	virtual CGameObject* Clone(void* pArg) PURE;

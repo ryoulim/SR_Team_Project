@@ -4,6 +4,7 @@
 #include "UI_Manager.h"
 #include "Client_Defines.h"
 #include "Font_MediumBlue.h"
+#include "FadeUI.h"
 
 CUI_Manager* CUI_Manager::m_pInstance = nullptr;
 CUI_Manager* CUI_Manager::Get_Instance(CGameInstance* pGameInstance)
@@ -37,19 +38,10 @@ CUI_Manager::CUI_Manager()
 
 HRESULT CUI_Manager::Initialize()
 {
-	//임시 추가
-	m_Fonts[CFont::MEDIUMBLUE] = dynamic_cast<CFont*>(m_pGameInstance->Clone_Prototype(PROTOTYPE::TYPE_GAMEOBJECT, LEVEL_STATIC, TEXT("Prototype_GameObject_Font_MediumBlue")));
-	if (nullptr == m_Fonts[CFont::MEDIUMBLUE])
-		return E_FAIL;
-	m_Fonts[CFont::BIGORANGE] = dynamic_cast<CFont*>(m_pGameInstance->Clone_Prototype(PROTOTYPE::TYPE_GAMEOBJECT, LEVEL_STATIC, TEXT("Prototype_GameObject_Font_BigOrange")));
-	if (nullptr == m_Fonts[CFont::BIGORANGE])
-		return E_FAIL;
-	//m_Fonts[CFont::BIGSILVER] = dynamic_cast<CFont*>(m_pGameInstance->Clone_Prototype(PROTOTYPE::TYPE_GAMEOBJECT, LEVEL_STATIC, TEXT("Prototype_GameObject_Font_BigSilver")));
-	//if (nullptr == m_Fonts[CFont::BIGSILVER])
-	//	return E_FAIL;
-	//m_Fonts[CFont::TINYBLUE] = dynamic_cast<CFont*>(m_pGameInstance->Clone_Prototype(PROTOTYPE::TYPE_GAMEOBJECT, LEVEL_STATIC, TEXT("Prototype_GameObject_Font_TinyBlue")));
-	//if (nullptr == m_Fonts[CFont::TINYBLUE])
-	//	return E_FAIL;
+	Initialize_Font();
+
+	Initialize_FadeUI();
+
 	return S_OK;
 }
 
@@ -70,6 +62,34 @@ HRESULT CUI_Manager::Render()
 	return S_OK;
 }
 
+HRESULT CUI_Manager::Initialize_Font()
+{
+	m_Fonts[CFont::MEDIUMBLUE] = dynamic_cast<CFont*>(m_pGameInstance->Clone_Prototype(PROTOTYPE::TYPE_GAMEOBJECT, LEVEL_STATIC, TEXT("Prototype_GameObject_Font_MediumBlue")));
+	if (nullptr == m_Fonts[CFont::MEDIUMBLUE])
+		return E_FAIL;
+	m_Fonts[CFont::BIGORANGE] = dynamic_cast<CFont*>(m_pGameInstance->Clone_Prototype(PROTOTYPE::TYPE_GAMEOBJECT, LEVEL_STATIC, TEXT("Prototype_GameObject_Font_BigOrange")));
+	if (nullptr == m_Fonts[CFont::BIGORANGE])
+		return E_FAIL;
+	return S_OK;
+}
+
+HRESULT CUI_Manager::Initialize_FadeUI()
+{
+	CTransform::DESC pArg{};
+
+	pArg.fRotationPerSec = 1.f;
+	pArg.fSpeedPerSec = 1.f;
+
+ 
+
+	m_FadeUI = dynamic_cast<CFadeUI*>(m_pGameInstance->Clone_Prototype(PROTOTYPE::TYPE_GAMEOBJECT, LEVEL_STATIC, TEXT("Prototype_GameObject_FadeUI")));
+	if (nullptr == m_FadeUI)
+		return E_FAIL;
+
+	return S_OK;
+}
+
+
 void CUI_Manager::Free()
 {
 	__super::Free();
@@ -80,4 +100,5 @@ void CUI_Manager::Free()
 		if (m_Fonts[i] != nullptr)
 			Safe_Release(m_Fonts[i]);
 	} 
+	Safe_Release(m_FadeUI);
 } 
