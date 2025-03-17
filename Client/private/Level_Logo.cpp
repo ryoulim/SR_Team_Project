@@ -33,6 +33,7 @@ void CLevel_Logo::Update(_float fTimeDelta)
 			CLevel_Loading::Create(m_pGraphic_Device, LEVEL_GAMEPLAY))))
 			return;
 	}
+
 }
 
 HRESULT CLevel_Logo::Render()

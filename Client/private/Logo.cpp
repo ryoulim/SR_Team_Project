@@ -21,12 +21,24 @@ HRESULT CLogo::Initialize_Prototype()
 
 HRESULT CLogo::Initialize(void* pArg)
 {
-	m_eLevelID = LEVEL_STATIC;
+	m_eLevelID = LEVEL_LOGO;
 	m_szTextureID = TEXT("Logo");
 	m_szBufferType = TEXT("Rect");
 
-	if (FAILED(__super::Initialize(pArg)))
+	CLogo::DESC pDesc;
+	pDesc.fRotationPerSec = 0.f;
+	pDesc.fSpeedPerSec = 0.f;
+	pDesc.vInitPos = { -250.f,-20.f,0.5f };
+	pDesc.vScale = { 1.f,1.f,1.f };
+
+	if (FAILED(__super::Initialize(&pDesc)))
 		return E_FAIL;
+
+
+	Ready_Component_For_Shadow(&pDesc);
+
+	m_pTextureCom->Get_TextureSize(0, &(pDesc.vScale));
+	m_pTransformCom->Scaling(pDesc.vScale);
 
 	return S_OK;
 }
@@ -36,9 +48,9 @@ void CLogo::Priority_Update(_float fTimeDelta)
 	__super::Priority_Update(fTimeDelta);
 }
 
-void CLogo::Update(_float fTimeDelta)
+EVENT CLogo::Update(_float fTimeDelta)
 {
-	__super::Update(fTimeDelta);
+	return __super::Update(fTimeDelta);
 }
 
 void CLogo::Late_Update(_float fTimeDelta)
@@ -48,7 +60,37 @@ void CLogo::Late_Update(_float fTimeDelta)
 
 HRESULT CLogo::Render()
 {
-	return __super::Render();
+
+	if (FAILED(m_pTransformCom->Bind_Resource()))
+		return E_FAIL;
+
+	if (FAILED(m_pTextureCom_For_Shadow->Bind_Resource(0)))
+		return E_FAIL;
+
+	if (FAILED(m_pVIBufferCom_For_Shadow->Bind_Buffers()))
+		return E_FAIL;
+
+	if (FAILED(m_pVIBufferCom_For_Shadow->Render()))
+		return E_FAIL;
+
+	__super::Render();
+
+	return EVN_NONE;
+}
+
+HRESULT CLogo::Ready_Component_For_Shadow(void* pArg)
+{
+	/* For.Com_Texture */
+	if (FAILED(__super::Add_Component(m_eLevelID, _wstring(TEXT("Prototype_Component_Texture_")) + L"Logo_Shadow",
+		TEXT("Com_Texture_Shadow"), reinterpret_cast<CComponent**>(&m_pTextureCom_For_Shadow), pArg)))
+		return E_FAIL;
+
+	/* For.Com_VIBuffer */
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, _wstring(TEXT("Prototype_Component_VIBuffer_")) + m_szBufferType,
+		TEXT("Com_VIBuffer_Shadow"), reinterpret_cast<CComponent**>(&m_pVIBufferCom_For_Shadow), pArg)))
+		return E_FAIL;
+
+	return S_OK;
 }
 
 CLogo* CLogo::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
@@ -80,4 +122,6 @@ CGameObject* CLogo::Clone(void* pArg)
 void CLogo::Free()
 {
 	__super::Free();
+	Safe_Release(m_pTextureCom_For_Shadow);
+	Safe_Release(m_pVIBufferCom_For_Shadow);
 }

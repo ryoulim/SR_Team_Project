@@ -26,6 +26,7 @@
 
 //UI 인클루드
 #include "Aim.h"
+#include "Logo.h"
 #include "Ammo.h"
 #include "Armor.h"
 #include "Portrait.h"
@@ -179,6 +180,8 @@ HRESULT CLoader::Loading_For_Logo()
 	ADD_TEXTURE(BackGround, "../Bin/Resources/Textures/Default%d.jpg", 2);
 	ADD_TEXTURE(MainMenu, "../Bin/Resources/Textures/UI/Background/MainMenu_Background.PNG", 1);
 	ADD_TEXTURE(Save_Background, "../Bin/Resources/Textures/UI/Background/Save_Background.PNG", 1);
+	ADD_TEXTURE(Logo, "../Bin/Resources/Textures/UI/Logo/logo0.PNG", 1);
+	ADD_TEXTURE(Logo_Shadow, "../Bin/Resources/Textures/UI/Logo/logo1.PNG", 1);
 	m_fLoadPercent = 1.f / 5.f;
 
 	for (size_t i = 0; i < 100000; i++)
@@ -187,6 +190,8 @@ HRESULT CLoader::Loading_For_Logo()
 		{
 			int a = 0;
 		}
+		if (GetAsyncKeyState(VK_SPACE))
+			break;
 	}
 #pragma endregion
 
@@ -198,6 +203,8 @@ HRESULT CLoader::Loading_For_Logo()
 		{
 			int a = 0;
 		}
+		if (GetAsyncKeyState(VK_SPACE))
+			break;
 	}
 	m_fLoadPercent = 2.f / 5.f;
 #pragma endregion
@@ -210,6 +217,8 @@ HRESULT CLoader::Loading_For_Logo()
 		{
 			int a = 0;
 		}
+		if (GetAsyncKeyState(VK_SPACE))
+			break;
 	}
 	m_fLoadPercent = 3.f / 5.f;
 #pragma endregion
@@ -220,12 +229,15 @@ HRESULT CLoader::Loading_For_Logo()
 	ADD_PRTOBJ(BackGround);
 	ADD_PRTOBJ(MainMenu);
 	ADD_PRTOBJ(Button_Main);
+	ADD_PRTOBJ(Logo);
 	for (size_t i = 0; i < 100000; i++)
 	{
 		for (size_t j = 0; j < 10000; j++)
 		{
 			int a = 0;
 		}
+		if (GetAsyncKeyState(VK_SPACE))
+			break;
 	}
 	m_fLoadPercent = 4.f / 5.f;
 
@@ -240,6 +252,8 @@ HRESULT CLoader::Loading_For_Logo()
 		{
 			int a = 0;
 		}
+		if (GetAsyncKeyState(VK_SPACE))
+			break;
 	}
 	m_fLoadPercent = 5.f / 5.f;
 
@@ -248,7 +262,10 @@ HRESULT CLoader::Loading_For_Logo()
 		for (size_t j = 0; j < 10000; j++)
 		{
 			int a = 0;
+			
 		}
+		if (GetAsyncKeyState(VK_SPACE))
+			break;
 	}
 #pragma endregion
 
