@@ -100,9 +100,6 @@
     <ClInclude Include="..\public\ObjectPool.h">
       <Filter>02.GameObject\Manager\ObjectPool</Filter>
     </ClInclude>
-    <ClInclude Include="..\public\VIBuffer_Trapezoid.h">
-      <Filter>04.Components\VIBuffer\Trapezoid</Filter>
-    </ClInclude>
     <ClInclude Include="..\Public\VIBuffer_Cabinet.h">
       <Filter>04.Components\VIBuffer\Cabinet</Filter>
     </ClInclude>
@@ -111,6 +108,15 @@
     </ClInclude>
     <ClInclude Include="..\Public\VIBuffer_Signboard.h">
       <Filter>04.Components\VIBuffer\Signboard</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\VIBuffer_Stall.h">
+      <Filter>04.Components\VIBuffer\Stall</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\VIBuffer_Trapezoid.h">
+      <Filter>04.Components\VIBuffer\Trapezoid</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\VIBuffer_Computer.h">
+      <Filter>04.Components\VIBuffer\Computer</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -216,6 +222,12 @@
     <Filter Include="04.Components\VIBuffer\Signboard">
       <UniqueIdentifier>{41a8d6a0-ba8e-42fa-bad9-9a7eed81e6cf}</UniqueIdentifier>
     </Filter>
+    <Filter Include="04.Components\VIBuffer\Stall">
+      <UniqueIdentifier>{0b130853-dccb-4e58-95ee-7dc318ecdbd1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04.Components\VIBuffer\Computer">
+      <UniqueIdentifier>{14aa1ddf-8817-4bbf-8cb0-32cd6e17139c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Private\Base.cpp">
@@ -299,9 +311,6 @@
     <ClCompile Include="..\private\ObjectPool.cpp">
       <Filter>02.GameObject\Manager\ObjectPool</Filter>
     </ClCompile>
-    <ClCompile Include="..\private\VIBuffer_Trapezoid.cpp">
-      <Filter>04.Components\VIBuffer\Trapezoid</Filter>
-    </ClCompile>
     <ClCompile Include="..\Private\VIBuffer_Cabinet.cpp">
       <Filter>04.Components\VIBuffer\Cabinet</Filter>
     </ClCompile>
@@ -310,6 +319,15 @@
     </ClCompile>
     <ClCompile Include="..\Private\VIBuffer_Signboard.cpp">
       <Filter>04.Components\VIBuffer\Signboard</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\VIBuffer_Stall.cpp">
+      <Filter>04.Components\VIBuffer\Stall</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\VIBuffer_Trapezoid.cpp">
+      <Filter>04.Components\VIBuffer\Trapezoid</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\VIBuffer_Computer.cpp">
+      <Filter>04.Components\VIBuffer\Computer</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

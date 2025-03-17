@@ -13,8 +13,10 @@
 #include "Aim.h"
 #include "Explosion.h"
 #include "Trapezoid.h"
+#include "Stall.h"
 #include "Cabinet.h"
 #include "Signboard.h"
+#include "MyComputer.h"
 #include "Player.h"
 
 //파티클 인클루드
@@ -134,7 +136,9 @@ HRESULT CLoader::Loading_For_GamePlay()
 	ADD_TEXTURE(Box, "../Bin/Resources/Textures/Object/Box/tile6628.png", 1);
 	ADD_TEXTURE(Cabinet, "../Bin/Resources/Textures/Object/Cabinet/Cabinet%d.png", 3);
 	ADD_TEXTURE(Trapezoid, "../Bin/Resources/Textures/Object/Trapezoid/Trapezoid%d.png", 2);
+	ADD_TEXTURE(Stall, "../Bin/Resources/Textures/Object/Stall/Stall%d.png", 2);
 	ADD_TEXTURE(Signboard, "../Bin/Resources/Textures/Object/Signboard/Signboard%d.png", 5);
+	ADD_TEXTURE(MyComputer, "../Bin/Resources/Textures/Object/Computer/Computer%d.png", 3);
 
 	//파티클
 	ADD_TEXTURE(PC_Bullet, "../Bin/Resources/Textures/Particle/PC_Bullet.png", 1);
@@ -162,8 +166,10 @@ HRESULT CLoader::Loading_For_GamePlay()
 	ADD_PRTOBJ(Portrait);
 	ADD_PRTOBJ(Explosion);
 	ADD_PRTOBJ(Trapezoid);
+	ADD_PRTOBJ(Stall);
 	ADD_PRTOBJ(Cabinet);
 	ADD_PRTOBJ(Signboard);
+	ADD_PRTOBJ(MyComputer);
 	ADD_PRTOBJ(Player);
 
 #pragma region 파티클 원형객체

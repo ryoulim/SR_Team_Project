@@ -12,10 +12,10 @@ CVIBuffer_Signboard::CVIBuffer_Signboard(const CVIBuffer_Signboard& Prototype)
 
 HRESULT CVIBuffer_Signboard::Initialize_Prototype()
 {
-	m_iNumVertices = 64;					// ¹öÅØ½º °¹¼ö
+	m_iNumVertices = 80;					// ¹öÅØ½º °¹¼ö
 	m_iVertexStride = sizeof(VTXPOSTEX);	// ¹öÅØ½º Å©±â
 	m_iFVF = D3DFVF_XYZ | D3DFVF_TEX1;		// ¹öÅØ½º Å¸ÀÔ
-	m_iNumPritimive = 88; 					// »ï°¢Çü °¹¼ö
+	m_iNumPritimive = 100; 					// »ï°¢Çü °¹¼ö
 
 	m_iIndexStride = 2;						// ÀÎµ¦½º Å©±â
 	m_iNumIndices = 252;					// ÀÎµ¦½º °¹¼ö
@@ -199,57 +199,112 @@ HRESULT CVIBuffer_Signboard::Initialize_Prototype()
 
 #pragma region ¹ßÆÇ ÁßÁ¡
 	pVertices[40].vPosition = _float3(-0.75f, -0.625f, -0.25f);
-	pVertices[40].vTexcoord = _float2(0.f, 0.f);
+	pVertices[40].vTexcoord = _float2(2.f, 0.f);
 
 	pVertices[41].vPosition = _float3(-1.f, -0.625f, 0.f);
-	pVertices[41].vTexcoord = _float2(1.f, 0.f);
+	pVertices[41].vTexcoord = _float2(0.5f, 0.f);
 
 	pVertices[42].vPosition = _float3(-0.75f, -0.625f, 0.25f);
-	pVertices[42].vTexcoord = _float2(1.f, 1.f);
+	pVertices[42].vTexcoord = _float2(2.f, 0.f);
 
 	pVertices[43].vPosition = _float3(-0.5f, -0.625f, 0.f);
-	pVertices[43].vTexcoord = _float2(0.f, 1.f);
+	pVertices[43].vTexcoord = _float2(0.5f, 0.f);
 
 	pVertices[44].vPosition = _float3(0.75f, -0.625f, -0.25f);
-	pVertices[44].vTexcoord = _float2(0.f, 0.f);
+	pVertices[44].vTexcoord = _float2(2.f, 0.f);
 
 	pVertices[45].vPosition = _float3(0.5f, -0.625f, 0.f);
-	pVertices[45].vTexcoord = _float2(1.f, 0.f);
+	pVertices[45].vTexcoord = _float2(0.5f, 0.f);
 
 	pVertices[46].vPosition = _float3(0.75f, -0.625f, 0.25f);
-	pVertices[46].vTexcoord = _float2(1.f, 1.f);
+	pVertices[46].vTexcoord = _float2(2.f, 0.f);
 
 	pVertices[47].vPosition = _float3(1.f, -0.625f, 0.f);
-	pVertices[47].vTexcoord = _float2(0.f, 1.f);
+	pVertices[47].vTexcoord = _float2(0.5f, 0.f);
 #pragma endregion
 
-
-
 #pragma region ÅØ½ºÃÄ ¶§¹®¿¡ Ãß°¡
-	pVertices[56].vPosition = _float3(-0.625f, 0.f, -0.125f);	//11
-	pVertices[56].vTexcoord = _float2(0.f, 0.f);
 
-	pVertices[57].vPosition = _float3(0.625f, 0.f, -0.125f);	//10
-	pVertices[57].vTexcoord = _float2(1.f, 0.f);
+#pragma region °£ÆÇ ÇÏ´Ü
+	pVertices[56].vPosition = _float3(0.625f, 0.f, 0.125f);		//14
+	pVertices[56].vTexcoord = _float2(1.f, 1.f);
 
-	pVertices[58].vPosition = _float3(0.625f, 0.f, 0.125f);		//14
-	pVertices[58].vTexcoord = _float2(1.f, 1.f);
+	pVertices[57].vPosition = _float3(-0.625f, 0.f, 0.125f);	//15
+	pVertices[57].vTexcoord = _float2(0.f, 1.f);
+#pragma endregion
 
-	pVertices[59].vPosition = _float3(-0.625f, 0.f, 0.125f);	//15
-	pVertices[59].vTexcoord = _float2(0.f, 1.f);
+#pragma region ¿ÞÂÊ ±âµÕ ¿ìÃø
+	pVertices[58].vPosition = _float3(-0.625f, 1.f, 0.125f);	//5
+	pVertices[58].vTexcoord = _float2(1.f, 0.f);
 
+	pVertices[59].vPosition = _float3(-0.625f, 1.f, -0.125f);	//1
+	pVertices[59].vTexcoord = _float2(0.f, 0.f);
 
-	pVertices[60].vPosition = _float3(-0.625f, 0.f, 0.125f);	//15
-	pVertices[60].vTexcoord = _float2(1.f, 0.f);
+	pVertices[60].vPosition = _float3(-0.625f, 0.75f, -0.125f);	//8
+	pVertices[60].vTexcoord = _float2(0.f, 0.25f);
+
+	pVertices[61].vPosition = _float3(-0.625f, 0.75f, 0.125f);	//12
+	pVertices[61].vTexcoord = _float2(1.f, 0.25f);
 	
-	pVertices[61].vPosition = _float3(-0.625f, 0.f, -0.125f);	//11
-	pVertices[61].vTexcoord = _float2(0.f, 0.f);
-
-	pVertices[62].vPosition = _float3(-0.625f, -0.5f, -0.125f);	//2
-	pVertices[62].vTexcoord = _float2(0.f, 0.75f);
+	pVertices[62].vPosition = _float3(-0.625f, 0.f, 0.125f);	//15
+	pVertices[62].vTexcoord = _float2(1.f, 0.f);
 	
-	pVertices[63].vPosition = _float3(-0.625f, -0.5f, 0.125f);	//6
-	pVertices[63].vTexcoord = _float2(1.f, 0.75f);
+	pVertices[63].vPosition = _float3(-0.625f, 0.f, -0.125f);	//11
+	pVertices[63].vTexcoord = _float2(0.f, 0.f);
+
+	pVertices[64].vPosition = _float3(-0.625f, -0.5f, -0.125f);	//2
+	pVertices[64].vTexcoord = _float2(0.f, 0.75f);
+	
+	pVertices[65].vPosition = _float3(-0.625f, -0.5f, 0.125f);	//6
+	pVertices[65].vTexcoord = _float2(1.f, 0.75f);
+#pragma endregion
+
+#pragma region ¿À¸¥ÂÊ ±âµÕ ÁÂÃø
+	pVertices[66].vPosition = _float3(0.625f, 1.f, 0.125f);		//20
+	pVertices[66].vTexcoord = _float2(0.f, 0.f);
+
+	pVertices[67].vPosition = _float3(0.625f, 1.f, -0.125f);	//16
+	pVertices[67].vTexcoord = _float2(1.f, 0.f);
+
+	pVertices[68].vPosition = _float3(0.625f, 0.75f, -0.125f);	//9
+	pVertices[68].vTexcoord = _float2(1.f, 0.25f);
+
+	pVertices[69].vPosition = _float3(0.625f, 0.75f, 0.125f);	//13
+	pVertices[69].vTexcoord = _float2(0.f, 0.25f);
+
+	pVertices[70].vPosition = _float3(0.625f, 0.f, 0.125f);		//14
+	pVertices[70].vTexcoord = _float2(0.f, 0.f);
+
+	pVertices[71].vPosition = _float3(0.625f, 0.f, -0.125f);	//10
+	pVertices[71].vTexcoord = _float2(1.f, 0.f);
+
+	pVertices[72].vPosition = _float3(0.625f, -0.5f, -0.125f);	//19
+	pVertices[72].vTexcoord = _float2(1.f, 0.75f);
+
+	pVertices[73].vPosition = _float3(0.625f, -0.5f, 0.125f);	//23
+	pVertices[73].vTexcoord = _float2(0.f, 0.75f);
+#pragma endregion
+
+#pragma region À­¸éµé
+	pVertices[74].vPosition = _float3(-0.875f, 1.f, 0.125f);	//4
+	pVertices[74].vTexcoord = _float2(0.f, 0.25f);
+
+	pVertices[75].vPosition = _float3(-0.625f, 1.f, 0.125f);	//5
+	pVertices[75].vTexcoord = _float2(1.f, 0.25f);
+
+	pVertices[76].vPosition = _float3(0.625f, 1.f, 0.125f);		//20
+	pVertices[76].vTexcoord = _float2(0.f, 0.25f);
+
+	pVertices[77].vPosition = _float3(0.875f, 1.f, 0.125f);		//21
+	pVertices[77].vTexcoord = _float2(1.f, 0.25f);
+
+	pVertices[78].vPosition = _float3(-0.625f, 0.75f, 0.125f);	//12
+	pVertices[78].vTexcoord = _float2(0.f, 0.f);
+
+	pVertices[79].vPosition = _float3(0.625f, 0.75f, 0.125f);	//13
+	pVertices[79].vTexcoord = _float2(1.f, 0.f);
+#pragma endregion
+
 #pragma endregion
 
 	m_pVB->Unlock();
@@ -286,30 +341,30 @@ HRESULT CVIBuffer_Signboard::Initialize_Prototype()
 	
 #pragma region ¿ÞÂÊ
 	Set_IndexBuffer(pIndices, 24, 4, 0, 3, 7);
-	Set_IndexBuffer(pIndices, 30, 20, 16, 9, 13);
-	Set_IndexBuffer(pIndices, 36, 14, 10, 19, 23);
+	Set_IndexBuffer(pIndices, 30, 66, 67, 68, 69);
+	Set_IndexBuffer(pIndices, 36, 70, 71, 72, 73);
 	Set_IndexBuffer(pIndices, 144, 28, 24, 27, 31);
 	Set_IndexBuffer(pIndices, 150, 36, 32, 35, 39);
 #pragma endregion
 
 #pragma region ¿À¸¥ÂÊ
-	Set_IndexBuffer(pIndices, 42, 1, 5, 12, 8);
-	Set_IndexBuffer(pIndices, 48, 61, 60, 63, 62);
+	Set_IndexBuffer(pIndices, 42, 59, 58, 61, 60);
+	Set_IndexBuffer(pIndices, 48, 63, 62, 65, 64);
 	Set_IndexBuffer(pIndices, 54, 17, 21, 22, 18);
 	Set_IndexBuffer(pIndices, 156, 25, 29, 30, 26);
 	Set_IndexBuffer(pIndices, 162, 33, 37, 38, 34);
 #pragma endregion
 
 #pragma region À§
-	Set_IndexBuffer(pIndices, 60, 4, 5, 1, 0);
-	Set_IndexBuffer(pIndices, 66, 20, 21, 17, 16);
-	Set_IndexBuffer(pIndices, 96, 12, 13, 9, 8);
+	Set_IndexBuffer(pIndices, 60, 74, 75, 1, 0);
+	Set_IndexBuffer(pIndices, 66, 76, 77, 17, 16);
+	Set_IndexBuffer(pIndices, 96, 78, 79, 9, 8);
 #pragma endregion
 
 #pragma region ¾Æ·¡
 	Set_IndexBuffer(pIndices, 168, 27, 26, 30, 31);
 	Set_IndexBuffer(pIndices, 174, 35, 34, 38, 39);
-	Set_IndexBuffer(pIndices, 102, 56, 57, 58, 59);
+	Set_IndexBuffer(pIndices, 102, 11, 10, 56, 57);
 #pragma endregion
 
 #pragma region ¿ÞÂÊ ¹ßÆÇ »ï°¢Çü
