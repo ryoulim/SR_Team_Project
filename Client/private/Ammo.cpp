@@ -26,7 +26,7 @@ HRESULT CAmmo::Initialize(void* pArg)
 	m_szBufferType = TEXT("Rect");
 
 	DESC Desc{};
-	Desc.vScale = _float3(30.5f, 40.f, 1.f);
+	Desc.vScale = _float3(48.f, 55.f, 1.f);
 	Desc.vInitPos = _float3((g_iWinSizeX / 2.f) - 40.f, -(g_iWinSizeY / 2.f) + Desc.vScale.y / 2.f + 10.f, 1.f);
 	m_fTextureNum = 0;
 

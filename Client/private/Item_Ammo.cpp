@@ -51,8 +51,10 @@ void CItem_Ammo::Late_Update(_float fTimeDelta)
 HRESULT CItem_Ammo::Render()
 {
 
-	
-	return __super::Render();
+	__super::Render();
+	m_pTransformCom->Billboard();
+
+	return S_OK;
 }
 
 CItem_Ammo* CItem_Ammo::Create(LPDIRECT3DDEVICE9 pGraphic_Device)

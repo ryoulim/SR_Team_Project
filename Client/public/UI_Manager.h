@@ -32,6 +32,7 @@ private:
 
 #pragma endregion
 		
+	/* UI매니저로 쓰려 했는데 구조를 못잡아서 폰트 말고 기능이 없음 ..*/
 public:
 	// 생각 
 	enum tempui {UI_BACKGROUND, UI_INVENTORY, UI_BUTTON, UI_DIALOG, UI_NOIDEA};

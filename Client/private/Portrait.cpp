@@ -126,7 +126,7 @@ HRESULT CPortrait::Render()
 		(float)(g_iWinSizeY / 2.f - 20.f));
 
 	RENDER_TEXT_BOL(m_uiHP, 
-		-(g_iWinSizeX / 2.f) + m_vSize.x - 10.f,
+		-(g_iWinSizeX / 2.f) + m_vSize.x-5.f,
 		-(g_iWinSizeY / 2.f) + m_vSize.y / 2.f - 3.f, 1.1f);
 	
 	

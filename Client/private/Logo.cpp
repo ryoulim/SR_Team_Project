@@ -59,6 +59,7 @@ void CLogo::Late_Update(_float fTimeDelta)
 }
 
 HRESULT CLogo::Render()
+
 {
 
 	if (FAILED(m_pTransformCom->Bind_Resource()))
