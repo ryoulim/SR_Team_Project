@@ -37,6 +37,13 @@ HRESULT CMainMenu::Initialize(void* pArg)
 
 	m_pTransformCom->Scaling(m_vSize);
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, { 0.f,0.f,1.f });
+
+	if (testbool == false)
+	{
+		CUI_Manager::Get_Instance(m_pGameInstance)->Fade_In();
+		testbool = true;
+	}
+
 	return S_OK;
 }
 
@@ -59,11 +66,6 @@ void CMainMenu::Late_Update(_float fTimeDelta)
 
 HRESULT CMainMenu::Render()
 {
-	if (testbool == false)
-	{
-		CUI_Manager::Get_Instance(m_pGameInstance)->Fade_In();
-		testbool = true;
-	}
 
 	if (FAILED(m_pTextureCom->Bind_Resource(static_cast<_uint>(m_fTextureNum))))
 		return E_FAIL;

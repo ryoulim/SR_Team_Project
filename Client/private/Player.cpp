@@ -7,6 +7,7 @@
 
 // 무기들 인클루드
 #include "Weapon_LoverBoy.h"
+#include <UI_Manager.h>
 
 CPlayer::CPlayer(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CPawn{ pGraphic_Device }
@@ -80,6 +81,14 @@ EVENT CPlayer::Update(_float fTimeDelta)
 	if (!m_bFpsMode)
 		return EVN_NONE;
 
+	/****** 테스트용 ******/
+	if (KEY_DOWN('1'))
+		UPDATE_HP();
+	// Player의 HP에 Get요청을 보내도록 처리하기 때문에
+	// 충돌 등의 처리가 모두 끝난 후 호출하면 좋음(player의 HP를 Get한 후 UI의 Update를 강제로 부름)
+	if (KEY_DOWN('2'))
+		UPDATE_ARMOR();
+	/*********************/
 	m_Weapons[m_iCurWeaponIndex]->Update(fTimeDelta);
 	return __super::Update(fTimeDelta);
 }

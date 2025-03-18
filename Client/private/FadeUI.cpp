@@ -45,7 +45,7 @@ HRESULT CFadeUI::Initialize(void* pArg)
 		return E_FAIL;
 	m_fDepth = 0.f;
 	Ready_Shader(L"../bin/Shader_AlphaChange.hlsl");
-
+	m_fAnimationFrame = 0.f;
 
 	return S_OK;
 }
@@ -59,17 +59,19 @@ EVENT CFadeUI::Update(_float fTimeDelta)
 {
 	if (m_isRenderOn)
 	{
-		m_fFadeOpacity += fTimeDelta * (m_isFadeIn?-1.f:1.f);
+		m_fFadeOpacity += fTimeDelta * 5.f* (m_isFadeIn?-1.f:1.f);
 		if (m_fFadeOpacity > 1.f || m_fFadeOpacity < 0.f)
 		{
-			m_isRenderOn = false;
+			//m_isRenderOn = false;
 			/*CGameObject* res = { nullptr };
 			m_pGameInstance->Detach_GameObject(&res, LEVEL_STATIC, TEXT("Layer_FadeUI"));
 			if (res != this)
 				return EVN_END;*/
-			return EVN_DEAD;
+			m_fAnimationFrame += fTimeDelta;
 		}
 	}
+	if (m_fAnimationFrame > 0.7f)
+		return EVN_DEAD;
 	return __super::Update(fTimeDelta);
 }
 

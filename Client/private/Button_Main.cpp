@@ -61,7 +61,7 @@ HRESULT CButton_Main::Initialize(void* pArg)
 		Initialize_ButtonRect();
 		/*__super::Update_Rect();*/
 	}
-
+	m_fAnimationFrame = 0.f;
 	m_fDepth = 0.2f;
 	return S_OK;
 }
@@ -74,9 +74,9 @@ void CButton_Main::Priority_Update(_float fTimeDelta)
 EVENT CButton_Main::Update(_float fTimeDelta)
 {
 
-	
 	/*RENDER_ITEMDIALOG("menu picked", g_iWinSizeY / 2.f - 20.f);*/
-
+	if (m_bNextLevel)
+		m_fAnimationFrame += fTimeDelta*3.f;
 	__super::Update(fTimeDelta);
 	return EVN_NONE;
 }
@@ -137,15 +137,14 @@ HRESULT CButton_Main::Pick_Button()
 	//RENDER_TEXT_BOL("QUIT", 280.f - g_iWinSizeX * 0.5f, g_iWinSizeY * 0.5f - 560.f, 0.9f);
 
 
-
  	if (PtInRect(&m_tButton[GAMESTART], ptMouse))
 	{
 		RENDER_TEXT_BOL("NEW GAME", 280.f - g_iWinSizeX * 0.5f, g_iWinSizeY * 0.5f - 460.f, 0.9f);
 		if (KEY_DOWN(VK_LBUTTON))
 		{
-			if (FAILED(m_pGameInstance->Change_Level(LEVEL_LOADING,
-				CLevel_Loading::Create(m_pGraphic_Device, LEVEL_GAMEPLAY))))
-				return E_FAIL;
+			CUI_Manager::Get_Instance(m_pGameInstance)->Fade_Out();
+			m_bNextLevel = true;
+
 		}
 	}
 	else
@@ -181,6 +180,13 @@ HRESULT CButton_Main::Pick_Button()
 	else
 	{
 		RENDER_TEXT_BOL_DARK("QUIT", 280.f - g_iWinSizeX * 0.5f, g_iWinSizeY * 0.5f - 560.f, 0.9f);
+	}
+
+	if (m_fAnimationFrame > 1.7f)
+	{
+		if (FAILED(m_pGameInstance->Change_Level(LEVEL_LOADING,
+			CLevel_Loading::Create(m_pGraphic_Device, LEVEL_GAMEPLAY))))
+			return E_FAIL;
 	}
 	return S_OK;
 }

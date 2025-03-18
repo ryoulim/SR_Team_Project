@@ -27,14 +27,14 @@ public:
 	virtual void Late_Update(_float fTimeDelta) override;
 	virtual HRESULT Render() override;
 
-protected:
+private:
 	void	Initialize_ButtonRect();
 	HRESULT	Pick_Button();
 
-protected:
+private:
 	CFont::FONTALIGN m_eAlign = { CFont::LEFT };
 	RECT	m_tButton[BUTTON_END] = { };
-
+	_bool	m_bNextLevel = { false };
 
 public:
 	static CButton_Main* Create(LPDIRECT3DDEVICE9 pGraphic_Device);

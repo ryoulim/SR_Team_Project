@@ -7,6 +7,7 @@
 #include "Client_Defines.h"
 #include "Font.h"
 #include "FadeUI.h"
+#include "Ammo.h"
 
 BEGIN(Engine)
 class CGameInstance;
@@ -33,10 +34,8 @@ private:
 
 #pragma endregion
 		
-	/* UI매니저로 쓰려 했는데 구조를 못잡아서 폰트 말고 기능이 없음 ..*/
 public:
-	// 생각 
-	//enum tempui {UI_BACKGROUND,UI_DIALOG, UI_NOIDEA};
+	enum GAMEUI { GUI_AIM, GUI_PORTRAIT, GUI_ARMOR, GUI_AMMO, GUI_END };
 public:
 	HRESULT Initialize() ;
 	void Priority_Update(_float fTimeDelta) ;
@@ -62,17 +61,22 @@ public:
 		m_Fonts[_type]->Set_Brightness(val); 
 	}
 	void	Fade_In();
-	void	Fade_Out() { m_FadeUI->Fade_Out(); }
+	void	Fade_Out();
+
+public:
+	HRESULT Initialize_GamePlayUI();
+	HRESULT Clear_GamePlayUI();
+	HRESULT Update_GameUI(GAMEUI eUIType, CAmmo::AMMOTYPE eAmmoType = CAmmo::AMMOTYPE::LOVERBOY);
 
 private:
 	HRESULT	Initialize_Font();
 	HRESULT Initialize_FadeUI();
 	
 private:
-	class CFont*			m_Fonts[CFont::FONT_END] = {nullptr,};
-	//vector<class CUI*>		m_vecUIs[LEVEL_END];
-
-	class CFadeUI*				m_FadeUI = { nullptr };
+	class CFont*						m_Fonts[CFont::FONT_END] = {nullptr,};
+	class CFadeUI*						m_FadeUI = { nullptr };
+	array<class CGameObject*, GUI_END>	m_GameUIs = { nullptr };
+	class CPlayer*						m_pPlayer = { nullptr };
 
 public:
 	virtual void Free();
@@ -105,6 +109,15 @@ CUI_Manager::Get_Instance(m_pGameInstance)->Render_Text(message, CFont::BIGORANG
 #define RENDER_TEXT_BOL_DARK(message, fX, fY, fSize) \
 CUI_Manager::Get_Instance(m_pGameInstance)->Set_ButtonBrightness(0.6f, CFont::BIGORANGE);\
 CUI_Manager::Get_Instance(m_pGameInstance)->Render_Text(message, CFont::BIGORANGE, CFont::LEFT, fX, fY, fSize)
+
+
+// HP를 UI가 Get해오도록 전달
+#define UPDATE_HP() CUI_Manager::Get_Instance(m_pGameInstance)->Update_GameUI(CUI_Manager::GUI_PORTRAIT)
+// Armor를 UI가 Get해오도록 전달
+#define UPDATE_ARMOR() CUI_Manager::Get_Instance(m_pGameInstance)->Update_GameUI(CUI_Manager::GUI_ARMOR);
+// Ammo를..
+#define UPDATE_AMMO(Type) CUI_Manager::Get_Instance(m_pGameInstance)->Update_GameUI(CUI_Manager::GUI_AMMO, Type);
+
 
 #pragma endregion
 

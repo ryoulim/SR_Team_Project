@@ -36,8 +36,8 @@ HRESULT CPortrait::Initialize(void* pArg)
 
 	DESC Desc{};
 	Desc.vScale = _float3(80.f, 80.f, 1.f); // 고정
-	Desc.vInitPos = _float3(-(g_iWinSizeX / 2.f) + Desc.vScale.x / 2.f - 10.f, -(g_iWinSizeY / 2.f) + Desc.vScale.y / 2.f, 1.f);
-
+	Desc.vInitPos = _float3(-(g_iWinSizeX / 2.f) + Desc.vScale.x / 2.f - 10.f, -(g_iWinSizeY / 2.f) + Desc.vScale.y / 2.f, 0.f);
+	m_fDepth = 0.f;
 	if (FAILED(__super::Initialize(&Desc)))
 		return E_FAIL;
 	m_uiHP = 100;
@@ -80,15 +80,14 @@ void CPortrait::Priority_Update(_float fTimeDelta)
 
 EVENT CPortrait::Update(_float fTimeDelta)
 {
-	// Player->GetHP() : m_eHPStatus Set
-	if (GetKeyState('1') & 0x8000)
-		m_uiHP++;
-	
-	if (GetKeyState('2')&0x8000)
-	{
-		if (m_uiHP != 0)
-			m_uiHP--;
-	}
+	//if (GetKeyState('1') & 0x8000)
+	//	m_uiHP++;
+	//
+	//if (GetKeyState('2')&0x8000)
+	//{
+	//	if (m_uiHP != 0)
+	//		m_uiHP--;
+	//}
 	//HP100 = 0,
 	//	HP80 = 5,
 	//	HP40 = 10,
@@ -219,5 +218,4 @@ CGameObject* CPortrait::Clone(void* pArg)
 void CPortrait::Free()
 {
 	__super::Free();
-	Safe_Release(m_pFont);
 }

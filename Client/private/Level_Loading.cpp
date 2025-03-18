@@ -6,6 +6,7 @@
 
 #include "GameInstance.h"
 #include <LoadingMenu.h>
+#include "UI_Manager.h"
 
 CLevel_Loading::CLevel_Loading(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CLevel { pGraphic_Device }
@@ -71,6 +72,7 @@ void CLevel_Loading::Update(_float fTimeDelta)
 HRESULT CLevel_Loading::Render()
 {
 	m_pLoader->Output_LoadingText();
+	
 
 	return S_OK;
 }

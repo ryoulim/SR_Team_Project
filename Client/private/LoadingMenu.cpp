@@ -3,6 +3,7 @@
 
 #include "LoadingMenu.h"
 #include "GameInstance.h"
+#include <UI_Manager.h>
 
 CLoadingMenu::CLoadingMenu(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CUI{ pGraphic_Device }
@@ -143,6 +144,21 @@ HRESULT CLoadingMenu::Render()
 
 	if (FAILED(m_pVIBufferCom->Render()))
 		return E_FAIL;
+
+	_uint temp{};
+
+	temp = m_fLoadingGauge / 0.2f;
+
+	if (m_fLoadingGauge > 0.2f)
+		CUI_Manager::Get_Instance(m_pGameInstance)->Render_Text("Press Spacebar to skip Loading Level !!!", CFont::MEDIUMBLUE, CFont::LEFT, -600.f, -325.f + 26.f * (int(m_fLoadingGauge / 0.2f) - 1));
+	if (m_fLoadingGauge > 0.4f)
+		CUI_Manager::Get_Instance(m_pGameInstance)->Render_Text("Loading ... \"ION FURY\"", CFont::MEDIUMBLUE, CFont::LEFT, -600.f, -325.f + 26.f * (int(m_fLoadingGauge / 0.2f) - 2));
+	if (m_fLoadingGauge > 0.6f)
+		CUI_Manager::Get_Instance(m_pGameInstance)->Render_Text("And now I have no idea ", CFont::MEDIUMBLUE, CFont::LEFT, -600.f, -325.f + 26.f * (int(m_fLoadingGauge / 0.2f) - 3));
+	if (m_fLoadingGauge > 0.8f)
+		CUI_Manager::Get_Instance(m_pGameInstance)->Render_Text("HINT : hint hint hint hint hint hint.", CFont::MEDIUMBLUE, CFont::LEFT, -600.f, -325.f + 26.f * (int(m_fLoadingGauge / 0.2f) - 4));
+	if (m_fLoadingGauge > 1.f)
+	CUI_Manager::Get_Instance(m_pGameInstance)->Render_Text("Loading Complete !! ", CFont::MEDIUMBLUE, CFont::LEFT, -600.f, -325.f + 26.f * (int(m_fLoadingGauge / 0.2f) - 5));
 
 	Render_Animation();
 	Render_LoadingBar();

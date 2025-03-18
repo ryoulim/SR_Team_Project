@@ -54,10 +54,10 @@ HRESULT CButton::Initialize(void* pArg)
 		_float posy = -(m_vPos.y - g_iWinSizeY * 0.5f);
 
 
-		m_tRect.left = LONG(posx);
-		m_tRect.top = LONG(posy - (m_vSize.y * 0.5f));
-		m_tRect.right = m_tRect.left + m_vSize.x;
-		m_tRect.bottom = m_tRect.top + m_vSize.y;
+		//m_tRect.left = LONG(posx);
+		//m_tRect.top = LONG(posy - (m_vSize.y * 0.5f));
+		//m_tRect.right = m_tRect.left + m_vSize.x;
+		//m_tRect.bottom = m_tRect.top + m_vSize.y;
 		/*__super::Update_Rect();*/
 	}
 

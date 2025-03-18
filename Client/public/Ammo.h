@@ -34,8 +34,13 @@ public:
 	virtual void Late_Update(_float fTimeDelta) override;
 	virtual HRESULT Render() override;
 
+public:
+	void	Set_Ammo(AMMOTYPE _type, _uint _Ammo) { m_eAmmoType = _type;  m_uiAmmo[_type] = _Ammo; Update(0.f); }
+
 private:
 	AMMOTYPE	m_eAmmoType = { LOVERBOY };
+	_uint		m_uiAmmo[AMMO_END] = {};
+
 
 public:
 	static CAmmo* Create(LPDIRECT3DDEVICE9 pGraphic_Device);

@@ -208,6 +208,9 @@
     <Filter Include="02.GameObjects\Weapon\LoverBoy">
       <UniqueIdentifier>{938caa6e-991d-4371-8c1a-c40eec5364c9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\UI\GamePlayUI\ItemDialog">
+      <UniqueIdentifier>{66e93016-322f-43a1-83a6-f8b9aad04f9f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -417,6 +420,7 @@
     <ClInclude Include="..\public\FadeUI.h">
       <Filter>02.GameObjects\UI\MenuUI</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\ItemDialog.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -621,6 +625,7 @@
     <ClCompile Include="..\private\Button_Main.cpp">
       <Filter>02.GameObjects\UI\Button</Filter>
     </ClCompile>
+    <ClCompile Include="..\private\ItemDialog.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />

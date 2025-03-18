@@ -224,6 +224,7 @@ HRESULT CLevel_GamePlay::Ready_Layer_Pawn(const _wstring& strLayerTag)
 }
 
 #include "TestMonster.h"
+#include <UI_Manager.h>
 HRESULT CLevel_GamePlay::Ready_Layer_Monster(const _wstring& strLayerTag)
 {
 	CTestMonster::DESC MonsterDesc{};
@@ -254,6 +255,8 @@ HRESULT CLevel_GamePlay::Ready_Layer_UI(const _wstring& strLayerTag)
 	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Ammo"),
 		LEVEL_GAMEPLAY, strLayerTag, m_pData->Find_Data(TEXT("Ammo")))))
 		return E_FAIL;
+	/* ui생성 순서 중요, player 생성 이후 호출 중요  */
+	CUI_Manager::Get_Instance(m_pGameInstance)->Initialize_GamePlayUI();
 	return S_OK;
 }
 
@@ -453,6 +456,8 @@ CLevel_GamePlay* CLevel_GamePlay::Create(LPDIRECT3DDEVICE9 pGraphic_Device, clas
 void CLevel_GamePlay::Free()
 {
 	__super::Free();
+
+	//CUI_Manager::Get_Instance(m_pGameInstance)->Clear_GamePlayUI();
 
 	while (m_iIndex >= 0)
 	{
