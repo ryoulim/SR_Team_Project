@@ -1,5 +1,7 @@
 #include "Transform.h"
 
+_float4x4		CTransform::m_Return{};
+
 CTransform::CTransform(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CComponent{ pGraphic_Device }
 {
@@ -33,7 +35,7 @@ HRESULT CTransform::Bind_Resource()
 	return m_pGraphic_Device->SetTransform(D3DTS_WORLD, &m_WorldMatrix);
 }
 
-void CTransform::Billboard()
+const _float4x4& CTransform::Billboard() const
 {
 	//객체 스케일
 	_float3	vScaled = Compute_Scaled();
@@ -43,29 +45,66 @@ void CTransform::Billboard()
 	//카메라 포지션
 	_float4x4 matCamWorld;
 	m_pGraphic_Device->GetTransform(D3DTS_VIEW, &matCamWorld);
-	D3DXMatrixInverse(&matCamWorld, NULL, &matCamWorld);
+	matCamWorld.MakeInverseMat(matCamWorld);
 	_float3 vCameraPos = { matCamWorld._41, matCamWorld._42, matCamWorld._43 };
 
-	//카메라를 바라보는 룩벡터
-	_float3		vLook = vCameraPos - vPosition;
-
-	//라이트
-	_float3		vRight = {};
-	_float3		vUpDir{ 0.f, 1.f, 0.f };
-	D3DXVec3Cross(&vRight, &vUpDir, &vLook);
-
-	//업벡터를 구함
+	//카메라를 등지는 룩벡터
+	_float3		vLook = vPosition - vCameraPos;
 	_float3		vUp = { 0.f, 1.f, 0.f };
+	_float3		vRight = vUp.Cross(vLook);
 
-	//각 축을 노말라이즈 x 스케일값으로 세팅
+	//각 축을 노말라이즈 x 스케일값으로 세
+	vRight.Normalize();
+	vRight *= vScaled.x;
 
-	_float3 vecRight = *D3DXVec3Normalize(&vRight, &vRight) * vScaled.x;
-	_float3 vecUp = *D3DXVec3Normalize(&vRight, &vRight) * vScaled.x;
-	_float3 vecLook = *D3DXVec3Normalize(&vRight, &vRight) * vScaled.x;
+	vUp.Normalize();
+	vUp *= vScaled.y;
 
-	Set_State(CTransform::STATE_RIGHT, *D3DXVec3Normalize(&vRight, &vRight) * vScaled.x);
-	Set_State(CTransform::STATE_UP, *D3DXVec3Normalize(&vUp, &vUp) * vScaled.y);
-	Set_State(CTransform::STATE_LOOK, *D3DXVec3Normalize(&vLook, &vLook) * vScaled.z);
+	vLook.Normalize();
+	vLook *= vScaled.z;
+
+	memcpy(&m_Return._11, &vRight, sizeof _float3);
+	memcpy(&m_Return._21, &vUp, sizeof _float3);
+	memcpy(&m_Return._31, &vLook, sizeof _float3);
+	memcpy(&m_Return._41, &vPosition, sizeof _float3);
+
+	return m_Return;
+}
+
+_float4x4* CTransform::Billboard(_float4x4* _Out_ pOut) const
+{
+	//객체 스케일
+	_float3	vScaled = Compute_Scaled();
+	//객체 포지션
+	_float3	vPosition = *Get_State(CTransform::STATE_POSITION);
+
+	//카메라 포지션
+	_float4x4 matCamWorld;
+	m_pGraphic_Device->GetTransform(D3DTS_VIEW, &matCamWorld);
+	matCamWorld.MakeInverseMat(matCamWorld);
+	_float3 vCameraPos = { matCamWorld._41, matCamWorld._42, matCamWorld._43 };
+
+	//카메라를 등지는 룩벡터
+	_float3		vLook = vPosition - vCameraPos;
+	_float3		vUp = { 0.f, 1.f, 0.f };
+	_float3		vRight = vUp.Cross(vLook);
+
+	//각 축을 노말라이즈 x 스케일값으로 세
+	vRight.Normalize();
+	vRight *= vScaled.x;
+
+	vUp.Normalize();
+	vUp *= vScaled.y;
+
+	vLook.Normalize();
+	vLook *= vScaled.z;
+
+	memcpy(&pOut->_11, &vRight, sizeof _float3);
+	memcpy(&pOut->_21, &vUp, sizeof _float3);
+	memcpy(&pOut->_31, &vLook, sizeof _float3);
+	memcpy(&pOut->_41, &vPosition, sizeof _float3);
+
+	return pOut;
 }
 
 _float3 CTransform::Compute_Scaled() const
@@ -86,7 +125,7 @@ void CTransform::Scaling(_float Ratio)
 	Set_State(STATE_LOOK, vLook.Normalize() * Ratio);
 }
 
-void CTransform::Scaling(_float3 Ratio)
+void CTransform::Scaling(const _float3& Ratio)
 {
 	_float3 vRight{ *Get_State(STATE_RIGHT) };
 	_float3 vUp{ *Get_State(STATE_UP) };

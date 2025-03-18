@@ -193,6 +193,15 @@
     <Filter Include="02.GameObjects\Item\Item_Medkit">
       <UniqueIdentifier>{c4d0bab2-7f74-4cea-a8bd-ecf3b8c3154e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\Weapon">
+      <UniqueIdentifier>{1900a8f1-bff3-459a-95e2-ec863394fc4b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Weapon\Chaingun">
+      <UniqueIdentifier>{0ada8d69-d5db-4a48-817d-d7da67427bde}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Weapon\LoverBoy">
+      <UniqueIdentifier>{938caa6e-991d-4371-8c1a-c40eec5364c9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -381,6 +390,15 @@
     <ClInclude Include="..\public\TestMonster.h">
       <Filter>02.GameObjects\Monster\TestMonster</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\Weapon.h">
+      <Filter>02.GameObjects\Weapon</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Weapon_Chaingun.h">
+      <Filter>02.GameObjects\Weapon\Chaingun</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Weapon_LoverBoy.h">
+      <Filter>02.GameObjects\Weapon\LoverBoy</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -563,6 +581,15 @@
     </ClCompile>
     <ClCompile Include="..\private\TestMonster.cpp">
       <Filter>02.GameObjects\Monster\TestMonster</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Weapon.cpp">
+      <Filter>02.GameObjects\Weapon</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Weapon_Chaingun.cpp">
+      <Filter>02.GameObjects\Weapon\Chaingun</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Weapon_LoverBoy.cpp">
+      <Filter>02.GameObjects\Weapon\LoverBoy</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

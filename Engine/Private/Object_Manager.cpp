@@ -205,7 +205,7 @@ void CObject_Manager::Intersect(_uint iLevelIndex, const _wstring& strLayerTag1,
 
 			if (pCollider1->Check_Intersect(pCollider2))
 			{
-				Obj1->On_Collision(Obj2);
+				Obj1->On_Collision(Obj2, strLayerTag2);
 			}
 		}
 	}

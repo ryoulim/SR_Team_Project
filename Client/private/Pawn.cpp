@@ -34,7 +34,6 @@ EVENT CPawn::Update(_float fTimeDelta)
 
 void CPawn::Late_Update(_float fTimeDelta)
 {
-	m_pCollider->Update_Collider(m_pTransformCom);
 }
 
 HRESULT CPawn::Render()

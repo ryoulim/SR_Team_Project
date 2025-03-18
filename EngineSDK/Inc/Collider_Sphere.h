@@ -34,6 +34,8 @@ private:
 	virtual _bool Intersect_With_OBB_Cube(const CCollider* pOther) override;
 	virtual _bool Intersect_With_Sphere(const CCollider* pOther) override;
 	virtual _bool Intersect_With_Capsule(const CCollider* pOther) override;
+	virtual _bool Intersect_With_Rect(const CCollider* pOther) override;
+	virtual _bool Intersect_With_Line(const CCollider* pOther) override;
 
 public:
 	static CCollider_Sphere* Create(LPDIRECT3DDEVICE9 pGraphic_Device);

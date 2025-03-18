@@ -61,11 +61,33 @@ void CGravity::Go_Straight_On_Terrain(_float fTimedelta)
 
 void CGravity::Go_Backward_On_Terrain(_float fTimedelta)
 {
-	_float3 vDir = m_pTransformCom->Get_State(CTransform::STATE_RIGHT)->Cross(m_vCurNormal);
+	_float3 vDir = -m_pTransformCom->Get_State(CTransform::STATE_RIGHT)->Cross(m_vCurNormal);
 
 	_float3 vPos = *m_pTransformCom->Get_State(CTransform::STATE_POSITION);
 
-	vPos -= vDir.Normalize() * fTimedelta * m_pTransformCom->m_fSpeedPerSec;
+	vPos += vDir.Normalize() * fTimedelta * m_pTransformCom->m_fSpeedPerSec;
+
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION, vPos);
+}
+
+void CGravity::Go_Left_On_Terrain(_float fTimedelta)
+{
+	_float3 vDir = m_pTransformCom->Get_State(CTransform::STATE_LOOK)->Cross(m_vCurNormal);
+
+	_float3 vPos = *m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+
+	vPos += vDir.Normalize() * fTimedelta * m_pTransformCom->m_fSpeedPerSec;
+
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION, vPos);
+}
+
+void CGravity::Go_Right_On_Terrain(_float fTimedelta)
+{
+	_float3 vDir = -m_pTransformCom->Get_State(CTransform::STATE_LOOK)->Cross(m_vCurNormal);
+
+	_float3 vPos = *m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+
+	vPos += vDir.Normalize() * fTimedelta * m_pTransformCom->m_fSpeedPerSec;
 
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, vPos);
 }

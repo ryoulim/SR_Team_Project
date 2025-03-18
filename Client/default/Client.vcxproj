@@ -202,6 +202,9 @@
     <ClInclude Include="..\public\UI.h" />
     <ClInclude Include="..\public\UI_Camera.h" />
     <ClInclude Include="..\public\UI_Manager.h" />
+    <ClInclude Include="..\public\Weapon.h" />
+    <ClInclude Include="..\public\Weapon_Chaingun.h" />
+    <ClInclude Include="..\public\Weapon_LoverBoy.h" />
     <ClInclude Include="Client.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="MainApp.h" />
@@ -263,6 +266,9 @@
     <ClCompile Include="..\private\UI.cpp" />
     <ClCompile Include="..\private\UI_Camera.cpp" />
     <ClCompile Include="..\private\UI_Manager.cpp" />
+    <ClCompile Include="..\private\Weapon.cpp" />
+    <ClCompile Include="..\private\Weapon_Chaingun.cpp" />
+    <ClCompile Include="..\private\Weapon_LoverBoy.cpp" />
     <ClCompile Include="Client.cpp" />
     <ClCompile Include="MainApp.cpp" />
   </ItemGroup>
