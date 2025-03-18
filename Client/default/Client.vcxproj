@@ -116,6 +116,7 @@
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>../Public/;../../EngineSDK/Inc/</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>%(DisableSpecificWarnings)</DisableSpecificWarnings>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -134,6 +135,7 @@
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>../Public/;../../EngineSDK/Inc/</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>4819;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -149,6 +151,7 @@
     <ClInclude Include="..\public\Ammo.h" />
     <ClInclude Include="..\public\Armor.h" />
     <ClInclude Include="..\public\BackGround.h" />
+    <ClInclude Include="..\public\Block.h" />
     <ClInclude Include="..\public\Boss.h" />
     <ClInclude Include="..\public\Bullet.h" />
     <ClInclude Include="..\public\Button.h" />
@@ -170,6 +173,7 @@
     <ClInclude Include="..\public\FPS_Camera.h" />
     <ClInclude Include="..\public\Item.h" />
     <ClInclude Include="..\public\Item_Ammo.h" />
+    <ClInclude Include="..\public\Level_Test.h" />
     <ClInclude Include="..\public\LoadingMenu.h" />
     <ClInclude Include="..\public\Logo.h" />
     <ClInclude Include="..\public\MainMenu.h" />
@@ -197,6 +201,7 @@
     <ClInclude Include="..\public\Loader.h" />
     <ClInclude Include="..\public\MyCube.h" />
     <ClInclude Include="..\public\Terrain.h" />
+    <ClInclude Include="..\public\TestTerrain.h" />
     <ClInclude Include="..\public\Tornado.h" />
     <ClInclude Include="..\public\TestBullet.h" />
     <ClInclude Include="..\public\TestMonster.h" />
@@ -218,6 +223,7 @@
     <ClCompile Include="..\private\Ammo.cpp" />
     <ClCompile Include="..\private\Armor.cpp" />
     <ClCompile Include="..\Private\BackGround.cpp" />
+    <ClCompile Include="..\private\Block.cpp" />
     <ClCompile Include="..\private\Boss.cpp" />
     <ClCompile Include="..\private\Bullet.cpp" />
     <ClCompile Include="..\private\Button.cpp" />
@@ -239,6 +245,7 @@
     <ClCompile Include="..\private\FPS_Camera.cpp" />
     <ClCompile Include="..\private\Item.cpp" />
     <ClCompile Include="..\private\Item_Ammo.cpp" />
+    <ClCompile Include="..\private\Level_Test.cpp" />
     <ClCompile Include="..\private\LoadingMenu.cpp" />
     <ClCompile Include="..\private\Logo.cpp" />
     <ClCompile Include="..\private\MainMenu.cpp" />
@@ -263,6 +270,7 @@
     <ClCompile Include="..\private\Loader.cpp" />
     <ClCompile Include="..\private\MyCube.cpp" />
     <ClCompile Include="..\private\Terrain.cpp" />
+    <ClCompile Include="..\private\TestTerrain.cpp" />
     <ClCompile Include="..\private\Tornado.cpp" />
     <ClCompile Include="..\private\TestBullet.cpp" />
     <ClCompile Include="..\private\TestMonster.cpp" />

@@ -56,6 +56,7 @@ private:
 private:
 	HRESULT Loading_For_Logo();
 	HRESULT Loading_For_GamePlay();
+	HRESULT Loading_For_Test();
 	HRESULT Add_Data(const _wstring& strFilePath);
 
 public:

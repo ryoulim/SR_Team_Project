@@ -21,7 +21,7 @@ HRESULT CCabinet::Initialize_Prototype()
 
 HRESULT CCabinet::Initialize(void* pArg)
 {
-	m_eLevelID = LEVEL_GAMEPLAY;
+	m_eLevelID = LEVEL_TEST;
 	m_szTextureID = TEXT("Cabinet");
 	m_szBufferType = TEXT("Cabinet");
 

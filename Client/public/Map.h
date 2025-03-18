@@ -1,5 +1,58 @@
 #pragma once
-class CMap
+
+#include "Client_Defines.h"
+#include "GameObject.h"
+#include "GameInstance.h"
+
+BEGIN(Engine)
+class CTexture;
+class CVIBuffer_Rect;
+class CTransform;
+END
+
+BEGIN(Client)
+
+class CMap abstract : public CGameObject
 {
+public:
+	typedef struct tagMapDesc : public CTransform::DESC
+	{
+		_float3 vInitPos;
+		_float3 vScale;
+		_float3 vAngle;
+		_float  fTextureIdx;
+
+	}DESC;
+
+protected:
+	CMap(LPDIRECT3DDEVICE9 pGraphic_Device);
+	CMap(const CMap& Prototype);
+	virtual ~CMap()override;
+
+public:
+	virtual HRESULT Initialize_Prototype()override;
+	virtual HRESULT Initialize(void* pArg)override;
+
+	virtual void Priority_Update(_float fTimeDelta)override;
+	virtual EVENT Update(_float fTimeDelta)override;
+	virtual void Late_Update(_float fTimeDelta)override;
+	virtual HRESULT Render()override;
+
+private:
+	virtual HRESULT Ready_Components(void* pArg);
+
+protected:
+	LEVEL m_eLevelID = { LEVEL_END };
+	const _tchar* m_szTextureID = { nullptr };
+	const _tchar* m_szBufferType = { nullptr };
+
+	CTexture* m_pTextureCom = { nullptr };
+	CVIBuffer* m_pVIBufferCom = { nullptr };
+	CTransform* m_pTransformCom = { nullptr };
+
+public:
+	virtual CGameObject* Clone(void* pArg) PURE;
+	virtual void Free() override;
 };
 
+END

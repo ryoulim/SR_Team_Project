@@ -37,15 +37,6 @@
     <Filter Include="02.GameObjects\Statue">
       <UniqueIdentifier>{3cf1dc92-4e8e-45e5-921e-4c51a5527dfa}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\Statue\Mycube">
-      <UniqueIdentifier>{866631c5-e2bd-4cb1-8c4f-cb7e7ba7d676}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Statue\Terrain">
-      <UniqueIdentifier>{9de21c46-a0f5-43b6-8a26-1378d9bcc1aa}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Statue\BackGround">
-      <UniqueIdentifier>{cacde4f5-7fc7-406d-9ed5-7a738becec0f}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02.GameObjects\Effect">
       <UniqueIdentifier>{8a9aaaa4-6267-428d-b1c8-d878c6c1a50a}</UniqueIdentifier>
     </Filter>
@@ -208,6 +199,24 @@
     <Filter Include="02.GameObjects\Weapon\LoverBoy">
       <UniqueIdentifier>{938caa6e-991d-4371-8c1a-c40eec5364c9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01.Levels\Test">
+      <UniqueIdentifier>{28e29652-c666-48a6-98b3-c2bfe2ffccd2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Map\BackGround">
+      <UniqueIdentifier>{cacde4f5-7fc7-406d-9ed5-7a738becec0f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Map\Terrain">
+      <UniqueIdentifier>{9de21c46-a0f5-43b6-8a26-1378d9bcc1aa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Statue\Mycube">
+      <UniqueIdentifier>{866631c5-e2bd-4cb1-8c4f-cb7e7ba7d676}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Map\Block">
+      <UniqueIdentifier>{c8ed5851-d677-4b27-bbf4-5114c532d80d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Map\TextTerrain">
+      <UniqueIdentifier>{c3ef4eff-606f-4fdd-ab5a-b810076f6654}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -238,10 +247,10 @@
       <Filter>01.Levels\Loading</Filter>
     </ClInclude>
     <ClInclude Include="..\public\BackGround.h">
-      <Filter>02.GameObjects\Statue\BackGround</Filter>
+      <Filter>02.GameObjects\Map\BackGround</Filter>
     </ClInclude>
     <ClInclude Include="..\public\Terrain.h">
-      <Filter>02.GameObjects\Statue\Terrain</Filter>
+      <Filter>02.GameObjects\Map\Terrain</Filter>
     </ClInclude>
     <ClInclude Include="..\public\Dynamic_Camera.h">
       <Filter>02.GameObjects\Camera\DynamicCamera</Filter>
@@ -411,6 +420,15 @@
     <ClInclude Include="..\public\Weapon_LoverBoy.h">
       <Filter>02.GameObjects\Weapon\LoverBoy</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\Level_Test.h">
+      <Filter>01.Levels\Test</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Block.h">
+      <Filter>02.GameObjects\Map\Block</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\TestTerrain.h">
+      <Filter>02.GameObjects\Map\TextTerrain</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -442,10 +460,10 @@
       <Filter>01.Levels\Loading\Loader</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\BackGround.cpp">
-      <Filter>02.GameObjects\Statue\BackGround</Filter>
+      <Filter>02.GameObjects\Map\BackGround</Filter>
     </ClCompile>
     <ClCompile Include="..\private\Terrain.cpp">
-      <Filter>02.GameObjects\Statue\Terrain</Filter>
+      <Filter>02.GameObjects\Map\Terrain</Filter>
     </ClCompile>
     <ClCompile Include="..\private\Dynamic_Camera.cpp">
       <Filter>02.GameObjects\Camera\DynamicCamera</Filter>
@@ -608,6 +626,15 @@
     </ClCompile>
     <ClCompile Include="..\private\Weapon_LoverBoy.cpp">
       <Filter>02.GameObjects\Weapon\LoverBoy</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Level_Test.cpp">
+      <Filter>01.Levels\Test</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Block.cpp">
+      <Filter>02.GameObjects\Map\Block</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\TestTerrain.cpp">
+      <Filter>02.GameObjects\Map\TextTerrain</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -277,7 +277,7 @@ void CTransform::QuaternionRotation(const _float3& vAngle)
 
 	D3DXQUATERNION Qur{};
 	_float4x4 RotationMatrix{};
-	D3DXQuaternionRotationYawPitchRoll(&Qur, vAngle.x, vAngle.y, vAngle.z);
+	D3DXQuaternionRotationYawPitchRoll(&Qur, vAngle.y, vAngle.x, vAngle.z);
 	D3DXMatrixRotationQuaternion(&RotationMatrix, &Qur);
 
 	Set_State(STATE_RIGHT, vRight.TransformNormal(RotationMatrix));

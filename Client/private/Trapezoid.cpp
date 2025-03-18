@@ -18,7 +18,7 @@ HRESULT CTrapezoid::Initialize_Prototype()
 
 HRESULT CTrapezoid::Initialize(void* pArg)
 {
-	m_eLevelID = LEVEL_GAMEPLAY;
+	m_eLevelID = LEVEL_TEST;
 	m_szTextureID = TEXT("Trapezoid");
 	m_szBufferType = TEXT("Trapezoid");
 

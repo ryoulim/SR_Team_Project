@@ -1,15 +1,15 @@
 // 내 클래스 이름 : BackGround
-// 부모 클래스 이름 : Statue
+// 부모 클래스 이름 : Map
 
 #pragma once
-#include "Statue.h"
+#include "Map.h"
 
 BEGIN(Client)
 
-class CBackGround final : public CStatue
+class CBackGround final : public CMap
 {
 public:
-	typedef struct tagBackGroundDesc : public CStatue::DESC
+	typedef struct tagBackGroundDesc : public CMap::DESC
 	{
 
 	}DESC;

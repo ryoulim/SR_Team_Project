@@ -28,6 +28,14 @@ HRESULT CLevel::Render()
     return S_OK;
 }
 
+_wstring CLevel::Compute_PrototypeName(const _wstring& strPrototypeTag)
+{
+    size_t Pos = strPrototypeTag.rfind(TEXT("_"));
+    if (Pos != _wstring::npos)
+        return strPrototypeTag.substr(Pos + 1);
+
+    return strPrototypeTag; // "_"이 없는 경우 원본 반환
+}
 
 void CLevel::Free()
 {

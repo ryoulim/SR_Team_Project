@@ -5,12 +5,12 @@
 #include "GameInstance.h"
 
 CTerrain::CTerrain(LPDIRECT3DDEVICE9 pGraphic_Device)
-	: CStatue{ pGraphic_Device }
+	: CMap{ pGraphic_Device }
 {
 }
 
 CTerrain::CTerrain(const CTerrain& Prototype)
-	: CStatue(Prototype)
+	: CMap(Prototype)
 {
 }
 

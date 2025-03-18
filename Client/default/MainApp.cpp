@@ -49,7 +49,7 @@ HRESULT CMainApp::Initialize()
 		return E_FAIL;
 
 	/* 최초 보여줄 레벨을 할당하자. */
-	if (FAILED(Open_Level(LEVEL_LOGO)))
+	if (FAILED(Open_Level(LEVEL_TEST)))
 		return E_FAIL;
 
 	if (FAILED(Ready_Debug_Mode()))
@@ -84,7 +84,8 @@ HRESULT CMainApp::Ready_Component_For_Static()
 	ADD_MODEL(Cabinet);
 	ADD_MODEL(Signboard);
 	ADD_MODEL(Computer);
-	ADD_MODEL_EX(Terrain, 129, 129, TEXT("../Bin/Resources/Textures/Terrain/Height__.bmp"));
+	Load_ProtoType_Terrain(TEXT("MapData.txt"));
+	//ADD_MODEL_EX(Terrain, 129, 129, TEXT("../Bin/Resources/Textures/Terrain/Height__.bmp"));
 
 	ADD_PRTCOM(Transform);
 	ADD_PRTCOM(Gravity);
@@ -127,6 +128,39 @@ HRESULT CMainApp::Ready_Debug_Mode()
 	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_DebugMode"),
 		LEVEL_STATIC, TEXT("Layer_DebugMode"))))
 		return E_FAIL;
+
+	return S_OK;
+}
+
+HRESULT CMainApp::Load_ProtoType_Terrain(const _wstring& strFileTag)
+{
+	_bool bResult = { true };
+	_wstring FilePath;
+	FilePath = TEXT("../bin/Resources/MapData/") + strFileTag;
+	_ulong dwByte = {};
+
+	HANDLE hFile = CreateFile(FilePath.c_str(), GENERIC_READ, NULL, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
+
+	if (INVALID_HANDLE_VALUE == hFile)
+	{
+		MSG_BOX("파일 개방 실패");
+		return E_FAIL;
+	}
+
+	_int iNumVertexX = {}, iNumVertexZ = {};
+
+	_float3 vPosition = {}, vScale = {}, vAngle = {};
+	while (true)
+	{
+ 		bResult = ReadFile(hFile, &iNumVertexX, sizeof(_int), &dwByte, NULL);
+		bResult = ReadFile(hFile, &iNumVertexZ, sizeof(_int), &dwByte, NULL);
+
+		ADD_MODEL_EX(Terrain, iNumVertexX, iNumVertexZ);
+
+		break;
+	}
+
+	CloseHandle(hFile);
 
 	return S_OK;
 }
