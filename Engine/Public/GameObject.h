@@ -24,10 +24,12 @@ public:
 	virtual HRESULT Render();
 
 	void FrameUpdate(float timeDelta, float _MaxFrame, bool isLoop);
-
+	
+	_float	Get_ViewZ() const { return m_fViewZ; }
+	void	Compute_ViewZ(const _float3* pPos);
 
 	class CComponent* Find_Component(const _wstring& strComponentTag);
-	virtual void On_Collision(CGameObject* pCollisionedObject) {};
+	virtual void On_Collision(CGameObject* pCollisionedObject, const _wstring& strLayerTag) {};
 
 protected:
 	LPDIRECT3DDEVICE9				m_pGraphic_Device = { nullptr };
@@ -44,8 +46,9 @@ public:
 	virtual void Free();
 
 protected:
-	float m_fAnimationFrame = 0;
-	float m_fAnimationMaxFrame = 0;
+	float	m_fAnimationFrame = 0;
+	float	m_fAnimationMaxFrame = 0;
+	_float	m_fViewZ;
 };
 
 END

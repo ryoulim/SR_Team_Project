@@ -28,11 +28,15 @@ public:
 	const _float3* Get_State(TRANSFORMSTATE eState) const {
 		return reinterpret_cast<const _float3*>(m_WorldMatrix.m[eState]);
 	}
-
+	const _float4x4& Get_WorldMatrix_Inverse() const {
+		return m_Return.MakeInverseMat(m_WorldMatrix);
+	}
 	const _float4x4& Get_WorldMatrix_Inverse(_float4x4& rhsOut) const {
 		return rhsOut.MakeInverseMat(m_WorldMatrix);
 	}
-	const _float4x4* Get_WorldMatrix() const { return &m_WorldMatrix; }
+	const _float4x4* Get_WorldMatrix() const { 
+		return &m_WorldMatrix; 
+	}
 	void Set_WorldMatrix(const _float4x4* pWorld)
 	{
 		m_WorldMatrix = *pWorld;
@@ -48,11 +52,11 @@ public:
 
 public:
 	HRESULT			Bind_Resource();
-
-	void Billboard();
+	const _float4x4& Billboard() const;
+	_float4x4* Billboard(_float4x4* _Out_ pOut) const;
 	_float3 Compute_Scaled() const;
 	void Scaling(_float Ratio);
-	void Scaling(_float3 Ratio);
+	void Scaling(const _float3& Ratio);
 	void Go_Straight(_float fTimeDelta);
 	void Go_Backward(_float fTimeDelta);
 	void Go_Left(_float fTimeDelta);
@@ -73,6 +77,7 @@ private:
 
 	_float					m_fSpeedPerSec = {};
 	_float					m_fRotationPerSec = {};
+	static _float4x4		m_Return;
 
 public:
 	static CTransform* Create(LPDIRECT3DDEVICE9 pGraphic_Device);

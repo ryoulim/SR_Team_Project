@@ -37,6 +37,8 @@ private:
 	virtual _bool Intersect_With_OBB_Cube(const CCollider* pOther) PURE;
 	virtual _bool Intersect_With_Sphere(const CCollider* pOther) PURE;
 	virtual _bool Intersect_With_Capsule(const CCollider* pOther) PURE;
+	virtual _bool Intersect_With_Rect(const CCollider* pOther) PURE;
+	virtual _bool Intersect_With_Line(const CCollider* pOther) PURE;
 
 public:
 	virtual CComponent* Clone(void* pArg) PURE;

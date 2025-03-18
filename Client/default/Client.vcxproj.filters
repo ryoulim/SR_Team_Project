@@ -157,9 +157,6 @@
     <Filter Include="02.GameObjects\Effect\CameraSprite">
       <UniqueIdentifier>{781a6385-c83d-44c7-bb96-3ed6a3445a65}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\Particle\BulletTracer">
-      <UniqueIdentifier>{f0e372d5-eb30-435c-9f67-b6cb449f4d50}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02.GameObjects\Camera\FPSCamera">
       <UniqueIdentifier>{3292d9e0-25c2-4673-a3a9-65c79f7f39bc}</UniqueIdentifier>
     </Filter>
@@ -174,6 +171,12 @@
     </Filter>
     <Filter Include="02.GameObjects\Statue\Signboard">
       <UniqueIdentifier>{f980a65b-3298-4b0b-98a2-1d08187c11b7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Statue\Stall">
+      <UniqueIdentifier>{6b7038bf-ee0e-4aa7-859e-8de7fb9e7cf4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Statue\MyComputer">
+      <UniqueIdentifier>{e32324b5-99a3-49b9-821e-a8a6ff169fb0}</UniqueIdentifier>
     </Filter>
     <Filter Include="02.GameObjects\UI\Font\Font_TinyBlue">
       <UniqueIdentifier>{e73131f6-e2be-489a-84c2-c9a3ae0eb8c1}</UniqueIdentifier>
@@ -193,11 +196,17 @@
     <Filter Include="02.GameObjects\Item\Item_Medkit">
       <UniqueIdentifier>{c4d0bab2-7f74-4cea-a8bd-ecf3b8c3154e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\UI\GamePlayUI\WeaponList">
-      <UniqueIdentifier>{2a134408-ffd8-4d4a-9df4-8f2350d5c157}</UniqueIdentifier>
+    <Filter Include="02.GameObjects\Particle\EmtyBullet">
+      <UniqueIdentifier>{f0e372d5-eb30-435c-9f67-b6cb449f4d50}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\UI\MenuUI\UIEffect">
-      <UniqueIdentifier>{fe4ceac3-41ab-4515-9fd0-732d7a00b63a}</UniqueIdentifier>
+    <Filter Include="02.GameObjects\Weapon">
+      <UniqueIdentifier>{1900a8f1-bff3-459a-95e2-ec863394fc4b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Weapon\Chaingun">
+      <UniqueIdentifier>{0ada8d69-d5db-4a48-817d-d7da67427bde}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Weapon\LoverBoy">
+      <UniqueIdentifier>{938caa6e-991d-4371-8c1a-c40eec5364c9}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -324,8 +333,8 @@
     <ClInclude Include="..\public\Firework.h">
       <Filter>02.GameObjects\Particle\Firework</Filter>
     </ClInclude>
-    <ClInclude Include="..\public\BulletTracer.h">
-      <Filter>02.GameObjects\Particle\BulletTracer</Filter>
+    <ClInclude Include="..\public\EmptyBullet.h">
+      <Filter>02.GameObjects\Particle\EmtyBullet</Filter>
     </ClInclude>
     <ClInclude Include="..\public\Rain.h">
       <Filter>02.GameObjects\Particle\Rain</Filter>
@@ -378,6 +387,12 @@
     <ClInclude Include="..\public\Signboard.h">
       <Filter>02.GameObjects\Statue\Signboard</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\Stall.h">
+      <Filter>02.GameObjects\Statue\Stall</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\MyComputer.h">
+      <Filter>02.GameObjects\Statue\MyComputer</Filter>
+    </ClInclude>
     <ClInclude Include="..\public\TestBullet.h">
       <Filter>02.GameObjects\Bullet\TestBullet</Filter>
     </ClInclude>
@@ -387,13 +402,14 @@
     <ClInclude Include="..\public\TestMonster.h">
       <Filter>02.GameObjects\Monster\TestMonster</Filter>
     </ClInclude>
-    <ClInclude Include="..\public\Item_Ammo_Loverboy.h" />
-    <ClInclude Include="..\public\Button_Main.h">
-      <Filter>02.GameObjects\UI\Button</Filter>
+    <ClInclude Include="..\public\Weapon.h">
+      <Filter>02.GameObjects\Weapon</Filter>
     </ClInclude>
-    <ClInclude Include="..\public\WeaponList.h" />
-    <ClInclude Include="..\public\FadeUI.h">
-      <Filter>02.GameObjects\UI\MenuUI\UIEffect</Filter>
+    <ClInclude Include="..\public\Weapon_Chaingun.h">
+      <Filter>02.GameObjects\Weapon\Chaingun</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Weapon_LoverBoy.h">
+      <Filter>02.GameObjects\Weapon\LoverBoy</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -518,8 +534,8 @@
     <ClCompile Include="..\private\Firework.cpp">
       <Filter>02.GameObjects\Particle\Firework</Filter>
     </ClCompile>
-    <ClCompile Include="..\private\BulletTracer.cpp">
-      <Filter>02.GameObjects\Particle\BulletTracer</Filter>
+    <ClCompile Include="..\private\EmptyBullet.cpp">
+      <Filter>02.GameObjects\Particle\EmtyBullet</Filter>
     </ClCompile>
     <ClCompile Include="..\private\Rain.cpp">
       <Filter>02.GameObjects\Particle\Rain</Filter>
@@ -572,19 +588,26 @@
     <ClCompile Include="..\private\Signboard.cpp">
       <Filter>02.GameObjects\Statue\Signboard</Filter>
     </ClCompile>
+    <ClCompile Include="..\private\Stall.cpp">
+      <Filter>02.GameObjects\Statue\Stall</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\MyComputer.cpp">
+      <Filter>02.GameObjects\Statue\MyComputer</Filter>
+    </ClCompile>
     <ClCompile Include="..\private\TestBullet.cpp">
       <Filter>02.GameObjects\Bullet\TestBullet</Filter>
     </ClCompile>
     <ClCompile Include="..\private\TestMonster.cpp">
       <Filter>02.GameObjects\Monster\TestMonster</Filter>
     </ClCompile>
-    <ClCompile Include="..\private\Item_Ammo_Loverboy.cpp" />
-    <ClCompile Include="..\private\Button_Main.cpp">
-      <Filter>02.GameObjects\UI\Button</Filter>
+    <ClCompile Include="..\private\Weapon.cpp">
+      <Filter>02.GameObjects\Weapon</Filter>
     </ClCompile>
-    <ClCompile Include="..\private\WeaponList.cpp" />
-    <ClCompile Include="..\private\FadeUI.cpp">
-      <Filter>02.GameObjects\UI\MenuUI\UIEffect</Filter>
+    <ClCompile Include="..\private\Weapon_Chaingun.cpp">
+      <Filter>02.GameObjects\Weapon\Chaingun</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Weapon_LoverBoy.cpp">
+      <Filter>02.GameObjects\Weapon\LoverBoy</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

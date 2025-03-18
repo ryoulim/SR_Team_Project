@@ -3,21 +3,28 @@
 
 #include "BackGround.h"
 #include "Terrain.h"
-#include "Dynamic_Camera.h"
-#include "UI_Camera.h"
-#include "MyCube.h"
-#include "Explosion.h"
 #include "Trapezoid.h"
+#include "Stall.h"
 #include "Cabinet.h"
 #include "Signboard.h"
-#include "Player.h"
+#include "MyComputer.h"
+#include "Explosion.h"
+
+
+//테스트용
+#include "MyCube.h"
 #include "TestMonster.h"
 #include "TestBullet.h"
+
+//플레이어와 무기
+#include "Player.h"
+#include "Weapon_LoverBoy.h"
+
 
 //파티클 인클루드
 #include "Explosion.h"
 #include "Firework.h"
-#include "BulletTracer.h"
+#include "EmptyBullet.h"
 #include "Rain.h"
 #include "Sprite.h"
 #include "Tornado.h"
@@ -131,11 +138,19 @@ HRESULT CLoader::Loading_For_Logo()
 		CSmoke::Create(m_pGraphic_Device, L"PARTICLE_SMOKE"))))
 		return E_FAIL;
 
-	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_GameObject_PC_BulletTracer"),
-		CBulletTracer::Create(m_pGraphic_Device, L"PARTICLE_BULLETTRACER"))))
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_GameObject_PC_EmptyBullet"),
+		CEmptyBullet::Create(m_pGraphic_Device, L"PARTICLE_EMPTYBULLET"))))
 		return E_FAIL;
 
 	////////////////////////////////////////////텍스처//////////////////////////////////////////////////////
+
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Effect_BulletTacer"),
+		CTexture::Create(m_pGraphic_Device, TEXT("../Bin/Resources/Textures/Particle/Effect_BulletTacer%d.png"), 3))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Effect_GunFire"),
+		CTexture::Create(m_pGraphic_Device, TEXT("../Bin/Resources/Textures/Particle/Effect_GunFire2%d.png"), 3))))
+		return E_FAIL;
 
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Check_Tile"),
 		CTexture::Create(m_pGraphic_Device, TEXT("../Bin/Resources/Textures/Particle/Check_Tile.png"), 1))))
@@ -289,13 +304,14 @@ HRESULT CLoader::Loading_For_GamePlay()
 	ADD_TEXTURE(Box, "../Bin/Resources/Textures/Object/Box/tile6628.png", 1);
 	ADD_TEXTURE(Cabinet, "../Bin/Resources/Textures/Object/Cabinet/Cabinet%d.png", 3);
 	ADD_TEXTURE(Trapezoid, "../Bin/Resources/Textures/Object/Trapezoid/Trapezoid%d.png", 2);
+	ADD_TEXTURE(Stall, "../Bin/Resources/Textures/Object/Stall/Stall%d.png", 2);
 	ADD_TEXTURE(Signboard, "../Bin/Resources/Textures/Object/Signboard/Signboard%d.png", 5);
+	ADD_TEXTURE(MyComputer, "../Bin/Resources/Textures/Object/Computer/Computer%d.png", 3);
 
 	ADD_TEXTURE(TestBullet, "../Bin/Resources/Textures/Bullet/Test/tile7859.png", 1);
 	ADD_TEXTURE(TestMonster, "../Bin/Resources/Textures/Monster/Test/TestMonster%d.PNG", 2);
+	ADD_TEXTURE(Weapon_LoverBoy, "../Bin/Resources/Textures/Weapon/LoverBoy/LoverBoy%d.PNG", 15);
 
-
-	
 #pragma endregion
 
 #pragma region MODEL
@@ -316,12 +332,14 @@ HRESULT CLoader::Loading_For_GamePlay()
 	ADD_PRTOBJ(Ammo);
 	ADD_PRTOBJ(Portrait);
 	ADD_PRTOBJ(Trapezoid);
+	ADD_PRTOBJ(Stall);
 	ADD_PRTOBJ(Cabinet);
 	ADD_PRTOBJ(Signboard);
+	ADD_PRTOBJ(MyComputer);
 	ADD_PRTOBJ(Player);
 	ADD_PRTOBJ(TestBullet);
 	ADD_PRTOBJ(TestMonster);
-
+	ADD_PRTOBJ(Weapon_LoverBoy);
 
 
 

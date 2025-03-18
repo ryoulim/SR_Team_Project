@@ -6,7 +6,7 @@ BEGIN(Engine)
 class ENGINE_DLL CGravity final : public CComponent
 {
 public:
-	// 초기화용이 아닌, 터레인 정보를 입력해주기 위한 구조체입니다.
+	// 초기화용이 아닌, 터레인 정보를 입력해주기 위한 구조체입니다. (초기화시에는 Transform을 넣어주세요)
 	typedef struct tagGravityDesc
 	{
 		const _float3*	pTerrainVtxPos;
@@ -33,10 +33,17 @@ public:
 
 	void Go_Straight_On_Terrain(_float fTimedelta);
 	void Go_Backward_On_Terrain(_float fTimedelta);
+	void Go_Left_On_Terrain(_float fTimedelta);
+	void Go_Right_On_Terrain(_float fTimedelta);
 
 	void Set_JumpOption(const JUMPDESC& JumpDESC);
+	//void Parabolic_Motion();
 	void Update(_float fTimeDelta);
 	void Jump(_float fJumpPower);
+	void Stop_Jump();
+	_bool isJump() {
+		return m_bJump;
+	}
 
 private:
 	class CTransform*		m_pTransformCom{ nullptr };

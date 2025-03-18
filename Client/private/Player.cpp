@@ -5,6 +5,9 @@
 #include "GameInstance.h"
 #include "CameraManager.h"
 
+// 무기들 인클루드
+#include "Weapon_LoverBoy.h"
+
 CPlayer::CPlayer(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CPawn{ pGraphic_Device }
 {
@@ -44,6 +47,11 @@ HRESULT CPlayer::Initialize(void* pArg)
 	}
 	m_pGravityCom->Set_JumpOption(CGravity::JUMPDESC{ 13.2f, 1140.f});
 
+	m_Weapons.push_back(
+		static_cast<CWeapon*>(m_pGameInstance->Clone_Prototype(
+			PROTOTYPE::TYPE_GAMEOBJECT, LEVEL_GAMEPLAY, 
+			TEXT("Prototype_GameObject_Weapon_LoverBoy"))));
+
 	return S_OK;
 }
 
@@ -62,48 +70,47 @@ void CPlayer::Priority_Update(_float fTimeDelta)
 			Mouse_Move();
 			Mouse_Fix();
 		}
+		m_Weapons[m_iCurWeaponIndex]->Priority_Update(fTimeDelta);
+		__super::Priority_Update(fTimeDelta);
 	}
-	__super::Priority_Update(fTimeDelta);
 }
 
 EVENT CPlayer::Update(_float fTimeDelta)
 {
+	if (!m_bFpsMode)
+		return EVN_NONE;
+
+	m_Weapons[m_iCurWeaponIndex]->Update(fTimeDelta);
 	return __super::Update(fTimeDelta);
 }
 
 void CPlayer::Late_Update(_float fTimeDelta)
 {
-	if (m_bFpsMode)
-	{
-		m_pGravityCom->Update(fTimeDelta);
+	m_pGameInstance->Add_RenderGroup(CRenderer::RG_NONBLEND, this);
 
-		_float3 Scale = m_pTransformCom->Compute_Scaled();
+	if (!m_bFpsMode)
+		return;
 
-		const _float3* pCameraRight = m_pCameraTransform->Get_State(CTransform::STATE_RIGHT);
+	Update_Camera_Link();
 
-		m_pTransformCom->Set_State(CTransform::STATE_RIGHT,
-			*pCameraRight * Scale.x);
+	m_pCollider->Update_Collider(m_pTransformCom);
 
-		m_pTransformCom->Set_State(CTransform::STATE_LOOK,
-			pCameraRight->Cross({ 0.f,1.f,0.f }) * Scale.z);
+	//m_pGravityCom->Update(fTimeDelta);
 
-		m_pCameraTransform->Set_State(CTransform::STATE_POSITION,
-			*m_pTransformCom->Get_State(CTransform::STATE_POSITION) + _float3{ 0.f,Scale.y * 0.5f ,0.f });
+	m_Weapons[m_iCurWeaponIndex]->Late_Update(fTimeDelta);
 
-		__super::Late_Update(fTimeDelta);
-	}
-	else
-	{
-		m_pGameInstance->Add_RenderGroup(CRenderer::RG_NONBLEND, this);
-	}
+	__super::Late_Update(fTimeDelta);	
 }
 
 HRESULT CPlayer::Render()
 {
-	return __super::Render();
+	if(m_bFpsMode)
+		return m_Weapons[m_iCurWeaponIndex]->Render();
+	else
+		return __super::Render();
 }
 
-void CPlayer::On_Collision(CGameObject* pCollisionedObject)
+void CPlayer::On_Collision(CGameObject* pCollisionedObject, const _wstring& strLayerTag)
 {
 	//m_pCollider->Get_Last_Collision_Pos();
 
@@ -132,11 +139,11 @@ void CPlayer::Key_Input(_float fTimeDelta)
 	}
 	if (KEY_PRESSING('A'))
 	{
-		m_pTransformCom->Go_Left(fTimeDelta);
+		m_pGravityCom->Go_Left_On_Terrain(fTimeDelta);
 	}
 	if (KEY_PRESSING('D'))
 	{
-		m_pTransformCom->Go_Right(fTimeDelta);
+		m_pGravityCom->Go_Right_On_Terrain(fTimeDelta);
 	}
 	if (KEY_DOWN(VK_TAB))
 	{
@@ -146,9 +153,14 @@ void CPlayer::Key_Input(_float fTimeDelta)
 	{
 		m_pGravityCom->Jump(50.f);
 	}
+
 	if (KEY_DOWN(VK_LBUTTON))
 	{
-		Create_Bullet();
+		m_Weapons[m_iCurWeaponIndex]->Set_State(CWeapon::ST_W_ATK);
+	}
+	if (KEY_DOWN('R'))
+	{
+		m_Weapons[m_iCurWeaponIndex]->Set_State(CWeapon::ST_RELOAD);
 	}
 }
 
@@ -181,14 +193,30 @@ void CPlayer::Mouse_Fix()
 void CPlayer::Create_Bullet()
 {
 	CTestBullet::DESC BulletDesc{};
-	BulletDesc.fSpeedPerSec = 1500.f;
+	BulletDesc.fSpeedPerSec = 8000.f;
 	BulletDesc.vInitPos = *m_pTransformCom->Get_State(CTransform::STATE_POSITION);
-	BulletDesc.vScale = {5.f,5.f,5.f};
-	BulletDesc.vLook = *m_pTransformCom->Get_State(CTransform::STATE_LOOK);
+	BulletDesc.vScale = {3.f,3.f,3.f};
+	BulletDesc.vLook = *m_pCameraTransform->Get_State(CTransform::STATE_LOOK);
 
 	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_TestBullet"),
 		LEVEL_GAMEPLAY, TEXT("Layer_PBullet"), &BulletDesc)))
 		return;
+}
+
+void CPlayer::Update_Camera_Link()
+{
+	_float3 Scale = m_pTransformCom->Compute_Scaled();
+
+	const _float3* pCameraRight = m_pCameraTransform->Get_State(CTransform::STATE_RIGHT);
+
+	m_pTransformCom->Set_State(CTransform::STATE_RIGHT,
+		*pCameraRight * Scale.x);
+
+	m_pTransformCom->Set_State(CTransform::STATE_LOOK,
+		pCameraRight->Cross({ 0.f,1.f,0.f }) * Scale.z);
+
+	m_pCameraTransform->Set_State(CTransform::STATE_POSITION,
+		*m_pTransformCom->Get_State(CTransform::STATE_POSITION) + _float3{ 0.f,Scale.y * 0.5f ,0.f });
 }
 
 CPlayer* CPlayer::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
@@ -220,6 +248,11 @@ CGameObject* CPlayer::Clone(void* pArg)
 void CPlayer::Free()
 {
 	__super::Free();
+
+	for (auto& Weapon : m_Weapons)
+		Safe_Release(Weapon);
+	m_Weapons.clear();
+
 	Safe_Release(m_pCameraManager);
 	Safe_Release(m_pCameraTransform);
 }

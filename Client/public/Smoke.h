@@ -10,7 +10,7 @@ public:
 	CSmoke(const CPSystem& Prototype);
 	virtual ~CSmoke() = default;
 
-	HRESULT Ready_Components();
+	HRESULT Ready_Components(void* pArg);
 	virtual void resetParticle(Attribute* attribute);
 	virtual EVENT Update(_float timeDelta);
 	virtual HRESULT Render() override;

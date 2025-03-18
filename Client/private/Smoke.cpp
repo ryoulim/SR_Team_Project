@@ -14,17 +14,13 @@ CSmoke::CSmoke(const CPSystem& Prototype)
 
 HRESULT CSmoke::Initialize(void* pArg)
 {
-	if (FAILED(Ready_Components()))
+	if (FAILED(Ready_Components(pArg)))
 		return E_FAIL;
 
-	DESC* SmokeDESC = static_cast<DESC*>(pArg);
-	m_vPosition = SmokeDESC->vPosition;
+	if (FAILED(__super::Initialize(pArg)))
+		return E_FAIL;
 
-	int numparticles = 10;
-	for (int i = 0; i < numparticles; i++)
-	{
-		addParticle();
-	}
+	m_fFrame = GetRandomFloat(0.f, m_fAnimationMaxFrame);
 
 
 	return S_OK;
@@ -50,8 +46,10 @@ HRESULT CSmoke::Ready_Particle()
 	return S_OK;
 }
 
-HRESULT CSmoke::Ready_Components()
+HRESULT CSmoke::Ready_Components(void* pArg)
 {
+	DESC* pDesc = static_cast<DESC*>(pArg);
+
 	//트랜스폼 컴포넌트 장착
 	CTransform::DESC		TransformDesc{ 10.f, D3DXToRadian(90.f) };
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Transform"),
@@ -59,7 +57,7 @@ HRESULT CSmoke::Ready_Components()
 		return E_FAIL;
 
 	//텍스처 컴포넌트 장착
-	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Texture_PC_Small_Smoke"),
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, _wstring(TEXT("Prototype_Component_Texture_")) + pDesc->szTextureTag,
 		TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
 		return E_FAIL;
 
@@ -87,10 +85,6 @@ void CSmoke::resetParticle(Attribute* attribute)
 	attribute->_ColorFade = WHITE;						// 디졸브색상
 	attribute->_LifeTime = GetRandomFloat(0.5f, 2.f); 	// 라이프타임
 
-	//파티클 개별 사이즈는 그래픽 카드에서 지원안함 gg
-	attribute->_Size = GetRandomFloat(m_fSize - 3.f, m_fSize + 3.f);
-	//파티클 최대크기 지원안함 gg
-	//뭐 지원하는게 없냐 애는..
 }
 
 EVENT CSmoke::Update(_float timeDelta)
@@ -133,7 +127,7 @@ void CSmoke::FrameUpdate(float timeDelta)
 {
 	m_fFrame += 15.f * timeDelta;
 
-	if (20.f < m_fFrame)
+	if (m_fAnimationMaxFrame < m_fFrame)
 		m_fFrame = 0;
 }
 
@@ -254,6 +248,7 @@ float CSmoke::GetRandomColor(float lowBound, float highBound)
 CGameObject* CSmoke::Clone(void* pArg)
 {
 	CSmoke* pInstance = new CSmoke(*this);
+	pInstance->m_isClone = true;
 
 	if (FAILED(pInstance->Initialize(pArg)))
 	{
@@ -273,6 +268,4 @@ CGameObject* CSmoke::Clone(void* pArg)
 void CSmoke::Free()
 {
 	__super::Free();
-
-	Safe_Release(m_pTextureCom);
 }

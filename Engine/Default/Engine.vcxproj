@@ -123,8 +123,9 @@
       <AdditionalDependencies>d3d9.lib;d3dx9.lib;dInput8.lib;dxguid.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>
-      </Command>
+      <Command>CD $(SolutionDir)
+
+CALL $(SolutionDir)\UpdateLib.bat</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -159,6 +160,7 @@ CALL $(SolutionDir)\UpdateLib.bat</Command>
     <ClInclude Include="..\public\Collider_Capsule.h" />
     <ClInclude Include="..\public\Collider_Line.h" />
     <ClInclude Include="..\Public\Collider_OBB_Cube.h" />
+    <ClInclude Include="..\public\Collider_Rect.h" />
     <ClInclude Include="..\public\Collider_Sphere.h" />
     <ClInclude Include="..\public\Component.h" />
     <ClInclude Include="..\Public\csvReader.h" />
@@ -190,11 +192,13 @@ CALL $(SolutionDir)\UpdateLib.bat</Command>
     <ClInclude Include="..\Public\Vector.h" />
     <ClInclude Include="..\public\VIBuffer.h" />
     <ClInclude Include="..\Public\VIBuffer_Cabinet.h" />
+    <ClInclude Include="..\Public\VIBuffer_Computer.h" />
     <ClInclude Include="..\public\VIBuffer_Cube.h" />
     <ClInclude Include="..\public\VIBuffer_Rect.h" />
     <ClInclude Include="..\Public\VIBuffer_Signboard.h" />
+    <ClInclude Include="..\Public\VIBuffer_Stall.h" />
     <ClInclude Include="..\Public\VIBuffer_Terrain.h" />
-    <ClInclude Include="..\public\VIBuffer_Trapezoid.h" />
+    <ClInclude Include="..\Public\VIBuffer_Trapezoid.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Private\Base.cpp" />
@@ -204,6 +208,7 @@ CALL $(SolutionDir)\UpdateLib.bat</Command>
     <ClCompile Include="..\private\Collider_Capsule.cpp" />
     <ClCompile Include="..\private\Collider_Line.cpp" />
     <ClCompile Include="..\Private\Collider_OBB_Cube.cpp" />
+    <ClCompile Include="..\private\Collider_Rect.cpp" />
     <ClCompile Include="..\private\Collider_Sphere.cpp" />
     <ClCompile Include="..\private\Component.cpp" />
     <ClCompile Include="..\Private\csvReader.cpp" />
@@ -229,11 +234,13 @@ CALL $(SolutionDir)\UpdateLib.bat</Command>
     <ClCompile Include="..\Private\Vector.cpp" />
     <ClCompile Include="..\private\VIBuffer.cpp" />
     <ClCompile Include="..\Private\VIBuffer_Cabinet.cpp" />
+    <ClCompile Include="..\Private\VIBuffer_Computer.cpp" />
     <ClCompile Include="..\private\VIBuffer_Cube.cpp" />
     <ClCompile Include="..\private\VIBuffer_Rect.cpp" />
     <ClCompile Include="..\Private\VIBuffer_Signboard.cpp" />
+    <ClCompile Include="..\Private\VIBuffer_Stall.cpp" />
     <ClCompile Include="..\Private\VIBuffer_Terrain.cpp" />
-    <ClCompile Include="..\private\VIBuffer_Trapezoid.cpp" />
+    <ClCompile Include="..\Private\VIBuffer_Trapezoid.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

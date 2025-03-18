@@ -1,5 +1,6 @@
 
 #include "Graphic_Device.h"
+#include <assert.h>
 
 CGraphic_Device::CGraphic_Device() 
 	: m_pDevice(nullptr), m_pSDK(nullptr), m_pSprite(nullptr), m_pFont(nullptr)
@@ -184,9 +185,16 @@ void CGraphic_Device::Free()
 	Safe_Release(m_pFont);
 	Safe_Release(m_pSprite);
 
-	if (0 != Safe_Release(m_pDevice))
-		MSG_BOX("Failed to Release : IDirect3DDevice9");	
+	int b = Safe_Release(m_pDevice);
+	if (0 != b)
+	{
+		int a = 0;
+		MSG_BOX("Failed to Release : IDirect3DDevice9");
+	}
 	if(0 != Safe_Release(m_pSDK))
+	{
+		int a = 0;
 		MSG_BOX("Failed to Release : IDirect3D9");
+	}
 
 }

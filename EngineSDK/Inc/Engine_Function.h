@@ -37,7 +37,7 @@ template<typename T>
 unsigned int Safe_Release(T& Instance)
 {
 	unsigned int iRefCnt = { 0 };
-
+	
 	if (nullptr != Instance)
 	{
 		iRefCnt = Instance->Release();

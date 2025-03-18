@@ -14,20 +14,13 @@ CFirework::CFirework(const CPSystem& Prototype)
 
 HRESULT CFirework::Initialize(void* pArg)
 {
-	if (FAILED(Ready_Components()))
+	if (FAILED(Ready_Components(pArg)))
 		return E_FAIL;
 
-	DESC* FireworkDS = static_cast<DESC*>(pArg);
-	m_vPosition = FireworkDS->vPosition;
-	
-	m_Effect = dynamic_cast<CEffect*>(*FireworkDS->ppOut);
-	m_Effect->SetPosition(m_vPosition);
+	if (FAILED(__super::Initialize(pArg)))
+		return E_FAIL;
 
-	int numparticles = 7;
-	for (int i = 0; i < numparticles; i++)
-	{
-		addParticle();
-	}
+	m_fFrame = GetRandomFloat(0.f, m_fAnimationMaxFrame);
 
 
 	return S_OK;
@@ -53,8 +46,10 @@ HRESULT CFirework::Ready_Particle()
 	return S_OK;
 }
 
-HRESULT CFirework::Ready_Components()
+HRESULT CFirework::Ready_Components(void* pArg)
 {
+	DESC* pDesc = static_cast<DESC*>(pArg);
+
 	//트랜스폼 컴포넌트 장착
 	CTransform::DESC		TransformDesc{ 10.f, D3DXToRadian(90.f) };
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Transform"),
@@ -63,7 +58,7 @@ HRESULT CFirework::Ready_Components()
 
 
 	//텍스처 컴포넌트 장착
-	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Texture_PS_Firework"),
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, _wstring(TEXT("Prototype_Component_Texture_")) + pDesc->szTextureTag,
 		TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
 		return E_FAIL;
 
@@ -144,7 +139,7 @@ void CFirework::FrameUpdate(float timeDelta)
 {
 	m_fFrame += 8.f * timeDelta;
 
-	if (4.f < m_fFrame)
+	if (m_fAnimationMaxFrame < m_fFrame)
 		m_fFrame = 0;
 }
 
@@ -244,7 +239,7 @@ CFirework* CFirework::Create(LPDIRECT3DDEVICE9 pGraphicDev, wstring _strObjName)
 	//스노우 파티클 정보
 	//pInstance->m_vPosition = _Origin;
 	pInstance->m_vbSize = 2048;				//  GPU가 한번에 그릴 수 있는 파티클 개수, CPU가 GPU로 파티클 정점 버퍼에 담을 수 있는 개수
-	pInstance->m_fSize = 5.f;				//  파티클의 크기
+	pInstance->m_fSize = 1.f;				//  파티클의 크기
 	pInstance->m_vbOffset = 0;				//  세그먼트의 배치사이즈를 옮길때 쓰는 오프셋(0고정)
 	pInstance->m_vbBatchSize = 512;			//  세그먼트 배치사이즈 크기(한번에 옮길 수 있는 정점들의 개수)
 	pInstance->m_vMin = _float3{ 0.f,0.f,0.f };				//  바운딩박스의 최소크기
@@ -266,6 +261,7 @@ float CFirework::GetRandomColor(float lowBound, float highBound)
 CGameObject* CFirework::Clone(void* pArg)
 {
 	CFirework* pInstance = new CFirework(*this);
+	pInstance->m_isClone = true;
 
 	if (FAILED(pInstance->Initialize(pArg)))
 	{
@@ -287,5 +283,4 @@ void CFirework::Free()
 	__super::Free();
 	
 	Safe_Release(m_pTextureCom);
-	//Safe_Release(m_Effect); 이중삭제 되서 일단 주석인데 찾아주세요
 }

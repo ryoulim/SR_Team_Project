@@ -66,6 +66,20 @@ void CGameObject::FrameUpdate(float timeDelta, float _MaxFrame, bool isLoop)
 	m_fAnimationFrame += 15.f * timeDelta;
 }
 
+void CGameObject::Compute_ViewZ(const _float3* pPos)
+{
+	_float4x4	matCamWorld;
+
+	m_pGraphic_Device->GetTransform(D3DTS_VIEW, &matCamWorld);
+	D3DXMatrixInverse(&matCamWorld, NULL, &matCamWorld);
+
+	_float3		vCamPos;
+	memcpy(&vCamPos, &matCamWorld.m[3][0], sizeof(_float3));
+
+	_float3 vDiff = vCamPos - *pPos;
+	m_fViewZ = D3DXVec3Length(&vDiff);
+}
+
 CComponent* CGameObject::Find_Component(const _wstring& strComponentTag)
 {
 	auto Iter = m_Components.find(strComponentTag);
@@ -100,7 +114,6 @@ void CGameObject::Free()
 	for (auto& Pair : m_Components)
 		Safe_Release(Pair.second);
 	m_Components.clear();
-
 
 	Safe_Release(m_pGameInstance);
 	Safe_Release(m_pGraphic_Device);

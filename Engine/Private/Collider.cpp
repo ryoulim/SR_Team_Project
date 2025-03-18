@@ -37,6 +37,10 @@ _bool CCollider::Check_Intersect(const CCollider* Collider)
 		return Intersect_With_Sphere(Collider);
 	case CAPSULE:
 		return Intersect_With_Capsule(Collider);
+	case LINE:
+		return Intersect_With_Line(Collider);
+	case RECT:
+		return Intersect_With_Rect(Collider);
 	default:
 		return FALSE;
 	}

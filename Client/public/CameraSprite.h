@@ -10,7 +10,10 @@ public:
 	{
 		const TCHAR* szTextureTag;
 		_float	fMaxFrame;
-		bool	bLoop;
+		_float	fSceenX;
+		_float	fSceenY;
+		_float	fSceenZ;
+		bool	bActive;
 	}DESC;
 
 private:
@@ -31,9 +34,17 @@ public:
 	virtual CGameObject* Clone(void* pArg) override;
 	virtual void Free();
 
+public:
+	void	isActive(bool _bActive) { m_bActive = _bActive; }
+
 private:
 	_float		m_fMaxFrame = 0;
-	bool		m_bLoop = false;
+	bool		m_bActive = false;
+
+private:
+	_float		m_fScreenX = 0;
+	_float		m_fScreenY = 0;
+	_float		m_fScreenZ = 0;
 };
 
 END
