@@ -157,9 +157,6 @@
     <Filter Include="02.GameObjects\Effect\CameraSprite">
       <UniqueIdentifier>{781a6385-c83d-44c7-bb96-3ed6a3445a65}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\Particle\BulletTracer">
-      <UniqueIdentifier>{f0e372d5-eb30-435c-9f67-b6cb449f4d50}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02.GameObjects\Camera\FPSCamera">
       <UniqueIdentifier>{3292d9e0-25c2-4673-a3a9-65c79f7f39bc}</UniqueIdentifier>
     </Filter>
@@ -198,6 +195,9 @@
     </Filter>
     <Filter Include="02.GameObjects\Item\Item_Medkit">
       <UniqueIdentifier>{c4d0bab2-7f74-4cea-a8bd-ecf3b8c3154e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Particle\EmtyBullet">
+      <UniqueIdentifier>{f0e372d5-eb30-435c-9f67-b6cb449f4d50}</UniqueIdentifier>
     </Filter>
     <Filter Include="02.GameObjects\Weapon">
       <UniqueIdentifier>{1900a8f1-bff3-459a-95e2-ec863394fc4b}</UniqueIdentifier>
@@ -333,8 +333,8 @@
     <ClInclude Include="..\public\Firework.h">
       <Filter>02.GameObjects\Particle\Firework</Filter>
     </ClInclude>
-    <ClInclude Include="..\public\BulletTracer.h">
-      <Filter>02.GameObjects\Particle\BulletTracer</Filter>
+    <ClInclude Include="..\public\EmptyBullet.h">
+      <Filter>02.GameObjects\Particle\EmtyBullet</Filter>
     </ClInclude>
     <ClInclude Include="..\public\Rain.h">
       <Filter>02.GameObjects\Particle\Rain</Filter>
@@ -534,8 +534,8 @@
     <ClCompile Include="..\private\Firework.cpp">
       <Filter>02.GameObjects\Particle\Firework</Filter>
     </ClCompile>
-    <ClCompile Include="..\private\BulletTracer.cpp">
-      <Filter>02.GameObjects\Particle\BulletTracer</Filter>
+    <ClCompile Include="..\private\EmptyBullet.cpp">
+      <Filter>02.GameObjects\Particle\EmtyBullet</Filter>
     </ClCompile>
     <ClCompile Include="..\private\Rain.cpp">
       <Filter>02.GameObjects\Particle\Rain</Filter>

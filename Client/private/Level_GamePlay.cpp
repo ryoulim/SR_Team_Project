@@ -2,7 +2,7 @@
 #include "Explosion.h"
 #include "Firework.h"
 #include "GameInstance.h"
-#include "BulletTracer.h"
+#include "EmptyBullet.h"
 #include "Sprite.h"
 
 #define CurLevel LEVEL_GAMEPLAY
@@ -57,21 +57,31 @@ void CLevel_GamePlay::Update(_float fTimeDelta)
 	//탄피 생성
 	if (KEY_PRESSING(VK_LBUTTON))
 	{
-		if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_PC_BulletTracer"),
-			LEVEL_GAMEPLAY, L"Layer_Particle")))
-			return;
+		SpawnEmptyBullet(_float3(0.f, 0.f, 0.f));
 	}
 
+	//카메라 스프라이트 테스트
+	if (KEY_PRESSING(VK_LBUTTON))
+	{
+		for (auto SceenEffect : m_vecSceenEffect)
+		{
+			SceenEffect->isActive(true);
+		}
+	}
+	else
+	{
+		for (auto SceenEffect : m_vecSceenEffect)
+		{
+			SceenEffect->isActive(false);
+		}
+	}
+
+{
 	m_pGameInstance->Intersect(LEVEL_GAMEPLAY, TEXT("Layer_Pawn"), TEXT("Layer_Statue"));
 	m_pGameInstance->Intersect(LEVEL_GAMEPLAY, TEXT("Layer_Pawn"), TEXT("Layer_Monster"));
 	m_pGameInstance->Intersect(LEVEL_GAMEPLAY, TEXT("Layer_PBullet"), TEXT("Layer_Monster"));
 	m_pGameInstance->Intersect(LEVEL_GAMEPLAY, TEXT("Layer_PBullet"), TEXT("Layer_Statue"));
 
-	//카메라 스프라이트 테스트
-	//if (KEY_DOWN(VK_LBUTTON))
-	//{
-	//	SpawnGunFire();
-	//}
 }
 
 HRESULT CLevel_GamePlay::Render()
@@ -171,10 +181,10 @@ HRESULT CLevel_GamePlay::Ready_Layer_Particle(const _wstring& strLayerTag)
 		return E_FAIL;
 	
 	//토네이도
-	for (int i = 0; i < 2; ++i)
+	for (int i = 0; i < 5; ++i)
 	{
 		_float3 vPosition = { GetRandomValue(100, 700) , 25.f , GetRandomValue(100, 700) };
-		SpawnTornado(vPosition);
+		//SpawnTornado(vPosition);
 	}
 	//불지르기
 	for (int i = 0; i < 20; ++i)
@@ -188,6 +198,9 @@ HRESULT CLevel_GamePlay::Ready_Layer_Particle(const _wstring& strLayerTag)
 
 HRESULT CLevel_GamePlay::Ready_Layer_Effect(const _wstring& strLayerTag)
 {
+	SpawnGunFire(_float3(5.f,-5.f,20.f));
+	SpawnBulletTracer(_float3(5.f, -5.f, 50.f));
+
 	return S_OK;
 }
 
@@ -272,27 +285,30 @@ HRESULT CLevel_GamePlay::Ready_Light()
 void CLevel_GamePlay::SpawnExplosion(_float3 _vPosition)
 {
 	CExplosion::DESC ExplosionDesc{};
-	ExplosionDesc.vInitPos = { 0.f,0.f,0.f };
+	ExplosionDesc.vInitPos = _vPosition;
 	ExplosionDesc.vScale = { 120.f,160.f,1.f };
 
-	CGameObject* pObject = nullptr;
-	CGameObject** ppOut = &pObject;
-
-	if (FAILED(m_pGameInstance->Add_GameObjectReturn(LEVEL_STATIC, TEXT("Prototype_GameObject_PC_Explosion"),
-		LEVEL_GAMEPLAY, L"Layer_Effect", ppOut, &ExplosionDesc)))
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_PC_Explosion"),
+		LEVEL_GAMEPLAY, L"Layer_Effect", &ExplosionDesc)))
 		return;
 
-	//위치정보와 ppOut을 넘긴다.
-	CFirework::DESC FireworkDesc{};
+	
+	CPSystem::DESC FireworkDesc{};
 	FireworkDesc.vPosition = _vPosition;
-	FireworkDesc.ppOut = ppOut;
+	FireworkDesc.fMaxFrame = 14;
+	FireworkDesc.szTextureTag = TEXT("PC_Explosion");
+	FireworkDesc.iParticleNums = 10;
+
 	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_PC_Firework"),
 		LEVEL_GAMEPLAY, L"Layer_Particle", &FireworkDesc)))
 		return;
 
-	//스모크의 위치정보를 넘긴다.
 	CPSystem::DESC SmokeDesc{};
 	SmokeDesc.vPosition = _vPosition;
+	SmokeDesc.fMaxFrame = 20;
+	SmokeDesc.szTextureTag = TEXT("PC_Small_Smoke");
+	SmokeDesc.iParticleNums = 4;
+
 	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_PC_Smoke"),
 		LEVEL_GAMEPLAY, L"Layer_Particle", &SmokeDesc)))
 		return;
@@ -314,20 +330,51 @@ void CLevel_GamePlay::SpawnFire(_float3 _vPosition)
 		return;
 }
 
-void CLevel_GamePlay::SpawnGunFire()
+void CLevel_GamePlay::SpawnGunFire(_float3 _ScreenPos)
 {
-	CSprite::DESC SpriteDesc{};
-	SpriteDesc.bLoop = false;
-	SpriteDesc.fMaxFrame = 10;
+	CCameraSprite::DESC SpriteDesc{};
+	SpriteDesc.bActive = false;
+	SpriteDesc.fMaxFrame = 3;
 	SpriteDesc.fRotationPerSec = RADIAN(180.f);
 	SpriteDesc.fSpeedPerSec = 100.f;
-	SpriteDesc.szTextureTag = TEXT("Check_Tile");
+	SpriteDesc.szTextureTag = TEXT("Effect_GunFire");
 	SpriteDesc.vInitPos = _float3{0.f, 0.f, 0.f};
-	SpriteDesc.vScale = _float3{ 100.f, 100.f, 1.f };
+	SpriteDesc.vScale = _float3{ 10.f, 10.f, 1.f };
+	SpriteDesc.fSceenX = _ScreenPos.x;
+	SpriteDesc.fSceenY = _ScreenPos.y;
+	SpriteDesc.fSceenZ = _ScreenPos.z;
 
-	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_PC_CameraSprite"),
-		LEVEL_GAMEPLAY, L"Layer_Particle", &SpriteDesc)))
+	CGameObject* pObject = nullptr;
+	CGameObject** ppOut = &pObject;
+	if (FAILED(m_pGameInstance->Add_GameObjectReturn(LEVEL_STATIC, TEXT("Prototype_GameObject_PC_CameraSprite"),
+		LEVEL_GAMEPLAY, L"Layer_Particle", ppOut, &SpriteDesc)))
 		return;
+
+	m_vecSceenEffect.push_back(dynamic_cast<CCameraSprite*>(*ppOut));
+}
+
+void CLevel_GamePlay::SpawnBulletTracer(_float3 _ScreenPos)
+{
+	CCameraSprite::DESC SpriteDesc{};
+	SpriteDesc.bActive = false;
+	SpriteDesc.fMaxFrame = 3;
+	SpriteDesc.fRotationPerSec = RADIAN(180.f);
+	SpriteDesc.fSpeedPerSec = 100.f;
+	SpriteDesc.szTextureTag = TEXT("Effect_BulletTacer");
+	//SpriteDesc.szTextureTag = TEXT("Check_Tile");
+	SpriteDesc.vInitPos = _float3{ 0.f, 0.f, 0.f };
+	SpriteDesc.vScale = _float3{ 15.f, 15.f, 1.f };
+	SpriteDesc.fSceenX = _ScreenPos.x;
+	SpriteDesc.fSceenY = _ScreenPos.y;
+	SpriteDesc.fSceenZ = _ScreenPos.z;
+
+	CGameObject* pObject = nullptr;
+	CGameObject** ppOut = &pObject;
+	if (FAILED(m_pGameInstance->Add_GameObjectReturn(LEVEL_STATIC, TEXT("Prototype_GameObject_PC_CameraSprite"),
+		LEVEL_GAMEPLAY, L"Layer_Particle", ppOut, &SpriteDesc)))
+		return;
+
+	m_vecSceenEffect.push_back(dynamic_cast<CCameraSprite*>(*ppOut));
 }
 
 void CLevel_GamePlay::SpawnTornado(_float3 _vPosition)
@@ -350,6 +397,9 @@ void CLevel_GamePlay::SpawnTornado(_float3 _vPosition)
 	CPSystem::DESC TornadoDesc{};
 	TornadoDesc.vPosition = _vPosition;
 	TornadoDesc.vPosition.y += -20;
+	TornadoDesc.fMaxFrame = 5;
+	TornadoDesc.szTextureTag = TEXT("PC_Small_Fire");
+	TornadoDesc.iParticleNums = 50;
 
 	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_PC_Tornado"),
 		LEVEL_GAMEPLAY, L"Layer_Particle", &TornadoDesc)))
@@ -370,6 +420,19 @@ void CLevel_GamePlay::SpawnMultipleExplosions(_float fTimeDelta)
 
 		fTimer = 0.0f;
 	}
+}
+
+void CLevel_GamePlay::SpawnEmptyBullet(_float3 _vPosition)
+{
+	CPSystem::DESC EmptyBulletDesc{};
+	EmptyBulletDesc.vPosition = _vPosition;
+	EmptyBulletDesc.fMaxFrame = 7;
+	EmptyBulletDesc.szTextureTag = TEXT("PC_BulletShell");
+	EmptyBulletDesc.iParticleNums = 1;
+
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_PC_EmptyBullet"),
+		LEVEL_GAMEPLAY, L"Layer_Particle", &EmptyBulletDesc)))
+		return;
 }
 
 CLevel_GamePlay* CLevel_GamePlay::Create(LPDIRECT3DDEVICE9 pGraphic_Device, class CLevelData* pLevelData)

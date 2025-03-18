@@ -27,11 +27,16 @@ HRESULT CCameraSprite::Initialize(void* pArg)
 	m_eLevelID = LEVEL_STATIC;
 	m_fMaxFrame = SpriteDESC->fMaxFrame;
 	m_szTextureID = SpriteDESC->szTextureTag;
-	m_bLoop = SpriteDESC->bLoop;
+	m_fScreenX = SpriteDESC->fSceenX;
+	m_fScreenY = SpriteDESC->fSceenY;
+	m_fScreenZ = SpriteDESC->fSceenZ;
+	m_bActive = SpriteDESC->bActive;
 	m_szBufferType = TEXT("Rect");
 
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
+
+	m_fTextureNum = GetRandomFloat(0.f, m_fMaxFrame);
 
 	return S_OK;
 }
@@ -55,19 +60,21 @@ void CCameraSprite::Priority_Update(_float fTimeDelta)
 
 	//파티클 위치 설정 (카메라가 바라보는 화면의 오른쪽 아래에서 시작)
 	_float3 vScreen = vCameraPos;
-	vScreen += vCameraRight * 1.5f; // 오른쪽으로 이동
-	vScreen += vCameraUp * -1.0f; // 아래쪽으로 이동
+	vScreen += vCameraRight * m_fScreenX; // 오른쪽으로 이동
+	vScreen += vCameraUp * m_fScreenY; // 아래쪽으로 이동
+	vScreen += vCameraLook * m_fScreenZ; // 아래쪽으로 이동
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, vScreen);
+
 }
 
 EVENT CCameraSprite::Update(_float fTimeDelta)
 {
+	if (!m_bActive)
+		return EVN_NONE;
+
 	if (m_fTextureNum > m_fMaxFrame)
 	{
-		if (m_bLoop)
-			m_fTextureNum = 0;
-		else
-			return EVN_NONE;
+		m_fTextureNum = 0;
 	}
 
 
@@ -84,18 +91,11 @@ void CCameraSprite::Late_Update(_float fTimeDelta)
 
 HRESULT CCameraSprite::Render()
 {
-	if (m_bLoop)
-	{
-		return __super::Render();
-	}
-	else
-	{
-		if (m_fTextureNum > m_fMaxFrame)
-		{
-			return EVN_NONE;
-		}
-		return __super::Render();
-	}
+	if (!m_bActive)
+		return EVN_NONE;
+	
+	__super::Render();
+
 	return EVN_NONE;
 }
 

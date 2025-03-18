@@ -2,7 +2,7 @@
 #include "PSystem.h"
 #include "Dynamic_Camera.h"
 
-class CBulletTracer : public CPSystem
+class CEmptyBullet : public CPSystem
 {
 public:
 	typedef struct tagPSystemDesc
@@ -11,9 +11,9 @@ public:
 	}DESC;
 
 public:
-	CBulletTracer(LPDIRECT3DDEVICE9 pGraphicDev, wstring _strObjName);
-	CBulletTracer(const CPSystem& Prototype);
-	virtual ~CBulletTracer() = default;
+	CEmptyBullet(LPDIRECT3DDEVICE9 pGraphicDev, wstring _strObjName);
+	CEmptyBullet(const CPSystem& Prototype);
+	virtual ~CEmptyBullet() = default;
 
 	virtual void resetParticle(Attribute* attribute);
 	virtual EVENT Update(_float timeDelta);
@@ -21,13 +21,13 @@ public:
 
 	virtual HRESULT Initialize(void* pArg)override;
 
-	HRESULT Ready_Components();
+	HRESULT Ready_Components(void* pArg);
 	
 	float GetRandomColor(float lowBound, float highBound);
 	void FrameUpdate(float timeDelta);
 
 public:
-	static CBulletTracer* Create(LPDIRECT3DDEVICE9 pGraphicDev, wstring _strObjName);
+	static CEmptyBullet* Create(LPDIRECT3DDEVICE9 pGraphicDev, wstring _strObjName);
 	virtual CGameObject* Clone(void* pArg) override;
 	virtual void Free();
 

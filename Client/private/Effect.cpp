@@ -41,6 +41,9 @@ EVENT CEffect::Update(_float fTimeDelta)
 
 void CEffect::Late_Update(_float fTimeDelta)
 {
+	_float3	vTemp = *m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+	CGameObject::Compute_ViewZ(&vTemp);
+
 	if (FAILED(m_pGameInstance->Add_RenderGroup(CRenderer::RG_BLEND, this)))
 		return;
 }
@@ -63,7 +66,7 @@ HRESULT CEffect::Render()
 	if (FAILED(m_pVIBufferCom->Bind_Buffers()))
 		return E_FAIL;
 
-	Billboard();
+	m_pTransformCom->Billboard();
 	if (FAILED(m_pVIBufferCom->Render()))
 		return E_FAIL;
 

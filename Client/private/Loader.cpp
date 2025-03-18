@@ -24,7 +24,7 @@
 //파티클 인클루드
 #include "Explosion.h"
 #include "Firework.h"
-#include "BulletTracer.h"
+#include "EmptyBullet.h"
 #include "Rain.h"
 #include "Sprite.h"
 #include "Tornado.h"
@@ -137,11 +137,19 @@ HRESULT CLoader::Loading_For_Logo()
 		CSmoke::Create(m_pGraphic_Device, L"PARTICLE_SMOKE"))))
 		return E_FAIL;
 
-	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_GameObject_PC_BulletTracer"),
-		CBulletTracer::Create(m_pGraphic_Device, L"PARTICLE_BULLETTRACER"))))
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_GameObject_PC_EmptyBullet"),
+		CEmptyBullet::Create(m_pGraphic_Device, L"PARTICLE_EMPTYBULLET"))))
 		return E_FAIL;
 
 	////////////////////////////////////////////텍스처//////////////////////////////////////////////////////
+
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Effect_BulletTacer"),
+		CTexture::Create(m_pGraphic_Device, TEXT("../Bin/Resources/Textures/Particle/Effect_BulletTacer%d.png"), 3))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Effect_GunFire"),
+		CTexture::Create(m_pGraphic_Device, TEXT("../Bin/Resources/Textures/Particle/Effect_GunFire2%d.png"), 3))))
+		return E_FAIL;
 
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Check_Tile"),
 		CTexture::Create(m_pGraphic_Device, TEXT("../Bin/Resources/Textures/Particle/Check_Tile.png"), 1))))

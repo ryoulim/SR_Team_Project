@@ -14,19 +14,13 @@ CTornado::CTornado(const CPSystem& Prototype)
 
 HRESULT CTornado::Initialize(void* pArg)
 {
-	if (FAILED(Ready_Components()))
+	if (FAILED(Ready_Components(pArg)))
 		return E_FAIL;
 
-	DESC* SmokeDESC = static_cast<DESC*>(pArg);
-	m_vPosition = SmokeDESC->vPosition;
+	if (FAILED(__super::Initialize(pArg)))
+		return E_FAIL;
 
-	int numparticles = 300;
-	for (int i = 0; i < numparticles; i++)
-	{
-		addParticle();
-	}
-
-
+	m_fFrame = GetRandomFloat(0.f, m_fAnimationMaxFrame);
 	return S_OK;
 }
 
@@ -50,8 +44,10 @@ HRESULT CTornado::Ready_Particle()
 	return S_OK;
 }
 
-HRESULT CTornado::Ready_Components()
+HRESULT CTornado::Ready_Components(void* pArg)
 {
+	DESC* pDesc = static_cast<DESC*>(pArg);
+
 	//Æ®·£½ºÆû ÄÄÆ÷³ÍÆ® ÀåÂø
 	CTransform::DESC		TransformDesc{ 10.f, D3DXToRadian(90.f) };
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Transform"),
@@ -59,7 +55,7 @@ HRESULT CTornado::Ready_Components()
 		return E_FAIL;
 
 	//ÅØ½ºÃ³ ÄÄÆ÷³ÍÆ® ÀåÂø
-	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Texture_PC_Small_Fire"),
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, _wstring(TEXT("Prototype_Component_Texture_")) + pDesc->szTextureTag,
 		TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
 		return E_FAIL;
 
@@ -152,7 +148,7 @@ void CTornado::FrameUpdate(float timeDelta)
 {
 	m_fFrame += 15.f * timeDelta;
 
-	if (5.f < m_fFrame)
+	if (m_fAnimationMaxFrame < m_fFrame)
 		m_fFrame = 0;
 }
 
@@ -261,19 +257,10 @@ CTornado* CTornado::Create(LPDIRECT3DDEVICE9 pGraphicDev, wstring _strObjName)
 	return pInstance;
 }
 
-float CTornado::GetRandomColor(float lowBound, float highBound)
-{
-	if (lowBound >= highBound)
-		return lowBound;
-
-	float f = (rand() % 10000) * 0.0001f;
-
-	return (f * (highBound - lowBound)) + lowBound;
-}
-
 CGameObject* CTornado::Clone(void* pArg)
 {
 	CTornado* pInstance = new CTornado(*this);
+	pInstance->m_isClone = true;
 
 	if (FAILED(pInstance->Initialize(pArg)))
 	{
@@ -293,6 +280,4 @@ CGameObject* CTornado::Clone(void* pArg)
 void CTornado::Free()
 {
 	__super::Free();
-
-	Safe_Release(m_pTextureCom);
 }
