@@ -6,6 +6,7 @@
 #include "GameInstance.h"
 #include "Client_Defines.h"
 #include "Font.h"
+#include "FadeUI.h"
 
 BEGIN(Engine)
 class CGameInstance;
@@ -60,6 +61,8 @@ public:
 	void	Set_ButtonBrightness(_float val, CFont::FONTTYPE _type) { 
 		m_Fonts[_type]->Set_Brightness(val); 
 	}
+	void	Fade_In();
+	void	Fade_Out() { m_FadeUI->Fade_Out(); }
 
 private:
 	HRESULT	Initialize_Font();
@@ -69,9 +72,7 @@ private:
 	class CFont*			m_Fonts[CFont::FONT_END] = {nullptr,};
 	//vector<class CUI*>		m_vecUIs[LEVEL_END];
 
-	class CUI*				m_FadeUI = { nullptr };
-	_float					m_fFadeOpacity = {};
-	_bool					m_isFadeOn = { false };
+	class CFadeUI*				m_FadeUI = { nullptr };
 
 public:
 	virtual void Free();

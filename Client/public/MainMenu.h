@@ -20,6 +20,8 @@ public:
 	virtual EVENT Update(_float fTimeDelta) override;
 	virtual void Late_Update(_float fTimeDelta) override;
 	virtual HRESULT Render() override;
+private:
+	bool testbool = { false };
 
 public:
 	static CMainMenu* Create(LPDIRECT3DDEVICE9 pGraphic_Device);

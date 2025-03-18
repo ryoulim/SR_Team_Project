@@ -62,6 +62,21 @@ HRESULT CUI_Manager::Render()
 	return S_OK;
 }
 
+void CUI_Manager::Fade_In()
+{
+	CFadeUI::DESC desc;
+	desc.fRotationPerSec = 0.f;
+	desc.fSpeedPerSec = 0.f;
+	desc.vInitPos = { 0.f,0.f,0.f };
+	desc.vScale = { 1280.f,720.f,1.f };
+	desc.m_isFadeIn = true;
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_FadeUI"),
+		LEVEL_STATIC, L"Layer_FadeUI",&desc )))
+		return;
+
+
+}
+
 HRESULT CUI_Manager::Initialize_Font()
 {
 	m_Fonts[CFont::MEDIUMBLUE] = dynamic_cast<CFont*>(m_pGameInstance->Clone_Prototype(PROTOTYPE::TYPE_GAMEOBJECT, LEVEL_STATIC, TEXT("Prototype_GameObject_Font_MediumBlue")));
@@ -75,12 +90,10 @@ HRESULT CUI_Manager::Initialize_Font()
 
 HRESULT CUI_Manager::Initialize_FadeUI()
 {
-	CTransform::DESC pArg{};
+	//CTransform::DESC pArg{};
 
-	pArg.fRotationPerSec = 1.f;
-	pArg.fSpeedPerSec = 1.f;
-
- 
+	//pArg.fRotationPerSec = 1.f;
+	//pArg.fSpeedPerSec = 1.f;
 
 	m_FadeUI = dynamic_cast<CFadeUI*>(m_pGameInstance->Clone_Prototype(PROTOTYPE::TYPE_GAMEOBJECT, LEVEL_STATIC, TEXT("Prototype_GameObject_FadeUI")));
 	if (nullptr == m_FadeUI)

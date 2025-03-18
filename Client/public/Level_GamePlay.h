@@ -45,6 +45,7 @@ public:
 
 private:
 	_int m_iIndex{-1};
+	_bool testbool = { false };
 public:
 	static CLevel_GamePlay* Create(LPDIRECT3DDEVICE9 pGraphic_Device, class CLevelData* pLevelData);
 	virtual void Free() override;

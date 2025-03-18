@@ -52,7 +52,7 @@ void CLogo::Priority_Update(_float fTimeDelta)
 EVENT CLogo::Update(_float fTimeDelta)
 {
 	// 시간 따라 opacity 바꾸는 코드,
-	m_fOpacity *= 1.0 + fTimeDelta * 0.5f * m_fOpacityChangeVar;
+	m_fOpacity *= 1.f + fTimeDelta * 0.5f * m_fOpacityChangeVar;
 	if (m_fOpacity > 0.99f)
 	{
 		m_fAnimTick += fTimeDelta;

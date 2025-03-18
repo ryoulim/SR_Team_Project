@@ -3,6 +3,7 @@
 
 #include "MainMenu.h"
 #include "GameInstance.h"
+#include <UI_Manager.h>
 
 CMainMenu::CMainMenu(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CUI{ pGraphic_Device }
@@ -29,7 +30,6 @@ HRESULT CMainMenu::Initialize(void* pArg)
 		return E_FAIL;
 	if (FAILED(m_pTextureCom->Get_TextureSize(0, &m_vSize)))
 		return E_FAIL;
-
 
 	// 세로비 대로 이미지 맞춤
 	m_vSize.x *= g_iWinSizeY / m_vSize.y; m_vSize.y = g_iWinSizeY;
@@ -58,10 +58,14 @@ void CMainMenu::Late_Update(_float fTimeDelta)
 
 HRESULT CMainMenu::Render()
 {
+	if (testbool == false)
+	{
+		CUI_Manager::Get_Instance(m_pGameInstance)->Fade_In();
+		testbool = true;
+	}
+
 	if (FAILED(m_pTextureCom->Bind_Resource(static_cast<_uint>(m_fTextureNum))))
 		return E_FAIL;
-
-
 
 	if (FAILED(m_pTransformCom->Bind_Resource()))
 		return E_FAIL;
@@ -69,8 +73,8 @@ HRESULT CMainMenu::Render()
 	if (FAILED(m_pVIBufferCom->Bind_Buffers()))
 		return E_FAIL;
 
-	if (FAILED(m_pVIBufferCom->Render()))
-		return E_FAIL;
+	//if (FAILED(m_pVIBufferCom->Render()))
+		//return E_FAIL;
 
 	return S_OK;
 }
