@@ -175,6 +175,7 @@
     <ClInclude Include="..\public\MainMenu.h" />
     <ClInclude Include="..\public\Map.h" />
     <ClInclude Include="..\public\Monster.h" />
+    <ClInclude Include="..\public\MyComputer.h" />
     <ClInclude Include="..\public\Particle_Define.h" />
     <ClInclude Include="..\public\Pawn.h" />
     <ClInclude Include="..\public\Player.h" />
@@ -184,6 +185,7 @@
     <ClInclude Include="..\public\Smoke.h" />
     <ClInclude Include="..\public\Sprite.h" />
     <ClInclude Include="..\public\Signboard.h" />
+    <ClInclude Include="..\public\Stall.h" />
     <ClInclude Include="..\public\Statue.h" />
     <ClInclude Include="..\public\Client_Defines.h" />
     <ClInclude Include="..\public\Client_Enum.h" />
@@ -242,6 +244,7 @@
     <ClCompile Include="..\private\MainMenu.cpp" />
     <ClCompile Include="..\private\Map.cpp" />
     <ClCompile Include="..\private\Monster.cpp" />
+    <ClCompile Include="..\private\MyComputer.cpp" />
     <ClCompile Include="..\private\Particle_Define.cpp" />
     <ClCompile Include="..\private\Pawn.cpp" />
     <ClCompile Include="..\private\Player.cpp" />
@@ -249,6 +252,7 @@
     <ClCompile Include="..\private\PSystem.cpp" />
     <ClCompile Include="..\private\Rain.cpp" />
     <ClCompile Include="..\private\Signboard.cpp" />
+    <ClCompile Include="..\private\Stall.cpp" />
     <ClCompile Include="..\private\Smoke.cpp" />
     <ClCompile Include="..\private\Sprite.cpp" />
     <ClCompile Include="..\private\Statue.cpp" />

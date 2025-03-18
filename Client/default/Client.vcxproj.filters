@@ -175,6 +175,12 @@
     <Filter Include="02.GameObjects\Statue\Signboard">
       <UniqueIdentifier>{f980a65b-3298-4b0b-98a2-1d08187c11b7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\Statue\Stall">
+      <UniqueIdentifier>{6b7038bf-ee0e-4aa7-859e-8de7fb9e7cf4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Statue\MyComputer">
+      <UniqueIdentifier>{e32324b5-99a3-49b9-821e-a8a6ff169fb0}</UniqueIdentifier>
+    </Filter>
     <Filter Include="02.GameObjects\UI\Font\Font_TinyBlue">
       <UniqueIdentifier>{e73131f6-e2be-489a-84c2-c9a3ae0eb8c1}</UniqueIdentifier>
     </Filter>
@@ -381,6 +387,12 @@
     <ClInclude Include="..\public\Signboard.h">
       <Filter>02.GameObjects\Statue\Signboard</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\Stall.h">
+      <Filter>02.GameObjects\Statue\Stall</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\MyComputer.h">
+      <Filter>02.GameObjects\Statue\MyComputer</Filter>
+    </ClInclude>
     <ClInclude Include="..\public\TestBullet.h">
       <Filter>02.GameObjects\Bullet\TestBullet</Filter>
     </ClInclude>
@@ -575,6 +587,12 @@
     </ClCompile>
     <ClCompile Include="..\private\Signboard.cpp">
       <Filter>02.GameObjects\Statue\Signboard</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Stall.cpp">
+      <Filter>02.GameObjects\Statue\Stall</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\MyComputer.cpp">
+      <Filter>02.GameObjects\Statue\MyComputer</Filter>
     </ClCompile>
     <ClCompile Include="..\private\TestBullet.cpp">
       <Filter>02.GameObjects\Bullet\TestBullet</Filter>

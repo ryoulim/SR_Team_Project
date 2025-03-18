@@ -55,8 +55,8 @@ HRESULT CTrapezoid::Render()
 	if (FAILED(m_pTextureCom->Bind_Resource(static_cast<_uint>(m_fTextureNum))))
 		return E_FAIL;
 
-	if (FAILED(m_pVIBufferCom->Render(CVIBuffer_Trapezoid::TOP)))
-		return E_FAIL;
+	/*if (FAILED(m_pVIBufferCom->Render(CVIBuffer_Trapezoid::TOP)))
+		return E_FAIL;*/
 
 	return S_OK;
 }
