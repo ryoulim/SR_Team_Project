@@ -35,7 +35,6 @@ private:
 	HRESULT Ready_Layer_Item(const _wstring& strLayerTag);
 	HRESULT Ready_Light();
 
-
 public:
 	void	SpawnExplosion(_float3 _vPosition);
 	void	SpawnFire(_float3 _vPosition);

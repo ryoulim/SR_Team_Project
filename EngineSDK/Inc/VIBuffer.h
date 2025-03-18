@@ -40,6 +40,7 @@ protected:
 	HRESULT Create_VertexBuffer();
 	HRESULT Create_IndexBuffer();
 	VECTOR ComputeNormal(_float3* p0, _float3* p1, _float3* p2);
+	void Test();
 
 public:
 	virtual CComponent* Clone(void* pArg) PURE;
