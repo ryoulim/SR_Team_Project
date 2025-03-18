@@ -66,7 +66,10 @@ HRESULT CEffect::Render()
 	if (FAILED(m_pVIBufferCom->Bind_Buffers()))
 		return E_FAIL;
 
-	m_pTransformCom->Billboard();
+	///*m_pTransformCom->*/Billboard();
+
+	m_pGraphic_Device->SetTransform(D3DTS_WORLD,&m_pTransformCom->Billboard());
+
 	if (FAILED(m_pVIBufferCom->Render()))
 		return E_FAIL;
 

@@ -95,7 +95,7 @@ void CPlayer::Late_Update(_float fTimeDelta)
 
 	m_pCollider->Update_Collider(m_pTransformCom);
 
-	m_pGravityCom->Update(fTimeDelta);
+	//m_pGravityCom->Update(fTimeDelta);
 
 	m_Weapons[m_iCurWeaponIndex]->Late_Update(fTimeDelta);
 

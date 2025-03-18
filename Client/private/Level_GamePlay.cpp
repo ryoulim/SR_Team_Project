@@ -50,7 +50,7 @@ HRESULT CLevel_GamePlay::Initialize(class CLevelData* pLevelData)
 }
 
 void CLevel_GamePlay::Update(_float fTimeDelta)
-{	
+{
 	SpawnMultipleExplosions(fTimeDelta);
 	SpawnMultipleExplosions(fTimeDelta);
 
@@ -76,12 +76,10 @@ void CLevel_GamePlay::Update(_float fTimeDelta)
 		}
 	}
 
-{
 	m_pGameInstance->Intersect(LEVEL_GAMEPLAY, TEXT("Layer_Pawn"), TEXT("Layer_Statue"));
 	m_pGameInstance->Intersect(LEVEL_GAMEPLAY, TEXT("Layer_Pawn"), TEXT("Layer_Monster"));
 	m_pGameInstance->Intersect(LEVEL_GAMEPLAY, TEXT("Layer_PBullet"), TEXT("Layer_Monster"));
 	m_pGameInstance->Intersect(LEVEL_GAMEPLAY, TEXT("Layer_PBullet"), TEXT("Layer_Statue"));
-
 }
 
 HRESULT CLevel_GamePlay::Render()
@@ -181,10 +179,10 @@ HRESULT CLevel_GamePlay::Ready_Layer_Particle(const _wstring& strLayerTag)
 		return E_FAIL;
 	
 	//토네이도
-	for (int i = 0; i < 5; ++i)
+	for (int i = 0; i < 3; ++i)
 	{
 		_float3 vPosition = { GetRandomValue(100, 700) , 25.f , GetRandomValue(100, 700) };
-		//SpawnTornado(vPosition);
+		SpawnTornado(vPosition);
 	}
 	//불지르기
 	for (int i = 0; i < 20; ++i)
