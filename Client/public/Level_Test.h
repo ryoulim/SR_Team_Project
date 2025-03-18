@@ -17,7 +17,7 @@ public:
 	virtual HRESULT Render();
 
 private:
-	HRESULT Load_Map(LEVEL eLevelIdx, const _wstring& FileName);
+	virtual HRESULT Load_Map(_uint iLevelIdx, const _wstring& FileName);
 
 	HRESULT Ready_Layer_Terrain(const _wstring& strLayerTag);
 	HRESULT Ready_Layer_Camera(const _wstring& strLayerTag);

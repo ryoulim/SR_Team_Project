@@ -34,7 +34,7 @@ HRESULT CLevel_Test::Render()
 	return S_OK;
 }
 
-HRESULT CLevel_Test::Load_Map(LEVEL eLevelIdx, const _wstring& FileName)
+HRESULT CLevel_Test::Load_Map(_uint iLevelIdx, const _wstring& FileName)
 {
 	_bool bResult = { true };
 	_wstring FilePath;
@@ -98,7 +98,7 @@ HRESULT CLevel_Test::Load_Map(LEVEL eLevelIdx, const _wstring& FileName)
 			if (strKey == TEXT("Block"))
 				Layertag = TEXT("Layer_Block");
 
-			if (FAILED(m_pGameInstance->Add_GameObject(eLevelIdx, Prototype, eLevelIdx, Layertag, &tDesc)))
+			if (FAILED(m_pGameInstance->Add_GameObject(iLevelIdx, Prototype, iLevelIdx, Layertag, &tDesc)))
 			{
 				MSG_BOX("按眉 积己 角菩");
 				return E_FAIL;
@@ -139,7 +139,7 @@ HRESULT CLevel_Test::Load_Map(LEVEL eLevelIdx, const _wstring& FileName)
 
 
 
-			if (FAILED(m_pGameInstance->Add_GameObject(eLevelIdx, Prototype, eLevelIdx, Layertag, &tDesc)))
+			if (FAILED(m_pGameInstance->Add_GameObject(iLevelIdx, Prototype, iLevelIdx, Layertag, &tDesc)))
 			{
 				MSG_BOX("按眉 积己 角菩");
 				return E_FAIL;

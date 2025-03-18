@@ -29,7 +29,8 @@ HRESULT CMap::Initialize(void* pArg)
 		DESC* pDesc = static_cast<DESC*>(pArg);
 		m_pTransformCom->Set_State(CTransform::STATE_POSITION, pDesc->vInitPos);
 		m_pTransformCom->Scaling(pDesc->vScale);
-		m_pTransformCom->QuaternionRotation(pDesc->vAngle);
+		/* 현재 높이 지정돼 있는 맵 앵글이랑 텍스쳐넘버 쓰레기값 참*/
+		//m_pTransformCom->QuaternionRotation(pDesc->vAngle);
 		m_fTextureNum = pDesc->fTextureIdx;
 	}
 

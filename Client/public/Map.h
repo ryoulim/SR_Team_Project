@@ -38,7 +38,7 @@ public:
 	virtual void Late_Update(_float fTimeDelta)override;
 	virtual HRESULT Render()override;
 
-private:
+protected:
 	virtual HRESULT Ready_Components(void* pArg);
 
 protected:

@@ -37,6 +37,11 @@ _wstring CLevel::Compute_PrototypeName(const _wstring& strPrototypeTag)
     return strPrototypeTag; // "_"이 없는 경우 원본 반환
 }
 
+HRESULT CLevel::Load_Map(_uint eLevelIdx, const _wstring& FileName)
+{
+    return S_OK;
+}
+
 void CLevel::Free()
 {
     __super::Free();

@@ -49,7 +49,7 @@ HRESULT CMainApp::Initialize()
 		return E_FAIL;
 
 	/* 최초 보여줄 레벨을 할당하자. */
-	if (FAILED(Open_Level(LEVEL_TEST)))
+	if (FAILED(Open_Level(LEVEL_LOGO)))
 		return E_FAIL;
 
 	if (FAILED(Ready_Debug_Mode()))
@@ -84,8 +84,8 @@ HRESULT CMainApp::Ready_Component_For_Static()
 	ADD_MODEL(Cabinet);
 	ADD_MODEL(Signboard);
 	ADD_MODEL(Computer);
-	Load_ProtoType_Terrain(TEXT("MapData.txt"));
-	//ADD_MODEL_EX(Terrain, 129, 129, TEXT("../Bin/Resources/Textures/Terrain/Height__.bmp"));
+ 	ADD_MODEL_EX(Terrain, 129, 129, TEXT("../Bin/Resources/Textures/Terrain/Height__.bmp"));
+	//Load_ProtoType_Terrain(TEXT("MapData.txt"));
 
 	ADD_PRTCOM(Transform);
 	ADD_PRTCOM(Gravity);
@@ -93,7 +93,7 @@ HRESULT CMainApp::Ready_Component_For_Static()
 	ADD_PRTCOM(Collider_OBB_Cube);
 	ADD_PRTCOM(Collider_Sphere);
 	ADD_PRTCOM(Collider_Capsule);
-	ADD_PRTCOM(Collider_Line);
+	ADD_PRTCOM(Collider_Line); 
 
 	ADD_TEXTURE(Font_MediumBlue, "../Bin/Resources/Textures/UI/Font/Font_MediumBlue/font%d.PNG", 94);
 	ADD_TEXTURE(Font_BigOrange, "../Bin/Resources/Textures/UI/Font/Font_BigOrange/font%d.PNG", 46);
