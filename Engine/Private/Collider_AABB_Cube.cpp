@@ -66,6 +66,16 @@ _bool CCollider_AABB_Cube::Intersect_With_Capsule(const CCollider* pOther)
 	return _bool();
 }
 
+_bool CCollider_AABB_Cube::Intersect_With_Rect(const CCollider* pOther)
+{
+	return _bool();
+}
+
+_bool CCollider_AABB_Cube::Intersect_With_Line(const CCollider* pOther)
+{
+	return _bool();
+}
+
 CCollider_AABB_Cube* CCollider_AABB_Cube::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 {
 	CCollider_AABB_Cube* pInstance = new CCollider_AABB_Cube(pGraphic_Device);

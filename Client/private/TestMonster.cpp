@@ -47,6 +47,8 @@ void CTestMonster::Late_Update(_float fTimeDelta)
 
 HRESULT CTestMonster::Render()
 {
+	
+	m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
 	return __super::Render();
 }
 

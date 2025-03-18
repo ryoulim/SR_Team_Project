@@ -61,16 +61,17 @@ void CLevel_GamePlay::Update(_float fTimeDelta)
 			LEVEL_GAMEPLAY, L"Layer_Particle")))
 			return;
 	}
-{
+
 	m_pGameInstance->Intersect(LEVEL_GAMEPLAY, TEXT("Layer_Pawn"), TEXT("Layer_Statue"));
+	m_pGameInstance->Intersect(LEVEL_GAMEPLAY, TEXT("Layer_Pawn"), TEXT("Layer_Monster"));
 	m_pGameInstance->Intersect(LEVEL_GAMEPLAY, TEXT("Layer_PBullet"), TEXT("Layer_Monster"));
-}
+	m_pGameInstance->Intersect(LEVEL_GAMEPLAY, TEXT("Layer_PBullet"), TEXT("Layer_Statue"));
 
 	//카메라 스프라이트 테스트
-	if (KEY_DOWN(VK_LBUTTON))
-	{
-		SpawnGunFire();
-	}
+	//if (KEY_DOWN(VK_LBUTTON))
+	//{
+	//	SpawnGunFire();
+	//}
 }
 
 HRESULT CLevel_GamePlay::Render()

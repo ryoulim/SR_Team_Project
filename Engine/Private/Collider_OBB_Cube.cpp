@@ -16,7 +16,7 @@ CCollider_OBB_Cube::CCollider_OBB_Cube(const CCollider_OBB_Cube& Prototype)
 
 HRESULT CCollider_OBB_Cube::Initialize_Prototype()
 {
-	return __super::Initialize_Prototype(OBB_CUBE);
+    return __super::Initialize_Prototype(OBB_CUBE);
 }
 
 HRESULT CCollider_OBB_Cube::Initialize(void* pArg)
@@ -124,6 +124,16 @@ _bool CCollider_OBB_Cube::Intersect_With_Sphere(const CCollider* pOther)
 _bool CCollider_OBB_Cube::Intersect_With_Capsule(const CCollider* pOther)
 {
 	return _bool();
+}
+
+_bool CCollider_OBB_Cube::Intersect_With_Rect(const CCollider* pOther)
+{
+    return _bool();
+}
+
+_bool CCollider_OBB_Cube::Intersect_With_Line(const CCollider* pOther)
+{
+    return _bool();
 }
 
 CCollider_OBB_Cube* CCollider_OBB_Cube::Create(LPDIRECT3DDEVICE9 pGraphic_Device)

@@ -27,7 +27,7 @@ public:
 
 
 	class CComponent* Find_Component(const _wstring& strComponentTag);
-	virtual void On_Collision(CGameObject* pCollisionedObject) {};
+	virtual void On_Collision(CGameObject* pCollisionedObject, const _wstring& strLayerTag) {};
 
 protected:
 	LPDIRECT3DDEVICE9				m_pGraphic_Device = { nullptr };

@@ -2,6 +2,8 @@
 #include "Collider_AABB_Cube.h"
 #include "Collider_OBB_Cube.h"
 #include "Collider_Sphere.h"
+#include "Collider_Rect.h"
+#include "Collider_Line.h"
 
 CCollider_Capsule::CCollider_Capsule(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CCollider{ pGraphic_Device }
@@ -129,11 +131,11 @@ _bool CCollider_Capsule::Intersect_With_AABB_Cube(const CCollider* pOther)
 
 _bool CCollider_Capsule::Intersect_With_OBB_Cube(const CCollider* pOther)
 {
-	auto pOBBInfo = dynamic_cast<const CCollider_OBB_Cube*>(pOther)->Get_Info();
+	const auto& pOBBInfo = dynamic_cast<const CCollider_OBB_Cube*>(pOther)->Get_Info();
 	
-	_float3 obbCenter = pOBBInfo->vPosition;
+	const _float3& obbCenter = pOBBInfo->vPosition;
 	const _float3* obbAxes = pOBBInfo->vAxis;
-	_float3 obbHalfSize = pOBBInfo->vHalfScale;
+	const _float3& obbHalfSize = pOBBInfo->vHalfScale;
 
 	
 	// 캡슐 중심을 OBB 로컬 좌표계로 변환
@@ -217,22 +219,163 @@ _bool CCollider_Capsule::Intersect_With_Sphere(const CCollider* pOther)
 
 _bool CCollider_Capsule::Intersect_With_Capsule(const CCollider* pOther)
 {
-	auto pOtherInfo = dynamic_cast<const CCollider_Capsule*>(pOther)->Get_Info();
+	const auto& pOtherCapsuleInfo = *static_cast<const CCollider_Capsule*>(pOther)->Get_Info();
 
-	_float3 vDistance = m_tInfo.vCenter - pOtherInfo->vCenter;
-	_float fLengthSquared = SQUARE(vDistance.x) + SQUARE(vDistance.z);
-	_float fRadiusSum = m_tInfo.fRadius + pOtherInfo->fRadius;
+	const _float3& vCenterA = m_tInfo.vCenter;
+	const _float3& vCenterB = pOtherCapsuleInfo.vCenter;
+	const _float fHalfHeightA = m_tInfo.fHeight * 0.5f;
+	const _float fHalfHeightB = pOtherCapsuleInfo.fHeight * 0.5f;
+	const _float fRadiusA = m_tInfo.fRadius;
+	const _float fRadiusB = pOtherCapsuleInfo.fRadius;
 
+	// XZ 평면에서의 거리 계산 (Y축은 무시)
+	_float3 vDiffXZ = _float3(vCenterA.x - vCenterB.x, 0, vCenterA.z - vCenterB.z);
+	_float fDistanceSquaredXZ = vDiffXZ.Dot(vDiffXZ);
+	_float fCombinedRadius = fRadiusA + fRadiusB;
+	_float fCombinedRadiusSquared = fCombinedRadius * fCombinedRadius;
+
+	if (fDistanceSquaredXZ >= fCombinedRadiusSquared)
+		return FALSE; // 반지름 합보다 멀면 충돌 없음
 
 	// Y축 범위 확인 (두 캡슐이 수직으로 겹치는지 체크)
-	_float fMin1 = m_tInfo.vCenter.y - m_tInfo.fHeight * 0.5f;
-	_float fMax1 = m_tInfo.vCenter.y + m_tInfo.fHeight * 0.5f;
-	_float fMin2 = pOtherInfo->vCenter.y - pOtherInfo->fHeight * 0.5f;
-	_float fMax2 = pOtherInfo->vCenter.y + pOtherInfo->fHeight * 0.5f;
+	_float fMinA = vCenterA.y - fHalfHeightA;
+	_float fMaxA = vCenterA.y + fHalfHeightA;
+	_float fMinB = vCenterB.y - fHalfHeightB;
+	_float fMaxB = vCenterB.y + fHalfHeightB;
 
-	_bool bOverlap = !(fMax1 < fMin2 || fMax2 < fMin1);
+	if (fMaxA < fMinB || fMaxB < fMinA)
+		return FALSE; // Y축에서 겹치지 않으면 충돌 없음
 
-	return fLengthSquared <= SQUARE(fRadiusSum) && bOverlap;
+	// 충돌 좌표: XZ 평면에서 겹치는 부분의 중점 + Y축 중간값
+	_float fMidY = (max(fMinA, fMinB) + min(fMaxA, fMaxB)) * 0.5f;
+	m_vLast_Collision_Pos = _float3((vCenterA.x + vCenterB.x) * 0.5f, fMidY, (vCenterA.z + vCenterB.z) * 0.5f);
+
+	// 충돌 깊이 벡터 (XZ 평면에서만 이동)
+	_float fDistanceXZ = sqrt(fDistanceSquaredXZ);
+	_float fPenetrationDepth = fCombinedRadius - fDistanceXZ;
+	_float3 vCollisionNormalXZ = (fDistanceXZ > 1e-6f) ? (vDiffXZ * (1.0f / fDistanceXZ)) : _float3(1, 0, 0);
+
+	m_vLast_Collision_Depth = vCollisionNormalXZ * fPenetrationDepth;
+
+	return TRUE;
+}
+
+_bool CCollider_Capsule::Intersect_With_Rect(const CCollider* pOther)
+{
+	const auto& pRectInfo = *static_cast<const CCollider_Rect*>(pOther)->Get_Info();
+
+	const _float3& vCapsuleCenter = m_tInfo.vCenter;
+	const _float fCapsuleRadius = m_tInfo.fRadius;
+	const _float fCapsuleHalfHeight = m_tInfo.fHeight * 0.5f;
+
+	const _float3& vRectCenter = pRectInfo.vCenter;
+	const _float3& vRectNormal = pRectInfo.GetNormal();
+	const _float3& vRectRight = pRectInfo.vRight;
+	const _float3& vRectUp = pRectInfo.vUp;
+	const _float fRectHalfWidth = pRectInfo.fWidth * 0.5f;
+	const _float fRectHalfHeight = pRectInfo.fHeight * 0.5f;
+
+	// 캡슐의 중심선 상단과 하단 좌표
+	_float3 vCapsuleTop = vCapsuleCenter + _float3(0, fCapsuleHalfHeight, 0);
+	_float3 vCapsuleBottom = vCapsuleCenter - _float3(0, fCapsuleHalfHeight, 0);
+
+	// 평면의 중심을 기준으로 캡슐의 중심을 평면으로 투영
+	_float3 vToCenter = vCapsuleCenter - vRectCenter;
+	_float fDistToPlane = vToCenter.Dot(vRectNormal);
+	_float3 vProjectedCenter = vCapsuleCenter - fDistToPlane * vRectNormal;
+
+	// 투영된 점을 Rect의 내부로 클램핑
+	_float fProjRight = vProjectedCenter.Dot(vRectRight);
+	_float fProjUp = vProjectedCenter.Dot(vRectUp);
+
+	fProjRight = max(-fRectHalfWidth, min(fRectHalfWidth, fProjRight));
+	fProjUp = max(-fRectHalfHeight, min(fRectHalfHeight, fProjUp));
+
+	_float3 vClosestPoint = vRectCenter + fProjRight * vRectRight + fProjUp * vRectUp;
+
+	// 평면까지의 거리 계산
+	_float3 vDiff = vCapsuleCenter - vClosestPoint;
+	_float fDistance = vDiff.Dot(vRectNormal);
+	_float fPenetrationDepth = fCapsuleRadius - abs(fDistance);
+
+	if (fPenetrationDepth <= 0) // 충돌 없음
+		return FALSE;
+
+	// 충돌 좌표 (겹쳐진 평면의 중점)
+	m_vLast_Collision_Pos = vClosestPoint;
+
+	// 충돌 깊이 방향 벡터 (Rect의 면으로 밀어내는 방향)
+	_float3 vCollisionNormal = (fDistance > 0) ? vRectNormal : -vRectNormal;
+	m_vLast_Collision_Depth = vCollisionNormal * fPenetrationDepth;
+
+	return TRUE;
+}
+
+_bool CCollider_Capsule::Intersect_With_Line(const CCollider* pOther)
+{
+	const auto& pLineInfo = *static_cast<const CCollider_Line*>(pOther)->Get_Info();
+
+	const _float3& vCapsuleCenter = m_tInfo.vCenter;
+	const _float fCapsuleRadius = m_tInfo.fRadius;
+	const _float fCapsuleHalfHeight = m_tInfo.fHeight * 0.5f;
+
+	const _float3& vLineStart = pLineInfo.vStart;
+	const _float3& vLineEnd = pLineInfo.vEnd;
+
+	// 캡슐의 중심선 상단과 하단 좌표
+	_float3 vCapsuleTop = vCapsuleCenter + _float3(0, fCapsuleHalfHeight, 0);
+	_float3 vCapsuleBottom = vCapsuleCenter - _float3(0, fCapsuleHalfHeight, 0);
+
+	// 선분과 캡슐의 중심선의 최근접점 찾기
+	_float3 vClosestCapsule, vClosestLine;
+	_float3 vLineDir = vLineEnd - vLineStart;
+	_float3 vCapsuleDir = vCapsuleTop - vCapsuleBottom;
+	_float3 vStartToCapsule = vLineStart - vCapsuleBottom;
+
+	_float fA = vLineDir.Dot(vLineDir);
+	_float fB = vLineDir.Dot(vCapsuleDir);
+	_float fC = vCapsuleDir.Dot(vCapsuleDir);
+	_float fD = vLineDir.Dot(vStartToCapsule);
+	_float fE = vCapsuleDir.Dot(vStartToCapsule);
+
+	_float fDenom = fA * fC - fB * fB;
+	_float fS, fT;
+
+	if (abs(fDenom) > 1e-6f) 
+	{
+		fS = (fB * fE - fC * fD) / fDenom;
+		fT = (fA * fE - fB * fD) / fDenom;
+	}
+	else 
+	{
+		fS = 0.0f;
+		fT = fE / fC;
+	}
+
+	fS = max(0.0f, min(1.0f, fS));
+	fT = max(0.0f, min(1.0f, fT));
+
+	vClosestLine = vLineStart + fS * vLineDir;
+	vClosestCapsule = vCapsuleBottom + fT * vCapsuleDir;
+
+	// 최근접점 간 거리 계산
+	_float3 vDiff = vClosestCapsule - vClosestLine;
+	_float fDistance = sqrt(vDiff.Dot(vDiff));
+
+	if (fDistance >= fCapsuleRadius) // 충돌 없음
+		return FALSE;
+
+	// 충돌 좌표: 캡슐의 표면과 선분의 교차점
+	_float3 vCollisionNormal = vDiff * (1.0f / fDistance);
+	m_vLast_Collision_Pos = vClosestCapsule - vCollisionNormal * fCapsuleRadius;
+
+	// 충돌 깊이 방향 벡터: 캡슐을 선분의 `end -> start` 방향으로 밀어냄
+	_float fPenetrationDepth = fCapsuleRadius - fDistance;
+	_float3 vLineMoveDir = vLineStart - vLineEnd;
+
+	m_vLast_Collision_Depth = vLineMoveDir.Normalize() * fPenetrationDepth;
+
+	return TRUE;
 }
 
 CCollider_Capsule* CCollider_Capsule::Create(LPDIRECT3DDEVICE9 pGraphic_Device)

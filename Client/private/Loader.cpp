@@ -3,16 +3,21 @@
 
 #include "BackGround.h"
 #include "Terrain.h"
-#include "Dynamic_Camera.h"
-#include "UI_Camera.h"
-#include "MyCube.h"
-#include "Explosion.h"
 #include "Trapezoid.h"
 #include "Cabinet.h"
 #include "Signboard.h"
-#include "Player.h"
+#include "Explosion.h"
+
+
+//테스트용
+#include "MyCube.h"
 #include "TestMonster.h"
 #include "TestBullet.h"
+
+//플레이어와 무기
+#include "Player.h"
+#include "Weapon_LoverBoy.h"
+
 
 //파티클 인클루드
 #include "Explosion.h"
@@ -233,9 +238,8 @@ HRESULT CLoader::Loading_For_GamePlay()
 
 	ADD_TEXTURE(TestBullet, "../Bin/Resources/Textures/Bullet/Test/tile7859.png", 1);
 	ADD_TEXTURE(TestMonster, "../Bin/Resources/Textures/Monster/Test/TestMonster%d.PNG", 2);
+	ADD_TEXTURE(Weapon_LoverBoy, "../Bin/Resources/Textures/Weapon/LoverBoy/LoverBoy%d.PNG", 15);
 
-
-	
 #pragma endregion
 
 #pragma region MODEL
@@ -261,7 +265,7 @@ HRESULT CLoader::Loading_For_GamePlay()
 	ADD_PRTOBJ(Player);
 	ADD_PRTOBJ(TestBullet);
 	ADD_PRTOBJ(TestMonster);
-
+	ADD_PRTOBJ(Weapon_LoverBoy);
 
 
 

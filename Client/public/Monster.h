@@ -45,6 +45,7 @@ protected:
 	CVIBuffer* m_pVIBufferCom = { nullptr };
 	CTransform* m_pTransformCom = { nullptr };
 	CCollider* m_pCollider = { nullptr };
+	//_float4x4 m_Billboardmatrix{};
 
 public:
 	virtual CGameObject* Clone(void* pArg) PURE;

@@ -31,6 +31,7 @@ HRESULT CCollider_Sphere::Initialize(void* pArg)
 
 void CCollider_Sphere::Update_Collider(const CTransform* pTransform)
 {
+    m_tInfo.vPosition = *pTransform->Get_State(CTransform::STATE_POSITION);
 }
 
 _bool CCollider_Sphere::Intersect_With_AABB_Cube(const CCollider* pOther)
@@ -55,6 +56,16 @@ _bool CCollider_Sphere::Intersect_With_Sphere(const CCollider* pOther)
 }
 
 _bool CCollider_Sphere::Intersect_With_Capsule(const CCollider* pOther)
+{
+    return _bool();
+}
+
+_bool CCollider_Sphere::Intersect_With_Rect(const CCollider* pOther)
+{
+    return _bool();
+}
+
+_bool CCollider_Sphere::Intersect_With_Line(const CCollider* pOther)
 {
     return _bool();
 }
