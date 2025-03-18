@@ -39,11 +39,16 @@ private:
 
 public:
 	void	SpawnExplosion(_float3 _vPosition);
+	void	SpawnExplosion2(_float3 _vPosition);
+	void	SpawnExplosion3(_float3 _vPosition);
 	void	SpawnFire(_float3 _vPosition);
 	void	SpawnGunFire(_float3 _ScreenPos);
 	void	SpawnBulletTracer(_float3 _ScreenPos);
 	void	SpawnTornado(_float3 _vPosition);
+	void	SpawnSpher(_float3 _vPosition);
 	void	SpawnMultipleExplosions(_float fTimeDelta);
+	void	SpawnMultipleExplosions2(_float fTimeDelta);
+	void	SpawnMultipleExplosions3(_float fTimeDelta);
 	void	SpawnEmptyBullet(_float3 _vPosition);
 
 private:

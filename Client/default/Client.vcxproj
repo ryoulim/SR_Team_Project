@@ -116,6 +116,7 @@
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>../Public/;../../EngineSDK/Inc/</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>%(DisableSpecificWarnings)</DisableSpecificWarnings>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -134,6 +135,7 @@
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>../Public/;../../EngineSDK/Inc/</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>4819;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -158,6 +160,7 @@
     <ClInclude Include="..\public\CameraManager.h" />
     <ClInclude Include="..\public\Common_Shape.h" />
     <ClInclude Include="..\public\DebugMode.h" />
+    <ClInclude Include="..\public\Dust.h" />
     <ClInclude Include="..\public\Effect.h" />
     <ClInclude Include="..\public\Explosion.h" />
     <ClInclude Include="..\public\Firework.h" />
@@ -183,6 +186,7 @@
     <ClInclude Include="..\public\PSystem.h" />
     <ClInclude Include="..\public\Rain.h" />
     <ClInclude Include="..\public\Smoke.h" />
+    <ClInclude Include="..\public\Sphere.h" />
     <ClInclude Include="..\public\Sprite.h" />
     <ClInclude Include="..\public\Signboard.h" />
     <ClInclude Include="..\public\Stall.h" />
@@ -227,6 +231,7 @@
     <ClCompile Include="..\private\CameraSprite.cpp" />
     <ClCompile Include="..\private\Common_Shape.cpp" />
     <ClCompile Include="..\private\DebugMode.cpp" />
+    <ClCompile Include="..\private\Dust.cpp" />
     <ClCompile Include="..\private\Effect.cpp" />
     <ClCompile Include="..\private\Explosion.cpp" />
     <ClCompile Include="..\private\Firework.cpp" />
@@ -252,6 +257,7 @@
     <ClCompile Include="..\private\PSystem.cpp" />
     <ClCompile Include="..\private\Rain.cpp" />
     <ClCompile Include="..\private\Signboard.cpp" />
+    <ClCompile Include="..\private\Sphere.cpp" />
     <ClCompile Include="..\private\Stall.cpp" />
     <ClCompile Include="..\private\Smoke.cpp" />
     <ClCompile Include="..\private\Sprite.cpp" />

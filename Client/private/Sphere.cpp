@@ -1,38 +1,30 @@
-﻿#include "Smoke.h"
+﻿#include "Sphere.h"
 #include "GameInstance.h"
 
 
-CSmoke::CSmoke(LPDIRECT3DDEVICE9 pGraphicDev, wstring _strObjName)
+CSphere::CSphere(LPDIRECT3DDEVICE9 pGraphicDev, wstring _strObjName)
 	:CPSystem(pGraphicDev, _strObjName)
 {
 }
 
-CSmoke::CSmoke(const CPSystem& Prototype)
+CSphere::CSphere(const CPSystem& Prototype)
 	: CPSystem(Prototype)
 {
 }
 
-HRESULT CSmoke::Initialize(void* pArg)
+HRESULT CSphere::Initialize(void* pArg)
 {
 	if (FAILED(Ready_Components(pArg)))
 		return E_FAIL;
-
-	DESC* pDesc = static_cast<DESC*>(pArg);
-	m_vecMinDirection = pDesc->vecMinDirection;
-	m_vecMaxDirection = pDesc->vecMaxDirection;
-	m_fVelocity = pDesc->fVelocity;
-	m_bIsLoop = pDesc->isLoop;
 
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
 
 	m_fFrame = GetRandomFloat(0.f, m_fAnimationMaxFrame);
-
-
 	return S_OK;
 }
 
-HRESULT CSmoke::Ready_Particle()
+HRESULT CSphere::Ready_Particle()
 {
 
 	m_dwFVF = Particle::FVF;
@@ -52,7 +44,7 @@ HRESULT CSmoke::Ready_Particle()
 	return S_OK;
 }
 
-HRESULT CSmoke::Ready_Components(void* pArg)
+HRESULT CSphere::Ready_Components(void* pArg)
 {
 	DESC* pDesc = static_cast<DESC*>(pArg);
 
@@ -70,53 +62,81 @@ HRESULT CSmoke::Ready_Components(void* pArg)
 	return S_OK;
 }
 
-void CSmoke::resetParticle(Attribute* attribute)
+void CSphere::resetParticle(Attribute* attribute)
 {
 	attribute->_isAlive = true;
 
-	//연기올라가는 로직
-	attribute->_Position = m_vPosition;
-	_float3 min = m_vecMinDirection;
-	_float3 max = m_vecMaxDirection;
-	GetRandomVector(&attribute->_Velocity, &min, &max);
-
-	attribute->_Velocity.y = GetRandomFloat(0.1f, 5.f);
-	D3DXVec3Normalize(&attribute->_Velocity, &attribute->_Velocity);
-	attribute->_Velocity *= m_fVelocity;
+	//초기 위치 (반지름 30.0f 범위 내에서 랜덤한 원형 배치)
+	float angle = GetRandomFloat(0.0f, D3DX_PI * 2.0f);
+	float radius = GetRandomFloat(5.0f, 15.0f);
+	attribute->_Position.x = cos(angle) * radius;
+	attribute->_Position.y = GetRandomFloat(0.0f, -25.0f);
+	attribute->_Position.z = sin(angle) * radius;
 
 
-	attribute->_Accelerator = { 0.0f, GetRandomFloat(10.f, 50.f), 0.0f };		// 가속도
-	attribute->_Age = 0.f;								// 나이
-	attribute->_Color = WHITE;							// 색상
-	attribute->_ColorFade = WHITE;						// 디졸브색상
-	attribute->_LifeTime = m_fLifeTime;				 	// 라이프타임
+	//나선형 상승을 위한 초기 속도
+	attribute->_Velocity.x = -sin(angle) * 100.0f; // 반대 방향으로 돌면서 상승
+	attribute->_Velocity.y = GetRandomFloat(30.0f, 50.0f); // 위로 상승
+	attribute->_Velocity.z = cos(angle) * 100.0f;
 
+
+	//중심으로 서서히 끌어당기는 가속도 설정 (목표점 - 현재위치)
+	attribute->_Accelerator = (m_vCenter - attribute->_Position) * 2.f;
+
+	//회오리 효과를 추가하기 위한 미세한 방향 랜덤 값
+	attribute->_Velocity.x += GetRandomFloat(-5.0f, 50.0f);
+	attribute->_Velocity.z += GetRandomFloat(-5.0f, 50.0f);
+
+	//페이드 아웃을 위한 색상 조절
+	attribute->_Color = WHITE;
+	attribute->_ColorFade = WHITE; // 사라지는 색상
+
+	//수명 설정 (2~5초 동안 지속)
+	attribute->_Age = GetRandomFloat(-1.f, 3.f);
+	attribute->_LifeTime = GetRandomFloat(1.0f, 3.0f);
 }
 
-EVENT CSmoke::Update(_float timeDelta)
+EVENT CSphere::Update(_float timeDelta)
 {
+	static float SphereElapsed = 0.0f; // 시간을 누적할 변수
+	SphereElapsed += timeDelta; // 프레임마다 증가
+
+	//목표 중심이 천천히 왕복하도록 설정 (부드럽게 움직이게)
+	m_vCenter.x = 100.0f + sin(SphereElapsed * 2.f) * 50.0f;
+	m_vCenter.z = 50.0f + sin(SphereElapsed * 4.f) * 100.0f;
+
+
+
 	list<Attribute>::iterator i;
 	for (i = m_Particles.begin(); i != m_Particles.end(); i++)
 	{
 		//생존한 파티클만 갱신한다.
 		if (i->_isAlive)
 		{
-			// 속도 업데이트 (중력 적용)
+			//중력 및 목표점으로 가속도 적용 (점점 중심으로 수렴)
 			i->_Velocity += i->_Accelerator * timeDelta;
+
+			//나선형을 더 강조하기 위해 X, Z 회전 효과 추가
+			float rotationSpeed = 5.0f;
+			float newX = i->_Velocity.x * cos(rotationSpeed * timeDelta) - i->_Velocity.z * sin(rotationSpeed * timeDelta);
+			float newZ = i->_Velocity.x * sin(rotationSpeed * timeDelta) + i->_Velocity.z * cos(rotationSpeed * timeDelta);
+			i->_Velocity.x = newX;
+			i->_Velocity.z = newZ;
+
+			//위치 업데이트 (속도를 반영하여 이동)
 			i->_Position += i->_Velocity * timeDelta;
 
-			i->_Velocity.x += GetRandomFloat(-0.1f, 0.1f) * timeDelta;
-			i->_Velocity.z += GetRandomFloat(-0.1f, 0.1f) * timeDelta;
+			//페이드 아웃 효과 (시간이 지날수록 색이 어두워짐)
+			i->_Color.a -= 0.3f * timeDelta;
+			if (i->_Color.a < 0.0f) i->_Color.a = 0.0f;
 
-			//i->_Position += i->_Velocity * timeDelta;
+
 			i->_Age += timeDelta;
 
 			if (i->_Age > i->_LifeTime)
 			{
-				if(m_bIsLoop)
-					resetParticle(&(*i));
-				else
-					i->_isAlive = false;
+				//i->_isAlive = false;
+				resetParticle(&(*i));
 			}
 		}
 	}
@@ -131,7 +151,7 @@ EVENT CSmoke::Update(_float timeDelta)
 }
 
 
-void CSmoke::FrameUpdate(float timeDelta)
+void CSphere::FrameUpdate(float timeDelta)
 {
 	m_fFrame += 15.f * timeDelta;
 
@@ -139,16 +159,20 @@ void CSmoke::FrameUpdate(float timeDelta)
 		m_fFrame = 0;
 }
 
-HRESULT CSmoke::Render()
+HRESULT CSphere::Render()
 {
 	if (!m_Particles.empty())
 	{
 		//렌더 상태를 지정한다.
 		SetUp_RenderState();
 
-		//m_pTextureCom->Bind_Resource(0);
-		m_pTextureCom->Bind_Resource((_uint)m_fFrame);
+		m_pGraphic_Device->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_ONE);
+		m_pGraphic_Device->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_ONE);
+
+		m_pTextureCom->Bind_Resource(0);
+		//m_pTextureCom->Bind_Resource((_uint)m_fFrame);
 		//m_pGraphic_Device->SetTexture(0, nullptr);
+
 		m_pGraphic_Device->SetFVF(Particle::FVF);
 		m_pGraphic_Device->SetStreamSource(0, m_pVB, 0, sizeof(Particle));
 
@@ -228,39 +252,29 @@ HRESULT CSmoke::Render()
 }
 
 
-CSmoke* CSmoke::Create(LPDIRECT3DDEVICE9 pGraphicDev, wstring _strObjName)
+CSphere* CSphere::Create(LPDIRECT3DDEVICE9 pGraphicDev, wstring _strObjName)
 {
-	CSmoke* pInstance = new CSmoke(pGraphicDev, _strObjName);
+	CSphere* pInstance = new CSphere(pGraphicDev, _strObjName);
 
 	//파티클 정보
 	pInstance->m_vbSize = 2048;				//  GPU가 한번에 그릴 수 있는 파티클 개수, CPU가 GPU로 파티클 정점 버퍼에 담을 수 있는 개수
-	pInstance->m_fSize = 10.f;				//  파티클의 크기
+	pInstance->m_fSize = 2.f;				//  파티클의 크기
 	pInstance->m_vbOffset = 0;				//  세그먼트의 배치사이즈를 옮길때 쓰는 오프셋(0고정)
-	pInstance->m_vbBatchSize = 10;			//  세그먼트 배치사이즈 크기(한번에 옮길 수 있는 정점들의 개수)
+	pInstance->m_vbBatchSize = 64;			//  세그먼트 배치사이즈 크기(한번에 옮길 수 있는 정점들의 개수)
 	pInstance->m_vMin = _float3{ 0.f,0.f,0.f };				//  바운딩박스의 최소크기
 	pInstance->m_vMax = _float3{ 1.f,1.f,1.f };				//  바운딩박스의 최대크기
 
 	return pInstance;
 }
 
-float CSmoke::GetRandomColor(float lowBound, float highBound)
+CGameObject* CSphere::Clone(void* pArg)
 {
-	if (lowBound >= highBound)
-		return lowBound;
-
-	float f = (rand() % 10000) * 0.0001f;
-
-	return (f * (highBound - lowBound)) + lowBound;
-}
-
-CGameObject* CSmoke::Clone(void* pArg)
-{
-	CSmoke* pInstance = new CSmoke(*this);
+	CSphere* pInstance = new CSphere(*this);
 	pInstance->m_isClone = true;
 
 	if (FAILED(pInstance->Initialize(pArg)))
 	{
-		MSG_BOX("Failed to Created : CSmoke");
+		MSG_BOX("Failed to Created : CSphere");
 		Safe_Release(pInstance);
 	}
 
@@ -273,7 +287,7 @@ CGameObject* CSmoke::Clone(void* pArg)
 	return pInstance;
 }
 
-void CSmoke::Free()
+void CSphere::Free()
 {
 	__super::Free();
 }

@@ -70,7 +70,7 @@ void CTornado::resetParticle(Attribute* attribute)
 	attribute->_Position = m_vPosition;
 
 	// 반지름 범위 설정 (토네이도 크기)
-	float radius = GetRandomFloat(10.f, 20.f);  // 파티클이 퍼지는 반경
+	float radius = GetRandomFloat(0.f, 10.f);  // 파티클이 퍼지는 반경
 
 	// 초기 각도 설정 (0 ~ 360도 범위)
 	float angle = GetRandomFloat(0.f, D3DX_PI * 2.f);  // 랜덤한 시작 각도 (라디안 값)
@@ -80,8 +80,8 @@ void CTornado::resetParticle(Attribute* attribute)
 	attribute->_Position.z += sinf(angle) * radius;
 
 	// 초기 속도 설정 (회전 + 상승)
-	float angularSpeed = GetRandomFloat(30.f, 300.f);  // 회전 속도 (빠르게 회전할수록 숫자를 키움)
-	float upwardSpeed = GetRandomFloat(50.f, 200.f); // 상승 속도
+	float angularSpeed = GetRandomFloat(10.f, 150.f);  // 회전 속도 (빠르게 회전할수록 숫자를 키움)
+	float upwardSpeed = GetRandomFloat(50.f, 100.f); // 상승 속도
 
 	// 속도 벡터 설정 (회전 + 상승 조합)
 	attribute->_Velocity.x = -sinf(angle) * angularSpeed;
@@ -95,7 +95,7 @@ void CTornado::resetParticle(Attribute* attribute)
 	attribute->_Age = 0.f;
 	attribute->_Color = WHITE;
 	attribute->_ColorFade = WHITE;
-	attribute->_LifeTime = GetRandomFloat(0.5f, 2.f);  // 랜덤 수명
+	attribute->_LifeTime = m_fLifeTime;  // 랜덤 수명
 }
 
 EVENT CTornado::Update(_float timeDelta)

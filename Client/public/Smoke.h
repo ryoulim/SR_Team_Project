@@ -6,6 +6,16 @@
 class CSmoke : public CPSystem
 {
 public:
+	typedef struct tagSmokeDesc : public CPSystem::DESC
+	{
+		bool		isLoop = false;
+		_float		fFrame;
+		_float		fVelocity;
+		_float3		vecMinDirection;
+		_float3		vecMaxDirection;
+	}DESC;
+
+public:
 	CSmoke(LPDIRECT3DDEVICE9 pGraphicDev, wstring _strObjName);
 	CSmoke(const CPSystem& Prototype);
 	virtual ~CSmoke() = default;
@@ -28,6 +38,10 @@ public:
 	virtual void Free();
 
 private:
-	float		m_fFrame = 0;
+	bool		m_bIsLoop = false;
+	_float		m_fFrame = 0.f;
+	_float		m_fVelocity = 0.f;
+	_float3		m_vecMinDirection = { 0.f, 0.f, 0.f };
+	_float3		m_vecMaxDirection = { 0.f, 0.f, 0.f };
 };
 
