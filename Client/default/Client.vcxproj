@@ -152,6 +152,7 @@
     <ClInclude Include="..\public\Boss.h" />
     <ClInclude Include="..\public\Bullet.h" />
     <ClInclude Include="..\public\Button.h" />
+    <ClInclude Include="..\public\Button_Main.h" />
     <ClInclude Include="..\public\Button_Test.h" />
     <ClInclude Include="..\public\Cabinet.h" />
     <ClInclude Include="..\public\CameraSprite.h" />
@@ -160,6 +161,7 @@
     <ClInclude Include="..\public\DebugMode.h" />
     <ClInclude Include="..\public\Effect.h" />
     <ClInclude Include="..\public\Explosion.h" />
+    <ClInclude Include="..\public\FadeUI.h" />
     <ClInclude Include="..\public\Firework.h" />
     <ClInclude Include="..\public\Font.h" />
     <ClInclude Include="..\public\EmptyBullet.h" />
@@ -221,6 +223,7 @@
     <ClCompile Include="..\private\Boss.cpp" />
     <ClCompile Include="..\private\Bullet.cpp" />
     <ClCompile Include="..\private\Button.cpp" />
+    <ClCompile Include="..\private\Button_Main.cpp" />
     <ClCompile Include="..\private\Button_Test.cpp" />
     <ClCompile Include="..\private\Cabinet.cpp" />
     <ClCompile Include="..\private\CameraManager.cpp" />
@@ -229,6 +232,7 @@
     <ClCompile Include="..\private\DebugMode.cpp" />
     <ClCompile Include="..\private\Effect.cpp" />
     <ClCompile Include="..\private\Explosion.cpp" />
+    <ClCompile Include="..\private\FadeUI.cpp" />
     <ClCompile Include="..\private\Firework.cpp" />
     <ClCompile Include="..\private\Font.cpp" />
     <ClCompile Include="..\private\EmptyBullet.cpp" />

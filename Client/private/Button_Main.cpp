@@ -62,7 +62,7 @@ HRESULT CButton_Main::Initialize(void* pArg)
 		/*__super::Update_Rect();*/
 	}
 
-
+	m_fDepth = 0.2f;
 	return S_OK;
 }
 

@@ -34,6 +34,7 @@ public:
 	virtual void Late_Update(_float fTimeDelta) override;
 	virtual HRESULT Render() override;
 
+
 protected:
 	virtual HRESULT Ready_Components(void* pArg);
     virtual void Update_Rect();
@@ -50,7 +51,6 @@ protected:
     _float3         m_vPos = {};
     _float3         m_vSize = {};
     RECT            m_tRect = {};
-    _float          m_fDepth = {};
     LPD3DXEFFECT    m_pEffect = { nullptr };
     D3DXHANDLE      m_hTex = { nullptr };
 

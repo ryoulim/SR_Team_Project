@@ -411,6 +411,12 @@
     <ClInclude Include="..\public\Weapon_LoverBoy.h">
       <Filter>02.GameObjects\Weapon\LoverBoy</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\Button_Main.h">
+      <Filter>02.GameObjects\UI\Button</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\FadeUI.h">
+      <Filter>02.GameObjects\UI\MenuUI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -608,6 +614,12 @@
     </ClCompile>
     <ClCompile Include="..\private\Weapon_LoverBoy.cpp">
       <Filter>02.GameObjects\Weapon\LoverBoy</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\FadeUI.cpp">
+      <Filter>02.GameObjects\UI\MenuUI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Button_Main.cpp">
+      <Filter>02.GameObjects\UI\Button</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

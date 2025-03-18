@@ -95,6 +95,7 @@ HRESULT CLoadingMenu::Initialize(void* pArg)
 	m_pTransformCom->Scaling(m_vSize);
 
 	m_vPos = { 0.f,0.f,1.f };
+	m_fDepth = m_vPos.z;
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, m_vPos);
 	m_pTransformComForLoading[LOADERTEX_ANIM]->Set_State(CTransform::STATE_POSITION, { (g_iWinSizeX*0.5f - 130.f), -(g_iWinSizeY * 0.5f) + 130.f, 0.1f });
 	m_pTransformComForLoading[LOADERTEX_ANIM]->Scaling({ 128.f, 128.f, 1.f });
@@ -131,7 +132,7 @@ void CLoadingMenu::Late_Update(_float fTimeDelta)
 
 HRESULT CLoadingMenu::Render()
 {
-	if (FAILED(m_pTextureCom->Bind_Resource(0)))
+   	if (FAILED(m_pTextureCom->Bind_Resource(0)))
 		return E_FAIL;
 
 	if (FAILED(m_pTransformCom->Bind_Resource()))
@@ -187,8 +188,7 @@ HRESULT CLoadingMenu::Render_LoadingBar()
 	_float fsize = 126.f * m_fLoadingGauge;
 	m_pTransformComForLoading[LOADERTEX_BAR]->Set_State(CTransform::STATE_POSITION,
 		{ (g_iWinSizeX * 0.5f - 130.f) - (126.f  - 126.f * m_fLoadingGauge) * 0.5f,
-		-(g_iWinSizeY * 0.5f) + 50.f,
-		0.01f });
+		-(g_iWinSizeY * 0.5f) + 50.f, 0.01f });
 	m_pTransformComForLoading[LOADERTEX_BAR]->Scaling({ fsize, 6.f, 1.f });
 
 	if (FAILED(m_pTransformComForLoading[LOADERTEX_BAR]->Bind_Resource()))

@@ -27,6 +27,7 @@ public:
 	
 	_float	Get_ViewZ() const { return m_fViewZ; }
 	void	Compute_ViewZ(const _float3* pPos);
+	_float	Get_UIDepth() const { return m_fDepth; }
 
 	class CComponent* Find_Component(const _wstring& strComponentTag);
 	virtual void On_Collision(CGameObject* pCollisionedObject, const _wstring& strLayerTag) {};
@@ -49,6 +50,7 @@ protected:
 	float	m_fAnimationFrame = 0;
 	float	m_fAnimationMaxFrame = 0;
 	_float	m_fViewZ;
+	_float	m_fDepth = {};
 };
 
 END

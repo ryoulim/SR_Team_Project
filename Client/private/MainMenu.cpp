@@ -33,9 +33,10 @@ HRESULT CMainMenu::Initialize(void* pArg)
 
 	// 세로비 대로 이미지 맞춤
 	m_vSize.x *= g_iWinSizeY / m_vSize.y; m_vSize.y = g_iWinSizeY;
-
+	m_fDepth = 100.f;
 
 	m_pTransformCom->Scaling(m_vSize);
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION, { 0.f,0.f,1.f });
 	return S_OK;
 }
 
@@ -73,8 +74,8 @@ HRESULT CMainMenu::Render()
 	if (FAILED(m_pVIBufferCom->Bind_Buffers()))
 		return E_FAIL;
 
-	//if (FAILED(m_pVIBufferCom->Render()))
-		//return E_FAIL;
+	if (FAILED(m_pVIBufferCom->Render()))
+		return E_FAIL;
 
 	return S_OK;
 }

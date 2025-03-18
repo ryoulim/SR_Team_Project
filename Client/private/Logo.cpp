@@ -34,6 +34,7 @@ HRESULT CLogo::Initialize(void* pArg)
 	if (FAILED(__super::Initialize(&pDesc)))
 		return E_FAIL;
 
+	m_fDepth = 0.8f;
 
 	Ready_Shader(L"../bin/Shader_AlphaChange.hlsl");
 	Ready_Component_For_Shadow(&pDesc);

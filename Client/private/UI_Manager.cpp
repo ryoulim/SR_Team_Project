@@ -90,11 +90,6 @@ HRESULT CUI_Manager::Initialize_Font()
 
 HRESULT CUI_Manager::Initialize_FadeUI()
 {
-	//CTransform::DESC pArg{};
-
-	//pArg.fRotationPerSec = 1.f;
-	//pArg.fSpeedPerSec = 1.f;
-
 	m_FadeUI = dynamic_cast<CFadeUI*>(m_pGameInstance->Clone_Prototype(PROTOTYPE::TYPE_GAMEOBJECT, LEVEL_STATIC, TEXT("Prototype_GameObject_FadeUI")));
 	if (nullptr == m_FadeUI)
 		return E_FAIL;

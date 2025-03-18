@@ -24,9 +24,8 @@ HRESULT CUI::Initialize(void* pArg)
 	{
 		DESC* pDesc = static_cast<DESC*>(pArg);
 		m_vPos = pDesc->vInitPos;
-		m_vPos.z = 0.f;
+		m_fDepth = m_vPos.z;
 		m_vSize = pDesc->vScale;
-		m_vSize.z = 1.f;
 		m_pTransformCom->Set_State(CTransform::STATE_POSITION, m_vPos);
 		m_pTransformCom->Scaling(m_vSize);
 	}
@@ -44,8 +43,6 @@ EVENT CUI::Update(_float fTimeDelta)
 
 void CUI::Late_Update(_float fTimeDelta)
 {
-
-
 	if (FAILED(m_pGameInstance->Add_RenderGroup(CRenderer::RG_UI, this)))
 		return;
 }
