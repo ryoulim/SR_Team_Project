@@ -3,6 +3,7 @@
 #include "Level.h"
 #include "GameInstance.h"
 #include "Dynamic_Camera.h"
+#include "CameraSprite.h"
 #include <random>
 //#include "Dynamic_Camera.h"
 //#include "MyCube.h"
@@ -39,9 +40,11 @@ private:
 public:
 	void	SpawnExplosion(_float3 _vPosition);
 	void	SpawnFire(_float3 _vPosition);
-	void	SpawnGunFire();
+	void	SpawnGunFire(_float3 _ScreenPos);
+	void	SpawnBulletTracer(_float3 _ScreenPos);
 	void	SpawnTornado(_float3 _vPosition);
 	void	SpawnMultipleExplosions(_float fTimeDelta);
+	void	SpawnEmptyBullet(_float3 _vPosition);
 
 private:
 	_int m_iIndex{-1};
@@ -60,6 +63,7 @@ private:
 	random_device m_Rd;
 	mt19937 m_Gen;
 	uniform_real_distribution<float> m_Dist;
+	vector<CCameraSprite*> m_vecSceenEffect;
 };
 
 END

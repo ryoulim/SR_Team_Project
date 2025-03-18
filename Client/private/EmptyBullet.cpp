@@ -1,18 +1,18 @@
-#include "BulletTracer.h"
+#include "EmptyBullet.h"
 #include "GameInstance.h"
 #include "Transform.h"
 
-CBulletTracer::CBulletTracer(LPDIRECT3DDEVICE9 pGraphicDev, wstring _strObjName)
+CEmptyBullet::CEmptyBullet(LPDIRECT3DDEVICE9 pGraphicDev, wstring _strObjName)
 	:CPSystem(pGraphicDev, _strObjName)
 {
 }
 
-CBulletTracer::CBulletTracer(const CPSystem& Prototype)
+CEmptyBullet::CEmptyBullet(const CPSystem& Prototype)
 	: CPSystem(Prototype)
 {
 }
 
-void CBulletTracer::resetParticle(Attribute* attribute)
+void CEmptyBullet::resetParticle(Attribute* attribute)
 {
 	attribute->_isAlive = true;
 	
@@ -55,7 +55,7 @@ void CBulletTracer::resetParticle(Attribute* attribute)
 
 }
 
-EVENT CBulletTracer::Update(_float timeDelta)
+EVENT CEmptyBullet::Update(_float timeDelta)
 {
 	list<Attribute>::iterator i;
 	for (i = m_Particles.begin(); i != m_Particles.end(); i++)
@@ -87,7 +87,7 @@ EVENT CBulletTracer::Update(_float timeDelta)
 	return EVN_NONE;
 }
 
-HRESULT CBulletTracer::Render()
+HRESULT CEmptyBullet::Render()
 {
 	if (!m_Particles.empty())
 	{
@@ -174,38 +174,49 @@ HRESULT CBulletTracer::Render()
 	return S_OK;
 }
 
-HRESULT CBulletTracer::Initialize(void* pArg)
+HRESULT CEmptyBullet::Initialize(void* pArg)
 {
-	if (FAILED(Ready_Components()))
+	if (FAILED(Ready_Components(pArg)))
 		return E_FAIL;
 
-	int numparticles = 1;
-	for (int i = 0; i < numparticles; i++)
-	{
-		addParticle();
-	}
+	if (FAILED(__super::Initialize(pArg)))
+		return E_FAIL;
+
+	m_fFrame = GetRandomFloat(0.f, m_fAnimationMaxFrame);
+
 
 	return S_OK;
 }
 
-HRESULT CBulletTracer::Ready_Components()
+HRESULT CEmptyBullet::Ready_Components(void* pArg)
 {
-	/* For.Com_Texture */
-	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Texture_PC_BulletShell"),
+	CPSystem::DESC* pDesc = static_cast<CPSystem::DESC*>(pArg);
+
+	//트랜스폼 컴포넌트 장착
+	CTransform::DESC		TransformDesc{ 10.f, D3DXToRadian(90.f) };
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Transform"),
+		TEXT("Com_Transform"), reinterpret_cast<CComponent**>(&m_pTransForm), &TransformDesc)))
+		return E_FAIL;
+	
+
+	//텍스처 컴포넌트 장착
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, _wstring(TEXT("Prototype_Component_Texture_")) + pDesc->szTextureTag,
 		TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
 		return E_FAIL;
 
 	return S_OK;
+
+	return S_OK;
 }
 
 
-CBulletTracer* CBulletTracer::Create(LPDIRECT3DDEVICE9 pGraphicDev, wstring _strObjName)
+CEmptyBullet* CEmptyBullet::Create(LPDIRECT3DDEVICE9 pGraphicDev, wstring _strObjName)
 {
-	CBulletTracer* pInstance = new CBulletTracer(pGraphicDev, _strObjName);
+	CEmptyBullet* pInstance = new CEmptyBullet(pGraphicDev, _strObjName);
 
 	//스노우 파티클 정보
 	pInstance->m_vbSize = 2048;				//  GPU가 한번에 그릴 수 있는 파티클 개수, CPU가 GPU로 파티클 정점 버퍼에 담을 수 있는 개수
-	pInstance->m_fSize = 0.1f;				//  파티클의 크기
+	pInstance->m_fSize = 0.15f;				//  파티클의 크기
 	pInstance->m_vbOffset = 0;				//  세그먼트의 배치사이즈를 옮길때 쓰는 오프셋(0고정)
 	pInstance->m_vbBatchSize = 1;			//  세그먼트 배치사이즈 크기(한번에 옮길 수 있는 정점들의 개수)
 	pInstance->m_vMin = _float3{ 0.f,0.f,0.f };				//  바운딩박스의 최소크기
@@ -220,7 +231,7 @@ CBulletTracer* CBulletTracer::Create(LPDIRECT3DDEVICE9 pGraphicDev, wstring _str
 	return pInstance;
 }
 
-float CBulletTracer::GetRandomColor(float lowBound, float highBound)
+float CEmptyBullet::GetRandomColor(float lowBound, float highBound)
 {
 	if (lowBound >= highBound)
 		return lowBound;
@@ -230,30 +241,28 @@ float CBulletTracer::GetRandomColor(float lowBound, float highBound)
 	return (f * (highBound - lowBound)) + lowBound;
 }
 
-void CBulletTracer::FrameUpdate(float timeDelta)
+void CEmptyBullet::FrameUpdate(float timeDelta)
 {
 	m_fFrame += 50.f * timeDelta;
 
-	if (6.f < m_fFrame)
+	if (m_fAnimationMaxFrame < m_fFrame)
 		m_fFrame = 0;
 }
 
-CGameObject* CBulletTracer::Clone(void* pArg)
+CGameObject* CEmptyBullet::Clone(void* pArg)
 {
-	CBulletTracer* pInstance = new CBulletTracer(*this);
+	CEmptyBullet* pInstance = new CEmptyBullet(*this);
 
 	if (FAILED(pInstance->Initialize(pArg)))
 	{
-		MSG_BOX("Failed to Created : CBulletTracer");
+		MSG_BOX("Failed to Created : CEmptyBullet");
 		Safe_Release(pInstance);
 	}
 
 	return pInstance;
 }
 
-void CBulletTracer::Free()
+void CEmptyBullet::Free()
 {
 	__super::Free();
-
-	Safe_Release(m_pTextureCom);
 }

@@ -10,7 +10,7 @@ public:
 	CTornado(const CPSystem& Prototype);
 	virtual ~CTornado() = default;
 
-	HRESULT Ready_Components();
+	HRESULT Ready_Components(void* pArg);
 	virtual void resetParticle(Attribute* attribute);
 	virtual EVENT Update(_float timeDelta);
 	virtual HRESULT Render() override;
@@ -19,8 +19,6 @@ public:
 
 	void	FrameUpdate(float timeDelta);
 	HRESULT Ready_Particle();
-
-	float GetRandomColor(float lowBound, float highBound);
 
 public:
 	static CTornado* Create(LPDIRECT3DDEVICE9 pGraphicDev, wstring _strObjName);

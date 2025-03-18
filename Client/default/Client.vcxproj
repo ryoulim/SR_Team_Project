@@ -162,7 +162,7 @@
     <ClInclude Include="..\public\Explosion.h" />
     <ClInclude Include="..\public\Firework.h" />
     <ClInclude Include="..\public\Font.h" />
-    <ClInclude Include="..\public\BulletTracer.h" />
+    <ClInclude Include="..\public\EmptyBullet.h" />
     <ClInclude Include="..\public\Font_BigOrange.h" />
     <ClInclude Include="..\public\Font_BigSilver.h" />
     <ClInclude Include="..\public\Font_MediumBlue.h" />
@@ -226,7 +226,7 @@
     <ClCompile Include="..\private\Explosion.cpp" />
     <ClCompile Include="..\private\Firework.cpp" />
     <ClCompile Include="..\private\Font.cpp" />
-    <ClCompile Include="..\private\BulletTracer.cpp" />
+    <ClCompile Include="..\private\EmptyBullet.cpp" />
     <ClCompile Include="..\private\Font_BigOrange.cpp" />
     <ClCompile Include="..\private\Font_BigSilver.cpp" />
     <ClCompile Include="..\private\Font_MediumBlue.cpp" />

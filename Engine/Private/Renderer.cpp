@@ -65,6 +65,12 @@ HRESULT CRenderer::Render_NonBlend()
 
 HRESULT CRenderer::Render_Blend()
 {
+	//알파소팅
+	m_RenderObjects[RG_BLEND].sort([](CGameObject* pDst, CGameObject* pSrc)->bool
+		{
+			return pDst->Get_ViewZ() > pSrc->Get_ViewZ();
+		});
+
 	for (auto& pGameObject : m_RenderObjects[RG_BLEND])
 	{
 		if (nullptr != pGameObject)

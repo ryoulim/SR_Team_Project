@@ -27,7 +27,6 @@ CPSystem::CPSystem(const CPSystem& Prototype)
 	, m_vMax(Prototype.m_vMax)
 	, m_vMin(Prototype.m_vMin)
 {
-	//m_pVB->AddRef();
 }
 
 
@@ -37,7 +36,7 @@ HRESULT CPSystem::Ready_Particle()
 	m_dwFVF = Particle::FVF;
 	m_dwVtxSize = sizeof(Particle);
 
-
+	//그래픽 디바이스의 레퍼런스 카운트가 + 1 이 된다.
 	HRESULT hr;
 	hr = m_pGraphic_Device->CreateVertexBuffer(
 		m_vbSize * m_dwVtxSize,
@@ -48,16 +47,16 @@ HRESULT CPSystem::Ready_Particle()
 		0
 	);
 
-	//트랜스폼 컴포넌트 장착
-	CTransform::DESC		TransformDesc{ 10.f, D3DXToRadian(90.f) };
-	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Transform"),
-		TEXT("Com_Transform"), reinterpret_cast<CComponent**>(&m_pTransForm), &TransformDesc)))
-		return E_FAIL;
+	//그래픽 디바이스 릴리즈를 각 파티클마다 한번씩 걍 해주면 되지않을까? < 아이디어
+	
+	//프로토타입은 레디 파티클을 안부르지않나? -> 이 함수가 호출이 안된다 -> 프로토타입은 레퍼런스카운트를 올리지않는다.
 
-	//텍스처 컴포넌트 장작(아직없음)
-	//if (FAILED(__super::Add_Component(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Terrain"),
-	//	TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
-	//	return E_FAIL;
+	//그 말은 즉, 클론할때마다 레퍼런스 카운트가 1 증가한다.
+	//근데 Free는 프로토타입이 삭제될때도 호출이 되기때문에 프리안에서 릴리즈 함수를 부르면 중복삭제가 되어버린다.
+
+	//즉 , 클론이 삭제될때만 불리는 레퍼런스 감소 함수가 필요하다.
+	
+	// 클론이 생성될때 bool 변수를 트루로 만드는 로직을 만든다.
 
 	return S_OK;
 }
@@ -70,7 +69,21 @@ HRESULT CPSystem::Initialize_Prototype()
 
 HRESULT CPSystem::Initialize(void* pArg)
 {
+	if (FAILED(Ready_Particle()))
+		return E_FAIL;
+
+	if (pArg != nullptr)
+	{
+		DESC* pDesc = static_cast<DESC*>(pArg);
+		m_pTransForm->Set_State(CTransform::STATE_POSITION, pDesc->vPosition);
+		m_fAnimationMaxFrame = pDesc->fMaxFrame;
 	
+		for (int i = 0; i < pDesc->iParticleNums; i++)
+		{
+			addParticle();
+		}
+	}
+
 	return S_OK;
 }
 
@@ -100,8 +113,12 @@ EVENT CPSystem::Update(_float timeDelta)
 	return EVN_NONE;
 }
 
+
 void CPSystem::Late_Update()
 {
+	_float3	vTemp = *m_pTransForm->Get_State(CTransform::STATE_POSITION);
+	CGameObject::Compute_ViewZ(&vTemp);
+
 	//렌더그룹에 넣어준다.
 	if (FAILED(m_pGameInstance->Add_RenderGroup(CRenderer::RG_BLEND, this)))
 		return;
@@ -299,4 +316,8 @@ void CPSystem::Free()
 
 	Safe_Release(m_pVB);
 	Safe_Release(m_pTransForm);
+	Safe_Release(m_pTextureCom);
+
+	if (m_isClone)
+		Safe_Release(m_pGraphic_Device);
 }

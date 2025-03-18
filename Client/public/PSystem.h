@@ -16,7 +16,10 @@ class CPSystem : public CGameObject
 public:
 	typedef struct tagPSystemDesc
 	{
+		const TCHAR* szTextureTag;
 		_float3 vPosition;
+		_float	fMaxFrame;
+		_int	iParticleNums;
 	}DESC;
 
 
@@ -64,9 +67,6 @@ public: //생존
 protected: //청소
 	virtual void removeDeadParticle();
 
-public:
-	HRESULT Add_GameObject(_uint iPrototypeLevelIndex, const _wstring& strPrototypeTag, _uint iLevelIndex, const _wstring& strLayerTag, void* pArg);
-
 
 
 
@@ -109,6 +109,7 @@ protected: //멤버변수
 	D3DXVECTOR3				m_vMax;
 
 	////////////////////////////////////////////////////////
+	bool					m_isClone = false;
 
 };
 

@@ -47,7 +47,7 @@ void CTransform::Billboard()
 	_float3 vCameraPos = { matCamWorld._41, matCamWorld._42, matCamWorld._43 };
 
 	//카메라를 바라보는 룩벡터
-	_float3		vLook = vCameraPos - vPosition;
+	_float3		vLook = vPosition -vCameraPos;
 
 	//라이트
 	_float3		vRight = {};

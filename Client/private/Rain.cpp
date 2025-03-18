@@ -18,6 +18,12 @@ HRESULT CRain::Ready_Components()
 		TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
 		return E_FAIL;
 
+	//트랜스폼 컴포넌트 장착
+	CTransform::DESC		TransformDesc{ 10.f, D3DXToRadian(90.f) };
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Transform"),
+		TEXT("Com_Transform"), reinterpret_cast<CComponent**>(&m_pTransForm), &TransformDesc)))
+		return E_FAIL;
+
 	return S_OK;
 }
 
@@ -192,6 +198,7 @@ CRain* CRain::Create(LPDIRECT3DDEVICE9 pGraphicDev, wstring _strObjName, int num
 CGameObject* CRain::Clone(void* pArg)
 {
 	CRain* pInstance = new CRain(*this);
+	//pInstance->m_isClone = true;
 
 	if (FAILED(pInstance->Initialize(pArg)))
 	{
