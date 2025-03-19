@@ -30,10 +30,12 @@ public:
 	virtual void Set_State(STATE State) override {};
 
 private:
-	virtual void Weak_Attack() override;
-	virtual void Strong_Attack() override;
-	virtual void Reload() override;
-	virtual void Opening() override {};
+	virtual void Opening(_float fTimeDelta) override;
+	virtual void Walk(_float fTimeDelta) override;
+	virtual void Weak_Attack(_float fTimeDelta) override;
+	virtual void Strong_Attack(_float fTimeDelta) override;
+	virtual void Reload(_float fTimeDelta) override;
+	virtual void Ending(_float fTimeDelta) override;
 
 
 public:

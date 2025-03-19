@@ -47,7 +47,7 @@
       <Filter>02.GameObject\Manager\Layer</Filter>
     </ClInclude>
     <ClInclude Include="..\public\Renderer.h">
-      <Filter>04.Renderer</Filter>
+      <Filter>05.Renderer</Filter>
     </ClInclude>
     <ClInclude Include="..\public\Component.h">
       <Filter>04.Components</Filter>
@@ -258,14 +258,14 @@
     <Filter Include="04.Components\Collider\Rect">
       <UniqueIdentifier>{708cfec0-f8e3-4081-90b7-7667aa838bb3}</UniqueIdentifier>
     </Filter>
-    <Filter Include="04.Renderer">
-      <UniqueIdentifier>{ac1221d1-ea14-4963-a022-db50384008db}</UniqueIdentifier>
-    </Filter>
     <Filter Include="04.Components\VIBuffer\Stall">
       <UniqueIdentifier>{0b130853-dccb-4e58-95ee-7dc318ecdbd1}</UniqueIdentifier>
     </Filter>
     <Filter Include="04.Components\VIBuffer\Computer">
       <UniqueIdentifier>{14aa1ddf-8817-4bbf-8cb0-32cd6e17139c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="05.Renderer">
+      <UniqueIdentifier>{ac1221d1-ea14-4963-a022-db50384008db}</UniqueIdentifier>
     </Filter>
     <Filter Include="04.Components\Transform\Texture">
       <UniqueIdentifier>{435382d3-d1d7-453c-bc59-7a6c58348515}</UniqueIdentifier>
@@ -300,7 +300,7 @@
       <Filter>02.GameObject\Manager\Layer</Filter>
     </ClCompile>
     <ClCompile Include="..\private\Renderer.cpp">
-      <Filter>04.Renderer</Filter>
+      <Filter>05.Renderer</Filter>
     </ClCompile>
     <ClCompile Include="..\private\Component.cpp">
       <Filter>04.Components</Filter>

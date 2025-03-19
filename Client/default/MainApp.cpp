@@ -17,6 +17,46 @@
 #include "DebugMode.h"
 #include "CameraManager.h"
 
+#ifdef _IMGUI
+
+void ImGui::Render_Begin()
+{
+	ImGui_ImplDX9_NewFrame();
+	ImGui_ImplWin32_NewFrame();
+	ImGui::NewFrame();
+}
+
+void ImGui::Render_End()
+{
+	ImGui::Render();
+	ImGui_ImplDX9_RenderDrawData(ImGui::GetDrawData());
+}
+
+HRESULT CMainApp::Ready_Imgui()
+{
+	IMGUI_CHECKVERSION();
+	ImGui::CreateContext();
+	ImGuiIO& io = ImGui::GetIO();
+	io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;
+	ImGui::StyleColorsDark();
+	io.Fonts->AddFontFromFileTTF("C://Windows//Fonts//gulim.ttc", 14.0f, nullptr, io.Fonts->GetGlyphRangesKorean());
+
+	ImGui_ImplWin32_Init(g_hWnd);
+	ImGui_ImplDX9_Init(m_pGraphic_Device);
+
+	return S_OK;
+}
+
+HRESULT CMainApp::Free_Imgui()
+{
+	ImGui_ImplDX9_Shutdown();
+	ImGui_ImplWin32_Shutdown();
+	ImGui::DestroyContext();
+
+	return S_OK;
+}
+
+#endif
 
 // 매크로를 위한 매크로(건드리지 마시오)
 #define m_eNextLevelID LEVEL_STATIC
@@ -40,6 +80,11 @@ HRESULT CMainApp::Initialize()
 	if (FAILED(m_pGameInstance->Initialize_Engine(Desc, &m_pGraphic_Device)))
 		return E_FAIL;
 
+#ifdef _IMGUI
+	if (FAILED(Ready_Imgui()))
+		return E_FAIL;
+#endif
+
 	if (FAILED(Ready_Default_Setting()))
 		return E_FAIL;
 
@@ -56,7 +101,7 @@ HRESULT CMainApp::Initialize()
 	if (FAILED(Ready_Debug_Mode()))
 		return E_FAIL;
 
-
+	ShowCursor(FALSE);
 
 	return S_OK;
 }
@@ -183,6 +228,10 @@ CMainApp* CMainApp::Create()
 void CMainApp::Free()
 {
 	__super::Free();
+
+#ifdef _IMGUI
+	Free_Imgui();
+#endif
 
 	CUI_Manager::Destroy_Instance();
 	Safe_Release(m_pGraphic_Device);

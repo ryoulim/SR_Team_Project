@@ -4,8 +4,17 @@
 /* 기타 다른 정의파일(.h)들을 인클루드하는 역활. */
 #include <Windows.h>
 #include <process.h>
+
+//#define _IMGUI
+#ifdef _IMGUI
+#include "imgui.h"
+#include "imgui_impl_dx9.h"
+#include "imgui_impl_win32.h"
+#endif
+
 #include "Client_Enum.h"
 #include "Client_Macro.h"
+#include "Client_Function.h"
 
 namespace Client
 {

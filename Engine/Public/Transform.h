@@ -69,8 +69,14 @@ public:
 	void Turn(const _float3& vAxis, _float fTimeDelta);
 	void Turn_Immediately(const _float3& vAxis, _float fRadian);
 	void Rotation(const _float3& vAxis, _float fRadian);
+	void Rotation_Reset();
 
-	void QuaternionRotation(const _float3& vAngle);
+	void Move(const _float3& vDirectionVector);
+	void Move(const _float3& vDirectionVector, _float fTimeDelta);
+
+	void Quaternion_Turn(const _float3& vAngle);
+	void Quaternion_Rotation(const _float3& vAngle);
+	void Quaternion_Revolution(const _float3& vAxis, const _float3& vCenter, _float fAngle);
 
 private:
 	_float4x4				m_WorldMatrix;
@@ -78,6 +84,9 @@ private:
 	_float					m_fSpeedPerSec = {};
 	_float					m_fRotationPerSec = {};
 	static _float4x4		m_Return;
+
+private:
+	_float3 RotateVectorByQuaternion(const _float3& v, const D3DXQUATERNION& q);
 
 public:
 	static CTransform* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
