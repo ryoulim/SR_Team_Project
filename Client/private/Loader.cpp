@@ -15,6 +15,8 @@
 #include "MyCube.h"
 #include "TestMonster.h"
 #include "TestBullet.h"
+/* 테스트 터레인*/
+#include "TestTerrain.h"
 
 //플레이어와 무기
 #include "Player.h"
@@ -43,6 +45,10 @@
 #include "ScreenDust.h"
 #include "Button.h"
 #include "Button_Main.h"
+
+//맵 인클루드
+#include "Block.h"
+
 
 CLoader::CLoader(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: m_pGraphic_Device { pGraphic_Device }
@@ -95,6 +101,10 @@ HRESULT CLoader::Loading()
 
 	case LEVEL_GAMEPLAY:
 		hr = Loading_For_GamePlay();
+		break;
+
+	case LEVEL_TEST:
+		hr = Loading_For_Test();
 		break;
 	}
 
@@ -464,6 +474,36 @@ HRESULT CLoader::Loading_For_GamePlay()
 	lstrcpy(m_szLoadingText, TEXT("로딩이 완료되었습니다."));
 	m_isFinished = true;
 	m_fLoadPercent = 1.f;
+	return S_OK;
+}
+
+HRESULT CLoader::Loading_For_Test()
+{
+	lstrcpy(m_szLoadingText, TEXT("텍스쳐을(를) 로딩중입니다."));
+
+	ADD_TEXTURE(TTest, "../Bin/Resources/Textures/Object/Cabinet/Cabinet%d.png", 3);
+	ADD_TEXTURE(Test, "../Bin/Resources/Textures/TileTest/tile%d.PNG", 121);
+	ADD_TEXTURE(BackGround, "../Bin/Resources/Textures/Default%d.jpg", 2);
+	ADD_TEXTURE(Terrain, "../Bin/Resources/Textures/Map/Tile22/tile6498.PNG", 1);
+	ADD_TEXTURE(MyCube, "../Bin/Resources/Textures/Snow/Snow.png", 1);
+	ADD_TEXTURE(Box, "../Bin/Resources/Textures/Object/Box/tile6628.png", 1);
+	ADD_TEXTURE(Cabinet, "../Bin/Resources/Textures/Object/Cabinet/Cabinet%d.png", 3);
+	ADD_TEXTURE(Trapezoid, "../Bin/Resources/Textures/Object/Trapezoid/Trapezoid%d.PNG", 2);
+
+
+	lstrcpy(m_szLoadingText, TEXT("원형객체을(를) 로딩중입니다."));
+	ADD_PRTOBJ(Cabinet);
+	ADD_PRTOBJ(Block);
+	ADD_PRTOBJ(BackGround);
+	ADD_PRTOBJ(Trapezoid);
+	ADD_PRTOBJ(Terrain);
+	ADD_PRTOBJ(TestTerrain);
+
+	lstrcpy(m_szLoadingText, TEXT("로딩이 완료되었습니다."));
+	m_isFinished = true;
+
+
+
 	return S_OK;
 }
 

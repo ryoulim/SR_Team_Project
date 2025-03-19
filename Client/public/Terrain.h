@@ -2,13 +2,13 @@
 // 부모 클래스 이름 : Statue
 
 #pragma once
-#include "Statue.h"
+#include "Map.h"
 
 BEGIN(Client)
 
-class CTerrain final : public CStatue
+class CTerrain : public CMap
 {
-private:
+protected:
 	CTerrain(LPDIRECT3DDEVICE9 pGraphic_Device);
 	CTerrain(const CTerrain& Prototype);
 	virtual ~CTerrain() = default;	
