@@ -317,6 +317,7 @@ void CTransform::Quaternion_Rotation(const _float3& vAngle)
 	// 사원수 회전 생성
 	D3DXQUATERNION Qur{};
 	D3DXQuaternionRotationYawPitchRoll(&Qur, vAngle.y, vAngle.x, vAngle.z);
+	
 
 	Set_State(STATE_RIGHT, RotateVectorByQuaternion(vRight, Qur));
 	Set_State(STATE_UP, RotateVectorByQuaternion(vUp, Qur));

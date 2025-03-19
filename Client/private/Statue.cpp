@@ -25,7 +25,7 @@ HRESULT CStatue::Initialize(void* pArg)
 		DESC* pDesc = static_cast<DESC*>(pArg);
 		m_pTransformCom->Set_State(CTransform::STATE_POSITION, pDesc->vInitPos);
 		m_pTransformCom->Scaling(pDesc->vScale);
-		m_pTransformCom->QuaternionRotation(pDesc->vAngle);
+		m_pTransformCom->Quaternion_Rotation(pDesc->vAngle);
 	}
 
 	return S_OK;

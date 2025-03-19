@@ -210,6 +210,7 @@
     </Filter>
     <Filter Include="02.GameObjects\Map\TextTerrain">
       <UniqueIdentifier>{c3ef4eff-606f-4fdd-ab5a-b810076f6654}</UniqueIdentifier>
+    </Filter>
     <Filter Include="100.Imgui">
       <UniqueIdentifier>{5dfc6c89-573a-44c3-81d7-b3a0d6305c09}</UniqueIdentifier>
     </Filter>
@@ -439,6 +440,7 @@
     </ClInclude>
     <ClInclude Include="..\public\TestTerrain.h">
       <Filter>02.GameObjects\Map\TextTerrain</Filter>
+    </ClInclude>
     <ClInclude Include="..\public\Client_Function.h">
       <Filter>99.Headers</Filter>
     </ClInclude>
@@ -472,7 +474,6 @@
     <ClInclude Include="..\public\FadeUI.h">
       <Filter>02.GameObjects\UI\MenuUI</Filter>
     </ClInclude>
-    <ClInclude Include="..\public\ItemDialog.h" />
     <ClInclude Include="..\public\Sphere.h">
       <Filter>02.GameObjects\Particle\Sphere</Filter>
     </ClInclude>
@@ -689,7 +690,6 @@
     <ClCompile Include="..\private\TestTerrain.cpp">
       <Filter>02.GameObjects\Map\TextTerrain</Filter>
     </ClCompile>
-
     <ClCompile Include="..\Imgui\imgui.cpp">
       <Filter>100.Imgui</Filter>
     </ClCompile>
@@ -723,7 +723,9 @@
     <ClCompile Include="..\private\Button_Main.cpp">
       <Filter>02.GameObjects\UI\Button</Filter>
     </ClCompile>
-    <ClCompile Include="..\private\ItemDialog.cpp" />
+    <ClCompile Include="..\private\ScreenDust.cpp">
+      <Filter>02.GameObjects\UI\MenuUI\MainMenu</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
