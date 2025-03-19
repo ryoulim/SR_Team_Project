@@ -463,6 +463,9 @@
     <ClInclude Include="..\public\Dust.h">
       <Filter>02.GameObjects\Particle\Dust</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\ScreenDust.h">
+      <Filter>02.GameObjects\UI\MenuUI\MainMenu</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">

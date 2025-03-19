@@ -199,6 +199,7 @@
     <ClInclude Include="..\public\Portrait.h" />
     <ClInclude Include="..\public\PSystem.h" />
     <ClInclude Include="..\public\Rain.h" />
+    <ClInclude Include="..\public\ScreenDust.h" />
     <ClInclude Include="..\public\Smoke.h" />
     <ClInclude Include="..\public\Sphere.h" />
     <ClInclude Include="..\public\Sprite.h" />
@@ -280,6 +281,7 @@
     <ClCompile Include="..\private\Portrait.cpp" />
     <ClCompile Include="..\private\PSystem.cpp" />
     <ClCompile Include="..\private\Rain.cpp" />
+    <ClCompile Include="..\private\ScreenDust.cpp" />
     <ClCompile Include="..\private\Signboard.cpp" />
     <ClCompile Include="..\private\Sphere.cpp" />
     <ClCompile Include="..\private\Stall.cpp" />

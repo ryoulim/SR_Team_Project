@@ -29,6 +29,7 @@
 #include "Sprite.h"
 #include "Tornado.h"
 #include "Smoke.h"
+#include "Dust.h"
 #include "Sphere.h"
 #include "CameraSprite.h"
 
@@ -39,6 +40,8 @@
 #include "Armor.h"
 #include "Portrait.h"
 #include "MainMenu.h"
+#include "ScreenDust.h"
+#include "Button.h"
 #include "Button_Main.h"
 
 CLoader::CLoader(LPDIRECT3DDEVICE9 pGraphic_Device)
@@ -280,6 +283,7 @@ HRESULT CLoader::Loading_For_Logo()
 	m_fLoadPercent += 0.03f;
 	ADD_TEXTURE(MainMenu, "../Bin/Resources/Textures/UI/Background/MainMenu_Background.PNG", 1);
 	m_fLoadPercent += 0.03f;
+	ADD_TEXTURE(Screen_Dust, "../Bin/Resources/Textures/Particle/ScreenDust/Screen_Dust%d.PNG", 50);
 	ADD_TEXTURE(Save_Background, "../Bin/Resources/Textures/UI/Background/Save_Background.PNG", 1);
 	m_fLoadPercent += 0.03f;
 	for (size_t i = 0; i < 100000; i++)
@@ -342,6 +346,9 @@ HRESULT CLoader::Loading_For_Logo()
 	ADD_PRTOBJ(BackGround);
 	m_fLoadPercent += 0.03f;
 	ADD_PRTOBJ(MainMenu);
+	ADD_PRTOBJ(ScreenDust);
+	ADD_PRTOBJ(Button);
+	m_fLoadPercent = 4.f / 5.f;
 	m_fLoadPercent += 0.03f;
 	ADD_PRTOBJ(Button_Main);
 	m_fLoadPercent += 0.03f;
