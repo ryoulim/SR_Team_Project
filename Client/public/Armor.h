@@ -8,6 +8,8 @@ BEGIN(Client)
 
 class CArmor final : public CUI
 {
+public:
+	enum ARMORSTATUS { ARMOR0, ARMOR1, ARMOR2, ARMOREND };
 private:
 	CArmor(LPDIRECT3DDEVICE9 pGraphic_Device);
 	CArmor(const CArmor& Prototype);
@@ -20,6 +22,14 @@ public:
 	virtual EVENT Update(_float fTimeDelta) override;
 	virtual void Late_Update(_float fTimeDelta) override;
 	virtual HRESULT Render() override;
+
+public:
+	void	Set_Armor(_uint _Armor) { m_uiArmor = _Armor; Update(0.f); }
+
+private:
+	_uint	m_uiArmor = {};
+	ARMORSTATUS m_eArmorType = { ARMOR0 };
+
 
 public:
 	static CArmor* Create(LPDIRECT3DDEVICE9 pGraphic_Device);

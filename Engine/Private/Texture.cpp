@@ -93,6 +93,11 @@ HRESULT CTexture::Get_TextureSize(_uint iIndex, _float3* pOut)
 	return S_OK;
 }
 
+HRESULT CTexture::Bind_Shader_To_Texture(LPD3DXEFFECT pEffect, D3DXHANDLE hTexParameter, _uint iIndex)
+{
+	return pEffect->SetTexture(hTexParameter, m_Textures[iIndex]);
+}
+
 CTexture* CTexture::Create(LPDIRECT3DDEVICE9 pGraphic_Device, const _tchar* pTextureFilePath, _uint iNumTextures)
 {
 	CTexture* pInstance = new CTexture(pGraphic_Device);

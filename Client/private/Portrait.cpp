@@ -36,11 +36,11 @@ HRESULT CPortrait::Initialize(void* pArg)
 
 	DESC Desc{};
 	Desc.vScale = _float3(80.f, 80.f, 1.f); // 고정
-	Desc.vInitPos = _float3(-(g_iWinSizeX / 2.f) + Desc.vScale.x / 2.f - 10.f, -(g_iWinSizeY / 2.f) + Desc.vScale.y / 2.f, 1.f);
-
+	Desc.vInitPos = _float3(-(g_iWinSizeX / 2.f) + Desc.vScale.x / 2.f - 10.f, -(g_iWinSizeY / 2.f) + Desc.vScale.y / 2.f, 0.f);
+	m_fDepth = 0.f;
 	if (FAILED(__super::Initialize(&Desc)))
 		return E_FAIL;
-
+	m_uiHP = 100;
 	return S_OK;
 }
 
@@ -80,8 +80,30 @@ void CPortrait::Priority_Update(_float fTimeDelta)
 
 EVENT CPortrait::Update(_float fTimeDelta)
 {
-	// Player->GetHP() : m_eHPStatus Set
-
+	//if (GetKeyState('1') & 0x8000)
+	//	m_uiHP++;
+	//
+	//if (GetKeyState('2')&0x8000)
+	//{
+	//	if (m_uiHP != 0)
+	//		m_uiHP--;
+	//}
+	//HP100 = 0,
+	//	HP80 = 5,
+	//	HP40 = 10,
+	//	HP25 = 15,
+	//	HP10 = 18,
+	//	HP0 = 21,
+	if (m_uiHP > 80)
+		m_eHPStatus = HP100;
+	else if (m_uiHP > 40)
+		m_eHPStatus = HP80;
+	else if (m_uiHP > 25)
+		m_eHPStatus = HP40;
+	else if (m_uiHP > 10)
+		m_eHPStatus = HP25;
+	else
+		m_eHPStatus = HP10;
 	Change_Face(fTimeDelta);
 
 	return __super::Update(fTimeDelta);
@@ -95,13 +117,16 @@ void CPortrait::Late_Update(_float fTimeDelta)
 HRESULT CPortrait::Render()
 {
 	//CUI_Manager::Get_Instance(m_pGameInstance)->Render_Text("armor fragment x4", CFont::LEFT, CFont::MEDIUMBLUE, -(g_iWinSizeX / 2.f) + 20.f, g_iWinSizeY / 2.f - 20.f);
-	//CUI_Manager::Get_Instance(m_pGameInstance)->Render_Text(
-	//	"Hello World!!",
-	//	CFont::MEDIUMBLUE, 
-	//	CFont::LEFT, 
-	//	(float)(-(g_iWinSizeX / 2.f) + 20.f),
-	//	(float)(g_iWinSizeY / 2.f - 20.f));
+	CUI_Manager::Get_Instance(m_pGameInstance)->Render_Text(
+		"Hello World!!",
+		CFont::MEDIUMBLUE, 
+		CFont::LEFT, 
+		(float)(-(g_iWinSizeX / 2.f) + 20.f),
+		(float)(g_iWinSizeY / 2.f - 20.f));
 
+	RENDER_TEXT_BOL(m_uiHP, 
+		-(g_iWinSizeX / 2.f) + m_vSize.x-5.f,
+		-(g_iWinSizeY / 2.f) + m_vSize.y / 2.f - 3.f, 1.1f);
 	
 	
 	return __super::Render();
@@ -111,7 +136,6 @@ void CPortrait::Change_Face(_float fTimeDelta)
 {
 	// player->isdamaged? : m_eFace = ANGER; && m_fAnimTick = 0.f;
 	m_fAnimTick += fTimeDelta;
-
 
 	switch (m_eFace)
 	{
@@ -194,5 +218,4 @@ CGameObject* CPortrait::Clone(void* pArg)
 void CPortrait::Free()
 {
 	__super::Free();
-	Safe_Release(m_pFont);
 }

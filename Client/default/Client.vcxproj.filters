@@ -202,6 +202,9 @@
     <Filter Include="02.GameObjects\Weapon\LoverBoy">
       <UniqueIdentifier>{938caa6e-991d-4371-8c1a-c40eec5364c9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\UI\GamePlayUI\ItemDialog">
+      <UniqueIdentifier>{66e93016-322f-43a1-83a6-f8b9aad04f9f}</UniqueIdentifier>
+    </Filter>
     <Filter Include="02.GameObjects\Effect\old">
       <UniqueIdentifier>{a808fd5a-7a9a-4779-a0db-c168d38ff4ed}</UniqueIdentifier>
     </Filter>
@@ -417,6 +420,13 @@
     <ClInclude Include="..\public\Weapon_LoverBoy.h">
       <Filter>02.GameObjects\Weapon\LoverBoy</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\Button_Main.h">
+      <Filter>02.GameObjects\UI\Button</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\FadeUI.h">
+      <Filter>02.GameObjects\UI\MenuUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\ItemDialog.h" />
     <ClInclude Include="..\public\Sphere.h">
       <Filter>02.GameObjects\Particle\Sphere</Filter>
     </ClInclude>
@@ -627,6 +637,13 @@
     <ClCompile Include="..\private\Dust.cpp">
       <Filter>02.GameObjects\Particle\Dust</Filter>
     </ClCompile>
+    <ClCompile Include="..\private\FadeUI.cpp">
+      <Filter>02.GameObjects\UI\MenuUI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Button_Main.cpp">
+      <Filter>02.GameObjects\UI\Button</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\ItemDialog.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />

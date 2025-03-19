@@ -44,6 +44,11 @@ void CWeapon_LoverBoy::Priority_Update(_float fTimeDelta)
 
 EVENT CWeapon_LoverBoy::Update(_float fTimeDelta)
 {	
+
+	if (KEY_DOWN('4'))
+	{
+		UPDATE_AMMO(CAmmo::LOVERBOY);
+	}
 	//if (KEY_DOWN('1'))
 	//{
 	//	if (m_fTextureNum == 0.f)

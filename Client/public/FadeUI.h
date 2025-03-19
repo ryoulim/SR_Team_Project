@@ -1,4 +1,4 @@
-// 내 클래스 이름 : MainMenu
+// 내 클래스 이름 : FadeUI
 // 부모 클래스 이름 : UI
 
 #pragma once
@@ -6,12 +6,17 @@
 
 BEGIN(Client)
 
-class CMainMenu final : public CUI
+class CFadeUI final : public CUI
 {
+public:
+	typedef struct tagFadeUIDesc : public CUI::DESC
+	{
+		_bool	m_isFadeIn;
+	}DESC;
 private:
-	CMainMenu(LPDIRECT3DDEVICE9 pGraphic_Device);
-	CMainMenu(const CMainMenu& Prototype);
-	virtual ~CMainMenu() = default;
+	CFadeUI(LPDIRECT3DDEVICE9 pGraphic_Device);
+	CFadeUI(const CFadeUI& Prototype);
+	virtual ~CFadeUI() = default;
 
 public:
 	virtual HRESULT Initialize_Prototype() override;
@@ -20,11 +25,17 @@ public:
 	virtual EVENT Update(_float fTimeDelta) override;
 	virtual void Late_Update(_float fTimeDelta) override;
 	virtual HRESULT Render() override;
+	void	Fade_In();
+	void	Fade_Out();
+
 private:
-	bool testbool = { false };
+	_float		m_fFadeOpacity = {};
+	_bool		m_isRenderOn = { false };
+	_bool		m_isFadeIn = { false };
+	_bool		m_isFadeOut = { false };
 
 public:
-	static CMainMenu* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
+	static CFadeUI* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
 	virtual CGameObject* Clone(void* pArg) override;
 	virtual void Free();
 };

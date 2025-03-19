@@ -1,4 +1,4 @@
-// 내 클래스 이름 : MainMenu
+// 내 클래스 이름 : ItemDialog
 // 부모 클래스 이름 : UI
 
 #pragma once
@@ -6,25 +6,29 @@
 
 BEGIN(Client)
 
-class CMainMenu final : public CUI
+class CItemDialog final : public CUI
 {
+public:
+	typedef struct tagItemDialogDesc : public CUI::DESC
+	{
+
+	}DESC;
+
 private:
-	CMainMenu(LPDIRECT3DDEVICE9 pGraphic_Device);
-	CMainMenu(const CMainMenu& Prototype);
-	virtual ~CMainMenu() = default;
+	CItemDialog(LPDIRECT3DDEVICE9 pGraphic_Device);
+	CItemDialog(const CItemDialog& Prototype);
+	virtual ~CItemDialog() = default;
 
 public:
 	virtual HRESULT Initialize_Prototype() override;
 	virtual HRESULT Initialize(void* pArg) override;
 	virtual void Priority_Update(_float fTimeDelta) override;
-	virtual EVENT Update(_float fTimeDelta) override;
+	virtual void Update(_float fTimeDelta) override;
 	virtual void Late_Update(_float fTimeDelta) override;
 	virtual HRESULT Render() override;
-private:
-	bool testbool = { false };
 
 public:
-	static CMainMenu* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
+	static CItemDialog* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
 	virtual CGameObject* Clone(void* pArg) override;
 	virtual void Free();
 };

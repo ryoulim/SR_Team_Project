@@ -3,6 +3,7 @@
 #include "Client_Defines.h"
 #include "GameInstance.h"
 #include "GameObject.h"
+#include "UI_Manager.h"
 
 BEGIN(Client)
 
@@ -30,6 +31,7 @@ public:
 	virtual HRESULT Render() override;
 
 	virtual void Set_State(STATE State) PURE;
+	_uint	Get_Ammo() { return m_iAmmo; }
 
 protected:
 	virtual HRESULT Ready_Components(void* pArg);

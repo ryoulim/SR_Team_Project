@@ -34,11 +34,12 @@
 
 //UI 인클루드
 #include "Aim.h"
+#include "Logo.h"
 #include "Ammo.h"
 #include "Armor.h"
 #include "Portrait.h"
 #include "MainMenu.h"
-#include "Button.h"
+#include "Button_Main.h"
 
 CLoader::CLoader(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: m_pGraphic_Device { pGraphic_Device }
@@ -111,11 +112,26 @@ HRESULT CLoader::Loading_For_Logo()
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_GameObject_PC_Sprite"),
 		CSprite::Create(m_pGraphic_Device))))
 		return E_FAIL;
+	m_fLoadPercent += 0.03f;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_GameObject_PC_Explosion"),
+		CExplosion::Create(m_pGraphic_Device))))
+		return E_FAIL;
+	m_fLoadPercent += 0.03f;
 
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_GameObject_PC_CameraSprite"),
 		CCameraSprite::Create(m_pGraphic_Device))))
 		return E_FAIL;
-
+	m_fLoadPercent += 0.03f;
+	for (size_t i = 0; i < 100000; i++)
+	{
+		for (size_t j = 0; j < 10000; j++)
+		{
+			int a = 0;
+		}
+		if (GetAsyncKeyState(VK_SPACE))
+			break;
+	}
 	////////////////////////////////////////////파티클//////////////////////////////////////////////////////
 
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_GameObject_PC_Sphere"),
@@ -125,23 +141,44 @@ HRESULT CLoader::Loading_For_Logo()
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_GameObject_PC_Tornado"),
 		CTornado::Create(m_pGraphic_Device, L"PARTICLE_Tornado"))))
 		return E_FAIL;
+	m_fLoadPercent += 0.03f;
 
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_GameObject_PC_Rain"),
 		CRain::Create(m_pGraphic_Device, L"PARTICLE_SNOW", 200, _float3(0.f, 0.f, 0.f), _float3(500.f, 500.f, 500.f)))))
 		return E_FAIL;
-
+	m_fLoadPercent += 0.03f;
+	for (size_t i = 0; i < 100000; i++)
+	{
+		for (size_t j = 0; j < 10000; j++)
+		{
+			int a = 0;
+		}
+		if (GetAsyncKeyState(VK_SPACE))
+			break;
+	}
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_GameObject_PC_Firework"),
 		CFirework::Create(m_pGraphic_Device, L"PARTICLE_FIREWORK"))))
 		return E_FAIL;
+	m_fLoadPercent += 0.03f;
 
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_GameObject_PC_Smoke"),
 		CSmoke::Create(m_pGraphic_Device, L"PARTICLE_SMOKE"))))
 		return E_FAIL;
+	m_fLoadPercent += 0.03f;
 
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_GameObject_PC_EmptyBullet"),
 		CEmptyBullet::Create(m_pGraphic_Device, L"PARTICLE_EMPTYBULLET"))))
 		return E_FAIL;
-
+	m_fLoadPercent += 0.03f;
+	for (size_t i = 0; i < 100000; i++)
+	{
+		for (size_t j = 0; j < 10000; j++)
+		{
+			int a = 0;
+		}
+		if (GetAsyncKeyState(VK_SPACE))
+			break;
+	}
 	////////////////////////////////////////////텍스처//////////////////////////////////////////////////////
 
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Effect_Explorer"),
@@ -151,6 +188,7 @@ HRESULT CLoader::Loading_For_Logo()
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Effect_BulletTacer"),
 		CTexture::Create(m_pGraphic_Device, TEXT("../Bin/Resources/Textures/Particle/Effect_BulletTacer%d.png"), 3))))
 		return E_FAIL;
+	m_fLoadPercent += 0.03f;
 
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Effect_Explor"),
 		CTexture::Create(m_pGraphic_Device, TEXT("../Bin/Resources/Textures/Particle/Effect_Explor%d.png"), 32))))
@@ -163,78 +201,188 @@ HRESULT CLoader::Loading_For_Logo()
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Effect_GunFire"),
 		CTexture::Create(m_pGraphic_Device, TEXT("../Bin/Resources/Textures/Particle/Effect_GunFire2%d.png"), 3))))
 		return E_FAIL;
+	m_fLoadPercent += 0.03f;
 
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Check_Tile"),
 		CTexture::Create(m_pGraphic_Device, TEXT("../Bin/Resources/Textures/Particle/Check_Tile.png"), 1))))
 		return E_FAIL;
-
+	m_fLoadPercent += 0.03f;
+	for (size_t i = 0; i < 100000; i++)
+	{
+		for (size_t j = 0; j < 10000; j++)
+		{
+			int a = 0;
+		}
+		if (GetAsyncKeyState(VK_SPACE))
+			break;
+	}
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_PC_Small_Fire"),
 		CTexture::Create(m_pGraphic_Device, TEXT("../Bin/Resources/Textures/Particle/PC_Small_Fire%d.png"), 5))))
 		return E_FAIL;
+	m_fLoadPercent += 0.03f;
 
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_PC_Tornado"),
 		CTexture::Create(m_pGraphic_Device, TEXT("../Bin/Resources/Textures/Particle/PC_Tornado%d.png"), 25))))
 		return E_FAIL;
+	m_fLoadPercent += 0.03f;
 
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_PC_Small_Smoke"),
 		CTexture::Create(m_pGraphic_Device, TEXT("../Bin/Resources/Textures/Particle/PC_Small_Smoke%d.png"), 20))))
 		return E_FAIL;
+	m_fLoadPercent += 0.03f;
 
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_PC_Explosion"),
 		CTexture::Create(m_pGraphic_Device, TEXT("../Bin/Resources/Textures/Particle/PS_EXPLOSION%d.png"), 14))))
 		return E_FAIL;
-
+	m_fLoadPercent += 0.03f;
+	for (size_t i = 0; i < 100000; i++)
+	{
+		for (size_t j = 0; j < 10000; j++)
+		{
+			int a = 0;
+		}
+		if (GetAsyncKeyState(VK_SPACE))
+			break;
+	}
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_PC_BulletShell"),
 		CTexture::Create(m_pGraphic_Device, TEXT("../Bin/Resources/Textures/Particle/PC_BulletShell%d.png"), 7))))
 		return E_FAIL;
+	m_fLoadPercent += 0.03f;
 
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_PS_Firework"),
 		CTexture::Create(m_pGraphic_Device, TEXT("../Bin/Resources/Textures/Particle/PS_Firework%d.png"), 4))))
 		return E_FAIL;
+	m_fLoadPercent += 0.03f;
 
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_PC_Rain"),
 		CTexture::Create(m_pGraphic_Device, TEXT("../Bin/Resources/Textures/Particle/PC_Rain.png"), 1))))
 		return E_FAIL;
-
+	m_fLoadPercent += 0.03f;
+	for (size_t i = 0; i < 100000; i++)
+	{
+		for (size_t j = 0; j < 10000; j++)
+		{
+			int a = 0;
+		}
+		if (GetAsyncKeyState(VK_SPACE))
+			break;
+	}
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_PC_Fire"),
 		CTexture::Create(m_pGraphic_Device, TEXT("../Bin/Resources/Textures/Particle/PC_Fire%d.png"), 20))))
 		return E_FAIL;
+	m_fLoadPercent += 0.03f;
 
 #pragma endregion
 
 #pragma region TEXTURE
 	lstrcpy(m_szLoadingText, TEXT("텍스쳐을(를) 로딩중입니다."));
 	ADD_TEXTURE(BackGround, "../Bin/Resources/Textures/Default%d.jpg", 2);
+	m_fLoadPercent += 0.03f;
 	ADD_TEXTURE(MainMenu, "../Bin/Resources/Textures/UI/Background/MainMenu_Background.PNG", 1);
+	m_fLoadPercent += 0.03f;
 	ADD_TEXTURE(Save_Background, "../Bin/Resources/Textures/UI/Background/Save_Background.PNG", 1);
-	m_fLoadPercent = 1.f / 5.f;
+	m_fLoadPercent += 0.03f;
+	for (size_t i = 0; i < 100000; i++)
+	{
+		for (size_t j = 0; j < 10000; j++)
+		{
+			int a = 0;
+		}
+		if (GetAsyncKeyState(VK_SPACE))
+			break;
+	}
+	ADD_TEXTURE(Logo, "../Bin/Resources/Textures/UI/Logo/logo0.PNG", 1);
+	m_fLoadPercent += 0.03f;
+	ADD_TEXTURE(Logo_Shadow, "../Bin/Resources/Textures/UI/Logo/logo1.PNG", 1);
+	m_fLoadPercent += 0.03f;
+
+
+	for (size_t i = 0; i < 100000; i++)
+	{
+		for (size_t j = 0; j < 10000; j++)
+		{
+			int a = 0;
+		}
+		if (GetAsyncKeyState(VK_SPACE))
+			break;
+	}
 #pragma endregion
 
 #pragma region MODEL
 	lstrcpy(m_szLoadingText, TEXT("모델을(를) 로딩중입니다."));
-	m_fLoadPercent = 2.f / 5.f;
+	for (size_t i = 0; i < 100000; i++)
+	{
+		for (size_t j = 0; j < 10000; j++)
+		{
+			int a = 0;
+		}
+		if (GetAsyncKeyState(VK_SPACE))
+			break;
+	}
+	m_fLoadPercent += 0.03f;
 #pragma endregion
 
 #pragma region SOUND
 	lstrcpy(m_szLoadingText, TEXT("사운드을(를) 로딩중입니다."));
-	m_fLoadPercent = 3.f / 5.f;
+	for (size_t i = 0; i < 100000; i++)
+	{
+		for (size_t j = 0; j < 10000; j++)
+		{
+			int a = 0;
+		}
+		if (GetAsyncKeyState(VK_SPACE))
+			break;
+	}
 #pragma endregion
+	m_fLoadPercent += 0.03f;
 
 #pragma region PRTOBJ
 	lstrcpy(m_szLoadingText, TEXT("원형객체을(를) 로딩중입니다."));
+
 	ADD_PRTOBJ(BackGround);
+	m_fLoadPercent += 0.03f;
 	ADD_PRTOBJ(MainMenu);
-	ADD_PRTOBJ(Button);
-	m_fLoadPercent = 4.f / 5.f;
+	m_fLoadPercent += 0.03f;
+	ADD_PRTOBJ(Button_Main);
+	m_fLoadPercent += 0.03f;
+	ADD_PRTOBJ(Logo);
+	for (size_t i = 0; i < 100000; i++)
+	{
+		for (size_t j = 0; j < 10000; j++)
+		{
+			int a = 0;
+		}
+		if (GetAsyncKeyState(VK_SPACE))
+			break;
+	}
+	m_fLoadPercent += 0.03f;
 
 #pragma endregion
 
 #pragma region DATA
 	lstrcpy(m_szLoadingText, TEXT("데이터를 읽어들이는 중입니다."));
 	Add_Data(TEXT("GamePlayLevelData.csv"));
-	m_fLoadPercent = 5.f / 5.f;
+	for (size_t i = 0; i < 100000; i++)
+	{
+		for (size_t j = 0; j < 10000; j++)
+		{
+			int a = 0;
+		}
+		if (GetAsyncKeyState(VK_SPACE))
+			break;
+	}
+	m_fLoadPercent += 0.03f;
 
-
+	for (size_t i = 0; i < 100000; i++)
+	{
+		for (size_t j = 0; j < 10000; j++)
+		{
+			int a = 0;
+			
+		}
+		if (GetAsyncKeyState(VK_SPACE))
+			break;
+	}
 #pragma endregion
 
 	lstrcpy(m_szLoadingText, TEXT("로딩이 완료되었습니다."));
@@ -249,7 +397,7 @@ HRESULT CLoader::Loading_For_GamePlay()
 	lstrcpy(m_szLoadingText, TEXT("텍스쳐을(를) 로딩중입니다."));
 	ADD_TEXTURE(Terrain, "../Bin/Resources/Textures/Map/tile6191.PNG", 1);
 	ADD_TEXTURE(MyCube, "../Bin/Resources/Textures/Snow/Snow.png", 1);
-	ADD_TEXTURE(Aim, "../Bin/Resources/Textures/Aim/tile11426.PNG", 1);
+	ADD_TEXTURE(Aim, "../Bin/Resources/Textures/Aim/aim0.PNG", 1);
 	ADD_TEXTURE(Armor, "../Bin/Resources/Textures/UI/Armor/armor%d.PNG", 3);
 	ADD_TEXTURE(Ammo, "../Bin/Resources/Textures/UI/Ammo/ammo%d.PNG", 8);
   	ADD_TEXTURE(Portrait, "../Bin/Resources/Textures/UI/Portrait/portrait%d.PNG", 25);
