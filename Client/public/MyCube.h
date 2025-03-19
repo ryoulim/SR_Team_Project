@@ -31,6 +31,7 @@ public:
 private:
 	_float				m_fTimeAcc{};
 	virtual HRESULT Ready_Components(void* pArg);
+	void				LightOn();
 
 public:
 	static CMyCube* Create(LPDIRECT3DDEVICE9 pGraphic_Device);

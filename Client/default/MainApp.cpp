@@ -192,3 +192,5 @@ void CMainApp::Free()
 	/* 내멤버를 정리한다.*/	
 	Safe_Release(m_pGameInstance);
 }
+
+
