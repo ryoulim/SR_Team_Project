@@ -62,7 +62,7 @@ HRESULT CButton_Main::Initialize(void* pArg)
 		/*__super::Update_Rect();*/
 	}
 	m_fAnimationFrame = 0.f;
-	m_fDepth = 0.2f;
+	m_fDepth = 5.f;
 	return S_OK;
 }
 

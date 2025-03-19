@@ -85,9 +85,13 @@ HRESULT CRenderer::Render_Blend()
 
 HRESULT CRenderer::Render_UI()
 {
+	/* 멍청이슈 발생 */
+	/* UI카메라는 depth 0으로(가장 먼저 렌더) */
+	/* 나머지 출력할 객체는 가장 뒤에 그려질 것이 제일 먼저 그리도록 depth 조절 */
+	/* 먼저 그려야 덮히니까... */
 	m_RenderObjects[RG_UI].sort([](CGameObject* pDst, CGameObject* pSrc)->bool
 	{
-		return pDst->Get_UIDepth() > pSrc->Get_UIDepth();
+		return pDst->Get_UIDepth() < pSrc->Get_UIDepth();
 	});
 
 
