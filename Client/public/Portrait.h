@@ -45,11 +45,17 @@ public:
 private:
 	void	Change_Face(_float fTimeDelta);
 
+public:
+	_uint	Get_HP() { return m_uiHP; }
+	void	Set_HP(_uint _HP) { m_uiHP = _HP; Update(0.f); }
+	void	Add_HP(_uint _HP) { m_uiHP += _HP; Update(0.f); }
+
 private:
-	CFont*	m_pFont = { nullptr };
+	//CFont*	m_pFont = { nullptr };
 	_float	m_fAnimTick = {};
 	PORTRAITSTATUS	m_eFace = { PORTRAIT_IDLE };
 	HPSTATUS		m_eHPStatus = { HP100 };
+	_uint			m_uiHP = {};
 
 public:
 	static CPortrait* Create(LPDIRECT3DDEVICE9 pGraphicDevice);

@@ -28,26 +28,31 @@ private:
 	HRESULT Ready_Layer_Terrain(const _wstring& strLayerTag);
 	HRESULT Ready_Layer_Camera(const _wstring& strLayerTag);
 	HRESULT Ready_Layer_Statue(const _wstring& strLayerTag);
+	HRESULT Ready_Layer_Item(const _wstring& strLayerTag);
 	HRESULT Ready_Layer_Pawn(const _wstring& strLayerTag);
 	HRESULT Ready_Layer_Monster(const _wstring& strLayerTag);
 	HRESULT Ready_Layer_Particle(const _wstring& strLayerTag);
 	HRESULT Ready_Layer_Effect(const _wstring& strLayerTag);
 	HRESULT Ready_Layer_UI(const _wstring& strLayerTag);
-	HRESULT Ready_Layer_Item(const _wstring& strLayerTag);
 	HRESULT Ready_Light();
-
 
 public:
 	void	SpawnExplosion(_float3 _vPosition);
+	void	SpawnExplosion2(_float3 _vPosition);
+	void	SpawnExplosion3(_float3 _vPosition);
 	void	SpawnFire(_float3 _vPosition);
 	void	SpawnGunFire(_float3 _ScreenPos);
 	void	SpawnBulletTracer(_float3 _ScreenPos);
 	void	SpawnTornado(_float3 _vPosition);
+	void	SpawnSpher(_float3 _vPosition);
 	void	SpawnMultipleExplosions(_float fTimeDelta);
+	void	SpawnMultipleExplosions2(_float fTimeDelta);
+	void	SpawnMultipleExplosions3(_float fTimeDelta);
 	void	SpawnEmptyBullet(_float3 _vPosition);
 
 private:
 	_int m_iIndex{-1};
+	_bool testbool = { false };
 public:
 	static CLevel_GamePlay* Create(LPDIRECT3DDEVICE9 pGraphic_Device, class CLevelData* pLevelData);
 	virtual void Free() override;

@@ -3,6 +3,7 @@
 
 #include "LoadingMenu.h"
 #include "GameInstance.h"
+#include <UI_Manager.h>
 
 CLoadingMenu::CLoadingMenu(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CUI{ pGraphic_Device }
@@ -88,12 +89,15 @@ HRESULT CLoadingMenu::Initialize(void* pArg)
 		return E_FAIL;
 
 	Ready_LoadingComponents();
-
+	if (FAILED(m_pTextureCom->Get_TextureSize(0, &m_vSize)))
+		return E_FAIL;
+	// 세로비 대로 이미지 맞춤
+	m_vSize.x *= g_iWinSizeY / m_vSize.y; m_vSize.y = g_iWinSizeY;
+	m_pTransformCom->Scaling(m_vSize);
 
 	m_vPos = { 0.f,0.f,1.f };
-	m_vSize = { 1280.f, 720.f, 1.f };
+	m_fDepth = m_vPos.z;
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, m_vPos);
-	m_pTransformCom->Scaling(m_vSize);
 	m_pTransformComForLoading[LOADERTEX_ANIM]->Set_State(CTransform::STATE_POSITION, { (g_iWinSizeX*0.5f - 130.f), -(g_iWinSizeY * 0.5f) + 130.f, 0.1f });
 	m_pTransformComForLoading[LOADERTEX_ANIM]->Scaling({ 128.f, 128.f, 1.f });
 	m_pTransformComForLoading[LOADERTEX_BARBACK]->Set_State(CTransform::STATE_POSITION, { (g_iWinSizeX * 0.5f - 130.f), -(g_iWinSizeY * 0.5f) + 50.f, 0.1f });
@@ -110,25 +114,13 @@ void CLoadingMenu::Priority_Update(_float fTimeDelta)
 
 EVENT CLoadingMenu::Update(_float fTimeDelta)
 {
-	m_fAnimTick += fTimeDelta;
-	if (m_fTextureNum != 0.f)
-	{
-		if (m_fAnimTick > 0.07f)
-		{
-			m_fTextureNum += 1.f;
-			if (m_fTextureNum > 7.f)
-				m_fTextureNum = 0.f;
-			m_fAnimTick = 0.f;
-		}
-	}
+	if (m_fTextureNum < 1.f)
+		m_fTextureNum += fTimeDelta;
 	else
-	{
-		if (m_fAnimTick > 1.f)
-		{
-			m_fTextureNum += 1.f;
-			m_fAnimTick = 0.f;
-		}
-	}
+		m_fTextureNum += fTimeDelta * 15;
+	if (m_fTextureNum >= 7.9f)
+		m_fTextureNum = 0.f;
+
 		
 	__super::Update(fTimeDelta);
 	return EVN_NONE;
@@ -141,7 +133,7 @@ void CLoadingMenu::Late_Update(_float fTimeDelta)
 
 HRESULT CLoadingMenu::Render()
 {
-	if (FAILED(m_pTextureCom->Bind_Resource(0)))
+   	if (FAILED(m_pTextureCom->Bind_Resource(0)))
 		return E_FAIL;
 
 	if (FAILED(m_pTransformCom->Bind_Resource()))
@@ -152,6 +144,21 @@ HRESULT CLoadingMenu::Render()
 
 	if (FAILED(m_pVIBufferCom->Render()))
 		return E_FAIL;
+
+	_uint temp{};
+
+	temp = m_fLoadingGauge / 0.2f;
+
+	if (m_fLoadingGauge > 0.2f)
+		CUI_Manager::Get_Instance(m_pGameInstance)->Render_Text("Press Spacebar to skip Loading Level !!!", CFont::MEDIUMBLUE, CFont::LEFT, -600.f, -325.f + 26.f * (int(m_fLoadingGauge / 0.2f) - 1));
+	if (m_fLoadingGauge > 0.4f)
+		CUI_Manager::Get_Instance(m_pGameInstance)->Render_Text("Loading ... \"ION FURY\"", CFont::MEDIUMBLUE, CFont::LEFT, -600.f, -325.f + 26.f * (int(m_fLoadingGauge / 0.2f) - 2));
+	if (m_fLoadingGauge > 0.6f)
+		CUI_Manager::Get_Instance(m_pGameInstance)->Render_Text("And now I have no idea ", CFont::MEDIUMBLUE, CFont::LEFT, -600.f, -325.f + 26.f * (int(m_fLoadingGauge / 0.2f) - 3));
+	if (m_fLoadingGauge > 0.8f)
+		CUI_Manager::Get_Instance(m_pGameInstance)->Render_Text("HINT : hint hint hint hint hint hint.", CFont::MEDIUMBLUE, CFont::LEFT, -600.f, -325.f + 26.f * (int(m_fLoadingGauge / 0.2f) - 4));
+	if (m_fLoadingGauge > 1.f)
+	CUI_Manager::Get_Instance(m_pGameInstance)->Render_Text("Loading Complete !! ", CFont::MEDIUMBLUE, CFont::LEFT, -600.f, -325.f + 26.f * (int(m_fLoadingGauge / 0.2f) - 5));
 
 	Render_Animation();
 	Render_LoadingBar();
@@ -194,12 +201,10 @@ HRESULT CLoadingMenu::Render_LoadingBar()
 
 	if (FAILED(m_pTextureComForLoading[LOADERTEX_BAR]->Bind_Resource(0)))
 		return E_FAIL;
-	_float fsize{ 1.f };
-	if(m_fLoadingGauge != 0)
-		fsize = 126.f * m_fLoadingGauge;
-	if (m_fLoadingGauge > 0.4f)
-		int a = 0;
-	m_pTransformComForLoading[LOADERTEX_BAR]->Set_State(CTransform::STATE_POSITION, { (g_iWinSizeX * 0.5f - 130.f) - 126.f * 0.5f, -(g_iWinSizeY * 0.5f) + 50.f, 0.01f });
+	_float fsize = 126.f * m_fLoadingGauge;
+	m_pTransformComForLoading[LOADERTEX_BAR]->Set_State(CTransform::STATE_POSITION,
+		{ (g_iWinSizeX * 0.5f - 130.f) - (126.f  - 126.f * m_fLoadingGauge) * 0.5f,
+		-(g_iWinSizeY * 0.5f) + 50.f, 0.01f });
 	m_pTransformComForLoading[LOADERTEX_BAR]->Scaling({ fsize, 6.f, 1.f });
 
 	if (FAILED(m_pTransformComForLoading[LOADERTEX_BAR]->Bind_Resource()))

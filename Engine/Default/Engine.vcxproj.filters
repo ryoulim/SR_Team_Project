@@ -47,13 +47,13 @@
       <Filter>02.GameObject\Manager\Layer</Filter>
     </ClInclude>
     <ClInclude Include="..\public\Renderer.h">
-      <Filter>04.Renderer</Filter>
+      <Filter>05.Renderer</Filter>
     </ClInclude>
     <ClInclude Include="..\public\Component.h">
       <Filter>04.Components</Filter>
     </ClInclude>
     <ClInclude Include="..\public\Texture.h">
-      <Filter>04.Components\Texture</Filter>
+      <Filter>04.Components\Transform\Texture</Filter>
     </ClInclude>
     <ClInclude Include="..\public\VIBuffer.h">
       <Filter>04.Components\VIBuffer</Filter>
@@ -180,9 +180,6 @@
     <Filter Include="04.Components">
       <UniqueIdentifier>{430a8c1a-1040-4ea7-bd9c-16a49f38a6a1}</UniqueIdentifier>
     </Filter>
-    <Filter Include="04.Components\Texture">
-      <UniqueIdentifier>{435382d3-d1d7-453c-bc59-7a6c58348515}</UniqueIdentifier>
-    </Filter>
     <Filter Include="04.Components\VIBuffer">
       <UniqueIdentifier>{93bf0b31-6059-4bf3-a7c2-e0a748647b9c}</UniqueIdentifier>
     </Filter>
@@ -261,14 +258,17 @@
     <Filter Include="04.Components\Collider\Rect">
       <UniqueIdentifier>{708cfec0-f8e3-4081-90b7-7667aa838bb3}</UniqueIdentifier>
     </Filter>
-    <Filter Include="04.Renderer">
-      <UniqueIdentifier>{ac1221d1-ea14-4963-a022-db50384008db}</UniqueIdentifier>
-    </Filter>
     <Filter Include="04.Components\VIBuffer\Stall">
       <UniqueIdentifier>{0b130853-dccb-4e58-95ee-7dc318ecdbd1}</UniqueIdentifier>
     </Filter>
     <Filter Include="04.Components\VIBuffer\Computer">
       <UniqueIdentifier>{14aa1ddf-8817-4bbf-8cb0-32cd6e17139c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="05.Renderer">
+      <UniqueIdentifier>{ac1221d1-ea14-4963-a022-db50384008db}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04.Components\Transform\Texture">
+      <UniqueIdentifier>{435382d3-d1d7-453c-bc59-7a6c58348515}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -300,13 +300,13 @@
       <Filter>02.GameObject\Manager\Layer</Filter>
     </ClCompile>
     <ClCompile Include="..\private\Renderer.cpp">
-      <Filter>04.Renderer</Filter>
+      <Filter>05.Renderer</Filter>
     </ClCompile>
     <ClCompile Include="..\private\Component.cpp">
       <Filter>04.Components</Filter>
     </ClCompile>
     <ClCompile Include="..\private\Texture.cpp">
-      <Filter>04.Components\Texture</Filter>
+      <Filter>04.Components\Transform\Texture</Filter>
     </ClCompile>
     <ClCompile Include="..\private\VIBuffer.cpp">
       <Filter>04.Components\VIBuffer</Filter>

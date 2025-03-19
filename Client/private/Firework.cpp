@@ -88,9 +88,6 @@ void CFirework::resetParticle(Attribute* attribute)
 	attribute->_Velocity *= 500.f; // 전체 속도 조정
 	attribute->_Accelerator = { 0.0f, -1550.f, 0.0f };
 
-	//각종 파라미터값
-	D3DXCOLOR Color = { GetRandomColor(0.6f, 1.f),GetRandomColor(0.6f, 1.f) ,GetRandomColor(0.6f, 1.f) , 1.f };
-
 	//attribute->_Accelerator = _float3(0.f, 0.f, 0.f);	// 가속도
 	attribute->_Age = 0.f;								// 나이
  	attribute->_Color = WHITE;							// 색상

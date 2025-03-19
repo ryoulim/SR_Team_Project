@@ -130,12 +130,6 @@
     <Filter Include="02.GameObjects\UI\Manager">
       <UniqueIdentifier>{fc895246-0b92-4f60-9433-e7a515c057b1}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\Effect\WithParticle">
-      <UniqueIdentifier>{a808fd5a-7a9a-4779-a0db-c168d38ff4ed}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Effect\WithParticle\Explosion">
-      <UniqueIdentifier>{01009920-271b-44a0-8d6f-a1b2c2207162}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02.GameObjects\Particle\Smoke">
       <UniqueIdentifier>{85f8522c-054a-4781-bfc6-a727b69453d8}</UniqueIdentifier>
     </Filter>
@@ -216,6 +210,23 @@
     </Filter>
     <Filter Include="02.GameObjects\Map\TextTerrain">
       <UniqueIdentifier>{c3ef4eff-606f-4fdd-ab5a-b810076f6654}</UniqueIdentifier>
+    <Filter Include="100.Imgui">
+      <UniqueIdentifier>{5dfc6c89-573a-44c3-81d7-b3a0d6305c09}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\GamePlayUI\ItemDialog">
+      <UniqueIdentifier>{66e93016-322f-43a1-83a6-f8b9aad04f9f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Effect\old">
+      <UniqueIdentifier>{a808fd5a-7a9a-4779-a0db-c168d38ff4ed}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Effect\old\Explosion">
+      <UniqueIdentifier>{01009920-271b-44a0-8d6f-a1b2c2207162}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Particle\Sphere">
+      <UniqueIdentifier>{a9c1ba05-185c-43aa-877b-e3de27885e20}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Particle\Dust">
+      <UniqueIdentifier>{dcba56ee-b74b-4834-a20b-e207bc10d479}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -280,7 +291,7 @@
       <Filter>02.GameObjects\Effect</Filter>
     </ClInclude>
     <ClInclude Include="..\public\Explosion.h">
-      <Filter>02.GameObjects\Effect\WithParticle\Explosion</Filter>
+      <Filter>02.GameObjects\Effect\old\Explosion</Filter>
     </ClInclude>
     <ClInclude Include="..\public\Pawn.h">
       <Filter>02.GameObjects\Pawn</Filter>
@@ -428,6 +439,45 @@
     </ClInclude>
     <ClInclude Include="..\public\TestTerrain.h">
       <Filter>02.GameObjects\Map\TextTerrain</Filter>
+    <ClInclude Include="..\public\Client_Function.h">
+      <Filter>99.Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Imgui\imgui.h">
+      <Filter>100.Imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Imgui\imgui_impl_dx9.h">
+      <Filter>100.Imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Imgui\imgui_impl_win32.h">
+      <Filter>100.Imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Imgui\imgui_internal.h">
+      <Filter>100.Imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Imgui\imstb_rectpack.h">
+      <Filter>100.Imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Imgui\imstb_textedit.h">
+      <Filter>100.Imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Imgui\imstb_truetype.h">
+      <Filter>100.Imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Imgui\imconfig.h">
+      <Filter>100.Imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Button_Main.h">
+      <Filter>02.GameObjects\UI\Button</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\FadeUI.h">
+      <Filter>02.GameObjects\UI\MenuUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\ItemDialog.h" />
+    <ClInclude Include="..\public\Sphere.h">
+      <Filter>02.GameObjects\Particle\Sphere</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Dust.h">
+      <Filter>02.GameObjects\Particle\Dust</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -487,7 +537,7 @@
       <Filter>02.GameObjects\Effect</Filter>
     </ClCompile>
     <ClCompile Include="..\private\Explosion.cpp">
-      <Filter>02.GameObjects\Effect\WithParticle\Explosion</Filter>
+      <Filter>02.GameObjects\Effect\old\Explosion</Filter>
     </ClCompile>
     <ClCompile Include="..\private\Pawn.cpp">
       <Filter>02.GameObjects\Pawn</Filter>
@@ -636,6 +686,41 @@
     <ClCompile Include="..\private\TestTerrain.cpp">
       <Filter>02.GameObjects\Map\TextTerrain</Filter>
     </ClCompile>
+
+    <ClCompile Include="..\Imgui\imgui.cpp">
+      <Filter>100.Imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Imgui\imgui_demo.cpp">
+      <Filter>100.Imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Imgui\imgui_draw.cpp">
+      <Filter>100.Imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Imgui\imgui_impl_dx9.cpp">
+      <Filter>100.Imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Imgui\imgui_impl_win32.cpp">
+      <Filter>100.Imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Imgui\imgui_tables.cpp">
+      <Filter>100.Imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Imgui\imgui_widgets.cpp">
+      <Filter>100.Imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Sphere.cpp">
+      <Filter>02.GameObjects\Particle\Sphere</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Dust.cpp">
+      <Filter>02.GameObjects\Particle\Dust</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\FadeUI.cpp">
+      <Filter>02.GameObjects\UI\MenuUI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Button_Main.cpp">
+      <Filter>02.GameObjects\UI\Button</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\ItemDialog.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />

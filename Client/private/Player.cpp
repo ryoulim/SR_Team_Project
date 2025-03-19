@@ -7,6 +7,7 @@
 
 // 무기들 인클루드
 #include "Weapon_LoverBoy.h"
+#include <UI_Manager.h>
 
 CPlayer::CPlayer(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CPawn{ pGraphic_Device }
@@ -62,6 +63,11 @@ void CPlayer::Priority_Update(_float fTimeDelta)
 		m_bFpsMode = !m_bFpsMode;
 		m_pCameraManager->Switch(m_bFpsMode);
 	}
+	if (KEY_DOWN(VK_TAB))
+	{
+		m_bBouseFixMod = !m_bBouseFixMod;
+		ShowCursor(m_bBouseFixMod);
+	}
 	if (m_bFpsMode)
 	{
 		Key_Input(fTimeDelta);
@@ -77,9 +83,19 @@ void CPlayer::Priority_Update(_float fTimeDelta)
 
 EVENT CPlayer::Update(_float fTimeDelta)
 {
-	if (!m_bFpsMode)
+	m_Weapons[m_iCurWeaponIndex]->Update(fTimeDelta);
+
+	if (!m_bFpsMode || m_bBouseFixMod)
 		return EVN_NONE;
 
+	/****** 테스트용 ******/
+	if (KEY_DOWN('1'))
+		UPDATE_HP();
+	// Player의 HP에 Get요청을 보내도록 처리하기 때문에
+	// 충돌 등의 처리가 모두 끝난 후 호출하면 좋음(player의 HP를 Get한 후 UI의 Update를 강제로 부름)
+	if (KEY_DOWN('2'))
+		UPDATE_ARMOR();
+	/*********************/
 	m_Weapons[m_iCurWeaponIndex]->Update(fTimeDelta);
 	return __super::Update(fTimeDelta);
 }
@@ -95,7 +111,7 @@ void CPlayer::Late_Update(_float fTimeDelta)
 
 	m_pCollider->Update_Collider(m_pTransformCom);
 
-	//m_pGravityCom->Update(fTimeDelta);
+	m_pGravityCom->Update(fTimeDelta);
 
 	m_Weapons[m_iCurWeaponIndex]->Late_Update(fTimeDelta);
 
@@ -144,10 +160,6 @@ void CPlayer::Key_Input(_float fTimeDelta)
 	if (KEY_PRESSING('D'))
 	{
 		m_pGravityCom->Go_Right_On_Terrain(fTimeDelta);
-	}
-	if (KEY_DOWN(VK_TAB))
-	{
-		m_bBouseFixMod = !m_bBouseFixMod;
 	}
 	if (KEY_DOWN(VK_SPACE))
 	{

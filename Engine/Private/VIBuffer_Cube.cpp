@@ -13,8 +13,8 @@ CVIBuffer_Cube::CVIBuffer_Cube(const CVIBuffer_Cube& Prototype)
 HRESULT CVIBuffer_Cube::Initialize_Prototype()
 {
 	m_iNumVertices = 12;					// 버텍스 갯수
-	m_iVertexStride = sizeof(VTXPOSTEX);	// 버텍스 크기
-	m_iFVF = D3DFVF_XYZ | D3DFVF_TEX1;		// 버텍스 타입
+	m_iVertexStride = sizeof(VTXPOSNORTEX);	// 버텍스 크기
+	m_iFVF = D3DFVF_XYZ | D3DFVF_NORMAL | D3DFVF_TEX1;		// 버텍스 타입
 	m_iNumPritimive = 12;					// 삼각형 갯수
 
 	m_iIndexStride = 2;						// 인덱스 크기
@@ -25,7 +25,7 @@ HRESULT CVIBuffer_Cube::Initialize_Prototype()
 	if (FAILED(__super::Create_VertexBuffer()))
 		return E_FAIL;
 
-	VTXPOSTEX* pVertices = { nullptr };
+	VTXPOSNORTEX* pVertices = { nullptr };
 
 	m_pVB->Lock(0, /*m_iNumVertices * m_iVertexStride*/0, reinterpret_cast<void**>(&pVertices), 0);
 	
@@ -53,6 +53,48 @@ HRESULT CVIBuffer_Cube::Initialize_Prototype()
 	pVertices[7].vPosition = _float3(-0.5f, -0.5f, 0.5f);
 	pVertices[7].vTexcoord = _float2(1.f, 1.f);
 
+#pragma region 법선
+	for (int i = 0; i < 12; i++)
+	{
+		pVertices[i].vNormal = _float3(0.f, 0.f, 0.f);
+	}
+
+	//면1 (정면), 인덱스 : 0,1,2,3
+	pVertices[0].vNormal += ComputeNormalVector(pVertices, 0, 1, 2);
+	pVertices[1].vNormal += ComputeNormalVector(pVertices, 0, 1, 2);
+	pVertices[2].vNormal += ComputeNormalVector(pVertices, 0, 1, 2);
+	pVertices[3].vNormal += ComputeNormalVector(pVertices, 0, 2, 3);
+
+	//면2 (후면), 인덱스 : 5,4,7,6
+	pVertices[5].vNormal += ComputeNormalVector(pVertices, 5, 4, 7);
+	pVertices[4].vNormal += ComputeNormalVector(pVertices, 5, 4, 7);
+	pVertices[7].vNormal += ComputeNormalVector(pVertices, 5, 4, 7);
+	pVertices[6].vNormal += ComputeNormalVector(pVertices, 5, 7, 6);
+	
+	//면3 (왼쪽), 인덱스 : 4,0,3,7
+	pVertices[4].vNormal += ComputeNormalVector(pVertices, 4, 0, 3);
+	pVertices[0].vNormal += ComputeNormalVector(pVertices, 4, 0, 3);
+	pVertices[3].vNormal += ComputeNormalVector(pVertices, 4, 0, 3);
+	pVertices[7].vNormal += ComputeNormalVector(pVertices, 4, 3, 7);
+
+	//면4 (오른쪽), 인덱스 : 1,5,6,2
+	pVertices[1].vNormal += ComputeNormalVector(pVertices, 1, 5, 6);
+	pVertices[5].vNormal += ComputeNormalVector(pVertices, 1, 5, 6);
+	pVertices[6].vNormal += ComputeNormalVector(pVertices, 1, 5, 6);
+	pVertices[2].vNormal += ComputeNormalVector(pVertices, 1, 6, 2);
+	
+	//면5 (위), 인덱스 : 4,5,1,0
+	pVertices[4].vNormal += ComputeNormalVector(pVertices, 4, 5, 1);
+	pVertices[5].vNormal += ComputeNormalVector(pVertices, 4, 5, 1);
+	pVertices[1].vNormal += ComputeNormalVector(pVertices, 4, 5, 1);
+	pVertices[0].vNormal += ComputeNormalVector(pVertices, 4, 1, 0);
+
+	//면6 (아래), 인덱스 : 6,7,3,2
+	pVertices[6].vNormal += ComputeNormalVector(pVertices, 6, 7, 3);
+	pVertices[7].vNormal += ComputeNormalVector(pVertices, 6, 7, 3);
+	pVertices[3].vNormal += ComputeNormalVector(pVertices, 6, 7, 3);
+	pVertices[2].vNormal += ComputeNormalVector(pVertices, 6, 3, 2);
+#pragma endregion
 
 	// 텍스처용 추가
 	// (4)
@@ -70,6 +112,11 @@ HRESULT CVIBuffer_Cube::Initialize_Prototype()
 	// (7)
 	pVertices[11].vPosition = _float3(-0.5f, -0.5f, 0.5f);
 	pVertices[11].vTexcoord = _float2(0.f, 0.f);
+
+	pVertices[8].vNormal += pVertices[4].vNormal;
+	pVertices[9].vNormal += pVertices[5].vNormal;
+	pVertices[10].vNormal += pVertices[6].vNormal;
+	pVertices[11].vNormal += pVertices[7].vNormal;
 
 	m_pVB->Unlock();
 
@@ -110,6 +157,11 @@ void CVIBuffer_Cube::Set_IndexBuffer(_ushort* pIndices, _uint StartIndex, _uint 
 	pIndices[StartIndex++] = LT;
 	pIndices[StartIndex++] = RB;
 	pIndices[StartIndex++] = LB;
+}
+
+VECTOR CVIBuffer_Cube::ComputeNormalVector(VTXPOSNORTEX* pVertices, _uint vertex1, _uint vertex2, _uint vertex3)
+{
+	return __super::ComputeNormal(&(pVertices[vertex1].vPosition), &(pVertices[vertex2].vPosition), &(pVertices[vertex3].vPosition));
 }
 
 CVIBuffer_Cube* CVIBuffer_Cube::Create(LPDIRECT3DDEVICE9 pGraphic_Device)

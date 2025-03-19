@@ -86,3 +86,51 @@ void CVIBuffer::Free()
     Safe_Release(m_pIB);
     Safe_Release(m_pVB);
 }
+
+void CVIBuffer::Test()
+{
+    //ID3DXMesh*              m_pMeshOcc = { nullptr };   //출력 메시
+    //D3DMATERIAL9            m_matOcc{};
+    //LPDIRECT3DTEXTURE9      m_ptexocc = { nullptr };
+
+    //ID3DXMesh*              m_pMeshFloor = { nullptr }; //그림자가 드리워질 평면 메시
+    //D3DMATERIAL9            m_matOcc{};
+    //LPDIRECT3DTEXTURE9      m_ptexFloor = { nullptr };
+
+    ////D3DXVECTOR4 m_vLightPos; //그림자를 만들 광원의 위치
+    ////D3DXPLANE   m_planeFloor; //그림자가 그려질 평면 방정식
+    ////D3DXMATRIXA16  m_matWorld; //투영 행렬 연산을 하기 위해서
+
+   
+
+
+    //
+    ///*D3DXMATRIX* WINAPI D3DXMatrixShadow
+    //(D3DXMATRIX * pOut, CONST D3DXVECTOR4 * pLight,
+    //    CONST D3DXPLANE * pPlane);
+    //pPlane에 투영될 평면의 방정식을 넣고 
+    //pLight에 광원의 위치를 넣으면
+    //투영행렬을 pOut에 반환해준다.
+    //이 행렬을
+    //월드 변환 -> 그림자(shadow) 변환 -> 카메라(view)변환 -> 투영 변환*/
+    //
+    ////메시 : 폴리곤이 모인것
+
+    ////1. 메시를 읽어들인다. (바닥 메시 설정, 물체 메시 설정)
+    ////2. 광원의 위치와 평면 방정식을 설정한다.
+    ////3. 
+    //
+
+    //D3DXMATRIXA16 matShadow;
+
+    //D3DXVECTOR4 m_vLightPos; //그림자를 만들 광원의 위치
+    //D3DXPLANE   m_planeFloor; //그림자가 그려질 평면 방정식
+    //D3DXMATRIXA16  m_matWorld; //투영 행렬 연산을 하기 위해서
+
+    //D3DXMatrixShadow(&matShadow, &m_vLightPos, &m_planeFloor);
+
+    //m_pGraphic_Device->SetRenderState(D3DRS_ZENABLE, FALSE);
+
+    
+    
+}

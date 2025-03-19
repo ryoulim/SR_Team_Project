@@ -50,7 +50,15 @@ HRESULT CButton::Initialize(void* pArg)
 		m_vSize.z = 1.f;
 		m_pTransformCom->Set_State(CTransform::STATE_POSITION, m_vPos);
 		m_pTransformCom->Scaling(m_vSize);
-		__super::Update_Rect();
+		_float posx = m_vPos.x + g_iWinSizeX * 0.5f;
+		_float posy = -(m_vPos.y - g_iWinSizeY * 0.5f);
+
+
+		//m_tRect.left = LONG(posx);
+		//m_tRect.top = LONG(posy - (m_vSize.y * 0.5f));
+		//m_tRect.right = m_tRect.left + m_vSize.x;
+		//m_tRect.bottom = m_tRect.top + m_vSize.y;
+		/*__super::Update_Rect();*/
 	}
 
 
@@ -85,9 +93,9 @@ HRESULT CButton::Render()
 	_float2 vPos = { m_pTransformCom->Get_State(CTransform::STATE_POSITION)->x , m_pTransformCom->Get_State(CTransform::STATE_POSITION)->y };
 	
 	// 작은 글씨 너비 여백 출력 오류 있음 *** 수정필요 
-	RENDER_TEXT_BOL("NEW GAME",		280.f - g_iWinSizeX * 0.5f, g_iWinSizeY * 0.5f - 460.f, 0.6f);
-	RENDER_TEXT_BOL("OPT IONS",		280.f - g_iWinSizeX * 0.5f, g_iWinSizeY * 0.5f - 520.f, 0.6f);
-	RENDER_TEXT_BOL("QU IT",		280.f - g_iWinSizeX * 0.5f, g_iWinSizeY * 0.5f - 580.f, 0.6f);
+	RENDER_TEXT_BOL("NEW GAME",	280.f - g_iWinSizeX * 0.5f, g_iWinSizeY * 0.5f - 460.f, 0.9f);
+	RENDER_TEXT_BOL("OPTIONS",	280.f - g_iWinSizeX * 0.5f, g_iWinSizeY * 0.5f - 520.f, 0.9f);
+	RENDER_TEXT_BOL("QUIT",		280.f - g_iWinSizeX * 0.5f, g_iWinSizeY * 0.5f - 580.f, 0.9f);
 
 	//140 20
 	POINT			ptMouse{};
@@ -99,7 +107,7 @@ HRESULT CButton::Render()
 	if (PtInRect(&m_tRect, ptMouse))
 	{
 		CUI_Manager::Get_Instance(m_pGameInstance)->Render_Text(
-			"New game P icked !",
+			"New game",
 			CFont::BIGORANGE,
 			CFont::CENTER,
 			0.f,

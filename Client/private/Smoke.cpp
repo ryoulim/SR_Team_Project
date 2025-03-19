@@ -17,6 +17,12 @@ HRESULT CSmoke::Initialize(void* pArg)
 	if (FAILED(Ready_Components(pArg)))
 		return E_FAIL;
 
+	DESC* pDesc = static_cast<DESC*>(pArg);
+	m_vecMinDirection = pDesc->vecMinDirection;
+	m_vecMaxDirection = pDesc->vecMaxDirection;
+	m_fVelocity = pDesc->fVelocity;
+	m_bIsLoop = pDesc->isLoop;
+
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
 
@@ -68,22 +74,22 @@ void CSmoke::resetParticle(Attribute* attribute)
 {
 	attribute->_isAlive = true;
 
-	//분수형 폭팔 로직
+	//연기올라가는 로직
 	attribute->_Position = m_vPosition;
-	_float3 min = { -2.f,  0.f, -2.f };
-	_float3 max = { 2.f,  1.f,  2.f };
+	_float3 min = m_vecMinDirection;
+	_float3 max = m_vecMaxDirection;
 	GetRandomVector(&attribute->_Velocity, &min, &max);
 
-	attribute->_Velocity.y = GetRandomFloat(1.f, 5.f);
+	attribute->_Velocity.y = GetRandomFloat(0.1f, 5.f);
 	D3DXVec3Normalize(&attribute->_Velocity, &attribute->_Velocity);
-	attribute->_Velocity *= 100.f;
+	attribute->_Velocity *= m_fVelocity;
 
 
-	attribute->_Accelerator = { 0.0f, 50.f, 0.0f };		// 가속도
+	attribute->_Accelerator = { 0.0f, GetRandomFloat(10.f, 50.f), 0.0f };		// 가속도
 	attribute->_Age = 0.f;								// 나이
 	attribute->_Color = WHITE;							// 색상
 	attribute->_ColorFade = WHITE;						// 디졸브색상
-	attribute->_LifeTime = GetRandomFloat(0.5f, 2.f); 	// 라이프타임
+	attribute->_LifeTime = m_fLifeTime;				 	// 라이프타임
 
 }
 
@@ -107,8 +113,10 @@ EVENT CSmoke::Update(_float timeDelta)
 
 			if (i->_Age > i->_LifeTime)
 			{
-				i->_isAlive = false;
-				//resetParticle(&(*i));
+				if(m_bIsLoop)
+					resetParticle(&(*i));
+				else
+					i->_isAlive = false;
 			}
 		}
 	}
@@ -228,7 +236,7 @@ CSmoke* CSmoke::Create(LPDIRECT3DDEVICE9 pGraphicDev, wstring _strObjName)
 	pInstance->m_vbSize = 2048;				//  GPU가 한번에 그릴 수 있는 파티클 개수, CPU가 GPU로 파티클 정점 버퍼에 담을 수 있는 개수
 	pInstance->m_fSize = 10.f;				//  파티클의 크기
 	pInstance->m_vbOffset = 0;				//  세그먼트의 배치사이즈를 옮길때 쓰는 오프셋(0고정)
-	pInstance->m_vbBatchSize = 512;			//  세그먼트 배치사이즈 크기(한번에 옮길 수 있는 정점들의 개수)
+	pInstance->m_vbBatchSize = 10;			//  세그먼트 배치사이즈 크기(한번에 옮길 수 있는 정점들의 개수)
 	pInstance->m_vMin = _float3{ 0.f,0.f,0.f };				//  바운딩박스의 최소크기
 	pInstance->m_vMax = _float3{ 1.f,1.f,1.f };				//  바운딩박스의 최대크기
 

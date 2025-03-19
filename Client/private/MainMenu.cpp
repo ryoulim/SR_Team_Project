@@ -3,6 +3,7 @@
 
 #include "MainMenu.h"
 #include "GameInstance.h"
+#include <UI_Manager.h>
 
 CMainMenu::CMainMenu(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CUI{ pGraphic_Device }
@@ -27,6 +28,21 @@ HRESULT CMainMenu::Initialize(void* pArg)
 
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
+	if (FAILED(m_pTextureCom->Get_TextureSize(0, &m_vSize)))
+		return E_FAIL;
+
+	// 세로비 대로 이미지 맞춤
+	m_vSize.x *= g_iWinSizeY / m_vSize.y; m_vSize.y = g_iWinSizeY;
+	m_fDepth = 100.f;
+
+	m_pTransformCom->Scaling(m_vSize);
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION, { 0.f,0.f,1.f });
+
+	if (testbool == false)
+	{
+		CUI_Manager::Get_Instance(m_pGameInstance)->Fade_In();
+		testbool = true;
+	}
 
 	return S_OK;
 }
@@ -50,18 +66,9 @@ void CMainMenu::Late_Update(_float fTimeDelta)
 
 HRESULT CMainMenu::Render()
 {
+
 	if (FAILED(m_pTextureCom->Bind_Resource(static_cast<_uint>(m_fTextureNum))))
 		return E_FAIL;
-
-	if (FAILED(m_pTextureCom->Get_TextureSize(static_cast<_uint>(m_fTextureNum), &m_vSize)))
-		return E_FAIL;
-
-
-	// 세로비 대로 이미지 맞춤
-	m_vSize.x *= g_iWinSizeY / m_vSize.y; m_vSize.y = g_iWinSizeY;
-
-
-	m_pTransformCom->Scaling(m_vSize);
 
 	if (FAILED(m_pTransformCom->Bind_Resource()))
 		return E_FAIL;

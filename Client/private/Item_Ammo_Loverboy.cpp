@@ -39,6 +39,7 @@ void CItem_Ammo_Loverboy::Priority_Update(_float fTimeDelta)
 EVENT CItem_Ammo_Loverboy::Update(_float fTimeDelta)
 {
 	__super::Update(fTimeDelta);
+	return EVN_NONE;
 }
 
 void CItem_Ammo_Loverboy::Late_Update(_float fTimeDelta)

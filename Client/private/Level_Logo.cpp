@@ -33,6 +33,7 @@ void CLevel_Logo::Update(_float fTimeDelta)
 			CLevel_Loading::Create(m_pGraphic_Device, LEVEL_GAMEPLAY))))
 			return;
 	}
+
 }
 
 HRESULT CLevel_Logo::Render()
@@ -59,20 +60,26 @@ HRESULT CLevel_Logo::Ready_Layer_UI(const _wstring& strLayerTag)
 {
 	CUI::DESC BackGroundDesc{};
 
-	BackGroundDesc.vInitPos = { 0.f,0.f,1.f };
+	BackGroundDesc.vInitPos = { 0.f,0.f,9.f };
 	BackGroundDesc.vScale = { FWINCX, FWINCY, 1.f };
 	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_LOGO, TEXT("Prototype_GameObject_MainMenu"),
-		LEVEL_LOGO, TEXT("Layer_UI"), &BackGroundDesc)))
+		LEVEL_LOGO, strLayerTag, &BackGroundDesc)))
 		return E_FAIL;
 
 	CUI::DESC TestButtonDesc{};
 
 	TestButtonDesc.vInitPos = { 280.f - g_iWinSizeX * 0.5f, g_iWinSizeY * 0.5f - 460.f,1.f };
-	TestButtonDesc.vScale = { 140.f, 20.f, 0.1f };
+	TestButtonDesc.vScale = { 200.f, 38.f, 10.f };
 
-	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_LOGO, TEXT("Prototype_GameObject_Button"),
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_LOGO, TEXT("Prototype_GameObject_Button_Main"),
 		LEVEL_LOGO, strLayerTag, &TestButtonDesc)))
 		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_LOGO, TEXT("Prototype_GameObject_Logo"),
+		LEVEL_LOGO, strLayerTag)))
+		return E_FAIL;
+
+
 	
 	return S_OK;
 }

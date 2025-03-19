@@ -30,8 +30,6 @@ HRESULT CDynamic_Camera::Initialize(void* pArg)
 	m_vInitPos = pDesc->vEye;
 	m_vInitLook = pDesc->vAt;
 
-	ShowCursor(FALSE);
-
     return S_OK;
 }
 

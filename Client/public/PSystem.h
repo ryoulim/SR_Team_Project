@@ -17,8 +17,10 @@ public:
 	typedef struct tagPSystemDesc
 	{
 		const TCHAR* szTextureTag;
+		_float	fLifeTime;
 		_float3 vPosition;
 		_float	fMaxFrame;
+		_float	fSize;
 		_int	iParticleNums;
 	}DESC;
 
@@ -98,6 +100,7 @@ protected: //멤버변수
 	//파티클 크기, 초당 개수
 	_float					m_fSize;
 	_float					m_fEmitRate;
+	_float					m_fLifeTime = 0.f;
 	
 	LPDIRECT3DVERTEXBUFFER9 m_pVB = nullptr;
 

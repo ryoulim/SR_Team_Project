@@ -39,12 +39,11 @@ public:
 		dynamic_cast<CLoadingMenu*>(LoadingMenu)->Set_LoadingGauge(m_fLoadPercent);
 	}
 	
-
 private:
 	LPDIRECT3DDEVICE9			m_pGraphic_Device = { nullptr };
 	LEVEL						m_eNextLevelID = { LEVEL_END };
 	_bool						m_isFinished = { false };
-	_float						m_fLoadPercent = {};
+	_float						m_fLoadPercent = {0.1f};
 	CGameInstance*				m_pGameInstance = { nullptr };
 
 private:

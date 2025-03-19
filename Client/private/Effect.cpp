@@ -17,6 +17,7 @@ HRESULT CEffect::Initialize_Prototype()
 
 HRESULT CEffect::Initialize(void* pArg)
 {
+
 	if (FAILED(Ready_Components(pArg)))
 		return E_FAIL;
 

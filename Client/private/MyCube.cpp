@@ -78,7 +78,11 @@ void CMyCube::Late_Update(_float fTimeDelta)
 
 HRESULT CMyCube::Render()
 {
+	LightOn();
+
 	return __super::Render();
+
+	m_pGraphic_Device->SetRenderState(D3DRS_LIGHTING, FALSE);
 }
 
 HRESULT CMyCube::Ready_Components(void* pArg)
@@ -97,6 +101,50 @@ HRESULT CMyCube::Ready_Components(void* pArg)
 		return E_FAIL;
 
 	return S_OK;
+}
+
+void CMyCube::LightOn()
+{
+	m_pGraphic_Device->SetRenderState(D3DRS_LIGHTING, TRUE);
+
+#pragma region 조명 설치
+
+#pragma region 조명의 속성 정의
+	D3DLIGHT9 LightDesc{};
+
+	// 광원의 타입 : 점 광원
+	LightDesc.Type = D3DLIGHT_POINT;
+
+	// 광원의 위치
+	LightDesc.Position = _float3(250.f, 70.f, 150.f);
+
+	// 조명이 미치는 범위
+	LightDesc.Range = 100.f;
+
+	// 광원으로부터 멀어질 때의 감쇄값
+	LightDesc.Attenuation1 = 0.00000001f;
+
+	// 기본 설정
+	LightDesc.Diffuse = D3DXCOLOR(1.f, 1.f, 1.f, 1.f);
+	LightDesc.Ambient = D3DXCOLOR(1.f, 1.f, 1.f, 1.f);
+#pragma endregion
+
+	// 0번 광원을 설치한다.
+	m_pGraphic_Device->SetLight(0, &LightDesc);
+
+#pragma region 재질 설정
+	D3DMATERIAL9		MtrlDesc{};
+	MtrlDesc.Diffuse = D3DXCOLOR(1.f, 1.f, 1.f, 1.f);
+	MtrlDesc.Ambient = D3DXCOLOR(0.5f, 0.5f, 0.5f, 1.f);
+#pragma endregion
+
+#pragma endregion
+
+	// 장치에 재질을 설정한다
+	m_pGraphic_Device->SetMaterial(&MtrlDesc);
+
+	// 0번 광원을 켠다
+	m_pGraphic_Device->LightEnable(0, true);
 }
 
 CMyCube* CMyCube::Create(LPDIRECT3DDEVICE9 pGraphic_Device)

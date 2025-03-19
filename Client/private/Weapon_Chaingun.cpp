@@ -49,15 +49,27 @@ HRESULT CWeapon_Chaingun::Render()
 	return __super::Render();
 }
 
-void CWeapon_Chaingun::Weak_Attack()
+void CWeapon_Chaingun::Opening(_float fTimeDelta)
 {
 }
 
-void CWeapon_Chaingun::Strong_Attack()
+void CWeapon_Chaingun::Walk(_float fTimeDelta)
 {
 }
 
-void CWeapon_Chaingun::Reload()
+void CWeapon_Chaingun::Weak_Attack(_float fTimeDelta)
+{
+}
+
+void CWeapon_Chaingun::Strong_Attack(_float fTimeDelta)
+{
+}
+
+void CWeapon_Chaingun::Reload(_float fTimeDelta)
+{
+}
+
+void CWeapon_Chaingun::Ending(_float fTimeDelta)
 {
 }
 

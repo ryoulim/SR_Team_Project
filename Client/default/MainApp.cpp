@@ -12,10 +12,51 @@
 #include "Font_BigOrange.h"
 #include "LoadingMenu.h"
 #include "UI_Manager.h"
+#include "FadeUI.h"
 
 #include "DebugMode.h"
 #include "CameraManager.h"
 
+#ifdef _IMGUI
+
+void ImGui::Render_Begin()
+{
+	ImGui_ImplDX9_NewFrame();
+	ImGui_ImplWin32_NewFrame();
+	ImGui::NewFrame();
+}
+
+void ImGui::Render_End()
+{
+	ImGui::Render();
+	ImGui_ImplDX9_RenderDrawData(ImGui::GetDrawData());
+}
+
+HRESULT CMainApp::Ready_Imgui()
+{
+	IMGUI_CHECKVERSION();
+	ImGui::CreateContext();
+	ImGuiIO& io = ImGui::GetIO();
+	io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;
+	ImGui::StyleColorsDark();
+	io.Fonts->AddFontFromFileTTF("C://Windows//Fonts//gulim.ttc", 14.0f, nullptr, io.Fonts->GetGlyphRangesKorean());
+
+	ImGui_ImplWin32_Init(g_hWnd);
+	ImGui_ImplDX9_Init(m_pGraphic_Device);
+
+	return S_OK;
+}
+
+HRESULT CMainApp::Free_Imgui()
+{
+	ImGui_ImplDX9_Shutdown();
+	ImGui_ImplWin32_Shutdown();
+	ImGui::DestroyContext();
+
+	return S_OK;
+}
+
+#endif
 
 // 매크로를 위한 매크로(건드리지 마시오)
 #define m_eNextLevelID LEVEL_STATIC
@@ -39,6 +80,11 @@ HRESULT CMainApp::Initialize()
 	if (FAILED(m_pGameInstance->Initialize_Engine(Desc, &m_pGraphic_Device)))
 		return E_FAIL;
 
+#ifdef _IMGUI
+	if (FAILED(Ready_Imgui()))
+		return E_FAIL;
+#endif
+
 	if (FAILED(Ready_Default_Setting()))
 		return E_FAIL;
 
@@ -55,7 +101,7 @@ HRESULT CMainApp::Initialize()
 	if (FAILED(Ready_Debug_Mode()))
 		return E_FAIL;
 
-
+	ShowCursor(FALSE);
 
 	return S_OK;
 }
@@ -97,13 +143,14 @@ HRESULT CMainApp::Ready_Component_For_Static()
 
 	ADD_TEXTURE(Font_MediumBlue, "../Bin/Resources/Textures/UI/Font/Font_MediumBlue/font%d.PNG", 94);
 	ADD_TEXTURE(Font_BigOrange, "../Bin/Resources/Textures/UI/Font/Font_BigOrange/font%d.PNG", 46);
-	//ADD_TEXTURE(Font_TinyBlue, "../Bin/Resources/Textures/UI/Font/Font_TinyBlue/font%d.PNG", 94);
-	//ADD_TEXTURE(Font_BigSilver, "../Bin/Resources/Textures/UI/Font/Font_BigSilver/font%d.PNG", 94);
 
-	ADD_TEXTURE(LoadingMenu, "../Bin/Resources/Textures/UI/black.png", 1);
+	ADD_TEXTURE(LoadingMenu, "../Bin/Resources/Textures/UI/Background/MainMenu_Background_Orig.png", 1);
 	ADD_TEXTURE(Loading_Anim, "../Bin/Resources/Textures/UI/Loading/loadinganim%d.PNG", 8);
 	ADD_TEXTURE(Loading_BarBack, "../Bin/Resources/Textures/UI/Loading/loadingbar0.PNG", 1);
 	ADD_TEXTURE(Loading_Bar, "../Bin/Resources/Textures/UI/Loading/loadingbar1.PNG", 1);
+
+	ADD_TEXTURE(FadeUI, "../Bin/Resources/Textures/UI/black.PNG", 1);
+	//ADD_TEXTURE(DipWhiteUI, "../Bin/Resources/Textures/UI/white.PNG", 1);
 
 	return S_OK;
 }
@@ -117,6 +164,7 @@ HRESULT CMainApp::Ready_Object_For_Static()
 	ADD_PRTOBJ(Font_MediumBlue);
 	ADD_PRTOBJ(Font_BigOrange);
 	ADD_PRTOBJ(LoadingMenu);
+	ADD_PRTOBJ(FadeUI);
 
 	return S_OK;
 }
@@ -214,8 +262,12 @@ CMainApp* CMainApp::Create()
 void CMainApp::Free()
 {
 	__super::Free();
-	CUI_Manager::Destroy_Instance();
 
+#ifdef _IMGUI
+	Free_Imgui();
+#endif
+
+	CUI_Manager::Destroy_Instance();
 	Safe_Release(m_pGraphic_Device);
 
 	m_pGameInstance->Release_Engine();
@@ -223,3 +275,5 @@ void CMainApp::Free()
 	/* 내멤버를 정리한다.*/	
 	Safe_Release(m_pGameInstance);
 }
+
+

@@ -39,6 +39,8 @@ void CItem_Ammo::Priority_Update(_float fTimeDelta)
 EVENT CItem_Ammo::Update(_float fTimeDelta)
 {
 	return __super::Update(fTimeDelta);
+	__super::Update(fTimeDelta);
+	return EVN_NONE;
 }
 
 void CItem_Ammo::Late_Update(_float fTimeDelta)
@@ -49,8 +51,10 @@ void CItem_Ammo::Late_Update(_float fTimeDelta)
 HRESULT CItem_Ammo::Render()
 {
 
-	
-	return __super::Render();
+	__super::Render();
+	m_pTransformCom->Billboard();
+
+	return S_OK;
 }
 
 CItem_Ammo* CItem_Ammo::Create(LPDIRECT3DDEVICE9 pGraphic_Device)

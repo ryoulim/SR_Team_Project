@@ -3,6 +3,7 @@
 
 #include "Armor.h"
 #include "GameInstance.h"
+#include "UI_Manager.h"
 
 CArmor::CArmor(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CUI{ pGraphic_Device }
@@ -26,9 +27,10 @@ HRESULT CArmor::Initialize(void* pArg)
 	m_szBufferType = TEXT("Rect");
 
 	DESC Desc{};
-	Desc.vScale = _float3(82.f, 82.f, 1.f);
-	Desc.vInitPos = _float3(-(g_iWinSizeX / 2.f) + 208.f, -(g_iWinSizeY / 2.f) + Desc.vScale.y / 2.f, 1.f);
-	m_fTextureNum = 1;
+	Desc.vScale = _float3(75.f, 75.f, 1.f);
+	Desc.vInitPos = _float3(-(g_iWinSizeX / 2.f) + 208.f, -(g_iWinSizeY / 2.f) + Desc.vScale.y / 2.f, 0.f);
+	m_fTextureNum = m_eArmorType;
+	m_fDepth = 0.f;
 
 	if (FAILED(__super::Initialize(&Desc)))
 		return E_FAIL;
@@ -53,6 +55,16 @@ void CArmor::Late_Update(_float fTimeDelta)
 
 HRESULT CArmor::Render()
 {
+	RENDER_TEXT_BOL(m_uiArmor,
+		-(g_iWinSizeX / 2.f) + m_vSize.x*4.9f,
+		-(g_iWinSizeY / 2.f) + m_vSize.y / 2.f - 3.f, 1.1f);
+
+	if (FAILED(m_pTextureCom->Get_TextureSize(static_cast<_uint>(m_fTextureNum), &m_vSize)))
+		return E_FAIL;
+
+	m_pTransformCom->Scaling(m_vSize);
+	
+
 	return __super::Render();
 }
 

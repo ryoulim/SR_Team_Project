@@ -77,6 +77,8 @@ HRESULT CPSystem::Initialize(void* pArg)
 		DESC* pDesc = static_cast<DESC*>(pArg);
 		m_pTransForm->Set_State(CTransform::STATE_POSITION, pDesc->vPosition);
 		m_fAnimationMaxFrame = pDesc->fMaxFrame;
+		m_fLifeTime = pDesc->fLifeTime;
+		m_fSize = pDesc->fSize;
 	
 		for (int i = 0; i < pDesc->iParticleNums; i++)
 		{

@@ -82,6 +82,7 @@ HRESULT CStatue::Ready_Components(void* pArg)
 
 	return S_OK;
 }
+
 void CStatue::Free()
 {
 	__super::Free();
