@@ -171,6 +171,16 @@ void CGameInstance::Intersect(_uint iLevelIndex, const _wstring& strLayerTag1, c
 	m_pObject_Manager->Intersect(iLevelIndex, strLayerTag1, strLayerTag2);
 }
 
+_bool CGameInstance::IsPointInFrustum(const _float3& Point)
+{
+	return m_pObject_Manager->IsPointInFrustum(Point);
+}
+
+void CGameInstance::Update_Frustum(const _float4x4& viewProj)
+{
+	m_pObject_Manager->Update_Frustum(viewProj);
+}
+
 #pragma endregion
 
 #pragma region RENDERER

@@ -5,12 +5,14 @@
 #include "GameObject.h"
 #include "UI_Manager.h"
 
+#define MOTION(Num,Duration) _uint(m_fMotionTimer / Duration) % Num
+
 BEGIN(Client)
 
 class CWeapon abstract : public CGameObject
 {
 public:
-	enum STATE { ST_IDLE, ST_OPENING, ST_WALK, ST_W_ATK, ST_S_ATK, ST_RELOAD, ST_ENDING, ST_END };
+	enum STATE { ST_IDLE, ST_WALK, ST_OPENING, ST_W_ATK, ST_S_ATK, ST_RELOAD, ST_ENDING, ST_END };
 public:
 	typedef struct tagWeaponDesc : public CTransform::DESC
 	{
@@ -49,7 +51,7 @@ protected:
 	_float m_fEndFrame{};
 	_float m_fMotionTimer{};
 
-	STATE m_eState{ ST_END };
+	STATE m_eState{ ST_IDLE };
 
 	_float3 m_vImagePosition[ST_END];
 	_float3 m_vCenter{};

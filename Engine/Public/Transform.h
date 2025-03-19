@@ -77,6 +77,7 @@ public:
 	void Quaternion_Turn(const _float3& vAngle);
 	void Quaternion_Rotation(const _float3& vAngle);
 	void Quaternion_Revolution(const _float3& vAxis, const _float3& vCenter, _float fAngle);
+	void Quaternion_Revolution_Pos(const _float3& vAxis, const _float3& vCenter, _float fAngle);
 
 private:
 	_float4x4				m_WorldMatrix;

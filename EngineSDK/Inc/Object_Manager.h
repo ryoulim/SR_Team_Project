@@ -36,7 +36,9 @@ public:
 	_uint Deactive_Object(const _wstring& strObjectTag, class CGameObject* pObject);
 	// A그룹과 B그룹의 충돌을 검사한다.
 	void Intersect(_uint iLevelIndex, const _wstring& strLayerTag1, const _wstring& strLayerTag2);
-public:
+
+	_bool IsPointInFrustum(const _float3& Point);
+	void Update_Frustum(const _float4x4& viewProj);
 
 private:	
 	_uint								m_iNumLevels = {};
@@ -44,6 +46,7 @@ private:
 	typedef unordered_map<_wstring, class CLayer*> LAYERS;
 	LAYERS*								m_pLayers = { nullptr };
 	class CGameInstance*				m_pGameInstance = { nullptr };
+	D3DXPLANE							m_Frustum[6] = {};
 
 private:
 	class CLayer* Find_Layer(_uint iLevelIndex, const _wstring& strLayerTag);

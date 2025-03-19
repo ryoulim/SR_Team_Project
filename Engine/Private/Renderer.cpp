@@ -35,6 +35,7 @@ HRESULT CRenderer::Draw()
 	return S_OK;
 }
 
+#include "Transform.h"
 HRESULT CRenderer::Render_Priority()
 {
 	for (auto& pGameObject : m_RenderObjects[RG_PRIORITY])

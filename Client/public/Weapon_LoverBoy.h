@@ -36,7 +36,6 @@ private:
 	virtual void Reload(_float fTimeDelta) override;
 	virtual void Ending(_float fTimeDelta) override;
 
-	void Positioning();
 	void Left_Hand_Render();
 	virtual HRESULT Ready_Components(void* pArg);
 

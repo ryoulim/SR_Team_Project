@@ -20,7 +20,7 @@ HRESULT CWeapon::Initialize(void* pArg)
 	if (FAILED(Ready_Components(pArg)))
 		return E_FAIL;
 
-	Set_State(ST_IDLE);
+	Set_State(ST_OPENING);
 
 	return S_OK;
 }
@@ -69,6 +69,9 @@ void CWeapon::Action(_float fTimeDelta)
 		break;
 	case ST_OPENING:
 		Opening(fTimeDelta);
+		break;
+	case ST_WALK :
+		Walk(fTimeDelta);
 		break;
 	case ST_W_ATK:
 		Weak_Attack(fTimeDelta);
