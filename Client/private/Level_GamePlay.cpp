@@ -54,27 +54,27 @@ void CLevel_GamePlay::Update(_float fTimeDelta)
 	SpawnMultipleExplosions(fTimeDelta);
 	SpawnMultipleExplosions(fTimeDelta);
 
-	//탄피 생성
-	if (KEY_PRESSING(VK_LBUTTON))
-	{
-		SpawnEmptyBullet(_float3(0.f, 0.f, 0.f));
-	}
+	////탄피 생성
+	//if (KEY_PRESSING(VK_LBUTTON))
+	//{
+	//	SpawnEmptyBullet(_float3(0.f, 0.f, 0.f));
+	//}
 
-	//카메라 스프라이트 테스트
-	if (KEY_PRESSING(VK_LBUTTON))
-	{
-		for (auto SceenEffect : m_vecSceenEffect)
-		{
-			SceenEffect->isActive(true);
-		}
-	}
-	else
-	{
-		for (auto SceenEffect : m_vecSceenEffect)
-		{
-			SceenEffect->isActive(false);
-		}
-	}
+	////카메라 스프라이트 테스트
+	//if (KEY_PRESSING(VK_LBUTTON))
+	//{
+	//	for (auto SceenEffect : m_vecSceenEffect)
+	//	{
+	//		SceenEffect->isActive(true);
+	//	}
+	//}
+	//else
+	//{
+	//	for (auto SceenEffect : m_vecSceenEffect)
+	//	{
+	//		SceenEffect->isActive(false);
+	//	}
+	//}
 
 	m_pGameInstance->Intersect(LEVEL_GAMEPLAY, TEXT("Layer_Pawn"), TEXT("Layer_Statue"));
 	m_pGameInstance->Intersect(LEVEL_GAMEPLAY, TEXT("Layer_Pawn"), TEXT("Layer_Monster"));

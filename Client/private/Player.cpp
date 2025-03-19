@@ -62,6 +62,11 @@ void CPlayer::Priority_Update(_float fTimeDelta)
 		m_bFpsMode = !m_bFpsMode;
 		m_pCameraManager->Switch(m_bFpsMode);
 	}
+	if (KEY_DOWN(VK_TAB))
+	{
+		m_bBouseFixMod = !m_bBouseFixMod;
+		ShowCursor(m_bBouseFixMod);
+	}
 	if (m_bFpsMode)
 	{
 		Key_Input(fTimeDelta);
@@ -77,10 +82,11 @@ void CPlayer::Priority_Update(_float fTimeDelta)
 
 EVENT CPlayer::Update(_float fTimeDelta)
 {
-	if (!m_bFpsMode)
+	m_Weapons[m_iCurWeaponIndex]->Update(fTimeDelta);
+
+	if (!m_bFpsMode || m_bBouseFixMod)
 		return EVN_NONE;
 
-	m_Weapons[m_iCurWeaponIndex]->Update(fTimeDelta);
 	return __super::Update(fTimeDelta);
 }
 
@@ -95,7 +101,7 @@ void CPlayer::Late_Update(_float fTimeDelta)
 
 	m_pCollider->Update_Collider(m_pTransformCom);
 
-	//m_pGravityCom->Update(fTimeDelta);
+	m_pGravityCom->Update(fTimeDelta);
 
 	m_Weapons[m_iCurWeaponIndex]->Late_Update(fTimeDelta);
 
@@ -144,10 +150,6 @@ void CPlayer::Key_Input(_float fTimeDelta)
 	if (KEY_PRESSING('D'))
 	{
 		m_pGravityCom->Go_Right_On_Terrain(fTimeDelta);
-	}
-	if (KEY_DOWN(VK_TAB))
-	{
-		m_bBouseFixMod = !m_bBouseFixMod;
 	}
 	if (KEY_DOWN(VK_SPACE))
 	{

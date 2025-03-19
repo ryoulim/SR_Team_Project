@@ -267,22 +267,92 @@ void CTransform::Rotation(const _float3& vAxis, _float fRadian)
 	Set_State(STATE_LOOK, vLook.TransformNormal(RotationMatrix));
 }
 
-void CTransform::QuaternionRotation(const _float3& vAngle)
+void CTransform::Rotation_Reset()
 {
-	_float3        vScaled = Compute_Scaled();
+	_float3		vScaled = Compute_Scaled();
 
-	_float3        vRight = _float3{ 1.f, 0.f, 0.f } *vScaled.x;
-	_float3        vUp = _float3{ 0.f, 1.f, 0.f } *vScaled.y;
-	_float3        vLook = _float3{ 0.f, 0.f, 1.f } *vScaled.z;
+	Set_State(STATE_RIGHT, _float3{ 1.f, 0.f, 0.f } *vScaled.x);
+	Set_State(STATE_UP, _float3{ 0.f, 1.f, 0.f } *vScaled.y);
+	Set_State(STATE_LOOK, _float3{ 0.f, 0.f, 1.f } *vScaled.z);
 
+}
+
+void CTransform::Move(const _float3& vDirectionVector)
+{
+	_float3 vPos = *Get_State(CTransform::STATE_POSITION) + vDirectionVector;
+	Set_State(CTransform::STATE_POSITION, vPos);
+}
+
+void CTransform::Move(const _float3& vDirectionVector, _float fTimeDelta)
+{
+	_float3 vPos = *Get_State(CTransform::STATE_POSITION) + vDirectionVector * fTimeDelta;
+	Set_State(CTransform::STATE_POSITION, vPos);
+}
+
+void CTransform::Quaternion_Turn(const _float3& vAngle)
+{
+	_float3			vRight = *Get_State(STATE_RIGHT);
+	_float3			vUp = *Get_State(STATE_UP);
+	_float3			vLook = *Get_State(STATE_LOOK);
+
+	// 사원수 회전 생성
 	D3DXQUATERNION Qur{};
-	_float4x4 RotationMatrix{};
-	D3DXQuaternionRotationYawPitchRoll(&Qur, vAngle.x, vAngle.y, vAngle.z);
-	D3DXMatrixRotationQuaternion(&RotationMatrix, &Qur);
+	D3DXQuaternionRotationYawPitchRoll(&Qur, vAngle.y, vAngle.x, vAngle.z);
 
-	Set_State(STATE_RIGHT, vRight.TransformNormal(RotationMatrix));
-	Set_State(STATE_UP, vUp.TransformNormal(RotationMatrix));
-	Set_State(STATE_LOOK, vLook.TransformNormal(RotationMatrix));
+	// 최종 벡터 상태 저장
+	Set_State(STATE_RIGHT, RotateVectorByQuaternion(vRight, Qur));
+	Set_State(STATE_UP, RotateVectorByQuaternion(vUp, Qur));
+	Set_State(STATE_LOOK, RotateVectorByQuaternion(vLook, Qur));
+}
+
+
+void CTransform::Quaternion_Rotation(const _float3& vAngle)
+{
+	_float3 vScaled = Compute_Scaled();
+
+	_float3 vRight = _float3{ 1.f, 0.f, 0.f } *vScaled.x;
+	_float3 vUp = _float3{ 0.f, 1.f, 0.f } *vScaled.y;
+	_float3 vLook = _float3{ 0.f, 0.f, 1.f } *vScaled.z;
+
+	// 사원수 회전 생성
+	D3DXQUATERNION Qur{};
+	D3DXQuaternionRotationYawPitchRoll(&Qur, vAngle.y, vAngle.x, vAngle.z);
+
+	Set_State(STATE_RIGHT, RotateVectorByQuaternion(vRight, Qur));
+	Set_State(STATE_UP, RotateVectorByQuaternion(vUp, Qur));
+	Set_State(STATE_LOOK, RotateVectorByQuaternion(vLook, Qur));
+}
+
+void CTransform::Quaternion_Revolution(const _float3& vAxis, const _float3& vCenter, _float fAngle)
+{
+	_float3 vPos = *Get_State(STATE_POSITION);
+	Set_State(STATE_POSITION, vPos - vCenter);
+
+	// 사원수 회전 생성
+	D3DXQUATERNION Qur{};
+	D3DXQuaternionRotationAxis(&Qur, &vAxis, fAngle);
+
+	D3DXMATRIX matRotation;
+	D3DXMatrixRotationQuaternion(&matRotation, &Qur);
+
+	m_WorldMatrix *= matRotation;
+
+	vPos = *Get_State(STATE_POSITION);
+	Set_State(STATE_POSITION, vPos + vCenter);
+}
+
+inline _float3 CTransform::RotateVectorByQuaternion(const _float3& v, const D3DXQUATERNION& q)
+{
+	D3DXQUATERNION qVec{ v.x, v.y, v.z, 0.0f };
+	D3DXQUATERNION qConj;
+	D3DXQuaternionInverse(&qConj, &q); // 켤레(역 사원수)
+
+	// 회전 연산: v' = q * v * q^-1
+	D3DXQUATERNION qResult, temp;
+	D3DXQuaternionMultiply(&temp, &q, &qVec);
+	D3DXQuaternionMultiply(&qResult, &temp, &qConj);
+
+	return _float3{ qResult.x, qResult.y, qResult.z };
 }
 
 CTransform* CTransform::Create(LPDIRECT3DDEVICE9 pGraphic_Device)

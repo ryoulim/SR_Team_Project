@@ -29,6 +29,12 @@ private:
 	HRESULT Ready_Component_For_Static();
 	HRESULT Ready_Object_For_Static();
 	HRESULT Ready_Debug_Mode();
+
+#ifdef _IMGUI
+	HRESULT Ready_Imgui();
+	HRESULT Free_Imgui();
+#endif
+
 public:
 	static CMainApp* Create();
 	virtual void Free() override;

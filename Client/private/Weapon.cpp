@@ -20,6 +20,8 @@ HRESULT CWeapon::Initialize(void* pArg)
 	if (FAILED(Ready_Components(pArg)))
 		return E_FAIL;
 
+	Set_State(ST_IDLE);
+
 	return S_OK;
 }
 
@@ -30,10 +32,6 @@ void CWeapon::Priority_Update(_float fTimeDelta)
 EVENT CWeapon::Update(_float fTimeDelta)
 {
 	Action(fTimeDelta);
-	Update_Frame(fTimeDelta);
-	_float3 vScale{};
-	m_pTextureCom->Get_TextureSize(static_cast<_uint>(m_fTextureNum), &vScale);
-	m_pTransformCom->Scaling(vScale * 1.5f);
 
 	return EVN_NONE;
 }
@@ -62,22 +60,27 @@ HRESULT CWeapon::Render()
 
 void CWeapon::Action(_float fTimeDelta)
 {
+	m_fMotionTimer += fTimeDelta;
+
 	switch (m_eState)
 	{
 	case ST_IDLE:
 		Idle();
 		break;
 	case ST_OPENING:
-		Opening();
+		Opening(fTimeDelta);
 		break;
 	case ST_W_ATK:
-		Weak_Attack();
+		Weak_Attack(fTimeDelta);
 		break;
 	case ST_S_ATK:
-		Strong_Attack();
+		Strong_Attack(fTimeDelta);
 		break;
 	case ST_RELOAD:
-		Reload();
+		Reload(fTimeDelta);
+		break;
+	case ST_ENDING:
+		Ending(fTimeDelta);
 		break;
 	default:
 		break;
@@ -114,11 +117,15 @@ HRESULT CWeapon::Ready_Components(void* pArg)
 	return S_OK;
 }
 
-void CWeapon::Update_Frame(_float fTimeDelta)
+_bool CWeapon::Update_Frame(_float fTimeDelta)
 {
 	m_fTextureNum += m_fFrameSpeed * fTimeDelta;
 	if (m_fEndFrame < m_fTextureNum)
-		Set_State(ST_IDLE);
+	{
+		m_fTextureNum = m_fStartFrmae;
+		return TRUE;
+	}
+	return FALSE;
 }
 
 void CWeapon::Free()
