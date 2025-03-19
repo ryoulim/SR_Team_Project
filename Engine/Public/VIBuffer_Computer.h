@@ -21,7 +21,7 @@ public:
 
 private:
 	void Set_IndexBuffer(_ushort* pIndices, _uint StartIndex, _uint LT, _uint RT, _uint LB, _uint RB);
-
+	VECTOR ComputeNormalVector(VTXPOSNORTEX* pVertices, _uint vertex1, _uint vertex2, _uint vertex3);
 
 public:
 	static CVIBuffer_Computer* Create(LPDIRECT3DDEVICE9 pGraphic_Device);

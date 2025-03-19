@@ -220,6 +220,9 @@
     <Filter Include="02.GameObjects\Particle\Dust">
       <UniqueIdentifier>{dcba56ee-b74b-4834-a20b-e207bc10d479}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\Statue\Canopy">
+      <UniqueIdentifier>{c1707e91-5885-47d3-b55f-de3afe7fc708}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -463,6 +466,9 @@
     <ClInclude Include="..\public\Dust.h">
       <Filter>02.GameObjects\Particle\Dust</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\Canopy.h">
+      <Filter>02.GameObjects\Statue\Canopy</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -695,6 +701,9 @@
       <Filter>02.GameObjects\UI\Button</Filter>
     </ClCompile>
     <ClCompile Include="..\private\ItemDialog.cpp" />
+    <ClCompile Include="..\private\Canopy.cpp">
+      <Filter>02.GameObjects\Statue\Canopy</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
