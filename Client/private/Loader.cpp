@@ -29,6 +29,7 @@
 #include "Sprite.h"
 #include "Tornado.h"
 #include "Smoke.h"
+#include "Dust.h"
 #include "Sphere.h"
 #include "CameraSprite.h"
 
@@ -38,6 +39,7 @@
 #include "Armor.h"
 #include "Portrait.h"
 #include "MainMenu.h"
+#include "ScreenDust.h"
 #include "Button.h"
 
 CLoader::CLoader(LPDIRECT3DDEVICE9 pGraphic_Device)
@@ -206,6 +208,7 @@ HRESULT CLoader::Loading_For_Logo()
 	lstrcpy(m_szLoadingText, TEXT("텍스쳐을(를) 로딩중입니다."));
 	ADD_TEXTURE(BackGround, "../Bin/Resources/Textures/Default%d.jpg", 2);
 	ADD_TEXTURE(MainMenu, "../Bin/Resources/Textures/UI/Background/MainMenu_Background.PNG", 1);
+	ADD_TEXTURE(Screen_Dust, "../Bin/Resources/Textures/Particle/ScreenDust/Screen_Dust%d.PNG", 50);
 	ADD_TEXTURE(Save_Background, "../Bin/Resources/Textures/UI/Background/Save_Background.PNG", 1);
 	m_fLoadPercent = 1.f / 5.f;
 #pragma endregion
@@ -224,6 +227,7 @@ HRESULT CLoader::Loading_For_Logo()
 	lstrcpy(m_szLoadingText, TEXT("원형객체을(를) 로딩중입니다."));
 	ADD_PRTOBJ(BackGround);
 	ADD_PRTOBJ(MainMenu);
+	ADD_PRTOBJ(ScreenDust);
 	ADD_PRTOBJ(Button);
 	m_fLoadPercent = 4.f / 5.f;
 

@@ -44,13 +44,6 @@ HRESULT CLevel_Logo::Render()
 
 HRESULT CLevel_Logo::Ready_Layer_BackGround(const _wstring& strLayerTag)
 {
-	//if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_LOGO, TEXT("Prototype_GameObject_BackGround"),
-	//	LEVEL_LOGO, strLayerTag, &BackGroundDesc)))
-	//	return E_FAIL;
-
-	//if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_UI_Camera"),
-	//	LEVEL_LOGO, strLayerTag, m_pData->Find_Data(TEXT("UI_Camera")))))
-	//	return E_FAIL;
 
 	return S_OK;
 }
@@ -60,8 +53,14 @@ HRESULT CLevel_Logo::Ready_Layer_UI(const _wstring& strLayerTag)
 	CUI::DESC BackGroundDesc{};
 
 	BackGroundDesc.vInitPos = { 0.f,0.f,1.f };
-	BackGroundDesc.vScale = { FWINCX, FWINCY, 1.f };
+	BackGroundDesc.vScale = { FWINCX , FWINCY, 1.f };
 	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_LOGO, TEXT("Prototype_GameObject_MainMenu"),
+		LEVEL_LOGO, TEXT("Layer_UI"), &BackGroundDesc)))
+		return E_FAIL;
+
+	BackGroundDesc.vInitPos = { 0.f,0.f,1.f };
+	BackGroundDesc.vScale = { FWINCX , FWINCY, 1.f };
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_LOGO, TEXT("Prototype_GameObject_ScreenDust"),
 		LEVEL_LOGO, TEXT("Layer_UI"), &BackGroundDesc)))
 		return E_FAIL;
 
