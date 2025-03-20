@@ -208,24 +208,36 @@ _long CGameInstance::Get_DIMMoveState(DIMM eMouseMoveID)
 {
 	return m_pInputDevice->Get_DIMMoveState(eMouseMoveID);
 }
+_bool CGameInstance::Mouse_Down(_ubyte eKeyID)
+{
+	return m_pInputDevice->Mouse_Down(eKeyID);
+}
+_bool CGameInstance::Mouse_Pressing(_ubyte eKeyID)
+{
+	return m_pInputDevice->Mouse_Pressing(eKeyID);
+}
+_bool CGameInstance::Mouse_Up(_ubyte eKeyID)
+{
+	return m_pInputDevice->Mouse_Up(eKeyID);
+}
 #pragma endregion
 
 
 #pragma region KEY_MANAGER
 
-_bool CGameInstance::Key_Pressing(_int _Key)
+_bool CGameInstance::Key_Pressing(_ubyte eKeyID)
 {
-	return m_pKeyManager->Key_Pressing(_Key);
+	return m_pInputDevice->Key_Pressing(eKeyID);
 }
 
-_bool CGameInstance::Key_Up(_int _Key)
+_bool CGameInstance::Key_Up(_ubyte eKeyID)
 {
-	return m_pKeyManager->Key_Up(_Key);
+	return m_pInputDevice->Key_Up(eKeyID);
 }
 
-_bool CGameInstance::Key_Down(_int _Key)
+_bool CGameInstance::Key_Down(_ubyte eKeyID)
 {
-	return m_pKeyManager->Key_Down(_Key);
+	return m_pInputDevice->Key_Down(eKeyID);
 }
 
 #pragma endregion

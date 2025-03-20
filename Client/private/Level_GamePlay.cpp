@@ -49,6 +49,7 @@ HRESULT CLevel_GamePlay::Initialize(class CLevelData* pLevelData)
 	//if(FAILED(Ready_Light()))
 	//	return E_FAIL;
 
+	ShowCursor(FALSE);
 
 	return S_OK;
 }

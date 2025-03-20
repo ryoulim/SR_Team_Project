@@ -58,6 +58,34 @@ HRESULT CWeapon::Render()
 	return S_OK;
 }
 
+void CWeapon::Walk(_float fTimeDelta)
+{
+	if (m_eState == ST_IDLE)
+		Set_State(ST_WALK);
+	else if (m_eState != ST_WALK)
+		return;
+
+#define WALKX 3.f
+#define WALKY 2.f
+	switch (MOTION(4, 0.175f))
+	{
+	case 0:
+		m_pTransformCom->Move({ -WALKX,-WALKY, 0.f });
+		break;
+	case 1:
+		m_pTransformCom->Move({ +WALKX,+WALKY, 0.f });
+		break;
+	case 2:
+		m_pTransformCom->Move({ +WALKX,-WALKY, 0.f });
+		break;
+	case 3:
+		m_pTransformCom->Move({ -WALKX,+WALKY, 0.f });
+		break;
+	default:
+		break;
+	}
+}
+
 void CWeapon::Action(_float fTimeDelta)
 {
 	m_fMotionTimer += fTimeDelta;
@@ -70,9 +98,9 @@ void CWeapon::Action(_float fTimeDelta)
 	case ST_OPENING:
 		Opening(fTimeDelta);
 		break;
-	case ST_WALK :
-		Walk(fTimeDelta);
-		break;
+	//case ST_WALK :
+	//	Walk(fTimeDelta);
+	//	break;
 	case ST_W_ATK:
 		Weak_Attack(fTimeDelta);
 		break;
@@ -129,6 +157,16 @@ _bool CWeapon::Update_Frame(_float fTimeDelta)
 		return TRUE;
 	}
 	return FALSE;
+}
+
+void CWeapon::Setup_RenderState()
+{
+	m_pGraphic_Device->SetRenderState(D3DRS_ZENABLE, FALSE);
+}
+
+void CWeapon::Release_RenderState()
+{
+	m_pGraphic_Device->SetRenderState(D3DRS_ZENABLE, TRUE);
 }
 
 void CWeapon::Free()

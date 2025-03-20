@@ -26,17 +26,24 @@ public:
 	virtual EVENT Update(_float fTimeDelta) override;
 	virtual void Late_Update(_float fTimeDelta) override;
 	virtual HRESULT Render() override;
+	virtual void Walk(_float fTimedelta) override;
 
-	virtual void Set_State(STATE State) override {};
+	virtual void Set_State(STATE State) override;
+	virtual void Key_Input() override;
 
 private:
+	CTransform* m_pBodyTransformCom = {nullptr};
+	_uint m_iBodynum{};
+
+private:
+	virtual HRESULT Ready_Components(void* pArg) override;
+
 	virtual void Opening(_float fTimeDelta) override;
-	virtual void Walk(_float fTimeDelta) override;
 	virtual void Weak_Attack(_float fTimeDelta) override;
 	virtual void Strong_Attack(_float fTimeDelta) override;
-	virtual void Reload(_float fTimeDelta) override;
+	virtual void Reload(_float fTimeDelta) override {};
 	virtual void Ending(_float fTimeDelta) override;
-
+	void Body_Render();
 
 public:
 	static CWeapon_Chaingun* Create(LPDIRECT3DDEVICE9 pGraphic_Device);

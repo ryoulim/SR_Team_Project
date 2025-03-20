@@ -56,11 +56,18 @@ void CWeapon_LoverBoy::Late_Update(_float fTimeDelta)
 
 HRESULT CWeapon_LoverBoy::Render()
 {
+	Setup_RenderState();
+
+	__super::Render();
+
 	if (m_eState == ST_S_ATK)
 	{
 		Left_Hand_Render();
 	}
-	return __super::Render();
+
+	Release_RenderState();
+
+	return S_OK;
 }
 
 void CWeapon_LoverBoy::Set_State(STATE State)
@@ -88,22 +95,31 @@ void CWeapon_LoverBoy::Set_State(STATE State)
 		m_pTransformCom->Quaternion_Revolution({ 0.f,0.f,1.f }, m_vCenter, RADIAN(90.f));
 		break;
 	case ST_WALK:
+		m_eState = ST_WALK;
 		m_pTransformCom->Set_State(CTransform::STATE_POSITION, { 320.f,-105.f,0.1f });
+		m_fTextureNum = 0.f;
 		break;
 	case ST_W_ATK:
 		m_pTransformCom->Set_State(CTransform::STATE_POSITION, { 320.f,-105.f,0.1f });
-		m_fFrameSpeed = 27.f;
+		m_fFrameSpeed = 50.f;
 		m_eState = ST_W_ATK;
 		m_fTextureNum = 0.f;
 		m_fStartFrmae = 0.f;
 		m_fEndFrame = 6.f;
 		break;
 	case ST_S_ATK:
+		m_LeftHand.pTransformCom->Set_State(CTransform::STATE_POSITION, { 0.f,-600.f,0.1f });
+		m_eState = ST_S_ATK;
+		m_vCenter = { 250.f,-245.f,0.1f };
+		m_fTextureNum = 0.f;
+		m_fStartFrmae = 0.f;
+		m_fEndFrame = 6.f;
 		m_pTransformCom->Set_State(CTransform::STATE_POSITION, { 320.f,-105.f,0.1f });
+		m_fFrameSpeed = 50.f;
 		break;
 	case ST_RELOAD:
 		m_pTransformCom->Set_State(CTransform::STATE_POSITION, { 320.f,-105.f,0.1f });
-		m_fFrameSpeed = 15.f;
+		m_fFrameSpeed = 25.f;
 		m_eState = ST_RELOAD;
 		m_fTextureNum = 6.f;
 		m_fStartFrmae = 7.f;
@@ -133,6 +149,24 @@ void CWeapon_LoverBoy::Weak_Attack(_float fTimeDelta)
 
 void CWeapon_LoverBoy::Strong_Attack(_float fTimeDelta)
 {
+	if (m_fMotionTimer < 0.7)
+	{
+		m_LeftHand.pTransformCom->Chase(m_vCenter, fTimeDelta,5.f);
+	}
+	else if (m_fMotionTimer < 1.2f)
+	{
+		Update_Frame(fTimeDelta);
+	}
+	else if (m_fMotionTimer < 1.25f)
+	{
+		m_fTextureNum = 0.f;
+	}
+	else if (m_fMotionTimer < 1.6f)
+	{
+		m_LeftHand.pTransformCom->Chase({ 0.f,-600.f,0.1f }, fTimeDelta);
+	}
+	else
+		Set_State(ST_RELOAD);
 }
 
 void CWeapon_LoverBoy::Reload(_float fTimeDelta)
@@ -156,43 +190,41 @@ void CWeapon_LoverBoy::Ending(_float fTimeDelta)
 
 void CWeapon_LoverBoy::Opening(_float fTimeDelta)
 {
-	m_pTransformCom->Quaternion_Revolution(_float3(0.f, 0.f, 1.f), m_vCenter, -RADIAN(350.f) * fTimeDelta);
-	//m_vCenter.y -= 600.f * fTimeDelta;
-	//m_pTransformCom->Go_Up(fTimeDelta);
+	m_pTransformCom->Quaternion_Revolution(_float3(0.f, 0.f, 1.f), m_vCenter, -RADIAN(700.f) * fTimeDelta);
 
-	if (m_fMotionTimer > 0.3f)
+
+	if (m_fMotionTimer > 0.15f)
 	{
 		m_pTransformCom->Rotation_Reset();
 		Set_State(ST_IDLE);
 	}
 }
 
-void CWeapon_LoverBoy::Walk(_float fTimeDelta)
+void CWeapon_LoverBoy::Key_Input()
 {
-#define WALKX 1.5f
-#define WALKY 1.f
-	switch (MOTION(4, 0.35f))
+	if (MOUSE_DOWN(DIMK_LBUTTON))
 	{
-	case 0:
-		m_pTransformCom->Move({ -WALKX,-WALKY,0.f });
-		break;
-	case 1:
-		m_pTransformCom->Move({ +WALKX,+WALKY,0.f });
-		break;
-	case 2:
-		m_pTransformCom->Move({ +WALKX,-WALKY,0.f });
-		break;
-	case 3: 
-		m_pTransformCom->Move({ -WALKX,+WALKY,0.f });
-		break;
-	default:
-		break;
-	}		
+		Set_State(CWeapon::ST_W_ATK);
+	}
+	if (MOUSE_DOWN(DIMK_RBUTTON))
+	{
+		Set_State(CWeapon::ST_S_ATK);
+	}
+	if (KEY_DOWN(DIK_R))
+	{
+		Set_State(CWeapon::ST_RELOAD);
+	}
 }
 
 void CWeapon_LoverBoy::Left_Hand_Render()
 {
 	m_LeftHand.pTextureCom->Bind_Resource(0);
+
+	m_LeftHand.pTransformCom->Bind_Resource();
+
+	m_LeftHand.pVIBufferCom->Bind_Buffers();
+
+	m_LeftHand.pVIBufferCom->Render();
 }
 
 HRESULT CWeapon_LoverBoy::Ready_Components(void* pArg)
@@ -207,10 +239,19 @@ HRESULT CWeapon_LoverBoy::Ready_Components(void* pArg)
 		TEXT("Com_Left_VIBuffer"), reinterpret_cast<CComponent**>(&m_LeftHand.pVIBufferCom))))
 		return E_FAIL;
 
+	DESC Desc{};
+	Desc.fSpeedPerSec = 2000.f;
+
 	/* For.Com_Transform */
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Transform"),
-		TEXT("Com_Left_Transform"), reinterpret_cast<CComponent**>(&m_LeftHand.pTransformCom))))
+		TEXT("Com_Left_Transform"), reinterpret_cast<CComponent**>(&m_LeftHand.pTransformCom),&Desc)))
 		return E_FAIL;
+
+	_float3 VScale{};
+	m_LeftHand.pTextureCom->Get_TextureSize(0, &VScale);
+	m_LeftHand.pTransformCom->Scaling(VScale*1.5f);
+
+	m_LeftHand.pTransformCom->Set_State(CTransform::STATE_POSITION, {-FWINCX,-FWINCY,0.1f});
 
 	return __super::Ready_Components(pArg);
 }

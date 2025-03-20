@@ -31,13 +31,17 @@ public:
 	virtual EVENT Update(_float fTimeDelta) override;
 	virtual void Late_Update(_float fTimeDelta) override;
 	virtual HRESULT Render() override;
+	virtual void Walk(_float fTimeDelta);
 
 	virtual void Set_State(STATE State) PURE;
 	_uint	Get_Ammo() { return m_iAmmo; }
-
+	virtual void Key_Input() PURE;
 protected:
 	virtual HRESULT Ready_Components(void* pArg);
 	_bool Update_Frame(_float fTimeDelta);
+
+	void Setup_RenderState();
+	void Release_RenderState();
 
 protected:
 	const _tchar* m_szTextureID = { nullptr };
@@ -62,7 +66,6 @@ protected:
 
 private:
 	virtual void Opening(_float fTimeDelta) PURE;
-	virtual void Walk(_float fTimeDelta) PURE;
 	virtual void Weak_Attack(_float fTimeDelta) PURE;
 	virtual void Strong_Attack(_float fTimeDelta) PURE;
 	virtual void Reload(_float fTimeDelta) PURE;
