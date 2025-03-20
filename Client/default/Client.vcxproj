@@ -219,7 +219,7 @@
     <ClInclude Include="..\public\TestTerrain.h" />
     <ClInclude Include="..\public\Tornado.h" />
     <ClInclude Include="..\public\TestBullet.h" />
-    <ClInclude Include="..\public\TestMonster.h" />
+    <ClInclude Include="..\public\Ttakkeun_i.h" />
     <ClInclude Include="..\public\Trapezoid.h" />
     <ClInclude Include="..\public\UI.h" />
     <ClInclude Include="..\public\UI_Camera.h" />
@@ -300,7 +300,7 @@
     <ClCompile Include="..\private\TestTerrain.cpp" />
     <ClCompile Include="..\private\Tornado.cpp" />
     <ClCompile Include="..\private\TestBullet.cpp" />
-    <ClCompile Include="..\private\TestMonster.cpp" />
+    <ClCompile Include="..\private\Ttakkeun_i.cpp" />
     <ClCompile Include="..\private\Trapezoid.cpp" />
     <ClCompile Include="..\private\UI.cpp" />
     <ClCompile Include="..\private\UI_Camera.cpp" />

@@ -2,6 +2,8 @@
 
 #pragma region 프로토타입 넣는 매크로들
 
+#define GET_PLAYER m_pGameInstance->Find_Object(LEVEL_GAMEPLAY,TEXT("Layer_Pawn"))
+
 #define ADD_TEXTURE(Name,Path,Cnt)																					\
 if (FAILED(m_pGameInstance->Add_Prototype(m_eNextLevelID, _wstring(TEXT("Prototype_Component_Texture_"))+L###Name ,	\
 CTexture::Create(m_pGraphic_Device, TEXT(Path), Cnt))))																\

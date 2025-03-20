@@ -13,7 +13,7 @@
 
 //테스트용
 #include "MyCube.h"
-#include "TestMonster.h"
+#include "Ttakkeun_i.h"
 #include "TestBullet.h"
 /* 테스트 터레인*/
 #include "TestTerrain.h"
@@ -427,7 +427,7 @@ HRESULT CLoader::Loading_For_GamePlay()
 	ADD_TEXTURE(MyComputer, "../Bin/Resources/Textures/Object/Computer/Computer%d.png", 3);
 
 	ADD_TEXTURE(TestBullet, "../Bin/Resources/Textures/Bullet/Test/tile7859.png", 1);
-	ADD_TEXTURE(TestMonster, "../Bin/Resources/Textures/Monster/Test/TestMonster%d.PNG", 2);
+	ADD_TEXTURE(Ttakkeun_i, "../Bin/Resources/Textures/Monster/Ttakkeun_i/Ttakkeun_i_Walk%d.PNG", 12);
 	ADD_TEXTURE(Weapon_LoverBoy, "../Bin/Resources/Textures/Weapon/LoverBoy/LoverBoy%d.PNG", 15);
 	ADD_TEXTURE(LeftHand, "../Bin/Resources/Textures/Weapon/LeftHand/LeftHand%d.PNG", 2);
 
@@ -457,7 +457,7 @@ HRESULT CLoader::Loading_For_GamePlay()
 	ADD_PRTOBJ(MyComputer);
 	ADD_PRTOBJ(Player);
 	ADD_PRTOBJ(TestBullet);
-	ADD_PRTOBJ(TestMonster);
+	ADD_PRTOBJ(Ttakkeun_i);
 	ADD_PRTOBJ(Weapon_LoverBoy);
 
 

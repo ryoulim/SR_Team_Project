@@ -5,6 +5,7 @@
 #include "EmptyBullet.h"
 #include "Sprite.h"
 #include "Smoke.h"
+#include "Monster.h"
 
 #define CurLevel LEVEL_GAMEPLAY
 
@@ -227,15 +228,15 @@ HRESULT CLevel_GamePlay::Ready_Layer_Pawn(const _wstring& strLayerTag)
 	return S_OK;
 }
 
-#include "TestMonster.h"
+#include "Ttakkeun_i.h"
 #include <UI_Manager.h>
 HRESULT CLevel_GamePlay::Ready_Layer_Monster(const _wstring& strLayerTag)
 {
-	CTestMonster::DESC MonsterDesc{};
-	MonsterDesc.vInitPos = { 400.f,25.f,200.f };
-	MonsterDesc.vScale = {20.f,50.f,20.f};
 
-	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_TestMonster"),
+	CMonster::DESC MonsterDesc{};
+	MonsterDesc.vPosition = { 400.f, 70.f, 200.f };
+
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Ttakkeun_i"),
 		LEVEL_GAMEPLAY, strLayerTag, &MonsterDesc)))
 		return E_FAIL;
 
