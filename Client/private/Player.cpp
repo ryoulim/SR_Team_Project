@@ -213,20 +213,6 @@ void CPlayer::Mouse_Fix()
 	SetCursorPos(ptMouse.x, ptMouse.y);
 }
 
-#include "TestBullet.h"
-void CPlayer::Create_Bullet()
-{
-	CTestBullet::DESC BulletDesc{};
-	BulletDesc.fSpeedPerSec = 8000.f;
-	BulletDesc.vInitPos = *m_pTransformCom->Get_State(CTransform::STATE_POSITION);
-	BulletDesc.vScale = {3.f,3.f,3.f};
-	BulletDesc.vLook = *m_pCameraTransform->Get_State(CTransform::STATE_LOOK);
-
-	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_TestBullet"),
-		LEVEL_GAMEPLAY, TEXT("Layer_PBullet"), &BulletDesc)))
-		return;
-}
-
 void CPlayer::Update_Camera_Link()
 {
 	_float3 Scale = m_pTransformCom->Compute_Scaled();

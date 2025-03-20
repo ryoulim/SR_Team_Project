@@ -63,6 +63,7 @@ protected:
 protected:
 	void Action(_float fTimeDelta);
 	void Idle();
+	virtual void Create_Bullet();
 
 private:
 	virtual void Opening(_float fTimeDelta) PURE;

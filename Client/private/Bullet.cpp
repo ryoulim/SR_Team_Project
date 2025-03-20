@@ -35,8 +35,8 @@ EVENT CBullet::Update(_float fTimeDelta)
 void CBullet::Late_Update(_float fTimeDelta)
 {
 	m_pCollider->Update_Collider(m_pTransformCom);
-	//if (FAILED(m_pGameInstance->Add_RenderGroup(CRenderer::RG_NONBLEND, this)))
-	//	return;
+	if (FAILED(m_pGameInstance->Add_RenderGroup(CRenderer::RG_NONBLEND, this)))
+		return;
 }
 
 HRESULT CBullet::Render()
@@ -82,9 +82,10 @@ HRESULT CBullet::Ready_Components(void* pArg)
 	if (pArg != nullptr)
 	{
 		DESC* pDesc = static_cast<DESC*>(pArg);
-		m_pTransformCom->Set_State(CTransform::STATE_POSITION, pDesc->vInitPos);
+		_float4x4 mat{};
+		m_pGraphic_Device->GetTransform(D3DTS_VIEW, &mat);
+		m_pTransformCom->Set_WorldMatrix(&mat.MakeInverseMat(mat));
 		m_pTransformCom->Scaling(pDesc->vScale);
-		m_pTransformCom->LookAt(pDesc->vInitPos + pDesc->vLook);
 	}
 
 	return S_OK;

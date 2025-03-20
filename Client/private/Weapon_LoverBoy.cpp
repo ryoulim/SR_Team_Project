@@ -205,6 +205,7 @@ void CWeapon_LoverBoy::Key_Input()
 	if (MOUSE_DOWN(DIMK_LBUTTON))
 	{
 		Set_State(CWeapon::ST_W_ATK);
+		Create_Bullet();
 	}
 	if (MOUSE_DOWN(DIMK_RBUTTON))
 	{

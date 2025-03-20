@@ -17,9 +17,7 @@ class CBullet abstract : public CGameObject
 public:
 	typedef struct tagBulletDesc : public CTransform::DESC
 	{
-		_float3 vInitPos;
 		_float3 vScale;
-		_float3 vLook;
 	}DESC;
 
 protected:
