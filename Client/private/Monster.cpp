@@ -58,7 +58,7 @@ void CMonster::Late_Update(_float fTimeDelta)
 	FrameUpdate(fTimeDelta, 11.f, 15.f, true);
 	
 	//콜라이더 업데이트
-	m_pCollider->Update_Collider(m_pTransformCom);
+	m_pCollider->Update_Collider();
 
 	//렌더그룹 업데이트
 	if (FAILED(m_pGameInstance->Add_RenderGroup(CRenderer::RG_NONBLEND, this)))

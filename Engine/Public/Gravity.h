@@ -38,9 +38,12 @@ public:
 
 	void Set_JumpOption(const JUMPDESC& JumpDESC);
 	//void Parabolic_Motion();
+	void Force_Set_FloorY(_float fFloorY);
 	void Update(_float fTimeDelta);
 	void Jump(_float fJumpPower);
-	void Stop_Jump();
+	void Stop_Jump() {
+		m_bJump = FALSE;
+	}
 	_bool isJump() {
 		return m_bJump;
 	}
@@ -57,6 +60,7 @@ private:
 /// <summary>
 /// 점프 관련 변수
 /// </summary>
+	_bool	m_bForceSetFloor{};
 	_bool	m_bJump{};
 	_float	m_fFloorY{};
 	_float	m_fStartY{};

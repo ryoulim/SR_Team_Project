@@ -98,9 +98,17 @@ void CGravity::Set_JumpOption(const JUMPDESC& JumpDESC)
 	m_fMaxFallSpeedperSec = JumpDESC.fMaxFallSpeedPerSec;
 }
 
+void CGravity::Force_Set_FloorY(_float fFloorY)
+{
+	m_bForceSetFloor = TRUE;
+	m_fFloorY = fFloorY + m_fHeight * 0.5f;
+}
+
 void CGravity::Update(_float fTimeDelta)
 {
-	Check_Terrain();
+	if (!m_bForceSetFloor)
+		Check_Terrain();
+		
 	Jumping(fTimeDelta);
 }
 
@@ -112,6 +120,7 @@ void CGravity::Jump(_float fJumpPower)
 		m_fStartY = CUR_Y;
 		m_fTime = 0.f;
 		m_fJumpPower = fJumpPower;
+		m_bForceSetFloor = FALSE;
 	}
 }
 

@@ -46,9 +46,6 @@
     <Filter Include="02.GameObjects\Item">
       <UniqueIdentifier>{ad5b920c-bc1b-4ece-bc65-fdfb9440ecab}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\Bullet">
-      <UniqueIdentifier>{c524e1eb-809f-4b51-8e3c-f61d479c62da}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02.GameObjects\Boss">
       <UniqueIdentifier>{4edcbe90-d066-43a7-a6df-4f0e2eabebb4}</UniqueIdentifier>
     </Filter>
@@ -148,9 +145,6 @@
     <Filter Include="02.GameObjects\Camera\Manager">
       <UniqueIdentifier>{251a835c-fe80-4960-8da5-f50344efc795}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\Bullet\TestBullet">
-      <UniqueIdentifier>{550edbb4-3757-490f-81e5-8aa4b514eba1}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02.GameObjects\Statue\Signboard">
       <UniqueIdentifier>{f980a65b-3298-4b0b-98a2-1d08187c11b7}</UniqueIdentifier>
     </Filter>
@@ -232,6 +226,12 @@
     <Filter Include="02.GameObjects\Monster\Ttakkeun_i">
       <UniqueIdentifier>{3674c8bc-204a-4475-9166-b2788d2c5c42}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\Weapon\Bullet">
+      <UniqueIdentifier>{c524e1eb-809f-4b51-8e3c-f61d479c62da}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Weapon\Bullet\TestBullet">
+      <UniqueIdentifier>{550edbb4-3757-490f-81e5-8aa4b514eba1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -310,7 +310,7 @@
       <Filter>02.GameObjects\Item</Filter>
     </ClInclude>
     <ClInclude Include="..\public\Bullet.h">
-      <Filter>02.GameObjects\Bullet</Filter>
+      <Filter>02.GameObjects\Weapon\Bullet</Filter>
     </ClInclude>
     <ClInclude Include="..\public\Map.h">
       <Filter>02.GameObjects\Map</Filter>
@@ -418,7 +418,7 @@
       <Filter>02.GameObjects\Statue\MyComputer</Filter>
     </ClInclude>
     <ClInclude Include="..\public\TestBullet.h">
-      <Filter>02.GameObjects\Bullet\TestBullet</Filter>
+      <Filter>02.GameObjects\Weapon\Bullet\TestBullet</Filter>
     </ClInclude>
     <ClInclude Include="..\public\Player.h">
       <Filter>02.GameObjects\Pawn\Player</Filter>
@@ -562,7 +562,7 @@
       <Filter>02.GameObjects\Item</Filter>
     </ClCompile>
     <ClCompile Include="..\private\Bullet.cpp">
-      <Filter>02.GameObjects\Bullet</Filter>
+      <Filter>02.GameObjects\Weapon\Bullet</Filter>
     </ClCompile>
     <ClCompile Include="..\private\Map.cpp">
       <Filter>02.GameObjects\Map</Filter>
@@ -673,7 +673,7 @@
       <Filter>02.GameObjects\Statue\MyComputer</Filter>
     </ClCompile>
     <ClCompile Include="..\private\TestBullet.cpp">
-      <Filter>02.GameObjects\Bullet\TestBullet</Filter>
+      <Filter>02.GameObjects\Weapon\Bullet\TestBullet</Filter>
     </ClCompile>
     <ClCompile Include="..\private\Ttakkeun_i.cpp">
       <Filter>02.GameObjects\Monster\Ttakkeun_i</Filter>

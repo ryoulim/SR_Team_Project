@@ -61,7 +61,6 @@ HRESULT CMap::Render()
 	return S_OK;
 }
 
-#include "Collider_AABB_Cube.h"
 HRESULT CMap::Ready_Components(void* pArg)
 {
 	/* For.Com_Texture */

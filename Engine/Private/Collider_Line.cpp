@@ -20,25 +20,16 @@ HRESULT CCollider_Line::Initialize_Prototype()
 	return __super::Initialize_Prototype(LINE);
 }
 
-HRESULT CCollider_Line::Initialize(void* pArg)
+void CCollider_Line::Update_Collider()
 {
-	if (pArg == nullptr)
-	{
-		MSG_BOX("콜라이더 pArg에 nullptr을 넣어주면 어떡해...");
-		return E_FAIL;
-	}
-
-	DESC* pDesc = static_cast<DESC*>(pArg);
-	m_vDiffFromCenter = pDesc->pTransform->Get_State(CTransform::STATE_LOOK)->Normalize() * (pDesc->fLength * 0.5f);
-	Update_Collider(pDesc->pTransform);
-	return S_OK;
+    const _float3 vCenter = *m_pTransform->Get_State(CTransform::STATE_POSITION) + m_vOffSet;
+    m_tInfo.vStart = vCenter + m_vDiffFromCenter;
+    m_tInfo.vEnd = vCenter - m_vDiffFromCenter;
 }
 
-void CCollider_Line::Update_Collider(const CTransform* pTransform)
+void CCollider_Line::Update_Scale(const _float3& vScale)
 {
-	const _float3* pPos = pTransform->Get_State(CTransform::STATE_POSITION);
-	m_tInfo.vStart = *pPos + m_vDiffFromCenter;
-	m_tInfo.vEnd = *pPos - m_vDiffFromCenter;
+    m_vDiffFromCenter = m_pTransform->Get_State(CTransform::STATE_LOOK)->Normalize() * (vScale.x * 0.5f);
 }
 
 _bool CCollider_Line::Intersect_With_AABB_Cube(const CCollider* pOther)

@@ -6,13 +6,6 @@ BEGIN(Engine)
 class ENGINE_DLL CCollider_Line final : public CCollider
 {
 public:
-	typedef struct tagCollider_Line
-	{
-		// 콜라이더를 포함한 객체의 원본
-		const CTransform* pTransform;
-		// 총알의 길이
-		_float fLength;
-	}DESC;
 	typedef struct tagLineInfo
 	{
 		_float3 vStart;
@@ -25,8 +18,8 @@ private:
 
 public:
 	virtual HRESULT Initialize_Prototype() override;
-	virtual HRESULT Initialize(void* pArg) override;
-	virtual void Update_Collider(const CTransform* pTransform) override;
+	virtual void Update_Collider() override;
+	virtual void Update_Scale(const _float3& vScale) override;
 	
 	const INFO* Get_Info() const { return &m_tInfo; };
 private:

@@ -80,7 +80,7 @@ HRESULT CPawn::Ready_Components(void* pArg)
 	DESC* pDesc = static_cast<DESC*>(pArg);
 	CCollider_Capsule::DESC ColliderDesc{};
 	ColliderDesc.pTransform = m_pTransformCom;
-	//ColliderDesc.vScale = pDesc->vScale;
+	ColliderDesc.vScale = pDesc->vScale;
 
 	/* For.Com_Collider */
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Collider_Capsule"),

@@ -42,7 +42,6 @@ private:
 	void			Key_Input(_float fTimeDelta);
 	void			Mouse_Move();
 	void			Mouse_Fix();
-	void			Create_Bullet();
 	void			Update_Camera_Link();
 
 public:

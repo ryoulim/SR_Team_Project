@@ -21,25 +21,15 @@ HRESULT CCollider_Capsule::Initialize_Prototype()
 	return __super::Initialize_Prototype(CAPSULE);
 }
 
-HRESULT CCollider_Capsule::Initialize(void* pArg)
+void CCollider_Capsule::Update_Collider()
 {
-	if (pArg == nullptr)
-	{
-		MSG_BOX("콜라이더 pArg에 nullptr을 넣어주면 어떡해...");
-		return E_FAIL;
-	}
-
-	DESC* pDesc = static_cast<DESC*>(pArg);
-	_float3 vScale = pDesc->pTransform->Compute_Scaled();
-	m_tInfo.fHeight = vScale.y;
-	m_tInfo.fRadius = (vScale.x + vScale.z) * 0.25f;
-	Update_Collider(pDesc->pTransform);
-	return S_OK;
+	m_tInfo.vCenter = *m_pTransform->Get_State(CTransform::STATE_POSITION) + m_vOffSet;
 }
 
-void CCollider_Capsule::Update_Collider(const CTransform* pTransform)
+void CCollider_Capsule::Update_Scale(const _float3& vScale)
 {
-	m_tInfo.vCenter = *pTransform->Get_State(CTransform::STATE_POSITION);
+	m_tInfo.fHeight = vScale.y;
+	m_tInfo.fRadius = (vScale.x + vScale.z) * 0.25f;
 }
 
 _bool CCollider_Capsule::Intersect_With_AABB_Cube(const CCollider* pOther)

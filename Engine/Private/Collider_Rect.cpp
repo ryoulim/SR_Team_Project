@@ -15,28 +15,17 @@ HRESULT CCollider_Rect::Initialize_Prototype()
 	return __super::Initialize_Prototype(RECT);
 }
 
-HRESULT CCollider_Rect::Initialize(void* pArg)
+void CCollider_Rect::Update_Collider()
 {
-	if (pArg == nullptr)
-	{
-		MSG_BOX("콜라이더 pArg에 nullptr을 넣어주면 어떡해...");
-		return E_FAIL;
-	}
-
-	const DESC* pDesc = static_cast<DESC*>(pArg);
-	_float3 vScale = pDesc->pTransform->Compute_Scaled();
-	m_tInfo.fHeight = vScale.y;
-	m_tInfo.fWidth = vScale.x;
-	Update_Collider(pDesc->pTransform);
-
-	return S_OK;
+	m_tInfo.vCenter = *m_pTransform->Get_State(CTransform::STATE_POSITION) + m_vOffSet;
+	m_tInfo.vRight = m_pTransform->Get_State(CTransform::STATE_RIGHT)->Normalize();
+	m_tInfo.vUp = m_pTransform->Get_State(CTransform::STATE_UP)->Normalize();
 }
 
-void CCollider_Rect::Update_Collider(const CTransform* pTransform)
+void CCollider_Rect::Update_Scale(const _float3& vScale)
 {
-	m_tInfo.vCenter = *pTransform->Get_State(CTransform::STATE_POSITION);
-	m_tInfo.vRight = *pTransform->Get_State(CTransform::STATE_RIGHT);
-	m_tInfo.vUp = *pTransform->Get_State(CTransform::STATE_UP);
+	m_tInfo.fHeight = vScale.y;
+	m_tInfo.fWidth = vScale.x;
 }
 
 _bool CCollider_Rect::Intersect_With_AABB_Cube(const CCollider* pOther)

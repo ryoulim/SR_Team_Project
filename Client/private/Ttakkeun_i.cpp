@@ -40,7 +40,7 @@ EVENT CTtakkeun_i::Update(_float fTimeDelta)
 
 void CTtakkeun_i::Late_Update(_float fTimeDelta)
 {
-	m_pCollider->Update_Collider(m_pTransformCom);
+	m_pCollider->Update_Collider();
 	__super::Late_Update(fTimeDelta);
 }
 

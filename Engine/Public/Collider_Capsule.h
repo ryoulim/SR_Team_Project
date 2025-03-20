@@ -7,10 +7,6 @@ BEGIN(Engine)
 class ENGINE_DLL CCollider_Capsule final : public CCollider
 {
 public:
-	typedef struct tagCollider_Capsule
-	{
-		const CTransform* pTransform;
-	}DESC;
 	typedef struct tagCapsuleInfo
 	{
 		_float3 vCenter;
@@ -24,8 +20,8 @@ private:
 
 public:
 	virtual HRESULT Initialize_Prototype() override;
-	virtual HRESULT Initialize(void* pArg) override;
-	virtual void Update_Collider(const CTransform* pTransform) override;
+	virtual void Update_Collider() override;
+	virtual void Update_Scale(const _float3& vScale) override;
 
 	const INFO* Get_Info() const { return &m_tInfo; };
 private:

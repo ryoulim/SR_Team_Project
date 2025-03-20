@@ -6,11 +6,6 @@ BEGIN(Engine)
 class ENGINE_DLL CCollider_Sphere final : public CCollider
 {
 public:
-	typedef struct tagCollider_AABB_Cube
-	{
-		const CTransform* pTransform;
-		_float fRadius;
-	}DESC;
 	typedef struct tagSphereInfo
 	{
 		_float3 vPosition;
@@ -23,8 +18,8 @@ private:
 
 public:
 	virtual HRESULT Initialize_Prototype() override;
-	virtual HRESULT Initialize(void* pArg) override;
-	virtual void Update_Collider(const CTransform* pTransform) override;
+	virtual void Update_Collider() override;
+	virtual void Update_Scale(const _float3& vScale) override;
 
 	const INFO* Get_Info() const { return &m_tInfo; };
 private:

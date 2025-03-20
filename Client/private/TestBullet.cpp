@@ -51,7 +51,7 @@ EVENT CTestBullet::Update(_float fTimeDelta)
 
 void CTestBullet::Late_Update(_float fTimeDelta)
 {
-	__super::Late_Update(fTimeDelta);
+	//__super::Late_Update(fTimeDelta);
 }
 
 HRESULT CTestBullet::Render()
@@ -67,7 +67,7 @@ HRESULT CTestBullet::Ready_Components(void* pArg)
 	DESC* pDesc = static_cast<DESC*>(pArg);
 	CCollider_Line::DESC ColliderDesc{};
 	ColliderDesc.pTransform = m_pTransformCom;
-	ColliderDesc.fLength = pDesc->fSpeedPerSec / 60.f; // 총 길이 / 프레임 수
+	ColliderDesc.vScale.x = pDesc->fSpeedPerSec / 60.f; // 총 길이 / 프레임 수
 
 	/* For.Com_Collider */
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Collider_Line"),
