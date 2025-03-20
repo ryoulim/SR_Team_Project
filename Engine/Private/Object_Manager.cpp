@@ -211,6 +211,31 @@ void CObject_Manager::Intersect(_uint iLevelIndex, const _wstring& strLayerTag1,
 	}
 }
 
+_bool CObject_Manager::IsPointInFrustum(const _float3& Point)
+{
+	for (int i = 0; i < 6; i++)
+	{
+		if (D3DXPlaneDotCoord(&m_Frustum[i], &Point) < 0)
+			return false;
+	}
+	return true;
+}
+
+void CObject_Manager::Update_Frustum(const _float4x4& viewProj)
+{
+	// 좌우, 상하, 근접/원거리 평면을 추출
+	m_Frustum[0] = { viewProj._14 + viewProj._11, viewProj._24 + viewProj._21, viewProj._34 + viewProj._31, viewProj._44 + viewProj._41 }; // Left
+	m_Frustum[1] = { viewProj._14 - viewProj._11, viewProj._24 - viewProj._21, viewProj._34 - viewProj._31, viewProj._44 - viewProj._41 }; // Right
+	m_Frustum[2] = { viewProj._14 - viewProj._12, viewProj._24 - viewProj._22, viewProj._34 - viewProj._32, viewProj._44 - viewProj._42 }; // Top
+	m_Frustum[3] = { viewProj._14 + viewProj._12, viewProj._24 + viewProj._22, viewProj._34 + viewProj._32, viewProj._44 + viewProj._42 }; // Bottom
+	m_Frustum[4] = { viewProj._14 + viewProj._13, viewProj._24 + viewProj._23, viewProj._34 + viewProj._33, viewProj._44 + viewProj._43 }; // Near
+	m_Frustum[5] = { viewProj._14 - viewProj._13, viewProj._24 - viewProj._23, viewProj._34 - viewProj._33, viewProj._44 - viewProj._43 }; // Far
+
+	// 정규화
+	for (int i = 0; i < 6; i++)
+		D3DXPlaneNormalize(&m_Frustum[i], &m_Frustum[i]);
+}
+
 CLayer* CObject_Manager::Find_Layer(_uint iLevelIndex, const _wstring& strLayerTag)
 {
 	auto	iter = m_pLayers[iLevelIndex].find(strLayerTag);

@@ -35,6 +35,10 @@ HRESULT CInput_Device::Initialize(HINSTANCE hInstance, HWND hWnd)
 
 void CInput_Device::Update()
 {
+	memcpy(&m_PrevMouseState, &m_MouseState, sizeof(DIMOUSESTATE));
+
+	memcpy(m_byPrevKeyState, m_byKeyState, sizeof(m_byKeyState));
+
 	m_pKeyboard->GetDeviceState(256, m_byKeyState);
 
 	m_pMouse->GetDeviceState(sizeof(DIMOUSESTATE), &m_MouseState);

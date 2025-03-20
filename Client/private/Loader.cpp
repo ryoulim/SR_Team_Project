@@ -8,12 +8,13 @@
 #include "Cabinet.h"
 #include "Signboard.h"
 #include "MyComputer.h"
+#include "Canopy.h"
 #include "Explosion.h"
 
 
 //테스트용
 #include "MyCube.h"
-#include "TestMonster.h"
+#include "Ttakkeun_i.h"
 #include "TestBullet.h"
 /* 테스트 터레인*/
 #include "TestTerrain.h"
@@ -21,6 +22,7 @@
 //플레이어와 무기
 #include "Player.h"
 #include "Weapon_LoverBoy.h"
+#include "Weapon_Chaingun.h"
 
 
 //파티클 인클루드
@@ -142,7 +144,7 @@ HRESULT CLoader::Loading_For_Logo()
 		{
 			int a = 0;
 		}
-		if (GetAsyncKeyState(VK_SPACE))
+		if (KEY_PRESSING(DIK_SPACE))
 			break;
 	}
 	////////////////////////////////////////////파티클//////////////////////////////////////////////////////
@@ -166,7 +168,7 @@ HRESULT CLoader::Loading_For_Logo()
 		{
 			int a = 0;
 		}
-		if (GetAsyncKeyState(VK_SPACE))
+		if (KEY_PRESSING(DIK_SPACE))
 			break;
 	}
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_GameObject_PC_Firework"),
@@ -189,7 +191,7 @@ HRESULT CLoader::Loading_For_Logo()
 		{
 			int a = 0;
 		}
-		if (GetAsyncKeyState(VK_SPACE))
+		if (KEY_PRESSING(DIK_SPACE))
 			break;
 	}
 	////////////////////////////////////////////텍스처//////////////////////////////////////////////////////
@@ -226,7 +228,7 @@ HRESULT CLoader::Loading_For_Logo()
 		{
 			int a = 0;
 		}
-		if (GetAsyncKeyState(VK_SPACE))
+		if (KEY_PRESSING(DIK_SPACE))
 			break;
 	}
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_PC_Small_Fire"),
@@ -254,7 +256,7 @@ HRESULT CLoader::Loading_For_Logo()
 		{
 			int a = 0;
 		}
-		if (GetAsyncKeyState(VK_SPACE))
+		if (KEY_PRESSING(DIK_SPACE))
 			break;
 	}
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_PC_BulletShell"),
@@ -277,7 +279,7 @@ HRESULT CLoader::Loading_For_Logo()
 		{
 			int a = 0;
 		}
-		if (GetAsyncKeyState(VK_SPACE))
+		if (KEY_PRESSING(DIK_SPACE))
 			break;
 	}
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_PC_Fire"),
@@ -302,7 +304,7 @@ HRESULT CLoader::Loading_For_Logo()
 		{
 			int a = 0;
 		}
-		if (GetAsyncKeyState(VK_SPACE))
+		if (KEY_PRESSING(DIK_SPACE))
 			break;
 	}
 	ADD_TEXTURE(Logo, "../Bin/Resources/Textures/UI/Logo/logo0.PNG", 1);
@@ -317,7 +319,7 @@ HRESULT CLoader::Loading_For_Logo()
 		{
 			int a = 0;
 		}
-		if (GetAsyncKeyState(VK_SPACE))
+		if (KEY_PRESSING(DIK_SPACE))
 			break;
 	}
 #pragma endregion
@@ -330,7 +332,7 @@ HRESULT CLoader::Loading_For_Logo()
 		{
 			int a = 0;
 		}
-		if (GetAsyncKeyState(VK_SPACE))
+		if (KEY_PRESSING(DIK_SPACE))
 			break;
 	}
 	m_fLoadPercent += 0.03f;
@@ -344,7 +346,7 @@ HRESULT CLoader::Loading_For_Logo()
 		{
 			int a = 0;
 		}
-		if (GetAsyncKeyState(VK_SPACE))
+		if (KEY_PRESSING(DIK_SPACE))
 			break;
 	}
 #pragma endregion
@@ -369,7 +371,7 @@ HRESULT CLoader::Loading_For_Logo()
 		{
 			int a = 0;
 		}
-		if (GetAsyncKeyState(VK_SPACE))
+		if (KEY_PRESSING(DIK_SPACE))
 			break;
 	}
 	m_fLoadPercent += 0.03f;
@@ -385,7 +387,7 @@ HRESULT CLoader::Loading_For_Logo()
 		{
 			int a = 0;
 		}
-		if (GetAsyncKeyState(VK_SPACE))
+		if (KEY_PRESSING(DIK_SPACE))
 			break;
 	}
 	m_fLoadPercent += 0.03f;
@@ -397,7 +399,7 @@ HRESULT CLoader::Loading_For_Logo()
 			int a = 0;
 			
 		}
-		if (GetAsyncKeyState(VK_SPACE))
+		if (KEY_PRESSING(DIK_SPACE))
 			break;
 	}
 #pragma endregion
@@ -425,17 +427,22 @@ HRESULT CLoader::Loading_For_GamePlay()
 	ADD_TEXTURE(Stall, "../Bin/Resources/Textures/Object/Stall/Stall%d.png", 2);
 	ADD_TEXTURE(Signboard, "../Bin/Resources/Textures/Object/Signboard/Signboard%d.png", 5);
 	ADD_TEXTURE(MyComputer, "../Bin/Resources/Textures/Object/Computer/Computer%d.png", 3);
+	ADD_TEXTURE(Canopy, "../Bin/Resources/Textures/Object/Canopy/Canopy%d.png", 2);
 
 	ADD_TEXTURE(TestBullet, "../Bin/Resources/Textures/Bullet/Test/tile7859.png", 1);
-	ADD_TEXTURE(TestMonster, "../Bin/Resources/Textures/Monster/Test/TestMonster%d.PNG", 2);
+	ADD_TEXTURE(Ttakkeun_i, "../Bin/Resources/Textures/Monster/Ttakkeun_i/Ttakkeun_i_Walk%d.PNG", 12);
 	ADD_TEXTURE(Weapon_LoverBoy, "../Bin/Resources/Textures/Weapon/LoverBoy/LoverBoy%d.PNG", 15);
 	ADD_TEXTURE(LeftHand, "../Bin/Resources/Textures/Weapon/LeftHand/LeftHand%d.PNG", 2);
+	ADD_TEXTURE(Weapon_Chaingun, "../Bin/Resources/Textures/Weapon/ChainGun/ChainGun%d.PNG", 16);
+
+	ADD_TEXTURE(TTest, "../Bin/Resources/Textures/Object/Cabinet/Cabinet%d.png", 3);
+	ADD_TEXTURE(Test, "../Bin/Resources/Textures/TileTest/tile%d.PNG", 121);
 
 #pragma endregion
 
 #pragma region MODEL
 	lstrcpy(m_szLoadingText, TEXT("모델을(를) 로딩중입니다."));
-
+	Load_For_Terrain(TEXT("MapData.txt"));
 #pragma endregion
 
 #pragma region SOUND
@@ -455,11 +462,14 @@ HRESULT CLoader::Loading_For_GamePlay()
 	ADD_PRTOBJ(Cabinet);
 	ADD_PRTOBJ(Signboard);
 	ADD_PRTOBJ(MyComputer);
+	ADD_PRTOBJ(Canopy);
 	ADD_PRTOBJ(Player);
 	ADD_PRTOBJ(TestBullet);
-	ADD_PRTOBJ(TestMonster);
+	ADD_PRTOBJ(Ttakkeun_i);
 	ADD_PRTOBJ(Weapon_LoverBoy);
-
+	ADD_PRTOBJ(Weapon_Chaingun);
+	ADD_PRTOBJ(Block);
+	ADD_PRTOBJ(BackGround);
 
 
 #pragma endregion
@@ -515,6 +525,53 @@ HRESULT CLoader::Add_Data(const _wstring& strFilePath)
 		Safe_Release(m_pData);
 		return E_FAIL;
 	}
+
+	return S_OK;
+}
+
+HRESULT CLoader::Load_For_Terrain(const _wstring& strFileTag)
+{
+	_bool bResult = { true };
+	_wstring FilePath;
+	FilePath = TEXT("../bin/Resources/MapData/") + strFileTag;
+	_ulong dwByte = {};
+
+	HANDLE hFile = CreateFile(FilePath.c_str(), GENERIC_READ, NULL, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
+
+	if (INVALID_HANDLE_VALUE == hFile)
+	{
+		MSG_BOX("파일 개방 실패");
+		return E_FAIL;
+	}
+
+	_int iNumVertexX = {}, iNumVertexZ = {};
+
+	_float3 vPosition = {}, vScale = {}, vAngle = {};
+	while (true)
+	{
+		bResult = ReadFile(hFile, &iNumVertexX, sizeof(_int), &dwByte, NULL);
+		bResult = ReadFile(hFile, &iNumVertexZ, sizeof(_int), &dwByte, NULL);
+
+		switch (m_eNextLevelID)
+		{
+		case LEVEL_LOGO:
+			break;
+
+		case LEVEL_GAMEPLAY:
+			ADD_MODEL_EX(Terrain, iNumVertexX, iNumVertexZ);
+			break;
+
+		case LEVEL_TEST:
+			break;
+
+		default:
+			break;
+		}
+
+		break;
+	}
+
+	CloseHandle(hFile);
 
 	return S_OK;
 }

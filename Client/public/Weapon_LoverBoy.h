@@ -28,15 +28,14 @@ public:
 
 	virtual void Set_State(STATE State) override;
 
+	virtual void Key_Input() override;
 private:
 	virtual void Opening(_float fTimeDelta) override;
-	virtual void Walk(_float fTimeDelta) override;
 	virtual void Weak_Attack(_float fTimeDelta) override;
 	virtual void Strong_Attack(_float fTimeDelta) override;
 	virtual void Reload(_float fTimeDelta) override;
 	virtual void Ending(_float fTimeDelta) override;
 
-	void Positioning();
 	void Left_Hand_Render();
 	virtual HRESULT Ready_Components(void* pArg);
 
@@ -46,6 +45,7 @@ private:
 		CVIBuffer* pVIBufferCom = { nullptr };
 		CTransform* pTransformCom = { nullptr };
 	} m_LeftHand;
+
 
 public:
 	static CWeapon_LoverBoy* Create(LPDIRECT3DDEVICE9 pGraphic_Device);

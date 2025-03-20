@@ -21,13 +21,13 @@ HRESULT CLevel_Logo::Initialize(class CLevelData* pLevelData)
 	if (FAILED(Ready_Layer_UI(TEXT("Layer_UI"))))
 		return E_FAIL;
 
-
+	ShowCursor(TRUE);
 	return S_OK;
 }
 
 void CLevel_Logo::Update(_float fTimeDelta)
 {
-	if (KEY_DOWN(VK_RETURN))
+	if (KEY_DOWN(DIK_RETURN))
 	{
 		if (FAILED(m_pGameInstance->Change_Level(LEVEL_LOADING,
 			CLevel_Loading::Create(m_pGraphic_Device, LEVEL_GAMEPLAY))))

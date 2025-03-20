@@ -17,13 +17,14 @@ HRESULT CBlock::Initialize_Prototype()
 
 HRESULT CBlock::Initialize(void* pArg)
 {
-    m_eLevelID = LEVEL_TEST;
+    m_eLevelID = LEVEL_GAMEPLAY;
     m_szTextureID = TEXT("TTest");
     m_szBufferType = TEXT("Cube");
 
     if (FAILED(__super::Initialize(pArg)))
         return E_FAIL;
 
+    return S_OK;
 }
 
 void CBlock::Priority_Update(_float fTimeDelta)

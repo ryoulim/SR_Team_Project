@@ -169,6 +169,7 @@
     <ClInclude Include="..\public\Cabinet.h" />
     <ClInclude Include="..\public\CameraSprite.h" />
     <ClInclude Include="..\public\CameraManager.h" />
+    <ClInclude Include="..\public\Canopy.h" />
     <ClInclude Include="..\public\Client_Function.h" />
     <ClInclude Include="..\public\Common_Shape.h" />
     <ClInclude Include="..\public\DebugMode.h" />
@@ -219,7 +220,7 @@
     <ClInclude Include="..\public\TestTerrain.h" />
     <ClInclude Include="..\public\Tornado.h" />
     <ClInclude Include="..\public\TestBullet.h" />
-    <ClInclude Include="..\public\TestMonster.h" />
+    <ClInclude Include="..\public\Ttakkeun_i.h" />
     <ClInclude Include="..\public\Trapezoid.h" />
     <ClInclude Include="..\public\UI.h" />
     <ClInclude Include="..\public\UI_Camera.h" />
@@ -254,6 +255,7 @@
     <ClCompile Include="..\private\Cabinet.cpp" />
     <ClCompile Include="..\private\CameraManager.cpp" />
     <ClCompile Include="..\private\CameraSprite.cpp" />
+    <ClCompile Include="..\private\Canopy.cpp" />
     <ClCompile Include="..\private\Common_Shape.cpp" />
     <ClCompile Include="..\private\DebugMode.cpp" />
     <ClCompile Include="..\private\Dust.cpp" />
@@ -300,7 +302,7 @@
     <ClCompile Include="..\private\TestTerrain.cpp" />
     <ClCompile Include="..\private\Tornado.cpp" />
     <ClCompile Include="..\private\TestBullet.cpp" />
-    <ClCompile Include="..\private\TestMonster.cpp" />
+    <ClCompile Include="..\private\Ttakkeun_i.cpp" />
     <ClCompile Include="..\private\Trapezoid.cpp" />
     <ClCompile Include="..\private\UI.cpp" />
     <ClCompile Include="..\private\UI_Camera.cpp" />

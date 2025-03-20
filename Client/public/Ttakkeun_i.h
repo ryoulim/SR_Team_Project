@@ -6,18 +6,18 @@
 
 BEGIN(Client)
 
-class CTestMonster final : public CMonster
+class CTtakkeun_i final : public CMonster
 {
 public:
 	typedef struct tagTestMonsterDesc : public CMonster::DESC
 	{
-
+		//몬스터 고유 특성
 	}DESC;
 
 private:
-	CTestMonster(LPDIRECT3DDEVICE9 pGraphic_Device);
-	CTestMonster(const CTestMonster& Prototype);
-	virtual ~CTestMonster() = default;
+	CTtakkeun_i(LPDIRECT3DDEVICE9 pGraphic_Device);
+	CTtakkeun_i(const CTtakkeun_i& Prototype);
+	virtual ~CTtakkeun_i() = default;
 
 public:
 	virtual HRESULT Initialize_Prototype() override;
@@ -31,7 +31,7 @@ private:
 	virtual HRESULT Ready_Components(void* pArg);
 
 public:
-	static CTestMonster* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
+	static CTtakkeun_i* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
 	virtual CGameObject* Clone(void* pArg) override;
 	virtual void Free();
 };

@@ -130,7 +130,7 @@ HRESULT CPSystem::SetUp_RenderState()
 {
 
 	//기본 셋팅
-	m_pGraphic_Device->SetRenderState(D3DRS_LIGHTING, false);
+	//m_pGraphic_Device->SetRenderState(D3DRS_LIGHTING, false);
 	m_pGraphic_Device->SetRenderState(D3DRS_ZWRITEENABLE, false);
 	m_pGraphic_Device->SetRenderState(D3DRS_POINTSPRITEENABLE, true);
 	m_pGraphic_Device->SetRenderState(D3DRS_POINTSCALEENABLE, true);
@@ -253,7 +253,7 @@ HRESULT CPSystem::Render()
 HRESULT CPSystem::Release_RenderState()
 {
 	
-	m_pGraphic_Device->SetRenderState(D3DRS_LIGHTING, false);
+	//m_pGraphic_Device->SetRenderState(D3DRS_LIGHTING, false);
 	m_pGraphic_Device->SetRenderState(D3DRS_POINTSPRITEENABLE, false);
 	m_pGraphic_Device->SetRenderState(D3DRS_POINTSCALEENABLE, false);
 	m_pGraphic_Device->SetRenderState(D3DRS_ZWRITEENABLE, true);

@@ -64,7 +64,8 @@ HRESULT CVIBuffer::Create_VertexBuffer()
 
 HRESULT CVIBuffer::Create_IndexBuffer()
 {
-    if (FAILED(m_pGraphic_Device->CreateIndexBuffer(m_iNumIndices * m_iIndexStride,
+ 
+     if (FAILED(m_pGraphic_Device->CreateIndexBuffer(m_iNumIndices * m_iIndexStride,
         0, m_eIndexFormat, D3DPOOL_MANAGED, &m_pIB, 0)))
         return E_FAIL;
 

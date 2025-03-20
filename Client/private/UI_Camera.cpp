@@ -64,7 +64,7 @@ HRESULT CUI_Camera::Render() // UI설정 전 필요한 각종 셋팅 몰아두기
 		return E_FAIL;
 	m_pGraphic_Device->SetRenderState(D3DRS_ZENABLE, FALSE);
 	m_pGraphic_Device->SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
-	m_pGraphic_Device->SetRenderState(D3DRS_LIGHTING, FALSE);
+	//m_pGraphic_Device->SetRenderState(D3DRS_LIGHTING, FALSE);
 
 	m_pGraphic_Device->SetSamplerState(0, D3DSAMP_MINFILTER, D3DTEXF_POINT);
 	m_pGraphic_Device->SetSamplerState(0, D3DSAMP_MAGFILTER, D3DTEXF_POINT);
