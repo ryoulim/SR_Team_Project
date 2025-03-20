@@ -7,6 +7,8 @@
 #include "Smoke.h"
 #include "Monster.h"
 
+#include "Map.h"
+
 #define CurLevel LEVEL_GAMEPLAY
 
 CLevel_GamePlay::CLevel_GamePlay(LPDIRECT3DDEVICE9 pGraphic_Device)
@@ -51,6 +53,8 @@ HRESULT CLevel_GamePlay::Initialize(class CLevelData* pLevelData)
 	//	return E_FAIL;
 
 	ShowCursor(FALSE);
+	if (FAILED(Load_Map(LEVEL_GAMEPLAY, TEXT("MapData.txt"))))
+		return E_FAIL;
 
 	return S_OK;
 }
@@ -85,8 +89,9 @@ void CLevel_GamePlay::Update(_float fTimeDelta)
 
 	m_pGameInstance->Intersect(LEVEL_GAMEPLAY, TEXT("Layer_Pawn"), TEXT("Layer_Statue"));
 	m_pGameInstance->Intersect(LEVEL_GAMEPLAY, TEXT("Layer_Pawn"), TEXT("Layer_Monster"));
+	m_pGameInstance->Intersect(LEVEL_GAMEPLAY, TEXT("Layer_Pawn"), TEXT("Layer_Block"));
 	m_pGameInstance->Intersect(LEVEL_GAMEPLAY, TEXT("Layer_PBullet"), TEXT("Layer_Monster"));
-	m_pGameInstance->Intersect(LEVEL_GAMEPLAY, TEXT("Layer_PBullet"), TEXT("Layer_Statue"));
+	//m_pGameInstance->Intersect(LEVEL_GAMEPLAY, TEXT("Layer_PBullet"), TEXT("Layer_Statue"));
 }
 
 HRESULT CLevel_GamePlay::Render()
@@ -99,7 +104,7 @@ HRESULT CLevel_GamePlay::Render()
 HRESULT CLevel_GamePlay::Ready_Layer_Terrain(const _wstring& strLayerTag)
 {
 	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Terrain"),
-		LEVEL_GAMEPLAY, strLayerTag, m_pData->Find_Data(TEXT("Terrain")))))
+		LEVEL_GAMEPLAY, strLayerTag)))
 		return E_FAIL;
 
 	auto pTerrain = m_pGameInstance-> 
@@ -113,7 +118,7 @@ HRESULT CLevel_GamePlay::Ready_Layer_Terrain(const _wstring& strLayerTag)
 	GravityDesc.vTerrainScale = pTerrainTransform->Compute_Scaled();
 	GravityDesc.pTerrainVtxPos = pTerrainBuffer->Get_VertexPos();
 	GravityDesc.iTerrainVtxNumX = 129;
-	GravityDesc.iTerrainVtxNumZ = 129;
+  	GravityDesc.iTerrainVtxNumZ = 129;
 	CGravity::Set_TerrainInfo(GravityDesc);
 
 	return S_OK;
@@ -143,26 +148,6 @@ HRESULT CLevel_GamePlay::Ready_Layer_Statue(const _wstring& strLayerTag)
 	CubeDesc.vScale = { 50.f,100.f,50.f };
 	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_MyCube"),
 		LEVEL_GAMEPLAY, strLayerTag, &CubeDesc)))
-<<<<<<< HEAD
-=======
-		return E_FAIL;
-
-	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Cabinet"),
-		LEVEL_GAMEPLAY, strLayerTag, m_pData->Find_Data(TEXT("Cabinet")))))
-		return E_FAIL;
-
-	/*if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Trapezoid"),
-
-		LEVEL_GAMEPLAY, strLayerTag, m_pData->Find_Data(TEXT("Trapezoid")))))
-		return E_FAIL;
-
-	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Stall"),
-		LEVEL_GAMEPLAY, strLayerTag, m_pData->Find_Data(TEXT("Stall")))))
-		return E_FAIL;
-
-	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Signboard"),
-		LEVEL_GAMEPLAY, strLayerTag, m_pData->Find_Data(TEXT("Signboard")))))
->>>>>>> b6f2a30aaa38f7d67e9a4fa66160ba3480c183bb
 		return E_FAIL;*/
 
 	/*if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_MyComputer"),
@@ -178,6 +163,7 @@ HRESULT CLevel_GamePlay::Ready_Layer_Statue(const _wstring& strLayerTag)
 		return E_FAIL;*/
 
 	/*if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Trapezoid"),
+
 		LEVEL_GAMEPLAY, strLayerTag, m_pData->Find_Data(TEXT("Trapezoid")))))
 		return E_FAIL;*/
 
@@ -290,26 +276,26 @@ HRESULT CLevel_GamePlay::Ready_Layer_UI(const _wstring& strLayerTag)
 
 HRESULT CLevel_GamePlay::Ready_Light()
 {
-	D3DLIGHT9		tLightInfo;
-	ZeroMemory(&tLightInfo, sizeof(D3DLIGHT9));
+	//D3DLIGHT9		tLightInfo;
+	//ZeroMemory(&tLightInfo, sizeof(D3DLIGHT9));
 
-	tLightInfo.Type = D3DLIGHT_DIRECTIONAL;
+	//tLightInfo.Type = D3DLIGHT_DIRECTIONAL;
 
-	tLightInfo.Diffuse = { 1.f, 1.f, 1.f, 1.f };
-	tLightInfo.Specular = { 1.f, 1.f, 1.f, 1.f };
-	tLightInfo.Ambient = { 1.f, 1.f, 1.f, 1.f };
-	tLightInfo.Direction = { 1.f, -1.f, 1.f };
-	tLightInfo.Position = { 50.f,50.f,50.f };
+	//tLightInfo.Diffuse = { 1.f, 1.f, 1.f, 1.f };
+	//tLightInfo.Specular = { 1.f, 1.f, 1.f, 1.f };
+	//tLightInfo.Ambient = { 1.f, 1.f, 1.f, 1.f };
+	//tLightInfo.Direction = { 1.f, -1.f, 1.f };
+	//tLightInfo.Position = { 50.f,50.f,50.f };
 
-	++m_iIndex;
+	//++m_iIndex;
 
-	m_pGraphic_Device->SetLight(m_iIndex, &tLightInfo);
+	//m_pGraphic_Device->SetLight(m_iIndex, &tLightInfo);
 
-	m_pGraphic_Device->LightEnable(m_iIndex, TRUE);
-	
-	m_pGraphic_Device->SetRenderState(D3DRS_LIGHTING, TRUE);
+	//m_pGraphic_Device->LightEnable(m_iIndex, TRUE);
+	//
+	//m_pGraphic_Device->SetRenderState(D3DRS_LIGHTING, TRUE);
 
-	m_pGraphic_Device->SetRenderState(D3DRS_AMBIENT, D3DCOLOR_XRGB(50, 50, 50));
+	//m_pGraphic_Device->SetRenderState(D3DRS_AMBIENT, D3DCOLOR_XRGB(50, 50, 50));
 
 	return S_OK;
 }
@@ -671,6 +657,127 @@ void CLevel_GamePlay::SpawnEmptyBullet(_float3 _vPosition)
 	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_PC_EmptyBullet"),
 		LEVEL_GAMEPLAY, L"Layer_Particle", &EmptyBulletDesc)))
 		return;
+}
+
+HRESULT CLevel_GamePlay::Load_Map(_uint iLevelIdx, const _wstring& FileName)
+{
+	_bool bResult = { true };
+	_wstring FilePath;
+	FilePath = TEXT("../bin/Resources/MapData/") + FileName;
+	_ulong dwByte = {};
+
+	HANDLE hFile = CreateFile(FilePath.c_str(), GENERIC_READ, NULL, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
+
+	if (INVALID_HANDLE_VALUE == hFile)
+	{
+		MSG_BOX("파일 개방 실패");
+		return E_FAIL;
+	}
+
+	_int iNumVertexX = {}, iNumVertexZ = {}, iLoadLength = {};
+	_uint iNumBackGround = {}, iNumModel = {};
+	_float fSpeedPerSec = {}, fRotationPerSec = {}, fTextureIdx = {};
+	_tchar szPrototypeTag[MAX_PATH] = {};;
+
+	_float3 vPosition = {}, vScale = {}, vAngle = {};
+	while (true)
+	{
+		bResult = ReadFile(hFile, &iNumVertexX, sizeof(_int), &dwByte, NULL);
+		bResult = ReadFile(hFile, &iNumVertexZ, sizeof(_int), &dwByte, NULL);
+
+		bResult = ReadFile(hFile, &iNumBackGround, sizeof(_uint), &dwByte, NULL);
+
+		if (0 == dwByte)
+			break;
+
+		for (_uint i = 0; i < iNumBackGround; i++)
+		{
+			bResult = ReadFile(hFile, &fSpeedPerSec, sizeof(_float), &dwByte, NULL);
+			bResult = ReadFile(hFile, &fRotationPerSec, sizeof(_float), &dwByte, NULL);
+			bResult = ReadFile(hFile, &vPosition, sizeof(_float3), &dwByte, NULL);
+			bResult = ReadFile(hFile, &vScale, sizeof(_float3), &dwByte, NULL);
+			bResult = ReadFile(hFile, &vAngle, sizeof(_float3), &dwByte, NULL);
+			bResult = ReadFile(hFile, &fTextureIdx, sizeof(_float), &dwByte, NULL);
+			bResult = ReadFile(hFile, &iLoadLength, sizeof(_int), &dwByte, NULL);
+			bResult = ReadFile(hFile, &szPrototypeTag, (iLoadLength * sizeof(_tchar)), &dwByte, NULL);
+
+			CMap::DESC tDesc = {};
+			tDesc.fSpeedPerSec = fSpeedPerSec;
+			tDesc.fRotationPerSec = fRotationPerSec;
+			tDesc.vInitPos = vPosition;
+			tDesc.vScale = vScale;
+			tDesc.vAngle = vAngle;
+			tDesc.fTextureIdx = fTextureIdx;
+
+			/* 클라에서 해 줄 작업 */
+			//m_pData->Add_Data(strKey, {});
+			_wstring strKey = szPrototypeTag;
+			strKey = Compute_PrototypeName(strKey);
+
+			_wstring Prototype = TEXT("Prototype_GameObject_") + strKey;
+
+			_wstring Layertag;
+
+			if (strKey == TEXT("BackGround"))
+				Layertag = TEXT("Layer_BackGround");
+			if (strKey == TEXT("Block"))
+				Layertag = TEXT("Layer_Block");
+
+			if (FAILED(m_pGameInstance->Add_GameObject(iLevelIdx, Prototype, iLevelIdx, Layertag, &tDesc)))
+			{
+				MSG_BOX("객체 생성 실패");
+				return E_FAIL;
+			}
+
+			ZeroMemory(szPrototypeTag, sizeof(szPrototypeTag));
+		}
+
+		bResult = ReadFile(hFile, &iNumModel, sizeof(_uint), &dwByte, NULL);
+
+		for (_uint i = 0; i < iNumModel; i++)
+		{
+			bResult = ReadFile(hFile, &fSpeedPerSec, sizeof(_float), &dwByte, NULL);
+			bResult = ReadFile(hFile, &fRotationPerSec, sizeof(_float), &dwByte, NULL);
+			bResult = ReadFile(hFile, &vPosition, sizeof(_float3), &dwByte, NULL);
+			bResult = ReadFile(hFile, &vScale, sizeof(_float3), &dwByte, NULL);
+			bResult = ReadFile(hFile, &vAngle, sizeof(_float3), &dwByte, NULL);
+			bResult = ReadFile(hFile, &iLoadLength, sizeof(_int), &dwByte, NULL);
+			bResult = ReadFile(hFile, &szPrototypeTag, (iLoadLength * sizeof(_tchar)), &dwByte, NULL);
+
+			CStatue::DESC tDesc = {};
+			tDesc.fSpeedPerSec = fSpeedPerSec;
+			tDesc.fRotationPerSec = fRotationPerSec;
+			tDesc.vInitPos = vPosition;
+			tDesc.vScale = vScale;
+			tDesc.vAngle = vAngle;
+
+			/* 클라에서 해 줄 작업 */
+			_wstring strKey = szPrototypeTag;
+			strKey = Compute_PrototypeName(strKey);
+
+			_wstring Prototype = TEXT("Prototype_GameObject_") + strKey;
+
+			_wstring Layertag;
+
+			if (strKey == TEXT("Cabinet") || strKey == TEXT("Trapezoid"))
+				Layertag = TEXT("Layer_Staute");
+
+
+
+			if (FAILED(m_pGameInstance->Add_GameObject(iLevelIdx, Prototype, iLevelIdx, Layertag, &tDesc)))
+			{
+				MSG_BOX("객체 생성 실패");
+				return E_FAIL;
+			}
+
+			ZeroMemory(szPrototypeTag, sizeof(szPrototypeTag));
+		}
+	}
+
+	CloseHandle(hFile);
+	MSG_BOX("파일 로드 성공");
+
+	return S_OK;
 }
 
 CLevel_GamePlay* CLevel_GamePlay::Create(LPDIRECT3DDEVICE9 pGraphic_Device, class CLevelData* pLevelData)

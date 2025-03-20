@@ -64,41 +64,41 @@ HRESULT CDynamic_Camera::Render() // 기본오브젝트 랜더 셋팅
 
 void CDynamic_Camera::Key_Input(_float fTimeDelta)
 {
-	if (KEY_PRESSING('A'))
+	if (KEY_PRESSING(DIK_A))
 	{
 		m_pTransformCom->Go_Left(fTimeDelta);
 	}
-	if (KEY_PRESSING('D'))
+	if (KEY_PRESSING(DIK_D))
 	{
 		m_pTransformCom->Go_Right(fTimeDelta);
 	}
-	if (KEY_PRESSING('W'))
+	if (KEY_PRESSING(DIK_W))
 	{
 		m_pTransformCom->Go_Straight(fTimeDelta);
 	}
-	if (KEY_PRESSING('S'))
+	if (KEY_PRESSING(DIK_S))
 	{
 		m_pTransformCom->Go_Backward(fTimeDelta);
 	}
 
 
-	if (KEY_PRESSING('Q'))
+	if (KEY_PRESSING(DIK_Q))
 	{
 		m_pTransformCom->Go_Up(fTimeDelta);
 	}
 
-	if (KEY_PRESSING('E'))
+	if (KEY_PRESSING(DIK_E))
 	{
 		m_pTransformCom->Go_Down(fTimeDelta);
 	}
 
-	if (KEY_DOWN('R'))
+	if (KEY_DOWN(DIK_R))
 	{
 		m_pTransformCom->Set_State(CTransform::STATE_POSITION, m_vInitPos);
 		m_pTransformCom->LookAt(m_vInitLook);
 	}
 
-	if (KEY_DOWN(VK_TAB))
+	if (KEY_DOWN(DIK_TAB))
 	{
 		m_bBouseFixMod = !m_bBouseFixMod;
 	}

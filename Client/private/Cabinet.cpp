@@ -48,7 +48,7 @@ void CCabinet::Late_Update(_float fTimeDelta)
 
 HRESULT CCabinet::Render()
 {
-	__super::LightOn();
+	//__super::LightOn();
 
 	m_fTextureNum = 0.f;
 

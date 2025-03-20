@@ -122,6 +122,18 @@ void CWeapon::Idle()
 {
 }
 
+#include "TestBullet.h"
+void CWeapon::Create_Bullet()
+{
+	CTestBullet::DESC BulletDesc{};
+	BulletDesc.fSpeedPerSec = 3000.f;
+	BulletDesc.vScale = { 3.f,3.f,3.f };
+
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_TestBullet"),
+		LEVEL_GAMEPLAY, TEXT("Layer_PBullet"), &BulletDesc)))
+		return;
+}
+
 HRESULT CWeapon::Ready_Components(void* pArg)
 {
 	/* For.Com_Texture */

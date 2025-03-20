@@ -37,15 +37,6 @@ HRESULT CMonster::Initialize(void* pArg)
 	if (FAILED(Ready_Components(pArg)))
 		return E_FAIL;
 
-	/* 위치, 스케일 초기화 */
-	if (pArg != nullptr)
-	{
-		DESC* pDesc = static_cast<DESC*>(pArg);
-
-		m_pTransformCom->Set_State(CTransform::STATE_POSITION, pDesc->vPosition);
-		m_pTransformCom->Scaling(m_vScale);
-	}
-
 	return S_OK;
 }
 
@@ -111,7 +102,7 @@ HRESULT CMonster::Render()
 
 HRESULT CMonster::Release_RenderState()
 {
-	m_pGraphic_Device->SetRenderState(D3DRS_LIGHTING, TRUE);
+	//m_pGraphic_Device->SetRenderState(D3DRS_LIGHTING, TRUE);
 	m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
 	m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
 
@@ -139,6 +130,14 @@ HRESULT CMonster::Ready_Components(void* pArg)
 		TEXT("Com_Transform"), reinterpret_cast<CComponent**>(&m_pTransformCom), pArg)))
 		return E_FAIL;
 
+	/* 위치, 스케일 초기화 */
+	if (pArg != nullptr)
+	{
+		DESC* pDesc = static_cast<DESC*>(pArg);
+
+		m_pTransformCom->Set_State(CTransform::STATE_POSITION, pDesc->vPosition);
+		m_pTransformCom->Scaling(m_vScale);
+	}
 
 	/* 콜라이드 컴포넌트 */
 	DESC* pDesc = static_cast<DESC*>(pArg);

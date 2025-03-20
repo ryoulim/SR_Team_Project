@@ -130,13 +130,9 @@ HRESULT CMainApp::Ready_Component_For_Static()
 	ADD_MODEL(Cabinet);
 	ADD_MODEL(Signboard);
 	ADD_MODEL(Computer);
-<<<<<<< HEAD
-	ADD_MODEL(Canopy);
-	ADD_MODEL_EX(Terrain, 129, 129, TEXT("../Bin/Resources/Textures/Terrain/Height__.bmp"));
-=======
  	ADD_MODEL_EX(Terrain, 129, 129, TEXT("../Bin/Resources/Textures/Terrain/Height__.bmp"));
 	//Load_ProtoType_Terrain(TEXT("MapData.txt"));
->>>>>>> b6f2a30aaa38f7d67e9a4fa66160ba3480c183bb
+	ADD_MODEL(Canopy);
 
 	ADD_PRTCOM(Transform);
 	ADD_PRTCOM(Gravity);
@@ -185,39 +181,6 @@ HRESULT CMainApp::Ready_Debug_Mode()
 	return S_OK;
 }
 
-HRESULT CMainApp::Load_ProtoType_Terrain(const _wstring& strFileTag)
-{
-	_bool bResult = { true };
-	_wstring FilePath;
-	FilePath = TEXT("../bin/Resources/MapData/") + strFileTag;
-	_ulong dwByte = {};
-
-	HANDLE hFile = CreateFile(FilePath.c_str(), GENERIC_READ, NULL, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
-
-	if (INVALID_HANDLE_VALUE == hFile)
-	{
-		MSG_BOX("파일 개방 실패");
-		return E_FAIL;
-	}
-
-	_int iNumVertexX = {}, iNumVertexZ = {};
-
-	_float3 vPosition = {}, vScale = {}, vAngle = {};
-	while (true)
-	{
- 		bResult = ReadFile(hFile, &iNumVertexX, sizeof(_int), &dwByte, NULL);
-		bResult = ReadFile(hFile, &iNumVertexZ, sizeof(_int), &dwByte, NULL);
-
-		ADD_MODEL_EX(Terrain, iNumVertexX, iNumVertexZ);
-
-		break;
-	}
-
-	CloseHandle(hFile);
-
-	return S_OK;
-}
-
 HRESULT CMainApp::Open_Level(LEVEL eLevelID)
 {
 	/* 둘만한 곳이 여기밖에 안 보여서 임시로 둡니다 .. */
@@ -246,7 +209,7 @@ HRESULT CMainApp::Ready_Default_Setting()
 	m_pGraphic_Device->SetSamplerState(0, D3DSAMP_ADDRESSU, D3DTADDRESS_WRAP);
 	m_pGraphic_Device->SetSamplerState(0, D3DSAMP_ADDRESSV, D3DTADDRESS_WRAP);
 
-	m_pGraphic_Device->SetRenderState(D3DRS_LIGHTING, false);
+	m_pGraphic_Device->SetRenderState(D3DRS_LIGHTING, FALSE);
 
 	return S_OK;
 }
