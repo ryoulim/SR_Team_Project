@@ -59,6 +59,12 @@ HRESULT CTtakkeun_i::Ready_Components(void* pArg)
 	return S_OK;
 }
 
+HRESULT CTtakkeun_i::Set_TextureType()
+{
+
+	return S_OK;
+}
+
 CTtakkeun_i* CTtakkeun_i::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 {
 	//프로토타입의 기본정의

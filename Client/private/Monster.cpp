@@ -86,8 +86,12 @@ HRESULT CMonster::Render()
 	if (m_pGraphic_Device->SetTransform(D3DTS_WORLD, &m_pTransformCom->Billboard()))
 		return E_FAIL;
 
-	if (FAILED(m_pTextureCom->Bind_Resource(static_cast<_uint>(m_fAnimationFrame))))
+
+	if (FAILED(m_pTextureMap[m_iState][m_iDegree]->Bind_Resource(static_cast<_uint>(m_fAnimationFrame))))
 		return E_FAIL;
+
+	//if (FAILED(m_pTextureCom->Bind_Resource(static_cast<_uint>(m_fAnimationFrame))))
+	//	return E_FAIL;
 
 	if (FAILED(m_pVIBufferCom->Bind_Buffers()))
 		return E_FAIL;
@@ -116,9 +120,9 @@ HRESULT CMonster::Release_RenderState()
 HRESULT CMonster::Ready_Components(void* pArg)
 {
 	/* 텍스처 컴포넌트 */
-	if (FAILED(__super::Add_Component(m_eLevelID, _wstring(TEXT("Prototype_Component_Texture_")) + m_szTextureID,
-		TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
-		return E_FAIL;
+	//if (FAILED(__super::Add_Component(m_eLevelID, _wstring(TEXT("Prototype_Component_Texture_")) + m_szTextureID,
+	//	TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
+	//	return E_FAIL;
 
 	/* 렉트 버퍼 컴포넌트 */
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, _wstring(TEXT("Prototype_Component_VIBuffer_")) + m_szBufferType,
@@ -151,6 +155,41 @@ HRESULT CMonster::Ready_Components(void* pArg)
 
 	return S_OK;
 }
+
+void CMonster::Compute_ViewAngle()
+{
+	_float4x4 matCamWorld;
+	m_pGraphic_Device->GetTransform(D3DTS_VIEW, &matCamWorld);
+	matCamWorld.MakeInverseMat(matCamWorld);
+	_float3 vCameraPos = { matCamWorld._41, matCamWorld._42, matCamWorld._43 };
+
+	_float3 vCurLook = *D3DXVec3Normalize(nullptr, (m_pTransformCom->Get_State(CTransform::STATE_LOOK)));
+
+	_float3	vBillLook = {};/* *D3DXVec3Normalize(nullptr, &(*(m_pTransformCom->Get_State(CTransform::STATE_POSITION)) - vCameraPos));*/
+	
+	vCurLook.y = vBillLook.y = 0.f;
+
+	// 벡터의 내적 계산
+	float dotProduct = D3DXVec3Dot(&vCurLook, &vBillLook);
+
+	// 안정성을 위해 cosTheta를 클램핑 (-1 <= cosTheta <= 1)
+	float cosTheta = max(-1.0f, min(1.0f, dotProduct));
+
+	// 각도를 라디안으로 계산
+	float angleInRadians = acos(cosTheta);
+
+	// 각도를 도(degree)로 변환
+	m_fPlayersViewAngle = D3DXToDegree(angleInRadians);
+}
+
+HRESULT CMonster::Animate_Monster()
+{
+
+
+
+	return S_OK;
+}
+
 void CMonster::Free()
 {
 	__super::Free();
