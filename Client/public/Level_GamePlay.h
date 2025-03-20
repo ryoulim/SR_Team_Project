@@ -53,6 +53,10 @@ public:
 private:
 	_int m_iIndex{-1};
 	_bool testbool = { false };
+
+private:
+	virtual HRESULT Load_Map(_uint iLevelIdx, const _wstring& FileName) override;
+
 public:
 	static CLevel_GamePlay* Create(LPDIRECT3DDEVICE9 pGraphic_Device, class CLevelData* pLevelData);
 	virtual void Free() override;

@@ -181,39 +181,6 @@ HRESULT CMainApp::Ready_Debug_Mode()
 	return S_OK;
 }
 
-HRESULT CMainApp::Load_ProtoType_Terrain(const _wstring& strFileTag)
-{
-	_bool bResult = { true };
-	_wstring FilePath;
-	FilePath = TEXT("../bin/Resources/MapData/") + strFileTag;
-	_ulong dwByte = {};
-
-	HANDLE hFile = CreateFile(FilePath.c_str(), GENERIC_READ, NULL, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
-
-	if (INVALID_HANDLE_VALUE == hFile)
-	{
-		MSG_BOX("파일 개방 실패");
-		return E_FAIL;
-	}
-
-	_int iNumVertexX = {}, iNumVertexZ = {};
-
-	_float3 vPosition = {}, vScale = {}, vAngle = {};
-	while (true)
-	{
- 		bResult = ReadFile(hFile, &iNumVertexX, sizeof(_int), &dwByte, NULL);
-		bResult = ReadFile(hFile, &iNumVertexZ, sizeof(_int), &dwByte, NULL);
-
-		ADD_MODEL_EX(Terrain, iNumVertexX, iNumVertexZ);
-
-		break;
-	}
-
-	CloseHandle(hFile);
-
-	return S_OK;
-}
-
 HRESULT CMainApp::Open_Level(LEVEL eLevelID)
 {
 	/* 둘만한 곳이 여기밖에 안 보여서 임시로 둡니다 .. */

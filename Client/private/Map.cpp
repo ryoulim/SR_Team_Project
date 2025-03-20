@@ -1,5 +1,7 @@
 #include "Map.h"
 
+#define SCALE 28.f
+
 CMap::CMap(LPDIRECT3DDEVICE9 pGraphic_Device)
 	:CGameObject{pGraphic_Device}
 {
@@ -23,16 +25,6 @@ HRESULT CMap::Initialize(void* pArg)
 {
 	if (FAILED(Ready_Components(pArg)))
 		return E_FAIL;
-
-	if (pArg != nullptr)
-	{
-		DESC* pDesc = static_cast<DESC*>(pArg);
-		m_pTransformCom->Set_State(CTransform::STATE_POSITION, pDesc->vInitPos);
-		m_pTransformCom->Scaling(pDesc->vScale);
-		/* 현재 높이 지정돼 있는 맵 앵글이랑 텍스쳐넘버 쓰레기값 참*/
-		//m_pTransformCom->Quaternion_Rotation(pDesc->vAngle);
-		m_fTextureNum = pDesc->fTextureIdx;
-	}
 
 	return S_OK;
 }
@@ -69,6 +61,7 @@ HRESULT CMap::Render()
 	return S_OK;
 }
 
+#include "Collider_AABB_Cube.h"
 HRESULT CMap::Ready_Components(void* pArg)
 {
 	/* For.Com_Texture */
@@ -77,13 +70,38 @@ HRESULT CMap::Ready_Components(void* pArg)
 		return E_FAIL;
 
 	/* For.Com_VIBuffer */
-	if (FAILED(__super::Add_Component(LEVEL_STATIC, _wstring(TEXT("Prototype_Component_VIBuffer_")) + m_szBufferType,
-		TEXT("Com_VIBuffer"), reinterpret_cast<CComponent**>(&m_pVIBufferCom))))
-		return E_FAIL;
+	if (TEXT("Terrain") == m_szBufferType)
+	{
+		if (FAILED(__super::Add_Component(m_eLevelID, _wstring(TEXT("Prototype_Component_VIBuffer_")) + m_szBufferType,
+			TEXT("Com_VIBuffer"), reinterpret_cast<CComponent**>(&m_pVIBufferCom))))
+			return E_FAIL;
+	}
+	else
+		if (FAILED(__super::Add_Component(LEVEL_STATIC, _wstring(TEXT("Prototype_Component_VIBuffer_")) + m_szBufferType,
+			TEXT("Com_VIBuffer"), reinterpret_cast<CComponent**>(&m_pVIBufferCom))))
+			return E_FAIL;
 
 	/* For.Com_Transform */
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Transform"),
 		TEXT("Com_Transform"), reinterpret_cast<CComponent**>(&m_pTransformCom), pArg)))
+		return E_FAIL;
+
+	if (pArg != nullptr)
+	{
+		DESC* pDesc = static_cast<DESC*>(pArg);
+		m_pTransformCom->Set_State(CTransform::STATE_POSITION, (pDesc->vInitPos * SCALE));
+		m_pTransformCom->Scaling(pDesc->vScale * SCALE);
+		m_pTransformCom->Quaternion_Rotation(pDesc->vAngle);
+		m_fTextureNum = pDesc->fTextureIdx;
+	}
+
+	CCollider_AABB_Cube::DESC ColliderDesc{};
+	ColliderDesc.pTransform = m_pTransformCom;
+	ColliderDesc.vScale = m_pTransformCom->Compute_Scaled();
+
+	/* For.Com_Collider */
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Collider_AABB_Cube"),
+		TEXT("Com_Collider"), reinterpret_cast<CComponent**>(&m_pColliderCom), &ColliderDesc)))
 		return E_FAIL;
 
 	return S_OK;
@@ -96,5 +114,6 @@ void CMap::Free()
 	Safe_Release(m_pTextureCom);
 	Safe_Release(m_pTransformCom);
 	Safe_Release(m_pVIBufferCom);
+	Safe_Release(m_pColliderCom);
 
 }

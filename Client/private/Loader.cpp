@@ -435,11 +435,14 @@ HRESULT CLoader::Loading_For_GamePlay()
 	ADD_TEXTURE(LeftHand, "../Bin/Resources/Textures/Weapon/LeftHand/LeftHand%d.PNG", 2);
 	ADD_TEXTURE(Weapon_Chaingun, "../Bin/Resources/Textures/Weapon/ChainGun/ChainGun%d.PNG", 16);
 
+	ADD_TEXTURE(TTest, "../Bin/Resources/Textures/Object/Cabinet/Cabinet%d.png", 3);
+	ADD_TEXTURE(Test, "../Bin/Resources/Textures/TileTest/tile%d.PNG", 121);
+
 #pragma endregion
 
 #pragma region MODEL
 	lstrcpy(m_szLoadingText, TEXT("모델을(를) 로딩중입니다."));
-
+	Load_For_Terrain(TEXT("MapData.txt"));
 #pragma endregion
 
 #pragma region SOUND
@@ -465,6 +468,8 @@ HRESULT CLoader::Loading_For_GamePlay()
 	ADD_PRTOBJ(Ttakkeun_i);
 	ADD_PRTOBJ(Weapon_LoverBoy);
 	ADD_PRTOBJ(Weapon_Chaingun);
+	ADD_PRTOBJ(Block);
+	ADD_PRTOBJ(BackGround);
 
 
 #pragma endregion
@@ -520,6 +525,53 @@ HRESULT CLoader::Add_Data(const _wstring& strFilePath)
 		Safe_Release(m_pData);
 		return E_FAIL;
 	}
+
+	return S_OK;
+}
+
+HRESULT CLoader::Load_For_Terrain(const _wstring& strFileTag)
+{
+	_bool bResult = { true };
+	_wstring FilePath;
+	FilePath = TEXT("../bin/Resources/MapData/") + strFileTag;
+	_ulong dwByte = {};
+
+	HANDLE hFile = CreateFile(FilePath.c_str(), GENERIC_READ, NULL, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
+
+	if (INVALID_HANDLE_VALUE == hFile)
+	{
+		MSG_BOX("파일 개방 실패");
+		return E_FAIL;
+	}
+
+	_int iNumVertexX = {}, iNumVertexZ = {};
+
+	_float3 vPosition = {}, vScale = {}, vAngle = {};
+	while (true)
+	{
+		bResult = ReadFile(hFile, &iNumVertexX, sizeof(_int), &dwByte, NULL);
+		bResult = ReadFile(hFile, &iNumVertexZ, sizeof(_int), &dwByte, NULL);
+
+		switch (m_eNextLevelID)
+		{
+		case LEVEL_LOGO:
+			break;
+
+		case LEVEL_GAMEPLAY:
+			ADD_MODEL_EX(Terrain, iNumVertexX, iNumVertexZ);
+			break;
+
+		case LEVEL_TEST:
+			break;
+
+		default:
+			break;
+		}
+
+		break;
+	}
+
+	CloseHandle(hFile);
 
 	return S_OK;
 }
