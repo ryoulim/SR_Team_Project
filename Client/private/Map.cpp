@@ -95,15 +95,6 @@ HRESULT CMap::Ready_Components(void* pArg)
 		m_fTextureNum = pDesc->fTextureIdx;
 	}
 
-	CCollider_AABB_Cube::DESC ColliderDesc{};
-	ColliderDesc.pTransform = m_pTransformCom;
-	ColliderDesc.vScale = m_pTransformCom->Compute_Scaled();
-
-	/* For.Com_Collider */
-	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Collider_AABB_Cube"),
-		TEXT("Com_Collider"), reinterpret_cast<CComponent**>(&m_pColliderCom), &ColliderDesc)))
-		return E_FAIL;
-
 	return S_OK;
 }
 

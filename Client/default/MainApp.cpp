@@ -141,6 +141,7 @@ HRESULT CMainApp::Ready_Component_For_Static()
 	ADD_PRTCOM(Collider_Sphere);
 	ADD_PRTCOM(Collider_Capsule);
 	ADD_PRTCOM(Collider_Line); 
+	ADD_PRTCOM(Collider_Rect);
 
 	ADD_TEXTURE(Font_MediumBlue, "../Bin/Resources/Textures/UI/Font/Font_MediumBlue/font%d.PNG", 94);
 	ADD_TEXTURE(Font_BigOrange, "../Bin/Resources/Textures/UI/Font/Font_BigOrange/font%d.PNG", 46);

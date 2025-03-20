@@ -23,6 +23,9 @@ public:
 	virtual EVENT Update(_float fTimeDelta) override;
 	virtual void Late_Update(_float fTimeDelta) override;
 	virtual HRESULT Render() override;
+	
+private:
+	virtual HRESULT Ready_Components(void* pArg) override;
 
 public:
 	static CBlock* Create(LPDIRECT3DDEVICE9 pGraphic_Device);

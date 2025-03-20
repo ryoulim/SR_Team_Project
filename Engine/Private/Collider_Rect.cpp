@@ -71,12 +71,28 @@ _bool CCollider_Rect::Intersect_With_Line(const CCollider* pOther)
 
 CCollider_Rect* CCollider_Rect::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 {
-	return nullptr;
+	CCollider_Rect* pInstance = new CCollider_Rect(pGraphic_Device);
+
+	if (FAILED(pInstance->Initialize_Prototype()))
+	{
+		MSG_BOX("Failed to Created : CCollider_Rect");
+		Safe_Release(pInstance);
+	}
+
+	return pInstance;
 }
 
 CComponent* CCollider_Rect::Clone(void* pArg)
 {
-	return nullptr;
+	CCollider_Rect* pInstance = new CCollider_Rect(*this);
+
+	if (FAILED(pInstance->Initialize(pArg)))
+	{
+		MSG_BOX("Failed to Clone : CCollider_Rect");
+		Safe_Release(pInstance);
+	}
+
+	return pInstance;
 }
 
 void CCollider_Rect::Free()

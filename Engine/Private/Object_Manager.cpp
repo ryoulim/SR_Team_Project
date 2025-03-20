@@ -198,9 +198,13 @@ void CObject_Manager::Intersect(_uint iLevelIndex, const _wstring& strLayerTag1,
 		for (auto& Obj2 : GroupB)
 		{
 			pCollider1 = static_cast<CCollider*>(Obj1->Find_Component(TEXT("Com_Collider")));
-			pCollider2 = static_cast<CCollider*>(Obj2->Find_Component(TEXT("Com_Collider")));
+			if (pCollider1 == nullptr) // 콜라이더가 여러개일 때 처리 해줘야함
+			{
+				continue;
+			}
 
-			if (pCollider1 == nullptr || pCollider2 == nullptr)
+			pCollider2 = static_cast<CCollider*>(Obj2->Find_Component(TEXT("Com_Collider")));
+			if (pCollider1 == nullptr)
 				continue;
 
 			if (pCollider1->Check_Intersect(pCollider2))
