@@ -77,12 +77,12 @@ public:
 	_bool Mouse_Pressing(_ubyte eKeyID);
 	_bool Mouse_Up(_ubyte eKeyID);
 
-#pragma endregion
-
-#pragma region KEY_MANAGER
 	_bool		Key_Pressing(_ubyte eKeyID);
 	_bool		Key_Up(_ubyte eKeyID);
 	_bool		Key_Down(_ubyte eKeyID);
+#pragma endregion
+
+#pragma region KEY_MANAGER
 #pragma endregion
 
 #pragma region TIMER_MANAGER
