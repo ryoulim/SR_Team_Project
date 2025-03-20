@@ -21,7 +21,7 @@ HRESULT CBackGround::Initialize_Prototype()
 
 HRESULT CBackGround::Initialize(void* pArg)
 {
-	m_eLevelID = LEVEL_TEST;
+	m_eLevelID = LEVEL_GAMEPLAY;
 	m_szTextureID = TEXT("Test");
 	m_szBufferType = TEXT("Rect");
 

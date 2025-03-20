@@ -57,7 +57,7 @@ private:
 	HRESULT Loading_For_GamePlay();
 	HRESULT Loading_For_Test();
 	HRESULT Add_Data(const _wstring& strFilePath);
-
+	HRESULT Load_For_Terrain(const _wstring& strFileTag);
 public:
 	static CLoader* Create(LPDIRECT3DDEVICE9 pGraphic_Device, LEVEL eNextLevelID);
 	virtual void Free() override;
