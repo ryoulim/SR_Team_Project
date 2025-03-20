@@ -29,6 +29,9 @@ HRESULT CVIBuffer_Cabinet::Initialize_Prototype()
 
 	m_pVB->Lock(0, 0, reinterpret_cast<void**>(&pVertices), 0);
 
+	for (int i = 0; i < m_iNumVertices; i++)
+		pVertices[i].vNormal = _float3(0.f, 0.f, 0.f);
+
 #pragma region 외부 앞면
 	pVertices[0].vPosition = _float3(-0.5f, 1.f, -0.5f);
 	pVertices[0].vTexcoord = _float2(0.f, 0.f);
@@ -55,11 +58,6 @@ HRESULT CVIBuffer_Cabinet::Initialize_Prototype()
 
 	pVertices[7].vPosition = _float3(-0.5f, -1.f, 0.5f);
 	pVertices[7].vTexcoord = _float2(1.f, 1.f);
-
-	/*pVertices[4].vNormal = ComputeNormalVector(pVertices, 5, 4, 7);
-	pVertices[5].vNormal = ComputeNormalVector(pVertices, 5, 4, 7);
-	pVertices[6].vNormal = ComputeNormalVector(pVertices, 5, 7, 6);
-	pVertices[7].vNormal = ComputeNormalVector(pVertices, 5, 4, 7);*/
 #pragma endregion
 
 #pragma region 내부 앞면
@@ -209,8 +207,6 @@ HRESULT CVIBuffer_Cabinet::Initialize_Prototype()
 	pVertices[47].vTexcoord = _float2(0.f, 1.f);
 #pragma endregion
 
-	for (int i = 0; i < m_iNumVertices; i++)
-		pVertices[i].vNormal = _float3(0.f, 0.f, 0.f);
 #pragma endregion
 
 #pragma region INDEX_BUFFER
@@ -361,44 +357,23 @@ HRESULT CVIBuffer_Cabinet::Initialize_Prototype()
 
 #pragma region 윗면
 	Set_IndexBuffer(pIndices, 78, 28, 29, 30, 31);
-	pVertices[28].vNormal = pVertices[4].vNormal;
-	pVertices[29].vNormal = pVertices[5].vNormal;
-	pVertices[30].vNormal = pVertices[1].vNormal;
-	pVertices[31].vNormal = pVertices[0].vNormal;
 #pragma endregion
 
 #pragma region 정면 상부
 	Set_IndexBuffer(pIndices, 84, 32, 33, 34, 35);
-	pVertices[32].vNormal = pVertices[12].vNormal;
-	pVertices[33].vNormal = pVertices[13].vNormal;
-	pVertices[34].vNormal = pVertices[25].vNormal;
-	pVertices[35].vNormal = pVertices[24].vNormal;
 #pragma endregion
 
 #pragma region 정면 중간
 	Set_IndexBuffer(pIndices, 90, 36, 37, 38, 39);
-	pVertices[36].vNormal = pVertices[20].vNormal;
-	pVertices[37].vNormal = pVertices[21].vNormal;
-	pVertices[38].vNormal = pVertices[22].vNormal;
-	pVertices[39].vNormal = pVertices[23].vNormal;
 #pragma endregion
 
 #pragma region 정면 하부
 	Set_IndexBuffer(pIndices, 96, 40, 41, 42, 43);
-	pVertices[40].vNormal = pVertices[27].vNormal;
-	pVertices[41].vNormal = pVertices[26].vNormal;
-	pVertices[42].vNormal = pVertices[14].vNormal;
-	pVertices[43].vNormal = pVertices[15].vNormal;
 #pragma endregion
 
 #pragma region 정면 오른쪽
 	Set_IndexBuffer(pIndices, 102, 44, 45, 46, 47);
-	pVertices[44].vNormal = pVertices[17].vNormal;
-	pVertices[45].vNormal = pVertices[1].vNormal;
-	pVertices[46].vNormal = pVertices[2].vNormal;
-	pVertices[47].vNormal = pVertices[18].vNormal;
 #pragma endregion
-
 
 	m_pVB->Unlock();
 	m_pIB->Unlock();

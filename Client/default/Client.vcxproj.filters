@@ -226,6 +226,9 @@
     <Filter Include="02.GameObjects\Particle\Dust">
       <UniqueIdentifier>{dcba56ee-b74b-4834-a20b-e207bc10d479}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\Statue\Canopy">
+      <UniqueIdentifier>{c1707e91-5885-47d3-b55f-de3afe7fc708}</UniqueIdentifier>
+    </Filter>
     <Filter Include="02.GameObjects\Monster\Ttakkeun_i">
       <UniqueIdentifier>{3674c8bc-204a-4475-9166-b2788d2c5c42}</UniqueIdentifier>
     </Filter>
@@ -483,6 +486,9 @@
     <ClInclude Include="..\public\ScreenDust.h">
       <Filter>02.GameObjects\UI\MenuUI\MainMenu</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\Canopy.h">
+      <Filter>02.GameObjects\Statue\Canopy</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -722,6 +728,9 @@
     </ClCompile>
     <ClCompile Include="..\private\Button_Main.cpp">
       <Filter>02.GameObjects\UI\Button</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Canopy.cpp">
+      <Filter>02.GameObjects\Statue\Canopy</Filter>
     </ClCompile>
     <ClCompile Include="..\private\ScreenDust.cpp">
       <Filter>02.GameObjects\UI\MenuUI\MainMenu</Filter>

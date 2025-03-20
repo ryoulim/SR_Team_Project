@@ -1,26 +1,26 @@
-#include "Stall.h"
+#include "Canopy.h"
 #include "GameInstance.h"
 
-CStall::CStall(LPDIRECT3DDEVICE9 pGraphic_Device)
+CCanopy::CCanopy(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CStatue(pGraphic_Device)
 {
 }
 
-CStall::CStall(const CStall& Prototype)
+CCanopy::CCanopy(const CCanopy& Prototype)
 	: CStatue(Prototype)
 {
 }
 
-HRESULT CStall::Initialize_Prototype()
+HRESULT CCanopy::Initialize_Prototype()
 {
 	return S_OK;
 }
 
-HRESULT CStall::Initialize(void* pArg)
+HRESULT CCanopy::Initialize(void* pArg)
 {
 	m_eLevelID = LEVEL_GAMEPLAY;
-	m_szTextureID = TEXT("Stall");
-	m_szBufferType = TEXT("Stall");
+	m_szTextureID = TEXT("Canopy");
+	m_szBufferType = TEXT("Canopy");
 
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
@@ -28,24 +28,24 @@ HRESULT CStall::Initialize(void* pArg)
 	return S_OK;
 }
 
-void CStall::Priority_Update(_float fTimeDelta)
+void CCanopy::Priority_Update(_float fTimeDelta)
 {
 	__super::Priority_Update(fTimeDelta);
 }
 
-EVENT CStall::Update(_float fTimeDelta)
+EVENT CCanopy::Update(_float fTimeDelta)
 {
 	return __super::Update(fTimeDelta);
 }
 
-void CStall::Late_Update(_float fTimeDelta)
+void CCanopy::Late_Update(_float fTimeDelta)
 {
 	__super::Late_Update(fTimeDelta);
 }
 
-HRESULT CStall::Render()
+HRESULT CCanopy::Render()
 {
-	__super::LightOn();
+	//__super::LightOn();
 
 	m_fTextureNum = 0.f;
 
@@ -63,33 +63,33 @@ HRESULT CStall::Render()
 	return S_OK;
 }
 
-CStall* CStall::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
+CCanopy* CCanopy::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 {
-	CStall* pInstance = new CStall(pGraphic_Device);
+	CCanopy* pInstance = new CCanopy(pGraphic_Device);
 
 	if (FAILED(pInstance->Initialize_Prototype()))
 	{
-		MSG_BOX("Failed to Created : CStall");
+		MSG_BOX("Failed to Created : CCanopy");
 		Safe_Release(pInstance);
 	}
 
 	return pInstance;
 }
 
-CGameObject* CStall::Clone(void* pArg)
+CGameObject* CCanopy::Clone(void* pArg)
 {
-	CStall* pInstance = new CStall(*this);
+	CCanopy* pInstance = new CCanopy(*this);
 
 	if (FAILED(pInstance->Initialize(pArg)))
 	{
-		MSG_BOX("Failed to Clone : CStall");
+		MSG_BOX("Failed to Clone : CCanopy");
 		Safe_Release(pInstance);
 	}
 
 	return pInstance;
 }
 
-void CStall::Free()
+void CCanopy::Free()
 {
 	__super::Free();
 }

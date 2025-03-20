@@ -169,6 +169,7 @@
     <ClInclude Include="..\public\Cabinet.h" />
     <ClInclude Include="..\public\CameraSprite.h" />
     <ClInclude Include="..\public\CameraManager.h" />
+    <ClInclude Include="..\public\Canopy.h" />
     <ClInclude Include="..\public\Client_Function.h" />
     <ClInclude Include="..\public\Common_Shape.h" />
     <ClInclude Include="..\public\DebugMode.h" />
@@ -254,6 +255,7 @@
     <ClCompile Include="..\private\Cabinet.cpp" />
     <ClCompile Include="..\private\CameraManager.cpp" />
     <ClCompile Include="..\private\CameraSprite.cpp" />
+    <ClCompile Include="..\private\Canopy.cpp" />
     <ClCompile Include="..\private\Common_Shape.cpp" />
     <ClCompile Include="..\private\DebugMode.cpp" />
     <ClCompile Include="..\private\Dust.cpp" />

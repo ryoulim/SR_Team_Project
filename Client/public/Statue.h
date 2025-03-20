@@ -39,6 +39,8 @@ public:
 protected:
 	virtual HRESULT Ready_Components(void* pArg);
 
+	void			LightOn();
+
 protected:
 	LEVEL m_eLevelID = { LEVEL_END };
 	const _tchar* m_szTextureID = { nullptr };

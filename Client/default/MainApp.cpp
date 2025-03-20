@@ -132,6 +132,8 @@ HRESULT CMainApp::Ready_Component_For_Static()
 	ADD_MODEL(Computer);
  	ADD_MODEL_EX(Terrain, 129, 129, TEXT("../Bin/Resources/Textures/Terrain/Height__.bmp"));
 	//Load_ProtoType_Terrain(TEXT("MapData.txt"));
+	ADD_MODEL(Canopy);
+	ADD_MODEL_EX(Terrain, 129, 129, TEXT("../Bin/Resources/Textures/Terrain/Height__.bmp"));
 
 	ADD_PRTCOM(Transform);
 	ADD_PRTCOM(Gravity);

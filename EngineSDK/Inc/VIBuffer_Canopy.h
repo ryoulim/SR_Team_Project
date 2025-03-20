@@ -6,15 +6,15 @@
 
 BEGIN(Engine)
 
-class ENGINE_DLL CVIBuffer_Stall final : public CVIBuffer
+class ENGINE_DLL CVIBuffer_Canopy final : public CVIBuffer
 {
 public:
 	enum SURFACE {COMMON,TOP};
   
 private:
-	CVIBuffer_Stall(LPDIRECT3DDEVICE9 pGraphic_Device);
-	CVIBuffer_Stall(const CVIBuffer_Stall& Prototype);
-	virtual ~CVIBuffer_Stall() = default;
+	CVIBuffer_Canopy(LPDIRECT3DDEVICE9 pGraphic_Device);
+	CVIBuffer_Canopy(const CVIBuffer_Canopy& Prototype);
+	virtual ~CVIBuffer_Canopy() = default;
 
 public:
 	virtual HRESULT Initialize_Prototype() override;
@@ -26,7 +26,7 @@ private:
 	VECTOR ComputeNormalVector(VTXPOSNORTEX* pVertices, _uint vertex1, _uint vertex2, _uint vertex3);
 
 public:
-	static CVIBuffer_Stall* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
+	static CVIBuffer_Canopy* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
 	virtual CComponent* Clone(void* pArg) override;
 	virtual void Free();
 };

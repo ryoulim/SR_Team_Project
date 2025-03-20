@@ -8,6 +8,7 @@
 #include "Cabinet.h"
 #include "Signboard.h"
 #include "MyComputer.h"
+#include "Canopy.h"
 #include "Explosion.h"
 
 
@@ -426,6 +427,7 @@ HRESULT CLoader::Loading_For_GamePlay()
 	ADD_TEXTURE(Stall, "../Bin/Resources/Textures/Object/Stall/Stall%d.png", 2);
 	ADD_TEXTURE(Signboard, "../Bin/Resources/Textures/Object/Signboard/Signboard%d.png", 5);
 	ADD_TEXTURE(MyComputer, "../Bin/Resources/Textures/Object/Computer/Computer%d.png", 3);
+	ADD_TEXTURE(Canopy, "../Bin/Resources/Textures/Object/Canopy/Canopy%d.png", 2);
 
 	ADD_TEXTURE(TestBullet, "../Bin/Resources/Textures/Bullet/Test/tile7859.png", 1);
 	ADD_TEXTURE(Ttakkeun_i, "../Bin/Resources/Textures/Monster/Ttakkeun_i/Ttakkeun_i_Walk%d.PNG", 12);
@@ -457,6 +459,7 @@ HRESULT CLoader::Loading_For_GamePlay()
 	ADD_PRTOBJ(Cabinet);
 	ADD_PRTOBJ(Signboard);
 	ADD_PRTOBJ(MyComputer);
+	ADD_PRTOBJ(Canopy);
 	ADD_PRTOBJ(Player);
 	ADD_PRTOBJ(TestBullet);
 	ADD_PRTOBJ(Ttakkeun_i);
