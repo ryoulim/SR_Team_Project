@@ -133,7 +133,6 @@ HRESULT CMainApp::Ready_Component_For_Static()
  	ADD_MODEL_EX(Terrain, 129, 129, TEXT("../Bin/Resources/Textures/Terrain/Height__.bmp"));
 	//Load_ProtoType_Terrain(TEXT("MapData.txt"));
 	ADD_MODEL(Canopy);
-	ADD_MODEL_EX(Terrain, 129, 129, TEXT("../Bin/Resources/Textures/Terrain/Height__.bmp"));
 
 	ADD_PRTCOM(Transform);
 	ADD_PRTCOM(Gravity);
@@ -243,7 +242,7 @@ HRESULT CMainApp::Ready_Default_Setting()
 	m_pGraphic_Device->SetSamplerState(0, D3DSAMP_ADDRESSU, D3DTADDRESS_WRAP);
 	m_pGraphic_Device->SetSamplerState(0, D3DSAMP_ADDRESSV, D3DTADDRESS_WRAP);
 
-	m_pGraphic_Device->SetRenderState(D3DRS_LIGHTING, false);
+	m_pGraphic_Device->SetRenderState(D3DRS_LIGHTING, FALSE);
 
 	return S_OK;
 }

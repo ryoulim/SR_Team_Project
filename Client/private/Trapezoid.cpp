@@ -45,7 +45,7 @@ void CTrapezoid::Late_Update(_float fTimeDelta)
 
 HRESULT CTrapezoid::Render()
 {
-	__super::LightOn();
+	//__super::LightOn();
 
 	m_fTextureNum = 0.f;
 
