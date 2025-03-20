@@ -29,6 +29,7 @@ private:
 	HRESULT Ready_Component_For_Static();
 	HRESULT Ready_Object_For_Static();
 	HRESULT Ready_Debug_Mode();
+	HRESULT Load_ProtoType_Terrain(const _wstring& strFileTag);
 
 #ifdef _IMGUI
 	HRESULT Ready_Imgui();

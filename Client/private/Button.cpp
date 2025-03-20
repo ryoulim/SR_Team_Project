@@ -112,7 +112,7 @@ HRESULT CButton::Render()
 			CFont::CENTER,
 			0.f,
 			0.f);
-		if (KEY_DOWN(VK_LBUTTON))
+		if (MOUSE_DOWN(DIMK_LBUTTON))
 		{
 			if (FAILED(m_pGameInstance->Change_Level(LEVEL_LOADING,
 				CLevel_Loading::Create(m_pGraphic_Device, LEVEL_GAMEPLAY))))

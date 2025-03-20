@@ -116,7 +116,6 @@
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>../Public/;../../EngineSDK/Inc/</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>%(DisableSpecificWarnings)</DisableSpecificWarnings>
-      <LanguageStandard>stdcpp17</LanguageStandard>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
@@ -161,6 +160,7 @@
     <ClInclude Include="..\public\Ammo.h" />
     <ClInclude Include="..\public\Armor.h" />
     <ClInclude Include="..\public\BackGround.h" />
+    <ClInclude Include="..\public\Block.h" />
     <ClInclude Include="..\public\Boss.h" />
     <ClInclude Include="..\public\Bullet.h" />
     <ClInclude Include="..\public\Button.h" />
@@ -186,8 +186,8 @@
     <ClInclude Include="..\public\Font_TinyBlue.h" />
     <ClInclude Include="..\public\FPS_Camera.h" />
     <ClInclude Include="..\public\Item.h" />
-    <ClInclude Include="..\public\ItemDialog.h" />
     <ClInclude Include="..\public\Item_Ammo.h" />
+    <ClInclude Include="..\public\Level_Test.h" />
     <ClInclude Include="..\public\LoadingMenu.h" />
     <ClInclude Include="..\public\Logo.h" />
     <ClInclude Include="..\public\MainMenu.h" />
@@ -200,6 +200,7 @@
     <ClInclude Include="..\public\Portrait.h" />
     <ClInclude Include="..\public\PSystem.h" />
     <ClInclude Include="..\public\Rain.h" />
+    <ClInclude Include="..\public\ScreenDust.h" />
     <ClInclude Include="..\public\Smoke.h" />
     <ClInclude Include="..\public\Sphere.h" />
     <ClInclude Include="..\public\Sprite.h" />
@@ -216,9 +217,10 @@
     <ClInclude Include="..\public\Loader.h" />
     <ClInclude Include="..\public\MyCube.h" />
     <ClInclude Include="..\public\Terrain.h" />
+    <ClInclude Include="..\public\TestTerrain.h" />
     <ClInclude Include="..\public\Tornado.h" />
     <ClInclude Include="..\public\TestBullet.h" />
-    <ClInclude Include="..\public\TestMonster.h" />
+    <ClInclude Include="..\public\Ttakkeun_i.h" />
     <ClInclude Include="..\public\Trapezoid.h" />
     <ClInclude Include="..\public\UI.h" />
     <ClInclude Include="..\public\UI_Camera.h" />
@@ -244,6 +246,7 @@
     <ClCompile Include="..\private\Ammo.cpp" />
     <ClCompile Include="..\private\Armor.cpp" />
     <ClCompile Include="..\Private\BackGround.cpp" />
+    <ClCompile Include="..\private\Block.cpp" />
     <ClCompile Include="..\private\Boss.cpp" />
     <ClCompile Include="..\private\Bullet.cpp" />
     <ClCompile Include="..\private\Button.cpp" />
@@ -268,8 +271,8 @@
     <ClCompile Include="..\private\Font_TinyBlue.cpp" />
     <ClCompile Include="..\private\FPS_Camera.cpp" />
     <ClCompile Include="..\private\Item.cpp" />
-    <ClCompile Include="..\private\ItemDialog.cpp" />
     <ClCompile Include="..\private\Item_Ammo.cpp" />
+    <ClCompile Include="..\private\Level_Test.cpp" />
     <ClCompile Include="..\private\LoadingMenu.cpp" />
     <ClCompile Include="..\private\Logo.cpp" />
     <ClCompile Include="..\private\MainMenu.cpp" />
@@ -282,6 +285,7 @@
     <ClCompile Include="..\private\Portrait.cpp" />
     <ClCompile Include="..\private\PSystem.cpp" />
     <ClCompile Include="..\private\Rain.cpp" />
+    <ClCompile Include="..\private\ScreenDust.cpp" />
     <ClCompile Include="..\private\Signboard.cpp" />
     <ClCompile Include="..\private\Sphere.cpp" />
     <ClCompile Include="..\private\Stall.cpp" />
@@ -295,9 +299,10 @@
     <ClCompile Include="..\private\Loader.cpp" />
     <ClCompile Include="..\private\MyCube.cpp" />
     <ClCompile Include="..\private\Terrain.cpp" />
+    <ClCompile Include="..\private\TestTerrain.cpp" />
     <ClCompile Include="..\private\Tornado.cpp" />
     <ClCompile Include="..\private\TestBullet.cpp" />
-    <ClCompile Include="..\private\TestMonster.cpp" />
+    <ClCompile Include="..\private\Ttakkeun_i.cpp" />
     <ClCompile Include="..\private\Trapezoid.cpp" />
     <ClCompile Include="..\private\UI.cpp" />
     <ClCompile Include="..\private\UI_Camera.cpp" />

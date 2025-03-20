@@ -14,12 +14,15 @@
 
 //테스트용
 #include "MyCube.h"
-#include "TestMonster.h"
+#include "Ttakkeun_i.h"
 #include "TestBullet.h"
+/* 테스트 터레인*/
+#include "TestTerrain.h"
 
 //플레이어와 무기
 #include "Player.h"
 #include "Weapon_LoverBoy.h"
+#include "Weapon_Chaingun.h"
 
 
 //파티클 인클루드
@@ -30,6 +33,7 @@
 #include "Sprite.h"
 #include "Tornado.h"
 #include "Smoke.h"
+#include "Dust.h"
 #include "Sphere.h"
 #include "CameraSprite.h"
 
@@ -40,7 +44,13 @@
 #include "Armor.h"
 #include "Portrait.h"
 #include "MainMenu.h"
+#include "ScreenDust.h"
+#include "Button.h"
 #include "Button_Main.h"
+
+//맵 인클루드
+#include "Block.h"
+
 
 CLoader::CLoader(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: m_pGraphic_Device { pGraphic_Device }
@@ -94,6 +104,10 @@ HRESULT CLoader::Loading()
 	case LEVEL_GAMEPLAY:
 		hr = Loading_For_GamePlay();
 		break;
+
+	case LEVEL_TEST:
+		hr = Loading_For_Test();
+		break;
 	}
 
 	LeaveCriticalSection(&m_CriticalSection);
@@ -130,7 +144,7 @@ HRESULT CLoader::Loading_For_Logo()
 		{
 			int a = 0;
 		}
-		if (GetAsyncKeyState(VK_SPACE))
+		if (KEY_PRESSING(DIK_SPACE))
 			break;
 	}
 	////////////////////////////////////////////파티클//////////////////////////////////////////////////////
@@ -154,7 +168,7 @@ HRESULT CLoader::Loading_For_Logo()
 		{
 			int a = 0;
 		}
-		if (GetAsyncKeyState(VK_SPACE))
+		if (KEY_PRESSING(DIK_SPACE))
 			break;
 	}
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_GameObject_PC_Firework"),
@@ -177,7 +191,7 @@ HRESULT CLoader::Loading_For_Logo()
 		{
 			int a = 0;
 		}
-		if (GetAsyncKeyState(VK_SPACE))
+		if (KEY_PRESSING(DIK_SPACE))
 			break;
 	}
 	////////////////////////////////////////////텍스처//////////////////////////////////////////////////////
@@ -214,7 +228,7 @@ HRESULT CLoader::Loading_For_Logo()
 		{
 			int a = 0;
 		}
-		if (GetAsyncKeyState(VK_SPACE))
+		if (KEY_PRESSING(DIK_SPACE))
 			break;
 	}
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_PC_Small_Fire"),
@@ -242,7 +256,7 @@ HRESULT CLoader::Loading_For_Logo()
 		{
 			int a = 0;
 		}
-		if (GetAsyncKeyState(VK_SPACE))
+		if (KEY_PRESSING(DIK_SPACE))
 			break;
 	}
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_PC_BulletShell"),
@@ -265,7 +279,7 @@ HRESULT CLoader::Loading_For_Logo()
 		{
 			int a = 0;
 		}
-		if (GetAsyncKeyState(VK_SPACE))
+		if (KEY_PRESSING(DIK_SPACE))
 			break;
 	}
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_PC_Fire"),
@@ -281,6 +295,7 @@ HRESULT CLoader::Loading_For_Logo()
 	m_fLoadPercent += 0.03f;
 	ADD_TEXTURE(MainMenu, "../Bin/Resources/Textures/UI/Background/MainMenu_Background.PNG", 1);
 	m_fLoadPercent += 0.03f;
+	ADD_TEXTURE(Screen_Dust, "../Bin/Resources/Textures/Particle/ScreenDust/Screen_Dust%d.PNG", 50);
 	ADD_TEXTURE(Save_Background, "../Bin/Resources/Textures/UI/Background/Save_Background.PNG", 1);
 	m_fLoadPercent += 0.03f;
 	for (size_t i = 0; i < 100000; i++)
@@ -289,7 +304,7 @@ HRESULT CLoader::Loading_For_Logo()
 		{
 			int a = 0;
 		}
-		if (GetAsyncKeyState(VK_SPACE))
+		if (KEY_PRESSING(DIK_SPACE))
 			break;
 	}
 	ADD_TEXTURE(Logo, "../Bin/Resources/Textures/UI/Logo/logo0.PNG", 1);
@@ -304,7 +319,7 @@ HRESULT CLoader::Loading_For_Logo()
 		{
 			int a = 0;
 		}
-		if (GetAsyncKeyState(VK_SPACE))
+		if (KEY_PRESSING(DIK_SPACE))
 			break;
 	}
 #pragma endregion
@@ -317,7 +332,7 @@ HRESULT CLoader::Loading_For_Logo()
 		{
 			int a = 0;
 		}
-		if (GetAsyncKeyState(VK_SPACE))
+		if (KEY_PRESSING(DIK_SPACE))
 			break;
 	}
 	m_fLoadPercent += 0.03f;
@@ -331,7 +346,7 @@ HRESULT CLoader::Loading_For_Logo()
 		{
 			int a = 0;
 		}
-		if (GetAsyncKeyState(VK_SPACE))
+		if (KEY_PRESSING(DIK_SPACE))
 			break;
 	}
 #pragma endregion
@@ -343,6 +358,9 @@ HRESULT CLoader::Loading_For_Logo()
 	ADD_PRTOBJ(BackGround);
 	m_fLoadPercent += 0.03f;
 	ADD_PRTOBJ(MainMenu);
+	ADD_PRTOBJ(ScreenDust);
+	ADD_PRTOBJ(Button);
+	m_fLoadPercent = 4.f / 5.f;
 	m_fLoadPercent += 0.03f;
 	ADD_PRTOBJ(Button_Main);
 	m_fLoadPercent += 0.03f;
@@ -353,7 +371,7 @@ HRESULT CLoader::Loading_For_Logo()
 		{
 			int a = 0;
 		}
-		if (GetAsyncKeyState(VK_SPACE))
+		if (KEY_PRESSING(DIK_SPACE))
 			break;
 	}
 	m_fLoadPercent += 0.03f;
@@ -369,7 +387,7 @@ HRESULT CLoader::Loading_For_Logo()
 		{
 			int a = 0;
 		}
-		if (GetAsyncKeyState(VK_SPACE))
+		if (KEY_PRESSING(DIK_SPACE))
 			break;
 	}
 	m_fLoadPercent += 0.03f;
@@ -381,7 +399,7 @@ HRESULT CLoader::Loading_For_Logo()
 			int a = 0;
 			
 		}
-		if (GetAsyncKeyState(VK_SPACE))
+		if (KEY_PRESSING(DIK_SPACE))
 			break;
 	}
 #pragma endregion
@@ -412,9 +430,10 @@ HRESULT CLoader::Loading_For_GamePlay()
 	ADD_TEXTURE(Canopy, "../Bin/Resources/Textures/Object/Canopy/Canopy%d.png", 2);
 
 	ADD_TEXTURE(TestBullet, "../Bin/Resources/Textures/Bullet/Test/tile7859.png", 1);
-	ADD_TEXTURE(TestMonster, "../Bin/Resources/Textures/Monster/Test/TestMonster%d.PNG", 2);
+	ADD_TEXTURE(Ttakkeun_i, "../Bin/Resources/Textures/Monster/Ttakkeun_i/Ttakkeun_i_Walk%d.PNG", 12);
 	ADD_TEXTURE(Weapon_LoverBoy, "../Bin/Resources/Textures/Weapon/LoverBoy/LoverBoy%d.PNG", 15);
 	ADD_TEXTURE(LeftHand, "../Bin/Resources/Textures/Weapon/LeftHand/LeftHand%d.PNG", 2);
+	ADD_TEXTURE(Weapon_Chaingun, "../Bin/Resources/Textures/Weapon/ChainGun/ChainGun%d.PNG", 16);
 
 #pragma endregion
 
@@ -443,9 +462,9 @@ HRESULT CLoader::Loading_For_GamePlay()
 	ADD_PRTOBJ(Canopy);
 	ADD_PRTOBJ(Player);
 	ADD_PRTOBJ(TestBullet);
-	ADD_PRTOBJ(TestMonster);
+	ADD_PRTOBJ(Ttakkeun_i);
 	ADD_PRTOBJ(Weapon_LoverBoy);
-
+	ADD_PRTOBJ(Weapon_Chaingun);
 
 
 #pragma endregion
@@ -460,6 +479,36 @@ HRESULT CLoader::Loading_For_GamePlay()
 	lstrcpy(m_szLoadingText, TEXT("로딩이 완료되었습니다."));
 	m_isFinished = true;
 	m_fLoadPercent = 1.f;
+	return S_OK;
+}
+
+HRESULT CLoader::Loading_For_Test()
+{
+	lstrcpy(m_szLoadingText, TEXT("텍스쳐을(를) 로딩중입니다."));
+
+	ADD_TEXTURE(TTest, "../Bin/Resources/Textures/Object/Cabinet/Cabinet%d.png", 3);
+	ADD_TEXTURE(Test, "../Bin/Resources/Textures/TileTest/tile%d.PNG", 121);
+	ADD_TEXTURE(BackGround, "../Bin/Resources/Textures/Default%d.jpg", 2);
+	ADD_TEXTURE(Terrain, "../Bin/Resources/Textures/Map/Tile22/tile6498.PNG", 1);
+	ADD_TEXTURE(MyCube, "../Bin/Resources/Textures/Snow/Snow.png", 1);
+	ADD_TEXTURE(Box, "../Bin/Resources/Textures/Object/Box/tile6628.png", 1);
+	ADD_TEXTURE(Cabinet, "../Bin/Resources/Textures/Object/Cabinet/Cabinet%d.png", 3);
+	ADD_TEXTURE(Trapezoid, "../Bin/Resources/Textures/Object/Trapezoid/Trapezoid%d.PNG", 2);
+
+
+	lstrcpy(m_szLoadingText, TEXT("원형객체을(를) 로딩중입니다."));
+	ADD_PRTOBJ(Cabinet);
+	ADD_PRTOBJ(Block);
+	ADD_PRTOBJ(BackGround);
+	ADD_PRTOBJ(Trapezoid);
+	ADD_PRTOBJ(Terrain);
+	ADD_PRTOBJ(TestTerrain);
+
+	lstrcpy(m_szLoadingText, TEXT("로딩이 완료되었습니다."));
+	m_isFinished = true;
+
+
+
 	return S_OK;
 }
 

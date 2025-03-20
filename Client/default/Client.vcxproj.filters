@@ -37,15 +37,6 @@
     <Filter Include="02.GameObjects\Statue">
       <UniqueIdentifier>{3cf1dc92-4e8e-45e5-921e-4c51a5527dfa}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\Statue\Mycube">
-      <UniqueIdentifier>{866631c5-e2bd-4cb1-8c4f-cb7e7ba7d676}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Statue\Terrain">
-      <UniqueIdentifier>{9de21c46-a0f5-43b6-8a26-1378d9bcc1aa}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Statue\BackGround">
-      <UniqueIdentifier>{cacde4f5-7fc7-406d-9ed5-7a738becec0f}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02.GameObjects\Effect">
       <UniqueIdentifier>{8a9aaaa4-6267-428d-b1c8-d878c6c1a50a}</UniqueIdentifier>
     </Filter>
@@ -160,9 +151,6 @@
     <Filter Include="02.GameObjects\Bullet\TestBullet">
       <UniqueIdentifier>{550edbb4-3757-490f-81e5-8aa4b514eba1}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\Monster\TestMonster">
-      <UniqueIdentifier>{3674c8bc-204a-4475-9166-b2788d2c5c42}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02.GameObjects\Statue\Signboard">
       <UniqueIdentifier>{f980a65b-3298-4b0b-98a2-1d08187c11b7}</UniqueIdentifier>
     </Filter>
@@ -202,6 +190,24 @@
     <Filter Include="02.GameObjects\Weapon\LoverBoy">
       <UniqueIdentifier>{938caa6e-991d-4371-8c1a-c40eec5364c9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01.Levels\Test">
+      <UniqueIdentifier>{28e29652-c666-48a6-98b3-c2bfe2ffccd2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Map\BackGround">
+      <UniqueIdentifier>{cacde4f5-7fc7-406d-9ed5-7a738becec0f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Map\Terrain">
+      <UniqueIdentifier>{9de21c46-a0f5-43b6-8a26-1378d9bcc1aa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Statue\Mycube">
+      <UniqueIdentifier>{866631c5-e2bd-4cb1-8c4f-cb7e7ba7d676}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Map\Block">
+      <UniqueIdentifier>{c8ed5851-d677-4b27-bbf4-5114c532d80d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Map\TextTerrain">
+      <UniqueIdentifier>{c3ef4eff-606f-4fdd-ab5a-b810076f6654}</UniqueIdentifier>
+    </Filter>
     <Filter Include="100.Imgui">
       <UniqueIdentifier>{5dfc6c89-573a-44c3-81d7-b3a0d6305c09}</UniqueIdentifier>
     </Filter>
@@ -220,8 +226,13 @@
     <Filter Include="02.GameObjects\Particle\Dust">
       <UniqueIdentifier>{dcba56ee-b74b-4834-a20b-e207bc10d479}</UniqueIdentifier>
     </Filter>
+<<<<<<< HEAD
     <Filter Include="02.GameObjects\Statue\Canopy">
       <UniqueIdentifier>{c1707e91-5885-47d3-b55f-de3afe7fc708}</UniqueIdentifier>
+=======
+    <Filter Include="02.GameObjects\Monster\Ttakkeun_i">
+      <UniqueIdentifier>{3674c8bc-204a-4475-9166-b2788d2c5c42}</UniqueIdentifier>
+>>>>>>> b6f2a30aaa38f7d67e9a4fa66160ba3480c183bb
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -253,10 +264,10 @@
       <Filter>01.Levels\Loading</Filter>
     </ClInclude>
     <ClInclude Include="..\public\BackGround.h">
-      <Filter>02.GameObjects\Statue\BackGround</Filter>
+      <Filter>02.GameObjects\Map\BackGround</Filter>
     </ClInclude>
     <ClInclude Include="..\public\Terrain.h">
-      <Filter>02.GameObjects\Statue\Terrain</Filter>
+      <Filter>02.GameObjects\Map\Terrain</Filter>
     </ClInclude>
     <ClInclude Include="..\public\Dynamic_Camera.h">
       <Filter>02.GameObjects\Camera\DynamicCamera</Filter>
@@ -414,8 +425,8 @@
     <ClInclude Include="..\public\Player.h">
       <Filter>02.GameObjects\Pawn\Player</Filter>
     </ClInclude>
-    <ClInclude Include="..\public\TestMonster.h">
-      <Filter>02.GameObjects\Monster\TestMonster</Filter>
+    <ClInclude Include="..\public\Ttakkeun_i.h">
+      <Filter>02.GameObjects\Monster\Ttakkeun_i</Filter>
     </ClInclude>
     <ClInclude Include="..\public\Weapon.h">
       <Filter>02.GameObjects\Weapon</Filter>
@@ -425,6 +436,15 @@
     </ClInclude>
     <ClInclude Include="..\public\Weapon_LoverBoy.h">
       <Filter>02.GameObjects\Weapon\LoverBoy</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Level_Test.h">
+      <Filter>01.Levels\Test</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Block.h">
+      <Filter>02.GameObjects\Map\Block</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\TestTerrain.h">
+      <Filter>02.GameObjects\Map\TextTerrain</Filter>
     </ClInclude>
     <ClInclude Include="..\public\Client_Function.h">
       <Filter>99.Headers</Filter>
@@ -459,15 +479,19 @@
     <ClInclude Include="..\public\FadeUI.h">
       <Filter>02.GameObjects\UI\MenuUI</Filter>
     </ClInclude>
-    <ClInclude Include="..\public\ItemDialog.h" />
     <ClInclude Include="..\public\Sphere.h">
       <Filter>02.GameObjects\Particle\Sphere</Filter>
     </ClInclude>
     <ClInclude Include="..\public\Dust.h">
       <Filter>02.GameObjects\Particle\Dust</Filter>
     </ClInclude>
+<<<<<<< HEAD
     <ClInclude Include="..\public\Canopy.h">
       <Filter>02.GameObjects\Statue\Canopy</Filter>
+=======
+    <ClInclude Include="..\public\ScreenDust.h">
+      <Filter>02.GameObjects\UI\MenuUI\MainMenu</Filter>
+>>>>>>> b6f2a30aaa38f7d67e9a4fa66160ba3480c183bb
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -500,10 +524,10 @@
       <Filter>01.Levels\Loading\Loader</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\BackGround.cpp">
-      <Filter>02.GameObjects\Statue\BackGround</Filter>
+      <Filter>02.GameObjects\Map\BackGround</Filter>
     </ClCompile>
     <ClCompile Include="..\private\Terrain.cpp">
-      <Filter>02.GameObjects\Statue\Terrain</Filter>
+      <Filter>02.GameObjects\Map\Terrain</Filter>
     </ClCompile>
     <ClCompile Include="..\private\Dynamic_Camera.cpp">
       <Filter>02.GameObjects\Camera\DynamicCamera</Filter>
@@ -655,8 +679,8 @@
     <ClCompile Include="..\private\TestBullet.cpp">
       <Filter>02.GameObjects\Bullet\TestBullet</Filter>
     </ClCompile>
-    <ClCompile Include="..\private\TestMonster.cpp">
-      <Filter>02.GameObjects\Monster\TestMonster</Filter>
+    <ClCompile Include="..\private\Ttakkeun_i.cpp">
+      <Filter>02.GameObjects\Monster\Ttakkeun_i</Filter>
     </ClCompile>
     <ClCompile Include="..\private\Weapon.cpp">
       <Filter>02.GameObjects\Weapon</Filter>
@@ -666,6 +690,15 @@
     </ClCompile>
     <ClCompile Include="..\private\Weapon_LoverBoy.cpp">
       <Filter>02.GameObjects\Weapon\LoverBoy</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Level_Test.cpp">
+      <Filter>01.Levels\Test</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Block.cpp">
+      <Filter>02.GameObjects\Map\Block</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\TestTerrain.cpp">
+      <Filter>02.GameObjects\Map\TextTerrain</Filter>
     </ClCompile>
     <ClCompile Include="..\Imgui\imgui.cpp">
       <Filter>100.Imgui</Filter>
@@ -700,9 +733,14 @@
     <ClCompile Include="..\private\Button_Main.cpp">
       <Filter>02.GameObjects\UI\Button</Filter>
     </ClCompile>
+<<<<<<< HEAD
     <ClCompile Include="..\private\ItemDialog.cpp" />
     <ClCompile Include="..\private\Canopy.cpp">
       <Filter>02.GameObjects\Statue\Canopy</Filter>
+=======
+    <ClCompile Include="..\private\ScreenDust.cpp">
+      <Filter>02.GameObjects\UI\MenuUI\MainMenu</Filter>
+>>>>>>> b6f2a30aaa38f7d67e9a4fa66160ba3480c183bb
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

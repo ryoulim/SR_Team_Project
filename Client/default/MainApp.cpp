@@ -110,7 +110,7 @@ void CMainApp::Update(_float fTimeDelta)
 {
 	m_pGameInstance->Update_Engine(fTimeDelta);
 
-	if(KEY_DOWN(VK_ESCAPE))
+	if(KEY_DOWN(DIK_ESCAPE))
 		PostQuitMessage(0);
 }
 
@@ -130,8 +130,13 @@ HRESULT CMainApp::Ready_Component_For_Static()
 	ADD_MODEL(Cabinet);
 	ADD_MODEL(Signboard);
 	ADD_MODEL(Computer);
+<<<<<<< HEAD
 	ADD_MODEL(Canopy);
 	ADD_MODEL_EX(Terrain, 129, 129, TEXT("../Bin/Resources/Textures/Terrain/Height__.bmp"));
+=======
+ 	ADD_MODEL_EX(Terrain, 129, 129, TEXT("../Bin/Resources/Textures/Terrain/Height__.bmp"));
+	//Load_ProtoType_Terrain(TEXT("MapData.txt"));
+>>>>>>> b6f2a30aaa38f7d67e9a4fa66160ba3480c183bb
 
 	ADD_PRTCOM(Transform);
 	ADD_PRTCOM(Gravity);
@@ -139,7 +144,7 @@ HRESULT CMainApp::Ready_Component_For_Static()
 	ADD_PRTCOM(Collider_OBB_Cube);
 	ADD_PRTCOM(Collider_Sphere);
 	ADD_PRTCOM(Collider_Capsule);
-	ADD_PRTCOM(Collider_Line);
+	ADD_PRTCOM(Collider_Line); 
 
 	ADD_TEXTURE(Font_MediumBlue, "../Bin/Resources/Textures/UI/Font/Font_MediumBlue/font%d.PNG", 94);
 	ADD_TEXTURE(Font_BigOrange, "../Bin/Resources/Textures/UI/Font/Font_BigOrange/font%d.PNG", 46);
@@ -176,6 +181,39 @@ HRESULT CMainApp::Ready_Debug_Mode()
 	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_DebugMode"),
 		LEVEL_STATIC, TEXT("Layer_DebugMode"))))
 		return E_FAIL;
+
+	return S_OK;
+}
+
+HRESULT CMainApp::Load_ProtoType_Terrain(const _wstring& strFileTag)
+{
+	_bool bResult = { true };
+	_wstring FilePath;
+	FilePath = TEXT("../bin/Resources/MapData/") + strFileTag;
+	_ulong dwByte = {};
+
+	HANDLE hFile = CreateFile(FilePath.c_str(), GENERIC_READ, NULL, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
+
+	if (INVALID_HANDLE_VALUE == hFile)
+	{
+		MSG_BOX("파일 개방 실패");
+		return E_FAIL;
+	}
+
+	_int iNumVertexX = {}, iNumVertexZ = {};
+
+	_float3 vPosition = {}, vScale = {}, vAngle = {};
+	while (true)
+	{
+ 		bResult = ReadFile(hFile, &iNumVertexX, sizeof(_int), &dwByte, NULL);
+		bResult = ReadFile(hFile, &iNumVertexZ, sizeof(_int), &dwByte, NULL);
+
+		ADD_MODEL_EX(Terrain, iNumVertexX, iNumVertexZ);
+
+		break;
+	}
+
+	CloseHandle(hFile);
 
 	return S_OK;
 }

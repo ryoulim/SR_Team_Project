@@ -2,6 +2,8 @@
 
 #pragma region 프로토타입 넣는 매크로들
 
+#define GET_PLAYER m_pGameInstance->Find_Object(LEVEL_GAMEPLAY,TEXT("Layer_Pawn"))
+
 #define ADD_TEXTURE(Name,Path,Cnt)																					\
 if (FAILED(m_pGameInstance->Add_Prototype(m_eNextLevelID, _wstring(TEXT("Prototype_Component_Texture_"))+L###Name ,	\
 CTexture::Create(m_pGraphic_Device, TEXT(Path), Cnt))))																\
@@ -46,6 +48,8 @@ return E_FAIL
 
 #pragma region 유틸리티
 
+#define GET_PLAYER m_pGameInstance->Find_Object(LEVEL_GAMEPLAY,TEXT("Layer_Pawn"))
+
 #define _VUp		_float3(0.f,1.f,0.f)
 
 #define FWINCX static_cast<_float>(g_iWinSizeX)
@@ -54,5 +58,9 @@ return E_FAIL
 #define KEY_DOWN		m_pGameInstance->Key_Down
 #define	KEY_PRESSING	m_pGameInstance->Key_Pressing
 #define KEY_UP			m_pGameInstance->Key_Up
+
+#define MOUSE_DOWN		m_pGameInstance->Mouse_Down
+#define MOUSE_PRESSING	m_pGameInstance->Mouse_Pressing
+#define MOUSE_UP		m_pGameInstance->Mouse_Up
 
 #pragma endregion

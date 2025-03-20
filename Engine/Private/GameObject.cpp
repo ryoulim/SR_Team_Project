@@ -50,20 +50,20 @@ HRESULT CGameObject::Render()
 	return S_OK;
 }
 
-void CGameObject::FrameUpdate(float timeDelta, float _MaxFrame, bool isLoop)
+void CGameObject::FrameUpdate(float timeDelta, float _MaxFrame, float fSpeed, bool isLoop)
 {
 	if (isLoop)
 	{
-		if (m_fAnimationMaxFrame < m_fAnimationFrame)
+		if (_MaxFrame < m_fAnimationFrame)
 			m_fAnimationFrame = 0;
 	}
 	else
 	{
-		if (m_fAnimationMaxFrame < m_fAnimationFrame)
+		if (_MaxFrame < m_fAnimationFrame)
 			return;
 	}
 
-	m_fAnimationFrame += 15.f * timeDelta;
+	m_fAnimationFrame += fSpeed * timeDelta;
 }
 
 void CGameObject::Compute_ViewZ(const _float3* pPos)

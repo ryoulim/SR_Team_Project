@@ -37,23 +37,23 @@ HRESULT CTransform::Bind_Resource()
 
 const _float4x4& CTransform::Billboard() const
 {
-	//°´Ã¼ ½ºÄÉÀÏ
+	//ê°ì²´ ìŠ¤ì¼€ì¼
 	_float3	vScaled = Compute_Scaled();
-	//°´Ã¼ Æ÷Áö¼Ç
+	//ê°ì²´ í¬ì§€ì…˜
 	_float3	vPosition = *Get_State(CTransform::STATE_POSITION);
 
-	//Ä«¸Ş¶ó Æ÷Áö¼Ç
+	//ì¹´ë©”ë¼ í¬ì§€ì…˜
 	_float4x4 matCamWorld;
 	m_pGraphic_Device->GetTransform(D3DTS_VIEW, &matCamWorld);
 	matCamWorld.MakeInverseMat(matCamWorld);
 	_float3 vCameraPos = { matCamWorld._41, matCamWorld._42, matCamWorld._43 };
 
-	//Ä«¸Ş¶ó¸¦ µîÁö´Â ·èº¤ÅÍ
+	//ì¹´ë©”ë¼ë¥¼ ë“±ì§€ëŠ” ë£©ë²¡í„°
 	_float3		vLook = vPosition - vCameraPos;
 	_float3		vUp = { 0.f, 1.f, 0.f };
 	_float3		vRight = vUp.Cross(vLook);
 
-	//°¢ ÃàÀ» ³ë¸»¶óÀÌÁî x ½ºÄÉÀÏ°ªÀ¸·Î ¼¼
+	//ê° ì¶•ì„ ë…¸ë§ë¼ì´ì¦ˆ x ìŠ¤ì¼€ì¼ê°’ìœ¼ë¡œ ì„¸
 	vRight.Normalize();
 	vRight *= vScaled.x;
 
@@ -73,23 +73,23 @@ const _float4x4& CTransform::Billboard() const
 
 _float4x4* CTransform::Billboard(_float4x4* _Out_ pOut) const
 {
-	//°´Ã¼ ½ºÄÉÀÏ
+	//ê°ì²´ ìŠ¤ì¼€ì¼
 	_float3	vScaled = Compute_Scaled();
-	//°´Ã¼ Æ÷Áö¼Ç
+	//ê°ì²´ í¬ì§€ì…˜
 	_float3	vPosition = *Get_State(CTransform::STATE_POSITION);
 
-	//Ä«¸Ş¶ó Æ÷Áö¼Ç
+	//ì¹´ë©”ë¼ í¬ì§€ì…˜
 	_float4x4 matCamWorld;
 	m_pGraphic_Device->GetTransform(D3DTS_VIEW, &matCamWorld);
 	matCamWorld.MakeInverseMat(matCamWorld);
 	_float3 vCameraPos = { matCamWorld._41, matCamWorld._42, matCamWorld._43 };
 
-	//Ä«¸Ş¶ó¸¦ µîÁö´Â ·èº¤ÅÍ
+	//ì¹´ë©”ë¼ë¥¼ ë“±ì§€ëŠ” ë£©ë²¡í„°
 	_float3		vLook = vPosition - vCameraPos;
 	_float3		vUp = { 0.f, 1.f, 0.f };
 	_float3		vRight = vUp.Cross(vLook);
 
-	//°¢ ÃàÀ» ³ë¸»¶óÀÌÁî x ½ºÄÉÀÏ°ªÀ¸·Î ¼¼
+	//ê° ì¶•ì„ ë…¸ë§ë¼ì´ì¦ˆ x ìŠ¤ì¼€ì¼ê°’ìœ¼ë¡œ ì„¸
 	vRight.Normalize();
 	vRight *= vScaled.x;
 
@@ -295,11 +295,11 @@ void CTransform::Quaternion_Turn(const _float3& vAngle)
 	_float3			vUp = *Get_State(STATE_UP);
 	_float3			vLook = *Get_State(STATE_LOOK);
 
-	// »ç¿ø¼ö È¸Àü »ı¼º
+	// ì‚¬ì›ìˆ˜ íšŒì „ ìƒì„±
 	D3DXQUATERNION Qur{};
 	D3DXQuaternionRotationYawPitchRoll(&Qur, vAngle.y, vAngle.x, vAngle.z);
 
-	// ÃÖÁ¾ º¤ÅÍ »óÅÂ ÀúÀå
+	// ìµœì¢… ë²¡í„° ìƒíƒœ ì €ì¥
 	Set_State(STATE_RIGHT, RotateVectorByQuaternion(vRight, Qur));
 	Set_State(STATE_UP, RotateVectorByQuaternion(vUp, Qur));
 	Set_State(STATE_LOOK, RotateVectorByQuaternion(vLook, Qur));
@@ -314,9 +314,10 @@ void CTransform::Quaternion_Rotation(const _float3& vAngle)
 	_float3 vUp = _float3{ 0.f, 1.f, 0.f } *vScaled.y;
 	_float3 vLook = _float3{ 0.f, 0.f, 1.f } *vScaled.z;
 
-	// »ç¿ø¼ö È¸Àü »ı¼º
+	// ì‚¬ì›ìˆ˜ íšŒì „ ìƒì„±
 	D3DXQUATERNION Qur{};
 	D3DXQuaternionRotationYawPitchRoll(&Qur, vAngle.y, vAngle.x, vAngle.z);
+	
 
 	Set_State(STATE_RIGHT, RotateVectorByQuaternion(vRight, Qur));
 	Set_State(STATE_UP, RotateVectorByQuaternion(vUp, Qur));
@@ -328,7 +329,7 @@ void CTransform::Quaternion_Revolution(const _float3& vAxis, const _float3& vCen
 	_float3 vPos = *Get_State(STATE_POSITION);
 	Set_State(STATE_POSITION, vPos - vCenter);
 
-	// »ç¿ø¼ö È¸Àü »ı¼º
+	// ì‚¬ì›ìˆ˜ íšŒì „ ìƒì„±
 	D3DXQUATERNION Qur{};
 	D3DXQuaternionRotationAxis(&Qur, &vAxis, fAngle);
 
@@ -341,13 +342,28 @@ void CTransform::Quaternion_Revolution(const _float3& vAxis, const _float3& vCen
 	Set_State(STATE_POSITION, vPos + vCenter);
 }
 
+void CTransform::Quaternion_Revolution_Pos(const _float3& vAxis, const _float3& vCenter, _float fAngle)
+{
+	_float3 vPos = *Get_State(STATE_POSITION);
+
+	// »ç¿ø¼ö È¸Àü »ı¼º
+	D3DXQUATERNION Qur{};
+	D3DXQuaternionRotationAxis(&Qur, &vAxis, fAngle);
+
+	vPos -= vCenter; // 1. Áß½ÉÀ» ¿øÁ¡À¸·Î ÀÌµ¿
+	vPos = RotateVectorByQuaternion(vPos, Qur); // 2. È¸Àü
+	vPos += vCenter;
+
+	Set_State(STATE_POSITION, vPos);
+}
+
 inline _float3 CTransform::RotateVectorByQuaternion(const _float3& v, const D3DXQUATERNION& q)
 {
 	D3DXQUATERNION qVec{ v.x, v.y, v.z, 0.0f };
 	D3DXQUATERNION qConj;
-	D3DXQuaternionInverse(&qConj, &q); // ÄÓ·¹(¿ª »ç¿ø¼ö)
+	D3DXQuaternionInverse(&qConj, &q); // ì¼¤ë ˆ(ì—­ ì‚¬ì›ìˆ˜)
 
-	// È¸Àü ¿¬»ê: v' = q * v * q^-1
+	// íšŒì „ ì—°ì‚°: v' = q * v * q^-1
 	D3DXQUATERNION qResult, temp;
 	D3DXQuaternionMultiply(&temp, &q, &qVec);
 	D3DXQuaternionMultiply(&qResult, &temp, &qConj);

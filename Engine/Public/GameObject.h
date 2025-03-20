@@ -23,7 +23,7 @@ public:
 	virtual void Late_Update(_float fTimeDelta);
 	virtual HRESULT Render();
 
-	void FrameUpdate(float timeDelta, float _MaxFrame, bool isLoop);
+	void FrameUpdate(float timeDelta, float _MaxFrame, float fSpeed, bool isLoop);
 	
 	_float	Get_ViewZ() const { return m_fViewZ; }
 	void	Compute_ViewZ(const _float3* pPos);

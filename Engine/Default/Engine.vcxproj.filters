@@ -53,7 +53,7 @@
       <Filter>04.Components</Filter>
     </ClInclude>
     <ClInclude Include="..\public\Texture.h">
-      <Filter>04.Components\Transform\Texture</Filter>
+      <Filter>04.Components\Texture</Filter>
     </ClInclude>
     <ClInclude Include="..\public\VIBuffer.h">
       <Filter>04.Components\VIBuffer</Filter>
@@ -270,7 +270,7 @@
     <Filter Include="05.Renderer">
       <UniqueIdentifier>{ac1221d1-ea14-4963-a022-db50384008db}</UniqueIdentifier>
     </Filter>
-    <Filter Include="04.Components\Transform\Texture">
+    <Filter Include="04.Components\Texture">
       <UniqueIdentifier>{435382d3-d1d7-453c-bc59-7a6c58348515}</UniqueIdentifier>
     </Filter>
     <Filter Include="04.Components\VIBuffer\Canopy">
@@ -312,7 +312,7 @@
       <Filter>04.Components</Filter>
     </ClCompile>
     <ClCompile Include="..\private\Texture.cpp">
-      <Filter>04.Components\Transform\Texture</Filter>
+      <Filter>04.Components\Texture</Filter>
     </ClCompile>
     <ClCompile Include="..\private\VIBuffer.cpp">
       <Filter>04.Components\VIBuffer</Filter>

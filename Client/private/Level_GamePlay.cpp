@@ -5,6 +5,7 @@
 #include "EmptyBullet.h"
 #include "Sprite.h"
 #include "Smoke.h"
+#include "Monster.h"
 
 #define CurLevel LEVEL_GAMEPLAY
 
@@ -49,6 +50,7 @@ HRESULT CLevel_GamePlay::Initialize(class CLevelData* pLevelData)
 	//if(FAILED(Ready_Light()))
 	//	return E_FAIL;
 
+	ShowCursor(FALSE);
 
 	return S_OK;
 }
@@ -100,8 +102,7 @@ HRESULT CLevel_GamePlay::Ready_Layer_Terrain(const _wstring& strLayerTag)
 		LEVEL_GAMEPLAY, strLayerTag, m_pData->Find_Data(TEXT("Terrain")))))
 		return E_FAIL;
 
-
-	auto pTerrain = m_pGameInstance->
+	auto pTerrain = m_pGameInstance-> 
 		Find_Object(LEVEL_GAMEPLAY, strLayerTag);
 	auto pTerrainBuffer = static_cast<CVIBuffer_Terrain*>(pTerrain->
 		Find_Component(TEXT("Com_VIBuffer")));
@@ -142,6 +143,26 @@ HRESULT CLevel_GamePlay::Ready_Layer_Statue(const _wstring& strLayerTag)
 	CubeDesc.vScale = { 50.f,100.f,50.f };
 	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_MyCube"),
 		LEVEL_GAMEPLAY, strLayerTag, &CubeDesc)))
+<<<<<<< HEAD
+=======
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Cabinet"),
+		LEVEL_GAMEPLAY, strLayerTag, m_pData->Find_Data(TEXT("Cabinet")))))
+		return E_FAIL;
+
+	/*if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Trapezoid"),
+
+		LEVEL_GAMEPLAY, strLayerTag, m_pData->Find_Data(TEXT("Trapezoid")))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Stall"),
+		LEVEL_GAMEPLAY, strLayerTag, m_pData->Find_Data(TEXT("Stall")))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Signboard"),
+		LEVEL_GAMEPLAY, strLayerTag, m_pData->Find_Data(TEXT("Signboard")))))
+>>>>>>> b6f2a30aaa38f7d67e9a4fa66160ba3480c183bb
 		return E_FAIL;*/
 
 	/*if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_MyComputer"),
@@ -230,15 +251,15 @@ HRESULT CLevel_GamePlay::Ready_Layer_Pawn(const _wstring& strLayerTag)
 	return S_OK;
 }
 
-#include "TestMonster.h"
+#include "Ttakkeun_i.h"
 #include <UI_Manager.h>
 HRESULT CLevel_GamePlay::Ready_Layer_Monster(const _wstring& strLayerTag)
 {
-	CTestMonster::DESC MonsterDesc{};
-	MonsterDesc.vInitPos = { 400.f,25.f,200.f };
-	MonsterDesc.vScale = {20.f,50.f,20.f};
 
-	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_TestMonster"),
+	CMonster::DESC MonsterDesc{};
+	MonsterDesc.vPosition = { 400.f, 70.f, 200.f };
+
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Ttakkeun_i"),
 		LEVEL_GAMEPLAY, strLayerTag, &MonsterDesc)))
 		return E_FAIL;
 

@@ -1,16 +1,16 @@
 // 내 클래스 이름 : BackGround
-// 부모 클래스 이름 : Statue
+// 부모 클래스 이름 : Map
 
 #include "BackGround.h"
 #include "GameInstance.h"
 
 CBackGround::CBackGround(LPDIRECT3DDEVICE9 pGraphic_Device)
-	: CStatue{ pGraphic_Device }
+	: CMap{ pGraphic_Device }
 {
 }
 
 CBackGround::CBackGround(const CBackGround& Prototype)
-	: CStatue(Prototype)
+	: CMap(Prototype)
 {
 }
 
@@ -21,8 +21,8 @@ HRESULT CBackGround::Initialize_Prototype()
 
 HRESULT CBackGround::Initialize(void* pArg)
 {
-	m_eLevelID = LEVEL_LOGO;
-	m_szTextureID = TEXT("BackGround");
+	m_eLevelID = LEVEL_TEST;
+	m_szTextureID = TEXT("Test");
 	m_szBufferType = TEXT("Rect");
 
 	if (FAILED(__super::Initialize(pArg)))
@@ -43,14 +43,29 @@ EVENT CBackGround::Update(_float fTimeDelta)
 
 void CBackGround::Late_Update(_float fTimeDelta)
 {
-	if (FAILED(m_pGameInstance->Add_RenderGroup(CRenderer::RG_UI, this)))
+	if (FAILED(m_pGameInstance->Add_RenderGroup(CRenderer::RG_NONBLEND, this)))
 		return;
 }
 
 HRESULT CBackGround::Render()
 {
+	if (FAILED(m_pTransformCom->Bind_Resource()))
+		return E_FAIL;
+
+	if (FAILED(m_pTextureCom->Bind_Resource(static_cast<_uint>(m_fTextureNum))))
+		return E_FAIL;
+
+	if (FAILED(m_pVIBufferCom->Bind_Buffers()))
+		return E_FAIL;
+
+	m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
+
+	if (FAILED(m_pVIBufferCom->Render()))
+		return E_FAIL;
+
+	m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
+
 	return S_OK;
-	//return __super::Render();
 }
 
 CBackGround* CBackGround::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
