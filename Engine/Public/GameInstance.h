@@ -56,6 +56,12 @@ public:
 	// A그룹과 B그룹의 충돌을 검사한다.
 	void Intersect(_uint iLevelIndex, const _wstring& strLayerTag1, const _wstring& strLayerTag2);
 
+	// 스크린상에 있는지 검사
+	_bool IsPointInFrustum(const _float3& Point);
+
+	//절두체 업데이트
+	void Update_Frustum(const _float4x4& viewProj);
+
 #pragma endregion
 
 #pragma region RENDERER
@@ -67,12 +73,16 @@ public:
 	_byte Get_DIMKeyState(DIMK eMouseKeyID);
 	_long Get_DIMMoveState(DIMM eMouseMoveID);
 
+	_bool Mouse_Down(_ubyte eKeyID);
+	_bool Mouse_Pressing(_ubyte eKeyID);
+	_bool Mouse_Up(_ubyte eKeyID);
+
+	_bool		Key_Pressing(_ubyte eKeyID);
+	_bool		Key_Up(_ubyte eKeyID);
+	_bool		Key_Down(_ubyte eKeyID);
 #pragma endregion
 
 #pragma region KEY_MANAGER
-	_bool		Key_Pressing(_int _Key);
-	_bool		Key_Up(_int _Key);
-	_bool		Key_Down(_int _Key);
 #pragma endregion
 
 #pragma region TIMER_MANAGER

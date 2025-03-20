@@ -140,7 +140,7 @@ HRESULT CButton_Main::Pick_Button()
  	if (PtInRect(&m_tButton[GAMESTART], ptMouse))
 	{
 		RENDER_TEXT_BOL("NEW GAME", 280.f - g_iWinSizeX * 0.5f, g_iWinSizeY * 0.5f - 460.f, 0.9f);
-		if (KEY_DOWN(VK_LBUTTON))
+		if (MOUSE_DOWN(DIMK_LBUTTON))
 		{
 			CUI_Manager::Get_Instance(m_pGameInstance)->Fade_Out();
 			m_bNextLevel = true;
@@ -155,7 +155,7 @@ HRESULT CButton_Main::Pick_Button()
 	if (PtInRect(&m_tButton[OPTIONS], ptMouse))
 	{
 		RENDER_TEXT_BOL("OPTIONS", 280.f - g_iWinSizeX * 0.5f, g_iWinSizeY * 0.5f - 510.f, 0.9f);
-		if (KEY_DOWN(VK_LBUTTON))
+		if (MOUSE_DOWN(DIMK_LBUTTON))
 		{
 			/* 여기에 옵션 창 입력 */
 			/* UI매니저에 추가? */
@@ -168,7 +168,7 @@ HRESULT CButton_Main::Pick_Button()
 
 	if (PtInRect(&m_tButton[QUIT], ptMouse))
 	{
-		if (KEY_DOWN(VK_LBUTTON))
+		if (MOUSE_DOWN(DIMK_LBUTTON))
 		{
 			PostQuitMessage(0);
 		}

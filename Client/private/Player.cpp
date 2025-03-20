@@ -53,17 +53,22 @@ HRESULT CPlayer::Initialize(void* pArg)
 			PROTOTYPE::TYPE_GAMEOBJECT, LEVEL_GAMEPLAY, 
 			TEXT("Prototype_GameObject_Weapon_LoverBoy"))));
 
+	m_Weapons.push_back(
+		static_cast<CWeapon*>(m_pGameInstance->Clone_Prototype(
+			PROTOTYPE::TYPE_GAMEOBJECT, LEVEL_GAMEPLAY,
+			TEXT("Prototype_GameObject_Weapon_Chaingun"))));
+
 	return S_OK;
 }
 
 void CPlayer::Priority_Update(_float fTimeDelta)
 {
-	if (KEY_DOWN(VK_F1))
+	if (KEY_DOWN(DIK_F1))
 	{
 		m_bFpsMode = !m_bFpsMode;
 		m_pCameraManager->Switch(m_bFpsMode);
 	}
-	if (KEY_DOWN(VK_TAB))
+	if (KEY_DOWN(DIK_TAB))
 	{
 		m_bBouseFixMod = !m_bBouseFixMod;
 		ShowCursor(m_bBouseFixMod);
@@ -88,15 +93,20 @@ EVENT CPlayer::Update(_float fTimeDelta)
 	if (!m_bFpsMode || m_bBouseFixMod)
 		return EVN_NONE;
 
-	/****** 테스트용 ******/
-	if (KEY_DOWN('1'))
-		UPDATE_HP();
-	// Player의 HP에 Get요청을 보내도록 처리하기 때문에
-	// 충돌 등의 처리가 모두 끝난 후 호출하면 좋음(player의 HP를 Get한 후 UI의 Update를 강제로 부름)
-	if (KEY_DOWN('2'))
-		UPDATE_ARMOR();
-	/*********************/
-	m_Weapons[m_iCurWeaponIndex]->Update(fTimeDelta);
+	if (KEY_DOWN(DIK_1))
+		m_iCurWeaponIndex = 0;
+	if (KEY_DOWN(DIK_2))
+		m_iCurWeaponIndex = 1;
+	///****** 테스트용 ******/
+	//if (KEY_DOWN('1'))
+	//	UPDATE_HP();
+	//// Player의 HP에 Get요청을 보내도록 처리하기 때문에
+	//// 충돌 등의 처리가 모두 끝난 후 호출하면 좋음(player의 HP를 Get한 후 UI의 Update를 강제로 부름)
+	//if (KEY_DOWN('2'))
+	//	UPDATE_ARMOR();
+	///*********************/
+
+	
 	return __super::Update(fTimeDelta);
 }
 
@@ -145,35 +155,37 @@ void CPlayer::On_Collision(CGameObject* pCollisionedObject, const _wstring& strL
 
 void CPlayer::Key_Input(_float fTimeDelta)
 {
-	if (KEY_PRESSING('W'))
+	_bool bMove{};
+
+	if (KEY_PRESSING(DIK_W))
 	{
 		m_pGravityCom->Go_Straight_On_Terrain(fTimeDelta);
+		bMove = TRUE;
 	}
-	if (KEY_PRESSING('S'))
+	if (KEY_PRESSING(DIK_S))
 	{
 		m_pGravityCom->Go_Backward_On_Terrain(fTimeDelta);
+		bMove = TRUE;
 	}
-	if (KEY_PRESSING('A'))
+	if (KEY_PRESSING(DIK_A))
 	{
 		m_pGravityCom->Go_Left_On_Terrain(fTimeDelta);
+		bMove = TRUE;
 	}
-	if (KEY_PRESSING('D'))
+	if (KEY_PRESSING(DIK_D))
 	{
 		m_pGravityCom->Go_Right_On_Terrain(fTimeDelta);
+		bMove = TRUE;
 	}
-	if (KEY_DOWN(VK_SPACE))
+	if(bMove)
+		m_Weapons[m_iCurWeaponIndex]->Walk(fTimeDelta);
+
+	if (KEY_DOWN(DIK_SPACE))
 	{
 		m_pGravityCom->Jump(50.f);
 	}
 
-	if (KEY_DOWN(VK_LBUTTON))
-	{
-		m_Weapons[m_iCurWeaponIndex]->Set_State(CWeapon::ST_W_ATK);
-	}
-	if (KEY_DOWN('R'))
-	{
-		m_Weapons[m_iCurWeaponIndex]->Set_State(CWeapon::ST_RELOAD);
-	}
+	m_Weapons[m_iCurWeaponIndex]->Key_Input();
 }
 
 void CPlayer::Mouse_Move()

@@ -1,4 +1,5 @@
 #include "..\Public\Camera.h"
+#include "GameInstance.h"
 
 CCamera::CCamera(LPDIRECT3DDEVICE9 pGraphicDevice)
 	: CGameObject(pGraphicDevice)
@@ -65,6 +66,8 @@ HRESULT CCamera::Bind_Resource()
 	m_pGraphic_Device->SetTransform(D3DTS_VIEW, &m_pTransformCom->Get_WorldMatrix_Inverse(m_ViewMatrix));
 
 	m_pGraphic_Device->SetTransform(D3DTS_PROJECTION, &m_ProjMatrix);
+
+   // m_pGameInstance->Update_Frustum(m_ViewMatrix * m_ProjMatrix); 나중에 절두체 컬링 생각
 
 	return S_OK;
 }

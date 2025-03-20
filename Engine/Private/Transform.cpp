@@ -342,6 +342,21 @@ void CTransform::Quaternion_Revolution(const _float3& vAxis, const _float3& vCen
 	Set_State(STATE_POSITION, vPos + vCenter);
 }
 
+void CTransform::Quaternion_Revolution_Pos(const _float3& vAxis, const _float3& vCenter, _float fAngle)
+{
+	_float3 vPos = *Get_State(STATE_POSITION);
+
+	// 사원수 회전 생성
+	D3DXQUATERNION Qur{};
+	D3DXQuaternionRotationAxis(&Qur, &vAxis, fAngle);
+
+	vPos -= vCenter; // 1. 중심을 원점으로 이동
+	vPos = RotateVectorByQuaternion(vPos, Qur); // 2. 회전
+	vPos += vCenter;
+
+	Set_State(STATE_POSITION, vPos);
+}
+
 inline _float3 CTransform::RotateVectorByQuaternion(const _float3& v, const D3DXQUATERNION& q)
 {
 	D3DXQUATERNION qVec{ v.x, v.y, v.z, 0.0f };

@@ -110,7 +110,7 @@ void CMainApp::Update(_float fTimeDelta)
 {
 	m_pGameInstance->Update_Engine(fTimeDelta);
 
-	if(KEY_DOWN(VK_ESCAPE))
+	if(KEY_DOWN(DIK_ESCAPE))
 		PostQuitMessage(0);
 }
 
