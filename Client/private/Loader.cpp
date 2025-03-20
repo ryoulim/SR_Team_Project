@@ -442,7 +442,7 @@ HRESULT CLoader::Loading_For_GamePlay()
 
 #pragma region MODEL
 	lstrcpy(m_szLoadingText, TEXT("모델을(를) 로딩중입니다."));
-	Load_For_Terrain(TEXT("MapData.txt"));
+	Load_For_Terrain(TEXT("MapData.txt"), TEXT("../bin/Resources/Textures/Terrain/BossMap.bmp"));
 #pragma endregion
 
 #pragma region SOUND
@@ -529,7 +529,7 @@ HRESULT CLoader::Add_Data(const _wstring& strFilePath)
 	return S_OK;
 }
 
-HRESULT CLoader::Load_For_Terrain(const _wstring& strFileTag)
+HRESULT CLoader::Load_For_Terrain(const _wstring& strFileTag, const _wstring& strHeightMapPath)
 {
 	_bool bResult = { true };
 	_wstring FilePath;
@@ -558,7 +558,7 @@ HRESULT CLoader::Load_For_Terrain(const _wstring& strFileTag)
 			break;
 
 		case LEVEL_GAMEPLAY:
-			ADD_MODEL_EX(Terrain, iNumVertexX, iNumVertexZ);
+			ADD_MODEL_EX(Terrain, iNumVertexX, iNumVertexZ, strHeightMapPath.c_str());
 			break;
 
 		case LEVEL_TEST:

@@ -117,8 +117,8 @@ HRESULT CLevel_GamePlay::Ready_Layer_Terrain(const _wstring& strLayerTag)
 	CGravity::DESC GravityDesc{};
 	GravityDesc.vTerrainScale = pTerrainTransform->Compute_Scaled();
 	GravityDesc.pTerrainVtxPos = pTerrainBuffer->Get_VertexPos();
-	GravityDesc.iTerrainVtxNumX = 129;
-  	GravityDesc.iTerrainVtxNumZ = 129;
+	GravityDesc.iTerrainVtxNumX = pTerrainBuffer->Get_NumVerticesX();
+  	GravityDesc.iTerrainVtxNumZ = pTerrainBuffer->Get_NumVerticesX();
 	CGravity::Set_TerrainInfo(GravityDesc);
 
 	return S_OK;

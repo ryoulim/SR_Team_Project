@@ -4,6 +4,8 @@
 #include "GameObject.h"
 #include "GameInstance.h"
 
+#define SCALE 8.f
+
 BEGIN(Engine)
 class CTexture;
 class CVIBuffer_Rect;
