@@ -86,6 +86,7 @@ HRESULT CRenderer::Render_Blend()
 
 HRESULT CRenderer::Render_UI()
 {
+	// UI Camera = 
 	m_RenderObjects[RG_UI].sort([](CGameObject* pDst, CGameObject* pSrc)->bool
 	{
 		return pDst->Get_UIDepth() > pSrc->Get_UIDepth();

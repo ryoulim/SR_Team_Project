@@ -62,6 +62,7 @@ const _float4x4& CTransform::Billboard() const
 
 	vLook.Normalize();
 	vLook *= vScaled.z;
+	vLook.y = 0.f;
 
 	memcpy(&m_Return._11, &vRight, sizeof _float3);
 	memcpy(&m_Return._21, &vUp, sizeof _float3);
@@ -73,23 +74,23 @@ const _float4x4& CTransform::Billboard() const
 
 _float4x4* CTransform::Billboard(_float4x4* _Out_ pOut) const
 {
-	//Í∞ùÏ≤¥ ?§Ï???
+	//«ÿ¥Á ∞¥√º¿« Ω∫ƒ…¿œ∞™
 	_float3	vScaled = Compute_Scaled();
-	//Í∞ùÏ≤¥ ?¨Ï???
+	//«ÿ¥Á ∞¥√º¿« ¿ßƒ°∞™
 	_float3	vPosition = *Get_State(CTransform::STATE_POSITION);
 
-	//Ïπ¥Î©î???¨Ï???
+	//ƒ´∏ﬁ∂Û ∆˜¡ˆº«
 	_float4x4 matCamWorld;
 	m_pGraphic_Device->GetTransform(D3DTS_VIEW, &matCamWorld);
 	matCamWorld.MakeInverseMat(matCamWorld);
 	_float3 vCameraPos = { matCamWorld._41, matCamWorld._42, matCamWorld._43 };
 
-	//Ïπ¥Î©î?ºÎ? ?±Ï???Î£©Î≤°??
+	//∂Ûæ˜∑Ë ∫§≈Õ∏¶ ±∏«—¥Ÿ.
 	_float3		vLook = vPosition - vCameraPos;
 	_float3		vUp = { 0.f, 1.f, 0.f };
 	_float3		vRight = vUp.Cross(vLook);
 
-	//Í∞?Ï∂ïÏùÑ ?∏Îßê?ºÏù¥Ï¶?x ?§Ï??ºÍ∞í?ºÎ°ú ??
+	//≈©±‚ø° ∏¬∞‘ 
 	vRight.Normalize();
 	vRight *= vScaled.x;
 

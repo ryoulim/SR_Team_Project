@@ -24,7 +24,7 @@ HRESULT CUI::Initialize(void* pArg)
 	{
 		DESC* pDesc = static_cast<DESC*>(pArg);
 		m_vPos = pDesc->vInitPos;
-		m_fDepth = m_vPos.z = 0.f;
+		m_fDepth = m_vPos.z = 0.99f;
 		m_vSize = pDesc->vScale;
 		m_pTransformCom->Set_State(CTransform::STATE_POSITION, m_vPos);
 		m_pTransformCom->Scaling(m_vSize);

@@ -438,6 +438,27 @@ HRESULT CLoader::Loading_For_GamePlay()
 	ADD_TEXTURE(TTest, "../Bin/Resources/Textures/Object/Cabinet/Cabinet%d.png", 3);
 	ADD_TEXTURE(Test, "../Bin/Resources/Textures/TileTest/tile%d.PNG", 121);
 
+	ADD_TEXTURE(Boss_Walk_0, "../bin/Resources/Textures/Monster/boss/walk/0/boss_walk_0_%d.PNG", 12);
+	ADD_TEXTURE(Boss_Walk_22, "../bin/Resources/Textures/Monster/boss/walk/22/boss_walk_22_%d.PNG", 12);
+	ADD_TEXTURE(Boss_Walk_45, "../bin/Resources/Textures/Monster/boss/walk/45/boss_walk_45_%d.PNG", 12);
+	ADD_TEXTURE(Boss_Walk_67, "../bin/Resources/Textures/Monster/boss/walk/67/boss_walk_67_%d.PNG", 12);
+	ADD_TEXTURE(Boss_Walk_90, "../bin/Resources/Textures/Monster/boss/walk/90/boss_walk_90_%d.PNG", 12);
+	ADD_TEXTURE(Boss_Walk_112, "../bin/Resources/Textures/Monster/boss/walk/112/boss_walk_112_%d.PNG", 12);
+	ADD_TEXTURE(Boss_Walk_135, "../bin/Resources/Textures/Monster/boss/walk/135/boss_walk_135_%d.PNG", 12);
+	ADD_TEXTURE(Boss_Walk_157, "../bin/Resources/Textures/Monster/boss/walk/157/boss_walk_157_%d.PNG", 12);
+	// ~~~
+	ADD_TEXTURE(Boss_Walk_180, "../bin/Resources/Textures/Monster/boss/walk/180/boss_walk_180_%d.PNG", 12); 
+
+	/////////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	ADD_TEXTURE(Boss_Jump_0, "../bin/Resources/Textures/Monster/boss/jump/0/boss_jump_0_%d.PNG", 5);
+	ADD_TEXTURE(Boss_Jump_22, "../bin/Resources/Textures/Monster/boss/jump/22/boss_jump_22_%d.PNG", 5);
+	// ~~~
+	ADD_TEXTURE(Boss_Jump_180, "../bin/Resources/Textures/Monster/boss/jump/180/boss_jump_180_%d.PNG", 5);
+
+	
+
+
 #pragma endregion
 
 #pragma region MODEL

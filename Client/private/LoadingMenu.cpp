@@ -95,8 +95,8 @@ HRESULT CLoadingMenu::Initialize(void* pArg)
 	m_vSize.x *= g_iWinSizeY / m_vSize.y; m_vSize.y = g_iWinSizeY;
 	m_pTransformCom->Scaling(m_vSize);
 
-	m_vPos = { 0.f,0.f,1.f };
-	m_fDepth = m_vPos.z;
+	m_vPos = { 0.f,0.f,0.99999f };
+	m_fDepth = 1.f;
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, m_vPos);
 	m_pTransformComForLoading[LOADERTEX_ANIM]->Set_State(CTransform::STATE_POSITION, { (g_iWinSizeX*0.5f - 130.f), -(g_iWinSizeY * 0.5f) + 130.f, 0.1f });
 	m_pTransformComForLoading[LOADERTEX_ANIM]->Scaling({ 128.f, 128.f, 1.f });

@@ -111,7 +111,7 @@ HRESULT CGameInstance::Change_Level(_uint iLevelIndex, CLevel* pNewLevel)
 }
 #pragma endregion
 
-#pragma region PROTOTYPE_MANAGER
+#pragma region PROTOTYPE_MANAGER¤¡
 
 HRESULT CGameInstance::Add_Prototype(_uint iPrototypeLevelIndex, const _wstring& strPrototypeTag, CBase* pPrototype)
 {

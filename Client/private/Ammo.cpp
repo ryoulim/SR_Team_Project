@@ -33,7 +33,7 @@ HRESULT CAmmo::Initialize(void* pArg)
 	//Desc.vInitPos = _float3(0.f,0.f, 0.f);
 	m_fTextureNum = 0;
 
-	m_fDepth = 0.f;
+	m_fDepth = 3.f;
 
 	if (FAILED(__super::Initialize(&Desc)))
 		return E_FAIL;

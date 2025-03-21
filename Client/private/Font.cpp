@@ -28,7 +28,7 @@ HRESULT CFont::Initialize(void* pArg)
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
 
-	m_fDepth = 0.5f;
+	m_fDepth = 5.f;
 
 	Ready_Shader(L"../bin/Shader_ShadeChange.hlsl");
 

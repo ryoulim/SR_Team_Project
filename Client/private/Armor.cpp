@@ -30,7 +30,7 @@ HRESULT CArmor::Initialize(void* pArg)
 	Desc.vScale = _float3(75.f, 75.f, 1.f);
 	Desc.vInitPos = _float3(-(g_iWinSizeX / 2.f) + 208.f, -(g_iWinSizeY / 2.f) + Desc.vScale.y / 2.f, 0.f);
 	m_fTextureNum = m_eArmorType;
-	m_fDepth = 0.f;
+	m_fDepth = 3.f;
 
 	if (FAILED(__super::Initialize(&Desc)))
 		return E_FAIL;

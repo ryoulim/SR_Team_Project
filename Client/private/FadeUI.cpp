@@ -43,7 +43,7 @@ HRESULT CFadeUI::Initialize(void* pArg)
 
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
-	m_fDepth = 0.f;
+	m_fDepth = 10.f;
 	Ready_Shader(L"../bin/Shader_AlphaChange.hlsl");
 	m_fAnimationFrame = 0.f;
 
