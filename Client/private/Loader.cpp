@@ -3,6 +3,8 @@
 
 #include "BackGround.h"
 #include "Terrain.h"
+#include "RaceTerrain.h"
+#include "RaceLandscape.h"
 #include "Trapezoid.h"
 #include "Stall.h"
 #include "Cabinet.h"
@@ -105,6 +107,10 @@ HRESULT CLoader::Loading()
 		hr = Loading_For_GamePlay();
 		break;
 
+	case LEVEL_RACE:
+		hr = Loading_For_Race();
+		break;
+
 	case LEVEL_TEST:
 		hr = Loading_For_Test();
 		break;
@@ -116,6 +122,11 @@ HRESULT CLoader::Loading()
 		return E_FAIL;
 
 	return S_OK;
+}
+
+void CLoader::Clear_MapData()
+{
+	//m_pData->
 }
 
 HRESULT CLoader::Loading_For_Logo()
@@ -487,6 +498,43 @@ HRESULT CLoader::Loading_For_GamePlay()
 	return S_OK;
 }
 
+HRESULT CLoader::Loading_For_Race()/**/
+{
+	lstrcpy(m_szLoadingText, TEXT("텍스쳐을(를) 로딩중입니다."));
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_RACE, TEXT("Prototype_Component_Texture_RaceTerrain"),
+		CTexture::Create(m_pGraphic_Device, TEXT("../Bin/Resources/Textures/Map/RaceTerrain/Tile15611.PNG"), 1))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_RACE, TEXT("Prototype_Component_Texture_RaceLandscape"),
+		CTexture::Create(m_pGraphic_Device, TEXT("../Bin/Resources/Textures/Object/RaceLandscape/tile6172.PNG"), 1))))
+		return E_FAIL;
+
+	lstrcpy(m_szLoadingText, TEXT("모델을(를) 로딩중입니다."));
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_RACE, TEXT("Prototype_Component_VIBuffer_RaceTerrain"),
+		CVIBuffer_RaceTerrain::Create(m_pGraphic_Device, 1000, 1000))))
+		return E_FAIL;
+
+	lstrcpy(m_szLoadingText, TEXT("사운드을(를) 로딩중입니다."));
+
+
+	lstrcpy(m_szLoadingText, TEXT("원형객체을(를) 로딩중입니다."));
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_RACE, TEXT("Prototype_GameObject_RaceTerrain"),
+		CRaceTerrain::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_RACE, TEXT("Prototype_GameObject_RaceLandscape"),
+		CRaceLandscape::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	lstrcpy(m_szLoadingText, TEXT("데이터를 읽어들이는 중입니다."));
+	Add_Data(TEXT("GamePlayLevelData.csv"));
+
+	lstrcpy(m_szLoadingText, TEXT("로딩이 완료되었습니다."));
+	m_isFinished = true;
+
+	return S_OK;
+}
+
 HRESULT CLoader::Loading_For_Test()
 {
 	lstrcpy(m_szLoadingText, TEXT("텍스쳐을(를) 로딩중입니다."));
@@ -520,7 +568,7 @@ HRESULT CLoader::Loading_For_Test()
 HRESULT CLoader::Add_Data(const _wstring& strFilePath)
 {
 	_wstring strFullPath = L"../bin/Resources/Data/" + strFilePath;
-	if (FAILED(m_pGameInstance->Readcsv(strFullPath, m_pData)))
+ 	if (FAILED(m_pGameInstance->Readcsv(strFullPath, m_pData)))
 	{
 		Safe_Release(m_pData);
 		return E_FAIL;

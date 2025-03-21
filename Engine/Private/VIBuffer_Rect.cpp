@@ -13,8 +13,8 @@ CVIBuffer_Rect::CVIBuffer_Rect(const CVIBuffer& Prototype)
 HRESULT CVIBuffer_Rect::Initialize_Prototype()
 {
 	m_iNumVertices = 4;
-	m_iVertexStride = sizeof(VTXPOSTEX);
-	m_iFVF = D3DFVF_XYZ | D3DFVF_TEX1/* | D3DFVF_TEXCOORDSIZE2(0)*/;
+	m_iVertexStride = sizeof(VTXPOSNORTEX);
+	m_iFVF = D3DFVF_XYZ | D3DFVF_NORMAL | D3DFVF_TEX1/* | D3DFVF_TEXCOORDSIZE2(0)*/;
 	m_iNumPritimive = 2;
 
 	m_iIndexStride = 2;
@@ -25,22 +25,25 @@ HRESULT CVIBuffer_Rect::Initialize_Prototype()
 	if (FAILED(__super::Create_VertexBuffer()))
 		return E_FAIL;
 
-	VTXPOSTEX* pVertices = { nullptr };
-
+	VTXPOSNORTEX* pVertices = { nullptr };
 
 	m_pVB->Lock(0, /*m_iNumVertices * m_iVertexStride*/0, reinterpret_cast<void**>(&pVertices), 0);
 
 	pVertices[0].vPosition = _float3(-0.5f, 0.5f, 0.f);
 	pVertices[0].vTexcoord = _float2(0.f, 0.f);
+	pVertices[0].vNormal = ComputeNormal((&pVertices[0].vNormal), (&pVertices[1].vNormal), (&pVertices[2].vNormal));
 
 	pVertices[1].vPosition = _float3(0.5f, 0.5f, 0.f);
 	pVertices[1].vTexcoord = _float2(1.f, 0.f);
+	pVertices[1].vNormal = ComputeNormal((&pVertices[0].vNormal), (&pVertices[1].vNormal), (&pVertices[2].vNormal));
 
 	pVertices[2].vPosition = _float3(0.5f, -0.5f, 0.f);
 	pVertices[2].vTexcoord = _float2(1.f, 1.f);		
+	pVertices[2].vNormal = ComputeNormal((&pVertices[0].vNormal), (&pVertices[1].vNormal), (&pVertices[2].vNormal));
 
 	pVertices[3].vPosition = _float3(-0.5f, -0.5f, 0.f);
 	pVertices[3].vTexcoord = _float2(0.f, 1.f);
+	pVertices[3].vNormal = ComputeNormal((&pVertices[0].vNormal), (&pVertices[2].vNormal), (&pVertices[3].vNormal));
 
 	m_pVB->Unlock();
 #pragma endregion

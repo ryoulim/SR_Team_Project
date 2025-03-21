@@ -1,6 +1,7 @@
 #include "Level_Loading.h"
 
 #include "Level_GamePlay.h"
+#include "Level_Race.h"
 #include "Level_Test.h"
 #include "Level_Logo.h"
 #include "Loader.h"
@@ -55,8 +56,13 @@ void CLevel_Loading::Update(_float fTimeDelta)
 			case LEVEL_LOGO:
 				pLevel = CLevel_Logo::Create(m_pGraphic_Device, m_pLoader->Get_LevelData());
 				break;
+
 			case LEVEL_GAMEPLAY:
 				pLevel = CLevel_GamePlay::Create(m_pGraphic_Device, m_pLoader->Get_LevelData());
+				break;
+
+			case LEVEL_RACE:
+				pLevel = CLevel_Race::Create(m_pGraphic_Device, m_pLoader->Get_LevelData());
 				break;
 
 			case LEVEL_TEST:

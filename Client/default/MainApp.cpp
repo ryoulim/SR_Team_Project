@@ -95,9 +95,9 @@ HRESULT CMainApp::Initialize()
 		return E_FAIL;
 
 	/* 최초 보여줄 레벨을 할당하자. */
-	if (FAILED(Open_Level(LEVEL_LOGO)))
+	if (FAILED(Open_Level(LEVEL_RACE)))
 		return E_FAIL;
-
+	//씨발
 	if (FAILED(Ready_Debug_Mode()))
 		return E_FAIL;
 
@@ -133,6 +133,7 @@ HRESULT CMainApp::Ready_Component_For_Static()
  	ADD_MODEL_EX(Terrain, 129, 129, TEXT("../Bin/Resources/Textures/Terrain/Height__.bmp"));
 	//Load_ProtoType_Terrain(TEXT("MapData.txt"));
 	ADD_MODEL(Canopy);
+	ADD_MODEL(RaceLandscape);
 
 	ADD_PRTCOM(Transform);
 	ADD_PRTCOM(Gravity);

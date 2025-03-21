@@ -33,7 +33,6 @@ void CLevel_Logo::Update(_float fTimeDelta)
 			CLevel_Loading::Create(m_pGraphic_Device, LEVEL_GAMEPLAY))))
 			return;
 	}
-
 }
 
 HRESULT CLevel_Logo::Render()
@@ -67,7 +66,12 @@ HRESULT CLevel_Logo::Ready_Layer_UI(const _wstring& strLayerTag)
 
 	CUI::DESC TestButtonDesc{};
 
-	TestButtonDesc.vInitPos = { 280.f - g_iWinSizeX * 0.5f, g_iWinSizeY * 0.5f - 460.f,1.f };
+	TestButtonDesc.vInitPos = { 
+		
+		
+		
+		
+		0.f - g_iWinSizeX * 0.5f, g_iWinSizeY * 0.5f - 460.f,1.f };
 	TestButtonDesc.vScale = { 200.f, 38.f, 10.f };
 
 	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_LOGO, TEXT("Prototype_GameObject_Button_Main"),
