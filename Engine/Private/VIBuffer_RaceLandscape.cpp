@@ -43,8 +43,8 @@ HRESULT CVIBuffer_RaceLandscape::Initialize_Prototype()
 		pVertices[4 * i + 2].vPosition = _float3(0.5f, -0.5f, -0.5f + i);
 		pVertices[4 * i + 3].vPosition = _float3(-0.25f, -0.5f, -0.5f + i);
 
-		pVertices[4 * i + 1].vTexcoord = _float2(i, 0);
-		pVertices[4 * i + 2].vTexcoord = _float2(i, 1);
+		pVertices[4 * i + 1].vTexcoord = _float2(static_cast<_float>(i), 0);
+		pVertices[4 * i + 2].vTexcoord = _float2(static_cast<_float>(i), 1);
 	}
 #pragma endregion
 
