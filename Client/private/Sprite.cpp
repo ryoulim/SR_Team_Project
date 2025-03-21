@@ -47,7 +47,7 @@ void CSprite::Priority_Update(_float fTimeDelta)
 
 EVENT CSprite::Update(_float fTimeDelta)
 {
-	FrameUpdate(fTimeDelta, m_fAnimationMaxFrame, 10.f, m_bLoop);
+	FrameUpdate(fTimeDelta, m_fAnimationMaxFrame, 15.f, m_bLoop);
 	
 	return __super::Update(fTimeDelta);
 }

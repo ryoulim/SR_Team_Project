@@ -2,6 +2,7 @@
 // 부모 클래스 이름 : Monster
 
 #include "Deacon.h"
+#include "FXMgr.h"
 
 CDeacon::CDeacon(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CMonster{ pGraphic_Device }
@@ -39,6 +40,9 @@ void CDeacon::Priority_Update(_float fTimeDelta)
 
 EVENT CDeacon::Update(_float fTimeDelta)
 {
+	if (m_bDead)
+		return EVN_DEAD;
+
 	return __super::Update(fTimeDelta);
 }
 
@@ -60,6 +64,25 @@ HRESULT CDeacon::Ready_Components(void* pArg)
 		return E_FAIL;
 
 	return S_OK;
+}
+
+void CDeacon::On_Collision(CGameObject* pCollisionedObject, const _wstring& strLayerTag)
+{
+	//위치탐색
+	_float3 vImpactPos = CalculateEffectPos();
+
+	//몬스터 사망
+	if (0 >= m_iHP)
+	{
+		CFXMgr::Get_Instance()->SpawnCustomExplosion(vImpactPos, LEVEL_GAMEPLAY, _float3{ 130.f, 160.f, 1.f }, TEXT("PC_Explosion"), 14);
+		m_bDead = true;
+
+		return;
+	}
+
+	// 이펙트 생성
+	m_iHP += -50;
+	CFXMgr::Get_Instance()->SpawnBlood(vImpactPos, LEVEL_GAMEPLAY);
 }
 
 CDeacon* CDeacon::Create(LPDIRECT3DDEVICE9 pGraphic_Device)

@@ -147,10 +147,10 @@ HRESULT CLoadingMenu::Render()
 
 	_uint temp{};
 
-	temp = m_fLoadingGauge / 0.2f;
+	temp = _uint(m_fLoadingGauge / 0.2f);
 
 	if (m_fLoadingGauge > 0.2f)
-		CUI_Manager::Get_Instance(m_pGameInstance)->Render_Text("Press Spacebar to skip Loading Level !!!", CFont::MEDIUMBLUE, CFont::LEFT, -600.f, -325.f + 26.f * (int(m_fLoadingGauge / 0.2f) - 1));
+		CUI_Manager::Get_Instance(m_pGameInstance)->Render_Text("Press bar to skip Loading Level !!!", CFont::MEDIUMBLUE, CFont::LEFT, -600.f, -325.f + 26.f * (int(m_fLoadingGauge / 0.2f) - 1));
 	if (m_fLoadingGauge > 0.4f)
 		CUI_Manager::Get_Instance(m_pGameInstance)->Render_Text("Loading ... \"ION FURY\"", CFont::MEDIUMBLUE, CFont::LEFT, -600.f, -325.f + 26.f * (int(m_fLoadingGauge / 0.2f) - 2));
 	if (m_fLoadingGauge > 0.6f)

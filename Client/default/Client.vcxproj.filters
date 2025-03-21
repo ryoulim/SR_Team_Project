@@ -268,6 +268,12 @@
     <Filter Include="02.GameObjects\Weapon\Bullet\TestBullet">
       <UniqueIdentifier>{550edbb4-3757-490f-81e5-8aa4b514eba1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\Particle\Blood">
+      <UniqueIdentifier>{ce8a429a-458d-4ad7-940a-1efe846fda03}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Particle\BulletImpactSpark">
+      <UniqueIdentifier>{29b9af98-8f5d-4995-b0cb-a6d9d6b5145d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -558,6 +564,12 @@
     <ClInclude Include="..\public\RaceLandscape.h">
       <Filter>02.GameObjects\Statue\RaceLandscape</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\Blood.h">
+      <Filter>02.GameObjects\Particle\Blood</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\BulletImpactSpark.h">
+      <Filter>02.GameObjects\Particle\BulletImpactSpark</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -836,6 +848,12 @@
     </ClCompile>
     <ClCompile Include="..\private\RaceLandscape.cpp">
       <Filter>02.GameObjects\Statue\RaceLandscape</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Blood.cpp">
+      <Filter>02.GameObjects\Particle\Blood</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\BulletImpactSpark.cpp">
+      <Filter>02.GameObjects\Particle\BulletImpactSpark</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -27,6 +27,9 @@ public:
 	virtual void Late_Update(_float fTimeDelta) override;
 	virtual HRESULT Render() override;
 
+public:
+	virtual void On_Collision(CGameObject* pCollisionedObject, const _wstring& strLayerTag);
+
 private:
 	virtual HRESULT Ready_Components(void* pArg);
 

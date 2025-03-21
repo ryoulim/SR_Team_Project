@@ -10,6 +10,8 @@ public:
 	{
 		const TCHAR* szTextureTag;
 		_float	fMaxFrame;
+		_float	fAniSpeed;
+		bool	bRandom;
 		bool	bActive;
 
 	}DESC;
@@ -41,7 +43,7 @@ public:
 
 private:
 	bool				m_bActive = false;
-
+	
 private:
 	_float				m_fX = {};
 	_float				m_fY = {};

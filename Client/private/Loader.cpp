@@ -37,6 +37,8 @@
 #include "Dust.h"
 #include "Sphere.h"
 #include "CameraSprite.h"
+#include "Blood.h"
+#include "BulletImpactSpark.h"
 
 //UI 인클루드
 #include "Aim.h"
@@ -165,6 +167,14 @@ HRESULT CLoader::Loading_For_Logo()
 
 	////////////////////////////////////////////파티클//////////////////////////////////////////////////////
 
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_GameObject_PC_BulletImpactSpark"),
+		CBulletImpactSpark::Create(m_pGraphic_Device, L"PARTICLE_BulletImpactSpark"))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_GameObject_PC_Blood"),
+		CBlood::Create(m_pGraphic_Device, L"PARTICLE_Blood"))))
+		return E_FAIL;
+
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_GameObject_PC_Sphere"),
 		CSphere::Create(m_pGraphic_Device, L"PARTICLE_Sphere"))))
 		return E_FAIL;
@@ -196,12 +206,21 @@ HRESULT CLoader::Loading_For_Logo()
 
 	////////////////////////////////////////////텍스처//////////////////////////////////////////////////////
 
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_PS_Blood"),
+		CTexture::Create(m_pGraphic_Device, TEXT("../Bin/Resources/Textures/Particle/PS_Blood%d.png"), 5))))
+		return E_FAIL;
+
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Effect_Explorer"),
 		CTexture::Create(m_pGraphic_Device, TEXT("../Bin/Resources/Textures/Particle/Effect_Explorer%d.png"), 24))))
 		return E_FAIL;
 
-	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Effect_BulletTacer"),
-		CTexture::Create(m_pGraphic_Device, TEXT("../Bin/Resources/Textures/Particle/Effect_BulletTacer%d.png"), 3))))
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Effect_Revolver"),
+		CTexture::Create(m_pGraphic_Device, TEXT("../Bin/Resources/Textures/Particle/Effect_Revolver%d.png"), 3))))
+		return E_FAIL;
+	m_fLoadPercent += 0.03f;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Effect_RevolverTacer"),
+		CTexture::Create(m_pGraphic_Device, TEXT("../Bin/Resources/Textures/Particle/Effect_RevolverTacer%d.png"), 3))))
 		return E_FAIL;
 	m_fLoadPercent += 0.03f;
 

@@ -46,24 +46,16 @@ public:
 protected:
 	virtual HRESULT Ready_Components(void* pArg);
 
-public:
-	virtual CGameObject* Clone(void* pArg) PURE;
-	virtual void Free();
-
 public: // 길찾기 및 디텍티브
 	virtual void PlayerDistance();
 
-		
+protected: // 충돌함수
+	virtual _float3		CalculateEffectPos();
+	virtual void		On_Collision(CGameObject* pCollisionedObject, const _wstring& strLayerTag) {};
 
-protected: //기본정보
-	LEVEL				m_eLevelID = { LEVEL_END };
-	const _tchar*		m_szTextureID = { nullptr };  // 직접 입력할지도..
-	const _tchar*		m_szBufferType = { nullptr };
-
-protected: //컴포넌트
-	CTexture*	m_pTextureCom = { nullptr };
-	CVIBuffer*	m_pVIBufferCom = { nullptr };
-	CTransform* m_pTransformCom = { nullptr };
+public:
+	virtual CGameObject* Clone(void* pArg) PURE;
+	virtual void Free();
 
 
 /************************/
@@ -84,6 +76,19 @@ protected:
 	unordered_map<STATE, TEXTURE_DEGREE> m_pTextureMap;		// 1Key: 종류 , 2key: 각도, value: CTexture
 /************************/									// 이후 m_pTextureMap[m_iState][m_iDegree]->Bind_Resource호출 시
 															// 매개변수로 m_fAnimationFrame 전달
+		
+
+protected: //기본정보
+	LEVEL				m_eLevelID = { LEVEL_END };
+	const _tchar*		m_szTextureID = { nullptr };  // 직접 입력할지도..
+	const _tchar*		m_szBufferType = { nullptr };
+
+protected: //컴포넌트
+	CTexture*	m_pTextureCom = { nullptr };
+	CVIBuffer*	m_pVIBufferCom = { nullptr };
+	CTransform* m_pTransformCom = { nullptr };
+
+
 
 
 protected: //충돌	
@@ -108,6 +113,10 @@ protected: //플레이어
 
 protected: //기능성 수치
 	_float			m_fPlayerDistance = 0;
+
+protected:
+	bool			m_bDead = false;
+
 
 
 };
