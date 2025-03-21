@@ -32,7 +32,6 @@ public:
 	virtual void Free();
 
 private:
-	_float		m_fMaxFrame = 0;
 	bool		m_bLoop = false;
 };
 

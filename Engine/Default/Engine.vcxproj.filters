@@ -142,6 +142,12 @@
     <ClInclude Include="..\Public\VIBuffer_Canopy.h">
       <Filter>04.Components\VIBuffer\Canopy</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\VIBuffer_RaceTerrain.h">
+      <Filter>04.Components\VIBuffer\RaceTerrain</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\VIBuffer_RaceLandscape.h">
+      <Filter>04.Components\VIBuffer\RaceTerrain\VIBuffer_RaceLandscape</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="99.Headers">
@@ -158,12 +164,6 @@
     </Filter>
     <Filter Include="00.GameInstance">
       <UniqueIdentifier>{f146498a-b946-42b7-9519-141ac6f93f7c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="01.Level">
-      <UniqueIdentifier>{4984c672-521a-4088-a0d7-c4c1f4639603}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="01.Level\Manager">
-      <UniqueIdentifier>{178f61da-d50b-4e2e-9547-906f3926861e}</UniqueIdentifier>
     </Filter>
     <Filter Include="02.GameObject">
       <UniqueIdentifier>{8a591089-8197-4821-a844-e77d37c00b00}</UniqueIdentifier>
@@ -212,9 +212,6 @@
     </Filter>
     <Filter Include="94.csvReader">
       <UniqueIdentifier>{740c0093-06e8-4a4b-a4ae-1b71c2ac2c79}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="01.Level\Data">
-      <UniqueIdentifier>{8c9a0ddb-50fd-4dbd-830f-a03b6f89514a}</UniqueIdentifier>
     </Filter>
     <Filter Include="92.Vector">
       <UniqueIdentifier>{86fc3178-1641-4b07-9a22-7d3bec312420}</UniqueIdentifier>
@@ -275,6 +272,21 @@
     </Filter>
     <Filter Include="04.Components\VIBuffer\Canopy">
       <UniqueIdentifier>{2384da72-0b4c-46c3-b789-3567a4128378}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04.Components\VIBuffer\RaceTerrain">
+      <UniqueIdentifier>{563856f0-e543-4fad-b80e-afebfa50eb71}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04.Components\VIBuffer\RaceTerrain\VIBuffer_RaceLandscape">
+      <UniqueIdentifier>{a17320ba-13d7-4378-8347-94e8f49998f7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Level">
+      <UniqueIdentifier>{4984c672-521a-4088-a0d7-c4c1f4639603}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Level\Manager">
+      <UniqueIdentifier>{178f61da-d50b-4e2e-9547-906f3926861e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Level\Data">
+      <UniqueIdentifier>{8c9a0ddb-50fd-4dbd-830f-a03b6f89514a}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -400,6 +412,12 @@
     </ClCompile>
     <ClCompile Include="..\Private\VIBuffer_Canopy.cpp">
       <Filter>04.Components\VIBuffer\Canopy</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\VIBuffer_RaceTerrain.cpp">
+      <Filter>04.Components\VIBuffer\RaceTerrain</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\VIBuffer_RaceLandscape.cpp">
+      <Filter>04.Components\VIBuffer\RaceTerrain\VIBuffer_RaceLandscape</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

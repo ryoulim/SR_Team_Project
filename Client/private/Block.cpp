@@ -47,6 +47,20 @@ HRESULT CBlock::Render()
     return __super::Render();
 }
 
+HRESULT CBlock::Ready_Components(void* pArg)
+{
+    __super::Ready_Components(pArg);
+
+    CCollider_AABB_Cube::DESC ColliderDesc{};
+    ColliderDesc.pTransform = m_pTransformCom;
+    ColliderDesc.vScale = m_pTransformCom->Compute_Scaled();
+
+    /* For.Com_Collider */
+    if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Collider_AABB_Cube"),
+        TEXT("Com_Collider"), reinterpret_cast<CComponent**>(&m_pColliderCom), &ColliderDesc)))
+        return E_FAIL;
+}
+
 CBlock* CBlock::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 {
     CBlock* pInstance = new CBlock(pGraphic_Device);

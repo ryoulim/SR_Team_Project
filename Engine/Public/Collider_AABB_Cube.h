@@ -6,13 +6,6 @@ BEGIN(Engine)
 class ENGINE_DLL CCollider_AABB_Cube final : public CCollider
 {
 public:
-	typedef struct tagCollider_AABB_Cube
-	{
-		// 콜라이더를 포함한 객체의 원본
-		const CTransform* pTransform;
-		// 콜라이더의 스케일
-		_float3 vScale;
-	}DESC;
 	typedef struct tagAABB_CubeInfo
 	{
 		_float3 vCenter;
@@ -28,8 +21,9 @@ private:
 
 public:
 	virtual HRESULT Initialize_Prototype() override;
-	virtual HRESULT Initialize(void* pArg) override;
-	virtual void Update_Collider(const CTransform* pTransform) override;
+	virtual void Update_Collider() override;
+	virtual void Update_Scale(const _float3& vScale) override;
+	virtual _bool RayCasting(const _float3& rayOrigin, const _float3& rayDir) override;
 
 	const INFO* Get_Info() const { return &m_tInfo; };
 private:

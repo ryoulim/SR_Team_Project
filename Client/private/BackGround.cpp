@@ -68,6 +68,23 @@ HRESULT CBackGround::Render()
 	return S_OK;
 }
 
+HRESULT CBackGround::Ready_Components(void* pArg)
+{
+	__super::Ready_Components(pArg);
+
+	CCollider::DESC ColliderDesc{};
+	ColliderDesc.pTransform = m_pTransformCom;
+	ColliderDesc.vScale = static_cast<DESC*>(pArg)->vScale;
+	ColliderDesc.vOffSet = {};
+
+	/* For.Com_Collider */
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Collider_Rect"),
+		TEXT("Com_Collider"), reinterpret_cast<CComponent**>(&m_pColliderCom), &ColliderDesc)))
+		return E_FAIL;
+
+	return S_OK;
+}
+
 CBackGround* CBackGround::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 {
 	CBackGround* pInstance = new CBackGround(pGraphic_Device);

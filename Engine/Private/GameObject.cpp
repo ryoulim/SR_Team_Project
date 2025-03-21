@@ -54,17 +54,12 @@ void CGameObject::FrameUpdate(float timeDelta, float _MaxFrame, float fSpeed, bo
 {
 	if (isLoop)
 	{
-<<<<<<< Updated upstream
-		if (_MaxFrame < m_fAnimationFrame)
-			m_fAnimationFrame = 0;
-=======
-	m_fAnimationFrame += fSpeed * timeDelta;
+		m_fAnimationFrame += fSpeed * timeDelta;
 		//현재 프레임이 맥스프레임보다 크면 ? 0 으로 바꿔라.
 		if (_MaxFrame <= m_fAnimationFrame)
 		{
 			m_fAnimationFrame = 0.f;
 		}
->>>>>>> Stashed changes
 	}
 	else
 	{

@@ -36,7 +36,11 @@ public:
 	virtual void Priority_Update(_float fTimeDelta) override;
 	virtual EVENT Update(_float fTimeDelta) override;
 	virtual void Late_Update(_float fTimeDelta) override;
-	virtual HRESULT Render() override;
+
+public: //·»´õ¸µ
+	virtual HRESULT SetUp_RenderState();
+	virtual HRESULT Render();
+	virtual HRESULT Release_RenderState();
 
 protected:
 	virtual HRESULT Ready_Components(void* pArg);
@@ -44,7 +48,6 @@ protected:
 
 public:
 	void SetPosition(_float3 _Pos);
-	void Billboard();
 
 protected:
 	LEVEL m_eLevelID = { LEVEL_END };

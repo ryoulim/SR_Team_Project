@@ -1,5 +1,6 @@
 #include "Gravity.h"
 #include "Transform.h"
+#include "GameInstance.h"
 
 // 현재 이 그래비티와 연결된 트랜스폼의 Y 포지션
 #define CUR_Y m_pTransformCom->m_WorldMatrix._42
@@ -98,9 +99,26 @@ void CGravity::Set_JumpOption(const JUMPDESC& JumpDESC)
 	m_fMaxFallSpeedperSec = JumpDESC.fMaxFallSpeedPerSec;
 }
 
+void CGravity::Force_Set_FloorY(_float fFloorY)
+{
+	m_bForceSetFloor = TRUE;
+	if(fFloorY > m_fFloorY)
+		m_fFloorY = fFloorY + m_fHeight * 0.5f;
+}
+
+#include "Collider.h"
 void CGravity::Update(_float fTimeDelta)
 {
 	Check_Terrain();
+
+	if (m_pGameInstance->Raycast(
+		*m_pTransformCom->Get_State(CTransform::STATE_POSITION) - _float3{0.f, m_fHeight * 0.5f,0.f},
+		{ 0.f,-1.f,0.f },
+		3,
+		TEXT("Layer_Block")))
+	{
+		Force_Set_FloorY(CCollider::Get_Last_Collision_Pos().y);
+	}
 	Jumping(fTimeDelta);
 }
 
@@ -112,6 +130,7 @@ void CGravity::Jump(_float fJumpPower)
 		m_fStartY = CUR_Y;
 		m_fTime = 0.f;
 		m_fJumpPower = fJumpPower;
+		m_bForceSetFloor = FALSE;
 	}
 }
 
@@ -166,18 +185,26 @@ void CGravity::Jumping(_float fTimeDelta)
 {
 	if (m_bJump)
 	{
+		// 최대 낙하 속력 계산
 		_float fMaxFallSpeed = m_fMaxFallSpeedperSec * fTimeDelta;
 
+		// 시간 증가
 		m_fTime += m_fTimeIncreasePerSec * fTimeDelta;
-		float fCerrentY = m_fStartY + (m_fJumpPower * m_fTime) - (G_FORCE * SQUARE(m_fTime)) * 0.5f; // 현재의 Y 위치 계산
 
-		if (fCerrentY < m_fStartY - fMaxFallSpeed) // 최대속력 낙하
+		// 현재 Y 위치 계산 (자유낙하 공식 적용)
+		_float fCurrentY = m_fStartY + (m_fJumpPower * m_fTime) - (G_FORCE * SQUARE(m_fTime)) * 0.5f;
+
+		// 최대 낙하 속도 초과 방지
+		_float fFallSpeed = (fCurrentY - CUR_Y); // 현재 프레임에서 이동해야 할 거리 (속도 개념)
+
+		// 최대 낙하 속도를 초과하면 제한
+		if (fFallSpeed < -fMaxFallSpeed)
 		{
-			CUR_Y -= fMaxFallSpeed;
+			CUR_Y -= fMaxFallSpeed; // 최대 낙하 속도로 제한
 		}
-		else // 그냥 낙하
+		else
 		{
-			CUR_Y = fCerrentY;
+			CUR_Y = fCurrentY; // 정상 낙하
 		}
 
 
@@ -199,16 +226,17 @@ void CGravity::Jumping(_float fTimeDelta)
 	}
 	else if (m_fFloorY < CUR_Y) // 낙하
 	{
- 		if (abs(CUR_Y - m_fFloorY) < Y_LOWER_CORRECTION) // 기울기 보정
-		{
-			CUR_Y = m_fFloorY;
-		}
-		else
-		{
+ 	//	if (abs(CUR_Y - m_fFloorY) < Y_LOWER_CORRECTION) // 기울기 보정
+		//{
+		//	CUR_Y = m_fFloorY;
+		//}
+		//else
+		//{
 			m_bJump = true;
+			m_fTime = 0.f;
 			m_fStartY = CUR_Y;
 			m_fJumpPower = 0.f;
-		}
+		//}
 	}
 }
 

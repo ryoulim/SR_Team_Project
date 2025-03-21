@@ -6,9 +6,13 @@
 #include "VIBuffer_Stall.h"
 #include "VIBuffer_Computer.h"
 #include "VIBuffer_Trapezoid.h"
-#include "VIBuffer_Terrain.h"
 #include "VIBuffer_Rect.h"
 #include "VIBuffer_Cube.h"
+
+#include "VIBuffer_Terrain.h"
+#include "VIBuffer_RaceTerrain.h"
+#include "VIBuffer_RaceLandscape.h"
+
 #include "Transform.h"
 #include "Texture.h"
 #include "Gravity.h"
@@ -18,6 +22,7 @@
 #include "Collider_Capsule.h"
 #include "Collider_Sphere.h"
 #include "Collider_Line.h"
+#include "Collider_Rect.h"
 
 /* 1. 원형객체를 보관한다. */
 /* 1_1. 원형객체의 타입( CGameObject, CComponent )에 크게 영향을 받지 않는다. */

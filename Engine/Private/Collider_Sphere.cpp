@@ -15,23 +15,14 @@ HRESULT CCollider_Sphere::Initialize_Prototype()
     return __super::Initialize_Prototype(SPHERE);
 }
 
-HRESULT CCollider_Sphere::Initialize(void* pArg)
+void CCollider_Sphere::Update_Collider()
 {
-    if (pArg == nullptr)
-    {
-        MSG_BOX("콜라이더 pArg에 nullptr을 넣어주면 어떡해...");
-        return E_FAIL;
-    }
-
-    const DESC* pDesc = static_cast<DESC*>(pArg);
-    m_tInfo.fRadius = pDesc->fRadius;
-    m_tInfo.vPosition = *pDesc->pTransform->Get_State(CTransform::STATE_POSITION);
-    return S_OK;
+    m_tInfo.vPosition = *m_pTransform->Get_State(CTransform::STATE_POSITION) + m_vOffSet;
 }
 
-void CCollider_Sphere::Update_Collider(const CTransform* pTransform)
+void CCollider_Sphere::Update_Scale(const _float3& vScale)
 {
-    m_tInfo.vPosition = *pTransform->Get_State(CTransform::STATE_POSITION);
+    m_tInfo.fRadius = vScale.x;
 }
 
 _bool CCollider_Sphere::Intersect_With_AABB_Cube(const CCollider* pOther)

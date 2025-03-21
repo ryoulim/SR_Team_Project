@@ -1,8 +1,8 @@
-#pragma once
+ï»¿#pragma once
 
-/* ¿£Áø°ú Å¬¶óÀÌ¾ğÆ® °£ÀÇ ¸µÅ©ÀÇ ¿ªÈ°À» ¼öÇàÇÑ´Ù. */
-/* ¿£Áø ³»¿¡ Á¸ÀçÇÏ´Â À¯ÀÏÇÑ ½Ì±ÛÅæ Å¬·¡½ºÀÌ´Ù. */
-/* ¿£Áø °³¹ßÀÚ°¡ Å¬¶ó°³“TÀÚ¿¡°Ô º¸¿©ÁÖ°í½ÍÀº ÇÔ¼ö¸¦ ... */
+/* ì—”ì§„ê³¼ í´ë¼ì´ì–¸íŠ¸ ê°„ì˜ ë§í¬ì˜ ì—­í™œì„ ìˆ˜í–‰í•œë‹¤. */
+/* ì—”ì§„ ë‚´ì— ì¡´ì¬í•˜ëŠ” ìœ ì¼í•œ ì‹±ê¸€í†¤ í´ë˜ìŠ¤ì´ë‹¤. */
+/* ì—”ì§„ ê°œë°œìê°€ í´ë¼ê°œë°«ìì—ê²Œ ë³´ì—¬ì£¼ê³ ì‹¶ì€ í•¨ìˆ˜ë¥¼ ... */
 #include "Renderer.h"
 #include "Prototype_Manager.h"
 
@@ -39,27 +39,29 @@ public:
 #pragma region OBJECT_MANAGER
 	HRESULT Add_GameObject(_uint iPrototypeLevelIndex, const _wstring& strPrototypeTag, _uint iLevelIndex, const _wstring& strLayerTag, void* pArg = nullptr);
 	HRESULT Add_GameObjectReturn(_uint iPrototypeLevelIndex, const _wstring& strPrototypeTag, _uint iLevelIndex, const _wstring& strLayerTag, CGameObject** ppOut, void* pArg);
-	// ¸Å°³º¯¼ö¿¡ ¸Â´Â ¿ÀºêÁ§Æ®¸¦ Ã£¾Æ¼­ ¹İÈ¯ÇØÁØ´Ù.
+	// ë§¤ê°œë³€ìˆ˜ì— ë§ëŠ” ì˜¤ë¸Œì íŠ¸ë¥¼ ì°¾ì•„ì„œ ë°˜í™˜í•´ì¤€ë‹¤.
 	class CGameObject* Find_Object(_uint iLevelIndex, const _wstring& strLayerTag, _uint iVectorIndex = 0);
-	// ¸Å°³º¯¼ö¿¡ ¸Â´Â ·¹ÀÌ¾îÀÇ ¿ÀºêÁ§Æ® º¤ÅÍ¸¦ Ã£¾Æ¼­ ¹İÈ¯ÇØÁØ´Ù.
+	// ë§¤ê°œë³€ìˆ˜ì— ë§ëŠ” ë ˆì´ì–´ì˜ ì˜¤ë¸Œì íŠ¸ ë²¡í„°ë¥¼ ì°¾ì•„ì„œ ë°˜í™˜í•´ì¤€ë‹¤.
 	vector<CGameObject*>& Find_Objects(_uint iLevelIndex, const _wstring& strLayerTag);
 
-	// ¿ÀºêÁ§Æ® Ç® »ı¼º
+	// ì˜¤ë¸Œì íŠ¸ í’€ ìƒì„±
 	HRESULT Create_Object_Pool(_uint iPrototypeLevelIndex, const _wstring& strPrototypeTag, const _wstring& strObjectTag, _uint iPoolSize);
-	// ¿ÀºêÁ§Æ® Ç® »èÁ¦
+	// ì˜¤ë¸Œì íŠ¸ í’€ ì‚­ì œ
 	HRESULT Release_Object_Pool(const _wstring& strObjectTag);
-	// ¿ÀºêÁ§Æ® Ç®¿¡¼­ °´Ã¼ ÇÏ³ª¸¦ ¿ÀºêÁ§Æ® ¸®½ºÆ®¿¡ ³Ö´Â´Ù.(Reset ÇÔ¼ö È£Ãâ)
+	// ì˜¤ë¸Œì íŠ¸ í’€ì—ì„œ ê°ì²´ í•˜ë‚˜ë¥¼ ì˜¤ë¸Œì íŠ¸ ë¦¬ìŠ¤íŠ¸ì— ë„£ëŠ”ë‹¤.(Reset í•¨ìˆ˜ í˜¸ì¶œ)
 	_uint Active_Object(const _wstring& strObjectTag, _uint iLevelIndex, const _wstring& strLayerTag, void* pArg = nullptr);
-	// ¿ÀºêÁ§Æ® ¸®½ºÆ®¿¡¼­ ÇØ´ç°´Ã¼¸¦ »©¼­ ¿ÀºêÁ§Æ® Ç®¿¡ ¹İÈ¯ÇÑ´Ù.
+	// ì˜¤ë¸Œì íŠ¸ ë¦¬ìŠ¤íŠ¸ì—ì„œ í•´ë‹¹ê°ì²´ë¥¼ ë¹¼ì„œ ì˜¤ë¸Œì íŠ¸ í’€ì— ë°˜í™˜í•œë‹¤.
 	_uint Deactive_Object(const _wstring& strObjectTag, class CGameObject* pObject);
 
-	// A±×·ì°ú B±×·ìÀÇ Ãæµ¹À» °Ë»çÇÑ´Ù.
+	// Aê·¸ë£¹ê³¼ Bê·¸ë£¹ì˜ ì¶©ëŒì„ ê²€ì‚¬í•œë‹¤.
 	void Intersect(_uint iLevelIndex, const _wstring& strLayerTag1, const _wstring& strLayerTag2);
 
-	// ½ºÅ©¸°»ó¿¡ ÀÖ´ÂÁö °Ë»ç
+	// ìŠ¤í¬ë¦°ìƒì— ìˆëŠ”ì§€ ê²€ì‚¬
 	_bool IsPointInFrustum(const _float3& Point);
 
-	//ÀıµÎÃ¼ ¾÷µ¥ÀÌÆ®
+	_bool Raycast(const _float3& rayOrigin, const _float3& rayDir, _uint iLevelIndex, const _wstring& strLayerTag);
+
+	//ì ˆë‘ì²´ ì—…ë°ì´íŠ¸
 	void Update_Frustum(const _float4x4& viewProj);
 
 #pragma endregion

@@ -95,8 +95,8 @@ void CWeapon_LoverBoy::Set_State(STATE State)
 		m_pTransformCom->Quaternion_Revolution({ 0.f,0.f,1.f }, m_vCenter, RADIAN(90.f));
 		break;
 	case ST_WALK:
-		m_eState = ST_WALK;
 		m_pTransformCom->Set_State(CTransform::STATE_POSITION, { 320.f,-105.f,0.1f });
+		m_eState = ST_WALK;
 		m_fTextureNum = 0.f;
 		break;
 	case ST_W_ATK:

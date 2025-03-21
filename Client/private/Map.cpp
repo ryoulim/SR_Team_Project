@@ -1,7 +1,5 @@
 #include "Map.h"
 
-#define SCALE 28.f
-
 CMap::CMap(LPDIRECT3DDEVICE9 pGraphic_Device)
 	:CGameObject{pGraphic_Device}
 {
@@ -61,7 +59,6 @@ HRESULT CMap::Render()
 	return S_OK;
 }
 
-#include "Collider_AABB_Cube.h"
 HRESULT CMap::Ready_Components(void* pArg)
 {
 	/* For.Com_Texture */
@@ -70,12 +67,13 @@ HRESULT CMap::Ready_Components(void* pArg)
 		return E_FAIL;
 
 	/* For.Com_VIBuffer */
-	if (TEXT("Terrain") == m_szBufferType)
+	if (TEXT("Terrain") == m_szBufferType || TEXT("RaceTerrain") == m_szBufferType)
 	{
 		if (FAILED(__super::Add_Component(m_eLevelID, _wstring(TEXT("Prototype_Component_VIBuffer_")) + m_szBufferType,
 			TEXT("Com_VIBuffer"), reinterpret_cast<CComponent**>(&m_pVIBufferCom))))
 			return E_FAIL;
 	}
+
 	else
 		if (FAILED(__super::Add_Component(LEVEL_STATIC, _wstring(TEXT("Prototype_Component_VIBuffer_")) + m_szBufferType,
 			TEXT("Com_VIBuffer"), reinterpret_cast<CComponent**>(&m_pVIBufferCom))))
@@ -94,15 +92,6 @@ HRESULT CMap::Ready_Components(void* pArg)
 		m_pTransformCom->Quaternion_Rotation(pDesc->vAngle);
 		m_fTextureNum = pDesc->fTextureIdx;
 	}
-
-	CCollider_AABB_Cube::DESC ColliderDesc{};
-	ColliderDesc.pTransform = m_pTransformCom;
-	ColliderDesc.vScale = m_pTransformCom->Compute_Scaled();
-
-	/* For.Com_Collider */
-	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Collider_AABB_Cube"),
-		TEXT("Com_Collider"), reinterpret_cast<CComponent**>(&m_pColliderCom), &ColliderDesc)))
-		return E_FAIL;
 
 	return S_OK;
 }

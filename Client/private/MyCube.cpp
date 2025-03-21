@@ -72,7 +72,7 @@ EVENT CMyCube::Update(_float fTimeDelta)
 
 void CMyCube::Late_Update(_float fTimeDelta)
 {
-	m_pCollider->Update_Collider(m_pTransformCom);
+	m_pCollider->Update_Collider();
 	__super::Late_Update(fTimeDelta);
 }
 

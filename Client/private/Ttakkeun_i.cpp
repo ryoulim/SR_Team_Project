@@ -48,7 +48,7 @@ EVENT CTtakkeun_i::Update(_float fTimeDelta)
 
 void CTtakkeun_i::Late_Update(_float fTimeDelta)
 {
-	m_pCollider->Update_Collider(m_pTransformCom);
+	m_pCollider->Update_Collider();
 	__super::Late_Update(fTimeDelta);
 }
 
@@ -176,7 +176,7 @@ CTtakkeun_i* CTtakkeun_i::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 
 	//기본 정보
 	pInstance->m_eLevelID		= LEVEL_GAMEPLAY;
-	pInstance->m_szTextureID	= TEXT("Ttakkeun_i");
+	pInstance->m_szTextureID	= TEXT("Ttakkeun_i_Walk");
 	pInstance->m_szBufferType	= TEXT("Rect");
 
 	//속성

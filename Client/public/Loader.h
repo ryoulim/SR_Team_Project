@@ -24,6 +24,7 @@ public:
 	CLevelData* Get_LevelData() const {
 		return m_pData;
 	}
+
 	_float Get_LoadPercent() const {
 		return m_fLoadPercent;
 	}
@@ -53,11 +54,15 @@ private:
 	CLevelData*					m_pData = { nullptr };
 
 private:
+	void Clear_MapData();
+
+private:
 	HRESULT Loading_For_Logo();
 	HRESULT Loading_For_GamePlay();
+	HRESULT Loading_For_Race();
 	HRESULT Loading_For_Test();
 	HRESULT Add_Data(const _wstring& strFilePath);
-	HRESULT Load_For_Terrain(const _wstring& strFileTag);
+	HRESULT Load_For_Terrain(const _wstring& strFileTag, const _wstring& strHeightMapPath);
 public:
 	static CLoader* Create(LPDIRECT3DDEVICE9 pGraphic_Device, LEVEL eNextLevelID);
 	virtual void Free() override;

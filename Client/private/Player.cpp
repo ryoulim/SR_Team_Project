@@ -46,7 +46,7 @@ HRESULT CPlayer::Initialize(void* pArg)
 	{
 		m_fMouseSensor = static_cast<DESC*>(pArg)->fMouseSensor;
 	}
-	m_pGravityCom->Set_JumpOption(CGravity::JUMPDESC{ 13.2f, 1140.f});
+	m_pGravityCom->Set_JumpOption(CGravity::JUMPDESC{ 8.2f, 840.f});
 
 	m_Weapons.push_back(
 		static_cast<CWeapon*>(m_pGameInstance->Clone_Prototype(
@@ -119,7 +119,7 @@ void CPlayer::Late_Update(_float fTimeDelta)
 
 	Update_Camera_Link();
 
-	m_pCollider->Update_Collider(m_pTransformCom);
+	m_pCollider->Update_Collider();
 
 	m_pGravityCom->Update(fTimeDelta);
 
@@ -144,7 +144,6 @@ void CPlayer::On_Collision(CGameObject* pCollisionedObject, const _wstring& strL
 	_float3 vPos2 = *m_pCameraTransform->Get_State(CTransform::STATE_POSITION);
 
 	_float3 Depth = m_pCollider->Get_Last_Collision_Depth();
-
 	vPos += Depth;
 	vPos2 += Depth;
 
@@ -182,7 +181,7 @@ void CPlayer::Key_Input(_float fTimeDelta)
 
 	if (KEY_DOWN(DIK_SPACE))
 	{
-		m_pGravityCom->Jump(50.f);
+		m_pGravityCom->Jump(30.f);
 	}
 
 	m_Weapons[m_iCurWeaponIndex]->Key_Input();

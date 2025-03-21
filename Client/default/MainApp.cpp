@@ -13,6 +13,7 @@
 #include "LoadingMenu.h"
 #include "UI_Manager.h"
 #include "FadeUI.h"
+#include "FXMgr.h"
 
 #include "DebugMode.h"
 #include "CameraManager.h"
@@ -77,6 +78,8 @@ HRESULT CMainApp::Initialize()
 	Desc.iWinSizeY = g_iWinSizeY;
 	Desc.iNumLevels = LEVEL_END;
 
+	CFXMgr::Get_Instance()->Initialize();
+
 	if (FAILED(m_pGameInstance->Initialize_Engine(Desc, &m_pGraphic_Device)))
 		return E_FAIL;
 
@@ -97,7 +100,7 @@ HRESULT CMainApp::Initialize()
 	/* 최초 보여줄 레벨을 할당하자. */
 	if (FAILED(Open_Level(LEVEL_LOGO)))
 		return E_FAIL;
-
+	//씨발
 	if (FAILED(Ready_Debug_Mode()))
 		return E_FAIL;
 
@@ -109,6 +112,7 @@ HRESULT CMainApp::Initialize()
 void CMainApp::Update(_float fTimeDelta)
 {
 	m_pGameInstance->Update_Engine(fTimeDelta);
+	CFXMgr::Get_Instance()->Update(fTimeDelta);
 
 	if(KEY_DOWN(DIK_ESCAPE))
 		PostQuitMessage(0);
@@ -133,6 +137,7 @@ HRESULT CMainApp::Ready_Component_For_Static()
  	ADD_MODEL_EX(Terrain, 129, 129, TEXT("../Bin/Resources/Textures/Terrain/Height__.bmp"));
 	//Load_ProtoType_Terrain(TEXT("MapData.txt"));
 	ADD_MODEL(Canopy);
+	ADD_MODEL(RaceLandscape);
 
 	ADD_PRTCOM(Transform);
 	ADD_PRTCOM(Gravity);
@@ -141,6 +146,7 @@ HRESULT CMainApp::Ready_Component_For_Static()
 	ADD_PRTCOM(Collider_Sphere);
 	ADD_PRTCOM(Collider_Capsule);
 	ADD_PRTCOM(Collider_Line); 
+	ADD_PRTCOM(Collider_Rect);
 
 	ADD_TEXTURE(Font_MediumBlue, "../Bin/Resources/Textures/UI/Font/Font_MediumBlue/font%d.PNG", 94);
 	ADD_TEXTURE(Font_BigOrange, "../Bin/Resources/Textures/UI/Font/Font_BigOrange/font%d.PNG", 46);
@@ -235,6 +241,7 @@ void CMainApp::Free()
 	Free_Imgui();
 #endif
 
+	CFXMgr::Destroy_Instance();
 	CUI_Manager::Destroy_Instance();
 	Safe_Release(m_pGraphic_Device);
 

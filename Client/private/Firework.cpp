@@ -69,13 +69,14 @@ void CFirework::resetParticle(Attribute* attribute)
 {
 	attribute->_isAlive = true;
 	
-	//폭죽놀이 로직
+#pragma region 폭죽로직
 	//attribute->_Position = m_vPosition;
 	//_float3 min = { -1.0f, -1.0f, -1.0f };
 	//_float3 max = { 1.0f, 1.0f, 1.0f };
 	//GetRandomVector(&attribute->_Velocity, &min, &max);
 	//D3DXVec3Normalize(&attribute->_Velocity, &attribute->_Velocity);
 	//attribute->_Velocity *= 15.f;
+#pragma endregion
 
 
 	//분수형 폭팔 로직

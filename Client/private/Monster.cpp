@@ -42,6 +42,8 @@ HRESULT CMonster::Initialize(void* pArg)
 
 void CMonster::Priority_Update(_float fTimeDelta)
 {
+	//프레임 업데이트
+	FrameUpdate(fTimeDelta, m_fAnimationMaxFrame, m_fAnimationSpeed, true);
 }
 
 EVENT CMonster::Update(_float fTimeDelta)
@@ -53,12 +55,9 @@ void CMonster::Late_Update(_float fTimeDelta)
 {
 	//플레이어 거리 업데이트
 	PlayerDistance();
-
-	//프레임 업데이트
-	FrameUpdate(fTimeDelta, 11.f, 15.f, true);
 	
 	//콜라이더 업데이트
-	m_pCollider->Update_Collider(m_pTransformCom);
+	m_pCollider->Update_Collider();
 
 	Compute_ViewAngle();
 
@@ -69,6 +68,7 @@ void CMonster::Late_Update(_float fTimeDelta)
 
 HRESULT CMonster::SetUp_RenderState()
 {
+	m_pGraphic_Device->SetRenderState(D3DRS_LIGHTING, false);
 	m_pGraphic_Device->SetSamplerState(0, D3DSAMP_MINFILTER, D3DTEXF_POINT);
 	m_pGraphic_Device->SetSamplerState(0, D3DSAMP_MAGFILTER, D3DTEXF_POINT);
 	m_pGraphic_Device->SetSamplerState(0, D3DSAMP_MIPFILTER, D3DTEXF_POINT);
@@ -100,7 +100,8 @@ HRESULT CMonster::Render()
 	if (FAILED(m_pTextureMap[m_iState][m_iDegree]->Bind_Resource(static_cast<_uint>(m_fAnimationFrame))))
 		return E_FAIL;
 
-	//if (FAILED(m_pTextureMap[m_iState][m_iDegree]->Bind_Resource(static_cast<_uint>(m_fAnimationFrame))))
+
+	//if (FAILED(m_pTextureCom->Bind_Resource(static_cast<_uint>(m_fAnimationFrame))))
 	//	return E_FAIL;
 
 	if (FAILED(m_pVIBufferCom->Bind_Buffers()))
@@ -155,8 +156,10 @@ HRESULT CMonster::Ready_Components(void* pArg)
 
 	/* 콜라이드 컴포넌트 */
 	DESC* pDesc = static_cast<DESC*>(pArg);
-	CCollider_Capsule::DESC ColliderDesc{};
+	CCollider_Capsule::DESC ColliderDesc{};	
 	ColliderDesc.pTransform = m_pTransformCom;
+	ColliderDesc.vOffSet = {};
+	ColliderDesc.vScale = m_pTransformCom->Compute_Scaled();
 
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Collider_Capsule"),
 		TEXT("Com_Collider"), reinterpret_cast<CComponent**>(&m_pCollider), &ColliderDesc)))

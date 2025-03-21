@@ -16,7 +16,7 @@ class CMonster abstract : public CGameObject
 public:
 	enum MODE
 	{
-		MODE_WAIT, MODE_ATTACK, MODE_DETECTIVE , MODE_END
+		MODE_WAIT, MODE_ATTACK, MODE_DETECTIVE, MODE_END
 	};
 
 

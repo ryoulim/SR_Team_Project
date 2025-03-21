@@ -27,6 +27,9 @@ public:
 	virtual void Late_Update(_float fTimeDelta) override;
 	virtual HRESULT Render() override;
 
+private:
+	virtual HRESULT Ready_Components(void* pArg) override;
+
 public:
 	static CBackGround* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
 	virtual CGameObject* Clone(void* pArg) override;
