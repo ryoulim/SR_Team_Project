@@ -36,7 +36,7 @@ HRESULT CVIBuffer_RaceLandscape::Initialize_Prototype()
 		pVertices[i].vNormal = _float3(0.f, 0.f, 0.f);
 	}
 
-	for (_uint i = 0; i < m_iNumber; i++)
+	for (_uint i = 0; i <= m_iNumber; i++)
 	{
 		pVertices[4 * i].vPosition = _float3(-0.5f, 0.5f, -0.5f + i);
 		pVertices[4 * i + 1].vPosition = _float3(0.25f, 0.5f, -0.5f + i);
@@ -57,11 +57,11 @@ HRESULT CVIBuffer_RaceLandscape::Initialize_Prototype()
 	m_pIB->Lock(0, 0, reinterpret_cast<void**>(&pIndices), 0);
 
 	Set_IndexBuffer(pIndices, 0, 0, 1, 2, 3);
-	Set_IndexBuffer(pIndices, 6, 4 * (m_iNumber + 1) + 1, 4 * (m_iNumber + 1), 4 * (m_iNumber + 1) + 3, 4 * (m_iNumber + 1) + 2);
+	Set_IndexBuffer(pIndices, 6, 4 * m_iNumber + 1, 4 * m_iNumber , 4 * m_iNumber + 3, 4 * m_iNumber + 2);
 
 	_uint BufferIndex = 12;
 
-	for (_uint i = 0; i < m_iNumber - 1; i++)
+	for (_uint i = 0; i < m_iNumber; i++)
 	{
 		_uint Index[8] = {
 			4 * i,

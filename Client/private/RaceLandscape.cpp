@@ -29,7 +29,7 @@ HRESULT CRaceLandscape::Initialize(void* pArg)
 	if (*dir == RIGHT)
 	{
 		m_pTransformCom->LookAt(_float3(0.f, 0.f, -1.f));
-		m_pTransformCom->Set_State(CTransform::STATE_POSITION, _float3(650.f, 36.f, 3500.f));
+		m_pTransformCom->Set_State(CTransform::STATE_POSITION, _float3(650.f, 36.f, 7150.f));
 	}
 
 	else
