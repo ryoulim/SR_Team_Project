@@ -11,8 +11,12 @@ typedef struct ENGINE_DLL tagVector : public D3DXVECTOR3
 	tagVector(CONST D3DXFLOAT16* _p) : D3DXVECTOR3(_p) {}
 	tagVector(FLOAT x, FLOAT y, FLOAT z) : D3DXVECTOR3(x, y, z) {}
 	
+	using D3DXVECTOR3::operator+;
+	using D3DXVECTOR3::operator-;
 	using D3DXVECTOR3::operator*;
 
+	tagVector operator - (const tagVector& v) const;
+	tagVector operator + (const tagVector& v) const;
 	tagVector operator * (const tagVector& v) const;
 	tagVector& operator * (const tagVector& v);
 	tagVector& operator = (const D3DXPLANE& v);

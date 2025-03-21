@@ -22,14 +22,15 @@ HRESULT CCollider_Line::Initialize_Prototype()
 
 void CCollider_Line::Update_Collider()
 {
-    const _float3 vCenter = *m_pTransform->Get_State(CTransform::STATE_POSITION) + m_vOffSet;
-    m_tInfo.vStart = vCenter - m_vDiffFromCenter;
-    m_tInfo.vEnd = vCenter + m_vDiffFromCenter;
+    m_tInfo.vCenter = *m_pTransform->Get_State(CTransform::STATE_POSITION) + m_vOffSet;
+    m_tInfo.vStart = m_tInfo.vCenter - m_vDiffFromCenter;
+    m_tInfo.vEnd = m_tInfo.vCenter + m_vDiffFromCenter;
 }
 
 void CCollider_Line::Update_Scale(const _float3& vScale)
 {
-    m_vDiffFromCenter = m_pTransform->Get_State(CTransform::STATE_LOOK)->Normalize() * (vScale.x * 0.5f);
+    m_fMaxLength = vScale.x * 0.5f;
+    m_vDiffFromCenter = m_pTransform->Get_State(CTransform::STATE_LOOK)->Normalize() * m_fMaxLength;
 }
 
 _bool CCollider_Line::Intersect_With_AABB_Cube(const CCollider* pOther)

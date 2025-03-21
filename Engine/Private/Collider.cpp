@@ -41,6 +41,10 @@ HRESULT CCollider::Initialize(void* pArg)
 
 _bool CCollider::Check_Intersect(const CCollider* Collider)
 {
+	if ((Collider->Get_Pos() - Get_Pos()).Length() >
+		Get_MaxLength() + Collider->Get_MaxLength())
+		return FALSE;
+
 	switch (Collider->Get_Type())
 	{
 	case AABB_CUBE:

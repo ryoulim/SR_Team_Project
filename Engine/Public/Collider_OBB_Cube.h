@@ -24,9 +24,19 @@ public:
 
 	virtual _bool RayCasting(const _float3& rayOrigin, const _float3& rayDir) override;
 	virtual _bool RayCast_Downward(const _float3& rayOrigin) override;
+
+public:
 	const INFO* Get_Info() const { return &m_tInfo; };
+	virtual const _float3& Get_Pos() const override {
+		return m_tInfo.vPosition;
+	}
+	virtual const _float Get_MaxLength() const override {
+		return m_fMaxLength;
+	}
+
 private:
 	INFO m_tInfo{};
+	_float m_fMaxLength{};
 
 	virtual _bool Intersect_With_AABB_Cube(const CCollider* pOther) override;
 	virtual _bool Intersect_With_OBB_Cube(const CCollider* pOther) override;

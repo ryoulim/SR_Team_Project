@@ -26,6 +26,7 @@ void CCollider_AABB_Cube::Update_Collider()
 void CCollider_AABB_Cube::Update_Scale(const _float3& vScale)
 {
 	m_vHalfScale = vScale * 0.5f;
+	m_fMaxLength = m_vHalfScale.Length();
 }
 
 _bool CCollider_AABB_Cube::Intersect_With_AABB_Cube(const CCollider* pOther)

@@ -30,6 +30,8 @@ void CCollider_Capsule::Update_Scale(const _float3& vScale)
 {
 	m_tInfo.fHeight = vScale.y;
 	m_tInfo.fRadius = (vScale.x + vScale.z) * 0.25f;
+	m_fMaxLength = m_tInfo.fHeight * 0.5f > m_tInfo.fRadius ?
+		m_tInfo.fHeight * 0.5f : m_tInfo.fRadius;
 }
 
 _bool CCollider_Capsule::Intersect_With_AABB_Cube(const CCollider* pOther)

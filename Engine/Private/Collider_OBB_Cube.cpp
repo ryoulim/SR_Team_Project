@@ -30,6 +30,11 @@ void CCollider_OBB_Cube::Update_Collider()
 void CCollider_OBB_Cube::Update_Scale(const _float3& vScale)
 {
     m_tInfo.vHalfScale = vScale * 0.5f;
+    m_fMaxLength = sqrtf(
+        m_tInfo.vHalfScale.x * m_tInfo.vHalfScale.x +
+        m_tInfo.vHalfScale.y * m_tInfo.vHalfScale.y +
+        m_tInfo.vHalfScale.z * m_tInfo.vHalfScale.z
+    );
 }
 
 _bool CCollider_OBB_Cube::RayCasting(const _float3& rayOrigin, const _float3& rayDir)

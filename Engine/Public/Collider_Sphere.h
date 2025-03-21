@@ -22,6 +22,13 @@ public:
 	virtual void Update_Scale(const _float3& vScale) override;
 
 	const INFO* Get_Info() const { return &m_tInfo; };
+	virtual const _float3& Get_Pos() const override {
+		return m_tInfo.vPosition;
+	}
+	virtual const _float Get_MaxLength() const override {
+		return m_tInfo.fRadius;
+	}
+
 private:
 	INFO m_tInfo{};
 

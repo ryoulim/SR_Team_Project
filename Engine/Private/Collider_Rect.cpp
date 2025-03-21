@@ -26,6 +26,11 @@ void CCollider_Rect::Update_Scale(const _float3& vScale)
 {
 	m_tInfo.fHeight = vScale.y;
 	m_tInfo.fWidth = vScale.x;
+
+	_float fHalfW = m_tInfo.fWidth * 0.5f;
+	_float fHalfH = m_tInfo.fHeight * 0.5f;
+
+	m_fMaxLength = sqrtf(SQUARE(fHalfW) + SQUARE(fHalfH));
 }
 
 _bool CCollider_Rect::Intersect_With_AABB_Cube(const CCollider* pOther)

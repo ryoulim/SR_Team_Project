@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include "Component.h"
 #include "Transform.h"
 
@@ -10,9 +10,9 @@ public:
 	typedef struct tagCColliderDesc
 	{
 		CTransform* pTransform;
-		// Äİ¶óÀÌ´õÀÇ Å©±â (±¸(¹İÁö¸§)¿Í ¶óÀÎ(±æÀÌ)Àº x°ª¸¸ ¾¹´Ï´Ù)
+		// ì½œë¼ì´ë”ì˜ í¬ê¸° (êµ¬(ë°˜ì§€ë¦„)ì™€ ë¼ì¸(ê¸¸ì´)ì€ xê°’ë§Œ ì”ë‹ˆë‹¤)
 		_float3 vScale;
-		// ½ÇÁ¦ Æ®·£½ºÆûÀÇ À§Ä¡¿Í Äİ¶óÀÌ´õ À§Ä¡ÀÇ °£°İ
+		// ì‹¤ì œ íŠ¸ëœìŠ¤í¼ì˜ ìœ„ì¹˜ì™€ ì½œë¼ì´ë” ìœ„ì¹˜ì˜ ê°„ê²©
 		_float3 vOffSet;
 	}DESC;
 
@@ -26,12 +26,16 @@ protected:
 public:
 	virtual HRESULT Initialize_Prototype(COLLIDER_TYPE Type);
 	virtual HRESULT Initialize(void* pArg) override;
-	// ¿ä³ğÀº ¸ÅÇÁ·¹ÀÓ ¾÷µ¥ÀÌÆ® ÇØ¾ßÇÔ(Æ®·£½ºÆûÀÇ À§Ä¡·Î ¿¬µ¿)
+	// ìš”ë†ˆì€ ë§¤í”„ë ˆì„ ì—…ë°ì´íŠ¸ í•´ì•¼í•¨(íŠ¸ëœìŠ¤í¼ì˜ ìœ„ì¹˜ë¡œ ì—°ë™)
 	virtual void Update_Collider() PURE;
-	// Äİ¶óÀÌ´õÀÇ Å©±â (±¸(¹İÁö¸§)¿Í ¶óÀÎ(±æÀÌ)Àº x°ª¸¸ ¾¹´Ï´Ù)
+	// ì½œë¼ì´ë”ì˜ í¬ê¸° (êµ¬(ë°˜ì§€ë¦„)ì™€ ë¼ì¸(ê¸¸ì´)ì€ xê°’ë§Œ ì”ë‹ˆë‹¤)
 	virtual void Update_Scale(const _float3& vScale) PURE;
-	// ´Ù¸¥ Äİ¶óÀÌ´õ¿ÍÀÇ Ãæµ¹À» °¨ÁöÇÕ´Ï´Ù.
+	// ë‹¤ë¥¸ ì½œë¼ì´ë”ì™€ì˜ ì¶©ëŒì„ ê°ì§€í•©ë‹ˆë‹¤.
 	_bool Check_Intersect(const CCollider* pOther);
+
+	// ìµœì í™”ë¥¼ ìœ„í•´ í•„ìš”í•œ í•¨ìˆ˜ë“¤
+	virtual const _float3& Get_Pos() const PURE;
+	virtual const _float Get_MaxLength() const PURE;
 
 	const COLLIDER_TYPE Get_Type() const { return m_eType; }
 	static const _float3& Get_Last_Collision_Depth() { return m_vLast_Collision_Depth; }
