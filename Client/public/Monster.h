@@ -68,14 +68,8 @@ protected: //컴포넌트
 
 /************************/
 protected: // 이하 애니메이션 용도 
-<<<<<<< Updated upstream
-	virtual HRESULT Ready_Textures() PURE;	// 텍스쳐 컴포넌트들 로딩, *부모에 일반몹 용도로 작성하고 보스만 오버라이딩 하기?
-	void	Compute_ViewAngle();			// 몬스터-플레이어 간 시선 각도 차 계산 
-	virtual HRESULT Set_TextureType() PURE;	// enum을 uint변수로 옮기는 작업(그냥 함수로 뺌)
-=======
 	virtual HRESULT Ready_Textures() { return S_OK; }	// 텍스쳐 컴포넌트들 로딩, *부모에 일반몹 용도로 작성하고 보스만 오버라이딩 하기?
 	virtual HRESULT Set_TextureType();	// enum을 uint변수로 옮기는 작업(그냥 함수로 뺌)
->>>>>>> Stashed changes
 	virtual HRESULT Animate_Monster();		// 애니메이션 설정 (위의 함수랑 겹치나??)
 	void	Compute_ViewAngle();			// 몬스터-플레이어 간 시선 각도 차 계산 
 
