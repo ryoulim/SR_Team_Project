@@ -25,7 +25,7 @@ HRESULT CShotgunner::Initialize(void* pArg)
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
 	m_fDivOffset = 45.f;
-
+	m_isReadyMonster = true;
 	Ready_Textures();
 	//애니메이션(수정예정)
 	m_fAnimationMaxFrame = 3.f;

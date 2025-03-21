@@ -79,6 +79,7 @@ protected:
 	_float	m_fPlayersViewAngle = {};		// 시선 각
 	_bool	m_bCW = {true};					// Clockwise?
 	_float	m_fDivOffset = {};				// 몇 도로 쪼개져 있는 이미지인지 (보스: 22.5도, 일반: 45도) 
+	_bool	m_isReadyMonster = { false };	// 텍스쳐 준비 할 때 까지 기본 렌더링으로 돌리려고 
 
 	typedef _uint STATE;		// 텍스쳐 컴포넌트 (해치지않아요)
 	typedef _uint VIEWDEGREE;

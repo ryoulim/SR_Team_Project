@@ -24,6 +24,7 @@ HRESULT CTtakkeun_i::Initialize(void* pArg)
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
 
+	m_isReadyMonster = true;
 	m_fDivOffset = 22.5f;
 	// 보스랑 잡몹 텍스쳐 갯수가 달라서 별도 지정
 	Ready_Textures();
@@ -148,7 +149,7 @@ HRESULT CTtakkeun_i::Ready_Textures()
 	//	TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
 	//	return E_FAIL;
 
-	return S_OK;
+ 	return S_OK;
 }
 
 //HRESULT CTtakkeun_i::Set_TextureType()

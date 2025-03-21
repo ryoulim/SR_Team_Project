@@ -492,7 +492,7 @@ HRESULT CLoader::Loading_For_GamePlay()
 	ADD_TEXTURE(Shotgunner_Attack_135, "../Bin/Resources/Textures/Monster/Shotgunner/attack/135/shotgunner_attack_sideback%d.PNG", 3);
 	ADD_TEXTURE(Shotgunner_Attack_180, "../Bin/Resources/Textures/Monster/Shotgunner/attack/180/shotgunner_attack_back%d.PNG", 3);
 
-	ADD_TEXTURE(Shotgunner_Death_0,   "../Bin/Resources/Textures/Monster/Shotgunner/death/shotgunner_death_front%d.PNG", 3); 
+	ADD_TEXTURE(Shotgunner_Death_0,   "../Bin/Resources/Textures/Monster/Shotgunner/death/shotgunner_death%d.PNG", 6); 
 
 	ADD_TEXTURE(Shotgunner_Move_0,   "../Bin/Resources/Textures/Monster/Shotgunner/move/0/shotgunner_move_front%d.PNG", 3);
 	ADD_TEXTURE(Shotgunner_Move_45,  "../Bin/Resources/Textures/Monster/Shotgunner/move/45/shotgunner_move_sidefront%d.PNG", 3);
