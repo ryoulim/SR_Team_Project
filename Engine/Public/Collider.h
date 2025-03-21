@@ -37,6 +37,7 @@ public:
 	static const _float3& Get_Last_Collision_Depth() { return m_vLast_Collision_Depth; }
 	static const _float3& Get_Last_Collision_Pos() { return m_vLast_Collision_Pos; }
 	virtual _bool RayCasting(const _float3& rayOrigin, const _float3& rayDir) { return FALSE; }
+	virtual _bool RayCast_Downward(const _float3& rayOrigin) { return FALSE; }
 
 protected:
 	static _float3 m_vLast_Collision_Depth;

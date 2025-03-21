@@ -32,6 +32,109 @@ void CCollider_OBB_Cube::Update_Scale(const _float3& vScale)
     m_tInfo.vHalfScale = vScale * 0.5f;
 }
 
+_bool CCollider_OBB_Cube::RayCasting(const _float3& rayOrigin, const _float3& rayDir)
+{
+    const _float3& obbCenter = m_tInfo.vPosition;
+    const _float3* obbAxes = m_tInfo.vAxis;
+    const _float3& obbHalfSize = m_tInfo.vHalfScale;
+
+    // Ray를 OBB의 로컬 공간으로 변환
+    _float3 localOrigin = rayOrigin - obbCenter;
+    _float3 rayLocalOrigin = {
+        localOrigin.Dot(obbAxes[0]),
+        localOrigin.Dot(obbAxes[1]),
+        localOrigin.Dot(obbAxes[2])
+    };
+
+    _float3 rayLocalDir = {
+        rayDir.Dot(obbAxes[0]),
+        rayDir.Dot(obbAxes[1]),
+        rayDir.Dot(obbAxes[2])
+    };
+
+    // AABB 방식 그대로 적용 (OBB의 로컬 공간 기준)
+    _float3 invDir = {
+        1.0f / rayLocalDir.x,
+        1.0f / rayLocalDir.y,
+        1.0f / rayLocalDir.z
+    };
+
+    _float3 t1 = _float3(_float3{ -obbHalfSize.x, -obbHalfSize.y, -obbHalfSize.z } - rayLocalOrigin) * invDir;
+    _float3 t2 = _float3(_float3{ +obbHalfSize.x, +obbHalfSize.y, +obbHalfSize.z } - rayLocalOrigin) * invDir;
+
+    if (rayLocalDir.x < 0.0f) std::swap(t1.x, t2.x);
+    if (rayLocalDir.y < 0.0f) std::swap(t1.y, t2.y);
+    if (rayLocalDir.z < 0.0f) std::swap(t1.z, t2.z);
+
+    _float3 tMin = min(t1, t2);
+    _float3 tMax = max(t1, t2);
+
+    _float tNear = max(max(tMin.x, tMin.y), tMin.z);
+    _float tFar = min(min(tMax.x, tMax.y), tMax.z);
+
+    if (tNear > tFar || tFar < 0.0f)
+        return FALSE;
+
+    // 충돌 지점 (월드 공간으로 다시 변환)
+    _float3 localHitPoint = rayLocalOrigin + rayLocalDir * tNear;
+    _float3 worldHitPoint = obbCenter
+        + obbAxes[0] * localHitPoint.x
+        + obbAxes[1] * localHitPoint.y
+        + obbAxes[2] * localHitPoint.z;
+
+    m_vLast_Collision_Pos = worldHitPoint;
+
+    // 충돌 면 방향 (로컬 축 기준으로 결정 → 다시 월드축으로 변환)
+    if (tNear == tMin.x) m_vLast_Collision_Depth = -obbAxes[0];
+    else if (tNear == tMax.x) m_vLast_Collision_Depth = +obbAxes[0];
+    else if (tNear == tMin.y) m_vLast_Collision_Depth = -obbAxes[1];
+    else if (tNear == tMax.y) m_vLast_Collision_Depth = +obbAxes[1];
+    else if (tNear == tMin.z) m_vLast_Collision_Depth = -obbAxes[2];
+    else if (tNear == tMax.z) m_vLast_Collision_Depth = +obbAxes[2];
+
+    return TRUE;
+}
+
+_bool CCollider_OBB_Cube::RayCast_Downward(const _float3& rayOrigin)
+{
+    const _float3& obbCenter = m_tInfo.vPosition;
+    const _float3* obbAxes = m_tInfo.vAxis;
+    const _float3& obbHalfSize = m_tInfo.vHalfScale;
+
+    // OBB 기준 로컬 좌표로 변환
+    _float3 localOrigin = rayOrigin - obbCenter;
+
+    _float3 localPos = {
+        localOrigin.Dot(obbAxes[0]),
+        localOrigin.Dot(obbAxes[1]),
+        localOrigin.Dot(obbAxes[2])
+    };
+
+    // 1. XZ 범위 안에 있는지 확인 (로컬 기준)
+    if (fabs(localPos.x) > obbHalfSize.x) return FALSE;
+    if (fabs(localPos.z) > obbHalfSize.z) return FALSE;
+
+    // 2. Ray가 OBB 윗면보다 위에서 시작하는지 확인
+    if (localPos.y < obbHalfSize.y)
+        return FALSE;
+
+    // 3. 교차 지점 = 윗면 Y 위치 (local Y = +half)
+    float t = localPos.y - obbHalfSize.y;
+    _float3 hitLocal = localPos + _float3{ 0.f, -t, 0.f };
+
+    // 4. 로컬 → 월드 변환
+    _float3 hitWorld =
+        obbCenter +
+        obbAxes[0] * hitLocal.x +
+        obbAxes[1] * hitLocal.y +
+        obbAxes[2] * hitLocal.z;
+
+    m_vLast_Collision_Pos = hitWorld;
+    m_vLast_Collision_Depth = +obbAxes[1]; // 윗면 충돌
+
+    return TRUE;
+}
+
 _bool CCollider_OBB_Cube::Intersect_With_AABB_Cube(const CCollider* pOther)
 {
 	return _bool();

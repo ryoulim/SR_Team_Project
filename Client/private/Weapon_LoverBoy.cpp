@@ -201,23 +201,6 @@ void CWeapon_LoverBoy::Opening(_float fTimeDelta)
 	}
 }
 
-void CWeapon_LoverBoy::Key_Input()
-{
-	if (MOUSE_DOWN(DIMK_LBUTTON))
-	{
-		Set_State(CWeapon::ST_W_ATK);
-		Create_Bullet();
-	}
-	if (MOUSE_DOWN(DIMK_RBUTTON))
-	{
-		Set_State(CWeapon::ST_S_ATK);
-	}
-	if (KEY_DOWN(DIK_R))
-	{
-		Set_State(CWeapon::ST_RELOAD);
-	}
-}
-
 void CWeapon_LoverBoy::Left_Hand_Render()
 {
 	m_LeftHand.pTextureCom->Bind_Resource(0);

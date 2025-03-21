@@ -181,6 +181,11 @@ _bool CGameInstance::Raycast(const _float3& rayOrigin, const _float3& rayDir, _u
 	return m_pObject_Manager->Raycast(rayOrigin, rayDir, iLevelIndex, strLayerTag);
 }
 
+_bool CGameInstance::Raycast_Downward(const _float3& rayOrigin, _uint iLevelIndex, const _wstring& strLayerTag)
+{
+	return m_pObject_Manager->Raycast_Downward(rayOrigin, iLevelIndex, strLayerTag);
+}
+
 void CGameInstance::Update_Frustum(const _float4x4& viewProj)
 {
 	m_pObject_Manager->Update_Frustum(viewProj);

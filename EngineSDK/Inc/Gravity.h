@@ -13,6 +13,7 @@ public:
 		_uint			iTerrainVtxNumX;
 		_uint			iTerrainVtxNumZ;
 		_float3			vTerrainScale;
+		_uint			iLevelIndex;
 	}DESC;
 
 	typedef struct tagJumpPack
@@ -29,7 +30,10 @@ private:
 public:
 	virtual HRESULT Initialize_Prototype();
 	virtual HRESULT Initialize(void* pArg) override;
-	static void Set_TerrainInfo(const DESC& Desc);
+	static void Set_GravityStaticInfo(const DESC& Desc);
+	static void Add_StandableObjLayerTag(const _wstring& strTag) {
+		m_StandableObjectLayerTags.push_back(strTag);
+	}
 
 	void Go_Straight_On_Terrain(_float fTimedelta);
 	void Go_Backward_On_Terrain(_float fTimedelta);
@@ -50,12 +54,14 @@ public:
 
 private:
 	class CTransform*		m_pTransformCom{ nullptr };
-	_float					m_fHeight{};
+	_float					m_fHalfHeight{};
 
 	static const _float3*	m_pTerrainVtxPos;
 	static _uint			m_iTerrainVtxNumX;
 	static _uint			m_iTerrainVtxNumZ;
 	static _float3			m_vTerrainScale;
+	static _uint			m_iLevelIndex;
+	static vector<_wstring>	m_StandableObjectLayerTags;
 
 /// <summary>
 /// 점프 관련 변수
@@ -74,6 +80,7 @@ private:
 
 private:
 	void Check_Terrain();
+	void Raycast_StandAble_Obj();
 	void Jumping(_float fTimeDelta);
 	void Update_NormalVector(const D3DXPLANE& Plane);
 

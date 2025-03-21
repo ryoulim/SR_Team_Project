@@ -94,6 +94,30 @@ _bool CCollider_AABB_Cube::RayCasting(const _float3& rayOrigin, const _float3& r
 	return TRUE;
 }
 
+_bool CCollider_AABB_Cube::RayCast_Downward(const _float3& rayOrigin)
+{
+	// 1. XZ 범위 안에 있는지 먼저 확인
+	if (rayOrigin.x < m_tInfo.vMinPos.x || rayOrigin.x > m_tInfo.vMaxPos.x)
+		return FALSE;
+	if (rayOrigin.z < m_tInfo.vMinPos.z || rayOrigin.z > m_tInfo.vMaxPos.z)
+		return FALSE;
+
+	// 2. Ray가 AABB의 윗면보다 위에서 시작하는지 확인
+	if (rayOrigin.y < m_tInfo.vMaxPos.y)
+		return FALSE;
+
+	// 3. 교차 발생: AABB의 "윗면"에 Ray가 닿음
+	m_vLast_Collision_Pos = {
+		rayOrigin.x,
+		m_tInfo.vMaxPos.y,
+		rayOrigin.z
+	};
+
+	m_vLast_Collision_Depth = { 0.0f, 1.0f, 0.0f }; // 윗면이므로 위 방향
+
+	return TRUE;
+}
+
 CCollider_AABB_Cube* CCollider_AABB_Cube::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 {
 	CCollider_AABB_Cube* pInstance = new CCollider_AABB_Cube(pGraphic_Device);

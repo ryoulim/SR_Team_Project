@@ -25,6 +25,8 @@ public:
 	virtual void Update_Scale(const _float3& vScale) override;
 	virtual _bool RayCasting(const _float3& rayOrigin, const _float3& rayDir) override;
 
+	virtual _bool RayCast_Downward(const _float3& rayOrigin) override;
+
 	const INFO* Get_Info() const { return &m_tInfo; };
 private:
 	INFO m_tInfo{};

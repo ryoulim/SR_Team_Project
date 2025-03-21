@@ -39,6 +39,8 @@ public:
 
 	_bool Raycast(const _float3& rayOrigin, const _float3& rayDir, _uint iLevelIndex, const _wstring& strLayerTag);
 
+	_bool Raycast_Downward(const _float3& rayOrigin, _uint iLevelIndex, const _wstring& strLayerTag);
+
 	_bool IsPointInFrustum(const _float3& Point);
 	void Update_Frustum(const _float4x4& viewProj);
 

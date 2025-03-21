@@ -106,8 +106,8 @@ HRESULT CLevel_GamePlay::Ready_Layer_Terrain(const _wstring& strLayerTag)
 	GravityDesc.pTerrainVtxPos = pTerrainBuffer->Get_VertexPos();
 	GravityDesc.iTerrainVtxNumX = pTerrainBuffer->Get_NumVerticesX();
   	GravityDesc.iTerrainVtxNumZ = pTerrainBuffer->Get_NumVerticesX();
-	CGravity::Set_TerrainInfo(GravityDesc);
-
+	GravityDesc.iLevelIndex = CurLevel;
+	CGravity::Set_GravityStaticInfo(GravityDesc);
 	return S_OK;
 }
 
@@ -429,6 +429,7 @@ HRESULT CLevel_GamePlay::Load_Map(_uint iLevelIdx, const _wstring& FileName)
 				Layertag = TEXT("Layer_BackGround");
 			if (strKey == TEXT("Block"))
 				Layertag = TEXT("Layer_Block");
+			CGravity::Add_StandableObjLayerTag(TEXT("Layer_Block"));
 
 			if (FAILED(m_pGameInstance->Add_GameObject(iLevelIdx, Prototype, iLevelIdx, Layertag, &tDesc)))
 			{

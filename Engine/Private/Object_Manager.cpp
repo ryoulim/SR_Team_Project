@@ -229,6 +229,27 @@ _bool CObject_Manager::Raycast(const _float3& rayOrigin, const _float3& rayDir, 
 	return bResult;
 }
 
+_bool CObject_Manager::Raycast_Downward(const _float3& rayOrigin, _uint iLevelIndex, const _wstring& strLayerTag)
+{
+	auto Layer = Find_Layer(iLevelIndex, strLayerTag);
+
+	if (Layer == nullptr)
+		return FALSE;
+
+	auto& GroupA = Layer->Get_Objects();
+
+	_bool bResult{};
+
+	for (auto& Obj1 : GroupA)
+	{
+		auto pCollider = static_cast<CCollider*>(Obj1->Find_Component(TEXT("Com_Collider")));
+
+		bResult |= pCollider->RayCast_Downward(rayOrigin);
+	}
+
+	return bResult;
+}
+
 _bool CObject_Manager::IsPointInFrustum(const _float3& Point)
 {
 	for (int i = 0; i < 6; i++)

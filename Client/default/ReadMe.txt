@@ -132,3 +132,8 @@ void CItem_Model::Update(_float fTimeDelta)
     // 최종 행렬 적용
     m_pTransformCom->Set_Matrix(interpolatedMatrix * ViewMatrix);
 }
+
+
+
+마우스 휠 적용법
+_float fMouseWheelZ = { static_cast<_float>(m_pGameInstance->Get_DIMMoveState(DIMM_WHEEL)) };

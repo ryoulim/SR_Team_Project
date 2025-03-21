@@ -51,12 +51,18 @@ HRESULT CBlock::Ready_Components(void* pArg)
 {
     __super::Ready_Components(pArg);
 
-    CCollider_AABB_Cube::DESC ColliderDesc{};
+    CCollider::DESC ColliderDesc{};
     ColliderDesc.pTransform = m_pTransformCom;
     ColliderDesc.vScale = m_pTransformCom->Compute_Scaled();
 
+    auto vAngle = static_cast<DESC*>(pArg)->vAngle;
+
+    _wstring ColliderTag = vAngle.x == 0 && vAngle.y == 0 && vAngle.z == 0 ?
+        TEXT("Prototype_Component_Collider_AABB_Cube") :
+        TEXT("Prototype_Component_Collider_OBB_Cube");
+
     /* For.Com_Collider */
-    if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Collider_AABB_Cube"),
+    if (FAILED(__super::Add_Component(LEVEL_STATIC, ColliderTag,
         TEXT("Com_Collider"), reinterpret_cast<CComponent**>(&m_pColliderCom), &ColliderDesc)))
         return E_FAIL;
 }

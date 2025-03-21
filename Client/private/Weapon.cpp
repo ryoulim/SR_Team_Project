@@ -127,6 +127,23 @@ void CWeapon::Create_Bullet()
 		return;
 }
 
+void CWeapon::Key_Input()
+{
+	if (MOUSE_DOWN(DIMK_LBUTTON))
+	{
+		Set_State(CWeapon::ST_W_ATK);
+		Create_Bullet();
+	}
+	if (MOUSE_DOWN(DIMK_RBUTTON))
+	{
+		Set_State(CWeapon::ST_S_ATK);
+	}
+	if (KEY_DOWN(DIK_R))
+	{
+		Set_State(CWeapon::ST_RELOAD);
+	}
+}
+
 HRESULT CWeapon::Ready_Components(void* pArg)
 {
 	/* For.Com_Texture */

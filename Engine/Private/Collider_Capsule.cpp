@@ -93,6 +93,7 @@ _bool CCollider_Capsule::Intersect_With_AABB_Cube(const CCollider* pOther)
 		}
 
 		//// Y축 깊이 계산
+		// Y축은 계산 안함
 		//_float depthY = (capsuleCenter.y < pCubeInfo->vCenter.y) ?
 		//	(pCubeInfo->vMinPos.y - capsuleMaxY) :
 		//	(pCubeInfo->vMaxPos.y - capsuleMinY);
@@ -122,57 +123,44 @@ _bool CCollider_Capsule::Intersect_With_AABB_Cube(const CCollider* pOther)
 _bool CCollider_Capsule::Intersect_With_OBB_Cube(const CCollider* pOther)
 {
 	const auto& pOBBInfo = dynamic_cast<const CCollider_OBB_Cube*>(pOther)->Get_Info();
-	
+
 	const _float3& obbCenter = pOBBInfo->vPosition;
 	const _float3* obbAxes = pOBBInfo->vAxis;
 	const _float3& obbHalfSize = pOBBInfo->vHalfScale;
 
-	
-	// 캡슐 중심을 OBB 로컬 좌표계로 변환
-	_float3 capsuleLocalPos = m_tInfo.vCenter - obbCenter;
+	// 캡슐 중심 → OBB 로컬 좌표로 투영
+	_float3 capsuleToOBB = m_tInfo.vCenter - obbCenter;
 	_float3 closestPointOnOBB = obbCenter;
 
 	for (int i = 0; i < 3; i++)
 	{
-		float distance = capsuleLocalPos.Dot(obbAxes[i]);
+		float distance = capsuleToOBB.Dot(obbAxes[i]);
 		distance = max(-obbHalfSize[i], min(distance, obbHalfSize[i]));
 		closestPointOnOBB += obbAxes[i] * distance;
 	}
 
+	// OBB 표면에서 캡슐 중심까지 거리
 	_float3 diff = m_tInfo.vCenter - closestPointOnOBB;
-	_float distanceSquared = diff.Dot(diff);
+	_float distSq = diff.Dot(diff);
 
-	if (distanceSquared >= SQUARE(m_tInfo.fRadius))
+	if (distSq >= SQUARE(m_tInfo.fRadius))
 		return FALSE;
 
-	_float3 moveDirection = { 0.0f, 0.0f, 0.0f };
-	_float minPush = FLT_MAX;
+	float dist = sqrtf(distSq);
+	float depth = m_tInfo.fRadius - dist;
+	if (depth <= 0.f)
+		return FALSE;
 
-	for (int i = 0; i < 3; i++)
-	{
-		float push = diff.Dot(obbAxes[i]); // 캡슐과 OBB 축 방향 거리 계산
+	_float3 normal = (dist > 0.f) ? diff / dist : _float3(1.f, 0.f, 0.f); // 정규화
 
-		// OBB 면과 캡슐의 표면 간의 거리 계산
-		float penetration = obbHalfSize[i] - fabs(push);
+	// Y축 양방향 밀림 방지: Y가 양수면 제거하고 정규화
+	if (normal.y > 0.f)
+		normal.y = 0.f;
+	normal.Normalize();
 
-		// 캡슐 반지름을 OBB의 면과 직접 비교하여 정확한 깊이 계산
-		float depth = penetration - m_tInfo.fRadius;
+	m_vLast_Collision_Depth = normal * depth;
+	m_vLast_Collision_Pos = closestPointOnOBB + normal * m_tInfo.fRadius;
 
-		// 🔹 **캡슐 표면이 이미 OBB 면과 접촉 중이면 이동하지 않음**
-		if (depth < 0) continue;
-
-		// 🔹 **너무 작은 깊이(거의 0)는 이동 필요 없음**
-		if (depth < 0.001f) depth = 0.0f;
-
-		if (depth < minPush)
-		{
-			minPush = depth;
-			moveDirection = obbAxes[i] * ((push < 0) ? -1.0f : 1.0f) * depth;
-		}
-	}
-
-	// 충돌 해결을 위한 이동값 설정
-	m_vLast_Collision_Depth = moveDirection;
 	return TRUE;
 }
 

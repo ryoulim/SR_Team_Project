@@ -59,7 +59,11 @@ public:
 	// 스크린상에 있는지 검사
 	_bool IsPointInFrustum(const _float3& Point);
 
+	// 개같은 레이캐스트
 	_bool Raycast(const _float3& rayOrigin, const _float3& rayDir, _uint iLevelIndex, const _wstring& strLayerTag);
+
+	// 아래로만 쏘는 레이
+	_bool Raycast_Downward(const _float3& rayOrigin, _uint iLevelIndex, const _wstring& strLayerTag);
 
 	//절두체 업데이트
 	void Update_Frustum(const _float4x4& viewProj);

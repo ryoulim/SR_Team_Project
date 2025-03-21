@@ -9,10 +9,12 @@
 #define Y_UPPER_CORRECTION 20.f
 #define Y_LOWER_CORRECTION 30.f
 
-const _float3*  CGravity::m_pTerrainVtxPos = { nullptr };
-_uint			CGravity::m_iTerrainVtxNumX = {};
-_uint			CGravity::m_iTerrainVtxNumZ = {};
-_float3			CGravity::m_vTerrainScale{1.f,1.f,1.f};
+const _float3*			CGravity::m_pTerrainVtxPos = { nullptr };
+_uint					CGravity::m_iTerrainVtxNumX = {};
+_uint					CGravity::m_iTerrainVtxNumZ = {};
+_float3					CGravity::m_vTerrainScale = {1.f,1.f,1.f};
+_uint					CGravity::m_iLevelIndex = {};
+vector<_wstring>		CGravity::m_StandableObjectLayerTags = {};
 
 CGravity::CGravity(LPDIRECT3DDEVICE9 pGraphic_Device)
 	:CComponent{pGraphic_Device}
@@ -36,17 +38,18 @@ HRESULT CGravity::Initialize(void* pArg)
 
 	m_pTransformCom = static_cast<CTransform*>(pArg);
 	m_pTransformCom->AddRef();
-	m_fHeight = m_pTransformCom->Compute_Scaled().y;
+	m_fHalfHeight = m_pTransformCom->Compute_Scaled().y * 0.5f;
 
 	return S_OK;
 }
 
-void CGravity::Set_TerrainInfo(const DESC& Desc)
+void CGravity::Set_GravityStaticInfo(const DESC& Desc)
 {
 	m_pTerrainVtxPos = Desc.pTerrainVtxPos;
 	m_iTerrainVtxNumX = Desc.iTerrainVtxNumX;
 	m_iTerrainVtxNumZ = Desc.iTerrainVtxNumZ;
 	m_vTerrainScale = Desc.vTerrainScale;
+	m_iLevelIndex = Desc.iLevelIndex;
 }
 
 void CGravity::Go_Straight_On_Terrain(_float fTimedelta)
@@ -103,22 +106,14 @@ void CGravity::Force_Set_FloorY(_float fFloorY)
 {
 	m_bForceSetFloor = TRUE;
 	if(fFloorY > m_fFloorY)
-		m_fFloorY = fFloorY + m_fHeight * 0.5f;
+		m_fFloorY = fFloorY + m_fHalfHeight;
 }
 
 #include "Collider.h"
 void CGravity::Update(_float fTimeDelta)
 {
 	Check_Terrain();
-
-	if (m_pGameInstance->Raycast(
-		*m_pTransformCom->Get_State(CTransform::STATE_POSITION) - _float3{0.f, m_fHeight * 0.5f,0.f},
-		{ 0.f,-1.f,0.f },
-		3,
-		TEXT("Layer_Block")))
-	{
-		Force_Set_FloorY(CCollider::Get_Last_Collision_Pos().y);
-	}
+	Raycast_StandAble_Obj();
 	Jumping(fTimeDelta);
 }
 
@@ -177,8 +172,22 @@ void CGravity::Check_Terrain()
 	_float fCurFloorY = (-Plane.a * vPosition.x - Plane.c * vPosition.z - Plane.d) / Plane.b;
 
 	if (vPosition.y + Y_UPPER_CORRECTION >= fCurFloorY)
-		m_fFloorY = fCurFloorY + m_fHeight * 0.5f;
+		m_fFloorY = fCurFloorY + m_fHalfHeight;
 
+}
+
+void CGravity::Raycast_StandAble_Obj()
+{
+	for (auto& Tag : m_StandableObjectLayerTags)
+	{
+		if (m_pGameInstance->Raycast_Downward(
+			*m_pTransformCom->Get_State(CTransform::STATE_POSITION) - _float3{ 0.f, m_fHalfHeight,0.f },
+			m_iLevelIndex,
+			Tag))
+		{
+			Force_Set_FloorY(CCollider::Get_Last_Collision_Pos().y);
+		}
+	}
 }
 
 void CGravity::Jumping(_float fTimeDelta)

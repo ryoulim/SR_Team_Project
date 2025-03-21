@@ -237,6 +237,7 @@
     <ClInclude Include="..\public\UI_Manager.h" />
     <ClInclude Include="..\public\Weapon.h" />
     <ClInclude Include="..\public\Weapon_Chaingun.h" />
+    <ClInclude Include="..\public\Weapon_Dispenser.h" />
     <ClInclude Include="..\public\Weapon_LoverBoy.h" />
     <ClInclude Include="..\public\Wenteko.h" />
     <ClInclude Include="Client.h" />
@@ -330,6 +331,7 @@
     <ClCompile Include="..\private\UI_Manager.cpp" />
     <ClCompile Include="..\private\Weapon.cpp" />
     <ClCompile Include="..\private\Weapon_Chaingun.cpp" />
+    <ClCompile Include="..\private\Weapon_Dispenser.cpp" />
     <ClCompile Include="..\private\Weapon_LoverBoy.cpp" />
     <ClCompile Include="..\private\Wenteko.cpp" />
     <ClCompile Include="Client.cpp" />
