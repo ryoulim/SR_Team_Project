@@ -60,6 +60,8 @@ void CMonster::Late_Update(_float fTimeDelta)
 	//콜라이더 업데이트
 	m_pCollider->Update_Collider(m_pTransformCom);
 
+	Compute_ViewAngle();
+
 	//렌더그룹 업데이트
 	if (FAILED(m_pGameInstance->Add_RenderGroup(CRenderer::RG_NONBLEND, this)))
 		return;
@@ -119,10 +121,10 @@ HRESULT CMonster::Release_RenderState()
 
 HRESULT CMonster::Ready_Components(void* pArg)
 {
-	/* 텍스처 컴포넌트 */
-	//if (FAILED(__super::Add_Component(m_eLevelID, _wstring(TEXT("Prototype_Component_Texture_")) + m_szTextureID,
-	//	TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
-	//	return E_FAIL;
+	/* 텍스처 컴포넌트 */ // 나중에 지울 것
+	if (FAILED(__super::Add_Component(m_eLevelID, _wstring(TEXT("Prototype_Component_Texture_")) + m_szTextureID,
+		TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
+		return E_FAIL;
 
 	/* 렉트 버퍼 컴포넌트 */
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, _wstring(TEXT("Prototype_Component_VIBuffer_")) + m_szBufferType,
@@ -163,9 +165,12 @@ void CMonster::Compute_ViewAngle()
 	matCamWorld.MakeInverseMat(matCamWorld);
 	_float3 vCameraPos = { matCamWorld._41, matCamWorld._42, matCamWorld._43 };
 
-	_float3 vCurLook = *D3DXVec3Normalize(nullptr, (m_pTransformCom->Get_State(CTransform::STATE_LOOK)));
+	_float3 vCurLook = {};
+	vCurLook = *D3DXVec3Normalize(&vCurLook, (m_pTransformCom->Get_State(CTransform::STATE_LOOK)));
 
-	_float3	vBillLook = {};/* *D3DXVec3Normalize(nullptr, &(*(m_pTransformCom->Get_State(CTransform::STATE_POSITION)) - vCameraPos));*/
+	_float3	vBillLook = {};
+	_float3 temp = *(m_pTransformCom->Get_State(CTransform::STATE_POSITION)) - vCameraPos;
+	vBillLook = *D3DXVec3Normalize(&vBillLook, &temp);
 	
 	vCurLook.y = vBillLook.y = 0.f;
 
@@ -195,7 +200,7 @@ void CMonster::Free()
 	__super::Free();
 
 	Safe_Release(m_pVIBufferCom);
-	//Safe_Release(m_pTextureCom);
+	Safe_Release(m_pTextureCom);
 	Safe_Release(m_pTransformCom);
 	Safe_Release(m_pCollider);
 	Safe_Release(m_pTargetPlayer);

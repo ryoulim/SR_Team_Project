@@ -20,11 +20,13 @@ HRESULT CTtakkeun_i::Initialize_Prototype()
 
 HRESULT CTtakkeun_i::Initialize(void* pArg)
 {
-
 	//위치, 크기초기화, 컴포넌트 부착
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
 
+	// 보스랑 잡몹 텍스쳐 갯수가 달라서 별도 지정
+	Ready_Textures();
+	
 	return S_OK;
 }
 
@@ -46,6 +48,8 @@ void CTtakkeun_i::Late_Update(_float fTimeDelta)
 
 HRESULT CTtakkeun_i::Render()
 {
+	Set_TextureType();
+	Animate_Monster();
 	return __super::Render();
 
 	//특별히 더 렌더링 할게 있는 경우 ↓
@@ -59,8 +63,50 @@ HRESULT CTtakkeun_i::Ready_Components(void* pArg)
 	return S_OK;
 }
 
+HRESULT CTtakkeun_i::Ready_Textures()
+{
+
+	for (size_t i = 0; i < BOSS_DEGREE::D_END; i++)
+	{
+		_wstring sPrototypeTag = L"Prototype_Component_Texture_Boss_Walk_";
+		_uint num = (i * 22.5);
+		_tchar buf[32];
+		_itow_s(num, buf, 10);
+		sPrototypeTag += buf;
+   		if (FAILED(__super::Add_Component(m_eLevelID, sPrototypeTag,
+	 		_wstring(TEXT("Com_Texture")) + buf, reinterpret_cast<CComponent**>(&(m_pTextureMap[STATE_WALK][i])))))
+       			return E_FAIL;
+	}
+
+	//if (FAILED(__super::Add_Component(m_eLevelID, _wstring(TEXT("Prototype_Component_Texture_")) + m_szTextureID,
+	//	TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
+	//	return E_FAIL;
+
+	return S_OK;
+}
+
 HRESULT CTtakkeun_i::Set_TextureType()
 {
+	if (KEY_DOWN(DIK_1))
+		int a = 0;
+
+	_float m_fDivOffset = 22.5f;
+	_float degree = m_fPlayersViewAngle / m_fDivOffset;
+	_float div = 0.f;
+	_float mod = modff(degree, &div);
+
+	m_iDegree = (_uint)div + (_uint)(mod > 0.5f ? 1 : 0);
+	if (m_iDegree > 360.f / m_fDivOffset * 0.5f)
+	{
+		m_iDegree -= m_iDegree - 8;
+		_float3 vOrigScale = m_pTransformCom->Compute_Scaled();
+		m_pTransformCom->Scaling({ -vOrigScale.x, vOrigScale.y, vOrigScale.z });
+	}
+
+	// state는 보스의 상태에 따라 결정
+	// 임시로 walk만 지정
+	//m_iState = 
+	m_iState = (_uint)(STATE_WALK);
 
 	return S_OK;
 }

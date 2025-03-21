@@ -28,13 +28,13 @@ HRESULT CLogo::Initialize(void* pArg)
 	CLogo::DESC pDesc;
 	pDesc.fRotationPerSec = 0.f;
 	pDesc.fSpeedPerSec = 0.f;
-	pDesc.vInitPos = { -250.f,-20.f,0.5f };
+	pDesc.vInitPos = { -250.f,-20.f,0.9f };
 	pDesc.vScale = { 1.f,1.f,1.f };
 
 	if (FAILED(__super::Initialize(&pDesc)))
 		return E_FAIL;
 
-	m_fDepth = 1.f;
+	m_fDepth = 2.f;
 
 	Ready_Shader(L"../bin/Shader_AlphaChange.hlsl");
 	Ready_Component_For_Shadow(&pDesc);

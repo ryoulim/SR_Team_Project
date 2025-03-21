@@ -14,8 +14,9 @@ public:
 		//몬스터 고유 특성
 	}DESC;
 
-	enum class STATE { FLY, FLY_ATTACK, JUMP, LAVA_ATTACK, LAVA_DIVEIN, WALK };
+	enum STATE { STATE_FLY, STATE_FLY_ATTACK, STATE_JUMP, STATE_LAVA_ATTACK, STATE_LAVA_DIVEIN, STATE_WALK, STATE_END };
 	enum FLY_DIR { DOWN = 0, LEFT = 2, RIGHT = 4, UP = 6, DIR_END = 8};
+	enum BOSS_DEGREE { D0, D22, D45, D67, D90, D112, D135, D157, D180, D_END };
 
 private:
 	CTtakkeun_i(LPDIRECT3DDEVICE9 pGraphic_Device);
@@ -32,7 +33,7 @@ public:
 
 private:
 	virtual HRESULT Ready_Components(void* pArg);
-	virtual HRESULT Ready_Textures() { return S_OK; };
+	virtual HRESULT Ready_Textures();
 	virtual HRESULT Set_TextureType();
 
 public:

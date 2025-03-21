@@ -53,27 +53,38 @@ public:
 public: // 길찾기 및 디텍티브
 	virtual void PlayerDistance();
 
-protected:
-	virtual HRESULT Ready_Textures() PURE;
-	virtual HRESULT Animate_Monster();
-	virtual HRESULT Set_TextureType() PURE;
-	void	Compute_ViewAngle();
 		
 
 protected: //기본정보
 	LEVEL				m_eLevelID = { LEVEL_END };
-	const _tchar*		m_szTextureID = { nullptr };
+	const _tchar*		m_szTextureID = { nullptr };  // 직접 입력할지도..
 	const _tchar*		m_szBufferType = { nullptr };
 
 protected: //컴포넌트
-	//CTexture*	m_pTextureCom = { nullptr };
+	CTexture*	m_pTextureCom = { nullptr };
 	CVIBuffer*	m_pVIBufferCom = { nullptr };
 	CTransform* m_pTransformCom = { nullptr };
 
-	typedef _uint STATE;
+
+/************************/
+protected: // 이하 애니메이션 용도 
+	virtual HRESULT Ready_Textures() PURE;	// 텍스쳐 컴포넌트들 로딩, *부모에 일반몹 용도로 작성하고 보스만 오버라이딩 하기?
+	void	Compute_ViewAngle();			// 몬스터-플레이어 간 시선 각도 차 계산 
+	virtual HRESULT Set_TextureType() PURE;	// enum을 uint변수로 옮기는 작업(그냥 함수로 뺌)
+	virtual HRESULT Animate_Monster();		// 애니메이션 설정 (위의 함수랑 겹치나??)
+
+protected:
+	_uint	m_iState = {};					// 애니메이션 종류 선택(공격, 이동 ...)
+	_uint	m_iDegree = {};					// 애니메이션 시선 각 선택
+	_float	m_fPlayersViewAngle = {};		// 시선 각
+
+	typedef _uint STATE;		// 텍스쳐 컴포넌트 (해치지않아요)
 	typedef _uint VIEWDEGREE;
 	typedef unordered_map<VIEWDEGREE, CTexture*> TEXTURE_DEGREE;
-	unordered_map<STATE, TEXTURE_DEGREE> m_pTextureMap;
+	unordered_map<STATE, TEXTURE_DEGREE> m_pTextureMap;		// 1Key: 종류 , 2key: 각도, value: CTexture
+/************************/									// 이후 m_pTextureMap[m_iState][m_iDegree]->Bind_Resource호출 시
+															// 매개변수로 m_fAnimationFrame 전달
+
 
 protected: //충돌	
 	CCollider* m_pCollider = { nullptr };
@@ -85,9 +96,6 @@ protected: //속성
 	_float	m_fSpeed		= 1.0f;
 	_float3	m_vScale		= { 0.f, 0.f, 0.f };
 	_float3 m_vPosition		= { 0.f, 0.f, 0.f };
-	_uint	m_iState		= {};
-	_uint	m_iDegree		= {};
-	_float	m_fPlayersViewAngle = {};
 	MODE	m_eBehavior		= MODE::MODE_END;
 
 protected: //부속성
