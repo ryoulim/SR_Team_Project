@@ -17,14 +17,28 @@ HRESULT CRaceLandscape::Initialize_Prototype()
 
 HRESULT CRaceLandscape::Initialize(void* pArg)
 {
+	DIRECTION* dir = reinterpret_cast<DIRECTION*>(pArg);
+
 	m_eLevelID = LEVEL_RACE;
 	m_szTextureID = TEXT("RaceLandscape");
 	m_szBufferType = TEXT("RaceLandscape");
 
-	if (FAILED(__super::Initialize(pArg)))
+	if (FAILED(__super::Ready_Components(pArg)))
 		return E_FAIL;
 
-	//m_pTransformCom->Scaling(_float3(28.f, 28.f, 28.f));
+	if (*dir == RIGHT)
+	{
+		m_pTransformCom->LookAt(_float3(0.f, 0.f, -1.f));
+		m_pTransformCom->Set_State(CTransform::STATE_POSITION, _float3(650.f, 36.f, 3500.f));
+	}
+
+	else
+	{
+		m_pTransformCom->LookAt(_float3(0.f, 0.f, 1.f));
+		m_pTransformCom->Set_State(CTransform::STATE_POSITION, _float3(250.f, 36.f, 36.f));
+	}
+
+	m_pTransformCom->Scaling(_float3(72.f, 72.f, 72.f));
 
 	return S_OK;
 }
@@ -46,6 +60,8 @@ void CRaceLandscape::Late_Update(_float fTimeDelta)
 
 HRESULT CRaceLandscape::Render()
 {
+	m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
+
 	if (FAILED(__super::Render()))
 		return E_FAIL;
 

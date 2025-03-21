@@ -12,13 +12,14 @@ CVIBuffer_RaceLandscape::CVIBuffer_RaceLandscape(const CVIBuffer_RaceLandscape& 
 
 HRESULT CVIBuffer_RaceLandscape::Initialize_Prototype()
 {
-	m_iNumVertices = 8;					// ¹öÅØ½º °¹¼ö
-	m_iVertexStride = sizeof(VTXPOSNORTEX);	// ¹öÅØ½º Å©±â
+	m_iNumber = 100;										// ±âµÕ? °¹¼ö
+	m_iNumVertices = 4 * (m_iNumber + 1);					// ¹öÅØ½º °¹¼ö
+	m_iVertexStride = sizeof(VTXPOSNORTEX);					// ¹öÅØ½º Å©±â
 	m_iFVF = D3DFVF_XYZ | D3DFVF_NORMAL | D3DFVF_TEX1;		// ¹öÅØ½º Å¸ÀÔ
-	m_iNumPritimive = 12;					// »ï°¢Çü °¹¼ö
+	m_iNumPritimive = 8 * m_iNumber + 4;					// »ï°¢Çü °¹¼ö
 
 	m_iIndexStride = 2;						// ÀÎµ¦½º Å©±â
-	m_iNumIndices = 36;						// ÀÎµ¦½º °¹¼ö
+	m_iNumIndices = m_iNumPritimive * 3;	// ÀÎµ¦½º °¹¼ö
 	m_eIndexFormat = D3DFMT_INDEX16;		// ÀÎµ¦½º Æ÷¸Ë
 
 #pragma region VERTEX_BUFFER
@@ -29,36 +30,22 @@ HRESULT CVIBuffer_RaceLandscape::Initialize_Prototype()
 
 	m_pVB->Lock(0, /*m_iNumVertices * m_iVertexStride*/0, reinterpret_cast<void**>(&pVertices), 0);
 	
-	pVertices[0].vPosition = _float3(-0.5f, 0.5f, -0.5f);
-	pVertices[0].vTexcoord = _float2(0.f, 0.f);
-
-	pVertices[1].vPosition = _float3(0.5f, 0.5f, -0.5f);
-	pVertices[1].vTexcoord = _float2(1.f, 0.f);
-
-	pVertices[2].vPosition = _float3(0.5f, -0.5f, -0.5f);
-	pVertices[2].vTexcoord = _float2(1.f, 1.f);
-
-	pVertices[3].vPosition = _float3(-0.5f, -0.5f, -0.5f);
-	pVertices[3].vTexcoord = _float2(0.f, 1.f);
-
-	pVertices[4].vPosition = _float3(-0.5f, 0.5f, 0.5f);
-	pVertices[4].vTexcoord = _float2(1.f, 0.f);
-
-	pVertices[5].vPosition = _float3(0.5f, 0.5f, 0.5f);
-	pVertices[5].vTexcoord = _float2(0.f, 0.f);
-
-	pVertices[6].vPosition = _float3(0.5f, -0.5f, 0.5f);
-	pVertices[6].vTexcoord = _float2(0.f, 1.f);
-
-	pVertices[7].vPosition = _float3(-0.5f, -0.5f, 0.5f);
-	pVertices[7].vTexcoord = _float2(1.f, 1.f);
-
 	for (_uint i = 0; i < m_iNumVertices; i++)
 	{
+		pVertices[i].vTexcoord = _float2(0.f, 0.f);
 		pVertices[i].vNormal = _float3(0.f, 0.f, 0.f);
 	}
 
-	m_pVB->Unlock();
+	for (_uint i = 0; i < m_iNumber; i++)
+	{
+		pVertices[4 * i].vPosition = _float3(-0.5f, 0.5f, -0.5f + i);
+		pVertices[4 * i + 1].vPosition = _float3(0.25f, 0.5f, -0.5f + i);
+		pVertices[4 * i + 2].vPosition = _float3(0.5f, -0.5f, -0.5f + i);
+		pVertices[4 * i + 3].vPosition = _float3(-0.25f, -0.5f, -0.5f + i);
+
+		pVertices[4 * i + 1].vTexcoord = _float2(i, 0);
+		pVertices[4 * i + 2].vTexcoord = _float2(i, 1);
+	}
 #pragma endregion
 
 #pragma region INDEX_BUFFER
@@ -70,12 +57,56 @@ HRESULT CVIBuffer_RaceLandscape::Initialize_Prototype()
 	m_pIB->Lock(0, 0, reinterpret_cast<void**>(&pIndices), 0);
 
 	Set_IndexBuffer(pIndices, 0, 0, 1, 2, 3);
-	Set_IndexBuffer(pIndices, 6, 1, 5, 6, 2);
-	Set_IndexBuffer(pIndices, 12, 5, 4, 7, 6);
-	Set_IndexBuffer(pIndices, 18, 4, 0, 3, 7);
-	Set_IndexBuffer(pIndices, 24, 4, 5, 1, 0);
-	Set_IndexBuffer(pIndices, 30, 3, 2, 6, 7);
+	Set_IndexBuffer(pIndices, 6, 4 * (m_iNumber + 1) + 1, 4 * (m_iNumber + 1), 4 * (m_iNumber + 1) + 3, 4 * (m_iNumber + 1) + 2);
 
+	_uint BufferIndex = 12;
+
+	for (_uint i = 0; i < m_iNumber - 1; i++)
+	{
+		_uint Index[8] = {
+			4 * i,
+			4 * i + 1,
+			4 * i + 2,
+			4 * i + 3,
+			4 * (i + 1),
+			4 * (i + 1) + 1,
+			4 * (i + 1) + 2,
+			4 * (i + 1) + 3
+		};
+
+		pIndices[BufferIndex++] = Index[4];
+		pIndices[BufferIndex++] = Index[0];
+		pIndices[BufferIndex++] = Index[3];
+
+		pIndices[BufferIndex++] = Index[4];
+		pIndices[BufferIndex++] = Index[3];
+		pIndices[BufferIndex++] = Index[7];
+
+		pIndices[BufferIndex++] = Index[4];
+		pIndices[BufferIndex++] = Index[5];
+		pIndices[BufferIndex++] = Index[1];
+
+		pIndices[BufferIndex++] = Index[4];
+		pIndices[BufferIndex++] = Index[1];
+		pIndices[BufferIndex++] = Index[0];
+
+		pIndices[BufferIndex++] = Index[1];
+		pIndices[BufferIndex++] = Index[5];
+		pIndices[BufferIndex++] = Index[6];
+
+		pIndices[BufferIndex++] = Index[1];
+		pIndices[BufferIndex++] = Index[6];
+		pIndices[BufferIndex++] = Index[2];
+
+		pIndices[BufferIndex++] = Index[6];
+		pIndices[BufferIndex++] = Index[7];
+		pIndices[BufferIndex++] = Index[3];
+
+		pIndices[BufferIndex++] = Index[6];
+		pIndices[BufferIndex++] = Index[3];
+		pIndices[BufferIndex++] = Index[2];
+	}
+	m_pVB->Unlock();
 	m_pIB->Unlock();
 #pragma endregion
 

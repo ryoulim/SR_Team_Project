@@ -512,16 +512,16 @@ HRESULT CLoader::Loading_For_Race()/**/
 {
 	lstrcpy(m_szLoadingText, TEXT("텍스쳐을(를) 로딩중입니다."));
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_RACE, TEXT("Prototype_Component_Texture_RaceTerrain"),
-		CTexture::Create(m_pGraphic_Device, TEXT("../Bin/Resources/Textures/Map/RaceTerrain/Tile15611.PNG"), 1))))
+		CTexture::Create(m_pGraphic_Device, TEXT("../Bin/Resources/Textures/Map/RaceTerrain/RaceTerrain%d.PNG"), 2))))
 		return E_FAIL;
 
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_RACE, TEXT("Prototype_Component_Texture_RaceLandscape"),
-		CTexture::Create(m_pGraphic_Device, TEXT("../Bin/Resources/Textures/Object/RaceLandscape/tile6172.PNG"), 1))))
+		CTexture::Create(m_pGraphic_Device, TEXT("../Bin/Resources/Textures/Object/RaceLandscape/Tile15415.PNG"), 1))))
 		return E_FAIL;
 
 	lstrcpy(m_szLoadingText, TEXT("모델을(를) 로딩중입니다."));
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_RACE, TEXT("Prototype_Component_VIBuffer_RaceTerrain"),
-		CVIBuffer_RaceTerrain::Create(m_pGraphic_Device, 1000, 1000))))
+		CVIBuffer_RaceTerrain::Create(m_pGraphic_Device, 10, 1000))))
 		return E_FAIL;
 
 	lstrcpy(m_szLoadingText, TEXT("사운드을(를) 로딩중입니다."));
@@ -532,7 +532,11 @@ HRESULT CLoader::Loading_For_Race()/**/
 		CRaceTerrain::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
-	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_RACE, TEXT("Prototype_GameObject_RaceLandscape"),
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_RACE, TEXT("Prototype_GameObject_RaceLandscapeLeft"),
+		CRaceLandscape::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_RACE, TEXT("Prototype_GameObject_RaceLandscapeRight"),
 		CRaceLandscape::Create(m_pGraphic_Device))))
 		return E_FAIL;
 

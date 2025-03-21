@@ -5,6 +5,9 @@ BEGIN(Client)
 
 class CRaceLandscape final : public CStatue
 {
+public:
+	enum DIRECTION { LEFT, RIGHT };
+
 private:
 	CRaceLandscape(LPDIRECT3DDEVICE9 pGraphic_Device);
 	CRaceLandscape(const CRaceLandscape& Prototype);

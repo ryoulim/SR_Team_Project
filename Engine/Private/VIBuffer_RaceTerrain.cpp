@@ -1,5 +1,7 @@
 #include "VIBuffer_RaceTerrain.h"
 
+_uint CVIBuffer_RaceTerrain::m_iTexChangeNumber = 0;
+
 CVIBuffer_RaceTerrain::CVIBuffer_RaceTerrain(LPDIRECT3DDEVICE9 pGraphic_Device)
     : CVIBuffer{pGraphic_Device}
 {
@@ -9,11 +11,14 @@ CVIBuffer_RaceTerrain::CVIBuffer_RaceTerrain(const CVIBuffer_RaceTerrain& Protot
     : CVIBuffer(Prototype)
 	, m_iNumVerticesX{ Prototype.m_iNumVerticesX }
 	, m_iNumVerticesZ{ Prototype.m_iNumVerticesZ }
+	, m_iRoadWidth{Prototype.m_iRoadWidth}
 {
 }
 
 HRESULT CVIBuffer_RaceTerrain::Initialize_Prototype(_uint iTileNumVerticesX, _uint iTileNumVerticesZ)
 {
+	m_iRoadWidth = 2;
+
 	m_iNumVerticesX = iTileNumVerticesX;
 	m_iNumVerticesZ = iTileNumVerticesZ;
 	m_iNumVertices = m_iNumVerticesX * m_iNumVerticesZ;
@@ -41,8 +46,8 @@ HRESULT CVIBuffer_RaceTerrain::Initialize_Prototype(_uint iTileNumVerticesX, _ui
 		{
 			_uint			iIndex = i * m_iNumVerticesX + j;
 
-			pVertices[iIndex].vPosition = _float3((_float)j, 0.f, (_float)i);
-			pVertices[iIndex].vTexcoord = _float2(j / (m_iNumVerticesX - 1.f) * 3.f, i / (m_iNumVerticesZ - 1.f) * 1.f);
+			pVertices[iIndex].vPosition = _float3((_float)j * 100.f, 0.f, (_float)i * 100.f);
+			pVertices[iIndex].vTexcoord = _float2(m_iNumVerticesX * j / (m_iNumVerticesX - 1.f), m_iNumVerticesZ * i / (m_iNumVerticesZ - 1.f));
 			pVertices[iIndex].vNormal = { 0.f, 0.f, 0.f };
 		}
 	}
@@ -62,9 +67,80 @@ HRESULT CVIBuffer_RaceTerrain::Initialize_Prototype(_uint iTileNumVerticesX, _ui
 
 	_uint		iNumIndices = { 0 };
 
-	for (_uint i = 0; i < m_iNumVerticesZ - 1; i++)
+	/*for (_uint i = 0; i < m_iNumVerticesZ - 1; i++)
 	{
 		for (_uint j = 0; j < m_iNumVerticesX - 1; j++)
+		{
+			_uint			iIndex = i * m_iNumVerticesX + j;
+
+			_uint			iIndices[4] = {
+				iIndex + m_iNumVerticesX,
+				iIndex + m_iNumVerticesX + 1,
+				iIndex + 1,
+				iIndex
+			};
+
+			pIndices[iNumIndices++] = iIndices[0];
+			pIndices[iNumIndices++] = iIndices[1];
+			pIndices[iNumIndices++] = iIndices[2];
+
+			pIndices[iNumIndices++] = iIndices[0];
+			pIndices[iNumIndices++] = iIndices[2];
+			pIndices[iNumIndices++] = iIndices[3];
+		}
+	}*/
+
+	for (_uint i = 0; i < m_iNumVerticesZ - 1; i++)
+	{
+		for (_uint j = 0; j < ((m_iNumVerticesX - m_iRoadWidth) / 2) - 1; j++)
+		{
+			_uint			iIndex = i * m_iNumVerticesX + j;
+
+			_uint			iIndices[4] = {
+				iIndex + m_iNumVerticesX,
+				iIndex + m_iNumVerticesX + 1,
+				iIndex + 1,
+				iIndex
+			};
+
+			pIndices[iNumIndices++] = iIndices[0];
+			pIndices[iNumIndices++] = iIndices[1];
+			pIndices[iNumIndices++] = iIndices[2];
+
+			pIndices[iNumIndices++] = iIndices[0];
+			pIndices[iNumIndices++] = iIndices[2];
+			pIndices[iNumIndices++] = iIndices[3];
+		}
+	}
+
+	for (_uint i = 0; i < m_iNumVerticesZ - 1; i++)
+	{
+		for (_uint j = m_iNumVerticesX - ((m_iNumVerticesX - m_iRoadWidth) / 2); j < m_iNumVerticesX - 1; j++)
+		{
+			_uint			iIndex = i * m_iNumVerticesX + j;
+
+			_uint			iIndices[4] = {
+				iIndex + m_iNumVerticesX,
+				iIndex + m_iNumVerticesX + 1,
+				iIndex + 1,
+				iIndex
+			};
+
+			pIndices[iNumIndices++] = iIndices[0];
+			pIndices[iNumIndices++] = iIndices[1];
+			pIndices[iNumIndices++] = iIndices[2];
+
+			pIndices[iNumIndices++] = iIndices[0];
+			pIndices[iNumIndices++] = iIndices[2];
+			pIndices[iNumIndices++] = iIndices[3];
+		}
+	}
+
+	m_iTexChangeNumber = iNumIndices;
+
+	for (_uint i = 0; i < m_iNumVerticesZ - 1; i++)
+	{
+		for (_uint j = ((m_iNumVerticesX - m_iRoadWidth) / 2) - 1; j < m_iNumVerticesX - ((m_iNumVerticesX - m_iRoadWidth) / 2); j++)
 		{
 			_uint			iIndex = i * m_iNumVerticesX + j;
 
@@ -94,6 +170,12 @@ HRESULT CVIBuffer_RaceTerrain::Initialize_Prototype(_uint iTileNumVerticesX, _ui
 HRESULT CVIBuffer_RaceTerrain::Initialize(void* pArg)
 {
     return S_OK;
+}
+
+HRESULT CVIBuffer_RaceTerrain::Render(_uint Surface)
+{
+	Surface *= m_iTexChangeNumber;
+	return m_pGraphic_Device->DrawIndexedPrimitive(D3DPT_TRIANGLELIST, 0, 0, m_iNumVertices, Surface, m_iNumPritimive);
 }
 
 void CVIBuffer_RaceTerrain::Set_IndexBuffer(_ushort* pIndices, _uint StartIndex, _uint LT, _uint RT, _uint RB, _uint LB)
