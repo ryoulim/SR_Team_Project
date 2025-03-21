@@ -223,6 +223,18 @@
     <Filter Include="02.GameObjects\Monster\Ttakkeun_i">
       <UniqueIdentifier>{3674c8bc-204a-4475-9166-b2788d2c5c42}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01.Levels\Race">
+      <UniqueIdentifier>{27f94f0c-0863-4cd2-b493-30a0998805a9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Map\Race">
+      <UniqueIdentifier>{c6e4dfd4-97b2-4b0a-80f3-abd67204c7e4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Item\Item_CardKey">
+      <UniqueIdentifier>{2d398edf-25e0-4a77-b816-89344c9bb9d5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Statue\RaceLandscape">
+      <UniqueIdentifier>{e970d7e2-082c-4f92-b341-18de7fa88d32}</UniqueIdentifier>
+    </Filter>
     <Filter Include="02.GameObjects\Effect\Flatform">
       <UniqueIdentifier>{52256a0c-e710-4890-9012-d05bdea9288a}</UniqueIdentifier>
     </Filter>
@@ -537,6 +549,15 @@
     <ClInclude Include="..\public\Canopy.h">
       <Filter>02.GameObjects\Statue\Canopy</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\Level_Race.h">
+      <Filter>01.Levels\Race</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\RaceTerrain.h">
+      <Filter>02.GameObjects\Map\Race</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\RaceLandscape.h">
+      <Filter>02.GameObjects\Statue\RaceLandscape</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -806,6 +827,15 @@
     </ClCompile>
     <ClCompile Include="..\private\FXMgr.cpp">
       <Filter>02.GameObjects\Particle</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Level_Race.cpp">
+      <Filter>01.Levels\Race</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\RaceTerrain.cpp">
+      <Filter>02.GameObjects\Map\Race</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\RaceLandscape.cpp">
+      <Filter>02.GameObjects\Statue\RaceLandscape</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

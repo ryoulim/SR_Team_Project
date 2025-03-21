@@ -1,4 +1,7 @@
 ﻿#include "Level_GamePlay.h"
+#include "Level_Loading.h"
+#include "Explosion.h"
+#include "Firework.h"
 #include "GameInstance.h"
 #include "Flatform.h"
 #include "Monster.h"
@@ -67,6 +70,14 @@ void CLevel_GamePlay::Update(_float fTimeDelta)
 	//m_pGameInstance->Intersect(LEVEL_GAMEPLAY, TEXT("Layer_Pawn"), TEXT("Layer_BackGround"));
 	//m_pGameInstance->Intersect(LEVEL_GAMEPLAY, TEXT("Layer_PBullet"), TEXT("Layer_Monster"));
 	//m_pGameInstance->Intersect(LEVEL_GAMEPLAY, TEXT("Layer_PBullet"), TEXT("Layer_Statue"));
+
+
+	if (KEY_DOWN(DIK_F11))
+	{
+		if (FAILED(m_pGameInstance->Change_Level(LEVEL_LOADING,
+			CLevel_Loading::Create(m_pGraphic_Device, LEVEL_RACE))))
+			return;
+	}
 }
 
 HRESULT CLevel_GamePlay::Render()

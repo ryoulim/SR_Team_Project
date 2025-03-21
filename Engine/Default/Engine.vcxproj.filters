@@ -142,6 +142,12 @@
     <ClInclude Include="..\Public\VIBuffer_Canopy.h">
       <Filter>04.Components\VIBuffer\Canopy</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\VIBuffer_RaceTerrain.h">
+      <Filter>04.Components\VIBuffer\RaceTerrain</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\VIBuffer_RaceLandscape.h">
+      <Filter>04.Components\VIBuffer\RaceTerrain\VIBuffer_RaceLandscape</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="99.Headers">
@@ -276,6 +282,12 @@
     <Filter Include="04.Components\VIBuffer\Canopy">
       <UniqueIdentifier>{2384da72-0b4c-46c3-b789-3567a4128378}</UniqueIdentifier>
     </Filter>
+    <Filter Include="04.Components\VIBuffer\RaceTerrain">
+      <UniqueIdentifier>{563856f0-e543-4fad-b80e-afebfa50eb71}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04.Components\VIBuffer\RaceTerrain\VIBuffer_RaceLandscape">
+      <UniqueIdentifier>{a17320ba-13d7-4378-8347-94e8f49998f7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Private\Base.cpp">
@@ -400,6 +412,12 @@
     </ClCompile>
     <ClCompile Include="..\Private\VIBuffer_Canopy.cpp">
       <Filter>04.Components\VIBuffer\Canopy</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\VIBuffer_RaceTerrain.cpp">
+      <Filter>04.Components\VIBuffer\RaceTerrain</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\VIBuffer_RaceLandscape.cpp">
+      <Filter>04.Components\VIBuffer\RaceTerrain\VIBuffer_RaceLandscape</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

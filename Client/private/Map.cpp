@@ -67,12 +67,13 @@ HRESULT CMap::Ready_Components(void* pArg)
 		return E_FAIL;
 
 	/* For.Com_VIBuffer */
-	if (TEXT("Terrain") == m_szBufferType)
+	if (TEXT("Terrain") == m_szBufferType || TEXT("RaceTerrain") == m_szBufferType)
 	{
 		if (FAILED(__super::Add_Component(m_eLevelID, _wstring(TEXT("Prototype_Component_VIBuffer_")) + m_szBufferType,
 			TEXT("Com_VIBuffer"), reinterpret_cast<CComponent**>(&m_pVIBufferCom))))
 			return E_FAIL;
 	}
+
 	else
 		if (FAILED(__super::Add_Component(LEVEL_STATIC, _wstring(TEXT("Prototype_Component_VIBuffer_")) + m_szBufferType,
 			TEXT("Com_VIBuffer"), reinterpret_cast<CComponent**>(&m_pVIBufferCom))))

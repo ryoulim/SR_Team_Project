@@ -389,8 +389,8 @@ HRESULT CVIBuffer_Cabinet::Initialize(void* pArg)
 HRESULT CVIBuffer_Cabinet::Render(_uint Surface)
 {
 	_uint iNumber{ 0 };
-	
-	switch (Surface)
+
+	switch(Surface)
 	{
 	case COMMON:
 		iNumber = 0;

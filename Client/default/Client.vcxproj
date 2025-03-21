@@ -191,6 +191,7 @@
     <ClInclude Include="..\public\Greater.h" />
     <ClInclude Include="..\public\Item.h" />
     <ClInclude Include="..\public\Item_Ammo.h" />
+    <ClInclude Include="..\public\Level_Race.h" />
     <ClInclude Include="..\public\Level_Test.h" />
     <ClInclude Include="..\public\LoadingMenu.h" />
     <ClInclude Include="..\public\Logo.h" />
@@ -205,6 +206,8 @@
     <ClInclude Include="..\public\Player.h" />
     <ClInclude Include="..\public\Portrait.h" />
     <ClInclude Include="..\public\PSystem.h" />
+    <ClInclude Include="..\public\RaceLandscape.h" />
+    <ClInclude Include="..\public\RaceTerrain.h" />
     <ClInclude Include="..\public\Rain.h" />
     <ClInclude Include="..\public\ScreenDust.h" />
     <ClInclude Include="..\public\Shotgunner.h" />
@@ -284,6 +287,7 @@
     <ClCompile Include="..\private\Greater.cpp" />
     <ClCompile Include="..\private\Item.cpp" />
     <ClCompile Include="..\private\Item_Ammo.cpp" />
+    <ClCompile Include="..\private\Level_Race.cpp" />
     <ClCompile Include="..\private\Level_Test.cpp" />
     <ClCompile Include="..\private\LoadingMenu.cpp" />
     <ClCompile Include="..\private\Logo.cpp" />
@@ -298,6 +302,8 @@
     <ClCompile Include="..\private\Player.cpp" />
     <ClCompile Include="..\private\Portrait.cpp" />
     <ClCompile Include="..\private\PSystem.cpp" />
+    <ClCompile Include="..\private\RaceLandscape.cpp" />
+    <ClCompile Include="..\private\RaceTerrain.cpp" />
     <ClCompile Include="..\private\Rain.cpp" />
     <ClCompile Include="..\private\ScreenDust.cpp" />
     <ClCompile Include="..\private\Shotgunner.cpp" />
