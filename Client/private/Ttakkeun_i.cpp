@@ -70,10 +70,10 @@ HRESULT CTtakkeun_i::Ready_Components(void* pArg)
 HRESULT CTtakkeun_i::Ready_Textures()
 {
 
-	for (size_t i = 0; i < BOSS_DEGREE::D_END; i++)
+	for (_uint i = 0; i < BOSS_DEGREE::D_END; i++)
 	{
 		_wstring sPrototypeTag = L"Prototype_Component_Texture_Boss_Walk_";
-		_uint num = (i * 22.5);
+		_uint num = static_cast<_uint>(i * 22.5);
 		_tchar buf[32];
 		_itow_s(num, buf, 10);
 		sPrototypeTag += buf;
