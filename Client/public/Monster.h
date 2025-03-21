@@ -16,7 +16,7 @@ class CMonster abstract : public CGameObject
 public:
 	enum MODE
 	{
-		MODE_WAIT, MODE_ATTACK, MODE_DETECTIVE , MODE_END
+		MODE_WAIT, MODE_ATTACK, MODE_DETECTIVE, MODE_END
 	};
 
 
@@ -54,9 +54,9 @@ public: // 길찾기 및 디텍티브
 	virtual void PlayerDistance();
 
 protected:
-	virtual HRESULT Ready_Textures() PURE;
+	virtual HRESULT Ready_Textures() { return S_OK; }
 	virtual HRESULT Animate_Monster();
-	virtual HRESULT Set_TextureType() PURE;
+	virtual HRESULT Set_TextureType() { return S_OK; }
 	void	Compute_ViewAngle();
 		
 
@@ -66,7 +66,7 @@ protected: //기본정보
 	const _tchar*		m_szBufferType = { nullptr };
 
 protected: //컴포넌트
-	//CTexture*	m_pTextureCom = { nullptr };
+	CTexture*	m_pTextureCom = { nullptr };
 	CVIBuffer*	m_pVIBufferCom = { nullptr };
 	CTransform* m_pTransformCom = { nullptr };
 
