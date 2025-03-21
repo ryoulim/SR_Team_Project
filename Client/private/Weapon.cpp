@@ -65,9 +65,10 @@ void CWeapon::Walk(_float fTimeDelta)
 	else if (m_eState != ST_WALK)
 		return;
 
+	m_fWalkTimer += fTimeDelta;
 #define WALKX 3.f
 #define WALKY 2.f
-	switch (MOTION(4, 0.175f))
+	switch (_uint(m_fWalkTimer / 0.175f) % 4)
 	{
 	case 0:
 		m_pTransformCom->Move({ -WALKX,-WALKY, 0.f });

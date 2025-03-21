@@ -147,8 +147,10 @@ HRESULT CMonster::Ready_Components(void* pArg)
 
 	/* 콜라이드 컴포넌트 */
 	DESC* pDesc = static_cast<DESC*>(pArg);
-	CCollider_Capsule::DESC ColliderDesc{};
+	CCollider_Capsule::DESC ColliderDesc{};	
 	ColliderDesc.pTransform = m_pTransformCom;
+	ColliderDesc.vOffSet = {};
+	ColliderDesc.vScale = m_pTransformCom->Compute_Scaled();
 
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Collider_Capsule"),
 		TEXT("Com_Collider"), reinterpret_cast<CComponent**>(&m_pCollider), &ColliderDesc)))

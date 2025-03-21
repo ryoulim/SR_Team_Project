@@ -35,8 +35,6 @@ EVENT CBullet::Update(_float fTimeDelta)
 void CBullet::Late_Update(_float fTimeDelta)
 {
 	m_pCollider->Update_Collider();
-	if (FAILED(m_pGameInstance->Add_RenderGroup(CRenderer::RG_NONBLEND, this)))
-		return;
 }
 
 HRESULT CBullet::Render()
@@ -61,6 +59,8 @@ void CBullet::On_Collision(CGameObject* pCollisionedObject, const _wstring& strL
 	m_bDead = TRUE;
 	pCollisionedObject->On_Collision(this,TEXT("Layer_Bullet"));
 }
+
+
 
 HRESULT CBullet::Ready_Components(void* pArg)
 {

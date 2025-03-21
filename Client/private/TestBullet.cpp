@@ -43,7 +43,6 @@ EVENT CTestBullet::Update(_float fTimeDelta)
 
 	if (m_bDead)
 		return EVN_DEAD;
-
 	m_pTransformCom->Go_Straight(fTimeDelta);
 
 	return __super::Update(fTimeDelta);
@@ -51,7 +50,7 @@ EVENT CTestBullet::Update(_float fTimeDelta)
 
 void CTestBullet::Late_Update(_float fTimeDelta)
 {
-	//__super::Late_Update(fTimeDelta);
+	__super::Late_Update(fTimeDelta);
 }
 
 HRESULT CTestBullet::Render()

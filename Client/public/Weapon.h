@@ -54,6 +54,7 @@ protected:
 	_float m_fStartFrmae{};
 	_float m_fEndFrame{};
 	_float m_fMotionTimer{};
+	_float m_fWalkTimer{};
 
 	STATE m_eState{ ST_IDLE };
 
