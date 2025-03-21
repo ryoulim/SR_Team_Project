@@ -12,6 +12,15 @@ private:
 	virtual ~CVIBuffer_Terrain() = default;
 
 public:
+	_uint Get_NumVerticesX() {
+		return m_iNumVerticesX;
+	}
+
+	_uint Get_NumVerticesZ() {
+		return m_iNumVerticesZ;
+	}
+
+public:
 	virtual HRESULT Initialize_Prototype(_uint iNumVerticesX, _uint iNumVerticesZ, const _tchar* szHeightImagePath);
 	virtual HRESULT Initialize_Prototype(_uint iNumVerticesX, _uint iNumVerticesZ);
 	virtual HRESULT Initialize(void* pArg) override;

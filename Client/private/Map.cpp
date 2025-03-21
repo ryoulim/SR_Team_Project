@@ -1,7 +1,5 @@
 #include "Map.h"
 
-#define SCALE 28.f
-
 CMap::CMap(LPDIRECT3DDEVICE9 pGraphic_Device)
 	:CGameObject{pGraphic_Device}
 {
