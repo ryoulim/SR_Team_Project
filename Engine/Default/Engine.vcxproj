@@ -203,6 +203,7 @@ CALL $(SolutionDir)\UpdateLib.bat</Command>
     <ClInclude Include="..\Public\VIBuffer_Canopy.h" />
     <ClInclude Include="..\Public\VIBuffer_Computer.h" />
     <ClInclude Include="..\public\VIBuffer_Cube.h" />
+    <ClInclude Include="..\public\VIBuffer_CubeEx.h" />
     <ClInclude Include="..\Public\VIBuffer_RaceLandscape.h" />
     <ClInclude Include="..\Public\VIBuffer_RaceTerrain.h" />
     <ClInclude Include="..\public\VIBuffer_Rect.h" />
@@ -248,6 +249,7 @@ CALL $(SolutionDir)\UpdateLib.bat</Command>
     <ClCompile Include="..\Private\VIBuffer_Canopy.cpp" />
     <ClCompile Include="..\Private\VIBuffer_Computer.cpp" />
     <ClCompile Include="..\private\VIBuffer_Cube.cpp" />
+    <ClCompile Include="..\private\VIBuffer_CubeEx.cpp" />
     <ClCompile Include="..\Private\VIBuffer_RaceLandscape.cpp" />
     <ClCompile Include="..\Private\VIBuffer_RaceTerrain.cpp" />
     <ClCompile Include="..\private\VIBuffer_Rect.cpp" />

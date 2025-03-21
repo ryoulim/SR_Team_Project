@@ -118,6 +118,8 @@ HRESULT CUI::Ready_Shader(const _tchar* szEffectPath)
 		return E_FAIL;
 
 	m_hTex = m_pEffect->GetParameterByName(NULL, "Tex");
+
+	return S_OK;
 }
 
 void CUI::Free()

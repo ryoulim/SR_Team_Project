@@ -15,12 +15,19 @@ protected:
 	virtual ~CVIBuffer() = default;
 
 public:
+	LPDIRECT3DVERTEXBUFFER9 Get_VB() {
+		return m_pVB;
+	}
+
+public:
 	virtual HRESULT Initialize_Prototype() override;
 	virtual HRESULT Initialize(void* pArg) override;
 	virtual HRESULT Render(_uint Surface = 0);
 
 public:
 	HRESULT Bind_Buffers();
+	LPDIRECT3DVERTEXBUFFER9 DeepCopyVertexBuffer(LPDIRECT3DVERTEXBUFFER9 pOriginVB);
+	void Set_VertexBuffer(LPDIRECT3DVERTEXBUFFER9 pNewVB);
 
 protected:
 	/*  정점 배열을 가지고 있는 컴 객체. */

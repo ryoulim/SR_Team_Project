@@ -49,18 +49,22 @@ void CBackGround::Late_Update(_float fTimeDelta)
 
 HRESULT CBackGround::Render()
 {
-	if (FAILED(m_pTransformCom->Bind_Resource()))
-		return E_FAIL;
-
-	if (FAILED(m_pTextureCom->Bind_Resource(static_cast<_uint>(m_fTextureNum))))
-		return E_FAIL;
-
-	if (FAILED(m_pVIBufferCom->Bind_Buffers()))
-		return E_FAIL;
-
 	m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 
-	if (FAILED(m_pVIBufferCom->Render()))
+	VTXPOSNORTEX* pVertices = nullptr;
+	if (SUCCEEDED(m_pVIBufferCom->Get_VB()->Lock(0, 0, (void**)&pVertices, D3DLOCK_READONLY)))
+	{
+		for (int i = 0; i < 4; i++) // 4는 임시, 정점 개수에 맞게 수정
+		{
+
+			pVertices[i].vTexcoord.x;
+			pVertices[i].vTexcoord.y;
+
+		}
+		m_pVIBufferCom->Get_VB()->Unlock();
+	}
+
+	if(FAILED(__super::Render()))
 		return E_FAIL;
 
 	m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);

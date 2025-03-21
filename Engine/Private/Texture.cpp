@@ -74,6 +74,9 @@ HRESULT CTexture::Bind_Resource(_uint iIndex)
 	if (iIndex >= m_iNumTextures)
 		return E_FAIL;
 
+	if (nullptr == m_Textures[iIndex])
+		MSG_BOX("살려다오");
+
 	return m_pGraphic_Device->SetTexture(0, m_Textures[iIndex]);		
 }
 

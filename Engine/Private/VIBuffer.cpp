@@ -52,6 +52,50 @@ HRESULT CVIBuffer::Bind_Buffers()
     return S_OK;
 }
 
+LPDIRECT3DVERTEXBUFFER9 CVIBuffer::DeepCopyVertexBuffer(LPDIRECT3DVERTEXBUFFER9 pOriginVB)
+{
+    if (nullptr == pOriginVB)
+        return nullptr;
+
+    D3DVERTEXBUFFER_DESC VBDesc = {};
+    pOriginVB->GetDesc(&VBDesc);
+
+    LPDIRECT3DVERTEXBUFFER9 pCloneVB = { nullptr };
+    if (FAILED(m_pGraphic_Device->CreateVertexBuffer(VBDesc.Size, VBDesc.Usage, VBDesc.FVF, VBDesc.Pool,
+        &pCloneVB, nullptr)))
+        return nullptr;
+
+    void* pTmp{ nullptr };
+    void* pSrc{ nullptr };
+
+    if (FAILED(pOriginVB->Lock(0, 0, &pTmp, D3DLOCK_READONLY)))
+    {
+        pCloneVB->Release();
+        return nullptr;
+    }
+
+    if (FAILED(pCloneVB->Lock(0, 0, &pSrc, 0)))
+    {
+        pOriginVB->Unlock();
+        pCloneVB->Release();
+        return nullptr;
+    }
+
+    memcpy(pSrc, pTmp, VBDesc.Size);
+
+    pOriginVB->Unlock();
+    pCloneVB->Unlock();
+
+    return pCloneVB;
+}
+
+void CVIBuffer::Set_VertexBuffer(LPDIRECT3DVERTEXBUFFER9 pNewVB)
+{
+    Safe_Release(m_pVB);
+    m_pVB = pNewVB;
+    Safe_AddRef(m_pVB);
+}
+
 
 HRESULT CVIBuffer::Create_VertexBuffer()
 {
