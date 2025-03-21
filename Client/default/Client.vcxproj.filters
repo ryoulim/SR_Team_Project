@@ -46,12 +46,6 @@
     <Filter Include="02.GameObjects\Item">
       <UniqueIdentifier>{ad5b920c-bc1b-4ece-bc65-fdfb9440ecab}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\Bullet">
-      <UniqueIdentifier>{c524e1eb-809f-4b51-8e3c-f61d479c62da}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Boss">
-      <UniqueIdentifier>{4edcbe90-d066-43a7-a6df-4f0e2eabebb4}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02.GameObjects\Monster">
       <UniqueIdentifier>{77e476b8-1434-4864-aee9-655662cb4f88}</UniqueIdentifier>
     </Filter>

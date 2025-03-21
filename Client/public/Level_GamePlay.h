@@ -31,6 +31,8 @@ private:
 	HRESULT Ready_Layer_UI(const _wstring& strLayerTag);
 	HRESULT Ready_Light();
 
+	void Check_Collision();
+
 private:
 	_int m_iIndex{-1};
 	_bool testbool = { false };

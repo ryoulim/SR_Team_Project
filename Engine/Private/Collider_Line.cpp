@@ -23,8 +23,8 @@ HRESULT CCollider_Line::Initialize_Prototype()
 void CCollider_Line::Update_Collider()
 {
     const _float3 vCenter = *m_pTransform->Get_State(CTransform::STATE_POSITION) + m_vOffSet;
-    m_tInfo.vStart = vCenter + m_vDiffFromCenter;
-    m_tInfo.vEnd = vCenter - m_vDiffFromCenter;
+    m_tInfo.vStart = vCenter - m_vDiffFromCenter;
+    m_tInfo.vEnd = vCenter + m_vDiffFromCenter;
 }
 
 void CCollider_Line::Update_Scale(const _float3& vScale)
@@ -34,44 +34,68 @@ void CCollider_Line::Update_Scale(const _float3& vScale)
 
 _bool CCollider_Line::Intersect_With_AABB_Cube(const CCollider* pOther)
 {
-    auto pCapsuleInfo = static_cast<const CCollider_AABB_Cube*>(pOther)->Get_Info();
+    const auto& aabbInfo = static_cast<const CCollider_AABB_Cube*>(pOther)->Get_Info();
+
+    const _float3& minB = aabbInfo->vMinPos;
+    const _float3& maxB = aabbInfo->vMaxPos;
 
     _float3 d = m_tInfo.vEnd - m_tInfo.vStart; // 선분 방향 벡터
 
-    _float tMin = 0.0f, tMax = 1.0f;
-    _float tEnter = 0.0f, tExit = 1.0f; // 진입/출구 시간
+    _float tMin = 0.0f;
+    _float tMax = 1.0f;
 
-    // AABB의 각 축에 대해 충돌 검사 (Liang-Barsky 알고리즘)
-    for (int i = 0; i < 3; i++) {
-        _float minB = (&pCapsuleInfo->vMinPos.x)[i]; // AABB 최소 좌표
-        _float maxB = (&pCapsuleInfo->vMaxPos.x)[i]; // AABB 최대 좌표
-        _float startP = (&m_tInfo.vStart.x)[i]; // 선분 시작점 좌표
-        _float dir = (&d.x)[i]; // 선분 방향
+    int hitAxis = -1;
+    _bool hitNegative = FALSE;
 
-        if (abs(dir) < 1e-6f) { // 평행한 경우
-            if (startP < minB || startP > maxB)
-                return FALSE; // 선분이 박스 바깥에 있음
+    // Liang-Barsky 알고리즘: 각 축에 대해 교차 시점 계산
+    for (int i = 0; i < 3; i++)
+    {
+        _float start = (&m_tInfo.vStart.x)[i];
+        _float dir = (&d.x)[i];
+        _float boxMin = (&minB.x)[i];
+        _float boxMax = (&maxB.x)[i];
+
+        if (fabsf(dir) < 1e-6f)
+        {
+            // 축 방향으로 평행하면서 박스 바깥에 있다면 교차하지 않음
+            if (start < boxMin || start > boxMax)
+                return FALSE;
         }
-        else {
-            _float t1 = (minB - startP) / dir;
-            _float t2 = (maxB - startP) / dir;
+        else
+        {
+            _float t1 = (boxMin - start) / dir;
+            _float t2 = (boxMax - start) / dir;
 
-            if (t1 > t2) 
-                swap(t1, t2);
-            tMin = max(tMin, t1);
+            if (t1 > t2) std::swap(t1, t2);
+
+            if (t1 > tMin)
+            {
+                tMin = t1;
+                hitAxis = i;
+                hitNegative = (dir > 0.f); // 진입 방향이 -면인지
+            }
+
             tMax = min(tMax, t2);
 
             if (tMin > tMax)
-                return FALSE; // 충돌 없음
+                return FALSE; // 교차 없음
         }
     }
 
-    // 충돌한 경우
-    _float3 m_vLast_Collision_Pos = m_tInfo.vStart + tMin * d; // 충돌 좌표
+    // 교차 있음: AABB의 실제 면과 선분의 교차 좌표 계산
+    _float facePos = hitNegative ? (&minB.x)[hitAxis] : (&maxB.x)[hitAxis];
+    _float dirComponent = (&d.x)[hitAxis];
+    _float startComponent = (&m_tInfo.vStart.x)[hitAxis];
+    _float t = (facePos - startComponent) / dirComponent;
 
-    // 충돌 깊이 방향 벡터 계산 (진입점 -> 출구점 벡터)
-    _float3 exitPoint = m_tInfo.vStart + tMax * d;
-    m_vLast_Collision_Depth = exitPoint - m_vLast_Collision_Pos;
+    _float3 hitPos = m_tInfo.vStart + d * t;
+
+    // 충돌 좌표 저장
+    m_vLast_Collision_Pos = hitPos;
+
+    // 충돌 깊이 벡터 = 출구점 - 진입점
+    _float3 exitPoint = m_tInfo.vStart + d * tMax;
+    m_vLast_Collision_Depth = exitPoint - hitPos;
 
     return TRUE;
 }

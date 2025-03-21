@@ -56,7 +56,8 @@ void CFXMgr::SpawnExplosion(_float3 _vPosition, LEVEL eLevel)
 {
 	CSprite::DESC ExplosionDesc{};
 	ExplosionDesc.vInitPos = _vPosition;
-	ExplosionDesc.vScale = { 120.f,160.f,1.f };
+	// ExplosionDesc.vScale = { 120.f,160.f,1.f };
+	ExplosionDesc.vScale = { 60.f,80.f,1.f };
 	ExplosionDesc.bLoop = false;
 	ExplosionDesc.fMaxFrame = 32;
 	ExplosionDesc.fRotationPerSec = RADIAN(180.f);
