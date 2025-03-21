@@ -66,25 +66,17 @@ void CWeapon::Walk(_float fTimeDelta)
 		return;
 
 	m_fWalkTimer += fTimeDelta;
-#define WALKX 3.f
-#define WALKY 2.f
-	switch (_uint(m_fWalkTimer / 0.175f) % 4)
-	{
-	case 0:
-		m_pTransformCom->Move({ -WALKX,-WALKY, 0.f });
-		break;
-	case 1:
-		m_pTransformCom->Move({ +WALKX,+WALKY, 0.f });
-		break;
-	case 2:
-		m_pTransformCom->Move({ +WALKX,-WALKY, 0.f });
-		break;
-	case 3:
-		m_pTransformCom->Move({ -WALKX,+WALKY, 0.f });
-		break;
-	default:
-		break;
-	}
+#define WALKX 20.f
+#define WALKY 10.f
+#define FREQUENCY 8.f
+
+	_float3 vOffset = _float3(
+		sinf(m_fWalkTimer * FREQUENCY) * WALKX,
+		cosf(m_fWalkTimer * FREQUENCY*2) * WALKY,
+		0.f
+	);
+
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION, m_vMovingPos + vOffset);
 }
 
 void CWeapon::Action(_float fTimeDelta)

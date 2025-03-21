@@ -60,6 +60,7 @@ protected:
 
 	_float3 m_vImagePosition[ST_END];
 	_float3 m_vCenter{};
+	_float3 m_vMovingPos{};
 
 protected:
 	void Action(_float fTimeDelta);

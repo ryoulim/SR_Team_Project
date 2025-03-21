@@ -92,15 +92,15 @@ _bool CCollider_Capsule::Intersect_With_AABB_Cube(const CCollider* pOther)
 			moveDirection = { depthX, 0.0f, 0.0f };
 		}
 
-		// Y축 깊이 계산
-		_float depthY = (capsuleCenter.y < pCubeInfo->vCenter.y) ?
-			(pCubeInfo->vMinPos.y - capsuleMaxY) :
-			(pCubeInfo->vMaxPos.y - capsuleMinY);
-		if (fabs(depthY) < minPush)
-		{
-			minPush = fabs(depthY);
-			moveDirection = { 0.0f, depthY, 0.0f };
-		}
+		//// Y축 깊이 계산
+		//_float depthY = (capsuleCenter.y < pCubeInfo->vCenter.y) ?
+		//	(pCubeInfo->vMinPos.y - capsuleMaxY) :
+		//	(pCubeInfo->vMaxPos.y - capsuleMinY);
+		//if (fabs(depthY) < minPush)
+		//{
+		//	minPush = fabs(depthY);
+		//	moveDirection = { 0.0f, depthY, 0.0f };
+		//}
 
 		// Z축 깊이 계산
 		_float depthZ = (capsuleCenter.z < pCubeInfo->vCenter.z) ?

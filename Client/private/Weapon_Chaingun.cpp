@@ -26,6 +26,9 @@ HRESULT CWeapon_Chaingun::Initialize(void* pArg)
 	m_fTextureNum = 0.f;
 	Desc.fSpeedPerSec = 600.f;
 	m_szTextureID = TEXT("Weapon_Chaingun");
+	m_vMovingPos = INITPOS;
+	m_vMovingPos.y -= 10.f;
+
 
 	if (FAILED(__super::Initialize(&Desc)))
 		return E_FAIL;
@@ -66,26 +69,20 @@ void CWeapon_Chaingun::Walk(_float fTimeDelta)
 	else if (m_eState != ST_WALK)
 		return;
 
-#define WALKX 3.f
-#define WALKY 2.f
-	switch (MOTION(4, 0.175f))
-	{
-	case 0:
-		m_pBodyTransformCom->Move({ -WALKX,-WALKY, 0.f });
-		break;
-	case 1:
-		m_pBodyTransformCom->Move({ +WALKX,+WALKY, 0.f });
-		break;
-	case 2:
-		m_pBodyTransformCom->Move({ +WALKX,-WALKY, 0.f });
-		break;
-	case 3:
-		m_pBodyTransformCom->Move({ -WALKX,+WALKY, 0.f });
-		break;
-	default:
-		break;
-	}
+	m_fWalkTimer += fTimeDelta;
+#define WALKX 20.f
+#define WALKY 10.f
+#define FREQUENCY 8.f
+
+	_float3 vOffset = _float3(
+		sinf(m_fWalkTimer * FREQUENCY) * WALKX,
+		cosf(m_fWalkTimer * FREQUENCY * 2) * WALKY,
+		0.f
+	);
+
+	m_pBodyTransformCom->Set_State(CTransform::STATE_POSITION, m_vMovingPos + vOffset);
 }
+
 void CWeapon_Chaingun::Opening(_float fTimeDelta)
 {
 	m_pBodyTransformCom->Quaternion_Revolution(_float3(0.f, 0.f, 1.f), m_vCenter, -RADIAN(700.f) * fTimeDelta);

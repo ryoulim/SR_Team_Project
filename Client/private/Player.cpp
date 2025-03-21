@@ -144,6 +144,8 @@ void CPlayer::On_Collision(CGameObject* pCollisionedObject, const _wstring& strL
 	_float3 vPos2 = *m_pCameraTransform->Get_State(CTransform::STATE_POSITION);
 
 	_float3 Depth = m_pCollider->Get_Last_Collision_Depth();
+	if (Depth.y != 0)
+		int a = 1;
 	vPos += Depth;
 	vPos2 += Depth;
 
