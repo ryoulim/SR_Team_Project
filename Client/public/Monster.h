@@ -69,14 +69,17 @@ protected: //컴포넌트
 /************************/
 protected: // 이하 애니메이션 용도 
 	virtual HRESULT Ready_Textures() { return S_OK; }	// 텍스쳐 컴포넌트들 로딩, *부모에 일반몹 용도로 작성하고 보스만 오버라이딩 하기?
-	void	Compute_ViewAngle();			// 몬스터-플레이어 간 시선 각도 차 계산 
-	virtual HRESULT Set_TextureType() { return S_OK; }	// enum을 uint변수로 옮기는 작업(그냥 함수로 뺌)
+	virtual HRESULT Set_TextureType();	// enum을 uint변수로 옮기는 작업(그냥 함수로 뺌)
 	virtual HRESULT Animate_Monster();		// 애니메이션 설정 (위의 함수랑 겹치나??)
+	void	Compute_ViewAngle();			// 몬스터-플레이어 간 시선 각도 차 계산 
 
 protected:
 	_uint	m_iState = {};					// 애니메이션 종류 선택(공격, 이동 ...)
 	_uint	m_iDegree = {};					// 애니메이션 시선 각 선택
 	_float	m_fPlayersViewAngle = {};		// 시선 각
+	_bool	m_bCW = {true};					// Clockwise?
+	_float	m_fDivOffset = {};				// 몇 도로 쪼개져 있는 이미지인지 (보스: 22.5도, 일반: 45도) 
+	_bool	m_isReadyMonster = { false };	// 텍스쳐 준비 할 때 까지 기본 렌더링으로 돌리려고 
 
 	typedef _uint STATE;		// 텍스쳐 컴포넌트 (해치지않아요)
 	typedef _uint VIEWDEGREE;

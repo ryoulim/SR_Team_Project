@@ -24,12 +24,15 @@ HRESULT CTtakkeun_i::Initialize(void* pArg)
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
 
+	m_isReadyMonster = true;
+	m_fDivOffset = 22.5f;
 	// 보스랑 잡몹 텍스쳐 갯수가 달라서 별도 지정
 	Ready_Textures();
 	
 	//애니메이션(수정예정)
 	m_fAnimationMaxFrame = 11.f;
 	m_fAnimationSpeed = 13.f;
+
 
 	return S_OK;
 }
@@ -52,7 +55,6 @@ void CTtakkeun_i::Late_Update(_float fTimeDelta)
 
 HRESULT CTtakkeun_i::Render()
 {
-	Set_TextureType();
 	Animate_Monster();
 	return __super::Render();
 
@@ -70,50 +72,103 @@ HRESULT CTtakkeun_i::Ready_Components(void* pArg)
 HRESULT CTtakkeun_i::Ready_Textures()
 {
 
+	/* WALK */
 	for (_uint i = 0; i < BOSS_DEGREE::D_END; i++)
 	{
 		_wstring sPrototypeTag = L"Prototype_Component_Texture_Boss_Walk_";
-		_uint num = static_cast<_uint>(i * 22.5);
+		_uint num = static_cast<_uint>(i * m_fDivOffset);
 		_tchar buf[32];
-		_itow_s(num, buf, 10);
+		_itow_s((int)num, buf, 10);
 		sPrototypeTag += buf;
    		if (FAILED(__super::Add_Component(m_eLevelID, sPrototypeTag,
-	 		_wstring(TEXT("Com_Texture")) + buf, reinterpret_cast<CComponent**>(&(m_pTextureMap[STATE_WALK][i])))))
+	 		_wstring(TEXT("Com_Texture")) + L"_Boss_Walk_" + buf, reinterpret_cast<CComponent**>(&(m_pTextureMap[STATE_WALK][i])))))
        			return E_FAIL;
 	}
+
+	/* FLY */
+	//for (_uint i = 0; i < BOSS_DEGREE::D_END; i++)
+	//{
+	//	_wstring sPrototypeTag = L"Prototype_Component_Texture_Boss_Fly_";
+	//	_uint num = static_cast<_uint>(i * m_fDivOffset);
+	//	_tchar buf[32];
+	//	_itow_s((int)num, buf, 10);
+	//	sPrototypeTag += buf;
+	//	if (FAILED(__super::Add_Component(m_eLevelID, sPrototypeTag,
+	//		_wstring(TEXT("Com_Texture")) + L"_Boss_Fly_" + buf, reinterpret_cast<CComponent**>(&(m_pTextureMap[STATE_FLY][i])))))
+	//		return E_FAIL;
+	//}
+
+	/* FLY_ATTACK */
+	//for (_uint i = 0; i < BOSS_DEGREE::D_END; i++)
+	//{
+	//	_wstring sPrototypeTag = L"Prototype_Component_Texture_Boss_Fly_Attack_";
+	//	_uint num = static_cast<_uint>(i * m_fDivOffset);
+	//	_tchar buf[32];
+	//	_itow_s((int)num, buf, 10);
+	//	sPrototypeTag += buf;
+	//	if (FAILED(__super::Add_Component(m_eLevelID, sPrototypeTag,
+	//		_wstring(TEXT("Com_Texture")) + L"_Boss_Fly_Attack_" + buf, reinterpret_cast<CComponent**>(&(m_pTextureMap[STATE_FLY_ATTACK][i])))))
+	//		return E_FAIL;
+	//}
+
+	/* JUMP */
+	for (_uint i = 0; i < BOSS_DEGREE::D_END; i++)
+	{
+		_wstring sPrototypeTag = L"Prototype_Component_Texture_Boss_Jump_";
+		_uint num = static_cast<_uint>(i * m_fDivOffset);
+		_tchar buf[32];
+		_itow_s((int)num, buf, 10);
+		sPrototypeTag += buf;
+		if (FAILED(__super::Add_Component(m_eLevelID, sPrototypeTag,
+			_wstring(TEXT("Com_Texture")) + L"_Boss_Jump_" + buf, reinterpret_cast<CComponent**>(&(m_pTextureMap[STATE_JUMP][i])))))
+			return E_FAIL;
+	}
+
+	/* LAVA_ATTACK */
+	for (_uint i = 0; i < BOSS_DEGREE::D_END; i++)
+	{
+		_wstring sPrototypeTag = L"Prototype_Component_Texture_Boss_Lava_Attack_";
+		_uint num = static_cast<_uint>(i * m_fDivOffset);
+		_tchar buf[32];
+		_itow_s((int)num, buf, 10);
+		sPrototypeTag += buf;
+		if (FAILED(__super::Add_Component(m_eLevelID, sPrototypeTag,
+			_wstring(TEXT("Com_Texture")) + L"_Boss_Lava_Attack_" + buf, reinterpret_cast<CComponent**>(&(m_pTextureMap[STATE_LAVA_ATTACK][i])))))
+			return E_FAIL;
+	}
+
+
+	//divein은 0만 이미지 존재 ****
+	if (FAILED(__super::Add_Component(m_eLevelID, _wstring(TEXT("Prototype_Component_Texture_Boss_Lava_DiveIn")),
+		_wstring(TEXT("Com_Texture")) + L"_Boss_Lava_DiveIn", reinterpret_cast<CComponent**>(&(m_pTextureMap[STATE_LAVA_DIVEIN][0])))))
+		return E_FAIL;
+
+
 
 	//if (FAILED(__super::Add_Component(m_eLevelID, _wstring(TEXT("Prototype_Component_Texture_")) + m_szTextureID,
 	//	TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
 	//	return E_FAIL;
 
-	return S_OK;
+ 	return S_OK;
 }
 
-HRESULT CTtakkeun_i::Set_TextureType()
-{
-	if (KEY_DOWN(DIK_1))
-		int a = 0;
-
-	_float m_fDivOffset = 22.5f;
-	_float degree = m_fPlayersViewAngle / m_fDivOffset;
-	_float div = 0.f;
-	_float mod = modff(degree, &div);
-
-	m_iDegree = (_uint)div + (_uint)(mod > 0.5f ? 1 : 0);
-	if (m_iDegree > 360.f / m_fDivOffset * 0.5f)
-	{
-		m_iDegree -= m_iDegree - 8;
-		_float3 vOrigScale = m_pTransformCom->Compute_Scaled();
-		m_pTransformCom->Scaling({ -vOrigScale.x, vOrigScale.y, vOrigScale.z });
-	}
-
-	// state는 보스의 상태에 따라 결정
-	// 임시로 walk만 지정
-	//m_iState = 
-	m_iState = (_uint)(STATE_WALK);
-
-	return S_OK;
-}
+//HRESULT CTtakkeun_i::Set_TextureType()
+//{
+//	if (KEY_DOWN(DIK_1)) // 테스트용
+//		int a = 0;
+//
+//	_float degree = m_fPlayersViewAngle / m_fDivOffset;
+//	_float div = 0.f;
+//	_float mod = modff(degree, &div);
+//
+//	m_iDegree = (_uint)div + (_uint)(mod > 0.5f ? 1 : 0); // 기준 각도에서 +- 하는 중
+//
+//	// state는 보스의 상태에 따라 결정
+//	// 임시로 walk만 지정
+//	m_iState = (_uint)(STATE_WALK);
+//
+//	return S_OK;
+//}
 
 CTtakkeun_i* CTtakkeun_i::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 {

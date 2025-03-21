@@ -24,7 +24,9 @@ HRESULT CShotgunner::Initialize(void* pArg)
 	//위치, 크기초기화, 컴포넌트 부착
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
-
+	m_fDivOffset = 45.f;
+	m_isReadyMonster = true;
+	Ready_Textures();
 	//애니메이션(수정예정)
 	m_fAnimationMaxFrame = 3.f;
 	m_fAnimationSpeed = 7.f;
@@ -58,6 +60,51 @@ HRESULT CShotgunner::Ready_Components(void* pArg)
 {
 	if (FAILED(__super::Ready_Components(pArg)))
 		return E_FAIL;
+
+	return S_OK;
+}
+
+HRESULT CShotgunner::Ready_Textures()
+{
+	/* ATTACK */
+	for (_uint i = 0; i < D_END; i++)
+	{
+		_wstring sPrototypeTag = L"Prototype_Component_Texture_Shotgunner_Attack_";
+		_uint num = static_cast<_uint>(i * m_fDivOffset);
+		_tchar buf[32];
+		_itow_s((int)num, buf, 10);
+		sPrototypeTag += buf;
+		if (FAILED(__super::Add_Component(m_eLevelID, sPrototypeTag,
+			_wstring(TEXT("Com_Texture")) + L"_Shotgunner_Attack_" + buf, reinterpret_cast<CComponent**>(&(m_pTextureMap[STATE_ATTACK][i])))))
+			return E_FAIL;
+	}
+
+	/* DEATH */
+	for (_uint i = 0; i < D_END; i++)
+	{
+		_wstring sPrototypeTag = L"Prototype_Component_Texture_Shotgunner_Death_";
+		_uint num = static_cast<_uint>(i * m_fDivOffset);
+		_tchar buf[32];
+		_itow_s((int)num, buf, 10);
+		sPrototypeTag += buf;
+		if (FAILED(__super::Add_Component(m_eLevelID, sPrototypeTag,
+			_wstring(TEXT("Com_Texture")) + L"_Shotgunner_Death_" + buf, reinterpret_cast<CComponent**>(&(m_pTextureMap[STATE_DEATH][i])))))
+			return E_FAIL;
+	}
+
+	/* MOVE */
+	//for (_uint i = 0; i < D_END; i++)
+	//{
+		_wstring sPrototypeTag = L"Prototype_Component_Texture_Shotgunner_Move_";
+		_uint num = static_cast<_uint>(0);
+		_tchar buf[32];
+		_itow_s((int)num, buf, 10);
+		sPrototypeTag += buf;
+		if (FAILED(__super::Add_Component(m_eLevelID, sPrototypeTag,
+			_wstring(TEXT("Com_Texture")) + L"_Shotgunner_Move_" + buf, reinterpret_cast<CComponent**>(&(m_pTextureMap[STATE_MOVE][0])))))
+			return E_FAIL;
+	//}
+
 
 	return S_OK;
 }

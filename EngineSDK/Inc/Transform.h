@@ -52,6 +52,7 @@ public:
 
 public:
 	HRESULT			Bind_Resource();
+	const _float4x4& Billboard_Inverse() const;
 	const _float4x4& Billboard() const;
 	_float4x4* Billboard(_float4x4* _Out_ pOut) const;
 	_float3 Compute_Scaled() const;

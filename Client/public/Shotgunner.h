@@ -14,6 +14,11 @@ public:
 		//몬스터 고유 특성
 	}DESC;
 
+
+	enum STATE { STATE_ATTACK, STATE_DEATH, STATE_MOVE, STATE_SHOCK, STATE_END };
+	enum MONSTER_DEGREE { D0, D45, D90, D135, D180, D_END };
+	// 일반 몹에 다 주고싶은데 일반몹용 부모를 또 만들어야하는지 고민중 
+
 private:
 	CShotgunner(LPDIRECT3DDEVICE9 pGraphic_Device);
 	CShotgunner(const CShotgunner& Prototype);
@@ -29,6 +34,7 @@ public:
 
 private:
 	virtual HRESULT Ready_Components(void* pArg);
+	virtual HRESULT Ready_Textures();
 
 public:
 	static CShotgunner* Create(LPDIRECT3DDEVICE9 pGraphic_Device);

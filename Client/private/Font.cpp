@@ -137,7 +137,7 @@ HRESULT CFont::Bind_Texture_To_Transform()
 	if (m_pEffect != nullptr)
 	{
 		//m_hTex = m_pEffect->GetParameterByName(NULL, "Tex");
-		m_pTextureCom->Bind_Shader_To_Texture(m_pEffect, m_hTex, m_fTextureNum);
+		m_pTextureCom->Bind_Shader_To_Texture(m_pEffect, m_hTex, (_uint)m_fTextureNum);
 	}
 
 	return S_OK;
