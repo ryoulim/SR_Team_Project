@@ -162,7 +162,9 @@
     <ClInclude Include="..\public\Armor.h" />
     <ClInclude Include="..\public\BackGround.h" />
     <ClInclude Include="..\public\Block.h" />
+    <ClInclude Include="..\public\Blood.h" />
     <ClInclude Include="..\public\Bullet.h" />
+    <ClInclude Include="..\public\BulletImpactSpark.h" />
     <ClInclude Include="..\public\Button.h" />
     <ClInclude Include="..\public\Button_Main.h" />
     <ClInclude Include="..\public\Button_Test.h" />
@@ -260,7 +262,9 @@
     <ClCompile Include="..\private\Armor.cpp" />
     <ClCompile Include="..\Private\BackGround.cpp" />
     <ClCompile Include="..\private\Block.cpp" />
+    <ClCompile Include="..\private\Blood.cpp" />
     <ClCompile Include="..\private\Bullet.cpp" />
+    <ClCompile Include="..\private\BulletImpactSpark.cpp" />
     <ClCompile Include="..\private\Button.cpp" />
     <ClCompile Include="..\private\Button_Main.cpp" />
     <ClCompile Include="..\private\Button_Test.cpp" />

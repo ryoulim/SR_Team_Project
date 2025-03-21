@@ -52,6 +52,63 @@ void CFXMgr::LateUpdate()
 {
 }
 
+void CFXMgr::SpawnCustomExplosion(_float3 _vPosition, LEVEL eLevel, _float3 Size, const TCHAR* szTextureTag, _float Maxframe)
+{
+	CSprite::DESC ExplosionDesc{};
+	ExplosionDesc.vInitPos = _vPosition;
+	ExplosionDesc.vScale = Size;
+	ExplosionDesc.bLoop = false;
+	ExplosionDesc.fMaxFrame = Maxframe;
+	ExplosionDesc.fRotationPerSec = RADIAN(180.f);
+	ExplosionDesc.fSpeedPerSec = 100.f;
+	ExplosionDesc.szTextureTag = szTextureTag;
+
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_PC_Sprite"),
+		eLevel, L"Layer_Effect", &ExplosionDesc)))
+		return;
+
+
+	CPSystem::DESC FireworkDesc{};
+	FireworkDesc.vPosition = _vPosition;
+	FireworkDesc.fMaxFrame = 14;
+	FireworkDesc.szTextureTag = TEXT("PC_Small_Fire");
+	FireworkDesc.iParticleNums = 5;
+	FireworkDesc.fSize = 1.f;
+
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_PC_Firework"),
+		LEVEL_GAMEPLAY, L"Layer_Particle", &FireworkDesc)))
+		return;
+
+	CPSystem::DESC FireworkDesc2{};
+	FireworkDesc2.vPosition = _vPosition;
+	FireworkDesc2.fMaxFrame = 1;
+	FireworkDesc2.szTextureTag = TEXT("PC_Generic");
+	FireworkDesc2.iParticleNums = 2;
+	FireworkDesc2.fSize = 0.5f;
+
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_PC_Firework"),
+		LEVEL_GAMEPLAY, L"Layer_Particle", &FireworkDesc)))
+		return;
+
+	CSmoke::DESC SmokeDesc{};
+	SmokeDesc.vPosition = _vPosition;
+	SmokeDesc.vPosition.y += -10.f;
+	SmokeDesc.fMaxFrame = 20;
+	SmokeDesc.szTextureTag = TEXT("PC_Small_Smoke");
+	SmokeDesc.iParticleNums = 5;
+	SmokeDesc.fVelocity = 100.f;
+	SmokeDesc.vecMinDirection = _float3(-2.f, 0.f, -2.f);
+	SmokeDesc.vecMaxDirection = _float3(3.f, 1.5f, 3.f);
+	SmokeDesc.fLifeTime = GetRandomValue(0.5, 1.5f);
+	SmokeDesc.fSize = 3.f;
+
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_PC_Smoke"),
+		LEVEL_GAMEPLAY, L"Layer_Particle", &SmokeDesc)))
+		return;
+
+
+}
+
 void CFXMgr::SpawnExplosion(_float3 _vPosition, LEVEL eLevel)
 {
 	CSprite::DESC ExplosionDesc{};
@@ -245,12 +302,15 @@ void CFXMgr::SpawnGunFire(_float3 _ScreenPos, LEVEL eLevel)
 {
 	CCameraSprite::DESC SpriteDesc{};
 	SpriteDesc.bActive = false;
-	SpriteDesc.fMaxFrame = 1;
+	SpriteDesc.fMaxFrame = 3;
 	SpriteDesc.fRotationPerSec = RADIAN(180.f);
 	SpriteDesc.fSpeedPerSec = 100.f;
-	SpriteDesc.szTextureTag = TEXT("Check_Tile");
-	SpriteDesc.vInitPos = _float3{ 640.f, 360.f, 0.1f };
-	SpriteDesc.vScale = _float3{ 100.f, 100.f, 1.f };
+	SpriteDesc.szTextureTag = TEXT("Effect_Revolver");
+	//SpriteDesc.szTextureTag = TEXT("Check_Tile");
+	SpriteDesc.vInitPos = _ScreenPos;
+	SpriteDesc.vScale = _float3{ 200.f, 200.f, 1.f };
+	SpriteDesc.fAniSpeed = 20.f;
+	SpriteDesc.bRandom = false;
 
 	CGameObject* pObject = nullptr;
 	CGameObject** ppOut = &pObject;
@@ -264,12 +324,15 @@ void CFXMgr::SpawnBulletTracer(_float3 _ScreenPos, LEVEL eLevel)
 {
 	CCameraSprite::DESC SpriteDesc{};
 	SpriteDesc.bActive = false;
-	SpriteDesc.fMaxFrame = 3;
+	SpriteDesc.fMaxFrame = 1;
 	SpriteDesc.fRotationPerSec = RADIAN(180.f);
 	SpriteDesc.fSpeedPerSec = 100.f;
-	SpriteDesc.szTextureTag = TEXT("Effect_BulletTacer");
-	SpriteDesc.vInitPos = _float3{ 0.f, 0.f, 0.f };
-	SpriteDesc.vScale = _float3{ 15.f, 15.f, 1.f };
+	SpriteDesc.szTextureTag = TEXT("Effect_RevolverTacer");
+	//SpriteDesc.szTextureTag = TEXT("Check_Tile");
+	SpriteDesc.vInitPos = _ScreenPos;
+	SpriteDesc.vScale = _float3{ 200.f, 200.f, 1.f };
+	SpriteDesc.fAniSpeed = 30.f;
+	SpriteDesc.bRandom = false;
 
 	CGameObject* pObject = nullptr;
 	CGameObject** ppOut = &pObject;
@@ -406,6 +469,45 @@ void CFXMgr::SpawnEmptyBullet(_float3 _vPosition, LEVEL eLevel)
 
 	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_PC_EmptyBullet"),
 		eLevel, L"Layer_Particle", &EmptyBulletDesc)))
+		return;
+}
+
+void CFXMgr::SpawnBlood(_float3 _vPosition, LEVEL eLevel)
+{
+	CPSystem::DESC BloodDesc{};
+	BloodDesc.vPosition = _vPosition;
+	BloodDesc.fMaxFrame = 5;
+	BloodDesc.szTextureTag = TEXT("PS_Blood");
+	BloodDesc.iParticleNums = 1;
+	BloodDesc.fSize = 3.f;
+
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_PC_Blood"),
+		LEVEL_GAMEPLAY, L"Layer_Particle", &BloodDesc)))
+		return;
+
+	CPSystem::DESC BloodDesc2{};
+	BloodDesc2.vPosition = _vPosition;
+	BloodDesc2.vPosition.x += 3;
+	BloodDesc2.fMaxFrame = 5;
+	BloodDesc2.szTextureTag = TEXT("PS_Blood");
+	BloodDesc2.iParticleNums = 1;
+	BloodDesc2.fSize = 3.f;
+
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_PC_Blood"),
+		LEVEL_GAMEPLAY, L"Layer_Particle", &BloodDesc2)))
+		return;
+
+
+	CPSystem::DESC BulletImpactSparkDesc{};
+	BulletImpactSparkDesc.vPosition = _vPosition;
+	BulletImpactSparkDesc.vPosition.y += -20.f;
+	BulletImpactSparkDesc.fMaxFrame = 1;
+	BulletImpactSparkDesc.szTextureTag = TEXT("PC_Generic");
+	BulletImpactSparkDesc.iParticleNums = 5;
+	BulletImpactSparkDesc.fSize = 0.45f;
+
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_PC_BulletImpactSpark"),
+		LEVEL_GAMEPLAY, L"Layer_Particle", &BulletImpactSparkDesc)))
 		return;
 }
 

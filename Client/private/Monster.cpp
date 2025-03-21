@@ -33,7 +33,7 @@ HRESULT CMonster::Initialize(void* pArg)
 	/* 플레이어를 알고 있어라 */
 	m_pTargetPlayer = GET_PLAYER;
 
-	/* 텍스처, 트랜스폼, 렉트버퍼, 콜라이더 컴포넌트 준비 */
+	/* 텍스처, 트랜스폼, 렉트버퍼, 콜라이더 컴포넌트 준비(위치초기화) */
 	if (FAILED(Ready_Components(pArg)))
 		return E_FAIL;
 
@@ -59,6 +59,7 @@ void CMonster::Late_Update(_float fTimeDelta)
 	//콜라이더 업데이트
 	m_pCollider->Update_Collider();
 
+	//몬스터 각도업데이트
 	Compute_ViewAngle();
 
 	//렌더그룹 업데이트
@@ -121,7 +122,6 @@ HRESULT CMonster::Render()
 
 HRESULT CMonster::Release_RenderState()
 {
-	//m_pGraphic_Device->SetRenderState(D3DRS_LIGHTING, TRUE);
 	m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
 	m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
 
@@ -277,3 +277,24 @@ void CMonster::PlayerDistance()
 
 	m_fPlayerDistance = distance;
 }
+
+_float3 CMonster::CalculateEffectPos()
+{
+	// 충돌 위치 가져오기
+	_float3 vImpactPos = m_pCollider->Get_Last_Collision_Pos();
+
+	// 카메라의 Look 벡터 가져오기
+	_float4x4 vCameraLook;
+	m_pGraphic_Device->GetTransform(D3DTS_VIEW, &vCameraLook);
+	vCameraLook.MakeInverseMat(vCameraLook);
+	_float3 vCameraPos = { vCameraLook._31, vCameraLook._32, vCameraLook._33 };
+
+	// Look 벡터 정규화 (크기 1로 조정)
+	vCameraPos.Normalize();
+
+	// Look 방향으로 이동 (앞으로 1.0f 만큼 밀기)
+	vImpactPos -= vCameraPos * 10.0f;
+
+	return vImpactPos;
+}
+

@@ -27,6 +27,8 @@ public:
 	void		Update(_float fTimeDelta);
 	void		LateUpdate();
 
+	void		SpawnCustomExplosion(_float3 _vPosition, LEVEL eLevel, _float3 Size, const TCHAR* szTextureTag, _float Maxframe);
+
 
 public: //Æø¹ß
 	void SpawnExplosion(_float3 _vPosition, LEVEL eLevel);
@@ -52,6 +54,9 @@ public: //Åä³×ÀÌµµ
 
 public: //ÅºÇÇ
 	void SpawnEmptyBullet(_float3 _vPosition, LEVEL eLevel);
+
+public: //ÇÇÈê¸®±â
+	void SpawnBlood(_float3 _vPosition, LEVEL eLevel);
 
 
 public:

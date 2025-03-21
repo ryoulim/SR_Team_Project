@@ -2,6 +2,7 @@
 // 부모 클래스 이름 : Monster
 
 #include "Archangel.h"
+#include "FXMgr.h"
 
 CArchangel::CArchangel(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CMonster{ pGraphic_Device }
@@ -39,6 +40,9 @@ void CArchangel::Priority_Update(_float fTimeDelta)
 
 EVENT CArchangel::Update(_float fTimeDelta)
 {
+	if (m_bDead)
+		return EVN_DEAD;
+
 	return __super::Update(fTimeDelta);
 }
 
@@ -60,6 +64,25 @@ HRESULT CArchangel::Ready_Components(void* pArg)
 		return E_FAIL;
 
 	return S_OK;
+}
+
+void CArchangel::On_Collision(CGameObject* pCollisionedObject, const _wstring& strLayerTag)
+{
+	//위치탐색
+	_float3 vImpactPos = CalculateEffectPos();
+
+	//몬스터 사망
+	if (0 >= m_iHP)
+	{
+		CFXMgr::Get_Instance()->SpawnCustomExplosion(vImpactPos, LEVEL_GAMEPLAY, _float3{ 230.f, 300.f, 1.f }, TEXT("Effect_Explor"), 32);
+		m_bDead = true;
+
+		return;
+	}
+
+	// 이펙트 생성
+	m_iHP += -50;
+	CFXMgr::Get_Instance()->SpawnBlood(vImpactPos, LEVEL_GAMEPLAY);
 }
 
 CArchangel* CArchangel::Create(LPDIRECT3DDEVICE9 pGraphic_Device)

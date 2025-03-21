@@ -265,6 +265,12 @@
     <Filter Include="02.GameObjects\Weapon\Dispenser">
       <UniqueIdentifier>{d3270a12-1da4-4bff-8f8c-218809b8f72b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\Particle\Blood">
+      <UniqueIdentifier>{ce8a429a-458d-4ad7-940a-1efe846fda03}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Particle\BulletImpactSpark">
+      <UniqueIdentifier>{29b9af98-8f5d-4995-b0cb-a6d9d6b5145d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -555,6 +561,12 @@
     <ClInclude Include="..\public\RaceLandscape.h">
       <Filter>02.GameObjects\Statue\RaceLandscape</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\Blood.h">
+      <Filter>02.GameObjects\Particle\Blood</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\BulletImpactSpark.h">
+      <Filter>02.GameObjects\Particle\BulletImpactSpark</Filter>
+    </ClInclude>
     <ClInclude Include="..\public\Weapon_Dispenser.h">
       <Filter>02.GameObjects\Weapon\Dispenser</Filter>
     </ClInclude>
@@ -836,6 +848,12 @@
     </ClCompile>
     <ClCompile Include="..\private\RaceLandscape.cpp">
       <Filter>02.GameObjects\Statue\RaceLandscape</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Blood.cpp">
+      <Filter>02.GameObjects\Particle\Blood</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\BulletImpactSpark.cpp">
+      <Filter>02.GameObjects\Particle\BulletImpactSpark</Filter>
     </ClCompile>
     <ClCompile Include="..\private\Weapon_Dispenser.cpp">
       <Filter>02.GameObjects\Weapon\Dispenser</Filter>

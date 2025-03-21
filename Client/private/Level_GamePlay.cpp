@@ -202,8 +202,8 @@ HRESULT CLevel_GamePlay::Ready_Layer_Particle(const _wstring& strLayerTag)
 
 HRESULT CLevel_GamePlay::Ready_Layer_Effect(const _wstring& strLayerTag)
 {
-	//CFXMgr::Get_Instance()->SpawnGunFire(_float3(5.f, -5.f, 20.f), LEVEL_GAMEPLAY);
-	//CFXMgr::Get_Instance()->SpawnBulletTracer(_float3(5.f, -5.f, 50.f), LEVEL_GAMEPLAY);
+	CFXMgr::Get_Instance()->SpawnGunFire(_float3{ 750.f, 450.f, 0.0f }, LEVEL_GAMEPLAY);
+	CFXMgr::Get_Instance()->SpawnBulletTracer(_float3{ 700.f, 400.f, 0.1f }, LEVEL_GAMEPLAY);
 
 	return S_OK;
 }
@@ -301,7 +301,7 @@ HRESULT CLevel_GamePlay::Ready_Layer_Monster(const _wstring& strLayerTag)
 		LEVEL_GAMEPLAY, strLayerTag, &Cultist_iDesc)))
 		return E_FAIL;
 
-	//알찬겔
+	//진격의 거인
 	CMonster::DESC Archangel_iDesc{};
 	Archangel_iDesc.vPosition = { 420.f, 80.f, -250.f };
 	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Archangel"),

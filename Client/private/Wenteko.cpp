@@ -2,6 +2,7 @@
 // 부모 클래스 이름 : Monster
 
 #include "Wenteko.h"
+#include "FXMgr.h"
 
 CWenteko::CWenteko(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CMonster{ pGraphic_Device }
@@ -39,6 +40,9 @@ void CWenteko::Priority_Update(_float fTimeDelta)
 
 EVENT CWenteko::Update(_float fTimeDelta)
 {
+	if (m_bDead)
+		return EVN_DEAD;
+
 	return __super::Update(fTimeDelta);
 }
 
@@ -52,6 +56,25 @@ HRESULT CWenteko::Render()
 	return __super::Render();
 
 	//특별히 더 렌더링 할게 있는 경우 ↓
+}
+
+void CWenteko::On_Collision(CGameObject* pCollisionedObject, const _wstring& strLayerTag)
+{
+	//위치탐색
+	_float3 vImpactPos = CalculateEffectPos();
+
+	//몬스터 사망
+	if (0 >= m_iHP)
+	{
+		CFXMgr::Get_Instance()->SpawnCustomExplosion(vImpactPos, LEVEL_GAMEPLAY, _float3{ 70.f, 110.f, 1.f }, TEXT("Effect_Explor"), 32);
+		m_bDead = true;
+
+		return;
+	}
+
+	// 이펙트 생성
+	m_iHP += -10;
+	CFXMgr::Get_Instance()->SpawnBlood(vImpactPos, LEVEL_GAMEPLAY);
 }
 
 HRESULT CWenteko::Ready_Components(void* pArg)
