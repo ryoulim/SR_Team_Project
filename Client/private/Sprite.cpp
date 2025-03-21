@@ -25,7 +25,7 @@ HRESULT CSprite::Initialize(void* pArg)
 	CSprite::DESC* SpriteDESC = static_cast<DESC*>(pArg);
 
 	m_eLevelID = LEVEL_STATIC;
-	m_fMaxFrame = SpriteDESC->fMaxFrame;
+	m_fAnimationMaxFrame = SpriteDESC->fMaxFrame;
 	m_szTextureID = SpriteDESC->szTextureTag;
 	m_bLoop = SpriteDESC->bLoop;
 	m_szBufferType = TEXT("Rect");
@@ -33,7 +33,10 @@ HRESULT CSprite::Initialize(void* pArg)
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
 
-	m_fTextureNum = GetRandomFloat(0.f, m_fMaxFrame);
+
+	if(m_bLoop)
+		m_fAnimationFrame = GetRandomFloat(0.f, m_fAnimationMaxFrame);
+
 	return S_OK;
 }
 
@@ -44,18 +47,8 @@ void CSprite::Priority_Update(_float fTimeDelta)
 
 EVENT CSprite::Update(_float fTimeDelta)
 {
-	if (m_fTextureNum > m_fMaxFrame)
-	{
-		if (m_bLoop)
-			m_fTextureNum = 0;
-		else
-			return EVN_NONE;
-	}
-
-
-	m_fTextureNum += 15.f * fTimeDelta;
-
-
+	FrameUpdate(fTimeDelta, m_fAnimationMaxFrame, 10.f, m_bLoop);
+	
 	return __super::Update(fTimeDelta);
 }
 
@@ -72,12 +65,13 @@ HRESULT CSprite::Render()
 	}
 	else
 	{
-		if (m_fTextureNum > m_fMaxFrame)
+		if (m_fAnimationFrame > m_fAnimationMaxFrame)
 		{
 			return EVN_NONE;
 		}
 		return __super::Render();
 	}
+
 	return EVN_NONE;
 }
 

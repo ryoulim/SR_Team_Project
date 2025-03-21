@@ -158,10 +158,10 @@
     <ClInclude Include="..\Imgui\imstb_truetype.h" />
     <ClInclude Include="..\public\Aim.h" />
     <ClInclude Include="..\public\Ammo.h" />
+    <ClInclude Include="..\public\Archangel.h" />
     <ClInclude Include="..\public\Armor.h" />
     <ClInclude Include="..\public\BackGround.h" />
     <ClInclude Include="..\public\Block.h" />
-    <ClInclude Include="..\public\Boss.h" />
     <ClInclude Include="..\public\Bullet.h" />
     <ClInclude Include="..\public\Button.h" />
     <ClInclude Include="..\public\Button_Main.h" />
@@ -172,12 +172,14 @@
     <ClInclude Include="..\public\Canopy.h" />
     <ClInclude Include="..\public\Client_Function.h" />
     <ClInclude Include="..\public\Common_Shape.h" />
+    <ClInclude Include="..\public\Cultist.h" />
+    <ClInclude Include="..\public\Deacon.h" />
     <ClInclude Include="..\public\DebugMode.h" />
     <ClInclude Include="..\public\Dust.h" />
     <ClInclude Include="..\public\Effect.h" />
-    <ClInclude Include="..\public\Explosion.h" />
     <ClInclude Include="..\public\FadeUI.h" />
     <ClInclude Include="..\public\Firework.h" />
+    <ClInclude Include="..\public\Flatform.h" />
     <ClInclude Include="..\public\Font.h" />
     <ClInclude Include="..\public\EmptyBullet.h" />
     <ClInclude Include="..\public\Font_BigOrange.h" />
@@ -185,6 +187,8 @@
     <ClInclude Include="..\public\Font_MediumBlue.h" />
     <ClInclude Include="..\public\Font_TinyBlue.h" />
     <ClInclude Include="..\public\FPS_Camera.h" />
+    <ClInclude Include="..\public\FXMgr.h" />
+    <ClInclude Include="..\public\Greater.h" />
     <ClInclude Include="..\public\Item.h" />
     <ClInclude Include="..\public\Item_Ammo.h" />
     <ClInclude Include="..\public\Level_Test.h" />
@@ -192,8 +196,10 @@
     <ClInclude Include="..\public\Logo.h" />
     <ClInclude Include="..\public\MainMenu.h" />
     <ClInclude Include="..\public\Map.h" />
+    <ClInclude Include="..\public\Mechsect.h" />
     <ClInclude Include="..\public\Monster.h" />
     <ClInclude Include="..\public\MyComputer.h" />
+    <ClInclude Include="..\public\Nukemutant.h" />
     <ClInclude Include="..\public\Particle_Define.h" />
     <ClInclude Include="..\public\Pawn.h" />
     <ClInclude Include="..\public\Player.h" />
@@ -201,6 +207,7 @@
     <ClInclude Include="..\public\PSystem.h" />
     <ClInclude Include="..\public\Rain.h" />
     <ClInclude Include="..\public\ScreenDust.h" />
+    <ClInclude Include="..\public\Shotgunner.h" />
     <ClInclude Include="..\public\Smoke.h" />
     <ClInclude Include="..\public\Sphere.h" />
     <ClInclude Include="..\public\Sprite.h" />
@@ -228,6 +235,7 @@
     <ClInclude Include="..\public\Weapon.h" />
     <ClInclude Include="..\public\Weapon_Chaingun.h" />
     <ClInclude Include="..\public\Weapon_LoverBoy.h" />
+    <ClInclude Include="..\public\Wenteko.h" />
     <ClInclude Include="Client.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="MainApp.h" />
@@ -244,10 +252,10 @@
     <ClCompile Include="..\Imgui\imgui_widgets.cpp" />
     <ClCompile Include="..\private\Aim.cpp" />
     <ClCompile Include="..\private\Ammo.cpp" />
+    <ClCompile Include="..\private\Archangel.cpp" />
     <ClCompile Include="..\private\Armor.cpp" />
     <ClCompile Include="..\Private\BackGround.cpp" />
     <ClCompile Include="..\private\Block.cpp" />
-    <ClCompile Include="..\private\Boss.cpp" />
     <ClCompile Include="..\private\Bullet.cpp" />
     <ClCompile Include="..\private\Button.cpp" />
     <ClCompile Include="..\private\Button_Main.cpp" />
@@ -257,12 +265,14 @@
     <ClCompile Include="..\private\CameraSprite.cpp" />
     <ClCompile Include="..\private\Canopy.cpp" />
     <ClCompile Include="..\private\Common_Shape.cpp" />
+    <ClCompile Include="..\private\Cultist.cpp" />
+    <ClCompile Include="..\private\Deacon.cpp" />
     <ClCompile Include="..\private\DebugMode.cpp" />
     <ClCompile Include="..\private\Dust.cpp" />
     <ClCompile Include="..\private\Effect.cpp" />
-    <ClCompile Include="..\private\Explosion.cpp" />
     <ClCompile Include="..\private\FadeUI.cpp" />
     <ClCompile Include="..\private\Firework.cpp" />
+    <ClCompile Include="..\private\Flatform.cpp" />
     <ClCompile Include="..\private\Font.cpp" />
     <ClCompile Include="..\private\EmptyBullet.cpp" />
     <ClCompile Include="..\private\Font_BigOrange.cpp" />
@@ -270,6 +280,8 @@
     <ClCompile Include="..\private\Font_MediumBlue.cpp" />
     <ClCompile Include="..\private\Font_TinyBlue.cpp" />
     <ClCompile Include="..\private\FPS_Camera.cpp" />
+    <ClCompile Include="..\private\FXMgr.cpp" />
+    <ClCompile Include="..\private\Greater.cpp" />
     <ClCompile Include="..\private\Item.cpp" />
     <ClCompile Include="..\private\Item_Ammo.cpp" />
     <ClCompile Include="..\private\Level_Test.cpp" />
@@ -277,8 +289,10 @@
     <ClCompile Include="..\private\Logo.cpp" />
     <ClCompile Include="..\private\MainMenu.cpp" />
     <ClCompile Include="..\private\Map.cpp" />
+    <ClCompile Include="..\private\Mechsect.cpp" />
     <ClCompile Include="..\private\Monster.cpp" />
     <ClCompile Include="..\private\MyComputer.cpp" />
+    <ClCompile Include="..\private\Nukemutant.cpp" />
     <ClCompile Include="..\private\Particle_Define.cpp" />
     <ClCompile Include="..\private\Pawn.cpp" />
     <ClCompile Include="..\private\Player.cpp" />
@@ -286,6 +300,7 @@
     <ClCompile Include="..\private\PSystem.cpp" />
     <ClCompile Include="..\private\Rain.cpp" />
     <ClCompile Include="..\private\ScreenDust.cpp" />
+    <ClCompile Include="..\private\Shotgunner.cpp" />
     <ClCompile Include="..\private\Signboard.cpp" />
     <ClCompile Include="..\private\Sphere.cpp" />
     <ClCompile Include="..\private\Stall.cpp" />
@@ -310,6 +325,7 @@
     <ClCompile Include="..\private\Weapon.cpp" />
     <ClCompile Include="..\private\Weapon_Chaingun.cpp" />
     <ClCompile Include="..\private\Weapon_LoverBoy.cpp" />
+    <ClCompile Include="..\private\Wenteko.cpp" />
     <ClCompile Include="Client.cpp" />
     <ClCompile Include="MainApp.cpp" />
   </ItemGroup>

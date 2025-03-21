@@ -13,6 +13,7 @@
 #include "LoadingMenu.h"
 #include "UI_Manager.h"
 #include "FadeUI.h"
+#include "FXMgr.h"
 
 #include "DebugMode.h"
 #include "CameraManager.h"
@@ -77,6 +78,8 @@ HRESULT CMainApp::Initialize()
 	Desc.iWinSizeY = g_iWinSizeY;
 	Desc.iNumLevels = LEVEL_END;
 
+	CFXMgr::Get_Instance()->Initialize();
+
 	if (FAILED(m_pGameInstance->Initialize_Engine(Desc, &m_pGraphic_Device)))
 		return E_FAIL;
 
@@ -109,6 +112,7 @@ HRESULT CMainApp::Initialize()
 void CMainApp::Update(_float fTimeDelta)
 {
 	m_pGameInstance->Update_Engine(fTimeDelta);
+	CFXMgr::Get_Instance()->Update(fTimeDelta);
 
 	if(KEY_DOWN(DIK_ESCAPE))
 		PostQuitMessage(0);
@@ -236,6 +240,7 @@ void CMainApp::Free()
 	Free_Imgui();
 #endif
 
+	CFXMgr::Destroy_Instance();
 	CUI_Manager::Destroy_Instance();
 	Safe_Release(m_pGraphic_Device);
 
