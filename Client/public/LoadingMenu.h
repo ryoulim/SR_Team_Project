@@ -24,6 +24,7 @@ private:
 	HRESULT Ready_LoadingComponents();
 	HRESULT Render_Animation();
 	HRESULT Render_LoadingBar();
+	HRESULT Render_LoadingText();
 
 private:
 	CTexture* m_pTextureComForLoading[LOADERTEX_END] = {nullptr};

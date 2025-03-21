@@ -426,7 +426,6 @@ HRESULT CLoader::Loading_For_GamePlay()
 	ADD_TEXTURE(Boss_Walk_112, "../bin/Resources/Textures/Monster/boss/walk/112/boss_walk_112_%d.PNG", 12);
 	ADD_TEXTURE(Boss_Walk_135, "../bin/Resources/Textures/Monster/boss/walk/135/boss_walk_135_%d.PNG", 12);
 	ADD_TEXTURE(Boss_Walk_157, "../bin/Resources/Textures/Monster/boss/walk/157/boss_walk_157_%d.PNG", 12);
-	// ~~~
 	ADD_TEXTURE(Boss_Walk_180, "../bin/Resources/Textures/Monster/boss/walk/180/boss_walk_180_%d.PNG", 12); 
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////
