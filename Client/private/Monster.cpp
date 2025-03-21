@@ -84,15 +84,23 @@ HRESULT CMonster::SetUp_RenderState()
 
 HRESULT CMonster::Render()
 {
+	Set_TextureType();
 
-	if (m_pGraphic_Device->SetTransform(D3DTS_WORLD, &m_pTransformCom->Billboard()))
-		return E_FAIL;
-
+	if (m_bCW)
+	{
+		if (m_pGraphic_Device->SetTransform(D3DTS_WORLD, &m_pTransformCom->Billboard_Inverse()))
+			return E_FAIL;
+	}
+	else
+	{
+		if (m_pGraphic_Device->SetTransform(D3DTS_WORLD, &m_pTransformCom->Billboard()))
+			return E_FAIL;
+	}
 
 	if (FAILED(m_pTextureMap[m_iState][m_iDegree]->Bind_Resource(static_cast<_uint>(m_fAnimationFrame))))
 		return E_FAIL;
 
-	//if (FAILED(m_pTextureCom->Bind_Resource(static_cast<_uint>(m_fAnimationFrame))))
+	//if (FAILED(m_pTextureMap[m_iState][m_iDegree]->Bind_Resource(static_cast<_uint>(m_fAnimationFrame))))
 	//	return E_FAIL;
 
 	if (FAILED(m_pVIBufferCom->Bind_Buffers()))
@@ -185,8 +193,32 @@ void CMonster::Compute_ViewAngle()
 
 	// 각도를 도(degree)로 변환
 	m_fPlayersViewAngle = D3DXToDegree(angleInRadians);
+
+	float crossProduct = vCurLook.x * vBillLook.z - vCurLook.z * vBillLook.x;
+
+	if (crossProduct > 0) 
+		m_bCW = false;
+	else
+		m_bCW = true;
 }
 
+HRESULT CMonster::Set_TextureType()
+{
+	if (KEY_DOWN(DIK_1)) // 테스트용
+		int a = 0;
+
+	_float degree = m_fPlayersViewAngle / m_fDivOffset;
+	_float div = 0.f;
+	_float mod = modff(degree, &div);
+
+	m_iDegree = (_uint)div + (_uint)(mod > 0.5f ? 1 : 0); // 기준 각도에서 +- 하는 중
+
+	// state는 보스의 상태에 따라 결정
+	// 임시로 walk만 지정
+	//m_iState = (_uint)(STATE_WALK);
+	m_iState = 0;
+	return S_OK;
+}
 HRESULT CMonster::Animate_Monster()
 {
 

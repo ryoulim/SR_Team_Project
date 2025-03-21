@@ -246,8 +246,69 @@ HRESULT CLevel_GamePlay::Ready_Layer_Monster(const _wstring& strLayerTag)
 	MonsterDesc.vPosition = { 400.f, 70.f, 200.f };
 
 	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Ttakkeun_i"),
+<<<<<<< Updated upstream
 		LEVEL_GAMEPLAY, strLayerTag, &MonsterDesc)))
 		return E_FAIL;
+=======
+		LEVEL_GAMEPLAY, strLayerTag, &Ttakkeun_iDesc)))
+		return E_FAIL;
+
+	////웬테코
+	//CMonster::DESC Wenteko_iDesc{};
+	//Wenteko_iDesc.vPosition = { 100.f, 40.f, -100.f };
+	//if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Wenteko"),
+	//	LEVEL_GAMEPLAY, strLayerTag, &Wenteko_iDesc)))
+	//	return E_FAIL;
+
+	//샷거너
+	CMonster::DESC Shotgunner_iDesc{};
+	Shotgunner_iDesc.vPosition = { 180.f, 20.f, -120.f };
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Shotgunner"),
+		LEVEL_GAMEPLAY, strLayerTag, &Shotgunner_iDesc)))
+		return E_FAIL;
+
+	////누크뮤턴트
+	//CMonster::DESC Nukemutant_iDesc{};
+	//Nukemutant_iDesc.vPosition = { 250.f, 30.f, -120.f };
+	//if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Nukemutant"),
+	//	LEVEL_GAMEPLAY, strLayerTag, &Nukemutant_iDesc)))
+	//	return E_FAIL;
+
+	////거미쉐끼
+	//CMonster::DESC Mechsect_iDesc{};
+	//Mechsect_iDesc.vPosition = { 330.f, 10.f, -120.f };
+	//if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Mechsect"),
+	//	LEVEL_GAMEPLAY, strLayerTag, &Mechsect_iDesc)))
+	//	return E_FAIL;
+
+	////그리터
+	//CMonster::DESC Greater_iDesc{};
+	//Greater_iDesc.vPosition = { 410.f, 20.f, -120.f };
+	//if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Greater"),
+	//	LEVEL_GAMEPLAY, strLayerTag, &Greater_iDesc)))
+	//	return E_FAIL;
+
+	////다콘
+	//CMonster::DESC Deacon_iDesc{};
+	//Deacon_iDesc.vPosition = { 220.f, 50.f, -250.f };
+	//if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Deacon"),
+	//	LEVEL_GAMEPLAY, strLayerTag, &Deacon_iDesc)))
+	//	return E_FAIL;
+
+	////컬티스트
+	//CMonster::DESC Cultist_iDesc{};
+	//Cultist_iDesc.vPosition = { 320.f, 30.f, -250.f };
+	//if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Cultist"),
+	//	LEVEL_GAMEPLAY, strLayerTag, &Cultist_iDesc)))
+	//	return E_FAIL;
+
+	////알찬겔
+	//CMonster::DESC Archangel_iDesc{};
+	//Archangel_iDesc.vPosition = { 420.f, 80.f, -250.f };
+	//if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Archangel"),
+	//	LEVEL_GAMEPLAY, strLayerTag, &Archangel_iDesc)))
+	//	return E_FAIL;
+>>>>>>> Stashed changes
 
 	return S_OK;
 }

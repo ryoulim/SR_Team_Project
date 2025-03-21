@@ -438,6 +438,8 @@ HRESULT CLoader::Loading_For_GamePlay()
 	ADD_TEXTURE(TTest, "../Bin/Resources/Textures/Object/Cabinet/Cabinet%d.png", 3);
 	ADD_TEXTURE(Test, "../Bin/Resources/Textures/TileTest/tile%d.PNG", 121);
 
+
+#pragma region BOSS_TEXTURES
 	ADD_TEXTURE(Boss_Walk_0, "../bin/Resources/Textures/Monster/boss/walk/0/boss_walk_0_%d.PNG", 12);
 	ADD_TEXTURE(Boss_Walk_22, "../bin/Resources/Textures/Monster/boss/walk/22/boss_walk_22_%d.PNG", 12);
 	ADD_TEXTURE(Boss_Walk_45, "../bin/Resources/Textures/Monster/boss/walk/45/boss_walk_45_%d.PNG", 12);
@@ -452,10 +454,80 @@ HRESULT CLoader::Loading_For_GamePlay()
 	
 	ADD_TEXTURE(Boss_Jump_0, "../bin/Resources/Textures/Monster/boss/jump/0/boss_jump_0_%d.PNG", 5);
 	ADD_TEXTURE(Boss_Jump_22, "../bin/Resources/Textures/Monster/boss/jump/22/boss_jump_22_%d.PNG", 5);
-	// ~~~
+	ADD_TEXTURE(Boss_Jump_45, "../bin/Resources/Textures/Monster/boss/jump/45/boss_jump_45_%d.PNG", 5);
+	ADD_TEXTURE(Boss_Jump_67, "../bin/Resources/Textures/Monster/boss/jump/67/boss_jump_67_%d.PNG", 5);
+	ADD_TEXTURE(Boss_Jump_90, "../bin/Resources/Textures/Monster/boss/jump/90/boss_jump_90_%d.PNG", 5);
+	ADD_TEXTURE(Boss_Jump_112, "../bin/Resources/Textures/Monster/boss/jump/112/boss_jump_112_%d.PNG", 5);
+	ADD_TEXTURE(Boss_Jump_135, "../bin/Resources/Textures/Monster/boss/jump/135/boss_jump_135_%d.PNG", 5);
+	ADD_TEXTURE(Boss_Jump_157, "../bin/Resources/Textures/Monster/boss/jump/157/boss_jump_157_%d.PNG", 5);
 	ADD_TEXTURE(Boss_Jump_180, "../bin/Resources/Textures/Monster/boss/jump/180/boss_jump_180_%d.PNG", 5);
 
-	
+	/////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/* Fly는 상하좌우 구분이 필요해서 일단 제외 */
+	//ADD_TEXTURE(Boss_Fly_0, "../bin/Resources/Textures/Monster/boss/fly/0/boss_fly_0_%d.PNG", 5);
+	//ADD_TEXTURE(Boss_Fly_22, "../bin/Resources/Textures/Monster/boss/fly/22/boss_fly_22_%d.PNG", 5);
+	//ADD_TEXTURE(Boss_Fly_45, "../bin/Resources/Textures/Monster/boss/fly/45/boss_fly_45_%d.PNG", 5);
+	//ADD_TEXTURE(Boss_Fly_67, "../bin/Resources/Textures/Monster/boss/fly/67/boss_fly_67_%d.PNG", 5);
+	//ADD_TEXTURE(Boss_Fly_90, "../bin/Resources/Textures/Monster/boss/fly/90/boss_fly_90_%d.PNG", 5);
+	//ADD_TEXTURE(Boss_Fly_112, "../bin/Resources/Textures/Monster/boss/fly/112/boss_fly_112_%d.PNG", 5);
+	//ADD_TEXTURE(Boss_Fly_135, "../bin/Resources/Textures/Monster/boss/fly/135/boss_fly_135_%d.PNG", 5);
+	//ADD_TEXTURE(Boss_Fly_157, "../bin/Resources/Textures/Monster/boss/fly/157/boss_fly_157_%d.PNG", 5);
+	//ADD_TEXTURE(Boss_Fly_180, "../bin/Resources/Textures/Monster/boss/fly/180/boss_fly_180_%d.PNG", 5);
+
+	/////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+	//ADD_TEXTURE(Boss_Fly_Attack_0,   "../bin/Resources/Textures/Monster/boss/fly_attack/0/boss_fly_0_%d.PNG", 5);
+	//ADD_TEXTURE(Boss_Fly_Attack_22,  "../bin/Resources/Textures/Monster/boss/fly_attack/22/boss_fly_22_%d.PNG", 5);
+	//ADD_TEXTURE(Boss_Fly_Attack_45,  "../bin/Resources/Textures/Monster/boss/fly_attack/45/boss_fly_45_%d.PNG", 5);
+	//ADD_TEXTURE(Boss_Fly_Attack_67,  "../bin/Resources/Textures/Monster/boss/fly_attack/67/boss_fly_67_%d.PNG", 5);
+	//ADD_TEXTURE(Boss_Fly_Attack_90,  "../bin/Resources/Textures/Monster/boss/fly_attack/90/boss_fly_90_%d.PNG", 5);
+	//ADD_TEXTURE(Boss_Fly_Attack_112, "../bin/Resources/Textures/Monster/boss/fly_attack/112/boss_fly_112_%d.PNG", 5);
+	//ADD_TEXTURE(Boss_Fly_Attack_135, "../bin/Resources/Textures/Monster/boss/fly_attack/135/boss_fly_135_%d.PNG", 5);
+	//ADD_TEXTURE(Boss_Fly_Attack_157, "../bin/Resources/Textures/Monster/boss/fly_attack/157/boss_fly_157_%d.PNG", 5);
+	//ADD_TEXTURE(Boss_Fly_Attack_180, "../bin/Resources/Textures/Monster/boss/fly_attack/180/boss_fly_180_%d.PNG", 5);
+
+	/////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+	ADD_TEXTURE(Boss_Lava_Attack_0, "../bin/Resources/Textures/Monster/boss/lava/attack/0/boss_lava_attack_0_%d.PNG", 2);
+	ADD_TEXTURE(Boss_Lava_Attack_22, "../bin/Resources/Textures/Monster/boss/lava/attack/22/boss_lava_attack_22_%d.PNG", 2);
+	ADD_TEXTURE(Boss_Lava_Attack_45, "../bin/Resources/Textures/Monster/boss/lava/attack/45/boss_lava_attack_45_%d.PNG", 2);
+	ADD_TEXTURE(Boss_Lava_Attack_67, "../bin/Resources/Textures/Monster/boss/lava/attack/67/boss_lava_attack_67_%d.PNG", 2);
+	ADD_TEXTURE(Boss_Lava_Attack_90, "../bin/Resources/Textures/Monster/boss/lava/attack/90/boss_lava_attack_90_%d.PNG", 2);
+	ADD_TEXTURE(Boss_Lava_Attack_112, "../bin/Resources/Textures/Monster/boss/lava/attack/112/boss_lava_attack_112_%d.PNG", 2);
+	ADD_TEXTURE(Boss_Lava_Attack_135, "../bin/Resources/Textures/Monster/boss/lava/attack/135/boss_lava_attack_135_%d.PNG", 2);
+	ADD_TEXTURE(Boss_Lava_Attack_157, "../bin/Resources/Textures/Monster/boss/lava/attack/157/boss_lava_attack_157_%d.PNG", 2);
+	ADD_TEXTURE(Boss_Lava_Attack_180, "../bin/Resources/Textures/Monster/boss/lava/attack/180/boss_lava_attack_180_%d.PNG", 2);
+
+	/////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+	ADD_TEXTURE(Boss_Lava_DiveIn, "../bin/Resources/Textures/Monster/boss/lava/divein/boss_divein%d.PNG", 4);
+
+
+#pragma endregion
+
+	ADD_TEXTURE(Shotgunner_Attack_0,   "../Bin/Resources/Textures/Monster/Shotgunner/attack/0/shotgunner_attack_front%d.PNG", 3);
+	ADD_TEXTURE(Shotgunner_Attack_45,  "../Bin/Resources/Textures/Monster/Shotgunner/attack/45/shotgunner_attack_sidefront%d.PNG", 3);
+	ADD_TEXTURE(Shotgunner_Attack_90,  "../Bin/Resources/Textures/Monster/Shotgunner/attack/90/shotgunner_attack_side%d.PNG", 3);
+	ADD_TEXTURE(Shotgunner_Attack_135, "../Bin/Resources/Textures/Monster/Shotgunner/attack/135/shotgunner_attack_sideback%d.PNG", 3);
+	ADD_TEXTURE(Shotgunner_Attack_180, "../Bin/Resources/Textures/Monster/Shotgunner/attack/180/shotgunner_attack_back%d.PNG", 3);
+
+	ADD_TEXTURE(Shotgunner_Death_0,   "../Bin/Resources/Textures/Monster/Shotgunner/death/shotgunner_death_front%d.PNG", 3); 
+
+	ADD_TEXTURE(Shotgunner_Move_0,   "../Bin/Resources/Textures/Monster/Shotgunner/move/0/shotgunner_move_front%d.PNG", 3);
+	ADD_TEXTURE(Shotgunner_Move_45,  "../Bin/Resources/Textures/Monster/Shotgunner/move/45/shotgunner_move_sidefront%d.PNG", 3);
+	ADD_TEXTURE(Shotgunner_Move_90,  "../Bin/Resources/Textures/Monster/Shotgunner/move/90/shotgunner_move_side%d.PNG", 3);
+	ADD_TEXTURE(Shotgunner_Move_135, "../Bin/Resources/Textures/Monster/Shotgunner/move/135/shotgunner_move_sideback%d.PNG", 3);
+	ADD_TEXTURE(Shotgunner_Move_180, "../Bin/Resources/Textures/Monster/Shotgunner/move/180/shotgunner_move_back%d.PNG", 3);
+
+
+	// shock는 전기봉 추가되면 넣기 
+	//ADD_TEXTURE(Shotgunner_Shock_0, "../Bin/Resources/Textures/Monster/Shotgunner/shock/0/shotgunner_shock_front%d.PNG", 3);
+	//ADD_TEXTURE(Shotgunner_Shock_45, "../Bin/Resources/Textures/Monster/Shotgunner/shock/45/shotgunner_shock_sidefront%d.PNG", 3);
+	//ADD_TEXTURE(Shotgunner_Shock_90, "../Bin/Resources/Textures/Monster/Shotgunner/shock/90/shotgunner_shock_side%d.PNG", 3);
+	//ADD_TEXTURE(Shotgunner_Shock_135, "../Bin/Resources/Textures/Monster/Shotgunner/shock/135/shotgunner_shock_sideback%d.PNG", 3);
+	//ADD_TEXTURE(Shotgunner_Shock_180, "../Bin/Resources/Textures/Monster/Shotgunner/shock/180/shotgunner_shock_back%d.PNG", 3);
+
 
 
 #pragma endregion

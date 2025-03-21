@@ -35,6 +35,43 @@ HRESULT CTransform::Bind_Resource()
 	return m_pGraphic_Device->SetTransform(D3DTS_WORLD, &m_WorldMatrix);
 }
 
+const _float4x4& CTransform::Billboard_Inverse() const
+{
+	//Í∞ùÏ≤¥ ?§Ï???
+	_float3	vScaled = Compute_Scaled();
+	//Í∞ùÏ≤¥ ?¨Ï???
+	_float3	vPosition = *Get_State(CTransform::STATE_POSITION);
+
+	//Ïπ¥Î©î???¨Ï???
+	_float4x4 matCamWorld;
+	m_pGraphic_Device->GetTransform(D3DTS_VIEW, &matCamWorld);
+	matCamWorld.MakeInverseMat(matCamWorld);
+	_float3 vCameraPos = { matCamWorld._41, matCamWorld._42, matCamWorld._43 };
+
+	//Ïπ¥Î©î?ºÎ? ?±Ï???Î£©Î≤°??
+	_float3		vLook = vPosition - vCameraPos;
+	_float3		vUp = { 0.f, 1.f, 0.f };
+	_float3		vRight = vUp.Cross(vLook);
+
+	//Í∞?Ï∂ïÏùÑ ?∏Îßê?ºÏù¥Ï¶?x ?§Ï??ºÍ∞í?ºÎ°ú ??
+	vRight.Normalize();
+	vRight *= -vScaled.x;
+
+	vUp.Normalize();
+	vUp *= vScaled.y;
+
+	vLook.Normalize();
+	vLook *= vScaled.z;
+	vLook.y = 0.f;
+
+	memcpy(&m_Return._11, &vRight, sizeof _float3);
+	memcpy(&m_Return._21, &vUp, sizeof _float3);
+	memcpy(&m_Return._31, &vLook, sizeof _float3);
+	memcpy(&m_Return._41, &vPosition, sizeof _float3);
+
+	return m_Return;
+}
+
 const _float4x4& CTransform::Billboard() const
 {
 	//Í∞ùÏ≤¥ ?§Ï???
