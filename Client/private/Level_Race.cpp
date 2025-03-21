@@ -1,6 +1,7 @@
 #include "Level_Race.h"
 
 #include "GameInstance.h"
+#include "RaceLandscape.h"
 
 CLevel_Race::CLevel_Race(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CLevel { pGraphic_Device }
@@ -13,6 +14,9 @@ HRESULT CLevel_Race::Initialize(CLevelData* pLevelData)
 		return E_FAIL;
 
 	if (FAILED(Ready_Layer_Camera(TEXT("Layer_Camera"))))
+		return E_FAIL;
+
+	if (FAILED(Ready_Layer_Statue(TEXT("Layer_RaceLandscape"))))
 		return E_FAIL;
 
 	if (FAILED(Ready_Layer_Terrain(TEXT("Layer_RaceTerrain"))))
@@ -38,8 +42,21 @@ HRESULT CLevel_Race::Ready_Layer_Terrain(const _wstring& strLayerTag)
 		LEVEL_RACE, strLayerTag)))
 		return E_FAIL;
 
-	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_RACE, TEXT("Prototype_GameObject_RaceLandscape"),
-		LEVEL_RACE, strLayerTag)))
+	return S_OK;
+}
+
+HRESULT CLevel_Race::Ready_Layer_Statue(const _wstring& strLayerTag)
+{
+	CRaceLandscape::DIRECTION dir = {};
+	dir = CRaceLandscape::LEFT;
+
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_RACE, TEXT("Prototype_GameObject_RaceLandscapeLeft"),
+		LEVEL_RACE, strLayerTag, &dir)))
+		return E_FAIL;
+	
+	dir = CRaceLandscape::RIGHT;
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_RACE, TEXT("Prototype_GameObject_RaceLandscapeRight"),
+		LEVEL_RACE, strLayerTag, &dir)))
 		return E_FAIL;
 
 	return S_OK;
