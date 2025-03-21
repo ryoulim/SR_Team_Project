@@ -176,6 +176,11 @@ _bool CGameInstance::IsPointInFrustum(const _float3& Point)
 	return m_pObject_Manager->IsPointInFrustum(Point);
 }
 
+_bool CGameInstance::Raycast(const _float3& rayOrigin, const _float3& rayDir, _uint iLevelIndex, const _wstring& strLayerTag)
+{
+	return m_pObject_Manager->Raycast(rayOrigin, rayDir, iLevelIndex, strLayerTag);
+}
+
 void CGameInstance::Update_Frustum(const _float4x4& viewProj)
 {
 	m_pObject_Manager->Update_Frustum(viewProj);

@@ -37,6 +37,8 @@ public:
 	// A그룹과 B그룹의 충돌을 검사한다.
 	void Intersect(_uint iLevelIndex, const _wstring& strLayerTag1, const _wstring& strLayerTag2);
 
+	_bool Raycast(const _float3& rayOrigin, const _float3& rayDir, _uint iLevelIndex, const _wstring& strLayerTag);
+
 	_bool IsPointInFrustum(const _float3& Point);
 	void Update_Frustum(const _float4x4& viewProj);
 

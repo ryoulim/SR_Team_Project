@@ -34,8 +34,9 @@ public:
 	_bool Check_Intersect(const CCollider* pOther);
 
 	const COLLIDER_TYPE Get_Type() const { return m_eType; }
-	const _float3& Get_Last_Collision_Depth() { return m_vLast_Collision_Depth; }
-	const _float3& Get_Last_Collision_Pos() { return m_vLast_Collision_Pos; }
+	static const _float3& Get_Last_Collision_Depth() { return m_vLast_Collision_Depth; }
+	static const _float3& Get_Last_Collision_Pos() { return m_vLast_Collision_Pos; }
+	virtual _bool RayCasting(const _float3& rayOrigin, const _float3& rayDir) { return FALSE; }
 
 protected:
 	static _float3 m_vLast_Collision_Depth;

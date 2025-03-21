@@ -59,6 +59,8 @@ public:
 	// 스크린상에 있는지 검사
 	_bool IsPointInFrustum(const _float3& Point);
 
+	_bool Raycast(const _float3& rayOrigin, const _float3& rayDir, _uint iLevelIndex, const _wstring& strLayerTag);
+
 	//절두체 업데이트
 	void Update_Frustum(const _float4x4& viewProj);
 
@@ -77,12 +79,12 @@ public:
 	_bool Mouse_Pressing(_ubyte eKeyID);
 	_bool Mouse_Up(_ubyte eKeyID);
 
-#pragma endregion
-
-#pragma region KEY_MANAGER
 	_bool		Key_Pressing(_ubyte eKeyID);
 	_bool		Key_Up(_ubyte eKeyID);
 	_bool		Key_Down(_ubyte eKeyID);
+#pragma endregion
+
+#pragma region KEY_MANAGER
 #pragma endregion
 
 #pragma region TIMER_MANAGER

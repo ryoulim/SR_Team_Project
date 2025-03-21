@@ -147,9 +147,6 @@ void CPlayer::On_Collision(CGameObject* pCollisionedObject, const _wstring& strL
 	vPos += Depth;
 	vPos2 += Depth;
 
-	//if(Depth.y > 0.f)
-	//	m_pGravityCom->Force_Set_FloorY(vPos.y);
-
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, vPos);
 	m_pCameraTransform->Set_State(CTransform::STATE_POSITION, vPos2);
 	

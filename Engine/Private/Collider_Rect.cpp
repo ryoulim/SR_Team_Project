@@ -58,6 +58,28 @@ _bool CCollider_Rect::Intersect_With_Line(const CCollider* pOther)
 	return _bool();
 }
 
+bool CCollider_Rect::RayCasting(const _float3& rayOrigin, const _float3& rayDir)
+{
+	_float3 normal = m_tInfo.GetNormal();
+	float denominator = normal.Dot(rayDir);
+
+	// 레이가 평면과 평행하면 충돌 없음
+	if (fabs(denominator) < 1e-6f) 
+		return FALSE;
+
+	// 평면과의 교차점 계산
+	float t = _float3(m_tInfo.vCenter - rayOrigin).Dot(normal) / denominator;
+
+	// t가 0보다 작으면 레이가 반대 방향 (충돌 없음)
+	if (t < 0) 
+		return FALSE;
+
+	m_vLast_Collision_Pos = rayOrigin + rayDir * t;
+	m_vLast_Collision_Depth = normal;
+
+	return TRUE;
+}
+
 CCollider_Rect* CCollider_Rect::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 {
 	CCollider_Rect* pInstance = new CCollider_Rect(pGraphic_Device);

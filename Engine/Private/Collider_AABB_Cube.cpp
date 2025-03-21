@@ -62,6 +62,38 @@ _bool CCollider_AABB_Cube::Intersect_With_Line(const CCollider* pOther)
 	return _bool();
 }
 
+_bool CCollider_AABB_Cube::RayCasting(const _float3& rayOrigin, const _float3& rayDir)
+{
+	_float3 invDir = { 1.0f / rayDir.x, 1.0f / rayDir.y, 1.0f / rayDir.z };
+
+	_float3 t1 = _float3(m_tInfo.vMinPos - rayOrigin) * invDir;
+	_float3 t2 = _float3(m_tInfo.vMaxPos - rayOrigin) * invDir;
+
+	if (rayDir.x < 0.0f) std::swap(t1.x, t2.x);
+	if (rayDir.y < 0.0f) std::swap(t1.y, t2.y);
+	if (rayDir.z < 0.0f) std::swap(t1.z, t2.z);
+
+	_float3 tMin = min(t1, t2);
+	_float3 tMax = max(t1, t2);
+
+	_float tNear = max(max(tMin.x, tMin.y), tMin.z);
+	_float tFar = min(min(tMax.x, tMax.y), tMax.z);
+
+	if (tNear > tFar || tFar < 0)
+		return FALSE;
+
+	m_vLast_Collision_Pos = rayOrigin + rayDir * tNear;
+
+	if (tNear == tMin.x) m_vLast_Collision_Depth = { -1.0f, 0.0f, 0.0f };
+	else if (tNear == tMax.x) m_vLast_Collision_Depth = { 1.0f, 0.0f, 0.0f };
+	else if (tNear == tMin.y) m_vLast_Collision_Depth = { 0.0f, -1.0f, 0.0f };
+	else if (tNear == tMax.y) m_vLast_Collision_Depth = { 0.0f, 1.0f, 0.0f };
+	else if (tNear == tMin.z) m_vLast_Collision_Depth = { 0.0f, 0.0f, -1.0f };
+	else if (tNear == tMax.z) m_vLast_Collision_Depth = { 0.0f, 0.0f, 1.0f };
+
+	return TRUE;
+}
+
 CCollider_AABB_Cube* CCollider_AABB_Cube::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 {
 	CCollider_AABB_Cube* pInstance = new CCollider_AABB_Cube(pGraphic_Device);
