@@ -204,6 +204,14 @@ void CMonster::Free()
 	Safe_Release(m_pTransformCom);
 	Safe_Release(m_pCollider);
 	Safe_Release(m_pTargetPlayer);
+	for (auto pair : m_pTextureMap)
+	{
+		for (auto otherpair : pair.second)
+		{
+			Safe_Release(otherpair.second);
+		}
+
+	}
 	
 }
 
