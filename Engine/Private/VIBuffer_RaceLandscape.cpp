@@ -53,7 +53,7 @@ HRESULT CVIBuffer_RaceLandscape::Initialize_Prototype()
 	pVertices[7].vPosition = _float3(-0.5f, -0.5f, 0.5f);
 	pVertices[7].vTexcoord = _float2(1.f, 1.f);
 
-	for (int i = 0; i < m_iNumVertices; i++)
+	for (_uint i = 0; i < m_iNumVertices; i++)
 	{
 		pVertices[i].vNormal = _float3(0.f, 0.f, 0.f);
 	}

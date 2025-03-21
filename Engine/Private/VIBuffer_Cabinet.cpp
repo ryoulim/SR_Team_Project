@@ -29,7 +29,7 @@ HRESULT CVIBuffer_Cabinet::Initialize_Prototype()
 
 	m_pVB->Lock(0, 0, reinterpret_cast<void**>(&pVertices), 0);
 
-	for (int i = 0; i < m_iNumVertices; i++)
+	for (_uint i = 0; i < m_iNumVertices; i++)
 		pVertices[i].vNormal = _float3(0.f, 0.f, 0.f);
 
 #pragma region 외부 앞면
