@@ -49,9 +49,6 @@
     <Filter Include="02.GameObjects\Bullet">
       <UniqueIdentifier>{c524e1eb-809f-4b51-8e3c-f61d479c62da}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\Boss">
-      <UniqueIdentifier>{4edcbe90-d066-43a7-a6df-4f0e2eabebb4}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02.GameObjects\Monster">
       <UniqueIdentifier>{77e476b8-1434-4864-aee9-655662cb4f88}</UniqueIdentifier>
     </Filter>
@@ -214,12 +211,6 @@
     <Filter Include="02.GameObjects\UI\GamePlayUI\ItemDialog">
       <UniqueIdentifier>{66e93016-322f-43a1-83a6-f8b9aad04f9f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\Effect\old">
-      <UniqueIdentifier>{a808fd5a-7a9a-4779-a0db-c168d38ff4ed}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Effect\old\Explosion">
-      <UniqueIdentifier>{01009920-271b-44a0-8d6f-a1b2c2207162}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02.GameObjects\Particle\Sphere">
       <UniqueIdentifier>{a9c1ba05-185c-43aa-877b-e3de27885e20}</UniqueIdentifier>
     </Filter>
@@ -228,6 +219,33 @@
     </Filter>
     <Filter Include="02.GameObjects\Monster\Ttakkeun_i">
       <UniqueIdentifier>{3674c8bc-204a-4475-9166-b2788d2c5c42}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Effect\Flatform">
+      <UniqueIdentifier>{52256a0c-e710-4890-9012-d05bdea9288a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Monster\Archangel">
+      <UniqueIdentifier>{cba87238-e97b-47bc-a85a-d58d109760a7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Monster\Cultist">
+      <UniqueIdentifier>{58112894-05c1-49a0-8461-112bacee3953}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Monster\Deacon">
+      <UniqueIdentifier>{7784ae78-96eb-4983-840d-142865d3dc10}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Monster\Greater">
+      <UniqueIdentifier>{5e254a44-72e0-47c7-a96d-8e5e2aa9382c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Monster\Mechsect">
+      <UniqueIdentifier>{d25b2d25-7c4d-4be7-8384-812bfd8f66a1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Monster\Nukemutant">
+      <UniqueIdentifier>{56fc1e64-8489-4d03-abbb-a2ebd3f2255e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Monster\Shotgunner">
+      <UniqueIdentifier>{220f67c9-296a-46e7-b758-d0064272c0f1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Monster\Wenteko">
+      <UniqueIdentifier>{d0d89bb1-04c7-44e4-acff-9f81f6918e75}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -291,17 +309,11 @@
     <ClInclude Include="..\public\Effect.h">
       <Filter>02.GameObjects\Effect</Filter>
     </ClInclude>
-    <ClInclude Include="..\public\Explosion.h">
-      <Filter>02.GameObjects\Effect\old\Explosion</Filter>
-    </ClInclude>
     <ClInclude Include="..\public\Pawn.h">
       <Filter>02.GameObjects\Pawn</Filter>
     </ClInclude>
     <ClInclude Include="..\public\Monster.h">
       <Filter>02.GameObjects\Monster</Filter>
-    </ClInclude>
-    <ClInclude Include="..\public\Boss.h">
-      <Filter>02.GameObjects\Boss</Filter>
     </ClInclude>
     <ClInclude Include="..\public\Item.h">
       <Filter>02.GameObjects\Item</Filter>
@@ -483,6 +495,36 @@
     <ClInclude Include="..\public\ScreenDust.h">
       <Filter>02.GameObjects\UI\MenuUI\MainMenu</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\Flatform.h">
+      <Filter>02.GameObjects\Effect\Flatform</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Archangel.h">
+      <Filter>02.GameObjects\Monster\Archangel</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Cultist.h">
+      <Filter>02.GameObjects\Monster\Cultist</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Deacon.h">
+      <Filter>02.GameObjects\Monster\Deacon</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Greater.h">
+      <Filter>02.GameObjects\Monster\Greater</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Mechsect.h">
+      <Filter>02.GameObjects\Monster\Mechsect</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Nukemutant.h">
+      <Filter>02.GameObjects\Monster\Nukemutant</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Shotgunner.h">
+      <Filter>02.GameObjects\Monster\Shotgunner</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Wenteko.h">
+      <Filter>02.GameObjects\Monster\Wenteko</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\FXMgr.h">
+      <Filter>02.GameObjects\Particle</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -540,17 +582,11 @@
     <ClCompile Include="..\private\Effect.cpp">
       <Filter>02.GameObjects\Effect</Filter>
     </ClCompile>
-    <ClCompile Include="..\private\Explosion.cpp">
-      <Filter>02.GameObjects\Effect\old\Explosion</Filter>
-    </ClCompile>
     <ClCompile Include="..\private\Pawn.cpp">
       <Filter>02.GameObjects\Pawn</Filter>
     </ClCompile>
     <ClCompile Include="..\private\Monster.cpp">
       <Filter>02.GameObjects\Monster</Filter>
-    </ClCompile>
-    <ClCompile Include="..\private\Boss.cpp">
-      <Filter>02.GameObjects\Boss</Filter>
     </ClCompile>
     <ClCompile Include="..\private\Item.cpp">
       <Filter>02.GameObjects\Item</Filter>
@@ -725,6 +761,36 @@
     </ClCompile>
     <ClCompile Include="..\private\ScreenDust.cpp">
       <Filter>02.GameObjects\UI\MenuUI\MainMenu</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Flatform.cpp">
+      <Filter>02.GameObjects\Effect\Flatform</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Archangel.cpp">
+      <Filter>02.GameObjects\Monster\Archangel</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Cultist.cpp">
+      <Filter>02.GameObjects\Monster\Cultist</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Deacon.cpp">
+      <Filter>02.GameObjects\Monster\Deacon</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Greater.cpp">
+      <Filter>02.GameObjects\Monster\Greater</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Mechsect.cpp">
+      <Filter>02.GameObjects\Monster\Mechsect</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Nukemutant.cpp">
+      <Filter>02.GameObjects\Monster\Nukemutant</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Shotgunner.cpp">
+      <Filter>02.GameObjects\Monster\Shotgunner</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Wenteko.cpp">
+      <Filter>02.GameObjects\Monster\Wenteko</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\FXMgr.cpp">
+      <Filter>02.GameObjects\Particle</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

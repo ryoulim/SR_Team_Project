@@ -13,7 +13,6 @@
 
 //테스트용
 #include "MyCube.h"
-#include "Ttakkeun_i.h"
 #include "TestBullet.h"
 /* 테스트 터레인*/
 #include "TestTerrain.h"
@@ -49,6 +48,20 @@
 
 //맵 인클루드
 #include "Block.h"
+
+//전시용 플랫폼
+#include "Flatform.h"
+
+//몬스터
+#include "Ttakkeun_i.h"
+#include "Wenteko.h"
+#include "Shotgunner.h"
+#include "Nukemutant.h"
+#include "Mechsect.h"
+#include "Greater.h"
+#include "Deacon.h"
+#include "Cultist.h"
+#include "Archangel.h"
 
 
 CLoader::CLoader(LPDIRECT3DDEVICE9 pGraphic_Device)
@@ -128,8 +141,8 @@ HRESULT CLoader::Loading_For_Logo()
 		return E_FAIL;
 	m_fLoadPercent += 0.03f;
 
-	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_GameObject_PC_Explosion"),
-		CExplosion::Create(m_pGraphic_Device))))
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Flatform"),
+		CFlatform::Create(m_pGraphic_Device))))
 		return E_FAIL;
 	m_fLoadPercent += 0.03f;
 
@@ -137,15 +150,7 @@ HRESULT CLoader::Loading_For_Logo()
 		CCameraSprite::Create(m_pGraphic_Device))))
 		return E_FAIL;
 	m_fLoadPercent += 0.03f;
-	for (size_t i = 0; i < 100000; i++)
-	{
-		for (size_t j = 0; j < 10000; j++)
-		{
-			int a = 0;
-		}
-		if (KEY_PRESSING(DIK_SPACE))
-			break;
-	}
+
 	////////////////////////////////////////////파티클//////////////////////////////////////////////////////
 
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_GameObject_PC_Sphere"),
@@ -158,18 +163,10 @@ HRESULT CLoader::Loading_For_Logo()
 	m_fLoadPercent += 0.03f;
 
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_GameObject_PC_Rain"),
-		CRain::Create(m_pGraphic_Device, L"PARTICLE_SNOW", 200, _float3(0.f, 0.f, 0.f), _float3(500.f, 500.f, 500.f)))))
+		CRain::Create(m_pGraphic_Device, L"PARTICLE_SNOW", 200, _float3(550.f, 0.f, -350.f), _float3(1050.f, 500.f, -50.f)))))
 		return E_FAIL;
 	m_fLoadPercent += 0.03f;
-	for (size_t i = 0; i < 100000; i++)
-	{
-		for (size_t j = 0; j < 10000; j++)
-		{
-			int a = 0;
-		}
-		if (KEY_PRESSING(DIK_SPACE))
-			break;
-	}
+
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_GameObject_PC_Firework"),
 		CFirework::Create(m_pGraphic_Device, L"PARTICLE_FIREWORK"))))
 		return E_FAIL;
@@ -184,15 +181,7 @@ HRESULT CLoader::Loading_For_Logo()
 		CEmptyBullet::Create(m_pGraphic_Device, L"PARTICLE_EMPTYBULLET"))))
 		return E_FAIL;
 	m_fLoadPercent += 0.03f;
-	for (size_t i = 0; i < 100000; i++)
-	{
-		for (size_t j = 0; j < 10000; j++)
-		{
-			int a = 0;
-		}
-		if (KEY_PRESSING(DIK_SPACE))
-			break;
-	}
+
 	////////////////////////////////////////////텍스처//////////////////////////////////////////////////////
 
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Effect_Explorer"),
@@ -221,15 +210,7 @@ HRESULT CLoader::Loading_For_Logo()
 		CTexture::Create(m_pGraphic_Device, TEXT("../Bin/Resources/Textures/Particle/Check_Tile.png"), 1))))
 		return E_FAIL;
 	m_fLoadPercent += 0.03f;
-	for (size_t i = 0; i < 100000; i++)
-	{
-		for (size_t j = 0; j < 10000; j++)
-		{
-			int a = 0;
-		}
-		if (KEY_PRESSING(DIK_SPACE))
-			break;
-	}
+
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_PC_Small_Fire"),
 		CTexture::Create(m_pGraphic_Device, TEXT("../Bin/Resources/Textures/Particle/PC_Small_Fire%d.png"), 5))))
 		return E_FAIL;
@@ -249,15 +230,7 @@ HRESULT CLoader::Loading_For_Logo()
 		CTexture::Create(m_pGraphic_Device, TEXT("../Bin/Resources/Textures/Particle/PS_EXPLOSION%d.png"), 14))))
 		return E_FAIL;
 	m_fLoadPercent += 0.03f;
-	for (size_t i = 0; i < 100000; i++)
-	{
-		for (size_t j = 0; j < 10000; j++)
-		{
-			int a = 0;
-		}
-		if (KEY_PRESSING(DIK_SPACE))
-			break;
-	}
+
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_PC_BulletShell"),
 		CTexture::Create(m_pGraphic_Device, TEXT("../Bin/Resources/Textures/Particle/PC_BulletShell%d.png"), 7))))
 		return E_FAIL;
@@ -272,17 +245,14 @@ HRESULT CLoader::Loading_For_Logo()
 		CTexture::Create(m_pGraphic_Device, TEXT("../Bin/Resources/Textures/Particle/PC_Rain.png"), 1))))
 		return E_FAIL;
 	m_fLoadPercent += 0.03f;
-	for (size_t i = 0; i < 100000; i++)
-	{
-		for (size_t j = 0; j < 10000; j++)
-		{
-			int a = 0;
-		}
-		if (KEY_PRESSING(DIK_SPACE))
-			break;
-	}
+
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_PC_Fire"),
 		CTexture::Create(m_pGraphic_Device, TEXT("../Bin/Resources/Textures/Particle/PC_Fire%d.png"), 20))))
+		return E_FAIL;
+	m_fLoadPercent += 0.03f;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_MonsterFlatform"),
+		CTexture::Create(m_pGraphic_Device, TEXT("../Bin/Resources/Textures/Monster/Flatform/Flatform.PNG"), 1))))
 		return E_FAIL;
 	m_fLoadPercent += 0.03f;
 
@@ -428,10 +398,20 @@ HRESULT CLoader::Loading_For_GamePlay()
 	ADD_TEXTURE(MyComputer, "../Bin/Resources/Textures/Object/Computer/Computer%d.png", 3);
 
 	ADD_TEXTURE(TestBullet, "../Bin/Resources/Textures/Bullet/Test/tile7859.png", 1);
-	ADD_TEXTURE(Ttakkeun_i, "../Bin/Resources/Textures/Monster/Ttakkeun_i/Ttakkeun_i_Walk%d.PNG", 12);
 	ADD_TEXTURE(Weapon_LoverBoy, "../Bin/Resources/Textures/Weapon/LoverBoy/LoverBoy%d.PNG", 15);
 	ADD_TEXTURE(LeftHand, "../Bin/Resources/Textures/Weapon/LeftHand/LeftHand%d.PNG", 2);
 	ADD_TEXTURE(Weapon_Chaingun, "../Bin/Resources/Textures/Weapon/ChainGun/ChainGun%d.PNG", 16);
+
+	//몬스터
+	ADD_TEXTURE(Ttakkeun_i_Walk, "../Bin/Resources/Textures/Monster/Ttakkeun_i/Ttakkeun_i_Walk%d.PNG", 12);
+	ADD_TEXTURE(Wenteko_Walk, "../Bin/Resources/Textures/Monster/Wenteko/Wenteko_Walk%d.PNG", 6);
+	ADD_TEXTURE(Shotgunner_Walk, "../Bin/Resources/Textures/Monster/Shotgunner/Shotgunner_Walk%d.PNG", 4);
+	ADD_TEXTURE(Nukemutant_Walk, "../Bin/Resources/Textures/Monster/Nukemutant/Nukemutant_Walk%d.PNG", 4);
+	ADD_TEXTURE(Mechsect_Walk, "../Bin/Resources/Textures/Monster/Mechsect/Mechsect_Walk%d.PNG", 4);
+	ADD_TEXTURE(Greater_Run, "../Bin/Resources/Textures/Monster/Greater/Greater_Run%d.PNG", 4);
+	ADD_TEXTURE(Deacon_Walk, "../Bin/Resources/Textures/Monster/Deacon/Deacon_Walk%d.PNG", 1);
+	ADD_TEXTURE(Cultist_Run, "../Bin/Resources/Textures/Monster/Cultist/Cultist_Run%d.PNG", 4);
+	ADD_TEXTURE(Archangel_Walk, "../Bin/Resources/Textures/Monster/Archangel/Archangel_Walk%d.PNG", 4);
 
 #pragma endregion
 
@@ -459,9 +439,19 @@ HRESULT CLoader::Loading_For_GamePlay()
 	ADD_PRTOBJ(MyComputer);
 	ADD_PRTOBJ(Player);
 	ADD_PRTOBJ(TestBullet);
-	ADD_PRTOBJ(Ttakkeun_i);
 	ADD_PRTOBJ(Weapon_LoverBoy);
 	ADD_PRTOBJ(Weapon_Chaingun);
+
+	//몬스터
+	ADD_PRTOBJ(Ttakkeun_i);
+	ADD_PRTOBJ(Wenteko);
+	ADD_PRTOBJ(Shotgunner);
+	ADD_PRTOBJ(Nukemutant);
+	ADD_PRTOBJ(Mechsect);
+	ADD_PRTOBJ(Greater);
+	ADD_PRTOBJ(Deacon);
+	ADD_PRTOBJ(Cultist);
+	ADD_PRTOBJ(Archangel);
 
 
 #pragma endregion

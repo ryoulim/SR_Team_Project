@@ -36,7 +36,7 @@ HRESULT CMainMenu::Initialize(void* pArg)
 	m_fDepth = 100.f;
 
 	m_pTransformCom->Scaling(m_vSize);
-	m_pTransformCom->Set_State(CTransform::STATE_POSITION, { 0.f,0.f,1.f });
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION, { 0.f,0.f,0.999f });
 
 	if (testbool == false)
 	{

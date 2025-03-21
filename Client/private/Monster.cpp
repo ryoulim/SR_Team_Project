@@ -51,6 +51,8 @@ HRESULT CMonster::Initialize(void* pArg)
 
 void CMonster::Priority_Update(_float fTimeDelta)
 {
+	//프레임 업데이트
+	FrameUpdate(fTimeDelta, m_fAnimationMaxFrame, m_fAnimationSpeed, true);
 }
 
 EVENT CMonster::Update(_float fTimeDelta)
@@ -62,9 +64,6 @@ void CMonster::Late_Update(_float fTimeDelta)
 {
 	//플레이어 거리 업데이트
 	PlayerDistance();
-
-	//프레임 업데이트
-	FrameUpdate(fTimeDelta, 11.f, 15.f, true);
 	
 	//콜라이더 업데이트
 	m_pCollider->Update_Collider(m_pTransformCom);
@@ -76,6 +75,7 @@ void CMonster::Late_Update(_float fTimeDelta)
 
 HRESULT CMonster::SetUp_RenderState()
 {
+	m_pGraphic_Device->SetRenderState(D3DRS_LIGHTING, false);
 	m_pGraphic_Device->SetSamplerState(0, D3DSAMP_MINFILTER, D3DTEXF_POINT);
 	m_pGraphic_Device->SetSamplerState(0, D3DSAMP_MAGFILTER, D3DTEXF_POINT);
 	m_pGraphic_Device->SetSamplerState(0, D3DSAMP_MIPFILTER, D3DTEXF_POINT);
@@ -111,6 +111,7 @@ HRESULT CMonster::Render()
 
 HRESULT CMonster::Release_RenderState()
 {
+	m_pGraphic_Device->SetRenderState(D3DRS_LIGHTING, true);
 	m_pGraphic_Device->SetRenderState(D3DRS_LIGHTING, TRUE);
 	m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
 	m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
