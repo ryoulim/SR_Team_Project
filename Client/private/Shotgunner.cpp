@@ -30,7 +30,8 @@ HRESULT CShotgunner::Initialize(void* pArg)
 	Ready_Textures();
 	//애니메이션(수정예정)
 	m_fAnimationMaxFrame = 3.f;
-	m_fAnimationSpeed = 7.f;
+	m_fAnimationSpeed = 5.f;
+	m_iState = STATE_ATTACK;
 
 	return S_OK;
 }
@@ -84,31 +85,30 @@ HRESULT CShotgunner::Ready_Textures()
 	}
 
 	/* DEATH */
-	for (_uint i = 0; i < D_END; i++)
+	//for (_uint i = 0; i < D_END; i++)
 	{
 		_wstring sPrototypeTag = L"Prototype_Component_Texture_Shotgunner_Death_";
-		_uint num = static_cast<_uint>(i * m_fDivOffset);
-		_tchar buf[32];
-		_itow_s((int)num, buf, 10);
-		sPrototypeTag += buf;
-		if (FAILED(__super::Add_Component(m_eLevelID, sPrototypeTag,
-			_wstring(TEXT("Com_Texture")) + L"_Shotgunner_Death_" + buf, reinterpret_cast<CComponent**>(&(m_pTextureMap[STATE_DEATH][i])))))
-			return E_FAIL;
-	}
-
-	/* MOVE */
-	//for (_uint i = 0; i < D_END; i++)
-	//{
-		_wstring sPrototypeTag = L"Prototype_Component_Texture_Shotgunner_Move_";
 		_uint num = static_cast<_uint>(0);
 		_tchar buf[32];
 		_itow_s((int)num, buf, 10);
 		sPrototypeTag += buf;
 		if (FAILED(__super::Add_Component(m_eLevelID, sPrototypeTag,
-			_wstring(TEXT("Com_Texture")) + L"_Shotgunner_Move_" + buf, reinterpret_cast<CComponent**>(&(m_pTextureMap[STATE_MOVE][0])))))
+			_wstring(TEXT("Com_Texture")) + L"_Shotgunner_Death_" + buf, reinterpret_cast<CComponent**>(&(m_pTextureMap[STATE_DEATH][0])))))
 			return E_FAIL;
-	//}
+	}
 
+	/* MOVE */
+	for (_uint i = 0; i < D_END; i++)
+	{
+		_wstring sPrototypeTag = L"Prototype_Component_Texture_Shotgunner_Move_";
+		_uint num = static_cast<_uint>(i * m_fDivOffset);
+		_tchar buf[32];
+		_itow_s((int)num, buf, 10);
+		sPrototypeTag += buf;
+		if (FAILED(__super::Add_Component(m_eLevelID, sPrototypeTag,
+			_wstring(TEXT("Com_Texture")) + L"_Shotgunner_Move_" + buf, reinterpret_cast<CComponent**>(&(m_pTextureMap[STATE_MOVE][i])))))
+			return E_FAIL;
+	}
 
 	return S_OK;
 }

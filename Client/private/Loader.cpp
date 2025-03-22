@@ -502,8 +502,9 @@ HRESULT CLoader::Loading_For_GamePlay()
 
 	ADD_TEXTURE(Boss_Lava_DiveIn, "../bin/Resources/Textures/Monster/boss/lava/divein/boss_divein%d.PNG", 4);
 
-
 #pragma endregion
+
+#pragma region SHOTGUNNER_TEXTURES
 
 	ADD_TEXTURE(Shotgunner_Attack_0,   "../Bin/Resources/Textures/Monster/Shotgunner/attack/0/shotgunner_attack_front%d.PNG", 3);
 	ADD_TEXTURE(Shotgunner_Attack_45,  "../Bin/Resources/Textures/Monster/Shotgunner/attack/45/shotgunner_attack_sidefront%d.PNG", 3);
@@ -513,11 +514,11 @@ HRESULT CLoader::Loading_For_GamePlay()
 
 	ADD_TEXTURE(Shotgunner_Death_0,   "../Bin/Resources/Textures/Monster/Shotgunner/death/shotgunner_death%d.PNG", 6); 
 
-	ADD_TEXTURE(Shotgunner_Move_0,   "../Bin/Resources/Textures/Monster/Shotgunner/move/0/shotgunner_move_front%d.PNG", 3);
-	ADD_TEXTURE(Shotgunner_Move_45,  "../Bin/Resources/Textures/Monster/Shotgunner/move/45/shotgunner_move_sidefront%d.PNG", 3);
-	ADD_TEXTURE(Shotgunner_Move_90,  "../Bin/Resources/Textures/Monster/Shotgunner/move/90/shotgunner_move_side%d.PNG", 3);
-	ADD_TEXTURE(Shotgunner_Move_135, "../Bin/Resources/Textures/Monster/Shotgunner/move/135/shotgunner_move_sideback%d.PNG", 3);
-	ADD_TEXTURE(Shotgunner_Move_180, "../Bin/Resources/Textures/Monster/Shotgunner/move/180/shotgunner_move_back%d.PNG", 3);
+	ADD_TEXTURE(Shotgunner_Move_0,   "../bin/Resources/Textures/Monster/Shotgunner/move/0/shotgunner_move_front%d.PNG", 4);
+	ADD_TEXTURE(Shotgunner_Move_45,  "../Bin/Resources/Textures/Monster/Shotgunner/move/45/shotgunner_move_sidefront%d.PNG", 4);
+	ADD_TEXTURE(Shotgunner_Move_90,  "../Bin/Resources/Textures/Monster/Shotgunner/move/90/shotgunner_move_side%d.PNG", 4);
+	ADD_TEXTURE(Shotgunner_Move_135, "../Bin/Resources/Textures/Monster/Shotgunner/move/135/shotgunner_move_sideback%d.PNG", 4);
+	ADD_TEXTURE(Shotgunner_Move_180, "../Bin/Resources/Textures/Monster/Shotgunner/move/180/shotgunner_move_back%d.PNG", 4);
 
 
 	// shock는 전기봉 추가되면 넣기 
@@ -526,6 +527,21 @@ HRESULT CLoader::Loading_For_GamePlay()
 	//ADD_TEXTURE(Shotgunner_Shock_90, "../Bin/Resources/Textures/Monster/Shotgunner/shock/90/shotgunner_shock_side%d.PNG", 3);
 	//ADD_TEXTURE(Shotgunner_Shock_135, "../Bin/Resources/Textures/Monster/Shotgunner/shock/135/shotgunner_shock_sideback%d.PNG", 3);
 	//ADD_TEXTURE(Shotgunner_Shock_180, "../Bin/Resources/Textures/Monster/Shotgunner/shock/180/shotgunner_shock_back%d.PNG", 3);
+
+
+#pragma endregion
+
+#pragma region NUKEMUTANT_TEXTURES
+
+	ADD_TEXTURE(Nukemutant_Move_0, "../Bin/Resources/Textures/Monster/Nukemutant/move/0/%d.PNG", 4);
+	ADD_TEXTURE(Nukemutant_Move_45, "../Bin/Resources/Textures/Monster/Nukemutant/move/45/%d.PNG", 4);
+	ADD_TEXTURE(Nukemutant_Move_90, "../Bin/Resources/Textures/Monster/Nukemutant/move/90/%d.PNG", 4);
+	ADD_TEXTURE(Nukemutant_Move_135, "../Bin/Resources/Textures/Monster/Nukemutant/move/135/%d.PNG", 4);
+	ADD_TEXTURE(Nukemutant_Move_180, "../Bin/Resources/Textures/Monster/Nukemutant/move/180/%d.PNG", 4);
+
+#pragma endregion
+
+
 
 
 

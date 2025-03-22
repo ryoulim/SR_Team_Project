@@ -15,7 +15,7 @@ public:
 	virtual HRESULT Initialize(void* pArg) override;
 public:
 	HRESULT Bind_Resource(_uint iIndex);
-	HRESULT	Get_TextureSize(_uint iIndex, _float3* ppOut);
+	HRESULT	Get_TextureSize(_uint iIndex, _float3* pOut);
 
 	// Effect컴객체(m_pEffect), GetParameterByName으로 받아온 D3DXHANDLE 핸들, 바인딩 할 텍스쳐 인덱스
 	HRESULT Bind_Shader_To_Texture(LPD3DXEFFECT pEffect, D3DXHANDLE hTexParameter, _uint iIndex);
