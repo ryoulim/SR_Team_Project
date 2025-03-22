@@ -2,6 +2,8 @@
 #include "Client_Defines.h"
 #include "GameInstance.h"
 #include "GameObject.h"
+#include <iostream>
+#include <chrono>
 
 BEGIN(Engine)
 class CTexture;
@@ -10,6 +12,9 @@ class CTransform;
 END
 
 BEGIN(Client)
+
+using namespace std;
+using namespace std::chrono;
 
 class CMonster abstract : public CGameObject
 {
@@ -57,8 +62,10 @@ public:
 	virtual CGameObject* Clone(void* pArg) PURE;
 	virtual void Free();
 
+#pragma region 애니메이션
 
-/************************/
+
+	/************************/
 protected: // 이하 애니메이션 용도 
 	virtual HRESULT Ready_Textures() { return S_OK; }	// 텍스쳐 컴포넌트들 로딩, *부모에 일반몹 용도로 작성하고 보스만 오버라이딩 하기?
 	virtual HRESULT Set_TextureType();	// enum을 uint변수로 옮기는 작업(그냥 함수로 뺌)
@@ -69,7 +76,7 @@ protected:
 	_uint	m_iState = {};					// 애니메이션 종류 선택(공격, 이동 ...)
 	_uint	m_iDegree = {};					// 애니메이션 시선 각 선택
 	_float	m_fPlayersViewAngle = {};		// 시선 각
-	_bool	m_bCW = {true};					// Clockwise?
+	_bool	m_bCW = { true };					// Clockwise?
 	_float	m_fDivOffset = {};				// 몇 도로 쪼개져 있는 이미지인지 (보스: 22.5도, 일반: 45도) 
 	_bool	m_isReadyMonster = { false };	// 텍스쳐 준비 할 때 까지 기본 렌더링으로 돌리려고 
 
@@ -77,8 +84,10 @@ protected:
 	typedef _uint VIEWDEGREE;
 	typedef unordered_map<VIEWDEGREE, CTexture*> TEXTURE_DEGREE;
 	unordered_map<STATE, TEXTURE_DEGREE> m_pTextureMap;		// 1Key: 종류 , 2key: 각도, value: CTexture
-/************************/									// 이후 m_pTextureMap[m_iState][m_iDegree]->Bind_Resource호출 시
-															// 매개변수로 m_fAnimationFrame 전달
+	/************************/									// 이후 m_pTextureMap[m_iState][m_iDegree]->Bind_Resource호출 시
+																// 매개변수로 m_fAnimationFrame 전달
+
+#pragma endregion
 		
 
 protected: //기본정보
@@ -91,9 +100,6 @@ protected: //컴포넌트
 	CVIBuffer*	m_pVIBufferCom = { nullptr };
 	CTransform* m_pTransformCom = { nullptr };
 
-
-
-
 protected: //충돌	
 	CCollider* m_pCollider = { nullptr };
 
@@ -104,7 +110,11 @@ protected: //속성
 	_float	m_fSpeed		= 1.0f;
 	_float3	m_vScale		= { 0.f, 0.f, 0.f };
 	_float3 m_vPosition		= { 0.f, 0.f, 0.f };
+	_float3 m_vDirection	= { 1.f, 0.f, 0.f };
 	MODE	m_eBehavior		= MODE::MODE_END;
+
+protected: //디버깅
+	steady_clock::time_point g_LastLogTime = steady_clock::now();
 
 protected: //부속성
 	vector<string>	m_vDropItems	= {};

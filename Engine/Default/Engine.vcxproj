@@ -92,8 +92,9 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <PostBuildEvent>
-      <Command>CD $(SolutionDir)
-CALL $(SolutionDir)\UpdateLib.bat</Command>
+      <Command>
+CD $(SolutionDir)
+ CALL $(SolutionDir)\UpdateLib.bat</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -112,8 +113,9 @@ CALL $(SolutionDir)\UpdateLib.bat</Command>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <PostBuildEvent>
-      <Command>CD $(SolutionDir)
-CALL $(SolutionDir)\UpdateLib.bat</Command>
+      <Command>
+CD $(SolutionDir)
+ CALL $(SolutionDir)\UpdateLib.bat</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -133,7 +135,8 @@ CALL $(SolutionDir)\UpdateLib.bat</Command>
     </Link>
     <PostBuildEvent>
       <Command>
-      </Command>
+CD $(SolutionDir)
+ CALL $(SolutionDir)\UpdateLib.bat</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -157,7 +160,8 @@ CALL $(SolutionDir)\UpdateLib.bat</Command>
     </Link>
     <PostBuildEvent>
       <Command>
-      </Command>
+CD $(SolutionDir)
+ CALL $(SolutionDir)\UpdateLib.bat</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>

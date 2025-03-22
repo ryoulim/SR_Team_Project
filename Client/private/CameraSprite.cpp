@@ -81,7 +81,10 @@ EVENT CCameraSprite::Update(_float fTimeDelta)
 
 void CCameraSprite::Late_Update(_float fTimeDelta)
 {
-	__super::Late_Update(fTimeDelta);
+	m_fViewZ = 0.1f;
+
+	if (FAILED(m_pGameInstance->Add_RenderGroup(CRenderer::RG_BLEND, this)))
+		return;
 }
 
 HRESULT CCameraSprite::SetUp_RenderState()
