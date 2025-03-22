@@ -15,7 +15,7 @@ protected:
 	virtual ~CVIBuffer() = default;
 
 public:
-	LPDIRECT3DVERTEXBUFFER9 Get_VB() {
+	LPDIRECT3DVERTEXBUFFER9 Get_VB() const {
 		return m_pVB;
 	}
 

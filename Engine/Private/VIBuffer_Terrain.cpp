@@ -64,17 +64,21 @@ HRESULT CVIBuffer_Terrain::Initialize_Prototype(_uint iNumVerticesX, _uint iNumV
 	{
 		for (_ulong j = 0; j < m_iNumVerticesX; ++j)
 		{
-			 iIndex = i * m_iNumVerticesX + j;
+			iIndex = i * m_iNumVerticesX + j;
 
 			pVertices[iIndex].vPosition =
 				_float3(_float(j),
-					_float(pPixel[iIndex] & 0x000000ff) / 20.f,
+					_float(pPixel[iIndex] & 0x000000ff) / 20.f,	
 					_float(i));
 
 			pVertices[iIndex].vNormal = { 0.f, 0.f, 0.f };
 
-			pVertices[iIndex].vTexcoord = _float2((_float(j) / (m_iNumVerticesX - 1)) * m_iNumVerticesX,
-				(_float(i) / (m_iNumVerticesZ - 1)) * m_iNumVerticesZ);
+			/* 요기도 텍스쳐 너무 많이 바껴서 수정 잠깐 했습니다 */
+			pVertices[iIndex].vTexcoord = _float2((_float(j) / (m_iNumVerticesX - 1) * 10.f),
+				(_float(i) / (m_iNumVerticesZ - 1) * 10.f ));
+
+			//pVertices[iIndex].vTexcoord = _float2((_float(j) / (m_iNumVerticesX - 1)) * m_iNumVerticesX,
+			//	(_float(i) / (m_iNumVerticesZ - 1)) * m_iNumVerticesZ);
 
 			m_pVertexPos[iIndex] = pVertices[iIndex].vPosition;
 		}
