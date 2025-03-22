@@ -105,7 +105,7 @@ protected: //加己
 	_float	m_fSpeed		= 1.0f;
 	_float3	m_vScale		= { 0.f, 0.f, 0.f };
 	_float3 m_vPosition		= { 0.f, 0.f, 0.f };
-	MODE	m_eStatus		= MODE::MODE_END;
+	MODE	m_eBehavior		= MODE::MODE_END;
 
 protected: //何加己
 	vector<string>	m_vDropItems	= {};

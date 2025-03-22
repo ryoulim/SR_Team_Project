@@ -10,6 +10,16 @@
 #include "Armor.h"
 
 CUI_Manager* CUI_Manager::m_pInstance = nullptr;
+
+CUI_Manager* CUI_Manager::Get_Instance()
+{
+	if (nullptr == m_pInstance)
+	{
+		return nullptr;
+	}
+	return m_pInstance;
+}
+
 CUI_Manager* CUI_Manager::Get_Instance(CGameInstance* pGameInstance)
 {	
 	if (nullptr == pGameInstance)
@@ -21,7 +31,8 @@ CUI_Manager* CUI_Manager::Get_Instance(CGameInstance* pGameInstance)
 		m_pInstance->Initialize();
 	}
 	return m_pInstance;
-}												
+}
+
 unsigned int CUI_Manager::Destroy_Instance()	
 {						
 	unsigned int iRefCnt = {};						

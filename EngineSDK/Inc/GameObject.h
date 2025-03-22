@@ -47,9 +47,9 @@ public:
 	virtual void Free();
 
 protected:
-	float	m_fAnimationFrame = 0;
-	float	m_fAnimationMaxFrame = 0;
-	float	m_fAnimationSpeed = 0;
+	_float	m_fAnimationFrame = 0;
+	_float	m_fAnimationMaxFrame = 0;
+	_float	m_fAnimationSpeed = 0;
 
 	_float	m_fViewZ;
 	_float	m_fDepth = {};

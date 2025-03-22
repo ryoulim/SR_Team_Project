@@ -239,7 +239,7 @@ HRESULT CMonster::Set_TextureType()
 	//int curstatus = BOSS_STATUS::WALK;
 	//_float startfrmnum = _float(m_iDegree * m_fAnimationMaxFrame + curstatus);
 	//m_fAnimationFrame = startfrmnum + _fTimeDelta;
-	//나중에쓸것
+	//나중에쓸(수도있을)것
 	/******************************************************************/
 
 
