@@ -1,18 +1,18 @@
-#include "VIBuffer_Cube.h"
+#include "VIBuffer_BuildingW.h"
 
-CVIBuffer_Cube::CVIBuffer_Cube(LPDIRECT3DDEVICE9 pGraphic_Device)
+CVIBuffer_BuildingW::CVIBuffer_BuildingW(LPDIRECT3DDEVICE9 pGraphic_Device)
     :CVIBuffer{pGraphic_Device}
 {
 }
 
-CVIBuffer_Cube::CVIBuffer_Cube(const CVIBuffer_Cube& Prototype)
+CVIBuffer_BuildingW::CVIBuffer_BuildingW(const CVIBuffer_BuildingW& Prototype)
     :CVIBuffer(Prototype)
 {
 }
 
-HRESULT CVIBuffer_Cube::Initialize_Prototype()
+HRESULT CVIBuffer_BuildingW::Initialize_Prototype()
 {
-	m_iNumVertices = 12;					// 버텍스 갯수
+	m_iNumVertices = 16;					// 버텍스 갯수
 	m_iVertexStride = sizeof(VTXPOSNORTEX);	// 버텍스 크기
 	m_iFVF = D3DFVF_XYZ | D3DFVF_NORMAL | D3DFVF_TEX1;		// 버텍스 타입
 	m_iNumPritimive = 12;					// 삼각형 갯수
@@ -29,29 +29,54 @@ HRESULT CVIBuffer_Cube::Initialize_Prototype()
 
 	m_pVB->Lock(0, /*m_iNumVertices * m_iVertexStride*/0, reinterpret_cast<void**>(&pVertices), 0);
 	
-	pVertices[0].vPosition = _float3(-0.5f, 0.5f, -0.5f);
+	pVertices[0].vPosition = _float3(-0.5f, 0.5f, 0.5f);
 	pVertices[0].vTexcoord = _float2(0.f, 0.f);
 
-	pVertices[1].vPosition = _float3(0.5f, 0.5f, -0.5f);
+	pVertices[1].vPosition = _float3(0.5f, 0.5f, 0.5f);
 	pVertices[1].vTexcoord = _float2(1.f, 0.f);
 
-	pVertices[2].vPosition = _float3(0.5f, -0.5f, -0.5f);
+	pVertices[2].vPosition = _float3(0.5f, 0.5f, 0.25f);
 	pVertices[2].vTexcoord = _float2(1.f, 1.f);
 
-	pVertices[3].vPosition = _float3(-0.5f, -0.5f, -0.5f);
+	pVertices[3].vPosition = _float3(0.25f, 0.5f, 0.f);
 	pVertices[3].vTexcoord = _float2(0.f, 1.f);
 
-	pVertices[4].vPosition = _float3(-0.5f, 0.5f, 0.5f);
+	pVertices[4].vPosition = _float3(0.f, 0.5f, 0.f);
 	pVertices[4].vTexcoord = _float2(1.f, 0.f);
 
-	pVertices[5].vPosition = _float3(0.5f, 0.5f, 0.5f);
+	pVertices[5].vPosition = _float3(0.f, 0.5f, -0.25f);
 	pVertices[5].vTexcoord = _float2(0.f, 0.f);
 
-	pVertices[6].vPosition = _float3(0.5f, -0.5f, 0.5f);
+	pVertices[6].vPosition = _float3(-0.25f, 0.5f, -0.5f);
 	pVertices[6].vTexcoord = _float2(0.f, 1.f);
 
-	pVertices[7].vPosition = _float3(-0.5f, -0.5f, 0.5f);
+	pVertices[7].vPosition = _float3(-0.5f, 0.5f, -0.5f);
 	pVertices[7].vTexcoord = _float2(1.f, 1.f);
+
+
+	pVertices[8].vPosition = _float3(-0.5f, -0.5f, 0.5f);
+	pVertices[8].vTexcoord = _float2(0.f, 0.f);
+
+	pVertices[9].vPosition = _float3(0.5f, -0.5f, 0.5f);
+	pVertices[9].vTexcoord = _float2(1.f, 0.f);
+
+	pVertices[10].vPosition = _float3(0.5f, -0.5f, 0.25f);
+	pVertices[10].vTexcoord = _float2(1.f, 1.f);
+
+	pVertices[11].vPosition = _float3(0.25f, -0.5f, 0.f);
+	pVertices[11].vTexcoord = _float2(0.f, 1.f);
+
+	pVertices[12].vPosition = _float3(0.f, -0.5f, 0.f);
+	pVertices[12].vTexcoord = _float2(1.f, 0.f);
+
+	pVertices[13].vPosition = _float3(0.f, -0.5f, -0.25f);
+	pVertices[13].vTexcoord = _float2(0.f, 0.f);
+
+	pVertices[14].vPosition = _float3(-0.25f, -0.5f, -0.5f);
+	pVertices[14].vTexcoord = _float2(0.f, 1.f);
+
+	pVertices[15].vPosition = _float3(-0.5f, -0.5f, -0.5f);
+	pVertices[15].vTexcoord = _float2(1.f, 1.f);
 
 #pragma region 법선
 	for (int i = 0; i < m_iNumVertices; i++)
@@ -143,12 +168,12 @@ HRESULT CVIBuffer_Cube::Initialize_Prototype()
 	return S_OK;
 }
 
-HRESULT CVIBuffer_Cube::Initialize(void* pArg)
+HRESULT CVIBuffer_BuildingW::Initialize(void* pArg)
 {
     return S_OK;
 }
 
-void CVIBuffer_Cube::Set_IndexBuffer(_ushort* pIndices, _uint StartIndex, _uint LT, _uint RT, _uint RB, _uint LB)
+void CVIBuffer_BuildingW::Set_IndexBuffer(_ushort* pIndices, _uint StartIndex, _uint LT, _uint RT, _uint RB, _uint LB)
 {
 	pIndices[StartIndex++] = LT;
 	pIndices[StartIndex++] = RT;
@@ -159,38 +184,38 @@ void CVIBuffer_Cube::Set_IndexBuffer(_ushort* pIndices, _uint StartIndex, _uint 
 	pIndices[StartIndex++] = LB;
 }
 
-VECTOR CVIBuffer_Cube::ComputeNormalVector(VTXPOSNORTEX* pVertices, _uint vertex1, _uint vertex2, _uint vertex3)
+VECTOR CVIBuffer_BuildingW::ComputeNormalVector(VTXPOSNORTEX* pVertices, _uint vertex1, _uint vertex2, _uint vertex3)
 {
 	return __super::ComputeNormal(&(pVertices[vertex1].vPosition), &(pVertices[vertex2].vPosition), &(pVertices[vertex3].vPosition));
 }
 
-CVIBuffer_Cube* CVIBuffer_Cube::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
+CVIBuffer_BuildingW* CVIBuffer_BuildingW::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 {
-	CVIBuffer_Cube* pInstance = new CVIBuffer_Cube(pGraphic_Device);
+	CVIBuffer_BuildingW* pInstance = new CVIBuffer_BuildingW(pGraphic_Device);
 
 	if (FAILED(pInstance->Initialize_Prototype()))
 	{
-		MSG_BOX("Failed to Created : CVIBuffer_Cube");
+		MSG_BOX("Failed to Created : CVIBuffer_BuildingW");
 		Safe_Release(pInstance);
 	}
 
 	return pInstance;
 }
 
-CComponent* CVIBuffer_Cube::Clone(void* pArg)
+CComponent* CVIBuffer_BuildingW::Clone(void* pArg)
 {
-	CVIBuffer_Cube* pInstance = new CVIBuffer_Cube(*this);
+	CVIBuffer_BuildingW* pInstance = new CVIBuffer_BuildingW(*this);
 
 	if (FAILED(pInstance->Initialize(pArg)))
 	{
-		MSG_BOX("Failed to Clone : CVIBuffer_Cube");
+		MSG_BOX("Failed to Clone : CVIBuffer_BuildingW");
 		Safe_Release(pInstance);
 	}
 
 	return pInstance;
 }
 
-void CVIBuffer_Cube::Free()
+void CVIBuffer_BuildingW::Free()
 {
 	__super::Free();
 }

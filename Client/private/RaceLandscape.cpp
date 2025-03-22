@@ -17,7 +17,7 @@ HRESULT CRaceLandscape::Initialize_Prototype()
 
 HRESULT CRaceLandscape::Initialize(void* pArg)
 {
-	DIRECTION* dir = reinterpret_cast<DIRECTION*>(pArg);
+	DESC* desc = static_cast<DESC*>(pArg);
 
 	m_eLevelID = LEVEL_RACE;
 	m_szTextureID = TEXT("RaceLandscape");
@@ -26,18 +26,8 @@ HRESULT CRaceLandscape::Initialize(void* pArg)
 	if (FAILED(__super::Ready_Components(pArg)))
 		return E_FAIL;
 
-	if (*dir == RIGHT)
-	{
-		m_pTransformCom->LookAt(_float3(0.f, 0.f, -1.f));
-		m_pTransformCom->Set_State(CTransform::STATE_POSITION, _float3(650.f, 36.f, 7150.f));
-	}
-
-	else
-	{
-		m_pTransformCom->LookAt(_float3(0.f, 0.f, 1.f));
-		m_pTransformCom->Set_State(CTransform::STATE_POSITION, _float3(250.f, 36.f, 36.f));
-	}
-
+	m_pTransformCom->LookAt(desc->vLook);
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION, desc->vPosition);
 	m_pTransformCom->Scaling(_float3(72.f, 72.f, 72.f));
 
 	return S_OK;

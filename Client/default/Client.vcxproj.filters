@@ -271,6 +271,12 @@
     <Filter Include="02.GameObjects\Particle\BulletImpactSpark">
       <UniqueIdentifier>{29b9af98-8f5d-4995-b0cb-a6d9d6b5145d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\Pawn\PlayerOnBoat">
+      <UniqueIdentifier>{7efd6090-538e-41fe-a189-bea97aeafa1a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Statue\BuildingH">
+      <UniqueIdentifier>{f997c486-91f6-451b-86ed-1163c494293d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -570,6 +576,12 @@
     <ClInclude Include="..\public\Weapon_Dispenser.h">
       <Filter>02.GameObjects\Weapon\Dispenser</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\PlayerOnBoat.h">
+      <Filter>02.GameObjects\Pawn\PlayerOnBoat</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\BuildingH.h">
+      <Filter>02.GameObjects\Statue\BuildingH</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -857,6 +869,12 @@
     </ClCompile>
     <ClCompile Include="..\private\Weapon_Dispenser.cpp">
       <Filter>02.GameObjects\Weapon\Dispenser</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\PlayerOnBoat.cpp">
+      <Filter>02.GameObjects\Pawn\PlayerOnBoat</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\BuildingH.cpp">
+      <Filter>02.GameObjects\Statue\BuildingH</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

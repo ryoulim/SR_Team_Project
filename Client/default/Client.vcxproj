@@ -163,6 +163,7 @@
     <ClInclude Include="..\public\BackGround.h" />
     <ClInclude Include="..\public\Block.h" />
     <ClInclude Include="..\public\Blood.h" />
+    <ClInclude Include="..\public\BuildingH.h" />
     <ClInclude Include="..\public\Bullet.h" />
     <ClInclude Include="..\public\BulletImpactSpark.h" />
     <ClInclude Include="..\public\Button.h" />
@@ -206,6 +207,7 @@
     <ClInclude Include="..\public\Particle_Define.h" />
     <ClInclude Include="..\public\Pawn.h" />
     <ClInclude Include="..\public\Player.h" />
+    <ClInclude Include="..\public\PlayerOnBoat.h" />
     <ClInclude Include="..\public\Portrait.h" />
     <ClInclude Include="..\public\PSystem.h" />
     <ClInclude Include="..\public\RaceLandscape.h" />
@@ -263,6 +265,7 @@
     <ClCompile Include="..\Private\BackGround.cpp" />
     <ClCompile Include="..\private\Block.cpp" />
     <ClCompile Include="..\private\Blood.cpp" />
+    <ClCompile Include="..\private\BuildingH.cpp" />
     <ClCompile Include="..\private\Bullet.cpp" />
     <ClCompile Include="..\private\BulletImpactSpark.cpp" />
     <ClCompile Include="..\private\Button.cpp" />
@@ -305,6 +308,7 @@
     <ClCompile Include="..\private\Particle_Define.cpp" />
     <ClCompile Include="..\private\Pawn.cpp" />
     <ClCompile Include="..\private\Player.cpp" />
+    <ClCompile Include="..\private\PlayerOnBoat.cpp" />
     <ClCompile Include="..\private\Portrait.cpp" />
     <ClCompile Include="..\private\PSystem.cpp" />
     <ClCompile Include="..\private\RaceLandscape.cpp" />

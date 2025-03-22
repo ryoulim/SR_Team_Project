@@ -138,6 +138,7 @@ HRESULT CMainApp::Ready_Component_For_Static()
 	//Load_ProtoType_Terrain(TEXT("MapData.txt"));
 	ADD_MODEL(Canopy);
 	ADD_MODEL(RaceLandscape);
+	ADD_MODEL(BuildingH);
 
 	ADD_PRTCOM(Transform);
 	ADD_PRTCOM(Gravity);
