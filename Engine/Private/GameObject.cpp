@@ -57,11 +57,12 @@ void CGameObject::FrameUpdate(float timeDelta, float _MaxFrame, float fSpeed, bo
 		//현재 프레임이 맥스프레임보다 크면 ? 0 으로 바꿔라.
 		if (_MaxFrame <= m_fAnimationFrame)
 		{
-			m_fAnimationFrame = _MaxFrame;
+			m_fAnimationFrame -= _MaxFrame;
 		}
 	}
 	else
 	{
+		//반복이 아니면 그냥 리턴 
 		if (_MaxFrame <= m_fAnimationFrame)
 			return;
 	}

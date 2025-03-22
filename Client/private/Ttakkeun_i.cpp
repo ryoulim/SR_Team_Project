@@ -55,6 +55,20 @@ void CTtakkeun_i::Late_Update(_float fTimeDelta)
 {
 	m_pCollider->Update_Collider();
 	__super::Late_Update(fTimeDelta);
+
+
+
+#ifdef _DEBUG
+	auto now = steady_clock::now();
+	auto elapsed = duration_cast<milliseconds>(now - g_LastLogTime).count();
+
+	if (elapsed >= 500) 
+	{
+		// 0.5초 이상 지났다면 출력
+		cout << "플레이어 위치 : " << endl;
+		g_LastLogTime = now;
+	}
+#endif
 }
 
 HRESULT CTtakkeun_i::Render()
