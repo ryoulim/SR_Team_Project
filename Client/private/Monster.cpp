@@ -32,6 +32,7 @@ HRESULT CMonster::Initialize(void* pArg)
 {
 	/* 플레이어를 알고 있어라 */
 	m_pTargetPlayer = GET_PLAYER;
+	Safe_AddRef(m_pTargetPlayer);
 
 	/* 텍스처, 트랜스폼, 렉트버퍼, 콜라이더 컴포넌트 준비(위치초기화) */
 	if (FAILED(Ready_Components(pArg)))

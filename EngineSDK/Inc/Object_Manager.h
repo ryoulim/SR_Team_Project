@@ -24,7 +24,7 @@ public:
 
 public:
 	class CGameObject* Find_Object(_uint iLevelIndex, const _wstring& strLayerTag, _uint iVectorIndex = 0);
-	vector<CGameObject*>& Find_Objects(_uint iLevelIndex, const _wstring& strLayerTag);
+	list<CGameObject*>& Find_Objects(_uint iLevelIndex, const _wstring& strLayerTag);
 
 	// 오브젝트 풀 생성
 	HRESULT Create_Object_Pool(_uint iPrototypeLevelIndex, const _wstring& strPrototypeTag, const _wstring& strObjectTag, _uint iPoolSize);

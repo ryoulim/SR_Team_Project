@@ -56,12 +56,17 @@ void CLayer::Late_Update(_float fTimeDelta)
 	}
 }
 
-CGameObject* CLayer::Find_Object(_uint iVectorIndex)
+CGameObject* CLayer::Find_Object(_uint iIndex)
 {
-	if (iVectorIndex >= m_GameObjects.size())
+	if (iIndex >= m_GameObjects.size())
 		return nullptr;
 	
-	return m_GameObjects[iVectorIndex];
+	auto Iter = m_GameObjects.begin();
+
+	for (_uint i = 0; i < iIndex; ++i)
+		Iter++;
+
+	return *Iter;
 }
 
 CLayer* CLayer::Create()

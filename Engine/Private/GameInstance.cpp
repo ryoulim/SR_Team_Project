@@ -141,7 +141,7 @@ CGameObject* CGameInstance::Find_Object(_uint iLevelIndex, const _wstring& strLa
 	return m_pObject_Manager->Find_Object(iLevelIndex,strLayerTag,iVectorIndex);
 }
 
-vector<CGameObject*>& CGameInstance::Find_Objects(_uint iLevelIndex, const _wstring& strLayerTag)
+list<CGameObject*>& CGameInstance::Find_Objects(_uint iLevelIndex, const _wstring& strLayerTag)
 {
 	return m_pObject_Manager->Find_Objects(iLevelIndex, strLayerTag);
 }

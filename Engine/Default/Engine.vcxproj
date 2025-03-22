@@ -167,6 +167,7 @@ CALL $(SolutionDir)\UpdateLib.bat</Command>
     <ClInclude Include="..\public\Collider_AABB_Cube.h" />
     <ClInclude Include="..\public\Collider_Capsule.h" />
     <ClInclude Include="..\public\Collider_Line.h" />
+    <ClInclude Include="..\public\Collider_Manager.h" />
     <ClInclude Include="..\Public\Collider_OBB_Cube.h" />
     <ClInclude Include="..\public\Collider_Rect.h" />
     <ClInclude Include="..\public\Collider_Sphere.h" />
@@ -218,6 +219,7 @@ CALL $(SolutionDir)\UpdateLib.bat</Command>
     <ClCompile Include="..\private\Collider_AABB_Cube.cpp" />
     <ClCompile Include="..\private\Collider_Capsule.cpp" />
     <ClCompile Include="..\private\Collider_Line.cpp" />
+    <ClCompile Include="..\private\Collider_Manager.cpp" />
     <ClCompile Include="..\Private\Collider_OBB_Cube.cpp" />
     <ClCompile Include="..\private\Collider_Rect.cpp" />
     <ClCompile Include="..\private\Collider_Sphere.cpp" />

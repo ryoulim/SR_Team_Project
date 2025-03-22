@@ -18,13 +18,13 @@ public:
 	void Update(_float fTimeDelta);
 	void Late_Update(_float fTimeDelta);
 
-	class CGameObject* Find_Object(_uint iVectorIndex);
-	vector<CGameObject*>& Get_Objects() {
+	class CGameObject* Find_Object(_uint iIndex);
+	list<CGameObject*>& Get_Objects() {
 		return m_GameObjects;
 	}
 
 private:
-	vector<class CGameObject*>			m_GameObjects;
+	list<class CGameObject*>			m_GameObjects;
 
 public:
 	static CLayer* Create();
