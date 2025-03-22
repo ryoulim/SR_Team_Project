@@ -120,13 +120,14 @@ list<CGameObject*>& CObject_Manager::Find_Objects(_uint iLevelIndex, const _wstr
 	return Find_Layer(iLevelIndex, strLayerTag)->Get_Objects();
 }
 
-HRESULT CObject_Manager::Create_Object_Pool(_uint iPrototypeLevelIndex, const _wstring& strPrototypeTag, const _wstring& strObjectTag, _uint iPoolSize)
+HRESULT CObject_Manager::Create_Object_Pool(_uint iPrototypeLevelIndex, const _wstring& strPrototypeTag, const _wstring& strObjectTag, _uint iPoolSize, void* pArg)
 {
 	CObjectPool* pObjectPool = CObjectPool::Create();
 
 	for (_uint i = 0; i < iPoolSize; ++i)
 	{
-		CGameObject* pGameObject = dynamic_cast<CGameObject*>(m_pGameInstance->Clone_Prototype(PROTOTYPE::TYPE_GAMEOBJECT, iPrototypeLevelIndex, strPrototypeTag));
+		CGameObject* pGameObject = dynamic_cast<CGameObject*>(m_pGameInstance->Clone_Prototype(PROTOTYPE::TYPE_GAMEOBJECT,
+			iPrototypeLevelIndex, strPrototypeTag,pArg));
 		if (nullptr == pGameObject)
 			return E_FAIL;
 		pObjectPool->DeActive(pGameObject);

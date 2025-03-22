@@ -38,10 +38,10 @@ void CLayer::Update(_float fTimeDelta)
 			ObjEvent = (*Iter)->Update(fTimeDelta);
 			if (EVN_NONE != ObjEvent)
 			{
+				m_pGameInstance->Delete_Collider(*Iter);
 				if (EVN_DEAD == ObjEvent)
 				{
 					// 지금 오브젝트가 죽으면 콜라이더가 있는지 검사하게 되어있음 나중에 수정or최적화 할 수도 있음
-					m_pGameInstance->Delete_Collider(*Iter);
 					Safe_Release(*Iter);
 				}
 				Iter = m_GameObjects.erase(Iter);

@@ -589,7 +589,11 @@ HRESULT CLoader::Loading_For_GamePlay()
 #pragma region DATA
 	lstrcpy(m_szLoadingText, TEXT("데이터를 읽어들이는 중입니다."));
 	Add_Data(TEXT("GamePlayLevelData.csv"));
-	//CRETAE_OBJ_POOL(MyCube, 50);
+	CTestBullet::DESC BulletDesc{};
+	BulletDesc.fSpeedPerSec = 3000.f;
+	BulletDesc.vScale = { 3.f,3.f,3.f };
+
+	CRETAE_OBJ_POOL(TestBullet, 30, &BulletDesc);
 	
 #pragma endregion
 

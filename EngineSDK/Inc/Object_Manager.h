@@ -27,10 +27,10 @@ public:
 	list<CGameObject*>& Find_Objects(_uint iLevelIndex, const _wstring& strLayerTag);
 
 	// 오브젝트 풀 생성
-	HRESULT Create_Object_Pool(_uint iPrototypeLevelIndex, const _wstring& strPrototypeTag, const _wstring& strObjectTag, _uint iPoolSize);
+	HRESULT Create_Object_Pool(_uint iPrototypeLevelIndex, const _wstring& strPrototypeTag, const _wstring& strObjectTag, _uint iPoolSize, void* pArg);
 	// 오브젝트 풀 삭제
 	HRESULT Release_Object_Pool(const _wstring& strObjectTag);
-	// 풀에서 오브젝트를 꺼내서 활성화 (이니셜라이즈 재호출)
+	// 풀에서 오브젝트를 꺼내서 활성화 (리셋 호출)
 	_uint Active_Object(const _wstring& strObjectTag, _uint iLevelIndex, const _wstring& strLayerTag, void* pArg);
 	// 오브젝트를 다시 풀로 반환 (초기화따윈 없음)
 	_uint Deactive_Object(const _wstring& strObjectTag, class CGameObject* pObject);

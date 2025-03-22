@@ -23,6 +23,30 @@ HRESULT CBullet::Initialize(void* pArg)
 	return S_OK;
 }
 
+HRESULT CBullet::Reset(void* pArg)
+{
+	_float4x4 CameraWorld{};
+	m_pGraphic_Device->GetTransform(D3DTS_VIEW, &CameraWorld);
+	m_pTransformCom->Set_WorldMatrix(&CameraWorld.MakeInverseMat(CameraWorld));
+
+	DESC* pDesc = static_cast<DESC*>(pArg);
+	//CCollider_Line::DESC ColliderDesc{};
+	//ColliderDesc.pTransform = m_pTransformCom;
+	//ColliderDesc.vScale.x = pDesc->fSpeedPerSec / 60.f; // 총 길이 / 프레임 수
+	//ColliderDesc.pOwner = this;
+	//ColliderDesc.iColliderGroupID = COL_PBULLET;
+
+	
+	m_pCollider->Update_Scale({ pDesc->fSpeedPerSec / 60.f ,0.f,0.f });
+	m_pCollider->Update_Collider();
+
+	m_pGameInstance->Add_Collider(m_pCollider, COL_PBULLET);
+	m_bDead = FALSE;
+	m_fTimeAcc = 0.f;
+
+	return S_OK;
+}
+
 void CBullet::Priority_Update(_float fTimeDelta)
 {
 }
@@ -58,7 +82,9 @@ HRESULT CBullet::Render()
 void CBullet::On_Collision(_uint MyColliderID, _uint OtherColliderID)
 {
 	m_bDead = TRUE;
-	CFXMgr::Get_Instance()->SpawnExplosion(CCollider::Get_Last_Collision_Pos(), m_eLevelID); 
+
+	if(OtherColliderID == COL_BLOCK)
+		CFXMgr::Get_Instance()->SpawnExplosion(CCollider::Get_Last_Collision_Pos(), m_eLevelID); 
 }
 
 HRESULT CBullet::Ready_Components(void* pArg)

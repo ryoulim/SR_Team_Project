@@ -39,9 +39,9 @@ if (FAILED(m_pGameInstance->Add_Prototype(m_eNextLevelID, _wstring(TEXT("Prototy
 C##Name::Create(m_pGraphic_Device, __VA_ARGS__ ))))																	\
 return E_FAIL	
 
-#define CRETAE_OBJ_POOL(Name,Num)																					\
+#define CRETAE_OBJ_POOL(Name,Num,Arg)																					\
 if(FAILED(m_pGameInstance->Create_Object_Pool(m_eNextLevelID, _wstring(TEXT("Prototype_GameObject_")) + L###Name,	\
-_wstring(TEXT("ObjectPool_")) + L###Name, Num)))																	\
+_wstring(TEXT("ObjectPool_")) + L###Name, Num,Arg)))																	\
 return E_FAIL
 
 #pragma endregion

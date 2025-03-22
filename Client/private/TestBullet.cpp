@@ -42,7 +42,10 @@ EVENT CTestBullet::Update(_float fTimeDelta)
 		m_bDead = TRUE;
 
 	if (m_bDead)
-		return EVN_DEAD;
+	{
+		m_pGameInstance->Deactive_Object(TEXT("ObjectPool_TestBullet"), this);
+		return EVN_OFF;
+	}
 	m_pTransformCom->Go_Straight(fTimeDelta);
 
 	return __super::Update(fTimeDelta);

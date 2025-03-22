@@ -122,9 +122,13 @@ void CWeapon::Create_Bullet()
 	BulletDesc.fSpeedPerSec = 3000.f;
 	BulletDesc.vScale = { 3.f,3.f,3.f };
 
-	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_TestBullet"),
+	if (FAILED(m_pGameInstance->Active_Object(TEXT("ObjectPool_TestBullet"),
 		LEVEL_GAMEPLAY, TEXT("Layer_PBullet"), &BulletDesc)))
 		return;
+
+	//if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_TestBullet"),
+	//	LEVEL_GAMEPLAY, TEXT("Layer_PBullet"), &BulletDesc)))
+	//	return;
 }
 
 void CWeapon::Key_Input()

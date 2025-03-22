@@ -45,7 +45,7 @@ public:
 	list<CGameObject*>& Find_Objects(_uint iLevelIndex, const _wstring& strLayerTag);
 
 	// 오브젝트 풀 생성
-	HRESULT Create_Object_Pool(_uint iPrototypeLevelIndex, const _wstring& strPrototypeTag, const _wstring& strObjectTag, _uint iPoolSize);
+	HRESULT Create_Object_Pool(_uint iPrototypeLevelIndex, const _wstring& strPrototypeTag, const _wstring& strObjectTag, _uint iPoolSize, void* pArg = nullptr);
 	// 오브젝트 풀 삭제
 	HRESULT Release_Object_Pool(const _wstring& strObjectTag);
 	// 오브젝트 풀에서 객체 하나를 오브젝트 리스트에 넣는다.(Reset 함수 호출)

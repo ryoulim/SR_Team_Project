@@ -154,9 +154,9 @@ list<CGameObject*>& CGameInstance::Find_Objects(_uint iLevelIndex, const _wstrin
 	return m_pObject_Manager->Find_Objects(iLevelIndex, strLayerTag);
 }
 
-HRESULT CGameInstance::Create_Object_Pool(_uint iPrototypeLevelIndex, const _wstring& strPrototypeTag, const _wstring& strObjectTag, _uint iPoolSize)
+HRESULT CGameInstance::Create_Object_Pool(_uint iPrototypeLevelIndex, const _wstring& strPrototypeTag, const _wstring& strObjectTag, _uint iPoolSize, void* pArg)
 {
-	return m_pObject_Manager->Create_Object_Pool(iPrototypeLevelIndex, strPrototypeTag, strObjectTag, iPoolSize);
+	return m_pObject_Manager->Create_Object_Pool(iPrototypeLevelIndex, strPrototypeTag, strObjectTag, iPoolSize,pArg);
 }
 
 HRESULT CGameInstance::Release_Object_Pool(const _wstring& strObjectTag)
