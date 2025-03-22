@@ -363,7 +363,7 @@ HRESULT CLevel_GamePlay::Ready_Light()
 	//m_pGraphic_Device->SetRenderState(D3DRS_LIGHTING, TRUE);
 
 	//m_pGraphic_Device->SetRenderState(D3DRS_AMBIENT, D3DCOLOR_XRGB(50, 50, 50));
-
+		
 	return S_OK;
 }
 
@@ -382,7 +382,7 @@ HRESULT CLevel_GamePlay::Load_Map(_uint iLevelIdx, const _wstring& FileName)
 		MSG_BOX("파일 개방 실패");
 		return E_FAIL;
 	}
-	/* 텍스쿠드 변경용 변수 (점점추가될 예정 )*/
+	/* 텍스쿠드 변경해서 적용시켜 줄 때 각 오브젝트를 갖고오는 변수 ( 점점추가될 예정 )*/
 	_int iNumTile = {};
 	/* 불러오기용 변수 */
 	_int iNumVertexX = {}, iNumVertexZ = {}, iLoadLength = {};

@@ -15,6 +15,9 @@ public:
 	virtual HRESULT Initialize_Prototype() override;
 	virtual HRESULT Initialize(void* pArg) override;
 
+private:
+	_float3 ComputeNormalVector(VTXCUBE* pVertices, _uint vertex1, _uint vertex2, _uint vertex3);
+
 public:
 	static CVIBuffer_CubeEx* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
 	virtual CComponent* Clone(void* pArg) override;
