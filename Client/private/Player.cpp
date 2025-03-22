@@ -93,10 +93,6 @@ EVENT CPlayer::Update(_float fTimeDelta)
 	if (!m_bFpsMode || m_bBouseFixMod)
 		return EVN_NONE;
 
-	if (KEY_DOWN(DIK_1))
-		m_iCurWeaponIndex = 0;
-	if (KEY_DOWN(DIK_2))
-		m_iCurWeaponIndex = 1;
 	///****** 테스트용 ******/
 	//if (KEY_DOWN('1'))
 	//	UPDATE_HP();
@@ -155,35 +151,51 @@ void CPlayer::On_Collision(_uint MyColliderID, _uint OtherColliderID)
 
 void CPlayer::Key_Input(_float fTimeDelta)
 {
-	_bool bMove{};
+	_bool bTriger{};
 
 	if (KEY_PRESSING(DIK_W))
 	{
 		m_pGravityCom->Go_Straight_On_Terrain(fTimeDelta);
-		bMove = TRUE;
+		bTriger = TRUE;
 	}
 	if (KEY_PRESSING(DIK_S))
 	{
 		m_pGravityCom->Go_Backward_On_Terrain(fTimeDelta);
-		bMove = TRUE;
+		bTriger = TRUE;
 	}
 	if (KEY_PRESSING(DIK_A))
 	{
 		m_pGravityCom->Go_Left_On_Terrain(fTimeDelta);
-		bMove = TRUE;
+		bTriger = TRUE;
 	}
 	if (KEY_PRESSING(DIK_D))
 	{
 		m_pGravityCom->Go_Right_On_Terrain(fTimeDelta);
-		bMove = TRUE;
+		bTriger = TRUE;
 	}
-	if(bMove)
+	if (bTriger)
 		m_Weapons[m_iCurWeaponIndex]->Walk(fTimeDelta);
+
 
 	if (KEY_DOWN(DIK_SPACE))
 	{
 		m_pGravityCom->Jump(30.f);
 	}
+
+
+	bTriger = FALSE;
+	if (KEY_DOWN(DIK_1))
+	{
+		m_iCurWeaponIndex = 0;
+		bTriger = TRUE;
+	}
+	if (KEY_DOWN(DIK_2))
+	{
+		m_iCurWeaponIndex = 1;
+		bTriger = TRUE;
+	}
+	if (bTriger)
+		m_Weapons[m_iCurWeaponIndex]->Set_State(CWeapon::ST_OPENING);
 
 	m_Weapons[m_iCurWeaponIndex]->Key_Input();
 }

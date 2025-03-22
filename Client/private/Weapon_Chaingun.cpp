@@ -2,8 +2,12 @@
 // 부모 클래스 이름 : Weapon
 
 #include "Weapon_Chaingun.h"
-#define INITPOS {170.f,-205.f,0.1f}
-#define HEADPOS {170.f - 35.f, -205.f + 72.5f, 0.1f}
+#define INITPOS {170.f,-208.f,0.1f}
+#define HEADPOS	_float3 INITPOS - _float3{35.f,-72.5f,0.f}
+#define ST_RELEASE ST_RELOAD
+#define RELEASE Reload
+
+#define LERP(a, b, t)  a + (b - a) * t
 
 CWeapon_Chaingun::CWeapon_Chaingun(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CWeapon{ pGraphic_Device }
@@ -24,7 +28,7 @@ HRESULT CWeapon_Chaingun::Initialize(void* pArg)
 {
 	DESC Desc{};
 	m_fTextureNum = 0.f;
-	Desc.fSpeedPerSec = 600.f;
+	Desc.fSpeedPerSec = 3000.f;
 	m_szTextureID = TEXT("Weapon_Chaingun");
 	m_vMovingPos = INITPOS;
 	m_vMovingPos.y -= 10.f;
@@ -56,7 +60,8 @@ HRESULT CWeapon_Chaingun::Render()
 {
 	Body_Render();
 	if (m_eState == ST_W_ATK ||
-		m_eState == ST_S_ATK)
+		m_eState == ST_S_ATK || 
+		m_eState == ST_RELOAD)
 		__super::Render();
 
 	return S_OK;
@@ -85,8 +90,8 @@ void CWeapon_Chaingun::Walk(_float fTimeDelta)
 
 void CWeapon_Chaingun::Opening(_float fTimeDelta)
 {
-	m_pBodyTransformCom->Quaternion_Revolution(_float3(0.f, 0.f, 1.f), m_vCenter, -RADIAN(700.f) * fTimeDelta);
-
+	//m_pBodyTransformCom->Quaternion_Revolution(_float3(0.f, 0.f, 1.f), m_vCenter, -RADIAN(700.f) * fTimeDelta);
+	m_pBodyTransformCom->Go_Up(fTimeDelta);
 
 	if (m_fMotionTimer > 0.15f)
 	{
@@ -115,9 +120,10 @@ void CWeapon_Chaingun::Set_State(STATE State)
 		break;
 	case ST_OPENING:
 		m_iBodynum = 15;
-		m_vCenter = *m_pTransformCom->Get_State(CTransform::STATE_POSITION);
-		m_vCenter.y = -FWINCY * 0.7f;
-		m_pBodyTransformCom->Quaternion_Revolution({ 0.f,0.f,1.f }, m_vCenter, RADIAN(90.f));
+		//m_vCenter = *m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+		//m_vCenter.y = -FWINCY * 0.7f;
+		//m_pBodyTransformCom->Quaternion_Revolution({ 0.f,0.f,1.f }, m_vCenter, RADIAN(90.f));
+		m_pBodyTransformCom->Set_State(CTransform::STATE_POSITION, _float3 INITPOS + _float3{0.f,-400.f,0.f});
 		break;
 	case ST_WALK:
 		m_eState = ST_WALK;
@@ -130,6 +136,7 @@ void CWeapon_Chaingun::Set_State(STATE State)
 		m_fEndFrame = 14.f;
 		m_fFrameSpeed = 40.f;
 		m_iBodynum = 0;
+		m_fLastActionTime = 0.f;
 		break;
 	case ST_S_ATK: // 예열
 		m_iBodynum = 0;
@@ -137,9 +144,14 @@ void CWeapon_Chaingun::Set_State(STATE State)
 		m_fTextureNum = 1.f;
 		m_fStartFrmae = 1.f;
 		m_fEndFrame = 7.f;
-		m_fFrameSpeed = 20.f;
+		m_fFrameSpeed = 1.f;
 		break;
-	case ST_RELOAD: // 기관총에 장전따윈 없다
+	case ST_RELEASE:
+		m_eState = ST_RELOAD;
+		m_iBodynum = 0;
+		m_fTextureNum = 1.f;
+		m_fStartFrmae = 1.f;
+		m_fEndFrame = 7.f;
 		break;
 	case ST_ENDING:
 		break;
@@ -154,10 +166,10 @@ void CWeapon_Chaingun::Key_Input()
 	{
 		Set_State(ST_W_ATK);
 	}
-	if (MOUSE_DOWN(DIMK_RBUTTON))
-	{
-		Set_State(ST_S_ATK);
-	}
+	//if (MOUSE_DOWN(DIMK_RBUTTON))
+	//{
+	//	Set_State(ST_S_ATK);
+	//}
 }
 
 HRESULT CWeapon_Chaingun::Ready_Components(void* pArg)
@@ -167,7 +179,7 @@ HRESULT CWeapon_Chaingun::Ready_Components(void* pArg)
 
 	/* For.Com_BodyTransform */
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Transform"),
-		TEXT("Com_BodyTransform"), reinterpret_cast<CComponent**>(&m_pBodyTransformCom))))
+		TEXT("Com_BodyTransform"), reinterpret_cast<CComponent**>(&m_pBodyTransformCom), pArg)))
 		return E_FAIL;
 
 	_float3 vSize{};
@@ -184,6 +196,11 @@ HRESULT CWeapon_Chaingun::Ready_Components(void* pArg)
 
 void CWeapon_Chaingun::Weak_Attack(_float fTimeDelta)
 {
+#define AMPX 6.f
+#define AMPY 6.f
+#define AMPSPEED 80.f
+#define BULLETINTER 0.1f
+
 	// 총 발사
 	Update_Frame(fTimeDelta);
 
@@ -197,9 +214,11 @@ void CWeapon_Chaingun::Weak_Attack(_float fTimeDelta)
 		return;
 	}
 
-#define AMPX 6.f
-#define AMPY 6.f
-#define AMPSPEED 80.f
+	if (m_fMotionTimer - m_fLastActionTime >= BULLETINTER)
+	{
+		m_fLastActionTime = m_fMotionTimer;
+		Create_Bullet();
+	}
 
 	_float3 vInter = { sinf(m_fMotionTimer * AMPSPEED) * AMPX, -sinf(m_fMotionTimer * AMPSPEED) * AMPY, 0.f };
 
@@ -210,14 +229,20 @@ void CWeapon_Chaingun::Weak_Attack(_float fTimeDelta)
 	{
 		m_pTransformCom->Set_State(CTransform::STATE_POSITION, HEADPOS);
 		m_pBodyTransformCom->Set_State(CTransform::STATE_POSITION, INITPOS);
-		Set_State(ST_IDLE);
+		Set_State(ST_RELEASE);
 	}
 }
 
 void CWeapon_Chaingun::Strong_Attack(_float fTimeDelta)
 {
 	// 총열 예열
-	Update_Frame(fTimeDelta);
+	_float t = min(m_fMotionTimer, 1.f);
+
+	_float curve = t * t * (3 - 2 * t);
+
+	m_fFrameSpeed = LERP(5, 20, curve);
+	Update_Frame(fTimeDelta); 
+
 
 	if (m_fMotionTimer > 1.f && MOUSE_PRESSING(DIMK_LBUTTON))
 	{
@@ -230,7 +255,21 @@ void CWeapon_Chaingun::Strong_Attack(_float fTimeDelta)
 	}
 	
 	
-	if (MOUSE_UP(DIMK_RBUTTON))
+	if (MOUSE_UP(DIMK_LBUTTON))
+		Set_State(ST_RELEASE);
+}
+
+void CWeapon_Chaingun::Reload(_float fTimeDelta)
+{
+	_float t = min(m_fMotionTimer, 1.f); // 0 ~ 1 비율
+
+	_float curve = (1.f - t) * (1.f - t);
+
+	m_fFrameSpeed = LERP(5, 20, curve);
+
+	Update_Frame(fTimeDelta);
+	
+	if (m_fMotionTimer > 1.f)
 		Set_State(ST_IDLE);
 }
 

@@ -34,6 +34,7 @@ public:
 private:
 	CTransform* m_pBodyTransformCom = {nullptr};
 	_uint m_iBodynum{};
+	_float m_fLastActionTime{};
 
 private:
 	virtual HRESULT Ready_Components(void* pArg) override;
@@ -41,7 +42,7 @@ private:
 	virtual void Opening(_float fTimeDelta) override;
 	virtual void Weak_Attack(_float fTimeDelta) override;
 	virtual void Strong_Attack(_float fTimeDelta) override;
-	virtual void Reload(_float fTimeDelta) override {};
+	virtual void Reload(_float fTimeDelta) override;
 	virtual void Ending(_float fTimeDelta) override;
 	void Body_Render();
 

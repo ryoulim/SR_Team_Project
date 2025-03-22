@@ -30,13 +30,6 @@ HRESULT CBullet::Reset(void* pArg)
 	m_pTransformCom->Set_WorldMatrix(&CameraWorld.MakeInverseMat(CameraWorld));
 
 	DESC* pDesc = static_cast<DESC*>(pArg);
-	//CCollider_Line::DESC ColliderDesc{};
-	//ColliderDesc.pTransform = m_pTransformCom;
-	//ColliderDesc.vScale.x = pDesc->fSpeedPerSec / 60.f; // 총 길이 / 프레임 수
-	//ColliderDesc.pOwner = this;
-	//ColliderDesc.iColliderGroupID = COL_PBULLET;
-
-	
 	m_pCollider->Update_Scale({ pDesc->fSpeedPerSec / 60.f ,0.f,0.f });
 	m_pCollider->Update_Collider();
 

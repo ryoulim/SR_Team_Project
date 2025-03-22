@@ -348,18 +348,18 @@ void CTransform::Quaternion_Rotation(const _float3& vAngle)
 {
 	_float3 vScaled = Compute_Scaled();
 
-	_float3 vRight = _float3{ 1.f, 0.f, 0.f } *vScaled.x;
-	_float3 vUp = _float3{ 0.f, 1.f, 0.f } *vScaled.y;
-	_float3 vLook = _float3{ 0.f, 0.f, 1.f } *vScaled.z;
+	_float3 vRight = _float3{ 1.f, 0.f, 0.f };
+	_float3 vUp = _float3{ 0.f, 1.f, 0.f };
+	_float3 vLook = _float3{ 0.f, 0.f, 1.f };
 
 	// ?¨Ïõê???åÏ†Ñ ?ùÏÑ±
 	D3DXQUATERNION Qur{};
 	D3DXQuaternionRotationYawPitchRoll(&Qur, vAngle.y, vAngle.x, vAngle.z);
 	
 
-	Set_State(STATE_RIGHT, RotateVectorByQuaternion(vRight, Qur));
-	Set_State(STATE_UP, RotateVectorByQuaternion(vUp, Qur));
-	Set_State(STATE_LOOK, RotateVectorByQuaternion(vLook, Qur));
+	Set_State(STATE_RIGHT, RotateVectorByQuaternion(vRight, Qur) * vScaled.x);
+	Set_State(STATE_UP, RotateVectorByQuaternion(vUp, Qur) * vScaled.y);
+	Set_State(STATE_LOOK, RotateVectorByQuaternion(vLook, Qur) * vScaled.z);
 }
 
 void CTransform::Quaternion_Revolution(const _float3& vAxis, const _float3& vCenter, _float fAngle)
