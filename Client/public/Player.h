@@ -39,7 +39,7 @@ private:
 
 	vector<class CWeapon*>		m_Weapons;
 	_uint						m_iCurWeaponIndex{};
-	_int						m_iHP{0};
+	_int						m_iHP = 0;
 
 private:
 	void			Key_Input(_float fTimeDelta);
