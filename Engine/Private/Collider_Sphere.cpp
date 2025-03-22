@@ -1,3 +1,4 @@
+#include "Transform.h"
 #include "Collider_Sphere.h"
 
 CCollider_Sphere::CCollider_Sphere(LPDIRECT3DDEVICE9 pGraphic_Device)

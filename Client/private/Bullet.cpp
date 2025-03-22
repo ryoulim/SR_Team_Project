@@ -55,19 +55,11 @@ HRESULT CBullet::Render()
 }
 
 #include "FXMgr.h"
-void CBullet::On_Collision(CGameObject* pCollisionedObject, const _wstring& strLayerTag)
+void CBullet::On_Collision(_uint MyColliderID, _uint OtherColliderID)
 {
 	m_bDead = TRUE;
-
-	if (strLayerTag == TEXT("Layer_Block"))
-	{
-		CFXMgr::Get_Instance()->SpawnExplosion(CCollider::Get_Last_Collision_Pos(), m_eLevelID); 
-	}
-	else
-		pCollisionedObject->On_Collision(this,TEXT("Layer_Bullet"));
+	CFXMgr::Get_Instance()->SpawnExplosion(CCollider::Get_Last_Collision_Pos(), m_eLevelID); 
 }
-
-
 
 HRESULT CBullet::Ready_Components(void* pArg)
 {

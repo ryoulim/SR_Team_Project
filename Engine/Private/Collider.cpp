@@ -1,5 +1,7 @@
 #include "Collider.h"
+#include "GameObject.h"
 #include "Transform.h"
+#include "GameInstance.h"
 
 _float3 CCollider::m_vLast_Collision_Depth{};
 _float3 CCollider::m_vLast_Collision_Pos{};
@@ -30,12 +32,15 @@ HRESULT CCollider::Initialize(void* pArg)
 	}
 
 	DESC* pDesc = static_cast<DESC*>(pArg);
+	m_pOwner = pDesc->pOwner;
+	//Safe_AddRef(m_pOwner); 순환참조 때문에 어쩔수가 없다 쉬팔
 	m_pTransform = pDesc->pTransform;
 	Safe_AddRef(m_pTransform);
 	m_vOffSet = pDesc->vOffSet;
 
 	Update_Scale(pDesc->vScale);
 	Update_Collider();
+	m_pGameInstance->Add_Collider(this, pDesc->iColliderGroupID);
 	return S_OK;
 }
 
@@ -70,4 +75,5 @@ void CCollider::Free()
 {
 	__super::Free();
 	Safe_Release(m_pTransform);
+	//Safe_Release(m_pOwner); 난 최선을 다했어
 }

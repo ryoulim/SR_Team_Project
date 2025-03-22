@@ -70,7 +70,7 @@ CMainApp::CMainApp()
 
 HRESULT CMainApp::Initialize()
 {
-#ifdef _DEBUG
+#ifdef _CONSOL
 
 	if (::AllocConsole() == TRUE)
 	{
@@ -81,7 +81,7 @@ HRESULT CMainApp::Initialize()
 		std::ios::sync_with_stdio();
 	}
 
-#endif // _DEBUG
+#endif
 
 	ENGINE_DESC		Desc{};
 	Desc.hInst = g_hInst;
@@ -90,6 +90,7 @@ HRESULT CMainApp::Initialize()
 	Desc.iWinSizeX = g_iWinSizeX;
 	Desc.iWinSizeY = g_iWinSizeY;
 	Desc.iNumLevels = LEVEL_END;
+	Desc.INumColliderGroups = COL_END;
 
 	CFXMgr::Get_Instance()->Initialize();
 
@@ -248,11 +249,11 @@ CMainApp* CMainApp::Create()
 
 void CMainApp::Free()
 {
-#ifdef _DEBUG
+#ifdef _CONSOL
 
 	FreeConsole();
 
-#endif // _DEBUG
+#endif
 
 	__super::Free();
 

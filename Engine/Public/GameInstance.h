@@ -52,22 +52,22 @@ public:
 	_uint Active_Object(const _wstring& strObjectTag, _uint iLevelIndex, const _wstring& strLayerTag, void* pArg = nullptr);
 	// 오브젝트 리스트에서 해당객체를 빼서 오브젝트 풀에 반환한다.
 	_uint Deactive_Object(const _wstring& strObjectTag, class CGameObject* pObject);
-
-	// A그룹과 B그룹의 충돌을 검사한다.
-	void Intersect(_uint iLevelIndex, const _wstring& strLayerTag1, const _wstring& strLayerTag2);
-
-	// 스크린상에 있는지 검사
-	_bool IsPointInFrustum(const _float3& Point);
-
-	// 개같은 레이캐스트
-	_bool Raycast(const _float3& rayOrigin, const _float3& rayDir, _uint iLevelIndex, const _wstring& strLayerTag);
-
-	// 아래로만 쏘는 레이
-	_bool Raycast_Downward(const _float3& rayOrigin, _uint iLevelIndex, const _wstring& strLayerTag);
-
 	//절두체 업데이트
 	void Update_Frustum(const _float4x4& viewProj);
+	// 스크린상에 있는지 검사
+	_bool IsPointInFrustum(const _float3& Point);
+#pragma endregion
 
+#pragma region COLLISION_MANAGER
+	HRESULT Add_Collider(class CCollider* pCollider, _uint iColliderGroupID);
+	// 오브젝트 키를 받아서 그거에 해당하는 콜라이더를 싹다 지워버림
+	void Delete_Collider(const class CGameObject* pOwner);
+	// A그룹과 B그룹의 충돌을 검사한다.
+	void Intersect(_uint iColliderGroupID1, _uint iColliderGroupID2);
+	// 개같은 레이캐스트
+	_bool Raycast(const _float3& rayOrigin, const _float3& rayDir, _uint iColliderGroupID);
+	// 아래로만 쏘는 레이
+	_bool Raycast_Downward(const _float3& rayOrigin, _uint iColliderGroupID);
 #pragma endregion
 
 #pragma region RENDERER
@@ -111,6 +111,7 @@ private:
 	class CKey_Manager*			m_pKeyManager = { nullptr };
 	class CTimer_Manager*		m_pTimer_Manager = { nullptr };
 	class CcsvReader*			m_pCsv_Reader = { nullptr };
+	class CCollider_Manager*	m_pCollider_Manager = { nullptr };
 
 public:
 	void Release_Engine();

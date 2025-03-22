@@ -1,4 +1,5 @@
-﻿#include "Collider_Capsule.h"
+﻿#include "Transform.h"
+#include "Collider_Capsule.h"
 #include "Collider_AABB_Cube.h"
 #include "Collider_OBB_Cube.h"
 #include "Collider_Sphere.h"

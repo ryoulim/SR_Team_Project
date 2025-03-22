@@ -1,6 +1,5 @@
 ﻿#pragma once
 #include "Component.h"
-#include "Transform.h"
 
 BEGIN(Engine)
 
@@ -9,11 +8,16 @@ class ENGINE_DLL CCollider abstract : public CComponent
 public:
 	typedef struct tagCColliderDesc
 	{
-		CTransform* pTransform;
+		//this를 넣어라
+		class CGameObject* pOwner;
+		// 트랜스폼을 넣어라
+		class CTransform* pTransform;
 		// 콜라이더의 크기 (구(반지름)와 라인(길이)은 x값만 씁니다)
 		_float3 vScale;
 		// 실제 트랜스폼의 위치와 콜라이더 위치의 간격
 		_float3 vOffSet;
+		// 이 콜라이더의 그룹이 뭔지 넣어라
+		_uint iColliderGroupID;
 	}DESC;
 
 protected:
@@ -37,6 +41,9 @@ public:
 	virtual const _float3& Get_Pos() const PURE;
 	virtual const _float Get_MaxLength() const PURE;
 
+	class CGameObject* Get_Owner() const { 
+		return m_pOwner; 
+	}
 	const COLLIDER_TYPE Get_Type() const { return m_eType; }
 	static const _float3& Get_Last_Collision_Depth() { return m_vLast_Collision_Depth; }
 	static const _float3& Get_Last_Collision_Pos() { return m_vLast_Collision_Pos; }
@@ -48,8 +55,8 @@ protected:
 	static _float3 m_vLast_Collision_Pos;
 
 protected:
+	class CGameObject* m_pOwner{ nullptr };
 	class CTransform* m_pTransform { nullptr };
-	//_float3			m_vDirectionVector{}; 
 	_float3			m_vOffSet{};
 
 private:

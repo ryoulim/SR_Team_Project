@@ -54,9 +54,10 @@ HRESULT CBlock::Ready_Components(void* pArg)
     CCollider::DESC ColliderDesc{};
     ColliderDesc.pTransform = m_pTransformCom;
     ColliderDesc.vScale = m_pTransformCom->Compute_Scaled();
+    ColliderDesc.pOwner = this;
+    ColliderDesc.iColliderGroupID = COL_BLOCK;
 
-    auto vAngle = static_cast<DESC*>(pArg)->vAngle;
-
+    auto& vAngle = static_cast<DESC*>(pArg)->vAngle;
     _wstring ColliderTag = vAngle.x == 0 && vAngle.y == 0 && vAngle.z == 0 ?
         TEXT("Prototype_Component_Collider_AABB_Cube") :
         TEXT("Prototype_Component_Collider_OBB_Cube");

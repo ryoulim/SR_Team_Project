@@ -188,7 +188,7 @@ HRESULT CTtakkeun_i::Ready_Textures()
 //	return S_OK;
 //}
 
-void CTtakkeun_i::On_Collision(CGameObject* pCollisionedObject, const _wstring& strLayerTag)
+void CTtakkeun_i::On_Collision(_uint MyColliderID, _uint OtherColliderID)
 {
 	//À§Ä¡Å½»ö
 	_float3 vImpactPos = CalculateEffectPos();

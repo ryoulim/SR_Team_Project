@@ -13,8 +13,7 @@ const _float3*			CGravity::m_pTerrainVtxPos = { nullptr };
 _uint					CGravity::m_iTerrainVtxNumX = {};
 _uint					CGravity::m_iTerrainVtxNumZ = {};
 _float3					CGravity::m_vTerrainScale = {1.f,1.f,1.f};
-_uint					CGravity::m_iLevelIndex = {};
-vector<_wstring>		CGravity::m_StandableObjectLayerTags = {};
+vector<_uint>		CGravity::m_StandableColliderGroupID = {};
 
 CGravity::CGravity(LPDIRECT3DDEVICE9 pGraphic_Device)
 	:CComponent{pGraphic_Device}
@@ -49,7 +48,6 @@ void CGravity::Set_GravityStaticInfo(const DESC& Desc)
 	m_iTerrainVtxNumX = Desc.iTerrainVtxNumX;
 	m_iTerrainVtxNumZ = Desc.iTerrainVtxNumZ;
 	m_vTerrainScale = Desc.vTerrainScale;
-	m_iLevelIndex = Desc.iLevelIndex;
 }
 
 void CGravity::Go_Straight_On_Terrain(_float fTimedelta)
@@ -178,12 +176,11 @@ void CGravity::Check_Terrain()
 
 void CGravity::Raycast_StandAble_Obj()
 {
-	for (auto& Tag : m_StandableObjectLayerTags)
+	for (auto& ID : m_StandableColliderGroupID)
 	{
 		if (m_pGameInstance->Raycast_Downward(
 			*m_pTransformCom->Get_State(CTransform::STATE_POSITION) - _float3{ 0.f, m_fHalfHeight,0.f },
-			m_iLevelIndex,
-			Tag))
+			ID))
 		{
 			Force_Set_FloorY(CCollider::Get_Last_Collision_Pos().y);
 		}

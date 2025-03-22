@@ -66,7 +66,7 @@ HRESULT CArchangel::Ready_Components(void* pArg)
 	return S_OK;
 }
 
-void CArchangel::On_Collision(CGameObject* pCollisionedObject, const _wstring& strLayerTag)
+void CArchangel::On_Collision(_uint MyColliderID, _uint OtherColliderID)
 {
 	//À§Ä¡Å½»ö
 	_float3 vImpactPos = CalculateEffectPos();

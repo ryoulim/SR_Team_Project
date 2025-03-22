@@ -136,9 +136,9 @@ HRESULT CPlayer::Render()
 		return __super::Render();
 }
 
-void CPlayer::On_Collision(CGameObject* pCollisionedObject, const _wstring& strLayerTag)
+void CPlayer::On_Collision(_uint MyColliderID, _uint OtherColliderID)
 {
-	//m_pCollider->Get_Last_Collision_Pos();
+	m_pCollider->Get_Last_Collision_Pos();
 
 	_float3 vPos = *m_pTransformCom->Get_State(CTransform::STATE_POSITION);
 	_float3 vPos2 = *m_pCameraTransform->Get_State(CTransform::STATE_POSITION);
@@ -151,7 +151,6 @@ void CPlayer::On_Collision(CGameObject* pCollisionedObject, const _wstring& strL
 
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, vPos);
 	m_pCameraTransform->Set_State(CTransform::STATE_POSITION, vPos2);
-	
 }
 
 void CPlayer::Key_Input(_float fTimeDelta)

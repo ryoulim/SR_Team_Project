@@ -13,7 +13,6 @@ public:
 		_uint			iTerrainVtxNumX;
 		_uint			iTerrainVtxNumZ;
 		_float3			vTerrainScale;
-		_uint			iLevelIndex;
 	}DESC;
 
 	typedef struct tagJumpPack
@@ -31,8 +30,8 @@ public:
 	virtual HRESULT Initialize_Prototype();
 	virtual HRESULT Initialize(void* pArg) override;
 	static void Set_GravityStaticInfo(const DESC& Desc);
-	static void Add_StandableObjLayerTag(const _wstring& strTag) {
-		m_StandableObjectLayerTags.push_back(strTag);
+	static void Add_StandableObjLayerTag(_uint ID) {
+		m_StandableColliderGroupID.push_back(ID);
 	}
 
 	void Go_Straight_On_Terrain(_float fTimedelta);
@@ -60,8 +59,7 @@ private:
 	static _uint			m_iTerrainVtxNumX;
 	static _uint			m_iTerrainVtxNumZ;
 	static _float3			m_vTerrainScale;
-	static _uint			m_iLevelIndex;
-	static vector<_wstring>	m_StandableObjectLayerTags;
+	static vector<_uint>	m_StandableColliderGroupID;
 
 /// <summary>
 /// 점프 관련 변수

@@ -5,7 +5,9 @@
 #include <Windows.h>
 #include <process.h>
 
+//#define _CONSOL
 //#define _IMGUI
+
 #ifdef _IMGUI
 #include "imgui.h"
 #include "imgui_impl_dx9.h"

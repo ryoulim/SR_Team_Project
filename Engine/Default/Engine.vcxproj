@@ -135,8 +135,7 @@ CD $(SolutionDir)
     </Link>
     <PostBuildEvent>
       <Command>
-CD $(SolutionDir)
- CALL $(SolutionDir)\UpdateLib.bat</Command>
+      </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -160,8 +159,7 @@ CD $(SolutionDir)
     </Link>
     <PostBuildEvent>
       <Command>
-CD $(SolutionDir)
- CALL $(SolutionDir)\UpdateLib.bat</Command>
+      </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>

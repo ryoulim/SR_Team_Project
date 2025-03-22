@@ -37,7 +37,7 @@ private:
 	//virtual HRESULT Set_TextureType();
 
 public:
-	virtual void On_Collision(CGameObject* pCollisionedObject, const _wstring& strLayerTag);
+	virtual void On_Collision(_uint MyColliderID, _uint OtherColliderID) override;
 
 public:
 	static CTtakkeun_i* Create(LPDIRECT3DDEVICE9 pGraphic_Device);

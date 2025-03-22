@@ -148,7 +148,9 @@
     <ClInclude Include="..\Public\VIBuffer_RaceLandscape.h">
       <Filter>04.Components\VIBuffer\RaceTerrain\VIBuffer_RaceLandscape</Filter>
     </ClInclude>
-    <ClInclude Include="..\public\Collider_Manager.h" />
+    <ClInclude Include="..\public\Collider_Manager.h">
+      <Filter>04.Components\Collider\Manager</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="99.Headers">
@@ -423,6 +425,8 @@
     <ClCompile Include="..\Private\VIBuffer_RaceLandscape.cpp">
       <Filter>04.Components\VIBuffer\RaceTerrain\VIBuffer_RaceLandscape</Filter>
     </ClCompile>
-    <ClCompile Include="..\private\Collider_Manager.cpp" />
+    <ClCompile Include="..\private\Collider_Manager.cpp">
+      <Filter>04.Components\Collider\Manager</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

@@ -12,6 +12,7 @@ typedef struct tagEngineDesc
 	unsigned int			iWinSizeX;
 	unsigned int			iWinSizeY;
 	unsigned int			iNumLevels;		
+	unsigned int			INumColliderGroups;
 }ENGINE_DESC;
 
 /*D3DDECLUSAGE*/

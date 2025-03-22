@@ -9,6 +9,7 @@
 #include "Input_Device.h"
 #include "Timer_Manager.h"
 #include "csvReader.h"
+#include "Collider_Manager.h"
 
 IMPLEMENT_SINGLETON(CGameInstance);
 
@@ -54,6 +55,10 @@ HRESULT CGameInstance::Initialize_Engine(const ENGINE_DESC& EngineDesc, LPDIRECT
 	if (nullptr == m_pCsv_Reader)
 		return E_FAIL;
 
+	m_pCollider_Manager = CCollider_Manager::Create(EngineDesc.INumColliderGroups);
+	if(nullptr == m_pCsv_Reader)
+		return E_FAIL;
+
 	return S_OK;
 }
 
@@ -96,6 +101,9 @@ void CGameInstance::Clear(_uint iLevelIndex)
 	m_pObject_Manager->Clear(iLevelIndex);
 	/* 특정 레벨의 원형객을 삭제한다. */
 	m_pPrototype_Manager->Clear(iLevelIndex);
+
+	//오브젝트가 죽으면 Delete 부르니까 괜찮을듯?
+	//m_pCollider_Manager->Clear 
 }
 
 HRESULT CGameInstance::Draw_Font(const _wstring& str, LPRECT pRect)
@@ -166,29 +174,42 @@ _uint CGameInstance::Deactive_Object(const _wstring& strObjectTag, CGameObject* 
 	return m_pObject_Manager->Deactive_Object(strObjectTag, pObject);
 }
 
-void CGameInstance::Intersect(_uint iLevelIndex, const _wstring& strLayerTag1, const _wstring& strLayerTag2)
+void CGameInstance::Update_Frustum(const _float4x4& viewProj)
 {
-	m_pObject_Manager->Intersect(iLevelIndex, strLayerTag1, strLayerTag2);
+	m_pObject_Manager->Update_Frustum(viewProj);
 }
 
 _bool CGameInstance::IsPointInFrustum(const _float3& Point)
 {
 	return m_pObject_Manager->IsPointInFrustum(Point);
 }
+#pragma endregion
 
-_bool CGameInstance::Raycast(const _float3& rayOrigin, const _float3& rayDir, _uint iLevelIndex, const _wstring& strLayerTag)
+#pragma region COLLIDER_MANAGER
+
+HRESULT CGameInstance::Add_Collider(CCollider* pCollider, _uint iColliderGroupID)
 {
-	return m_pObject_Manager->Raycast(rayOrigin, rayDir, iLevelIndex, strLayerTag);
+	return m_pCollider_Manager->Add_Collider(pCollider, iColliderGroupID);
 }
 
-_bool CGameInstance::Raycast_Downward(const _float3& rayOrigin, _uint iLevelIndex, const _wstring& strLayerTag)
+void CGameInstance::Delete_Collider(const CGameObject* pOwner)
 {
-	return m_pObject_Manager->Raycast_Downward(rayOrigin, iLevelIndex, strLayerTag);
+	m_pCollider_Manager->Delete_Collider(pOwner);
 }
 
-void CGameInstance::Update_Frustum(const _float4x4& viewProj)
+void CGameInstance::Intersect(_uint iColliderGroupID1, _uint iColliderGroupID2)
 {
-	m_pObject_Manager->Update_Frustum(viewProj);
+	m_pCollider_Manager->Intersect(iColliderGroupID1, iColliderGroupID2);
+}
+
+_bool CGameInstance::Raycast(const _float3& rayOrigin, const _float3& rayDir, _uint iColliderGroupID)
+{
+	return m_pCollider_Manager->Raycast(rayOrigin, rayDir, iColliderGroupID); 
+}
+
+_bool CGameInstance::Raycast_Downward(const _float3& rayOrigin, _uint iColliderGroupID)
+{
+	return m_pCollider_Manager->Raycast_Downward(rayOrigin, iColliderGroupID);
 }
 
 #pragma endregion
@@ -278,6 +299,8 @@ HRESULT CGameInstance::Readcsv(const _wstring& strcsvPath, class CLevelData* pDa
 
 void CGameInstance::Release_Engine()
 {
+	Safe_Release(m_pCollider_Manager);
+
 	Safe_Release(m_pCsv_Reader);
 
 	Safe_Release(m_pTimer_Manager);

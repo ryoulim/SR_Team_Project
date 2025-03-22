@@ -100,7 +100,6 @@ HRESULT CLevel_GamePlay::Ready_Layer_Terrain(const _wstring& strLayerTag)
 	GravityDesc.pTerrainVtxPos = pTerrainBuffer->Get_VertexPos();
 	GravityDesc.iTerrainVtxNumX = pTerrainBuffer->Get_NumVerticesX();
   	GravityDesc.iTerrainVtxNumZ = pTerrainBuffer->Get_NumVerticesX();
-	GravityDesc.iLevelIndex = CurLevel;
 	CGravity::Set_GravityStaticInfo(GravityDesc);
 	return S_OK;
 }
@@ -363,10 +362,14 @@ void CLevel_GamePlay::Check_Collision()
 {
 	//m_pGameInstance->Intersect(LEVEL_GAMEPLAY, TEXT("Layer_Pawn"), TEXT("Layer_Statue"));
 	//m_pGameInstance->Intersect(LEVEL_GAMEPLAY, TEXT("Layer_Pawn"), TEXT("Layer_Monster"));
-	m_pGameInstance->Intersect(LEVEL_GAMEPLAY, TEXT("Layer_Pawn"), TEXT("Layer_Block"));
+	//m_pGameInstance->Intersect(LEVEL_GAMEPLAY, TEXT("Layer_Pawn"), TEXT("Layer_Block"));
 	//m_pGameInstance->Intersect(LEVEL_GAMEPLAY, TEXT("Layer_Pawn"), TEXT("Layer_BackGround"));
-	m_pGameInstance->Intersect(LEVEL_GAMEPLAY, TEXT("Layer_PBullet"), TEXT("Layer_Monster"));
-	m_pGameInstance->Intersect(LEVEL_GAMEPLAY, TEXT("Layer_PBullet"), TEXT("Layer_Block"));
+	//m_pGameInstance->Intersect(LEVEL_GAMEPLAY, TEXT("Layer_PBullet"), TEXT("Layer_Monster"));
+	//m_pGameInstance->Intersect(LEVEL_GAMEPLAY, TEXT("Layer_PBullet"), TEXT("Layer_Block"));
+
+	m_pGameInstance->Intersect(COL_PAWN, COL_BLOCK);
+	m_pGameInstance->Intersect(COL_PBULLET, COL_MONSTER);
+	m_pGameInstance->Intersect(COL_PBULLET, COL_BLOCK);
 }
 
 
@@ -433,7 +436,7 @@ HRESULT CLevel_GamePlay::Load_Map(_uint iLevelIdx, const _wstring& FileName)
 				Layertag = TEXT("Layer_BackGround");
 			if (strKey == TEXT("Block"))
 				Layertag = TEXT("Layer_Block");
-			CGravity::Add_StandableObjLayerTag(TEXT("Layer_Block"));
+			CGravity::Add_StandableObjLayerTag(COL_BLOCK);
 
 			if (FAILED(m_pGameInstance->Add_GameObject(iLevelIdx, Prototype, iLevelIdx, Layertag, &tDesc)))
 			{

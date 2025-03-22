@@ -58,7 +58,7 @@ HRESULT CWenteko::Render()
 	//특별히 더 렌더링 할게 있는 경우 ↓
 }
 
-void CWenteko::On_Collision(CGameObject* pCollisionedObject, const _wstring& strLayerTag)
+void CWenteko::On_Collision(_uint MyColliderID, _uint OtherColliderID)
 {
 	//위치탐색
 	_float3 vImpactPos = CalculateEffectPos();

@@ -30,7 +30,8 @@ public:
 	_float	Get_UIDepth() const { return m_fDepth; }
 
 	class CComponent* Find_Component(const _wstring& strComponentTag);
-	virtual void On_Collision(CGameObject* pCollisionedObject, const _wstring& strLayerTag) {};
+
+	virtual void On_Collision(_uint MyColliderID, _uint OtherColliderID) {};
 
 protected:
 	LPDIRECT3DDEVICE9				m_pGraphic_Device = { nullptr };

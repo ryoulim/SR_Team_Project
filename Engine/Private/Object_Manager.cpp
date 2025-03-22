@@ -179,6 +179,7 @@ _uint CObject_Manager::Deactive_Object(const _wstring& strObjectTag, class CGame
 	return iReturn;
 }
 
+#ifndef _COLLIDER_MANAGER
 void CObject_Manager::Intersect(_uint iLevelIndex, const _wstring& strLayerTag1, const _wstring& strLayerTag2)
 {
 	auto Layer1 = Find_Layer(iLevelIndex, strLayerTag1);
@@ -249,6 +250,8 @@ _bool CObject_Manager::Raycast_Downward(const _float3& rayOrigin, _uint iLevelIn
 
 	return bResult;
 }
+#endif // !COLLIDER_MANAGER
+
 
 _bool CObject_Manager::IsPointInFrustum(const _float3& Point)
 {

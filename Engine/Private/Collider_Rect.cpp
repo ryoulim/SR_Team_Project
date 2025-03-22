@@ -1,3 +1,4 @@
+#include "Transform.h"
 #include "Collider_Rect.h"
 
 CCollider_Rect::CCollider_Rect(LPDIRECT3DDEVICE9 pGraphic_Device)

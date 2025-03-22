@@ -56,7 +56,7 @@ public: // 길찾기 및 디텍티브
 
 protected: // 충돌함수
 	virtual _float3		CalculateEffectPos();
-	virtual void		On_Collision(CGameObject* pCollisionedObject, const _wstring& strLayerTag) {};
+	virtual void On_Collision(_uint MyColliderID, _uint OtherColliderID) override {};
 
 public:
 	virtual CGameObject* Clone(void* pArg) PURE;

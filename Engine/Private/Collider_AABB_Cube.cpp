@@ -1,3 +1,4 @@
+#include "Transform.h"
 #include "Collider_AABB_Cube.h"
 
 CCollider_AABB_Cube::CCollider_AABB_Cube(LPDIRECT3DDEVICE9 pGraphic_Device)

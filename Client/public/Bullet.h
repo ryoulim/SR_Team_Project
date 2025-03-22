@@ -33,7 +33,7 @@ public:
 	virtual void Late_Update(_float fTimeDelta) override;
 	virtual HRESULT Render() override;
 
-	virtual void On_Collision(CGameObject* pCollisionedObject, const _wstring& strLayerTag) override;
+	virtual void On_Collision(_uint MyColliderID, _uint OtherColliderID) override;
 
 protected:
 	virtual HRESULT Ready_Components(void* pArg);
@@ -49,9 +49,6 @@ protected:
 	_bool m_bDead{ FALSE };
 	_float m_fTimeAcc{};
 	_float m_fTimeLimit{ 3.f };
-	
-private:
-	
 
 public:
 	virtual CGameObject* Clone(void* pArg) PURE;

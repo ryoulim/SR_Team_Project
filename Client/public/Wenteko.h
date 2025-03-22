@@ -28,7 +28,7 @@ public:
 	virtual HRESULT Render() override;
 
 public:
-	virtual void On_Collision(CGameObject* pCollisionedObject, const _wstring& strLayerTag);
+	virtual void On_Collision(_uint MyColliderID, _uint OtherColliderID) override;
 
 private:
 	virtual HRESULT Ready_Components(void* pArg);

@@ -35,14 +35,19 @@ public:
 	// 오브젝트를 다시 풀로 반환 (초기화따윈 없음)
 	_uint Deactive_Object(const _wstring& strObjectTag, class CGameObject* pObject);
 	// A그룹과 B그룹의 충돌을 검사한다.
+
+#define _COLLIDER_MANAGER
+#ifndef _COLLIDER_MANAGER
 	void Intersect(_uint iLevelIndex, const _wstring& strLayerTag1, const _wstring& strLayerTag2);
 
 	_bool Raycast(const _float3& rayOrigin, const _float3& rayDir, _uint iLevelIndex, const _wstring& strLayerTag);
 
 	_bool Raycast_Downward(const _float3& rayOrigin, _uint iLevelIndex, const _wstring& strLayerTag);
+#endif // !COLLIDER_MANAGER
 
 	_bool IsPointInFrustum(const _float3& Point);
 	void Update_Frustum(const _float4x4& viewProj);
+
 
 private:	
 	_uint								m_iNumLevels = {};
