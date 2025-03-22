@@ -6,6 +6,8 @@ BEGIN(Client)
 class CCameraSprite final : public CEffect
 {
 public:
+	enum eEffectType { GUNFIRE , BULLETTRACER , NONE };
+public:
 	typedef struct tagSpriteDesc : public CEffect::DESC
 	{
 		const TCHAR* szTextureTag;
@@ -13,6 +15,8 @@ public:
 		_float	fAniSpeed;
 		bool	bRandom;
 		bool	bActive;
+
+		eEffectType eEffectType;
 
 	}DESC;
 
@@ -43,6 +47,7 @@ public:
 
 private:
 	bool				m_bActive = false;
+	eEffectType			m_eEffectType = NONE;
 	
 private:
 	_float				m_fX = {};

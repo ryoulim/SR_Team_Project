@@ -64,6 +64,20 @@ void CLevel_GamePlay::Update(_float fTimeDelta)
 	CFXMgr::Get_Instance()->SpawnMultipleExplosions2(fTimeDelta, LEVEL_GAMEPLAY);
 	CFXMgr::Get_Instance()->SpawnMultipleExplosions3(fTimeDelta, LEVEL_GAMEPLAY);
 
+	//방목용
+	if (KEY_DOWN(DIK_M))
+	{
+		SpawnTtakkeun_i(_float3{ 300.f, 100.f, 300.f }, true);
+		SpawnWenteko(_float3{ 300.f, 40.f, 300.f }, true);
+		SpawnShotgunner(_float3{ 300.f, 20.f, 300.f }, true);
+		SpawnNukemutant(_float3{ 300.f, 30.f, 300.f }, true);
+		SpawnMechsect(_float3{ 300.f, 10.f, 300.f }, true);
+		SpawnGreater(_float3{ 300.f, 20.f, 300.f }, true);
+		SpawnDeacon(_float3{ 300.f, 50.f, 300.f }, true);
+		SpawnCultist(_float3{ 300.f, 30.f, 300.f }, true);
+		SpawnArchangel(_float3{ 300.f, 80.f, 300.f }, true);
+	}
+
 	Check_Collision();
 
 	if (KEY_DOWN(DIK_F11))
@@ -202,8 +216,9 @@ HRESULT CLevel_GamePlay::Ready_Layer_Particle(const _wstring& strLayerTag)
 
 HRESULT CLevel_GamePlay::Ready_Layer_Effect(const _wstring& strLayerTag)
 {
-	CFXMgr::Get_Instance()->SpawnGunFire(_float3{ 750.f, 450.f, 0.0f }, LEVEL_GAMEPLAY);
-	CFXMgr::Get_Instance()->SpawnBulletTracer(_float3{ 700.f, 400.f, 0.1f }, LEVEL_GAMEPLAY);
+	CFXMgr::Get_Instance()->SpawnGunFire(_float3{ 750.f, 450.f, 0.1f }, LEVEL_GAMEPLAY);
+	CFXMgr::Get_Instance()->SpawnBulletTracer(_float3{ 700.f, 400.f, 1.f }, LEVEL_GAMEPLAY);
+	//CFXMgr::Get_Instance()->SpawnBulletTracerMachineGun(_float3{ 700.f, 400.f, 0.1f }, LEVEL_GAMEPLAY);
 
 	return S_OK;
 }
@@ -244,69 +259,16 @@ HRESULT CLevel_GamePlay::Ready_Layer_Monster(const _wstring& strLayerTag)
 		LEVEL_GAMEPLAY, TEXT("Layer_Flatform"), &FlatformDESC)))
 		return E_FAIL;	
 
-
-	//따끈이
-	CMonster::DESC Ttakkeun_iDesc{};
-	Ttakkeun_iDesc.vPosition = { 100.f, 66.f, -250.f };
-	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Ttakkeun_i"),
-		LEVEL_GAMEPLAY, strLayerTag, &Ttakkeun_iDesc)))
-		return E_FAIL;
-
-	//웬테코
-	CMonster::DESC Wenteko_iDesc{};
-	Wenteko_iDesc.vPosition = { 100.f, 40.f, -100.f };
-	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Wenteko"),
-		LEVEL_GAMEPLAY, strLayerTag, &Wenteko_iDesc)))
-		return E_FAIL;
-
-	//샷거너
-	CMonster::DESC Shotgunner_iDesc{};
-	Shotgunner_iDesc.vPosition = { 180.f, 20.f, -120.f };
-	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Shotgunner"),
-		LEVEL_GAMEPLAY, strLayerTag, &Shotgunner_iDesc)))
-		return E_FAIL;
-
-	//누크뮤턴트
-	CMonster::DESC Nukemutant_iDesc{};
-	Nukemutant_iDesc.vPosition = { 250.f, 30.f, -120.f };
-	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Nukemutant"),
-		LEVEL_GAMEPLAY, strLayerTag, &Nukemutant_iDesc)))
-		return E_FAIL;
-
-	//거미쉐끼
-	CMonster::DESC Mechsect_iDesc{};
-	Mechsect_iDesc.vPosition = { 330.f, 10.f, -120.f };
-	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Mechsect"),
-		LEVEL_GAMEPLAY, strLayerTag, &Mechsect_iDesc)))
-		return E_FAIL;
-
-	//그리터
-	CMonster::DESC Greater_iDesc{};
-	Greater_iDesc.vPosition = { 410.f, 20.f, -120.f };
-	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Greater"),
-		LEVEL_GAMEPLAY, strLayerTag, &Greater_iDesc)))
-		return E_FAIL;
-
-	//다콘
-	CMonster::DESC Deacon_iDesc{};
-	Deacon_iDesc.vPosition = { 220.f, 50.f, -250.f };
-	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Deacon"),
-		LEVEL_GAMEPLAY, strLayerTag, &Deacon_iDesc)))
-		return E_FAIL;
-
-	//컬티스트
-	CMonster::DESC Cultist_iDesc{};
-	Cultist_iDesc.vPosition = { 320.f, 30.f, -250.f };
-	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Cultist"),
-		LEVEL_GAMEPLAY, strLayerTag, &Cultist_iDesc)))
-		return E_FAIL;
-
-	//진격의 거인
-	CMonster::DESC Archangel_iDesc{};
-	Archangel_iDesc.vPosition = { 420.f, 80.f, -250.f };
-	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Archangel"),
-		LEVEL_GAMEPLAY, strLayerTag, &Archangel_iDesc)))
-		return E_FAIL;
+	//전시용
+	SpawnTtakkeun_i(_float3{ 100.f, 66.f, -250.f }, false);
+	SpawnWenteko(_float3{ 100.f, 40.f, -100.f }, false);
+	SpawnShotgunner(_float3{ 180.f, 20.f, -120.f }, false);
+	SpawnNukemutant(_float3{ 250.f, 30.f, -120.f }, false);
+	SpawnMechsect(_float3{ 330.f, 10.f, -120.f }, false);
+	SpawnGreater(_float3{ 410.f, 20.f, -120.f }, false);
+	SpawnDeacon(_float3{ 220.f, 50.f, -250.f }, false);
+	SpawnCultist(_float3{ 320.f, 30.f, -250.f }, false);
+	SpawnArchangel(_float3{ 420.f, 80.f, -250.f }, false);
 
 	return S_OK;
 }
@@ -367,6 +329,108 @@ void CLevel_GamePlay::Check_Collision()
 	//m_pGameInstance->Intersect(LEVEL_GAMEPLAY, TEXT("Layer_Pawn"), TEXT("Layer_BackGround"));
 	m_pGameInstance->Intersect(LEVEL_GAMEPLAY, TEXT("Layer_PBullet"), TEXT("Layer_Monster"));
 	m_pGameInstance->Intersect(LEVEL_GAMEPLAY, TEXT("Layer_PBullet"), TEXT("Layer_Block"));
+}
+
+void CLevel_GamePlay::SpawnTtakkeun_i(_float3 _Position, bool m_bActive)
+{
+	CMonster::DESC Ttakkeun_iDesc2{};
+	Ttakkeun_iDesc2.vPosition = _Position;
+	Ttakkeun_iDesc2.fSpeedPerSec = 60.f;
+	Ttakkeun_iDesc2.fRotationPerSec = RADIAN(180.f);
+	Ttakkeun_iDesc2.vActive = m_bActive;
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Ttakkeun_i"),
+		LEVEL_GAMEPLAY, L"Layer_Monster", &Ttakkeun_iDesc2)))
+		return;
+}
+void CLevel_GamePlay::SpawnWenteko(_float3 _Position, bool m_bActive)
+{
+	//웬테코
+	CMonster::DESC Wenteko_iDesc{};
+	Wenteko_iDesc.vPosition = _Position;
+	Wenteko_iDesc.fSpeedPerSec = 60.f;
+	Wenteko_iDesc.fRotationPerSec = RADIAN(180.f);
+	Wenteko_iDesc.vActive = m_bActive;
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Wenteko"),
+		LEVEL_GAMEPLAY, L"Layer_Monster", &Wenteko_iDesc)))
+		return;
+}
+void CLevel_GamePlay::SpawnShotgunner(_float3 _Position, bool m_bActive)
+{
+	//샷거너
+	CMonster::DESC Shotgunner_iDesc{};
+	Shotgunner_iDesc.vPosition = _Position;
+	Shotgunner_iDesc.fSpeedPerSec = 60.f;
+	Shotgunner_iDesc.fRotationPerSec = RADIAN(180.f);
+	Shotgunner_iDesc.vActive = m_bActive;
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Shotgunner"),
+		LEVEL_GAMEPLAY, L"Layer_Monster", &Shotgunner_iDesc)))
+		return;
+}
+void CLevel_GamePlay::SpawnNukemutant(_float3 _Position, bool m_bActive)
+{
+	CMonster::DESC Nukemutant_iDesc{};
+	Nukemutant_iDesc.vPosition = _Position;
+	Nukemutant_iDesc.fSpeedPerSec = 60.f;
+	Nukemutant_iDesc.fRotationPerSec = RADIAN(180.f);
+	Nukemutant_iDesc.vActive = m_bActive;
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Nukemutant"),
+		LEVEL_GAMEPLAY, L"Layer_Monster", &Nukemutant_iDesc)))
+		return;
+}
+void CLevel_GamePlay::SpawnMechsect(_float3 _Position, bool m_bActive)
+{
+	CMonster::DESC Mechsect_iDesc{};
+	Mechsect_iDesc.vPosition = _Position;
+	Mechsect_iDesc.fSpeedPerSec = 60.f;
+	Mechsect_iDesc.fRotationPerSec = RADIAN(180.f);
+	Mechsect_iDesc.vActive = m_bActive;
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Mechsect"),
+		LEVEL_GAMEPLAY, L"Layer_Monster", &Mechsect_iDesc)))
+		return;
+}
+void CLevel_GamePlay::SpawnGreater(_float3 _Position, bool m_bActive)
+{
+	CMonster::DESC Greater_iDesc{};
+	Greater_iDesc.vPosition = _Position;
+	Greater_iDesc.fSpeedPerSec = 60.f;
+	Greater_iDesc.fRotationPerSec = RADIAN(180.f);
+	Greater_iDesc.vActive = m_bActive;
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Greater"),
+		LEVEL_GAMEPLAY, L"Layer_Monster", &Greater_iDesc)))
+		return;
+}
+void CLevel_GamePlay::SpawnDeacon(_float3 _Position, bool m_bActive)
+{
+	CMonster::DESC Deacon_iDesc{};
+	Deacon_iDesc.vPosition = _Position;
+	Deacon_iDesc.fSpeedPerSec = 60.f;
+	Deacon_iDesc.fRotationPerSec = RADIAN(180.f);
+	Deacon_iDesc.vActive = m_bActive;
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Deacon"),
+		LEVEL_GAMEPLAY, L"Layer_Monster", &Deacon_iDesc)))
+		return ;
+}
+void CLevel_GamePlay::SpawnCultist(_float3 _Position, bool m_bActive)
+{
+	CMonster::DESC Cultist_iDesc{};
+	Cultist_iDesc.vPosition = _Position;
+	Cultist_iDesc.fSpeedPerSec = 60.f;
+	Cultist_iDesc.fRotationPerSec = RADIAN(180.f);
+	Cultist_iDesc.vActive = m_bActive;
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Cultist"),
+		LEVEL_GAMEPLAY, L"Layer_Monster", &Cultist_iDesc)))
+		return;
+}
+void CLevel_GamePlay::SpawnArchangel(_float3 _Position, bool m_bActive)
+{
+	CMonster::DESC Archangel_iDesc{};
+	Archangel_iDesc.vPosition = _Position;
+	Archangel_iDesc.fSpeedPerSec = 60.f;
+	Archangel_iDesc.fRotationPerSec = RADIAN(180.f);
+	Archangel_iDesc.vActive = m_bActive;
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Archangel"),
+		LEVEL_GAMEPLAY, L"Layer_Monster", &Archangel_iDesc)))
+		return;
 }
 
 

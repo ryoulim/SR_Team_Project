@@ -66,8 +66,10 @@ public:
 	void Go_Down(_float fTimeDelta);
 
 	void LookAt(const _float3& vTargetPos);
+	bool RotateToDirection(const _float3& vCurLook, const _float3& vTargetDir, _float fTurnSpeed, _float dt);
 	void Chase(const _float3& vTargetPos, _float fTimeDelta, _float fMinDistance = 0.1f);
 	void Turn(const _float3& vAxis, _float fTimeDelta);
+	void TurnCustom(const _float3& vAxis, _float _Rotation, _float fTimeDelta);
 	void Turn_Immediately(const _float3& vAxis, _float fRadian);
 	void Rotation(const _float3& vAxis, _float fRadian);
 	void Rotation_Reset();
@@ -79,6 +81,8 @@ public:
 	void Quaternion_Rotation(const _float3& vAngle);
 	void Quaternion_Revolution(const _float3& vAxis, const _float3& vCenter, _float fAngle);
 	void Quaternion_Revolution_Pos(const _float3& vAxis, const _float3& vCenter, _float fAngle);
+
+	_float3 Lerp(const _float3& start, const _float3& end, _float t);
 
 private:
 	_float4x4				m_WorldMatrix;

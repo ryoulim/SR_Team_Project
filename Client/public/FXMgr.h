@@ -47,6 +47,7 @@ public: //불
 public: //총알
 	void SpawnGunFire(_float3 _ScreenPos, LEVEL eLevel);
 	void SpawnBulletTracer(_float3 _ScreenPos, LEVEL eLevel);
+	void SpawnBulletTracerMachineGun(_float3 _ScreenPos, LEVEL eLevel);
 
 public: //토네이도
 	void SpawnTornado(_float3 _vPosition, LEVEL eLevel);

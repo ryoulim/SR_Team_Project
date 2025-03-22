@@ -47,7 +47,8 @@ EVENT CTtakkeun_i::Update(_float fTimeDelta)
 {
 	if (m_bDead)
 		return EVN_DEAD;
-
+	if(m_bActive)
+		MonsterTick(fTimeDelta);
 	return __super::Update(fTimeDelta);
 }
 
@@ -61,11 +62,12 @@ void CTtakkeun_i::Late_Update(_float fTimeDelta)
 #ifdef _DEBUG
 	auto now = steady_clock::now();
 	auto elapsed = duration_cast<milliseconds>(now - g_LastLogTime).count();
-
+	
 	if (elapsed >= 500) 
 	{
 		// 0.5초 이상 지났다면 출력
-		cout << "플레이어 위치 : " << endl;
+		//cout << "따끈이 상태 : " << GetMonsterStateName(m_eState) << '\n';
+		cout << "따끈이 상태 : " << m_eIdlePhase << '\n';
 		g_LastLogTime = now;
 	}
 #endif
@@ -73,6 +75,8 @@ void CTtakkeun_i::Late_Update(_float fTimeDelta)
 
 HRESULT CTtakkeun_i::Render()
 {
+	Render_DebugFOV();
+
 	Animate_Monster();
 	return __super::Render();
 
@@ -223,7 +227,8 @@ CTtakkeun_i* CTtakkeun_i::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 	pInstance->m_iDefense		= 3;
 	pInstance->m_fSpeed			= 10.f;
 	pInstance->m_vScale			= { 150.f, 147.f, 1.f };
-	pInstance->m_eBehavior		= MODE::MODE_WAIT;
+	pInstance->m_eState		= MODE::MODE_IDLE;
+	pInstance->m_fDetectiveDistance = 300.f;
 
 	//부속성
 	pInstance->m_strDialogue	= "Boss..Boss...";
