@@ -179,7 +179,6 @@ HRESULT CLoadingMenu::Render_Animation()
 
 	if (FAILED(m_pVIBufferComForLoading[LOADERTEX_ANIM]->Render()))
 		return E_FAIL;
-
 	return S_OK;
 }
 

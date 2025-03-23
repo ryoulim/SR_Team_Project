@@ -28,6 +28,12 @@ HRESULT CAim::Initialize(void* pArg)
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
 
+	Ready_Shader(L"../bin/Shader_ColorChange.hlsl");
+	float newColor[3] = { 0.9f, 0.8f, 0.0f }; // ³ë¶û (230, 200, 0)
+	m_pEffect->SetFloatArray("newColor", newColor, 3);
+
+	//float origColor[3] = { 60.f / 255.f, 70.f / 255.f, 160.f / 255.f }; // ÆÄ¶û (60, 70, 160)
+	//m_pEffect->SetFloatArray("origColor", origColor, 3);
 	return S_OK;
 }
 
@@ -48,6 +54,8 @@ void CAim::Late_Update(_float fTimeDelta)
 
 HRESULT CAim::Render()
 {
+	m_pTextureCom->Bind_Shader_To_Texture(m_pEffect, m_hTex, 0);
+
 	return __super::Render();
 }
 
