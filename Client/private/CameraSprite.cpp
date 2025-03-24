@@ -63,7 +63,7 @@ HRESULT CCameraSprite::Initialize(void* pArg)
 		m_fAnimationFrame = 0;
 
 	if (m_eEffectType == eEffectType::FIRE)
-		m_fDepth = 0.0f;
+		m_fDepth = 0.001f;
 	if(m_eEffectType == eEffectType::GUNFIRE)
 		m_fDepth = 0.05f;
 	if (m_eEffectType == eEffectType::BULLETTRACER)

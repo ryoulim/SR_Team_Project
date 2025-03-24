@@ -5,7 +5,7 @@
 #include <Windows.h>
 #include <process.h>
 
-//#define _CONSOL
+#define _CONSOL
 //#define _IMGUI
 
 #ifdef _IMGUI

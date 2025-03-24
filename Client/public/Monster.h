@@ -66,9 +66,16 @@ public: //액션
 	virtual void DoReturn(_float dt);
 	virtual void SetRandomDirection();
 
-protected: // 충돌함수
+public: //몬스터 기본패턴
+	virtual void AttackPattern(_float dt);
+	virtual void ChasePlayer(_float dt);
+
+public: // 충돌함수
 	virtual _float3		CalculateEffectPos();
 	virtual void On_Collision(_uint MyColliderID, _uint OtherColliderID) override {};
+
+public: // 디버깅
+	void	ToggleDebugMode() { m_bDebug = !m_bDebug; }
 
 public:
 	virtual CGameObject* Clone(void* pArg) PURE;
@@ -112,6 +119,7 @@ protected: //컴포넌트
 	CTexture*	m_pTextureCom = { nullptr };
 	CVIBuffer*	m_pVIBufferCom = { nullptr };
 	CTransform* m_pTransformCom = { nullptr };
+	CGravity* m_pGravityCom = { nullptr };
 
 protected: //충돌	
 	CCollider* m_pCollider = { nullptr };
@@ -159,7 +167,7 @@ protected:
 protected:
 	bool			m_bDead = false;
 	bool			m_bActive = false;
-
+	bool			m_bDebug = false;
 
 
 };

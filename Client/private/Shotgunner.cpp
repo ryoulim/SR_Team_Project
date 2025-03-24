@@ -28,6 +28,7 @@ HRESULT CShotgunner::Initialize(void* pArg)
 	m_fDivOffset = 45.f;
 	m_isReadyMonster = true;
 	Ready_Textures();
+
 	//애니메이션(수정예정)
 	m_fAnimationMaxFrame = 3.f;
 	m_fAnimationSpeed = 5.f;
@@ -43,10 +44,6 @@ void CShotgunner::Priority_Update(_float fTimeDelta)
 
 EVENT CShotgunner::Update(_float fTimeDelta)
 {
-	if (m_bDead)
-		return EVN_DEAD;
-	if (m_bActive)
-		MonsterTick(fTimeDelta);
 	return __super::Update(fTimeDelta);
 }
 
@@ -57,7 +54,6 @@ void CShotgunner::Late_Update(_float fTimeDelta)
 
 HRESULT CShotgunner::Render()
 {
-	Render_DebugFOV();
 	return __super::Render();
 
 	//특별히 더 렌더링 할게 있는 경우 ↓

@@ -33,7 +33,7 @@ void CEmptyBullet::resetParticle(Attribute* attribute)
 	attribute->_Position = vCameraPos;
 	attribute->_Position += vCameraRight * 1.5f; // 오른쪽으로 이동
 	attribute->_Position += vCameraUp * -1.0f; // 아래쪽으로 이동
-
+	
 	attribute->_Position += vCameraLook * 3.f;
 
 	// 탄피의 초기 속도 방향 (카메라의 오른쪽 방향)
@@ -50,7 +50,7 @@ void CEmptyBullet::resetParticle(Attribute* attribute)
 	attribute->_Age = 0.f;								// 나이
 	attribute->_Color = WHITE;							// 색상
 	attribute->_ColorFade = WHITE;						// 디졸브색상
-	attribute->_LifeTime = 0.5f;						// 라이프타임
+	attribute->_LifeTime = 5.f;						// 라이프타임
 
 
 }
@@ -94,8 +94,6 @@ EVENT CEmptyBullet::Update(_float timeDelta)
 
 void CEmptyBullet::Late_Update(_float timeDelta)
 {
-	m_fViewZ = 0.f;
-
 	//렌더그룹에 넣어준다.
 	if (FAILED(m_pGameInstance->Add_RenderGroup(CRenderer::RG_BLEND, this)))
 		return;
@@ -197,7 +195,8 @@ HRESULT CEmptyBullet::Initialize(void* pArg)
 		return E_FAIL;
 
 	m_fFrame = GetRandomFloat(0.f, m_fAnimationMaxFrame);
-
+	m_fViewZ = 0.f;
+	m_fDepth = 0.f;
 
 	return S_OK;
 }
@@ -218,7 +217,6 @@ HRESULT CEmptyBullet::Ready_Components(void* pArg)
 		TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
 		return E_FAIL;
 
-	return S_OK;
 
 	return S_OK;
 }

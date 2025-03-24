@@ -70,14 +70,14 @@ void CLevel_GamePlay::Update(_float fTimeDelta)
 	if (KEY_DOWN(DIK_M))
 	{
 		SpawnTtakkeun_i(_float3{ 900.f, 100.f, 600.f }, true);
-		SpawnWenteko(_float3{ 900.f, 40.f, 600.f }, true);
-		SpawnShotgunner(_float3{ 900.f, 20.f, 600.f }, true);
-		SpawnNukemutant(_float3{ 900.f, 30.f, 600.f }, true);
-		SpawnMechsect(_float3{ 900.f, 10.f, 600.f }, true);
-		SpawnGreater(_float3{ 900.f, 20.f, 600.f }, true);
-		SpawnDeacon(_float3{ 900.f, 50.f, 600.f }, true);
-		SpawnCultist(_float3{ 900.f, 30.f, 600.f }, true);
-		SpawnArchangel(_float3{ 900.f, 80.f, 600.f }, true);
+		//SpawnWenteko(_float3{ 900.f, 40.f, 600.f }, true);
+		//SpawnShotgunner(_float3{ 900.f, 20.f, 600.f }, true);
+		//SpawnNukemutant(_float3{ 900.f, 30.f, 600.f }, true);
+		//SpawnMechsect(_float3{ 900.f, 10.f, 600.f }, true);
+		//SpawnGreater(_float3{ 900.f, 20.f, 600.f }, true);
+		//SpawnDeacon(_float3{ 900.f, 50.f, 600.f }, true);
+		//SpawnCultist(_float3{ 900.f, 30.f, 600.f }, true);
+		//SpawnArchangel(_float3{ 900.f, 80.f, 600.f }, true);
 	}
 
 	Check_Collision();
@@ -87,6 +87,16 @@ void CLevel_GamePlay::Update(_float fTimeDelta)
 		if (FAILED(m_pGameInstance->Change_Level(LEVEL_LOADING,
 			CLevel_Loading::Create(m_pGraphic_Device, LEVEL_RACE))))
 			return;
+	}
+	//디버깅 모드
+	//m_bDebug
+	if (KEY_DOWN(DIK_F4))
+	{
+		auto MosterList = m_pGameInstance->Find_Objects(LEVEL_GAMEPLAY , L"Layer_Monster");
+		for (auto Monster : MosterList)
+		{
+			static_cast<CMonster*>(Monster)->ToggleDebugMode();
+		}
 	}
 }
 
@@ -263,15 +273,15 @@ HRESULT CLevel_GamePlay::Ready_Layer_Monster(const _wstring& strLayerTag)
 		return E_FAIL;	
 
 	//전시용
-	SpawnTtakkeun_i(_float3{ 100.f, 66.f, -250.f }, false);
+	//SpawnTtakkeun_i(_float3{ 100.f, 66.f, -250.f }, false);
 	//SpawnWenteko(_float3{ 100.f, 40.f, -100.f }, false);
-	SpawnShotgunner(_float3{ 180.f, 20.f, -120.f }, false);
-	SpawnNukemutant(_float3{ 250.f, 30.f, -120.f }, false);
-	SpawnMechsect(_float3{ 330.f, 10.f, -120.f }, false);
-	SpawnGreater(_float3{ 410.f, 20.f, -120.f }, false);
-	SpawnDeacon(_float3{ 220.f, 50.f, -250.f }, false);
-	SpawnCultist(_float3{ 320.f, 30.f, -250.f }, false);
-	SpawnArchangel(_float3{ 420.f, 30.f, -250.f }, false);
+	//SpawnShotgunner(_float3{ 180.f, 20.f, -120.f }, false);
+	//SpawnNukemutant(_float3{ 250.f, 30.f, -120.f }, false);
+	//SpawnMechsect(_float3{ 330.f, 10.f, -120.f }, false);
+	//SpawnGreater(_float3{ 410.f, 20.f, -120.f }, false);
+	//SpawnDeacon(_float3{ 220.f, 50.f, -250.f }, false);
+	//SpawnCultist(_float3{ 320.f, 30.f, -250.f }, false);
+	//SpawnArchangel(_float3{ 420.f, 30.f, -250.f }, false);
 
 	return S_OK;
 }

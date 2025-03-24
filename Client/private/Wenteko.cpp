@@ -40,10 +40,6 @@ void CWenteko::Priority_Update(_float fTimeDelta)
 
 EVENT CWenteko::Update(_float fTimeDelta)
 {
-	if (m_bDead)
-		return EVN_DEAD;
-	if (m_bActive)
-		MonsterTick(fTimeDelta);
 	return __super::Update(fTimeDelta);
 }
 
@@ -54,8 +50,6 @@ void CWenteko::Late_Update(_float fTimeDelta)
 
 HRESULT CWenteko::Render()
 {
-	Render_DebugFOV();
-
 	return __super::Render();
 
 	//특별히 더 렌더링 할게 있는 경우 ↓

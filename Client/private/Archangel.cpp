@@ -43,10 +43,6 @@ void CArchangel::Priority_Update(_float fTimeDelta)
 
 EVENT CArchangel::Update(_float fTimeDelta)
 {
-	if (m_bDead)
-		return EVN_DEAD;
-	if (m_bActive)
-		MonsterTick(fTimeDelta);
 	return __super::Update(fTimeDelta);
 }
 
@@ -57,7 +53,6 @@ void CArchangel::Late_Update(_float fTimeDelta)
 
 HRESULT CArchangel::Render()
 {
-	Render_DebugFOV();
 	return __super::Render();
 
 	//특별히 더 렌더링 할게 있는 경우 ↓
