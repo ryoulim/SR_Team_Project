@@ -556,6 +556,62 @@ HRESULT CLoader::Loading_For_GamePlay()
 #pragma endregion
 
 
+#pragma region MECHSECT_TEXTURES
+
+	ADD_TEXTURE(Mechsect_Move_0  , "../Bin/Resources/Textures/Monster/Mechsect/move/0/%d.PNG", 4);
+	ADD_TEXTURE(Mechsect_Move_45 , "../Bin/Resources/Textures/Monster/Mechsect/move/45/%d.PNG", 4);
+	ADD_TEXTURE(Mechsect_Move_90 , "../Bin/Resources/Textures/Monster/Mechsect/move/90/%d.PNG", 4);
+	ADD_TEXTURE(Mechsect_Move_135, "../Bin/Resources/Textures/Monster/Mechsect/move/135/%d.PNG", 4);
+	ADD_TEXTURE(Mechsect_Move_180, "../Bin/Resources/Textures/Monster/Mechsect/move/180/%d.PNG", 4);
+
+#pragma endregion
+
+
+#pragma region GREATER_TEXTURES
+
+	ADD_TEXTURE(Greater_Move_0, "../Bin/Resources/Textures/Monster/greater/move/0/%d.PNG", 4);
+	ADD_TEXTURE(Greater_Move_45, "../Bin/Resources/Textures/Monster/greater/move/45/%d.PNG", 4);
+	ADD_TEXTURE(Greater_Move_90, "../Bin/Resources/Textures/Monster/greater/move/90/%d.PNG", 4);
+	ADD_TEXTURE(Greater_Move_135, "../Bin/Resources/Textures/Monster/greater/move/135/%d.PNG", 4);
+	ADD_TEXTURE(Greater_Move_180, "../Bin/Resources/Textures/Monster/greater/move/180/%d.PNG", 4);
+#pragma endregion
+
+
+#pragma region DEACON_TEXTURES
+	ADD_TEXTURE(Deacon_Move_0, "../Bin/Resources/Textures/Monster/deacon/move/0/%d.PNG", 1);
+	ADD_TEXTURE(Deacon_Move_45, "../Bin/Resources/Textures/Monster/deacon/move/45/%d.PNG", 1);
+	ADD_TEXTURE(Deacon_Move_90, "../Bin/Resources/Textures/Monster/deacon/move/90/%d.PNG", 1);
+	ADD_TEXTURE(Deacon_Move_135, "../Bin/Resources/Textures/Monster/deacon/move/135/%d.PNG", 1);
+	ADD_TEXTURE(Deacon_Move_180, "../Bin/Resources/Textures/Monster/deacon/move/180/%d.PNG", 1);
+#pragma endregion
+
+
+#pragma region CULTIST_TEXTURES
+	ADD_TEXTURE(Cultist_Move_0, "../Bin/Resources/Textures/Monster/cultist/move/0/%d.PNG", 4);
+	ADD_TEXTURE(Cultist_Move_45, "../Bin/Resources/Textures/Monster/cultist/move/45/%d.PNG", 4);
+	ADD_TEXTURE(Cultist_Move_90, "../Bin/Resources/Textures/Monster/cultist/move/90/%d.PNG", 4);
+	ADD_TEXTURE(Cultist_Move_135, "../Bin/Resources/Textures/Monster/cultist/move/135/%d.PNG", 4);
+	ADD_TEXTURE(Cultist_Move_180, "../Bin/Resources/Textures/Monster/cultist/move/180/%d.PNG", 4);
+#pragma endregion
+
+#pragma region ARCHANGEL_TEXTURES
+	ADD_TEXTURE(Archangel_Move_0, "../Bin/Resources/Textures/Monster/archangel/move/0/%d.PNG", 4);
+	ADD_TEXTURE(Archangel_Move_45, "../Bin/Resources/Textures/Monster/archangel/move/45/%d.PNG", 4);
+	ADD_TEXTURE(Archangel_Move_90, "../Bin/Resources/Textures/Monster/archangel/move/90/%d.PNG", 4);
+	ADD_TEXTURE(Archangel_Move_135, "../Bin/Resources/Textures/Monster/archangel/move/135/%d.PNG", 4);
+	ADD_TEXTURE(Archangel_Move_180, "../Bin/Resources/Textures/Monster/archangel/move/180/%d.PNG", 4);
+#pragma endregion
+ 
+ 
+ 
+ 
+//#pragma region WENTEKO_TEXTURES
+//	ADD_TEXTURE(_Move_0, "../Bin/Resources/Textures/Monster/      /move/0/%d.PNG", 4);
+//	ADD_TEXTURE(_Move_45, "../Bin/Resources/Textures/Monster/     /move/45/%d.PNG", 4);
+//	ADD_TEXTURE(_Move_90, "../Bin/Resources/Textures/Monster/     /move/90/%d.PNG", 4);
+//	ADD_TEXTURE(_Move_135, "../Bin/Resources/Textures/Monster/    /move/135/%d.PNG", 4);
+//	ADD_TEXTURE(_Move_180, "../Bin/Resources/Textures/Monster/    /move/180/%d.PNG", 4);
+//#pragma endregion
 
 
 

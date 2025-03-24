@@ -26,9 +26,13 @@ HRESULT CMechsect::Initialize(void* pArg)
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
 
+	m_fDivOffset = 45.f;
+	m_isReadyMonster = true;
+	Ready_Textures();
 	//애니메이션(수정예정)
 	m_fAnimationMaxFrame = 4.f;
-	m_fAnimationSpeed = 8.f;
+	m_fAnimationSpeed = 5.f;
+	m_iState = STATE_MOVE;
 
 	return S_OK;
 }
@@ -65,6 +69,22 @@ HRESULT CMechsect::Ready_Components(void* pArg)
 	if (FAILED(__super::Ready_Components(pArg)))
 		return E_FAIL;
 
+	return S_OK;
+}
+
+HRESULT CMechsect::Ready_Textures()
+{
+	for (_uint i = 0; i < D_END; i++)
+	{
+		_wstring sPrototypeTag = L"Prototype_Component_Texture_Mechsect_Move_";
+		_uint num = static_cast<_uint>(i * m_fDivOffset);
+		_tchar buf[32];
+		_itow_s((int)num, buf, 10);
+		sPrototypeTag += buf;
+		if (FAILED(__super::Add_Component(m_eLevelID, sPrototypeTag,
+			_wstring(TEXT("Com_Texture")) + L"_Mechsect_Move_" + buf, reinterpret_cast<CComponent**>(&(m_pTextureMap[STATE_MOVE][i])))))
+			return E_FAIL;
+	}
 	return S_OK;
 }
 

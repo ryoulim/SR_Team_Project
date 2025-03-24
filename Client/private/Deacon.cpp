@@ -26,9 +26,13 @@ HRESULT CDeacon::Initialize(void* pArg)
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
 
+	m_fDivOffset = 45.f;
+	m_isReadyMonster = true;
+	Ready_Textures();
 	//애니메이션(수정예정)
-	m_fAnimationMaxFrame = 1.f;
-	m_fAnimationSpeed = 0.f;
+	m_fAnimationMaxFrame = 0.f;
+	m_fAnimationSpeed = 5.f;
+	m_iState = STATE_MOVE;
 
 	return S_OK;
 }
@@ -85,6 +89,23 @@ void CDeacon::On_Collision(_uint MyColliderID, _uint OtherColliderID)
 	// 이펙트 생성
 	m_iHP += -50;
 	CFXMgr::Get_Instance()->SpawnBlood(vImpactPos, LEVEL_GAMEPLAY);
+}
+
+HRESULT CDeacon::Ready_Textures()
+{
+	/* MOVE */
+	for (_uint i = 0; i < D_END; i++)
+	{
+		_wstring sPrototypeTag = L"Prototype_Component_Texture_Deacon_Move_";
+		_uint num = static_cast<_uint>(i * m_fDivOffset);
+		_tchar buf[32];
+		_itow_s((int)num, buf, 10);
+		sPrototypeTag += buf;
+		if (FAILED(__super::Add_Component(m_eLevelID, sPrototypeTag,
+			_wstring(TEXT("Com_Texture")) + L"_Deacon_Move_" + buf, reinterpret_cast<CComponent**>(&(m_pTextureMap[STATE_MOVE][i])))))
+			return E_FAIL;
+	}
+	return S_OK;
 }
 
 CDeacon* CDeacon::Create(LPDIRECT3DDEVICE9 pGraphic_Device)

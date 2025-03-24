@@ -13,7 +13,8 @@ public:
 	{
 		//몬스터 고유 특성
 	}DESC;
-
+	enum STATE { STATE_ATTACK, STATE_DEATH, STATE_MOVE, STATE_SHOCK, STATE_END };
+	enum MONSTER_DEGREE { D0, D45, D90, D135, D180, D_END };
 private:
 	CGreater(LPDIRECT3DDEVICE9 pGraphic_Device);
 	CGreater(const CGreater& Prototype);
@@ -29,6 +30,7 @@ public:
 
 private:
 	virtual HRESULT Ready_Components(void* pArg);
+	virtual HRESULT Ready_Textures();
 
 public:
 	virtual void On_Collision(_uint MyColliderID, _uint OtherColliderID) override;
