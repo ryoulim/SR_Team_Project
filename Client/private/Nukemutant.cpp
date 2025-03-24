@@ -44,10 +44,6 @@ void CNukemutant::Priority_Update(_float fTimeDelta)
 
 EVENT CNukemutant::Update(_float fTimeDelta)
 {
-	if (m_bDead)
-		return EVN_DEAD;
-	if (m_bActive)
-		MonsterTick(fTimeDelta);
 	return __super::Update(fTimeDelta);
 }
 
@@ -58,7 +54,6 @@ void CNukemutant::Late_Update(_float fTimeDelta)
 
 HRESULT CNukemutant::Render()
 {
-	Render_DebugFOV();
 	return __super::Render();
 
 	//특별히 더 렌더링 할게 있는 경우 ↓

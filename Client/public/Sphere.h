@@ -13,7 +13,10 @@ public:
 	HRESULT Ready_Components(void* pArg);
 	virtual void resetParticle(Attribute* attribute);
 	virtual EVENT Update(_float timeDelta);
+
+	HRESULT SetUp_RenderState();
 	virtual HRESULT Render() override;
+	HRESULT Release_RenderState();
 
 	virtual HRESULT Initialize(void* pArg)override;
 

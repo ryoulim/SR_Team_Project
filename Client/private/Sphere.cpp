@@ -158,7 +158,41 @@ void CSphere::FrameUpdate(float timeDelta)
 	if (m_fAnimationMaxFrame < m_fFrame)
 		m_fFrame = 0;
 }
+HRESULT CSphere::SetUp_RenderState()
+{
+	//기본 셋팅
+	m_pGraphic_Device->SetRenderState(D3DRS_ZWRITEENABLE, false);
+	m_pGraphic_Device->SetRenderState(D3DRS_POINTSPRITEENABLE, true);
+	m_pGraphic_Device->SetRenderState(D3DRS_POINTSCALEENABLE, true);
+	m_pGraphic_Device->SetRenderState(D3DRS_POINTSIZE, FtoDW(m_fSize));
+	m_pGraphic_Device->SetRenderState(D3DRS_POINTSIZE_MIN, FtoDW(0.1f));
+	m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 
+	//거리에 따른 파티클 크기조절
+	//m_pGraphic_Device->SetRenderState(D3DRS_POINTSCALEENABLE, false);
+	m_pGraphic_Device->SetRenderState(D3DRS_POINTSCALE_A, FtoDW(1.0f));
+	m_pGraphic_Device->SetRenderState(D3DRS_POINTSCALE_B, FtoDW(0.05f));
+	m_pGraphic_Device->SetRenderState(D3DRS_POINTSCALE_C, FtoDW(0.005f));
+
+
+
+#pragma region 텍스처의 알파(온/오프)
+	m_pGraphic_Device->SetSamplerState(0, D3DSAMP_MINFILTER, D3DTEXF_POINT);
+	m_pGraphic_Device->SetSamplerState(0, D3DSAMP_MAGFILTER, D3DTEXF_POINT);
+	m_pGraphic_Device->SetSamplerState(0, D3DSAMP_MIPFILTER, D3DTEXF_POINT);
+
+
+	m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
+	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAREF, 128);
+	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER);
+#pragma endregion
+
+
+	//월드 변환
+	m_pGraphic_Device->SetTransform(D3DTS_WORLD, m_pTransForm->Get_WorldMatrix());
+
+	return S_OK;
+}
 HRESULT CSphere::Render()
 {
 	if (!m_Particles.empty())
@@ -250,7 +284,27 @@ HRESULT CSphere::Render()
 	return S_OK;
 
 }
+HRESULT CSphere::Release_RenderState()
+{
 
+	//m_pGraphic_Device->SetRenderState(D3DRS_LIGHTING, false);
+	m_pGraphic_Device->SetRenderState(D3DRS_POINTSPRITEENABLE, false);
+	m_pGraphic_Device->SetRenderState(D3DRS_POINTSCALEENABLE, false);
+	m_pGraphic_Device->SetRenderState(D3DRS_ZWRITEENABLE, true);
+	m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
+
+	// 블렌드 모드를 기본값으로 변경 (SRCALPHA → 기본값은 SRC)
+	m_pGraphic_Device->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_ONE);
+	m_pGraphic_Device->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_ZERO);
+
+	m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
+
+	m_pGraphic_Device->SetSamplerState(0, D3DSAMP_MINFILTER, D3DTEXF_LINEAR);
+	m_pGraphic_Device->SetSamplerState(0, D3DSAMP_MAGFILTER, D3DTEXF_LINEAR);
+	m_pGraphic_Device->SetSamplerState(0, D3DSAMP_MIPFILTER, D3DTEXF_LINEAR);
+
+	return S_OK;
+}
 
 CSphere* CSphere::Create(LPDIRECT3DDEVICE9 pGraphicDev, wstring _strObjName)
 {
@@ -258,7 +312,7 @@ CSphere* CSphere::Create(LPDIRECT3DDEVICE9 pGraphicDev, wstring _strObjName)
 
 	//파티클 정보
 	pInstance->m_vbSize = 2048;				//  GPU가 한번에 그릴 수 있는 파티클 개수, CPU가 GPU로 파티클 정점 버퍼에 담을 수 있는 개수
-	pInstance->m_fSize = 3.f;				//  파티클의 크기
+	pInstance->m_fSize = 2.f;				//  파티클의 크기
 	pInstance->m_vbOffset = 0;				//  세그먼트의 배치사이즈를 옮길때 쓰는 오프셋(0고정)
 	pInstance->m_vbBatchSize = 64;			//  세그먼트 배치사이즈 크기(한번에 옮길 수 있는 정점들의 개수)
 	pInstance->m_vMin = _float3{ 0.f,0.f,0.f };				//  바운딩박스의 최소크기

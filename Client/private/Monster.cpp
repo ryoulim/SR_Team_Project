@@ -50,12 +50,20 @@ HRESULT CMonster::Initialize(void* pArg)
 void CMonster::Priority_Update(_float fTimeDelta)
 {
 	//프레임 업데이트
-	//FrameUpdate(fTimeDelta, m_fAnimationMaxFrame, m_fAnimationSpeed, true);
 	Animate_Monster(fTimeDelta);
 }
 
 EVENT CMonster::Update(_float fTimeDelta)
 {
+	if (m_bDead)
+		return EVN_DEAD;
+
+	if (m_bActive)
+	{
+		m_pGravityCom->Update(fTimeDelta);
+		MonsterTick(fTimeDelta);
+	}
+
 	return EVN_NONE;
 }
 
@@ -95,6 +103,9 @@ HRESULT CMonster::SetUp_RenderState()
 
 HRESULT CMonster::Render()
 {
+	if (m_bDebug)
+		Render_DebugFOV();
+
 
 	Set_TextureType();
 	
@@ -180,11 +191,17 @@ HRESULT CMonster::Ready_Components(void* pArg)
 	ColliderDesc.vScale = m_pTransformCom->Compute_Scaled();
 	ColliderDesc.pOwner = this;
 	ColliderDesc.iColliderGroupID = COL_MONSTER;
-
+	
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Collider_Capsule"),
 		TEXT("Com_Collider"), reinterpret_cast<CComponent**>(&m_pCollider), &ColliderDesc)))
 		return E_FAIL;
 
+	if (m_bActive)
+	{
+		if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Gravity"),
+			TEXT("Com_Gravity"), reinterpret_cast<CComponent**>(&m_pGravityCom), m_pTransformCom)))
+			return E_FAIL;
+	}
 
 	return S_OK;
 }
@@ -281,6 +298,7 @@ void CMonster::Free()
 	Safe_Release(m_pTransformCom);
 	Safe_Release(m_pCollider);
 	Safe_Release(m_pTargetPlayer);
+	Safe_Release(m_pGravityCom);
 	for (auto pair : m_pTextureMap)
 	{
 		for (auto otherpair : pair.second)
@@ -339,6 +357,7 @@ bool CMonster::IsPlayerDetected()
 	if (m_fCurDistance < m_fDetectiveDistance)
 	{
 		_float3 vLook = *m_pTransformCom->Get_State(CTransform::STATE_LOOK);
+		vLook.Normalize();
 
 		float fDot = D3DXVec3Dot(&m_vToPlayer, &vLook);  // 3. 각도 비교
 
@@ -417,17 +436,17 @@ void CMonster::MonsterTick(_float fTimeDelta)
 	case MODE::MODE_IDLE:
 		if (IsPlayerDetected())
 		{
-			//m_eState = MODE::MODE_BATTLE;
-			cout << " 따끈이 플레이어 발견!! " << '\n';
+			//플레이어 발견 시 행동
+			cout << "따끈이 플레이어 발견!!" << endl;
+			m_eState = MODE::MODE_BATTLE;
 		}
 		break;
 
 	case MODE::MODE_BATTLE:
+		//배틀 모드시에 행동
 		break;
-
 	case MODE::MODE_RETURN:
-		// 복귀 완료 시
-		m_eState = MODE::MODE_IDLE;
+		//본래위치로 돌아가고 IDLE로 상태가 변한다.
 		break;
 	}
 
@@ -448,24 +467,14 @@ void CMonster::MonsterTick(_float fTimeDelta)
 
 void CMonster::DoIdle(_float dt)
 {
-	if (IsPlayerDetected())
-	{
-		//m_eState = MODE::MODE_BATTLE;
-		//return;
-	}
-
 	switch (m_eIdlePhase)
 	{
 	case EIdlePhase::WanderMove:
 	{
 		m_fWanderElapsed += dt;
 
-		//이거 앞으로 가는거아님?
-		//_float3 vPos = *m_pTransformCom->Get_State(CTransform::STATE_POSITION);
-		//_float3 vMove = m_vDirection * dt * m_fIdleMoveSpeed;
-		//vMove.y = 0.f;
-		//m_pTransformCom->Set_State(CTransform::STATE_POSITION, vPos + vMove);
 		m_pTransformCom->Go_Straight(dt);
+
 		if (m_fWanderElapsed >= m_fWanderTime)
 		{
 			m_fWanderElapsed = 0.f;
@@ -500,13 +509,61 @@ void CMonster::DoIdle(_float dt)
 
 void CMonster::DoBattle(_float dt)
 {
-	// 플레이어 쫓기
-	//ChasePlayer();
+	// 1. 플레이어와의 거리 계산
+	_float fAttackRange = 300.f;
+	_float fChaseRange = 400.f;
+
+	// 2. 거리 기준 분기
+	if (m_fCurDistance < fAttackRange)
+	{
+		// 가까우면 공격
+		AttackPattern(dt);
+		cout << "몬스터의 공격 사거리 안입니다." << endl;
+	}
+	else if (m_fCurDistance < fChaseRange)
+	{
+		// 중간 거리면 추적
+		ChasePlayer(dt);
+		//cout << "몬스터 추격중입니다!" << endl;
+	}
+	else
+	{
+		// 너무 멀면 전투 종료
+		m_eState = MODE_RETURN;
+	}
 }
 
 void CMonster::DoReturn(_float dt)
 {
-	// 배회지점으로 돌아가기
+	// 배치 지점
+	_float3 vReturnPos = _float3(900.f, 100.f, 600.f);
+
+	// 현재 위치
+	_float3 vMyPos = *m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+
+	// 방향 계산
+	_float3 vDir = vReturnPos - vMyPos;
+	float fDistance = vDir.Length();
+	vDir.Normalize();
+
+	//원래방향으로 턴하기
+	_float3 vLook = *m_pTransformCom->Get_State(CTransform::STATE_LOOK);
+	bool bRotated = m_pTransformCom->RotateToDirection(vLook, vDir, 5.f, dt);
+	if (bRotated)  // 회전 완료 신호
+	{
+		// 너무 가까우면 이동 종료
+		if (fDistance < 1.0f) // 도착 판정 오차 허용
+		{
+			m_eState = MODE::MODE_IDLE;
+			return;
+		}
+
+		// 이동 처리 (dt 고려)
+		float fSpeed = m_fIdleMoveSpeed; // 예: 3.0f
+		_float3 vMove = vDir * fSpeed * dt;
+
+		m_pTransformCom->Set_State(CTransform::STATE_POSITION, (vMyPos + vMove));
+	}
 }
 
 void CMonster::SetRandomDirection()
@@ -527,6 +584,29 @@ void CMonster::SetRandomDirection()
 	m_fWanderTime = (rand() % 2000) / 1000.f + 1.f;
 	m_fWanderElapsed = 0.f;
 
+}
+
+void CMonster::AttackPattern(_float dt)
+{
+}
+
+void CMonster::ChasePlayer(_float dt)
+{
+	//타겟을 350거리까지 추격한다.
+	_float3 TargetPos = *static_cast<CTransform*>(m_pTargetPlayer->Find_Component(L"Com_Transform"))->Get_State(CTransform::STATE_POSITION);
+
+	// 현재 위치
+	_float3 vMyPos = *m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+
+	// 방향 계산
+	_float3 vDir = TargetPos - vMyPos;
+	float fDistance = vDir.Length();
+	vDir.Normalize();
+
+	//원래방향으로 턴하기
+	_float3 vLook = *m_pTransformCom->Get_State(CTransform::STATE_LOOK);
+	bool bRotated = m_pTransformCom->RotateToDirection(vLook, vDir, 5.f, dt);
+	m_pTransformCom->Chase(TargetPos, dt, 500.f);
 }
 
 
