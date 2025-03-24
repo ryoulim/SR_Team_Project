@@ -27,6 +27,7 @@ public:
 
 private:
 	float		m_fFrame = 0;
+	float		m_fRadius = 0;
 	_float3		m_vCenter = { 100.0f, 50.0f, 50.0f };
 };
 

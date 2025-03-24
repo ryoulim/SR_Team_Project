@@ -332,7 +332,7 @@ void CFXMgr::SpawnBulletTracer(_float3 _ScreenPos, LEVEL eLevel)
 	//SpriteDesc.szTextureTag = TEXT("Check_Tile");
 	SpriteDesc.vInitPos = _ScreenPos;
 	SpriteDesc.vScale = _float3{ 200.f, 200.f, 1.f };
-	SpriteDesc.fAniSpeed = 30.f;
+	SpriteDesc.fAniSpeed = 20.f;
 	SpriteDesc.bRandom = false;
 	SpriteDesc.eEffectType = CCameraSprite::eEffectType::BULLETTRACER;
 
@@ -358,6 +358,52 @@ void CFXMgr::SpawnBulletTracerMachineGun(_float3 _ScreenPos, LEVEL eLevel)
 	SpriteDesc.fAniSpeed = 30.f;
 	SpriteDesc.bRandom = false;
 	SpriteDesc.eEffectType = CCameraSprite::eEffectType::BULLETTRACER;
+
+	CGameObject* pObject = nullptr;
+	CGameObject** ppOut = &pObject;
+	if (FAILED(m_pGameInstance->Add_GameObjectReturn(LEVEL_STATIC, TEXT("Prototype_GameObject_PC_CameraSprite"),
+		eLevel, L"Layer_Particle", ppOut, &SpriteDesc)))
+		return;
+
+	m_vecSceenEffect.push_back(dynamic_cast<CCameraSprite*>(*ppOut));
+}
+void CFXMgr::SpawnGunFireMachineGun(_float3 _ScreenPos, LEVEL eLevel)
+{
+	CCameraSprite::DESC SpriteDesc{};
+	SpriteDesc.bActive = false;
+	SpriteDesc.fMaxFrame = 5;
+	SpriteDesc.fRotationPerSec = RADIAN(180.f);
+	SpriteDesc.fSpeedPerSec = 100.f;
+	//SpriteDesc.szTextureTag = TEXT("Effect_RevolverTacer");
+	SpriteDesc.szTextureTag = TEXT("GunFireMachineGun");
+	SpriteDesc.vInitPos = _ScreenPos;
+	SpriteDesc.vScale = _float3{ 250.f, 250.f, 1.f };
+	SpriteDesc.fAniSpeed = 30.f;
+	SpriteDesc.bRandom = false;
+	SpriteDesc.eEffectType = CCameraSprite::eEffectType::GUNFIRE;
+
+	CGameObject* pObject = nullptr;
+	CGameObject** ppOut = &pObject;
+	if (FAILED(m_pGameInstance->Add_GameObjectReturn(LEVEL_STATIC, TEXT("Prototype_GameObject_PC_CameraSprite"),
+		eLevel, L"Layer_Particle", ppOut, &SpriteDesc)))
+		return;
+
+	m_vecSceenEffect.push_back(dynamic_cast<CCameraSprite*>(*ppOut));
+}
+void CFXMgr::SpawnFireMachineGun(_float3 _ScreenPos, LEVEL eLevel)
+{
+	CCameraSprite::DESC SpriteDesc{};
+	SpriteDesc.bActive = false;
+	SpriteDesc.fMaxFrame = 5;
+	SpriteDesc.fRotationPerSec = RADIAN(180.f);
+	SpriteDesc.fSpeedPerSec = 100.f;
+	//SpriteDesc.szTextureTag = TEXT("Effect_RevolverTacer");
+	SpriteDesc.szTextureTag = TEXT("FireMachineGun");
+	SpriteDesc.vInitPos = _ScreenPos;
+	SpriteDesc.vScale = _float3{ 200.f, 200.f, 1.f };
+	SpriteDesc.fAniSpeed = 30.f;
+	SpriteDesc.bRandom = false;
+	SpriteDesc.eEffectType = CCameraSprite::eEffectType::FIRE;
 
 	CGameObject* pObject = nullptr;
 	CGameObject** ppOut = &pObject;

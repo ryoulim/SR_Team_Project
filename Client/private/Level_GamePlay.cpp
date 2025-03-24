@@ -69,15 +69,15 @@ void CLevel_GamePlay::Update(_float fTimeDelta)
 	//방목용
 	if (KEY_DOWN(DIK_M))
 	{
-		SpawnTtakkeun_i(_float3{ 300.f, 100.f, 300.f }, true);
-		SpawnWenteko(_float3{ 300.f, 40.f, 300.f }, true);
-		SpawnShotgunner(_float3{ 300.f, 20.f, 300.f }, true);
-		SpawnNukemutant(_float3{ 300.f, 30.f, 300.f }, true);
-		SpawnMechsect(_float3{ 300.f, 10.f, 300.f }, true);
-		SpawnGreater(_float3{ 300.f, 20.f, 300.f }, true);
-		SpawnDeacon(_float3{ 300.f, 50.f, 300.f }, true);
-		SpawnCultist(_float3{ 300.f, 30.f, 300.f }, true);
-		SpawnArchangel(_float3{ 300.f, 80.f, 300.f }, true);
+		SpawnTtakkeun_i(_float3{ 900.f, 100.f, 600.f }, true);
+		SpawnWenteko(_float3{ 900.f, 40.f, 600.f }, true);
+		SpawnShotgunner(_float3{ 900.f, 20.f, 600.f }, true);
+		SpawnNukemutant(_float3{ 900.f, 30.f, 600.f }, true);
+		SpawnMechsect(_float3{ 900.f, 10.f, 600.f }, true);
+		SpawnGreater(_float3{ 900.f, 20.f, 600.f }, true);
+		SpawnDeacon(_float3{ 900.f, 50.f, 600.f }, true);
+		SpawnCultist(_float3{ 900.f, 30.f, 600.f }, true);
+		SpawnArchangel(_float3{ 900.f, 80.f, 600.f }, true);
 	}
 
 	Check_Collision();
@@ -218,7 +218,9 @@ HRESULT CLevel_GamePlay::Ready_Layer_Particle(const _wstring& strLayerTag)
 HRESULT CLevel_GamePlay::Ready_Layer_Effect(const _wstring& strLayerTag)
 {
 	CFXMgr::Get_Instance()->SpawnGunFire(_float3{ 750.f, 450.f, 0.1f }, LEVEL_GAMEPLAY);
-	CFXMgr::Get_Instance()->SpawnBulletTracer(_float3{ 700.f, 400.f, 1.f }, LEVEL_GAMEPLAY);
+	CFXMgr::Get_Instance()->SpawnBulletTracer(_float3{ 700.f, 400.f, 0.2f }, LEVEL_GAMEPLAY);
+	//CFXMgr::Get_Instance()->SpawnFireMachineGun(_float3{ 750.f, 450.f, 0.1f }, LEVEL_GAMEPLAY);
+	//CFXMgr::Get_Instance()->SpawnGunFireMachineGun(_float3{ 750.f, 450.f, 0.2f }, LEVEL_GAMEPLAY);
 	//CFXMgr::Get_Instance()->SpawnBulletTracerMachineGun(_float3{ 700.f, 400.f, 0.1f }, LEVEL_GAMEPLAY);
 
 	return S_OK;
