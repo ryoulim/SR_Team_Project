@@ -27,10 +27,11 @@ HRESULT CAim::Initialize(void* pArg)
 
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
-
-	Ready_Shader(L"../bin/Shader_ColorChange.hlsl");
-	float newColor[3] = { 0.9f, 0.8f, 0.0f }; // ³ë¶û (230, 200, 0)
-	m_pEffect->SetFloatArray("newColor", newColor, 3);
+	m_pTextureCom->Get_TextureSize(0, &m_vSize);
+	m_pTransformCom->Scaling(m_vSize);
+	Ready_Shader(L"../bin/Shader_ImageMasking.hlsl");
+	//float newColor[3] = { 0.9f, 0.8f, 0.0f }; // ³ë¶û (230, 200, 0)
+	//m_pEffect->SetFloatArray("newColor", newColor, 3);
 
 	//float origColor[3] = { 60.f / 255.f, 70.f / 255.f, 160.f / 255.f }; // ÆÄ¶û (60, 70, 160)
 	//m_pEffect->SetFloatArray("origColor", origColor, 3);
@@ -44,6 +45,16 @@ void CAim::Priority_Update(_float fTimeDelta)
 
 EVENT CAim::Update(_float fTimeDelta)
 {
+	if (MOUSE_DOWN(DIMK_LBUTTON)) // Åº¾à ¹Þ¾Æ¿À´Â °ÍÀ¸·Î º¯°æ ÇÊ¿ä 
+	{
+		m_fMaskingDist -= 0.1f;
+		if (m_fMaskingDist < 0.f)
+			m_fMaskingDist = 0.f;
+	}
+	if (KEY_DOWN(DIK_R))
+	{
+		m_fMaskingDist = 1.f;
+	}
 	return __super::Update(fTimeDelta);
 }
 
@@ -54,6 +65,7 @@ void CAim::Late_Update(_float fTimeDelta)
 
 HRESULT CAim::Render()
 {
+	m_pEffect->SetFloat("maskingDistance", m_fMaskingDist);
 	m_pTextureCom->Bind_Shader_To_Texture(m_pEffect, m_hTex, 0);
 
 	return __super::Render();
