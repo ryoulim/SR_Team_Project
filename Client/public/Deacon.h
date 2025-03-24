@@ -13,6 +13,8 @@ public:
 	{
 		//몬스터 고유 특성
 	}DESC;
+	enum STATE { STATE_ATTACK, STATE_DEATH, STATE_MOVE, STATE_SHOCK, STATE_END };
+	enum MONSTER_DEGREE { D0, D45, D90, D135, D180, D_END };
 
 private:
 	CDeacon(LPDIRECT3DDEVICE9 pGraphic_Device);
@@ -32,6 +34,7 @@ private:
 
 public:
 	virtual void On_Collision(_uint MyColliderID, _uint OtherColliderID) override;
+	virtual HRESULT Ready_Textures();
 
 public:
 	static CDeacon* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
