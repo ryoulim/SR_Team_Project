@@ -9,10 +9,12 @@
 #include "VIBuffer_Rect.h"
 #include "VIBuffer_Cube.h"
 #include "VIBuffer_BuildingH.h"
+#include "VIBuffer_TriangularPillar.h"
 
 #include "VIBuffer_Terrain.h"
 #include "VIBuffer_RaceTerrain.h"
 #include "VIBuffer_RaceLandscape.h"
+
 
 #include "Transform.h"
 #include "Texture.h"

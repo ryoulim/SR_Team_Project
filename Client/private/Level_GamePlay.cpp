@@ -171,6 +171,10 @@ HRESULT CLevel_GamePlay::Ready_Layer_Statue(const _wstring& strLayerTag)
 		LEVEL_GAMEPLAY, strLayerTag, m_pData->Find_Data(TEXT("Canopy")))))
 		return E_FAIL;
 
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_TriangularPillar"),
+		LEVEL_GAMEPLAY, strLayerTag)))
+		return E_FAIL;
+
 	return S_OK;
 }
 

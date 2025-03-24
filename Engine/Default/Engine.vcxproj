@@ -216,6 +216,7 @@ CD $(SolutionDir)
     <ClInclude Include="..\Public\VIBuffer_Stall.h" />
     <ClInclude Include="..\Public\VIBuffer_Terrain.h" />
     <ClInclude Include="..\Public\VIBuffer_Trapezoid.h" />
+    <ClInclude Include="..\public\VIBuffer_TriangularPillar.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Private\Base.cpp" />
@@ -265,6 +266,7 @@ CD $(SolutionDir)
     <ClCompile Include="..\Private\VIBuffer_Stall.cpp" />
     <ClCompile Include="..\Private\VIBuffer_Terrain.cpp" />
     <ClCompile Include="..\Private\VIBuffer_Trapezoid.cpp" />
+    <ClCompile Include="..\private\VIBuffer_TriangularPillar.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

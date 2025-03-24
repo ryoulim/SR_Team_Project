@@ -55,6 +55,7 @@
 
 //맵 인클루드
 #include "Block.h"
+#include "TriangularPillar.h"
 
 //전시용 플랫폼
 #include "Flatform.h"
@@ -593,6 +594,8 @@ HRESULT CLoader::Loading_For_GamePlay()
 	ADD_PRTOBJ(Weapon_Chaingun);
 	ADD_PRTOBJ(Block);
 	ADD_PRTOBJ(BackGround);
+
+	ADD_PRTOBJ(TriangularPillar);
 
 	//몬스터
 	ADD_PRTOBJ(Ttakkeun_i);

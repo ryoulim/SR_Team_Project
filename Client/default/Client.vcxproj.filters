@@ -280,6 +280,9 @@
     <Filter Include="02.GameObjects\Statue\BuildingH">
       <UniqueIdentifier>{f997c486-91f6-451b-86ed-1163c494293d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\Map\TriangularPillar">
+      <UniqueIdentifier>{e0877313-a573-4097-b9af-652087cb7a4b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -588,6 +591,9 @@
     <ClInclude Include="..\public\BuildingH.h">
       <Filter>02.GameObjects\Statue\BuildingH</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\TriangularPillar.h">
+      <Filter>02.GameObjects\Map\TriangularPillar</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -884,6 +890,9 @@
     </ClCompile>
     <ClCompile Include="..\private\DebugDraw.cpp">
       <Filter>02.GameObjects\Monster\_Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\TriangularPillar.cpp">
+      <Filter>02.GameObjects\Map\TriangularPillar</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
