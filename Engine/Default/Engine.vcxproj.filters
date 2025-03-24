@@ -148,6 +148,12 @@
     <ClInclude Include="..\Public\VIBuffer_RaceLandscape.h">
       <Filter>04.Components\VIBuffer\RaceTerrain\VIBuffer_RaceLandscape</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\VIBuffer_BuildingH.h">
+      <Filter>04.Components\VIBuffer\RaceTerrain\VIBuffer_BuildingH</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\VIBuffer_BuildingW.h">
+      <Filter>04.Components\VIBuffer\RaceTerrain\VIBuffer_BuildingW</Filter>
+    </ClInclude>
     <ClInclude Include="..\public\VIBuffer_CubeEx.h">
       <Filter>04.Components\VIBuffer\CubeEx</Filter>
     </ClInclude>
@@ -300,6 +306,12 @@
     <Filter Include="04.Components\VIBuffer\CubeEx">
       <UniqueIdentifier>{de6d8a58-f371-4f9c-8830-2898e909e7c9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="04.Components\VIBuffer\RaceTerrain\VIBuffer_BuildingH">
+      <UniqueIdentifier>{0ca130d8-202e-4e32-b161-313466f789b1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04.Components\VIBuffer\RaceTerrain\VIBuffer_BuildingW">
+      <UniqueIdentifier>{c3a148c2-1ed3-4b58-8593-6a40608c8977}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Private\Base.cpp">
@@ -436,6 +448,12 @@
     </ClCompile>
     <ClCompile Include="..\private\VIBuffer_CubeEx.cpp">
       <Filter>04.Components\VIBuffer\CubeEx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\VIBuffer_BuildingH.cpp">
+      <Filter>04.Components\VIBuffer\RaceTerrain\VIBuffer_BuildingH</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\VIBuffer_BuildingW.cpp">
+      <Filter>04.Components\VIBuffer\RaceTerrain\VIBuffer_BuildingW</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

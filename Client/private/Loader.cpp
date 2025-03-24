@@ -11,6 +11,7 @@
 #include "Signboard.h"
 #include "MyComputer.h"
 #include "Canopy.h"
+#include "BuildingH.h"
 #include "Explosion.h"
 
 
@@ -22,6 +23,7 @@
 
 //플레이어와 무기
 #include "Player.h"
+#include "PlayerOnBoat.h"
 #include "Weapon_LoverBoy.h"
 #include "Weapon_Chaingun.h"
 
@@ -626,26 +628,20 @@ HRESULT CLoader::Loading_For_GamePlay()
 HRESULT CLoader::Loading_For_Race()/**/
 {
 	lstrcpy(m_szLoadingText, TEXT("텍스쳐을(를) 로딩중입니다."));
-	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_RACE, TEXT("Prototype_Component_Texture_RaceTerrain"),
-		CTexture::Create(m_pGraphic_Device, TEXT("../Bin/Resources/Textures/Map/RaceTerrain/RaceTerrain%d.PNG"), 2))))
-		return E_FAIL;
-
-	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_RACE, TEXT("Prototype_Component_Texture_RaceLandscape"),
-		CTexture::Create(m_pGraphic_Device, TEXT("../Bin/Resources/Textures/Object/RaceLandscape/Tile15415.PNG"), 1))))
-		return E_FAIL;
+	ADD_TEXTURE(RaceTerrain, "../Bin/Resources/Textures/Map/RaceTerrain/RaceTerrain%d.PNG", 2);
+	ADD_TEXTURE(RaceLandscape, "../Bin/Resources/Textures/Object/RaceLandscape/Tile15415.PNG", 1);
+	ADD_TEXTURE(PlayerOnBoat, "../Bin/Resources/Textures/Player/PlayerOnBoat/Tile15947.PNG", 1);
+	ADD_TEXTURE(BuildingH, "../Bin/Resources/Textures/Object/BuildingH/BuildingH%d.PNG", 4);
 
 	lstrcpy(m_szLoadingText, TEXT("모델을(를) 로딩중입니다."));
-	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_RACE, TEXT("Prototype_Component_VIBuffer_RaceTerrain"),
-		CVIBuffer_RaceTerrain::Create(m_pGraphic_Device, 10, 1000))))
-		return E_FAIL;
+	ADD_MODEL_EX(RaceTerrain, 10, 1000);
+	ADD_MODEL(Rect);
 
 	lstrcpy(m_szLoadingText, TEXT("사운드을(를) 로딩중입니다."));
 
 
 	lstrcpy(m_szLoadingText, TEXT("원형객체을(를) 로딩중입니다."));
-	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_RACE, TEXT("Prototype_GameObject_RaceTerrain"),
-		CRaceTerrain::Create(m_pGraphic_Device))))
-		return E_FAIL;
+	ADD_PRTOBJ(RaceTerrain);
 
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_RACE, TEXT("Prototype_GameObject_RaceLandscapeLeft"),
 		CRaceLandscape::Create(m_pGraphic_Device))))
@@ -654,6 +650,9 @@ HRESULT CLoader::Loading_For_Race()/**/
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_RACE, TEXT("Prototype_GameObject_RaceLandscapeRight"),
 		CRaceLandscape::Create(m_pGraphic_Device))))
 		return E_FAIL;
+
+	ADD_PRTOBJ(PlayerOnBoat);
+	ADD_PRTOBJ(BuildingH);
 
 	lstrcpy(m_szLoadingText, TEXT("데이터를 읽어들이는 중입니다."));
 	Add_Data(TEXT("GamePlayLevelData.csv"));

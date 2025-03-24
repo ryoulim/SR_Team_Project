@@ -96,10 +96,10 @@ void CStatue::LightOn()
 	LightDesc.Type = D3DLIGHT_POINT;
 
 	// 광원의 위치
-	LightDesc.Position = _float3(80.f, 40.f, 50.f);
+	LightDesc.Position = _float3(500.f, 200.f, 500.f);
 
 	// 조명이 미치는 범위
-	LightDesc.Range = 70.f;
+	LightDesc.Range = 400.f;
 
 	// 광원으로부터 멀어질 때의 감쇄값
 	LightDesc.Attenuation1 = 0.00000001f;

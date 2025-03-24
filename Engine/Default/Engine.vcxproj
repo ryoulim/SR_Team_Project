@@ -202,6 +202,8 @@ CD $(SolutionDir)
     <ClInclude Include="..\public\Transform.h" />
     <ClInclude Include="..\Public\Vector.h" />
     <ClInclude Include="..\public\VIBuffer.h" />
+    <ClInclude Include="..\Public\VIBuffer_BuildingH.h" />
+    <ClInclude Include="..\Public\VIBuffer_BuildingW.h" />
     <ClInclude Include="..\Public\VIBuffer_Cabinet.h" />
     <ClInclude Include="..\Public\VIBuffer_Canopy.h" />
     <ClInclude Include="..\Public\VIBuffer_Computer.h" />
@@ -249,6 +251,8 @@ CD $(SolutionDir)
     <ClCompile Include="..\private\Transform.cpp" />
     <ClCompile Include="..\Private\Vector.cpp" />
     <ClCompile Include="..\private\VIBuffer.cpp" />
+    <ClCompile Include="..\Private\VIBuffer_BuildingH.cpp" />
+    <ClCompile Include="..\Private\VIBuffer_BuildingW.cpp" />
     <ClCompile Include="..\Private\VIBuffer_Cabinet.cpp" />
     <ClCompile Include="..\Private\VIBuffer_Canopy.cpp" />
     <ClCompile Include="..\Private\VIBuffer_Computer.cpp" />
