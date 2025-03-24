@@ -35,6 +35,7 @@ private:
 	CTransform* m_pBodyTransformCom = {nullptr};
 	_uint m_iBodynum{};
 	_float m_fLastActionTime{};
+	_float3 m_vMovingOffset{};
 
 private:
 	virtual HRESULT Ready_Components(void* pArg) override;

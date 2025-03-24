@@ -23,7 +23,7 @@ public:
 	virtual void Late_Update(_float fTimeDelta);
 	virtual HRESULT Render();
 
-	void FrameUpdate(float timeDelta, float _MaxFrame, float fSpeed, bool isLoop);
+	void FrameUpdate(_float timeDelta, _float _MaxFrame, _float fSpeed, _bool isLoop);
 	
 	_float	Get_ViewZ() const { return m_fViewZ; }
 	void	Compute_ViewZ(const _float3* pPos);
@@ -48,9 +48,9 @@ public:
 	virtual void Free();
 
 protected:
-	float	m_fAnimationFrame = 0;
-	float	m_fAnimationMaxFrame = 0;
-	float	m_fAnimationSpeed = 0;
+	_float	m_fAnimationFrame = 0;
+	_float	m_fAnimationMaxFrame = 0;
+	_float	m_fAnimationSpeed = 0;
 
 	_float	m_fViewZ;
 	_float	m_fDepth = {};

@@ -2,6 +2,7 @@
 // 부모 클래스 이름 : Weapon
 
 #include "Weapon_LoverBoy.h"
+#include "UI_Manager.h"
 
 CWeapon_LoverBoy::CWeapon_LoverBoy(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CWeapon{ pGraphic_Device }

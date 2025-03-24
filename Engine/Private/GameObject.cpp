@@ -50,7 +50,7 @@ HRESULT CGameObject::Render()
 	return S_OK;
 }
 
-void CGameObject::FrameUpdate(float timeDelta, float _MaxFrame, float fSpeed, bool isLoop)
+void CGameObject::FrameUpdate(_float timeDelta, _float _MaxFrame, _float fSpeed, _bool isLoop)
 {
 	if (isLoop)
 	{

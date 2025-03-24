@@ -2,7 +2,7 @@
 // 부모 클래스 이름 : Weapon
 
 #include "Weapon_Chaingun.h"
-#define INITPOS {170.f,-208.f,0.1f}
+#define INITPOS {170.f,-218.f,0.1f}
 #define HEADPOS	_float3 INITPOS - _float3{35.f,-72.5f,0.f}
 #define ST_RELEASE ST_RELOAD
 #define RELEASE Reload
@@ -31,8 +31,6 @@ HRESULT CWeapon_Chaingun::Initialize(void* pArg)
 	Desc.fSpeedPerSec = 3000.f;
 	m_szTextureID = TEXT("Weapon_Chaingun");
 	m_vMovingPos = INITPOS;
-	m_vMovingPos.y -= 10.f;
-
 
 	if (FAILED(__super::Initialize(&Desc)))
 		return E_FAIL;
@@ -79,13 +77,13 @@ void CWeapon_Chaingun::Walk(_float fTimeDelta)
 #define WALKY 10.f
 #define FREQUENCY 8.f
 
-	_float3 vOffset = _float3(
+	m_vMovingOffset = _float3(
 		sinf(m_fWalkTimer * FREQUENCY) * WALKX,
 		cosf(m_fWalkTimer * FREQUENCY * 2) * WALKY,
 		0.f
 	);
 
-	m_pBodyTransformCom->Set_State(CTransform::STATE_POSITION, m_vMovingPos + vOffset);
+	m_pBodyTransformCom->Set_State(CTransform::STATE_POSITION, m_vMovingPos + m_vMovingOffset);
 }
 
 void CWeapon_Chaingun::Opening(_float fTimeDelta)
@@ -107,7 +105,8 @@ void CWeapon_Chaingun::Set_State(STATE State)
 
 	m_eState = State;
 	m_fMotionTimer = 0.f;
-	m_pBodyTransformCom->Set_State(CTransform::STATE_POSITION, INITPOS);
+	m_pBodyTransformCom->Set_State(CTransform::STATE_POSITION, m_vMovingPos + m_vMovingOffset);
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION, HEADPOS + m_vMovingOffset);
 
 	switch (State)
 	{
@@ -222,8 +221,8 @@ void CWeapon_Chaingun::Weak_Attack(_float fTimeDelta)
 
 	_float3 vInter = { sinf(m_fMotionTimer * AMPSPEED) * AMPX, -sinf(m_fMotionTimer * AMPSPEED) * AMPY, 0.f };
 
-	m_pTransformCom->Set_State(CTransform::STATE_POSITION, _float3(HEADPOS) + vInter);
-	m_pBodyTransformCom->Set_State(CTransform::STATE_POSITION, _float3(INITPOS) + vInter);
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION, _float3(HEADPOS + m_vMovingOffset) + vInter);
+	m_pBodyTransformCom->Set_State(CTransform::STATE_POSITION, _float3(INITPOS) + m_vMovingOffset + vInter);
 
 	if (MOUSE_UP(DIMK_LBUTTON))
 	{

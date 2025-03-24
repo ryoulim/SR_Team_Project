@@ -9,6 +9,7 @@ BEGIN(Client)
 class CPlayer final : public CPawn
 {
 public:
+	friend class CUI_Manager;
 	typedef struct tagPlayerDesc : public CPawn::DESC
 	{
 		_float			fMouseSensor;
@@ -37,6 +38,8 @@ private:
 
 	vector<class CWeapon*>		m_Weapons;
 	_uint						m_iCurWeaponIndex{};
+	_uint						m_iAmmo[4];
+	//_uint						m_i
 
 private:
 	void			Key_Input(_float fTimeDelta);

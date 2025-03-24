@@ -138,7 +138,7 @@ HRESULT CUI_Manager::Update_GameUI(GAMEUI eUIType, CAmmo::AMMOTYPE eAmmoType)
 		static_cast<CArmor*>(m_GameUIs[GUI_ARMOR])->Set_Armor(/*m_pPlayer->Get_Armor()*/rand()%100);
 		break;
 	case Client::CUI_Manager::GUI_AMMO:
-		static_cast<CAmmo*>(m_GameUIs[GUI_AMMO])->Set_Ammo(eAmmoType, /*m_pPlayer->Get_Ammo()*/rand() % 80);
+		static_cast<CAmmo*>(m_GameUIs[GUI_AMMO])->Set_Ammo(eAmmoType, /*m_pPlayer->Get_Ammo(eAmmoType)*/rand() % 80);
 		break;
 	case Client::CUI_Manager::GUI_END:
 		break;
