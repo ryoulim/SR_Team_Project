@@ -112,7 +112,7 @@ HRESULT CMainApp::Initialize()
 		return E_FAIL;
 
 	/* 최초 보여줄 레벨을 할당하자. */
-	if (FAILED(Open_Level(LEVEL_LOGO)))
+	if (FAILED(Open_Level(LEVEL_RACE)))
 		return E_FAIL;
 	
 	if (FAILED(Ready_Debug_Mode()))
@@ -153,6 +153,8 @@ HRESULT CMainApp::Ready_Component_For_Static()
 	ADD_MODEL(Canopy);
 	ADD_MODEL(RaceLandscape);
 	ADD_MODEL(BuildingH);
+	ADD_MODEL(BuildingW);
+	ADD_MODEL(BuildingV);
 
 	ADD_PRTCOM(Transform);
 	ADD_PRTCOM(Gravity);

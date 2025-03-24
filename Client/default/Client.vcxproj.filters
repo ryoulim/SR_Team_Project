@@ -280,6 +280,12 @@
     <Filter Include="02.GameObjects\Statue\BuildingH">
       <UniqueIdentifier>{f997c486-91f6-451b-86ed-1163c494293d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\Statue\BuildingW">
+      <UniqueIdentifier>{a73000c8-acfc-4a7c-9145-d8ba4a3b63e2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Statue\BuildingV">
+      <UniqueIdentifier>{c7a153e3-4a3d-45e2-91bb-a70163e921fd}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -588,6 +594,12 @@
     <ClInclude Include="..\public\BuildingH.h">
       <Filter>02.GameObjects\Statue\BuildingH</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\BuildingW.h">
+      <Filter>02.GameObjects\Statue\BuildingW</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\BuildingV.h">
+      <Filter>02.GameObjects\Statue\BuildingV</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -884,6 +896,12 @@
     </ClCompile>
     <ClCompile Include="..\private\DebugDraw.cpp">
       <Filter>02.GameObjects\Monster\_Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\BuildingW.cpp">
+      <Filter>02.GameObjects\Statue\BuildingW</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\BuildingV.cpp">
+      <Filter>02.GameObjects\Statue\BuildingV</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

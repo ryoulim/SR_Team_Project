@@ -9,6 +9,8 @@
 #include "VIBuffer_Rect.h"
 #include "VIBuffer_Cube.h"
 #include "VIBuffer_BuildingH.h"
+#include "VIBuffer_BuildingW.h"
+#include "VIBuffer_BuildingV.h"
 
 #include "VIBuffer_Terrain.h"
 #include "VIBuffer_RaceTerrain.h"

@@ -66,7 +66,15 @@ HRESULT CLevel_Race::Ready_Layer_Statue(const _wstring& strLayerTag)
 		LEVEL_RACE, strLayerTag, &desc)))
 		return E_FAIL;
 
-	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_RACE, TEXT("Prototype_GameObject_BuildingH"),
+	/*if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_RACE, TEXT("Prototype_GameObject_BuildingH"),
+		LEVEL_RACE, strLayerTag)))
+		return E_FAIL;*/
+
+	/*if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_RACE, TEXT("Prototype_GameObject_BuildingW"),
+		LEVEL_RACE, strLayerTag)))
+		return E_FAIL;*/
+
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_RACE, TEXT("Prototype_GameObject_BuildingV"),
 		LEVEL_RACE, strLayerTag)))
 		return E_FAIL;
 
