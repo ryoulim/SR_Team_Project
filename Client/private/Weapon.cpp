@@ -1,4 +1,5 @@
 #include "Weapon.h"
+#include "Weapon.h"
 
 CWeapon::CWeapon(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CGameObject{ pGraphic_Device }

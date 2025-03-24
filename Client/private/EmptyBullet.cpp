@@ -57,8 +57,13 @@ void CEmptyBullet::resetParticle(Attribute* attribute)
 
 EVENT CEmptyBullet::Update(_float timeDelta)
 {
-	list<Attribute>::iterator i;
-	for (i = m_Particles.begin(); i != m_Particles.end(); i++)
+	if (m_Particles.empty())
+	{
+		m_pGameInstance->Deactive_Object(TEXT("ObjectPool_PC_EmptyBullet"), this);
+		return EVN_OFF;
+	}
+
+	for (auto i = m_Particles.begin(); i != m_Particles.end();)
 	{
 		//생존한 파티클만 갱신한다.
 		if (i->_isAlive)
@@ -71,23 +76,23 @@ EVENT CEmptyBullet::Update(_float timeDelta)
 			if (i->_Age > i->_LifeTime)
 			{
 				i->_isAlive = false;
+				i = m_Particles.erase(i);
+				continue;
 				//resetParticle(&(*i));
 			}
 		}
+		i++;
 	}
 
 
 	//죽은 놈 삭제하기
 	removeDeadParticle();
-
-
 	FrameUpdate(timeDelta);
-	Late_Update();
 
 	return EVN_NONE;
 }
 
-void CEmptyBullet::Late_Update()
+void CEmptyBullet::Late_Update(_float timeDelta)
 {
 	m_fViewZ = 0.f;
 

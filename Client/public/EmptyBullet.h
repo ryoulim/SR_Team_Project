@@ -17,7 +17,7 @@ public:
 
 	virtual void resetParticle(Attribute* attribute);
 	virtual EVENT Update(_float timeDelta);
-	virtual void Late_Update();
+	virtual void Late_Update(_float timeDelta) override;
 	virtual HRESULT Render() override;
 
 	virtual HRESULT Initialize(void* pArg)override;

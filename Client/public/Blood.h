@@ -20,6 +20,7 @@ public:
 
 
 	HRESULT Initialize(void* pArg) override;
+	virtual HRESULT Reset(void* pArg) override;
 	HRESULT Ready_Particle() override;
 	HRESULT Ready_Components(void* pArg);
 	virtual void resetParticle(Attribute* attribute);

@@ -66,10 +66,6 @@ EVENT CRain::Update(_float timeDelta)
 		}
 	}
 
-
-	//이거 고치긴해야함
-	Late_Update();
-
 	return EVN_NONE;
 }
 

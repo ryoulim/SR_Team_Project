@@ -40,8 +40,6 @@ private:
 
 	vector<class CWeapon*>		m_Weapons;
 	_uint						m_iCurWeaponIndex{};
-	_uint						m_iAmmo[4];
-	//_uint						m_i
 	_int						m_iHP = 0;
 
 private:

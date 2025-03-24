@@ -42,7 +42,7 @@ public:	//¿Ã¥œº»∂Û¿Ã¡Ó
 
 public:
 	virtual EVENT	Update(_float fTimeDelta);
-	virtual void	Late_Update();
+	virtual void	Late_Update(_float fTimeDelta)override;
 
 
 public: //∑ª¥ı∏µ

@@ -91,19 +91,22 @@ _bool CCollider_Manager::Raycast(const _float3& rayOrigin, const _float3& rayDir
     return bResult;
 }
 
-_bool CCollider_Manager::Raycast_Downward(const _float3& rayOrigin, _uint iColliderGroupID)
+_float CCollider_Manager::Raycast_Downward(const _float3& rayOrigin, _uint iColliderGroupID)
 {
     if (iColliderGroupID >= m_iNumGroups)
         return FALSE;
 
-    _bool bResult{};
+    _float fResult{0};
 
     for (auto& pCollider : m_pColliders[iColliderGroupID])
     {
-        bResult |= pCollider->RayCast_Downward(rayOrigin);
+        if (pCollider->RayCast_Downward(rayOrigin))
+        {
+            fResult = max(fResult, CCollider::Get_Last_Collision_Pos().y);
+        }
     }
 
-    return bResult;
+    return fResult;
 }
 
 CCollider_Manager* CCollider_Manager::Create(_uint iNumGroups)

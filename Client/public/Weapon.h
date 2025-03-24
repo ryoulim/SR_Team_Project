@@ -3,7 +3,6 @@
 #include "Client_Defines.h"
 #include "GameInstance.h"
 #include "GameObject.h"
-#include "UI_Manager.h"
 
 #define MOTION(Num,Duration) _uint(m_fMotionTimer / Duration) % Num
 
@@ -13,11 +12,34 @@ class CWeapon abstract : public CGameObject
 {
 public:
 	enum STATE { ST_IDLE, ST_WALK, ST_OPENING, ST_W_ATK, ST_S_ATK, ST_RELOAD, ST_ENDING, ST_END };
+	enum TYPE {
+		LOVERBOY,
+		DISPERSER_SHELL,
+		DISPERSER_GRENADE,
+		PENETRATOR,
+		CHAINGUN,
+		BOWLINGBOMB,
+		IONBOW,
+		CLUSTERPUCK,
+		AMMO_END
+	};
 public:
+	typedef struct tagAmmoInfo
+	{
+		TYPE  eType;
+		_uint iCurAmmo;
+		_uint iMaxAmmo;
+		_uint iReloadedAmmo;
+	}AMMOINFO;
+
 	typedef struct tagWeaponDesc : public CTransform::DESC
 	{
 		_float3 vInitPos;
 	}DESC;
+
+	const AMMOINFO* Get_Info() {
+		return &m_tAmmoInfo;
+	}
 
 protected:
 	CWeapon(LPDIRECT3DDEVICE9 pGraphic_Device);
@@ -34,7 +56,6 @@ public:
 	virtual void Walk(_float fTimeDelta);
 
 	virtual void Set_State(STATE State) PURE;
-	_uint	Get_Ammo() { return m_iAmmo; }
 	virtual void Key_Input();
 protected:
 	virtual HRESULT Ready_Components(void* pArg);
@@ -49,7 +70,7 @@ protected:
 	CVIBuffer* m_pVIBufferCom = { nullptr };
 	CTransform* m_pTransformCom = { nullptr };
 
-	_uint m_iAmmo{};
+	AMMOINFO m_tAmmoInfo{};
 	_float m_fFrameSpeed{};
 	_float m_fStartFrmae{};
 	_float m_fEndFrame{};

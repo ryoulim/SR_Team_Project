@@ -70,7 +70,6 @@ public:
 		return dist(m_Gen);
 	}
 
-
 public:
 	virtual void Free() override;
 

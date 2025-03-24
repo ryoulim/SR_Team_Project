@@ -28,6 +28,7 @@ private:
 public:
 	virtual HRESULT Initialize_Prototype() override;
 	virtual HRESULT Initialize(void* pArg) override;
+	virtual HRESULT Reset(void* pArg) override;
 	virtual void Priority_Update(_float fTimeDelta) override;
 	virtual EVENT Update(_float fTimeDelta) override;
 	virtual void Late_Update(_float fTimeDelta) override;
@@ -43,10 +44,10 @@ public:
 	virtual void Free();
 
 public:
-	void	isActive(bool _bActive) { m_bActive = _bActive; }
+	void	isActive(bool _bActive) {}// m_bActive = _bActive;
 
 private:
-	bool				m_bActive = false;
+	//bool				m_bActive = false;
 	eEffectType			m_eEffectType = NONE;
 	
 private:
@@ -55,11 +56,11 @@ private:
 	_float				m_fSizeX = {};
 	_float				m_fSizeY = {};
 
-	_float4x4			m_ViewMatrix = {};
-	_float4x4			m_ProjMatrix = {};
+	//_float4x4			m_ViewMatrix = {};
+	//_float4x4			m_ProjMatrix = {};
 
-	_float4x4			m_OldViewMatrix = {};
-	_float4x4			m_OldProjMatrix = {};
+	//_float4x4			m_OldViewMatrix = {};
+	//_float4x4			m_OldProjMatrix = {};
 
 };
 

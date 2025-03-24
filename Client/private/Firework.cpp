@@ -123,10 +123,7 @@ EVENT CFirework::Update(_float timeDelta)
 		}
 	}
 
-
-	//이거 고치긴해야함
 	FrameUpdate(timeDelta);
-	Late_Update();
 
 
 	return EVN_NONE;

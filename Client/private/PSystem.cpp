@@ -116,7 +116,7 @@ EVENT CPSystem::Update(_float timeDelta)
 }
 
 
-void CPSystem::Late_Update()
+void CPSystem::Late_Update(_float fTimeDelta)
 {
 	_float3	vTemp = *m_pTransForm->Get_State(CTransform::STATE_POSITION);
 	CGameObject::Compute_ViewZ(&vTemp);

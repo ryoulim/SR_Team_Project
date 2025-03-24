@@ -26,10 +26,11 @@ void CFXMgr::Initialize()
 void CFXMgr::Update(_float fTimeDelta)
 {
 	//탄피 생성
-	if (MOUSE_PRESSING(DIMK_LBUTTON))
-	{
-		SpawnEmptyBullet(_float3(0.f, 0.f, 0.f), LEVEL_GAMEPLAY);
-	}
+	//if (MOUSE_PRESSING(DIMK_LBUTTON))
+	//{
+	//	SpawnEmptyBullet(_float3(0.f, 0.f, 0.f), LEVEL_GAMEPLAY);
+	//}
+
 
 	//카메라 스프라이트 테스트
 	if (MOUSE_PRESSING(DIMK_LBUTTON))
@@ -534,12 +535,9 @@ void CFXMgr::SpawnEmptyBullet(_float3 _vPosition, LEVEL eLevel)
 {
 	CPSystem::DESC EmptyBulletDesc{};
 	EmptyBulletDesc.vPosition = _vPosition;
-	EmptyBulletDesc.fMaxFrame = 7;
-	EmptyBulletDesc.szTextureTag = TEXT("PC_BulletShell");
-	EmptyBulletDesc.iParticleNums = 1;
 
-	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_PC_EmptyBullet"),
-		eLevel, L"Layer_Particle", &EmptyBulletDesc)))
+	if (FAILED(m_pGameInstance->Active_Object(TEXT("ObjectPool_PC_EmptyBullet"), eLevel,
+		TEXT("Layer_Particle"), &EmptyBulletDesc)))
 		return;
 }
 
@@ -547,38 +545,23 @@ void CFXMgr::SpawnBlood(_float3 _vPosition, LEVEL eLevel)
 {
 	CPSystem::DESC BloodDesc{};
 	BloodDesc.vPosition = _vPosition;
-	BloodDesc.fMaxFrame = 5;
-	BloodDesc.szTextureTag = TEXT("PS_Blood");
 	BloodDesc.iParticleNums = 1;
-	BloodDesc.fSize = 3.f;
 
-	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_PC_Blood"),
-		LEVEL_GAMEPLAY, L"Layer_Particle", &BloodDesc)))
+	if (FAILED(m_pGameInstance->Active_Object(TEXT("ObjectPool_Effect_PS_Blood"), eLevel,
+		TEXT("Layer_Particle"), &BloodDesc)))
 		return;
 
-	CPSystem::DESC BloodDesc2{};
-	BloodDesc2.vPosition = _vPosition;
-	BloodDesc2.vPosition.x += 3;
-	BloodDesc2.fMaxFrame = 5;
-	BloodDesc2.szTextureTag = TEXT("PS_Blood");
-	BloodDesc2.iParticleNums = 1;
-	BloodDesc2.fSize = 3.f;
-
-	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_PC_Blood"),
-		LEVEL_GAMEPLAY, L"Layer_Particle", &BloodDesc2)))
+	BloodDesc.vPosition.x += 3;
+	if (FAILED(m_pGameInstance->Active_Object(TEXT("ObjectPool_Effect_PS_Blood"), eLevel,
+		TEXT("Layer_Particle"), &BloodDesc)))
 		return;
-
 
 	CPSystem::DESC BulletImpactSparkDesc{};
 	BulletImpactSparkDesc.vPosition = _vPosition;
 	BulletImpactSparkDesc.vPosition.y += -20.f;
-	BulletImpactSparkDesc.fMaxFrame = 1;
-	BulletImpactSparkDesc.szTextureTag = TEXT("PC_Generic");
 	BulletImpactSparkDesc.iParticleNums = 5;
-	BulletImpactSparkDesc.fSize = 0.45f;
-
-	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_PC_BulletImpactSpark"),
-		LEVEL_GAMEPLAY, L"Layer_Particle", &BulletImpactSparkDesc)))
+	if (FAILED(m_pGameInstance->Active_Object(TEXT("ObjectPool_PC_BulletImpactSpark"), LEVEL_STATIC,
+		TEXT("Layer_Particle"), &BulletImpactSparkDesc)))
 		return;
 }
 

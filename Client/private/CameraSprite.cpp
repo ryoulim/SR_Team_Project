@@ -22,21 +22,21 @@ HRESULT CCameraSprite::Initialize(void* pArg)
 	CCameraSprite::DESC* SpriteDESC = static_cast<DESC*>(pArg);
 	
 	//뷰 행렬 초기화
-	D3DXMatrixIdentity(&m_ViewMatrix);
+	//D3DXMatrixIdentity(&m_ViewMatrix);
 
 	//뷰포트 크기
 	D3DVIEWPORT9            ViewportDesc{};
 	m_pGraphic_Device->GetViewport(&ViewportDesc);
 
 	//직교투영 행렬
-	D3DXMatrixOrthoLH(&m_ProjMatrix, (_float)ViewportDesc.Width, (_float)ViewportDesc.Height, 0.f, 1.f);
+	//D3DXMatrixOrthoLH(&m_ProjMatrix, (_float)ViewportDesc.Width, (_float)ViewportDesc.Height, 0.f, 1.f);
 
 
 	//멤버변수 저장
 	m_eLevelID				= LEVEL_STATIC;
 	m_fAnimationMaxFrame	= SpriteDESC->fMaxFrame;
 	m_szTextureID			= SpriteDESC->szTextureTag;
-	m_bActive				= SpriteDESC->bActive;
+	//m_bActive				= SpriteDESC->bActive;
 	m_fAnimationSpeed		= SpriteDESC->fAniSpeed;
 	m_eEffectType			= SpriteDESC->eEffectType;
 	m_szBufferType			= TEXT("Rect");
@@ -72,6 +72,12 @@ HRESULT CCameraSprite::Initialize(void* pArg)
 	return S_OK;
 }
 
+HRESULT CCameraSprite::Reset(void* pArg)
+{
+	m_fAnimationFrame = 0.f;
+	return S_OK;
+}
+
 void CCameraSprite::Priority_Update(_float fTimeDelta)
 {
 	__super::Priority_Update(fTimeDelta);
@@ -79,16 +85,26 @@ void CCameraSprite::Priority_Update(_float fTimeDelta)
 
 EVENT CCameraSprite::Update(_float fTimeDelta)
 {
-	if (!m_bActive)
-		return EVN_NONE;
+	//if (!m_bActive)
+	//{
+	//	m_pGameInstance->Deactive_Object(_wstring(TEXT("ObjectPool_")) + m_szTextureID, this);
+	//	return EVN_NONE;
+	//}
 
-	FrameUpdate(fTimeDelta, m_fAnimationMaxFrame, m_fAnimationSpeed, true);
+	FrameUpdate(fTimeDelta, m_fAnimationMaxFrame, m_fAnimationSpeed, false);
+	if (m_fAnimationMaxFrame <= m_fAnimationFrame)
+	{
+		m_pGameInstance->Deactive_Object(_wstring(TEXT("ObjectPool_")) + m_szTextureID, this);
+		return EVN_OFF;
+	}
 
 	return __super::Update(fTimeDelta);
 }
 
 void CCameraSprite::Late_Update(_float fTimeDelta)
 {
+	//if (!m_bActive)
+	//	return;
 	if (FAILED(m_pGameInstance->Add_RenderGroup(CRenderer::RG_UI, this)))
 		return;
 }
@@ -101,20 +117,19 @@ HRESULT CCameraSprite::SetUp_RenderState()
 	m_pGraphic_Device->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
 	m_pGraphic_Device->SetRenderState(D3DRS_BLENDOP, D3DBLENDOP_ADD);
 
-	m_pGraphic_Device->GetTransform(D3DTS_VIEW, &m_OldViewMatrix);
-	m_pGraphic_Device->GetTransform(D3DTS_PROJECTION, &m_OldProjMatrix);
 
-	m_pGraphic_Device->SetTransform(D3DTS_VIEW, &m_ViewMatrix);
-	m_pGraphic_Device->SetTransform(D3DTS_PROJECTION, &m_ProjMatrix);
+	// 저희 프레임워크 UI 랜더그룹에 넣으면 이거 필요없어요
+	//m_pGraphic_Device->GetTransform(D3DTS_VIEW, &m_OldViewMatrix);
+	//m_pGraphic_Device->GetTransform(D3DTS_PROJECTION, &m_OldProjMatrix);
+
+	//m_pGraphic_Device->SetTransform(D3DTS_VIEW, &m_ViewMatrix);
+	//m_pGraphic_Device->SetTransform(D3DTS_PROJECTION, &m_ProjMatrix);
 
 	return S_OK;
 }
 
 HRESULT CCameraSprite::Render()
-{
-	if (!m_bActive)
-		return EVN_NONE;
-	
+{	
 	if (FAILED(m_pTransformCom->Bind_Resource()))
 		return E_FAIL;
 
@@ -139,8 +154,8 @@ HRESULT CCameraSprite::Release_RenderState()
 	m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
 	m_pGraphic_Device->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
 
-	m_pGraphic_Device->SetTransform(D3DTS_VIEW, &m_OldViewMatrix);
-	m_pGraphic_Device->SetTransform(D3DTS_PROJECTION, &m_OldProjMatrix);
+	//m_pGraphic_Device->SetTransform(D3DTS_VIEW, &m_OldViewMatrix);
+	//m_pGraphic_Device->SetTransform(D3DTS_PROJECTION, &m_OldProjMatrix);
 
 	return S_OK;
 }

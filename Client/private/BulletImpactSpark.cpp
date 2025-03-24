@@ -26,6 +26,16 @@ HRESULT CBulletImpactSpark::Initialize(void* pArg)
 	return S_OK;
 }
 
+HRESULT CBulletImpactSpark::Reset(void* pArg)
+{
+	DESC* pDesc = static_cast<DESC*>(pArg);
+	m_pTransForm->Set_State(CTransform::STATE_POSITION, pDesc->vPosition);
+	for (int i = 0; i < pDesc->iParticleNums; i++)
+		addParticle();
+
+	return S_OK;
+}
+
 HRESULT CBulletImpactSpark::Ready_Particle()
 {
 
@@ -91,8 +101,13 @@ void CBulletImpactSpark::resetParticle(Attribute* attribute)
 
 EVENT CBulletImpactSpark::Update(_float timeDelta)
 {
-	list<Attribute>::iterator i;
-	for (i = m_Particles.begin(); i != m_Particles.end(); i++)
+	if (m_Particles.empty())
+	{
+		m_pGameInstance->Deactive_Object(TEXT("ObjectPool_PC_BulletImpactSpark"), this);
+		return EVN_OFF;
+	}
+
+	for (auto i = m_Particles.begin(); i != m_Particles.end();)
 	{
 		//생존한 파티클만 갱신한다.
 		if (i->_isAlive)
@@ -107,16 +122,15 @@ EVENT CBulletImpactSpark::Update(_float timeDelta)
 			if (i->_Age > i->_LifeTime)
 			{
 				i->_isAlive = false;
+				i = m_Particles.erase(i);
+				continue;
 				//resetParticle(&(*i));
 			}
 		}
+		i++;
 	}
 
-
-	//이거 고치긴해야함
 	FrameUpdate(timeDelta);
-	Late_Update();
-
 
 	return EVN_NONE;
 }

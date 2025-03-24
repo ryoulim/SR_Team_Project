@@ -3,6 +3,7 @@
 
 #include "Weapon_LoverBoy.h"
 #include "UI_Manager.h"
+#include "FXMgr.h"
 
 CWeapon_LoverBoy::CWeapon_LoverBoy(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CWeapon{ pGraphic_Device }
@@ -102,6 +103,9 @@ void CWeapon_LoverBoy::Set_State(STATE State)
 		m_fTextureNum = 0.f;
 		break;
 	case ST_W_ATK:
+		m_pGameInstance->Active_Object(TEXT("ObjectPool_Effect_Revolver"), LEVEL_GAMEPLAY, TEXT("LAYER_EFFECT"));
+		m_pGameInstance->Active_Object(TEXT("ObjectPool_Effect_RevolverTacer"), LEVEL_GAMEPLAY, TEXT("LAYER_EFFECT"));
+		CFXMgr::Get_Instance()->SpawnEmptyBullet(_float3(0.f, 0.f, 0.f), LEVEL_GAMEPLAY);
 		m_pTransformCom->Set_State(CTransform::STATE_POSITION, { 320.f,-105.f,0.1f });
 		m_fFrameSpeed = 50.f;
 		m_eState = ST_W_ATK;

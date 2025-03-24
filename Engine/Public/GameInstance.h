@@ -67,7 +67,7 @@ public:
 	// 개같은 레이캐스트
 	_bool Raycast(const _float3& rayOrigin, const _float3& rayDir, _uint iColliderGroupID);
 	// 아래로만 쏘는 레이
-	_bool Raycast_Downward(const _float3& rayOrigin, _uint iColliderGroupID);
+	_float Raycast_Downward(const _float3& rayOrigin, _uint iColliderGroupID);
 #pragma endregion
 
 #pragma region RENDERER

@@ -23,7 +23,7 @@ public:
 
 	_bool Raycast(const _float3& rayOrigin, const _float3& rayDir, _uint iColliderGroupID);
 
-	_bool Raycast_Downward(const _float3& rayOrigin, _uint iColliderGroupID);
+	_float Raycast_Downward(const _float3& rayOrigin, _uint iColliderGroupID);
 
 private:
 	_uint										m_iNumGroups = {};

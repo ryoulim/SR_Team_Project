@@ -207,7 +207,7 @@ _bool CGameInstance::Raycast(const _float3& rayOrigin, const _float3& rayDir, _u
 	return m_pCollider_Manager->Raycast(rayOrigin, rayDir, iColliderGroupID); 
 }
 
-_bool CGameInstance::Raycast_Downward(const _float3& rayOrigin, _uint iColliderGroupID)
+_float CGameInstance::Raycast_Downward(const _float3& rayOrigin, _uint iColliderGroupID)
 {
 	return m_pCollider_Manager->Raycast_Downward(rayOrigin, iColliderGroupID);
 }

@@ -24,6 +24,16 @@ HRESULT CBlood::Initialize(void* pArg)
 	return S_OK;
 }
 
+HRESULT CBlood::Reset(void* pArg) // 이게 활성화 될때 불리는 함수인데
+{
+	DESC* pDesc = static_cast<DESC*>(pArg);
+	m_pTransForm->Set_State(CTransform::STATE_POSITION, pDesc->vPosition);
+	for (int i = 0; i < pDesc->iParticleNums; i++)
+		addParticle();
+
+	return S_OK;
+}
+
 HRESULT CBlood::Ready_Particle()
 {
 
@@ -89,8 +99,13 @@ void CBlood::resetParticle(Attribute* attribute)
 
 EVENT CBlood::Update(_float timeDelta)
 {
-	list<Attribute>::iterator i;
-	for (i = m_Particles.begin(); i != m_Particles.end(); i++)
+	if (m_Particles.empty())
+	{
+		m_pGameInstance->Deactive_Object(TEXT("ObjectPool_Effect_PS_Blood"), this); // 옵젝 비활성화
+		return EVN_OFF; // 매니저에서 빼라
+	}
+
+	for (auto i = m_Particles.begin(); i != m_Particles.end();)
 	{
 		//생존한 파티클만 갱신한다.
 		if (i->_isAlive)
@@ -105,13 +120,13 @@ EVENT CBlood::Update(_float timeDelta)
 			if (i->_Age > i->_LifeTime)
 			{
 				i->_isAlive = false;
+				i = m_Particles.erase(i);
+				continue;
 				//resetParticle(&(*i));
 			}
 		}
+		i++;
 	}
-
-
-	Late_Update();
 
 
 	return EVN_NONE;

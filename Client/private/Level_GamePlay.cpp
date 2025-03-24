@@ -217,8 +217,8 @@ HRESULT CLevel_GamePlay::Ready_Layer_Particle(const _wstring& strLayerTag)
 
 HRESULT CLevel_GamePlay::Ready_Layer_Effect(const _wstring& strLayerTag)
 {
-	CFXMgr::Get_Instance()->SpawnGunFire(_float3{ 750.f, 450.f, 0.1f }, LEVEL_GAMEPLAY);
-	CFXMgr::Get_Instance()->SpawnBulletTracer(_float3{ 700.f, 400.f, 0.2f }, LEVEL_GAMEPLAY);
+	//CFXMgr::Get_Instance()->SpawnGunFire(_float3{ 750.f, 450.f, 0.1f }, LEVEL_GAMEPLAY);
+	//CFXMgr::Get_Instance()->SpawnBulletTracer(_float3{ 700.f, 400.f, 0.2f }, LEVEL_GAMEPLAY);
 	//CFXMgr::Get_Instance()->SpawnFireMachineGun(_float3{ 750.f, 450.f, 0.1f }, LEVEL_GAMEPLAY);
 	//CFXMgr::Get_Instance()->SpawnGunFireMachineGun(_float3{ 750.f, 450.f, 0.2f }, LEVEL_GAMEPLAY);
 	//CFXMgr::Get_Instance()->SpawnBulletTracerMachineGun(_float3{ 700.f, 400.f, 0.1f }, LEVEL_GAMEPLAY);

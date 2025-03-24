@@ -178,11 +178,11 @@ void CGravity::Raycast_StandAble_Obj()
 {
 	for (auto& ID : m_StandableColliderGroupID)
 	{
-		if (m_pGameInstance->Raycast_Downward(
+		if (_float fResult = m_pGameInstance->Raycast_Downward(
 			*m_pTransformCom->Get_State(CTransform::STATE_POSITION) - _float3{ 0.f, m_fHalfHeight,0.f },
 			ID))
-		{
-			Force_Set_FloorY(CCollider::Get_Last_Collision_Pos().y);
+		{	
+			Force_Set_FloorY(fResult);
 		}
 	}
 }
