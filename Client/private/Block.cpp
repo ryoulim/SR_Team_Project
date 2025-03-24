@@ -18,7 +18,7 @@ HRESULT CBlock::Initialize_Prototype()
 HRESULT CBlock::Initialize(void* pArg)
 {
     m_eLevelID = LEVEL_GAMEPLAY;
-    m_szTextureID = TEXT("TTest");
+    m_szTextureID = TEXT("Test");
     m_szBufferType = TEXT("Cube");
 
     if (FAILED(__super::Initialize(pArg)))

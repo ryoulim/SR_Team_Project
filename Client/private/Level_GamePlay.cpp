@@ -171,10 +171,6 @@ HRESULT CLevel_GamePlay::Ready_Layer_Statue(const _wstring& strLayerTag)
 		LEVEL_GAMEPLAY, strLayerTag, m_pData->Find_Data(TEXT("Canopy")))))
 		return E_FAIL;
 
-	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_TriangularPillar"),
-		LEVEL_GAMEPLAY, strLayerTag)))
-		return E_FAIL;
-
 	return S_OK;
 }
 
@@ -458,7 +454,7 @@ HRESULT CLevel_GamePlay::Load_Map(_uint iLevelIdx, const _wstring& FileName)
 		return E_FAIL;
 	}
 	/* 텍스쿠드 변경해서 적용시켜 줄 때 각 오브젝트를 갖고오는 변수 ( 점점추가될 예정 )*/
-	_int iNumTile = {};
+	_int iNumTile{}, iNumBlock{}, iNumTriPil{};
 	/* 불러오기용 변수 */
 	_int iNumVertexX = {}, iNumVertexZ = {}, iLoadLength = {};
 	_uint iNumBackGround = {}, iNumModel = {};
@@ -508,6 +504,9 @@ HRESULT CLevel_GamePlay::Load_Map(_uint iLevelIdx, const _wstring& FileName)
 				Layertag = TEXT("Layer_BackGround");
 			if (strKey == TEXT("Block"))
 				Layertag = TEXT("Layer_Block");
+			if (strKey == TEXT("TriangularPillar"))
+				Layertag = TEXT("Layer_TriangularPillar");
+
 			CGravity::Add_StandableObjLayerTag(COL_BLOCK);
 
 			if (FAILED(m_pGameInstance->Add_GameObject(iLevelIdx, Prototype, iLevelIdx, Layertag, &tDesc)))
@@ -517,7 +516,7 @@ HRESULT CLevel_GamePlay::Load_Map(_uint iLevelIdx, const _wstring& FileName)
 			}
 
 			// 큐브인지 렉트인지 분기 필요함
- 			if (Prototype == TEXT("Prototype_GameObject_BackGround"))
+			if (Prototype == TEXT("Prototype_GameObject_BackGround"))
 			{
 				CGameObject* pGameObject = m_pGameInstance->Find_Object(iLevelIdx, TEXT("Layer_BackGround"), iNumTile++);
 				if (nullptr != pGameObject)
@@ -548,10 +547,64 @@ HRESULT CLevel_GamePlay::Load_Map(_uint iLevelIdx, const _wstring& FileName)
 			}
 			else if (Prototype == TEXT("Prototype_GameObject_Block"))
 			{
+				CGameObject* pGameObject = m_pGameInstance->Find_Object(iLevelIdx, TEXT("Layer_Block"), iNumBlock++);
+				if (nullptr != pGameObject)
+				{
+					D3DVERTEXBUFFER_DESC VBDesc = {};
+					bResult = ReadFile(hFile, &VBDesc, sizeof(D3DVERTEXBUFFER_DESC), &dwByte, NULL);
 
+					CVIBuffer* pVIBuffer = dynamic_cast<CVIBuffer*>(pGameObject->Find_Component(TEXT("Com_VIBuffer")));
+
+					if (nullptr != pVIBuffer)
+					{
+						LPDIRECT3DVERTEXBUFFER9 pLoadVB = { nullptr };
+						void* pData = { nullptr };
+						if (FAILED(m_pGraphic_Device->CreateVertexBuffer(VBDesc.Size, VBDesc.Usage, VBDesc.FVF, VBDesc.Pool, &pLoadVB, nullptr)))
+							continue;
+
+						if (SUCCEEDED(pLoadVB->Lock(0, 0, &pData, 0)))
+						{
+							bResult = ReadFile(hFile, pData, VBDesc.Size, &dwByte, NULL);
+							pLoadVB->Unlock();
+
+							pVIBuffer->Set_VertexBuffer(pLoadVB);
+							Safe_Release(pLoadVB);
+						}
+					}
+				}
+			}
+			else if (Prototype == TEXT("Prototype_GameObject_TriangularPillar"))
+			{
+				CGameObject* pGameObject = m_pGameInstance->Find_Object(iLevelIdx, TEXT("Layer_TriangularPillar"), iNumTriPil++);
+				if (nullptr != pGameObject)
+				{
+					D3DVERTEXBUFFER_DESC VBDesc = {};
+					bResult = ReadFile(hFile, &VBDesc, sizeof(D3DVERTEXBUFFER_DESC), &dwByte, NULL);
+
+					CVIBuffer* pVIBuffer = dynamic_cast<CVIBuffer*>(pGameObject->Find_Component(TEXT("Com_VIBuffer")));
+
+					if (nullptr != pVIBuffer)
+					{
+						LPDIRECT3DVERTEXBUFFER9 pLoadVB = { nullptr };
+						void* pData = { nullptr };
+						if (FAILED(m_pGraphic_Device->CreateVertexBuffer(VBDesc.Size, VBDesc.Usage, VBDesc.FVF, VBDesc.Pool, &pLoadVB, nullptr)))
+							continue;
+
+						if (SUCCEEDED(pLoadVB->Lock(0, 0, &pData, 0)))
+						{
+							bResult = ReadFile(hFile, pData, VBDesc.Size, &dwByte, NULL);
+							pLoadVB->Unlock();
+
+							pVIBuffer->Set_VertexBuffer(pLoadVB);
+							Safe_Release(pLoadVB);
+						}
+					}
+				}
 			}
 
+
 			ZeroMemory(szPrototypeTag, sizeof(szPrototypeTag));
+
 		}
 
 		bResult = ReadFile(hFile, &iNumModel, sizeof(_uint), &dwByte, NULL);
@@ -594,10 +647,10 @@ HRESULT CLevel_GamePlay::Load_Map(_uint iLevelIdx, const _wstring& FileName)
 
 			ZeroMemory(szPrototypeTag, sizeof(szPrototypeTag));
 		}
+		
 	}
 
 	CloseHandle(hFile);
-
 	return S_OK;
 }
 

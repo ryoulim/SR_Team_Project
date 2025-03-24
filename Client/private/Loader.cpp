@@ -441,8 +441,7 @@ HRESULT CLoader::Loading_For_GamePlay()
 	ADD_TEXTURE(LeftHand, "../Bin/Resources/Textures/Weapon/LeftHand/LeftHand%d.PNG", 2);
 	ADD_TEXTURE(Weapon_Chaingun, "../Bin/Resources/Textures/Weapon/ChainGun/ChainGun%d.PNG", 16);
 
-	ADD_TEXTURE(TTest, "../Bin/Resources/Textures/Object/Cabinet/Cabinet%d.png", 3);
-	ADD_TEXTURE(Test, "../Bin/Resources/Textures/TileTest/tile%d.PNG", 121);
+	ADD_TEXTURE(Test, "../Bin/Resources/Textures/TileTest/tile%d.PNG", 109);
 
 
 #pragma region BOSS_TEXTURES
@@ -567,7 +566,7 @@ HRESULT CLoader::Loading_For_GamePlay()
 
 #pragma region MODEL
 	lstrcpy(m_szLoadingText, TEXT("모델을(를) 로딩중입니다."));
-	Load_For_Terrain(TEXT("MapData.txt"), TEXT("../bin/Resources/Textures/Terrain/BossMap.bmp"));
+	Load_For_Terrain(TEXT("MapData.txt"));
 #pragma endregion
 
 #pragma region SOUND
@@ -708,7 +707,7 @@ HRESULT CLoader::Add_Data(const _wstring& strFilePath)
 	return S_OK;
 }
 
-HRESULT CLoader::Load_For_Terrain(const _wstring& strFileTag, const _wstring& strHeightMapPath)
+HRESULT CLoader::Load_For_Terrain(const _wstring& strFileTag)
 {
 	_bool bResult = { true };
 	_wstring FilePath;
@@ -737,7 +736,7 @@ HRESULT CLoader::Load_For_Terrain(const _wstring& strFileTag, const _wstring& st
 			break;
 
 		case LEVEL_GAMEPLAY:
-			ADD_MODEL_EX(Terrain, iNumVertexX, iNumVertexZ, strHeightMapPath.c_str());
+			ADD_MODEL_EX(Terrain, iNumVertexX, iNumVertexZ);
 			break;
 
 		case LEVEL_TEST:
