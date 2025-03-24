@@ -148,6 +148,9 @@
     <ClInclude Include="..\Public\VIBuffer_RaceLandscape.h">
       <Filter>04.Components\VIBuffer\RaceTerrain\VIBuffer_RaceLandscape</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\VIBuffer_CubeEx.h">
+      <Filter>04.Components\VIBuffer\CubeEx</Filter>
+    </ClInclude>
     <ClInclude Include="..\public\Collider_Manager.h">
       <Filter>04.Components\Collider\Manager</Filter>
     </ClInclude>
@@ -294,6 +297,9 @@
     <Filter Include="04.Components\Collider\Manager">
       <UniqueIdentifier>{4cb07bab-70b4-4c21-83e9-4d1ff5fdd5e2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="04.Components\VIBuffer\CubeEx">
+      <UniqueIdentifier>{de6d8a58-f371-4f9c-8830-2898e909e7c9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Private\Base.cpp">
@@ -427,6 +433,9 @@
     </ClCompile>
     <ClCompile Include="..\private\Collider_Manager.cpp">
       <Filter>04.Components\Collider\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\VIBuffer_CubeEx.cpp">
+      <Filter>04.Components\VIBuffer\CubeEx</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

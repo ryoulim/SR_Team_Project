@@ -51,9 +51,11 @@ HRESULT CLevel_GamePlay::Initialize(class CLevelData* pLevelData)
 	//if(FAILED(Ready_Light()))
 	//	return E_FAIL;
 
-	ShowCursor(FALSE);
 	if (FAILED(Load_Map(LEVEL_GAMEPLAY, TEXT("MapData.txt"))))
 		return E_FAIL;
+
+	ShowCursor(FALSE);
+
 
 	return S_OK;
 }
@@ -354,7 +356,7 @@ HRESULT CLevel_GamePlay::Ready_Light()
 	//m_pGraphic_Device->SetRenderState(D3DRS_LIGHTING, TRUE);
 
 	//m_pGraphic_Device->SetRenderState(D3DRS_AMBIENT, D3DCOLOR_XRGB(50, 50, 50));
-
+		
 	return S_OK;
 }
 
@@ -387,7 +389,9 @@ HRESULT CLevel_GamePlay::Load_Map(_uint iLevelIdx, const _wstring& FileName)
 		MSG_BOX("파일 개방 실패");
 		return E_FAIL;
 	}
-
+	/* 텍스쿠드 변경해서 적용시켜 줄 때 각 오브젝트를 갖고오는 변수 ( 점점추가될 예정 )*/
+	_int iNumTile = {};
+	/* 불러오기용 변수 */
 	_int iNumVertexX = {}, iNumVertexZ = {}, iLoadLength = {};
 	_uint iNumBackGround = {}, iNumModel = {};
 	_float fSpeedPerSec = {}, fRotationPerSec = {}, fTextureIdx = {};
@@ -444,6 +448,41 @@ HRESULT CLevel_GamePlay::Load_Map(_uint iLevelIdx, const _wstring& FileName)
 				return E_FAIL;
 			}
 
+			// 큐브인지 렉트인지 분기 필요함
+ 			if (Prototype == TEXT("Prototype_GameObject_BackGround"))
+			{
+				CGameObject* pGameObject = m_pGameInstance->Find_Object(iLevelIdx, TEXT("Layer_BackGround"), iNumTile++);
+				if (nullptr != pGameObject)
+				{
+					D3DVERTEXBUFFER_DESC VBDesc = {};
+					bResult = ReadFile(hFile, &VBDesc, sizeof(D3DVERTEXBUFFER_DESC), &dwByte, NULL);
+
+					CVIBuffer* pVIBuffer = dynamic_cast<CVIBuffer*>(pGameObject->Find_Component(TEXT("Com_VIBuffer")));
+
+					if (nullptr != pVIBuffer)
+					{
+						LPDIRECT3DVERTEXBUFFER9 pLoadVB = { nullptr };
+						void* pData = { nullptr };
+						if (FAILED(m_pGraphic_Device->CreateVertexBuffer(VBDesc.Size, VBDesc.Usage, VBDesc.FVF, VBDesc.Pool, &pLoadVB, nullptr)))
+							continue;
+
+						if (SUCCEEDED(pLoadVB->Lock(0, 0, &pData, 0)))
+						{
+							bResult = ReadFile(hFile, pData, VBDesc.Size, &dwByte, NULL);
+							pLoadVB->Unlock();
+
+							pVIBuffer->Set_VertexBuffer(pLoadVB);
+							Safe_Release(pLoadVB);
+						}
+					}
+				}
+
+			}
+			else if (Prototype == TEXT("Prototype_GameObject_Block"))
+			{
+
+			}
+
 			ZeroMemory(szPrototypeTag, sizeof(szPrototypeTag));
 		}
 
@@ -490,7 +529,6 @@ HRESULT CLevel_GamePlay::Load_Map(_uint iLevelIdx, const _wstring& FileName)
 	}
 
 	CloseHandle(hFile);
-	MSG_BOX("파일 로드 성공");
 
 	return S_OK;
 }

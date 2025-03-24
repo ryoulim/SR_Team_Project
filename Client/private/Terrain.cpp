@@ -32,7 +32,6 @@ HRESULT CTerrain::Initialize(void* pArg)
 		return E_FAIL;
 
 	m_pTransformCom->Scaling(_float3(SCALE, SCALE, SCALE));
-
 	return S_OK;
 }
 

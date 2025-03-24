@@ -66,6 +66,8 @@ HRESULT CBlock::Ready_Components(void* pArg)
     if (FAILED(__super::Add_Component(LEVEL_STATIC, ColliderTag,
         TEXT("Com_Collider"), reinterpret_cast<CComponent**>(&m_pColliderCom), &ColliderDesc)))
         return E_FAIL;
+
+    return S_OK;
 }
 
 CBlock* CBlock::Create(LPDIRECT3DDEVICE9 pGraphic_Device)

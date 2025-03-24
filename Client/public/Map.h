@@ -4,7 +4,7 @@
 #include "GameObject.h"
 #include "GameInstance.h"
 
-#define SCALE 8.f
+#define SCALE 12.f
 
 BEGIN(Engine)
 class CTexture;

@@ -31,4 +31,11 @@ typedef struct tagVertexPositionNormalTexcoord
 
 }VTXPOSNORTEX;
 
+typedef struct tagVertexNormalCube
+{
+	VECTOR vPosition;
+	VECTOR vNormal;
+	VECTOR vTexcoord;
+}VTXCUBE;
+
 END

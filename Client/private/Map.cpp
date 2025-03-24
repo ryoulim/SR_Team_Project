@@ -47,8 +47,12 @@ HRESULT CMap::Render()
 	if (FAILED(m_pTransformCom->Bind_Resource()))
 		return E_FAIL;
 
+	m_pGraphic_Device->SetTextureStageState(0, D3DTSS_TEXCOORDINDEX, 0);
+
 	if (FAILED(m_pTextureCom->Bind_Resource(static_cast<_uint>(m_fTextureNum))))
 		return E_FAIL;
+
+	//m_pGraphic_Device->SetTextureStageState(0, D3DTSS_COLOROP, D3DTOP_MODULATE);
 
 	if (FAILED(m_pVIBufferCom->Bind_Buffers()))
 		return E_FAIL;
@@ -87,9 +91,10 @@ HRESULT CMap::Ready_Components(void* pArg)
 	if (pArg != nullptr)
 	{
 		DESC* pDesc = static_cast<DESC*>(pArg);
-		m_pTransformCom->Set_State(CTransform::STATE_POSITION, (pDesc->vInitPos * SCALE));
+		m_pTransformCom->QurternionRotation(pDesc->vAngle);
 		m_pTransformCom->Scaling(pDesc->vScale * SCALE);
-		m_pTransformCom->Quaternion_Rotation(pDesc->vAngle);
+		m_pTransformCom->Set_State(CTransform::STATE_POSITION, (pDesc->vInitPos * SCALE));
+
 		m_fTextureNum = pDesc->fTextureIdx;
 	}
 
