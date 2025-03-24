@@ -6,6 +6,7 @@ BEGIN(Engine)
 class ENGINE_DLL CCollider abstract : public CComponent
 {
 public:
+	friend class CCollider_Manager;
 	typedef struct tagCColliderDesc
 	{
 		//this를 넣어라

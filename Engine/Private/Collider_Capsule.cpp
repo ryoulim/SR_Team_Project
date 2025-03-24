@@ -35,6 +35,54 @@ void CCollider_Capsule::Update_Scale(const _float3& vScale)
 		m_tInfo.fHeight * 0.5f : m_tInfo.fRadius;
 }
 
+_bool CCollider_Capsule::RayCasting(const _float3& rayOrigin, const _float3& rayDir)
+{
+	const _float3& center = m_tInfo.vCenter;
+	const _float radius = m_tInfo.fRadius;
+	const _float halfHeight = m_tInfo.fHeight * 0.5f;
+
+	// 캡슐 세그먼트 (Y축)
+	_float3 segA = center + _float3(0.f, halfHeight, 0.f);
+	_float3 segB = center - _float3(0.f, halfHeight, 0.f);
+
+	// 레이 방향
+	_float3 d1 = rayDir;                   // ray dir
+	_float3 d2 = segB - segA;              // capsule axis
+	_float3 r = rayOrigin - segA;
+
+	_float a = d1.Dot(d1);
+	_float e = d2.Dot(d2);
+	_float f = d2.Dot(r);
+
+	_float c = d1.Dot(r);
+	_float b = d1.Dot(d2);
+
+	_float denom = a * e - b * b;
+
+	_float s = 0.f;
+	if (fabs(denom) > 1e-6f)
+		s = (b * f - c * e) / denom;
+	s = max(s, 0.0f); // ray는 음수 방향 불허
+
+	_float t = (b * s + f) / e;
+	t = max(0.0f, min(1.0f, t));
+
+	_float3 closestRay = rayOrigin + d1 * s;
+	_float3 closestSeg = segA + d2 * t;
+
+	_float3 diff = closestRay - closestSeg;
+	_float distSqr = diff.Dot(diff);
+
+	if (distSqr <= radius * radius)
+	{
+		m_vLast_Collision_Pos = closestRay;
+		m_vLast_Collision_Depth = (diff.Length() > 1e-4f) ? diff.Normalize() : _float3(0.f, 1.f, 0.f);
+		return TRUE;
+	}
+
+	return FALSE;
+}
+
 _bool CCollider_Capsule::Intersect_With_AABB_Cube(const CCollider* pOther)
 {
 	auto pCubeInfo = dynamic_cast<const CCollider_AABB_Cube*>(pOther)->Get_Info();

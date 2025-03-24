@@ -1,4 +1,5 @@
 #include "Block.h"
+#include "FXMgr.h"
 
 CBlock::CBlock(LPDIRECT3DDEVICE9 pGraphic_Device)
     : CMap{pGraphic_Device}
@@ -45,6 +46,12 @@ void CBlock::Late_Update(_float fTimeDelta)
 HRESULT CBlock::Render()
 {
     return __super::Render();
+}
+
+void CBlock::On_Collision(_uint MyColliderID, _uint OtherColliderID)
+{
+    if (OtherColliderID == 1001)
+        CFXMgr::Get_Instance()->SpawnBlood(CCollider::Get_Last_Collision_Pos(), m_eLevelID);
 }
 
 HRESULT CBlock::Ready_Components(void* pArg)

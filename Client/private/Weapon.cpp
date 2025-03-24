@@ -119,18 +119,29 @@ void CWeapon::Idle()
 #include "TestBullet.h"
 void CWeapon::Create_Bullet()
 {
-	CTestBullet::DESC BulletDesc{};
-	BulletDesc.fSpeedPerSec = 3000.f;
-	BulletDesc.vScale = { 3.f,3.f,3.f };
+	_float4x4 matCamWorld; 
+	m_pGraphic_Device->GetTransform(D3DTS_VIEW, &matCamWorld); matCamWorld.MakeInverseMat(matCamWorld);
+	_float3 pPos = *reinterpret_cast<_float3*>(&matCamWorld.m[3][0]);
+	_float3 pLook = *reinterpret_cast<_float3*>(&matCamWorld.m[2][0]);
+	_uint iColliderID{};
 
-	if (FAILED(m_pGameInstance->Active_Object(TEXT("ObjectPool_TestBullet"),
-		LEVEL_GAMEPLAY, TEXT("Layer_PBullet"), &BulletDesc)))
-		return;
-
-	//if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_TestBullet"),
-	//	LEVEL_GAMEPLAY, TEXT("Layer_PBullet"), &BulletDesc)))
-	//	return;
+	auto pPickedObj = m_pGameInstance->Raycast(pPos, pLook.Normalize(), m_fRayLength, {COL_BLOCK,COL_MONSTER}, iColliderID);
+	if (pPickedObj)
+	{
+		pPickedObj->On_Collision(iColliderID, m_iRayID);
+	}
 }
+//CTestBullet::DESC BulletDesc{};
+//BulletDesc.fSpeedPerSec = 3000.f;
+//BulletDesc.vScale = { 3.f,3.f,3.f };
+
+//if (FAILED(m_pGameInstance->Active_Object(TEXT("ObjectPool_TestBullet"),
+//	LEVEL_GAMEPLAY, TEXT("Layer_PBullet"), &BulletDesc)))
+//	return;
+
+//if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_TestBullet"),
+//	LEVEL_GAMEPLAY, TEXT("Layer_PBullet"), &BulletDesc)))
+//	return;
 
 void CWeapon::Key_Input()
 {

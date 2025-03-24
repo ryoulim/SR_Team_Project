@@ -71,9 +71,9 @@ _bool CCollider_AABB_Cube::RayCasting(const _float3& rayOrigin, const _float3& r
 	_float3 t1 = _float3(m_tInfo.vMinPos - rayOrigin) * invDir;
 	_float3 t2 = _float3(m_tInfo.vMaxPos - rayOrigin) * invDir;
 
-	if (rayDir.x < 0.0f) std::swap(t1.x, t2.x);
-	if (rayDir.y < 0.0f) std::swap(t1.y, t2.y);
-	if (rayDir.z < 0.0f) std::swap(t1.z, t2.z);
+	if (rayDir.x < 0.0f) swap(t1.x, t2.x);
+	if (rayDir.y < 0.0f) swap(t1.y, t2.y);
+	if (rayDir.z < 0.0f) swap(t1.z, t2.z);
 
 	_float3 tMin = min(t1, t2);
 	_float3 tMax = max(t1, t2);

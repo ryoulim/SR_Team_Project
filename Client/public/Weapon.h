@@ -4,6 +4,8 @@
 #include "GameInstance.h"
 #include "GameObject.h"
 
+#define RAY_LOVERBOY 1001
+
 #define MOTION(Num,Duration) _uint(m_fMotionTimer / Duration) % Num
 
 BEGIN(Client)
@@ -82,6 +84,10 @@ protected:
 	_float3 m_vImagePosition[ST_END];
 	_float3 m_vCenter{};
 	_float3 m_vMovingPos{};
+
+	//¹ß»ç¿ë
+	_uint	m_iRayID{ RAY_LOVERBOY };
+	_float	m_fRayLength{1000.f};
 
 protected:
 	void Action(_float fTimeDelta);

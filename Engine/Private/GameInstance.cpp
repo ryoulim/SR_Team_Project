@@ -106,6 +106,7 @@ void CGameInstance::Clear(_uint iLevelIndex)
 	//m_pCollider_Manager->Clear 
 }
 
+FORCEINLINE
 HRESULT CGameInstance::Draw_Font(const _wstring& str, LPRECT pRect)
 {
 	return m_pGraphic_Device->Draw_Font(str,pRect);
@@ -113,19 +114,22 @@ HRESULT CGameInstance::Draw_Font(const _wstring& str, LPRECT pRect)
 
 #pragma region LEVEL_MANAGER
 
+FORCEINLINE
 HRESULT CGameInstance::Change_Level(_uint iLevelIndex, CLevel* pNewLevel)
 {
 	return m_pLevel_Manager->Change_Level(iLevelIndex, pNewLevel);
 }
 #pragma endregion
 
-#pragma region PROTOTYPE_MANAGER¤¡
+#pragma region PROTOTYPE_MANAGER
 
+FORCEINLINE
 HRESULT CGameInstance::Add_Prototype(_uint iPrototypeLevelIndex, const _wstring& strPrototypeTag, CBase* pPrototype)
 {
 	return m_pPrototype_Manager->Add_Prototype(iPrototypeLevelIndex, strPrototypeTag, pPrototype);
 }
 
+FORCEINLINE
 CBase* CGameInstance::Clone_Prototype(PROTOTYPE ePrototypeType, _uint iPrototypeLevelIndex, const _wstring& strPrototypeTag, void* pArg)
 {
 	return m_pPrototype_Manager->Clone_Prototype(ePrototypeType, iPrototypeLevelIndex, strPrototypeTag, pArg);
@@ -134,51 +138,61 @@ CBase* CGameInstance::Clone_Prototype(PROTOTYPE ePrototypeType, _uint iPrototype
 
 #pragma region OBJECT_MANAGER
 
+FORCEINLINE
 HRESULT CGameInstance::Add_GameObject(_uint iPrototypeLevelIndex, const _wstring& strPrototypeTag, _uint iLevelIndex, const _wstring& strLayerTag, void* pArg)
 {
 	return m_pObject_Manager->Add_GameObject(iPrototypeLevelIndex, strPrototypeTag, iLevelIndex, strLayerTag, pArg);
 }
 
+FORCEINLINE
 HRESULT CGameInstance::Add_GameObjectReturn(_uint iPrototypeLevelIndex, const _wstring& strPrototypeTag, _uint iLevelIndex, const _wstring& strLayerTag, CGameObject** ppOut, void* pArg)
 {
 	return m_pObject_Manager->Add_GameObjectReturn(iPrototypeLevelIndex, strPrototypeTag, iLevelIndex, strLayerTag, ppOut, pArg);
 }
 
+FORCEINLINE
 CGameObject* CGameInstance::Find_Object(_uint iLevelIndex, const _wstring& strLayerTag, _uint iVectorIndex)
 {
 	return m_pObject_Manager->Find_Object(iLevelIndex,strLayerTag,iVectorIndex);
 }
 
+FORCEINLINE
 list<CGameObject*>& CGameInstance::Find_Objects(_uint iLevelIndex, const _wstring& strLayerTag)
 {
 	return m_pObject_Manager->Find_Objects(iLevelIndex, strLayerTag);
 }
 
+FORCEINLINE
 HRESULT CGameInstance::Create_Object_Pool(_uint iPrototypeLevelIndex, const _wstring& strPrototypeTag, const _wstring& strObjectTag, _uint iPoolSize, void* pArg)
 {
 	return m_pObject_Manager->Create_Object_Pool(iPrototypeLevelIndex, strPrototypeTag, strObjectTag, iPoolSize,pArg);
 }
 
+FORCEINLINE
 HRESULT CGameInstance::Release_Object_Pool(const _wstring& strObjectTag)
 {
 	return m_pObject_Manager->Release_Object_Pool(strObjectTag);
 }
 
+FORCEINLINE
 _uint CGameInstance::Active_Object(const _wstring& strObjectTag, _uint iLevelIndex, const _wstring& strLayerTag, void* pArg)
 {
 	return m_pObject_Manager->Active_Object(strObjectTag, iLevelIndex, strLayerTag, pArg);
 }
 
+FORCEINLINE
 _uint CGameInstance::Deactive_Object(const _wstring& strObjectTag, CGameObject* pObject)
 {
 	return m_pObject_Manager->Deactive_Object(strObjectTag, pObject);
 }
 
+FORCEINLINE
 void CGameInstance::Update_Frustum(const _float4x4& viewProj)
 {
 	m_pObject_Manager->Update_Frustum(viewProj);
 }
 
+FORCEINLINE
 _bool CGameInstance::IsPointInFrustum(const _float3& Point)
 {
 	return m_pObject_Manager->IsPointInFrustum(Point);
@@ -187,26 +201,31 @@ _bool CGameInstance::IsPointInFrustum(const _float3& Point)
 
 #pragma region COLLIDER_MANAGER
 
+FORCEINLINE
 HRESULT CGameInstance::Add_Collider(CCollider* pCollider, _uint iColliderGroupID)
 {
 	return m_pCollider_Manager->Add_Collider(pCollider, iColliderGroupID);
 }
 
+FORCEINLINE
 void CGameInstance::Delete_Collider(const CGameObject* pOwner)
 {
 	m_pCollider_Manager->Delete_Collider(pOwner);
 }
 
+FORCEINLINE
 void CGameInstance::Intersect(_uint iColliderGroupID1, _uint iColliderGroupID2)
 {
 	m_pCollider_Manager->Intersect(iColliderGroupID1, iColliderGroupID2);
 }
 
-_bool CGameInstance::Raycast(const _float3& rayOrigin, const _float3& rayDir, _uint iColliderGroupID)
+FORCEINLINE
+class CGameObject* CGameInstance::Raycast(const _float3& rayOrigin, const _float3& rayDir, _float rayLength, const initializer_list<_uint>& ColliderGroupIDs, _uint& _Out_ ColliderID)
 {
-	return m_pCollider_Manager->Raycast(rayOrigin, rayDir, iColliderGroupID); 
+	return m_pCollider_Manager->Raycast(rayOrigin, rayDir, rayLength, ColliderGroupIDs, ColliderID);
 }
 
+FORCEINLINE
 _float CGameInstance::Raycast_Downward(const _float3& rayOrigin, _uint iColliderGroupID)
 {
 	return m_pCollider_Manager->Raycast_Downward(rayOrigin, iColliderGroupID);
@@ -216,6 +235,7 @@ _float CGameInstance::Raycast_Downward(const _float3& rayOrigin, _uint iCollider
 
 #pragma region RENDERER
 
+FORCEINLINE
 HRESULT CGameInstance::Add_RenderGroup(CRenderer::RENDERGROUP eRenderGroup, CGameObject* pRenderObject)
 {
 	return m_pRenderer->Add_RenderGroup(eRenderGroup, pRenderObject);
@@ -225,71 +245,82 @@ HRESULT CGameInstance::Add_RenderGroup(CRenderer::RENDERGROUP eRenderGroup, CGam
 
 #pragma region INPUT_DEVICE
 
+FORCEINLINE
 _byte CGameInstance::Get_DIKState(_ubyte eKeyID)
 {
 	return m_pInputDevice->Get_DIKState(eKeyID);
 }
 
+FORCEINLINE
 _byte CGameInstance::Get_DIMKeyState(DIMK eMouseKeyID)
 {
 	return m_pInputDevice->Get_DIMKeyState(eMouseKeyID);
 }
 
+FORCEINLINE
 _long CGameInstance::Get_DIMMoveState(DIMM eMouseMoveID)
 {
 	return m_pInputDevice->Get_DIMMoveState(eMouseMoveID);
 }
+
+FORCEINLINE
 _bool CGameInstance::Mouse_Down(_ubyte eKeyID)
 {
 	return m_pInputDevice->Mouse_Down(eKeyID);
 }
+
+FORCEINLINE
 _bool CGameInstance::Mouse_Pressing(_ubyte eKeyID)
 {
 	return m_pInputDevice->Mouse_Pressing(eKeyID);
 }
+
+FORCEINLINE
 _bool CGameInstance::Mouse_Up(_ubyte eKeyID)
 {
 	return m_pInputDevice->Mouse_Up(eKeyID);
 }
 #pragma endregion
 
-
-#pragma region KEY_MANAGER
-
+FORCEINLINE
 _bool CGameInstance::Key_Pressing(_ubyte eKeyID)
 {
 	return m_pInputDevice->Key_Pressing(eKeyID);
 }
 
+FORCEINLINE
 _bool CGameInstance::Key_Up(_ubyte eKeyID)
 {
 	return m_pInputDevice->Key_Up(eKeyID);
 }
 
+FORCEINLINE
 _bool CGameInstance::Key_Down(_ubyte eKeyID)
 {
 	return m_pInputDevice->Key_Down(eKeyID);
 }
 
-#pragma endregion
-
 #pragma region TIMER_MANAGER
 
+FORCEINLINE
 _float CGameInstance::Get_TimeDelta(const _wstring& strTimerTag)
 {
 	return m_pTimer_Manager->Get_TimeDelta(strTimerTag);
 }
 
+FORCEINLINE
 HRESULT CGameInstance::Add_Timer(const _wstring& strTimerTag)
 {
 	return m_pTimer_Manager->Add_Timer(strTimerTag);
 }
 
+FORCEINLINE
 void CGameInstance::Update_Timer(const _wstring& strTimerTag)
 {
 	return m_pTimer_Manager->Update(strTimerTag);
 }
 
+FORCEINLINE
 HRESULT CGameInstance::Readcsv(const _wstring& strcsvPath, class CLevelData* pDatas)
 {
 	return m_pCsv_Reader->Readcsv(strcsvPath, pDatas);

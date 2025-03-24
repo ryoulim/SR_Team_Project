@@ -65,7 +65,7 @@ public:
 	// A그룹과 B그룹의 충돌을 검사한다.
 	void Intersect(_uint iColliderGroupID1, _uint iColliderGroupID2);
 	// 개같은 레이캐스트
-	_bool Raycast(const _float3& rayOrigin, const _float3& rayDir, _uint iColliderGroupID);
+	class CGameObject* Raycast(const _float3& rayOrigin, const _float3& rayDir, _float rayLength, const initializer_list<_uint>& ColliderGroupIDs, _uint& _Out_ ColliderID);
 	// 아래로만 쏘는 레이
 	_float Raycast_Downward(const _float3& rayOrigin, _uint iColliderGroupID);
 #pragma endregion
@@ -86,9 +86,6 @@ public:
 	_bool		Key_Pressing(_ubyte eKeyID);
 	_bool		Key_Up(_ubyte eKeyID);
 	_bool		Key_Down(_ubyte eKeyID);
-#pragma endregion
-
-#pragma region KEY_MANAGER
 #pragma endregion
 
 #pragma region TIMER_MANAGER

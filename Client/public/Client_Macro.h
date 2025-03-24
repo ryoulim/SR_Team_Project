@@ -2,13 +2,6 @@
 
 #pragma region 프로토타입 넣는 매크로들
 
-#define Get_CamaraPos _float4x4 matCamWorld;\
-m_pGraphic_Device->GetTransform(D3DTS_VIEW, &matCamWorld);\
-matCamWorld.MakeInverseMat(matCamWorld);\
-_float3 vCameraPos = { matCamWorld._41, matCamWorld._42, matCamWorld._43 };
-
-#define GET_PLAYER m_pGameInstance->Find_Object(LEVEL_GAMEPLAY,TEXT("Layer_Pawn"))
-
 #define ADD_TEXTURE(Name,Path,Cnt)																					\
 if (FAILED(m_pGameInstance->Add_Prototype(m_eNextLevelID, _wstring(TEXT("Prototype_Component_Texture_"))+L###Name ,	\
 CTexture::Create(m_pGraphic_Device, TEXT(Path), Cnt))))																\
@@ -52,6 +45,14 @@ return E_FAIL
 #pragma endregion
 
 #pragma region 유틸리티
+
+#define GET_CAMERA											\
+_float4x4 matCamWorld;										\
+m_pGraphic_Device->GetTransform(D3DTS_VIEW, &matCamWorld);	\
+matCamWorld.MakeInverseMat(matCamWorld);
+
+#define Get_CamaraPos GET_CAMERA											\
+_float3 vCameraPos = { matCamWorld._41, matCamWorld._42, matCamWorld._43 };	
 
 #define GET_PLAYER m_pGameInstance->Find_Object(LEVEL_GAMEPLAY,TEXT("Layer_Pawn"))
 

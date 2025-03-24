@@ -21,8 +21,10 @@ public:
 
 	void Intersect(_uint iColliderGroupID1, _uint iColliderGroupID2);
 
-	_bool Raycast(const _float3& rayOrigin, const _float3& rayDir, _uint iColliderGroupID);
-
+	// 레이 캐스트 (피킹된 평면의 노말이 필요할시 Get_Last_Ray_Normal 호출)
+	CGameObject* Raycast(const _float3& rayOrigin, const _float3& rayDir, _float rayLength, const initializer_list<_uint>& ColliderGroupIDs, _uint& _Out_ ColliderID);
+	
+	// 아래로의 레이 캐스트 (y 포지션 반환, 피킹된 평면의 노말이 필요할시 Get_Last_Ray_Normal 호출)
 	_float Raycast_Downward(const _float3& rayOrigin, _uint iColliderGroupID);
 
 private:

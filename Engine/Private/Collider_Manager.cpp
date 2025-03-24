@@ -76,19 +76,40 @@ void CCollider_Manager::Intersect(_uint iColliderGroupID1, _uint iColliderGroupI
 
 }
 
-_bool CCollider_Manager::Raycast(const _float3& rayOrigin, const _float3& rayDir, _uint iColliderGroupID)
+CGameObject* CCollider_Manager::Raycast(const _float3& rayOrigin, const _float3& rayDir, _float rayLength, const initializer_list<_uint>& ColliderGroupIDs, _uint& _Out_ ColliderID)
 {
-    if (iColliderGroupID >= m_iNumGroups)
-        return FALSE;
+    CGameObject* pCurObj{nullptr};
+    _float3 vCurPos{}, vCurNormal{};
+    _float fCurLength{}, fResult{ rayLength };
 
-    _bool bResult{};
-
-    for (auto& pCollider : m_pColliders[iColliderGroupID])
+    for (auto& ID : ColliderGroupIDs)
     {
-        bResult |= pCollider->RayCasting(rayOrigin, rayDir);
+        if (ID >= m_iNumGroups)
+            return nullptr;
+
+        for (auto& pCollider : m_pColliders[ID])
+        {
+            if (pCollider->RayCasting(rayOrigin, rayDir))
+            {
+                fCurLength = (CCollider::m_vLast_Collision_Pos - rayOrigin).Length();
+                if (fCurLength < fResult)
+                {
+                    fResult = fCurLength;
+                    vCurNormal = CCollider::m_vLast_Collision_Depth;
+                    vCurPos = CCollider::m_vLast_Collision_Pos;
+                    pCurObj = pCollider->m_pOwner;
+                    ColliderID = ID;
+                }
+                else
+                {
+                    CCollider::m_vLast_Collision_Depth = vCurNormal;
+                    CCollider::m_vLast_Collision_Pos = vCurPos;
+                }
+            }
+        }
     }
 
-    return bResult;
+    return pCurObj;
 }
 
 _float CCollider_Manager::Raycast_Downward(const _float3& rayOrigin, _uint iColliderGroupID)
