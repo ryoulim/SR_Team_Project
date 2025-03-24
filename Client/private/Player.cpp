@@ -179,7 +179,7 @@ void CPlayer::Key_Input(_float fTimeDelta)
 
 	if (KEY_DOWN(DIK_SPACE))
 	{
-		m_pGravityCom->Jump(30.f);
+		m_pGravityCom->Jump(33.f);
 	}
 
 
