@@ -11,6 +11,7 @@
 #include "Font_MediumBlue.h"
 #include "Font_BigOrange.h"
 #include "LoadingMenu.h"
+#include "LevelLoadingMenu.h"
 #include "UI_Manager.h"
 #include "FadeUI.h"
 #include "FXMgr.h"
@@ -174,6 +175,8 @@ HRESULT CMainApp::Ready_Component_For_Static()
 	ADD_TEXTURE(FadeUI, "../Bin/Resources/Textures/UI/black.PNG", 1);
 	//ADD_TEXTURE(DipWhiteUI, "../Bin/Resources/Textures/UI/white.PNG", 1);
 
+	ADD_TEXTURE(LevelLoadingMenu, "../Bin/Resources/Textures/UI/Loading/lvlloading%d.png", 4);
+
 	return S_OK;
 }
 
@@ -186,6 +189,7 @@ HRESULT CMainApp::Ready_Object_For_Static()
 	ADD_PRTOBJ(Font_MediumBlue);
 	ADD_PRTOBJ(Font_BigOrange);
 	ADD_PRTOBJ(LoadingMenu);
+	ADD_PRTOBJ(LevelLoadingMenu);
 	ADD_PRTOBJ(FadeUI);
 
 	return S_OK;

@@ -31,10 +31,18 @@ HRESULT CLevel_Loading::Initialize(LEVEL eNextLevelID)
 		return E_FAIL;
 
 	
-		
- 	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_LoadingMenu"),
-		LEVEL_LOADING, TEXT("Layer_UI"))))
-		return E_FAIL;
+	if (eNextLevelID == LEVEL_LOGO)
+	{
+		if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_LoadingMenu"),
+			LEVEL_LOADING, TEXT("Layer_UI"))))
+			return E_FAIL;
+	}
+	else
+	{
+		if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_LevelLoadingMenu"),
+			LEVEL_LOADING, TEXT("Layer_UI"))))
+			return E_FAIL;
+	}
 
 
 

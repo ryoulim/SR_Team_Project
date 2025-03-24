@@ -195,6 +195,7 @@
     <ClInclude Include="..\public\Greater.h" />
     <ClInclude Include="..\public\Item.h" />
     <ClInclude Include="..\public\Item_Ammo.h" />
+    <ClInclude Include="..\public\LevelLoadingMenu.h" />
     <ClInclude Include="..\public\Level_Race.h" />
     <ClInclude Include="..\public\Level_Test.h" />
     <ClInclude Include="..\public\LoadingMenu.h" />
@@ -297,6 +298,7 @@
     <ClCompile Include="..\private\Greater.cpp" />
     <ClCompile Include="..\private\Item.cpp" />
     <ClCompile Include="..\private\Item_Ammo.cpp" />
+    <ClCompile Include="..\private\LevelLoadingMenu.cpp" />
     <ClCompile Include="..\private\Level_Race.cpp" />
     <ClCompile Include="..\private\Level_Test.cpp" />
     <ClCompile Include="..\private\LoadingMenu.cpp" />
