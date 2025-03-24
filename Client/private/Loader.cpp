@@ -470,7 +470,7 @@ HRESULT CLoader::Loading_For_GamePlay()
 
 	ADD_TEXTURE(Box, "../Bin/Resources/Textures/Object/Box/tile6628.png", 1);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
 	ADD_TEXTURE(Cabinet, "../Bin/Resources/Textures/Object/Cabinet/Cabinet%d.png", 3);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
-	ADD_TEXTURE(Trapezoid, "../Bin/Resources/Textures/Object/Trapezoid/Trapezoid%d.png", 2);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
+	//ADD_TEXTURE(Trapezoid, "../Bin/Resources/Textures/Object/Trapezoid/Trapezoid%d.png", 2);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
 	ADD_TEXTURE(Stall, "../Bin/Resources/Textures/Object/Stall/Stall%d.png", 2);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
 	ADD_TEXTURE(Signboard, "../Bin/Resources/Textures/Object/Signboard/Signboard%d.png", 5);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
 	ADD_TEXTURE(MyComputer, "../Bin/Resources/Textures/Object/Computer/Computer%d.png", 3);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
@@ -481,9 +481,9 @@ HRESULT CLoader::Loading_For_GamePlay()
 	ADD_TEXTURE(LeftHand, "../Bin/Resources/Textures/Weapon/LeftHand/LeftHand%d.PNG", 2);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
 	ADD_TEXTURE(Weapon_Chaingun, "../Bin/Resources/Textures/Weapon/ChainGun/ChainGun%d.PNG", 16);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
 
-	ADD_TEXTURE(Test, "../Bin/Resources/Textures/TileTest/tile%d.PNG", 109);
+	ADD_TEXTURE(Test, "../Bin/Resources/Textures/TileTest/tile%d.PNG", 109); fDataCurNum++; m_fLoadPercent = fDataCurNum / fDataNum;
 	ADD_TEXTURE(TTest, "../Bin/Resources/Textures/Object/Cabinet/Cabinet%d.png", 3);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
-	ADD_TEXTURE(Test, "../Bin/Resources/Textures/TileTest/tile%d.PNG", 121);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
+	//ADD_TEXTURE(Test, "../Bin/Resources/Textures/TileTest/tile%d.PNG", 121);
 	for (size_t i = 0; i < 100000; i++)
 	{
 		for (size_t j = 0; j < 10000; j++)
@@ -748,19 +748,6 @@ HRESULT CLoader::Loading_For_GamePlay()
 	ADD_PRTOBJ(Archangel);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
 
 	ADD_PRTOBJ(TriangularPillar);
-
-	//몬스터
-	ADD_PRTOBJ(Ttakkeun_i);
-	ADD_PRTOBJ(Wenteko);
-	ADD_PRTOBJ(Shotgunner);
-	ADD_PRTOBJ(Nukemutant);
-	ADD_PRTOBJ(Mechsect);
-	ADD_PRTOBJ(Greater);
-	ADD_PRTOBJ(Deacon);
-	ADD_PRTOBJ(Cultist);
-	ADD_PRTOBJ(Archangel);
-
-
 #pragma endregion
 
 #pragma region DATA
@@ -837,6 +824,7 @@ HRESULT CLoader::Loading_For_GamePlay()
 	EmptyBulletDesc.fMaxFrame = 7;
 	EmptyBulletDesc.szTextureTag = TEXT("PC_BulletShell");
 	EmptyBulletDesc.iParticleNums = 1;
+	EmptyBulletDesc.fSize = 0.1f;
 	if (FAILED(m_pGameInstance->Create_Object_Pool(LEVEL_STATIC, TEXT("Prototype_GameObject_PC_EmptyBullet"),
 		TEXT("ObjectPool_PC_EmptyBullet"), 10, &EmptyBulletDesc)))
 		return E_FAIL;

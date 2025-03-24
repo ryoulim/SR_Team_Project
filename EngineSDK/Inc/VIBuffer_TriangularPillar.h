@@ -2,6 +2,8 @@
 
 #include "VIBuffer.h"
 
+BEGIN(Engine)
+
 class ENGINE_DLL CVIBuffer_TriangularPillar final : public CVIBuffer
 {
 private:
@@ -22,3 +24,4 @@ public:
 	virtual void Free() override;
 };
 
+END

@@ -535,10 +535,6 @@ void CFXMgr::SpawnEmptyBullet(_float3 _vPosition, LEVEL eLevel)
 {
 	CPSystem::DESC EmptyBulletDesc{};
 	EmptyBulletDesc.vPosition = _vPosition;
-	EmptyBulletDesc.fMaxFrame = 7;
-	EmptyBulletDesc.szTextureTag = TEXT("PC_BulletShell");
-	EmptyBulletDesc.iParticleNums = 1;
-	EmptyBulletDesc.fSize = 0.1f;
 
 	if (FAILED(m_pGameInstance->Active_Object(TEXT("ObjectPool_PC_EmptyBullet"), eLevel,
 		TEXT("Layer_Particle"), &EmptyBulletDesc)))

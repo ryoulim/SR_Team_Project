@@ -107,7 +107,7 @@ HRESULT CVIBuffer_BuildingV::Initialize_Prototype()
 #pragma endregion
 
 #pragma region ¹ý¼±w
-	for (int i = 0; i < m_iNumVertices; i++)
+	for (_uint i = 0; i < m_iNumVertices; i++)
 	{
 		pVertices[i].vNormal = _float3(0.f, 0.f, 0.f);
 	}
