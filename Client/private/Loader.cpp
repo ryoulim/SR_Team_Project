@@ -12,6 +12,8 @@
 #include "MyComputer.h"
 #include "Canopy.h"
 #include "BuildingH.h"
+#include "BuildingW.h"
+#include "BuildingV.h"
 #include "Explosion.h"
 
 
@@ -841,6 +843,8 @@ HRESULT CLoader::Loading_For_Race()/**/
 	ADD_TEXTURE(RaceLandscape, "../Bin/Resources/Textures/Object/RaceLandscape/Tile15415.PNG", 1);
 	ADD_TEXTURE(PlayerOnBoat, "../Bin/Resources/Textures/Player/PlayerOnBoat/Tile15947.PNG", 1);
 	ADD_TEXTURE(BuildingH, "../Bin/Resources/Textures/Object/BuildingH/BuildingH%d.PNG", 4);
+	ADD_TEXTURE(BuildingW, "../Bin/Resources/Textures/Object/BuildingW/BuildingW.PNG", 1);
+	ADD_TEXTURE(BuildingV, "../Bin/Resources/Textures/Object/BuildingV/BuildingV.PNG", 1);
 
 	lstrcpy(m_szLoadingText, TEXT("모델을(를) 로딩중입니다."));
 	ADD_MODEL_EX(RaceTerrain, 10, 1000);
@@ -862,6 +866,8 @@ HRESULT CLoader::Loading_For_Race()/**/
 
 	ADD_PRTOBJ(PlayerOnBoat);
 	ADD_PRTOBJ(BuildingH);
+	ADD_PRTOBJ(BuildingW);
+	ADD_PRTOBJ(BuildingV);
 
 	lstrcpy(m_szLoadingText, TEXT("데이터를 읽어들이는 중입니다."));
 	Add_Data(TEXT("GamePlayLevelData.csv"));

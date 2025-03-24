@@ -160,6 +160,9 @@
     <ClInclude Include="..\public\Collider_Manager.h">
       <Filter>04.Components\Collider\Manager</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\VIBuffer_BuildingV.h">
+      <Filter>04.Components\VIBuffer\RaceTerrain\VIBuffer_BuildingV</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="99.Headers">
@@ -312,6 +315,9 @@
     <Filter Include="04.Components\VIBuffer\RaceTerrain\VIBuffer_BuildingW">
       <UniqueIdentifier>{c3a148c2-1ed3-4b58-8593-6a40608c8977}</UniqueIdentifier>
     </Filter>
+    <Filter Include="04.Components\VIBuffer\RaceTerrain\VIBuffer_BuildingV">
+      <UniqueIdentifier>{a3659643-82a3-4f45-b452-d405151758db}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Private\Base.cpp">
@@ -454,6 +460,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\VIBuffer_BuildingW.cpp">
       <Filter>04.Components\VIBuffer\RaceTerrain\VIBuffer_BuildingW</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\VIBuffer_BuildingV.cpp">
+      <Filter>04.Components\VIBuffer\RaceTerrain\VIBuffer_BuildingV</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
