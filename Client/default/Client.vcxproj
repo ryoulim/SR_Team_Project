@@ -177,6 +177,7 @@
     <ClInclude Include="..\public\Common_Shape.h" />
     <ClInclude Include="..\public\Cultist.h" />
     <ClInclude Include="..\public\Deacon.h" />
+    <ClInclude Include="..\public\DebugDraw.h" />
     <ClInclude Include="..\public\DebugMode.h" />
     <ClInclude Include="..\public\Dust.h" />
     <ClInclude Include="..\public\Effect.h" />
@@ -278,6 +279,7 @@
     <ClCompile Include="..\private\Common_Shape.cpp" />
     <ClCompile Include="..\private\Cultist.cpp" />
     <ClCompile Include="..\private\Deacon.cpp" />
+    <ClCompile Include="..\private\DebugDraw.cpp" />
     <ClCompile Include="..\private\DebugMode.cpp" />
     <ClCompile Include="..\private\Dust.cpp" />
     <ClCompile Include="..\private\Effect.cpp" />

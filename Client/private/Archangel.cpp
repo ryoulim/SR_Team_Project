@@ -42,7 +42,8 @@ EVENT CArchangel::Update(_float fTimeDelta)
 {
 	if (m_bDead)
 		return EVN_DEAD;
-
+	if (m_bActive)
+		MonsterTick(fTimeDelta);
 	return __super::Update(fTimeDelta);
 }
 
@@ -53,6 +54,7 @@ void CArchangel::Late_Update(_float fTimeDelta)
 
 HRESULT CArchangel::Render()
 {
+	Render_DebugFOV();
 	return __super::Render();
 
 	//특별히 더 렌더링 할게 있는 경우 ↓
@@ -101,7 +103,8 @@ CArchangel* CArchangel::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 	pInstance->m_iDefense		= 3;
 	pInstance->m_fSpeed			= 13.f;
 	pInstance->m_vScale			= { 61.f, 162.f, 1.f };
-	pInstance->m_eBehavior		= MODE::MODE_WAIT;
+	pInstance->m_eState		= MODE::MODE_IDLE;
+	pInstance->m_fDetectiveDistance = 300.f;
 
 	//부속성
 	pInstance->m_strDialogue	= "Archangel..Archangel...";

@@ -1,4 +1,6 @@
 #include "Monster.h"
+#include "DebugDraw.h"
+
 
 CMonster::CMonster(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CGameObject{ pGraphic_Device }
@@ -15,10 +17,14 @@ CMonster::CMonster(const CMonster& Prototype)
 	, m_iDefense(Prototype.m_iDefense)
 	, m_fSpeed(Prototype.m_fSpeed)
 	, m_vScale(Prototype.m_vScale)
-	, m_eBehavior(Prototype.m_eBehavior)
+	, m_eState(Prototype.m_eState)
 	, m_strDialogue(Prototype.m_strDialogue)
 	, m_strSound(Prototype.m_strSound)
 	, m_vDropItems(Prototype.m_vDropItems)
+	, m_vDirection(Prototype.m_vDirection)
+	, m_vToPlayer(Prototype.m_vToPlayer)
+	, m_fCurDistance(Prototype.m_fCurDistance)
+	, m_fDetectiveDistance(Prototype.m_fDetectiveDistance)
 {
 	//크리에이트에서 초기화되는 모든 것을 복사해준다.
 }
@@ -55,8 +61,10 @@ EVENT CMonster::Update(_float fTimeDelta)
 
 void CMonster::Late_Update(_float fTimeDelta)
 {
-	//플레이어 거리 업데이트
+	//플레이어 감지 업데이트
 	PlayerDistance();
+	CalculateVectorToPlayer();
+	IsPlayerDetected();
 	
 	//콜라이더 업데이트
 	m_pCollider->Update_Collider();
@@ -87,6 +95,7 @@ HRESULT CMonster::SetUp_RenderState()
 
 HRESULT CMonster::Render()
 {
+
 	Set_TextureType();
 	
 	if (m_isReadyMonster) // 몹 텍스쳐 전부 준비 안해서 임시로 분리
@@ -160,6 +169,7 @@ HRESULT CMonster::Ready_Components(void* pArg)
 
 		m_pTransformCom->Set_State(CTransform::STATE_POSITION, pDesc->vPosition);
 		m_pTransformCom->Scaling(m_vScale);
+		m_bActive = pDesc->vActive;
 	}
 
 	/* 콜라이드 컴포넌트 */
@@ -300,8 +310,223 @@ void CMonster::PlayerDistance()
 		powf(vCameraPos.z - vMonsterPos.z, 2)
 	);
 
-	m_fPlayerDistance = distance;
+	m_fCurDistance = distance;
 }
+
+void CMonster::CalculateVectorToPlayer()
+{
+	//목적 : 몬스터에서 플레이어로 향하는 방향벡터를 구한다.
+
+	// 몬스터 위치
+	_float3 vMonsterPos = *m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+
+	// 플레이어 위치
+	_float3 vPlayerPos = *static_cast<CTransform*>(m_pTargetPlayer->Find_Component(L"Com_Transform"))->Get_State(CTransform::STATE_POSITION);
+
+	// 방향 벡터 = 타겟 위치 - 내 위치
+	m_vToPlayer = vPlayerPos - vMonsterPos;
+
+	// 정규화해서 방향만 남긴다 (길이 1)
+	D3DXVec3Normalize(&m_vToPlayer, &m_vToPlayer);
+	
+}
+
+bool CMonster::IsPlayerDetected()
+{
+	// 거리 체크 (현재거리가 감지거리보다 작을 때)
+	if (m_fCurDistance < m_fDetectiveDistance)
+	{
+		_float3 vLook = *m_pTransformCom->Get_State(CTransform::STATE_LOOK);
+
+		float fDot = D3DXVec3Dot(&m_vToPlayer, &vLook);  // 3. 각도 비교
+
+		if (fDot > cosf(D3DXToRadian(20)))          // 4. 일정 각도 이내
+		{
+			return true;
+		}
+	}
+	return false;
+}
+
+void CMonster::Render_DebugFOV()
+{
+	//몬스터 포지션
+	_float3 vPos = *m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+
+	//몬스터의 방향(디렉션)
+	_float3 vForward = *m_pTransformCom->Get_State(CTransform::STATE_LOOK);
+	vForward.y = 0.f;
+	D3DXVec3Normalize(&vForward, &vForward);
+
+	// 시야 각도 절반 (예: 60도 시야 → 30도씩 양쪽)
+	float fHalfFOV = D3DXToRadian(20.f / 2.0f);
+	float fLength = 100.0f;  // 시야 거리
+
+	// 회전 행렬 생성 (Y축 기준 회전)
+	_float4x4 matRotLeft, matRotRight;
+	D3DXMatrixRotationY(&matRotLeft, -fHalfFOV);
+	D3DXMatrixRotationY(&matRotRight, fHalfFOV);
+
+	// 방향 벡터 회전
+	_float3 vLeft, vRight;
+	D3DXVec3TransformNormal(&vLeft, &vForward, &matRotLeft);
+	D3DXVec3TransformNormal(&vRight, &vForward, &matRotRight);
+
+	// 끝 점 계산
+	_float3 vLeftEnd = vPos + vLeft * fLength;
+	_float3 vRightEnd = vPos + vRight * fLength;
+
+	Get_CamaraPos;
+	_float3 vMonster = *m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+	_float3 vToMonster = vMonster - vCameraPos;
+	D3DXVec3Normalize(&vToMonster, &vToMonster);
+
+	_float3 vCameraLook = { matCamWorld._31, matCamWorld._32, matCamWorld._33 };
+	float fDot = D3DXVec3Dot(&vToMonster, &vCameraLook);
+
+
+	if (fDot > 0.5f) // 60도 이내 정면
+	{
+		// 디버그 선 그리기
+		CDebugDraw::DrawLine(m_pGraphic_Device, vPos, vLeftEnd, D3DCOLOR_ARGB(255, 255, 255, 0));   // 노란 선
+		CDebugDraw::DrawLine(m_pGraphic_Device, vPos, vRightEnd, D3DCOLOR_ARGB(255, 255, 255, 0));  // 노란 선
+		CDebugDraw::DrawLine(m_pGraphic_Device, vLeftEnd, vRightEnd, D3DCOLOR_ARGB(100, 255, 255, 0)); // 상단 연결선
+	}
+}
+
+const char* CMonster::GetMonsterStateName(MODE eState)
+{
+	switch (eState)
+	{
+	case MODE::MODE_IDLE:        return "IDLE";
+	case MODE::MODE_DETECTIVE:   return "DETECTIVE";
+	case MODE::MODE_BATTLE:      return "BATTLE";
+	case MODE::MODE_ATTACK:      return "ATTACK";
+	case MODE::MODE_RETURN:      return "RETURN";
+	default:                     return "UNKNOWN";
+	}
+}
+
+void CMonster::MonsterTick(_float fTimeDelta)
+{
+	//상태변화
+	switch (m_eState)
+	{
+	case MODE::MODE_IDLE:
+		if (IsPlayerDetected())
+		{
+			//m_eState = MODE::MODE_BATTLE;
+			cout << " 따끈이 플레이어 발견!! " << '\n';
+		}
+		break;
+
+	case MODE::MODE_BATTLE:
+		break;
+
+	case MODE::MODE_RETURN:
+		// 복귀 완료 시
+		m_eState = MODE::MODE_IDLE;
+		break;
+	}
+
+	// 상태행동(액션)
+	switch (m_eState)
+	{
+	case MODE::MODE_IDLE:
+		DoIdle(fTimeDelta); 
+		break;
+	case MODE::MODE_BATTLE:
+		DoBattle(fTimeDelta); 
+		break;
+	case MODE::MODE_RETURN:
+		DoReturn(fTimeDelta); 
+		break;
+	}
+}
+
+void CMonster::DoIdle(_float dt)
+{
+	if (IsPlayerDetected())
+	{
+		//m_eState = MODE::MODE_BATTLE;
+		//return;
+	}
+
+	switch (m_eIdlePhase)
+	{
+	case EIdlePhase::WanderMove:
+	{
+		m_fWanderElapsed += dt;
+
+		//이거 앞으로 가는거아님?
+		//_float3 vPos = *m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+		//_float3 vMove = m_vDirection * dt * m_fIdleMoveSpeed;
+		//vMove.y = 0.f;
+		//m_pTransformCom->Set_State(CTransform::STATE_POSITION, vPos + vMove);
+		m_pTransformCom->Go_Straight(dt);
+		if (m_fWanderElapsed >= m_fWanderTime)
+		{
+			m_fWanderElapsed = 0.f;
+			m_eIdlePhase = EIdlePhase::WanderWait;
+		}
+		break;
+	}
+	case EIdlePhase::WanderWait:
+		m_fIdleWaitElapsed += dt;
+
+		if (m_fIdleWaitElapsed >= m_fIdleWaitTime)
+		{
+			SetRandomDirection();                  // 회전할 방향 설정
+			m_fIdleWaitElapsed = 0.f;
+			m_eIdlePhase = EIdlePhase::WanderTurn; // 다음엔 회전하러 간다
+		}
+		break;
+
+	case EIdlePhase::WanderTurn:
+	{
+		_float3 vLook = *m_pTransformCom->Get_State(CTransform::STATE_LOOK);
+
+		bool bRotated = m_pTransformCom->RotateToDirection(vLook, m_vDirection, 5.f, dt);
+		if (bRotated)  // 회전 완료 신호
+		{
+			m_eIdlePhase = EIdlePhase::WanderMove;
+		}
+		break;
+	}
+	}
+}
+
+void CMonster::DoBattle(_float dt)
+{
+	// 플레이어 쫓기
+	//ChasePlayer();
+}
+
+void CMonster::DoReturn(_float dt)
+{
+	// 배회지점으로 돌아가기
+}
+
+void CMonster::SetRandomDirection()
+{
+	// 0 ~ 359도 사이의 랜덤 각도 생성
+	float fAngle = D3DXToRadian(rand() % 360);  // rand() % 360 → 0~359도
+
+	// 각도로부터 방향 벡터 생성
+	_float3 vDir = {
+		sinf(fAngle),   // x축
+		0.f,
+		cosf(fAngle)    // z축
+	};
+
+	m_vDirection = vDir;
+
+	// 이동 시간 설정
+	m_fWanderTime = (rand() % 2000) / 1000.f + 1.f;
+	m_fWanderElapsed = 0.f;
+
+}
+
 
 _float3 CMonster::CalculateEffectPos()
 {

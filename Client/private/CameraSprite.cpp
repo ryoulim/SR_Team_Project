@@ -38,6 +38,7 @@ HRESULT CCameraSprite::Initialize(void* pArg)
 	m_szTextureID			= SpriteDESC->szTextureTag;
 	m_bActive				= SpriteDESC->bActive;
 	m_fAnimationSpeed		= SpriteDESC->fAniSpeed;
+	m_eEffectType			= SpriteDESC->eEffectType;
 	m_szBufferType			= TEXT("Rect");
 
 	m_fX					= SpriteDESC->vInitPos.x;
@@ -61,6 +62,11 @@ HRESULT CCameraSprite::Initialize(void* pArg)
 	else
 		m_fAnimationFrame = 0;
 
+	if(m_eEffectType == eEffectType::GUNFIRE)
+		m_fViewZ = 0.0f;
+	if (m_eEffectType == eEffectType::BULLETTRACER)
+		m_fViewZ = 0.1f;
+
 	return S_OK;
 }
 
@@ -81,9 +87,7 @@ EVENT CCameraSprite::Update(_float fTimeDelta)
 
 void CCameraSprite::Late_Update(_float fTimeDelta)
 {
-	m_fViewZ = 0.1f;
-
-	if (FAILED(m_pGameInstance->Add_RenderGroup(CRenderer::RG_BLEND, this)))
+	if (FAILED(m_pGameInstance->Add_RenderGroup(CRenderer::RG_UI, this)))
 		return;
 }
 

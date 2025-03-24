@@ -19,16 +19,15 @@ using namespace std::chrono;
 class CMonster abstract : public CGameObject
 {
 public:
-	enum MODE
-	{
-		MODE_WAIT, MODE_ATTACK, MODE_DETECTIVE, MODE_END
-	};
+	enum MODE{	MODE_IDLE, MODE_ATTACK, MODE_BATTLE, MODE_DETECTIVE, MODE_RETURN, MODE_END  };
+	enum EIdlePhase { WanderMove, WanderWait, WanderTurn };
 
 
 public:
 	typedef struct tagMonsterDesc : public CTransform::DESC
 	{
 		_float3		vPosition;
+		bool		vActive = false;
 	}DESC;
 
 protected:
@@ -53,6 +52,19 @@ protected:
 
 public: // 길찾기 및 디텍티브
 	virtual void PlayerDistance();
+	virtual void CalculateVectorToPlayer();
+	virtual bool IsPlayerDetected();
+	virtual void Render_DebugFOV();
+	const char*	 GetMonsterStateName(CMonster::MODE eState);
+
+public: //상태변환
+	virtual void MonsterTick(_float fTimeDelta);
+
+public: //액션
+	virtual void DoIdle(_float dt);
+	virtual void DoBattle(_float dt);
+	virtual void DoReturn(_float dt);
+	virtual void SetRandomDirection();
 
 protected: // 충돌함수
 	virtual _float3		CalculateEffectPos();
@@ -111,8 +123,9 @@ protected: //속성
 	_float	m_fSpeed		= 1.0f;
 	_float3	m_vScale		= { 0.f, 0.f, 0.f };
 	_float3 m_vPosition		= { 0.f, 0.f, 0.f };
-	_float3 m_vDirection	= { 1.f, 0.f, 0.f };
-	MODE	m_eBehavior		= MODE::MODE_END;
+	MODE	m_eState		= MODE::MODE_END;
+
+	EIdlePhase	m_eIdlePhase = EIdlePhase::WanderWait;
 
 protected: //디버깅
 	steady_clock::time_point g_LastLogTime = steady_clock::now();
@@ -125,11 +138,27 @@ protected: //부속성
 protected: //플레이어
 	CGameObject*	m_pTargetPlayer	= nullptr;
 
-protected: //기능성 수치
-	_float			m_fPlayerDistance = 0;
+protected: //디텍티브
+	_float3			m_vDirection		= { 0.f, 0.f, -1.f };
+	_float3			m_vToPlayer			= { 0.f, 0.f, 0.f };
+	_float			m_fCurDistance		= 0;
+	_float			m_fDetectiveDistance= 0;
+	_float			m_fIdleTime			= 0;
+	_float			m_fMaxIdleTime		= 0;
+
+protected:
+	// 배회 이동 관련
+	_float  m_fWanderTime = 0.f;
+	_float  m_fWanderElapsed = 0.f;
+	_float  m_fIdleMoveSpeed = 60.f; // 느린 속도
+
+	// 멈춤 관련
+	_float  m_fIdleWaitTime = 3.0f;
+	_float  m_fIdleWaitElapsed = 0.f;
 
 protected:
 	bool			m_bDead = false;
+	bool			m_bActive = false;
 
 
 

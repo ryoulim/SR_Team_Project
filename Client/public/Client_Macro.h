@@ -2,6 +2,11 @@
 
 #pragma region 프로토타입 넣는 매크로들
 
+#define Get_CamaraPos _float4x4 matCamWorld;\
+m_pGraphic_Device->GetTransform(D3DTS_VIEW, &matCamWorld);\
+matCamWorld.MakeInverseMat(matCamWorld);\
+_float3 vCameraPos = { matCamWorld._41, matCamWorld._42, matCamWorld._43 };
+
 #define GET_PLAYER m_pGameInstance->Find_Object(LEVEL_GAMEPLAY,TEXT("Layer_Pawn"))
 
 #define ADD_TEXTURE(Name,Path,Cnt)																					\

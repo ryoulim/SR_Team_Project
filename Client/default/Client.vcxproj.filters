@@ -271,6 +271,9 @@
     <Filter Include="02.GameObjects\Particle\BulletImpactSpark">
       <UniqueIdentifier>{29b9af98-8f5d-4995-b0cb-a6d9d6b5145d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\Monster\_Debug">
+      <UniqueIdentifier>{57b6a1b0-b026-46b5-8de8-642b17c2932c}</UniqueIdentifier>
+    </Filter>
     <Filter Include="02.GameObjects\Pawn\PlayerOnBoat">
       <UniqueIdentifier>{7efd6090-538e-41fe-a189-bea97aeafa1a}</UniqueIdentifier>
     </Filter>
@@ -576,6 +579,9 @@
     <ClInclude Include="..\public\Weapon_Dispenser.h">
       <Filter>02.GameObjects\Weapon\Dispenser</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\DebugDraw.h">
+      <Filter>02.GameObjects\Monster\_Debug</Filter>
+    </ClInclude>
     <ClInclude Include="..\public\PlayerOnBoat.h">
       <Filter>02.GameObjects\Pawn\PlayerOnBoat</Filter>
     </ClInclude>
@@ -875,6 +881,9 @@
     </ClCompile>
     <ClCompile Include="..\private\BuildingH.cpp">
       <Filter>02.GameObjects\Statue\BuildingH</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\DebugDraw.cpp">
+      <Filter>02.GameObjects\Monster\_Debug</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

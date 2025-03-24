@@ -1,4 +1,4 @@
-#include "Transform.h"
+﻿#include "Transform.h"
 
 _float4x4		CTransform::m_Return{};
 
@@ -37,23 +37,23 @@ HRESULT CTransform::Bind_Resource()
 
 const _float4x4& CTransform::Billboard_Inverse() const
 {
-	//객체 ?��???
+	//媛앹껜 ?ㅼ???
 	_float3	vScaled = Compute_Scaled();
-	//객체 ?��???
+	//媛앹껜 ?ъ???
 	_float3	vPosition = *Get_State(CTransform::STATE_POSITION);
 
-	//카메???��???
+	//移대찓???ъ???
 	_float4x4 matCamWorld;
 	m_pGraphic_Device->GetTransform(D3DTS_VIEW, &matCamWorld);
 	matCamWorld.MakeInverseMat(matCamWorld);
 	_float3 vCameraPos = { matCamWorld._41, matCamWorld._42, matCamWorld._43 };
 
-	//카메?��? ?��???룩벡??
+	//移대찓?쇰? ?깆???猷⑸깹??
 	_float3		vLook = vPosition - vCameraPos;
 	_float3		vUp = { 0.f, 1.f, 0.f };
 	_float3		vRight = vUp.Cross(vLook);
 
-	//�?축을 ?�말?�이�?x ?��??�값?�로 ??
+	//媛?異뺤쓣 ?몃쭚?쇱씠利?x ?ㅼ??쇨컪?쇰줈 ??
 	vRight.Normalize();
 	vRight *= -vScaled.x;
 
@@ -74,23 +74,23 @@ const _float4x4& CTransform::Billboard_Inverse() const
 
 const _float4x4& CTransform::Billboard() const
 {
-	//객체 ?��???
+	//媛앹껜 ?ㅼ???
 	_float3	vScaled = Compute_Scaled();
-	//객체 ?��???
+	//媛앹껜 ?ъ???
 	_float3	vPosition = *Get_State(CTransform::STATE_POSITION);
 
-	//카메???��???
+	//移대찓???ъ???
 	_float4x4 matCamWorld;
 	m_pGraphic_Device->GetTransform(D3DTS_VIEW, &matCamWorld);
 	matCamWorld.MakeInverseMat(matCamWorld);
 	_float3 vCameraPos = { matCamWorld._41, matCamWorld._42, matCamWorld._43 };
 
-	//카메?��? ?��???룩벡??
+	//移대찓?쇰? ?깆???猷⑸깹??
 	_float3		vLook = vPosition - vCameraPos;
 	_float3		vUp = { 0.f, 1.f, 0.f };
 	_float3		vRight = vUp.Cross(vLook);
 
-	//�?축을 ?�말?�이�?x ?��??�값?�로 ??
+	//媛?異뺤쓣 ?몃쭚?쇱씠利?x ?ㅼ??쇨컪?쇰줈 ??
 	vRight.Normalize();
 	vRight *= vScaled.x;
 
@@ -111,23 +111,23 @@ const _float4x4& CTransform::Billboard() const
 
 _float4x4* CTransform::Billboard(_float4x4* _Out_ pOut) const
 {
-	//�ش� ��ü�� �����ϰ�
+	//해당 객체의 스케일값
 	_float3	vScaled = Compute_Scaled();
-	//�ش� ��ü�� ��ġ��
+	//해당 객체의 위치값
 	_float3	vPosition = *Get_State(CTransform::STATE_POSITION);
 
-	//ī�޶� ������
+	//카메라 포지션
 	_float4x4 matCamWorld;
 	m_pGraphic_Device->GetTransform(D3DTS_VIEW, &matCamWorld);
 	matCamWorld.MakeInverseMat(matCamWorld);
 	_float3 vCameraPos = { matCamWorld._41, matCamWorld._42, matCamWorld._43 };
 
-	//����� ���͸� ���Ѵ�.
+	//라업룩 벡터를 구한다.
 	_float3		vLook = vPosition - vCameraPos;
 	_float3		vUp = { 0.f, 1.f, 0.f };
 	_float3		vRight = vUp.Cross(vLook);
 
-	//ũ�⿡ �°� 
+	//크기에 맞게 
 	vRight.Normalize();
 	vRight *= vScaled.x;
 
@@ -247,6 +247,48 @@ void CTransform::LookAt(const _float3& vTargetPos)
 	Set_State(STATE_LOOK, vLook.Normalize() * vScaled.z);
 }
 
+bool CTransform::RotateToDirection(const _float3& vCurLook, const _float3& vTargetDir, _float fTurnSpeed, _float dt)
+{
+	// 현재 방향 정리
+	_float3 vLook = vCurLook;
+	vLook.y = 0.f;
+	vLook = vLook.Normalize();
+
+	// 목표 방향 정리
+	_float3 vTarget = vTargetDir;
+	vTarget.y = 0.f;
+	vTarget = vTarget.Normalize();
+
+	// ✅ 회전 완료 체크 먼저
+	float fDot = vLook.Dot(vTarget);
+	if (fDot >= 0.999f) // 거의 같은 방향이면
+	{
+		// 강제로 정확히 맞춤
+		_float3 vRight = _float3(0.f, 1.f, 0.f).Cross(vTarget).Normalize();
+		_float3 vUp = vTarget.Cross(vRight).Normalize();
+		_float3 vScaled = Compute_Scaled();
+
+		Set_State(STATE_RIGHT, vRight * vScaled.x);
+		Set_State(STATE_UP, vUp * vScaled.y);
+		Set_State(STATE_LOOK, vTarget * vScaled.z);
+		return true; // ✅ 회전 완료
+	}
+
+	// 보간하여 부드럽게 회전
+	_float3 vNewLook = Lerp(vLook, vTarget, dt * fTurnSpeed).Normalize();
+
+	_float3 vRight = _float3(0.f, 1.f, 0.f).Cross(vNewLook).Normalize();
+	_float3 vUp = vNewLook.Cross(vRight).Normalize();
+	_float3 vScaled = Compute_Scaled();
+
+	Set_State(STATE_RIGHT, vRight * vScaled.x);
+	Set_State(STATE_UP, vUp * vScaled.y);
+	Set_State(STATE_LOOK, vNewLook * vScaled.z);
+
+	return false; // ✅ 아직 회전 중
+
+}
+
 void CTransform::Chase(const _float3& vTargetPos, _float fTimeDelta, _float fMinDistance)
 {
 	_float3		vPosition = *Get_State(STATE_POSITION);
@@ -268,6 +310,19 @@ void CTransform::Turn(const _float3& vAxis, _float fTimeDelta)
 	_float3			vLook = *Get_State(STATE_LOOK);
 
 	_float4x4		RotationMatrix{ vAxis, m_fRotationPerSec * fTimeDelta };
+
+	Set_State(STATE_RIGHT, vRight.TransformNormal(RotationMatrix));
+	Set_State(STATE_UP, vUp.TransformNormal(RotationMatrix));
+	Set_State(STATE_LOOK, vLook.TransformNormal(RotationMatrix));
+}
+
+void CTransform::TurnCustom(const _float3& vAxis, _float _Rotation, _float fTimeDelta)
+{
+	_float3			vRight = *Get_State(STATE_RIGHT);
+	_float3			vUp = *Get_State(STATE_UP);
+	_float3			vLook = *Get_State(STATE_LOOK);
+
+	_float4x4		RotationMatrix{ vAxis, _Rotation * fTimeDelta };
 
 	Set_State(STATE_RIGHT, vRight.TransformNormal(RotationMatrix));
 	Set_State(STATE_UP, vUp.TransformNormal(RotationMatrix));
@@ -333,11 +388,11 @@ void CTransform::Quaternion_Turn(const _float3& vAngle)
 	_float3			vUp = *Get_State(STATE_UP);
 	_float3			vLook = *Get_State(STATE_LOOK);
 
-	// ?�원???�전 ?�성
+	// ?ъ썝???뚯쟾 ?앹꽦
 	D3DXQUATERNION Qur{};
 	D3DXQuaternionRotationYawPitchRoll(&Qur, vAngle.y, vAngle.x, vAngle.z);
 
-	// 최종 벡터 ?�태 ?�??
+	// 理쒖쥌 踰≫꽣 ?곹깭 ???
 	Set_State(STATE_RIGHT, RotateVectorByQuaternion(vRight, Qur));
 	Set_State(STATE_UP, RotateVectorByQuaternion(vUp, Qur));
 	Set_State(STATE_LOOK, RotateVectorByQuaternion(vLook, Qur));
@@ -352,7 +407,7 @@ void CTransform::Quaternion_Rotation(const _float3& vAngle)
 	_float3 vUp = _float3{ 0.f, 1.f, 0.f };
 	_float3 vLook = _float3{ 0.f, 0.f, 1.f };
 
-	// ?�원???�전 ?�성
+	// ?ъ썝???뚯쟾 ?앹꽦
 	D3DXQUATERNION Qur{};
 	D3DXQuaternionRotationYawPitchRoll(&Qur, vAngle.y, vAngle.x, vAngle.z);
 	
@@ -367,7 +422,7 @@ void CTransform::Quaternion_Revolution(const _float3& vAxis, const _float3& vCen
 	_float3 vPos = *Get_State(STATE_POSITION);
 	Set_State(STATE_POSITION, vPos - vCenter);
 
-	// ?�원???�전 ?�성
+	// ?ъ썝???뚯쟾 ?앹꽦
 	D3DXQUATERNION Qur{};
 	D3DXQuaternionRotationAxis(&Qur, &vAxis, fAngle);
 
@@ -384,24 +439,29 @@ void CTransform::Quaternion_Revolution_Pos(const _float3& vAxis, const _float3& 
 {
 	_float3 vPos = *Get_State(STATE_POSITION);
 
-	// ����� ȸ�� ����
+	// 사원수 회전 생성
 	D3DXQUATERNION Qur{};
 	D3DXQuaternionRotationAxis(&Qur, &vAxis, fAngle);
 
-	vPos -= vCenter; // 1. �߽��� �������� �̵�
-	vPos = RotateVectorByQuaternion(vPos, Qur); // 2. ȸ��
+	vPos -= vCenter; // 1. 중심을 원점으로 이동
+	vPos = RotateVectorByQuaternion(vPos, Qur); // 2. 회전
 	vPos += vCenter;
 
 	Set_State(STATE_POSITION, vPos);
+}
+
+_float3 CTransform::Lerp(const _float3& start, const _float3& end, _float t)
+{
+	return start + (end - start) * t;
 }
 
 inline _float3 CTransform::RotateVectorByQuaternion(const _float3& v, const D3DXQUATERNION& q)
 {
 	D3DXQUATERNION qVec{ v.x, v.y, v.z, 0.0f };
 	D3DXQUATERNION qConj;
-	D3DXQuaternionInverse(&qConj, &q); // 켤레(???�원??
+	D3DXQuaternionInverse(&qConj, &q); // 耳ㅻ젅(???ъ썝??
 
-	// ?�전 ?�산: v' = q * v * q^-1
+	// ?뚯쟾 ?곗궛: v' = q * v * q^-1
 	D3DXQUATERNION qResult, temp;
 	D3DXQuaternionMultiply(&temp, &q, &qVec);
 	D3DXQuaternionMultiply(&qResult, &temp, &qConj);

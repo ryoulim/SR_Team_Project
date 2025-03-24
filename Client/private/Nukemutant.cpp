@@ -46,7 +46,8 @@ EVENT CNukemutant::Update(_float fTimeDelta)
 {
 	if (m_bDead)
 		return EVN_DEAD;
-
+	if (m_bActive)
+		MonsterTick(fTimeDelta);
 	return __super::Update(fTimeDelta);
 }
 
@@ -57,6 +58,7 @@ void CNukemutant::Late_Update(_float fTimeDelta)
 
 HRESULT CNukemutant::Render()
 {
+	Render_DebugFOV();
 	return __super::Render();
 
 	//특별히 더 렌더링 할게 있는 경우 ↓
@@ -148,7 +150,8 @@ CNukemutant* CNukemutant::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 	pInstance->m_iDefense		= 0;
 	pInstance->m_fSpeed			= 15.f;
 	pInstance->m_vScale			= { 27.f, 56.f, 1.f };
-	pInstance->m_eBehavior		= MODE::MODE_WAIT;
+	pInstance->m_eState		= MODE::MODE_IDLE;
+	pInstance->m_fDetectiveDistance = 300.f;
 
 	//부속성
 	pInstance->m_strDialogue	= "Nuke..Nu...";
