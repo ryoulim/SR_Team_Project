@@ -68,10 +68,10 @@ void CSphere::resetParticle(Attribute* attribute)
 
 	//초기 위치 (반지름 30.0f 범위 내에서 랜덤한 원형 배치)
 	float angle = GetRandomFloat(0.0f, D3DX_PI * 2.0f);
-	float radius = GetRandomFloat(5.0f, 15.0f);
-	attribute->_Position.x = cos(angle) * radius;
+	m_fRadius = GetRandomFloat(50.0f, 70.0f);
+	attribute->_Position.x = cos(angle) * m_fRadius;
 	attribute->_Position.y = GetRandomFloat(0.0f, -25.0f);
-	attribute->_Position.z = sin(angle) * radius;
+	attribute->_Position.z = sin(angle) * m_fRadius;
 
 
 	//나선형 상승을 위한 초기 속도

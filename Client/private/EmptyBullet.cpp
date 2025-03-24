@@ -87,6 +87,15 @@ EVENT CEmptyBullet::Update(_float timeDelta)
 	return EVN_NONE;
 }
 
+void CEmptyBullet::Late_Update()
+{
+	m_fViewZ = 0.f;
+
+	//렌더그룹에 넣어준다.
+	if (FAILED(m_pGameInstance->Add_RenderGroup(CRenderer::RG_BLEND, this)))
+		return;
+}
+
 HRESULT CEmptyBullet::Render()
 {
 	if (!m_Particles.empty())

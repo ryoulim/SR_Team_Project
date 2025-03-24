@@ -62,10 +62,12 @@ HRESULT CCameraSprite::Initialize(void* pArg)
 	else
 		m_fAnimationFrame = 0;
 
+	if (m_eEffectType == eEffectType::FIRE)
+		m_fDepth = 0.0f;
 	if(m_eEffectType == eEffectType::GUNFIRE)
-		m_fViewZ = 0.0f;
+		m_fDepth = 0.05f;
 	if (m_eEffectType == eEffectType::BULLETTRACER)
-		m_fViewZ = 0.1f;
+		m_fDepth = 0.1f;
 
 	return S_OK;
 }
