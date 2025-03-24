@@ -76,13 +76,13 @@ HRESULT CCultist::Ready_Textures()
 {
 	for (_uint i = 0; i < D_END; i++)
 	{
-		_wstring sPrototypeTag = L"Prototype_Component_Texture_Nukemutant_Move_";
+		_wstring sPrototypeTag = L"Prototype_Component_Texture_Cultist_Move_";
 		_uint num = static_cast<_uint>(i * m_fDivOffset);
 		_tchar buf[32];
 		_itow_s((int)num, buf, 10);
 		sPrototypeTag += buf;
 		if (FAILED(__super::Add_Component(m_eLevelID, sPrototypeTag,
-			_wstring(TEXT("Com_Texture")) + L"_Nukemutant_Move_" + buf, reinterpret_cast<CComponent**>(&(m_pTextureMap[STATE_MOVE][i])))))
+			_wstring(TEXT("Com_Texture")) + L"_Cultist_Move_" + buf, reinterpret_cast<CComponent**>(&(m_pTextureMap[STATE_MOVE][i])))))
 			return E_FAIL;
 	}
 	return S_OK;

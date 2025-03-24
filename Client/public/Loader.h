@@ -33,12 +33,7 @@ public:
 	HRESULT Initialize(LEVEL eNextLevelID);
 	HRESULT Loading();
 
-	void Output_LoadingText() {
-		SetWindowText(g_hWnd, m_szLoadingText);
-
-		auto LoadingMenu = m_pGameInstance->Find_Object(LEVEL_LOADING, TEXT("Layer_UI"));
-		dynamic_cast<CLoadingMenu*>(LoadingMenu)->Set_LoadingGauge(m_fLoadPercent);
-	}
+	void Output_LoadingText();
 	
 private:
 	LPDIRECT3DDEVICE9			m_pGraphic_Device = { nullptr };
