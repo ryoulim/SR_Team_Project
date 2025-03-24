@@ -22,7 +22,7 @@ tagVector::operator+(const tagVector& v) const
 D3DXINLINE tagVector
 tagVector::operator*(const tagVector& v) const
 {
-    return { x * v.x, y * v.y, z * v.z };
+     return { x * v.x, y * v.y, z * v.z };
 }
 
 D3DXINLINE tagVector&

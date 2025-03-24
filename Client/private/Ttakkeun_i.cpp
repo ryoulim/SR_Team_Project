@@ -80,7 +80,7 @@ HRESULT CTtakkeun_i::Render()
 {
 	Render_DebugFOV();
 
-	Animate_Monster();
+	//Animate_Monster();
 	return __super::Render();
 
 	//특별히 더 렌더링 할게 있는 경우 ↓

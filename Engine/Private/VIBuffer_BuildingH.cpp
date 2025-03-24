@@ -153,7 +153,7 @@ HRESULT CVIBuffer_BuildingH::Initialize_Prototype()
 	pVertices[39].vTexcoord = _float2(1.f, 1.4f);
 #pragma endregion
 
-	for (int i = 0; i < m_iNumVertices; i++)
+	for (_uint i = 0; i < m_iNumVertices; i++)
 	{
 		pVertices[i].vNormal = _float3(0.f, 0.f, 0.f);
 	}

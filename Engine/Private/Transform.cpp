@@ -410,11 +410,28 @@ void CTransform::Quaternion_Rotation(const _float3& vAngle)
 	// ?ъ썝???뚯쟾 ?앹꽦
 	D3DXQUATERNION Qur{};
 	D3DXQuaternionRotationYawPitchRoll(&Qur, vAngle.y, vAngle.x, vAngle.z);
-	
 
 	Set_State(STATE_RIGHT, RotateVectorByQuaternion(vRight, Qur) * vScaled.x);
 	Set_State(STATE_UP, RotateVectorByQuaternion(vUp, Qur) * vScaled.y);
 	Set_State(STATE_LOOK, RotateVectorByQuaternion(vLook, Qur) * vScaled.z);
+}
+
+void CTransform::QurternionRotation(const _float3& vAngle)
+{
+	_float3		vScaled = Compute_Scaled();
+
+	_float3		vRight = _float3{ 1.f, 0.f, 0.f } *vScaled.x;
+	_float3		vUp = _float3{ 0.f, 1.f, 0.f } *vScaled.y;
+	_float3		vLook = _float3{ 0.f, 0.f, 1.f } *vScaled.z;
+
+	D3DXQUATERNION Qur{};
+	_float4x4 RotationMatrix{};
+	D3DXQuaternionRotationYawPitchRoll(&Qur, vAngle.y, vAngle.x, vAngle.z);
+	D3DXMatrixRotationQuaternion(&RotationMatrix, &Qur);
+
+	Set_State(STATE_RIGHT, vRight.TransformNormal(RotationMatrix));
+	Set_State(STATE_UP, vUp.TransformNormal(RotationMatrix));
+	Set_State(STATE_LOOK, vLook.TransformNormal(RotationMatrix));
 }
 
 void CTransform::Quaternion_Revolution(const _float3& vAxis, const _float3& vCenter, _float fAngle)

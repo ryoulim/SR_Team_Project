@@ -56,7 +56,7 @@ HRESULT CVIBuffer_CubeEx::Initialize_Prototype()
 #pragma endregion
 
 #pragma region ¹ý¼±
-	for (int i = 0; i < m_iNumPritimive; i++)
+	for (_uint i = 0; i < m_iNumPritimive; i++)
 	{
 		pVertices[i].vNormal = _float3(0.f, 0.f, 0.f);
 	}
