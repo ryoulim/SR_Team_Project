@@ -144,12 +144,13 @@ HRESULT CMainApp::Ready_Component_For_Static()
 {
 	ADD_MODEL(Cube);
 	ADD_MODEL(Rect);
+	ADD_MODEL(TriangularPillar);
 	ADD_MODEL(Trapezoid);
 	ADD_MODEL(Stall);
 	ADD_MODEL(Cabinet);
 	ADD_MODEL(Signboard);
 	ADD_MODEL(Computer);
- 	ADD_MODEL_EX(Terrain, 129, 129, TEXT("../Bin/Resources/Textures/Terrain/Height__.bmp"));
+ 	//ADD_MODEL_EX(Terrain, 129, 129, TEXT("../Bin/Resources/Textures/Terrain/Height__.bmp"));
 	//Load_ProtoType_Terrain(TEXT("MapData.txt"));
 	ADD_MODEL(Canopy);
 	ADD_MODEL(RaceLandscape);

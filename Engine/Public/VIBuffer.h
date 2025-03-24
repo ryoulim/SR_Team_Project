@@ -26,6 +26,7 @@ public:
 
 public:
 	HRESULT Bind_Buffers();
+
 	LPDIRECT3DVERTEXBUFFER9 DeepCopyVertexBuffer(LPDIRECT3DVERTEXBUFFER9 pOriginVB);
 	void Set_VertexBuffer(LPDIRECT3DVERTEXBUFFER9 pNewVB);
 

@@ -57,6 +57,7 @@
 
 //맵 인클루드
 #include "Block.h"
+#include "TriangularPillar.h"
 
 //전시용 플랫폼
 #include "Flatform.h"
@@ -480,6 +481,7 @@ HRESULT CLoader::Loading_For_GamePlay()
 	ADD_TEXTURE(LeftHand, "../Bin/Resources/Textures/Weapon/LeftHand/LeftHand%d.PNG", 2);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
 	ADD_TEXTURE(Weapon_Chaingun, "../Bin/Resources/Textures/Weapon/ChainGun/ChainGun%d.PNG", 16);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
 
+	ADD_TEXTURE(Test, "../Bin/Resources/Textures/TileTest/tile%d.PNG", 109);
 	ADD_TEXTURE(TTest, "../Bin/Resources/Textures/Object/Cabinet/Cabinet%d.png", 3);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
 	ADD_TEXTURE(Test, "../Bin/Resources/Textures/TileTest/tile%d.PNG", 121);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
 	for (size_t i = 0; i < 100000; i++)
@@ -697,8 +699,8 @@ HRESULT CLoader::Loading_For_GamePlay()
 #pragma endregion
 
 #pragma region MODEL
-	lstrcpy(m_szLoadingText, TEXT("모델을(를) 로딩중입니다."));fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
-	Load_For_Terrain(TEXT("MapData.txt"), TEXT("../bin/Resources/Textures/Terrain/BossMap.bmp"));fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
+	lstrcpy(m_szLoadingText, TEXT("모델을(를) 로딩중입니다."));
+	Load_For_Terrain(TEXT("MapData.txt"));
 #pragma endregion
 
 #pragma region SOUND
@@ -745,6 +747,18 @@ HRESULT CLoader::Loading_For_GamePlay()
 	ADD_PRTOBJ(Cultist);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
 	ADD_PRTOBJ(Archangel);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
 
+	ADD_PRTOBJ(TriangularPillar);
+
+	//몬스터
+	ADD_PRTOBJ(Ttakkeun_i);
+	ADD_PRTOBJ(Wenteko);
+	ADD_PRTOBJ(Shotgunner);
+	ADD_PRTOBJ(Nukemutant);
+	ADD_PRTOBJ(Mechsect);
+	ADD_PRTOBJ(Greater);
+	ADD_PRTOBJ(Deacon);
+	ADD_PRTOBJ(Cultist);
+	ADD_PRTOBJ(Archangel);
 
 
 #pragma endregion
@@ -920,7 +934,7 @@ HRESULT CLoader::Add_Data(const _wstring& strFilePath)
 	return S_OK;
 }
 
-HRESULT CLoader::Load_For_Terrain(const _wstring& strFileTag, const _wstring& strHeightMapPath)
+HRESULT CLoader::Load_For_Terrain(const _wstring& strFileTag)
 {
 	_bool bResult = { true };
 	_wstring FilePath;
@@ -949,7 +963,7 @@ HRESULT CLoader::Load_For_Terrain(const _wstring& strFileTag, const _wstring& st
 			break;
 
 		case LEVEL_GAMEPLAY:
-			ADD_MODEL_EX(Terrain, iNumVertexX, iNumVertexZ, strHeightMapPath.c_str());
+			ADD_MODEL_EX(Terrain, iNumVertexX, iNumVertexZ);
 			break;
 
 		case LEVEL_TEST:

@@ -160,6 +160,9 @@
     <ClInclude Include="..\public\Collider_Manager.h">
       <Filter>04.Components\Collider\Manager</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\VIBuffer_TriangularPillar.h">
+      <Filter>04.Components\VIBuffer\TriangularPillar</Filter>
+    </ClInclude>
     <ClInclude Include="..\Public\VIBuffer_BuildingV.h">
       <Filter>04.Components\VIBuffer\RaceTerrain\VIBuffer_BuildingV</Filter>
     </ClInclude>
@@ -318,6 +321,9 @@
     <Filter Include="04.Components\VIBuffer\RaceTerrain\VIBuffer_BuildingV">
       <UniqueIdentifier>{a3659643-82a3-4f45-b452-d405151758db}</UniqueIdentifier>
     </Filter>
+    <Filter Include="04.Components\VIBuffer\TriangularPillar">
+      <UniqueIdentifier>{bfc39af0-9640-4103-9f4c-6f516e854cc4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Private\Base.cpp">
@@ -355,9 +361,6 @@
     </ClCompile>
     <ClCompile Include="..\private\Texture.cpp">
       <Filter>04.Components\Texture</Filter>
-    </ClCompile>
-    <ClCompile Include="..\private\VIBuffer.cpp">
-      <Filter>04.Components\VIBuffer</Filter>
     </ClCompile>
     <ClCompile Include="..\private\VIBuffer_Rect.cpp">
       <Filter>04.Components\VIBuffer\Rect</Filter>
@@ -463,6 +466,12 @@
     </ClCompile>
     <ClCompile Include="..\Private\VIBuffer_BuildingV.cpp">
       <Filter>04.Components\VIBuffer\RaceTerrain\VIBuffer_BuildingV</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\VIBuffer_TriangularPillar.cpp">
+      <Filter>04.Components\VIBuffer\TriangularPillar</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\VIBuffer.cpp">
+      <Filter>04.Components\VIBuffer</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
