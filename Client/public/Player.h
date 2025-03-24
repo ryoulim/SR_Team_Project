@@ -3,11 +3,13 @@
 
 #pragma once
 #include "Pawn.h"
+#include "UI_Manager.h"
 
 BEGIN(Client)
 
 class CPlayer final : public CPawn
 {
+friend CUI_Manager;
 public:
 	friend class CUI_Manager;
 	typedef struct tagPlayerDesc : public CPawn::DESC
@@ -40,6 +42,7 @@ private:
 	_uint						m_iCurWeaponIndex{};
 	_uint						m_iAmmo[4];
 	//_uint						m_i
+	_int						m_iHP = 0;
 
 private:
 	void			Key_Input(_float fTimeDelta);

@@ -44,7 +44,8 @@ HRESULT CMonster::Initialize(void* pArg)
 void CMonster::Priority_Update(_float fTimeDelta)
 {
 	//프레임 업데이트
-	FrameUpdate(fTimeDelta, m_fAnimationMaxFrame, m_fAnimationSpeed, true);
+	//FrameUpdate(fTimeDelta, m_fAnimationMaxFrame, m_fAnimationSpeed, true);
+	Animate_Monster(fTimeDelta);
 }
 
 EVENT CMonster::Update(_float fTimeDelta)
@@ -87,28 +88,30 @@ HRESULT CMonster::SetUp_RenderState()
 HRESULT CMonster::Render()
 {
 	Set_TextureType();
-
-	if (m_bCW)
+	
+	if (m_isReadyMonster) // 몹 텍스쳐 전부 준비 안해서 임시로 분리
 	{
-		if (m_pGraphic_Device->SetTransform(D3DTS_WORLD, &m_pTransformCom->Billboard_Inverse()))
-			return E_FAIL;
-	}
-	else
-	{
-		if (m_pGraphic_Device->SetTransform(D3DTS_WORLD, &m_pTransformCom->Billboard()))
-			return E_FAIL;
-	}
-
-	if (m_isReadyMonster)
-	{
+		m_pTextureMap[m_iState][m_iDegree]->Get_TextureSize(static_cast<_uint>(m_fAnimationFrame), &m_vScale);
+		m_pTransformCom->Scaling(m_vScale * 0.3f);
 		if (FAILED(m_pTextureMap[m_iState][m_iDegree]->Bind_Resource(static_cast<_uint>(m_fAnimationFrame))))
 			return E_FAIL;
 	}
-	else
+	else 
 	{
 		if (FAILED(m_pTextureCom->Bind_Resource(static_cast<_uint>(m_fAnimationFrame))))
 			return E_FAIL;
 	}
+	
+
+	if (m_bCW && m_iDegree != 0) {
+		if (m_pGraphic_Device->SetTransform(D3DTS_WORLD, &m_pTransformCom->Billboard_Inverse()))
+			return E_FAIL;
+	}
+	else {
+		if (m_pGraphic_Device->SetTransform(D3DTS_WORLD, &m_pTransformCom->Billboard()))
+			return E_FAIL;
+	}
+
 
 	if (FAILED(m_pVIBufferCom->Bind_Buffers()))
 		return E_FAIL;
@@ -183,14 +186,17 @@ void CMonster::Compute_ViewAngle()
 	matCamWorld.MakeInverseMat(matCamWorld);
 	_float3 vCameraPos = { matCamWorld._41, matCamWorld._42, matCamWorld._43 };
 
-	_float3 vCurLook = {};
-	vCurLook = *D3DXVec3Normalize(&vCurLook, (m_pTransformCom->Get_State(CTransform::STATE_LOOK)));
+	_float3 vCurLook = *(m_pTransformCom->Get_State(CTransform::STATE_LOOK)) * -1.f;
+	vCurLook.y = 0.f;
+	vCurLook = *D3DXVec3Normalize(&vCurLook, &vCurLook);
+	// 보는 방향이 거꾸로길래 수정
 
 	_float3	vBillLook = {};
 	_float3 temp = *(m_pTransformCom->Get_State(CTransform::STATE_POSITION)) - vCameraPos;
+	temp.y = 0.f;
 	vBillLook = *D3DXVec3Normalize(&vBillLook, &temp);
 	
-	vCurLook.y = vBillLook.y = 0.f;
+	//vCurLook.y = vBillLook.y = 0.f;
 
 	// 벡터의 내적 계산
 	float dotProduct = D3DXVec3Dot(&vCurLook, &vBillLook);
@@ -212,9 +218,10 @@ void CMonster::Compute_ViewAngle()
 		m_bCW = true;
 }
 
+
 HRESULT CMonster::Set_TextureType()
 {
-	if (KEY_DOWN(DIK_1)) // 테스트용
+	if (KEY_DOWN(DIK_1)) // 브레이크포인트 테스트용
 		int a = 0;
 
 	_float degree = m_fPlayersViewAngle / m_fDivOffset;
@@ -226,13 +233,29 @@ HRESULT CMonster::Set_TextureType()
 	// state는 보스의 상태에 따라 결정
 	// 임시로 walk만 지정
 	//m_iState = (_uint)(STATE_WALK);
-	m_iState = 0;
+	// grenade같은 것은 state값을 방향 벡터의 각도로 두고 범용적으로 사용해도 좋을듯... 
+	//m_iState = 0;
+
+	/******************************************************************/
+	//m_fAnimationMaxFrame = (_float)BOSS_STATUS_FRAME::WALK;
+	////int maxframe = BOSS_STATUS_FRAME::WALK;
+	//int curstatus = BOSS_STATUS::WALK;
+	//_float startfrmnum = _float(m_iDegree * m_fAnimationMaxFrame + curstatus);
+	//m_fAnimationFrame = startfrmnum + _fTimeDelta;
+	//나중에쓸(수도있을)것
+	/******************************************************************/
+
+
+
 	return S_OK;
 }
-HRESULT CMonster::Animate_Monster()
+
+
+HRESULT CMonster::Animate_Monster(_float fTimeDelta)
 {
-
-
+	m_fAnimationFrame += fTimeDelta * m_fAnimationSpeed;
+	if (m_fAnimationFrame >= m_fAnimationMaxFrame)
+		m_fAnimationFrame = 0.f;
 
 	return S_OK;
 }

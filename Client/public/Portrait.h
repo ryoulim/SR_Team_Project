@@ -51,8 +51,7 @@ public:
 	void	Add_HP(_uint _HP) { m_uiHP += _HP; Update(0.f); }
 
 private:
-	//CFont*	m_pFont = { nullptr };
-	_float	m_fAnimTick = {};
+	_float			m_fAnimTick = {};
 	PORTRAITSTATUS	m_eFace = { PORTRAIT_IDLE };
 	HPSTATUS		m_eHPStatus = { HP100 };
 	_uint			m_uiHP = {};

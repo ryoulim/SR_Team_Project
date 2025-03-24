@@ -25,6 +25,7 @@ private:
 	CUI_Manager& operator=(const CUI_Manager&) = delete;						
 
 public:												
+	static CUI_Manager* Get_Instance();
 	static CUI_Manager* Get_Instance(CGameInstance* pGameInstance);
 	static unsigned int Destroy_Instance();	
 
@@ -78,6 +79,7 @@ private:
 	array<class CGameObject*, GUI_END>	m_GameUIs = { nullptr };
 	class CPlayer*						m_pPlayer = { nullptr };
 
+
 public:
 	virtual void Free();
 };
@@ -86,37 +88,37 @@ public:
 #pragma region UI_MANAGER 용 매크로 
 // Render_Text MediumBlueLeft
 // 파란 글씨 (아이템 획득 dialog용도 좌측 상단 고정)
-#define RENDER_ITEMDIALOG(message, fposY)  CUI_Manager::Get_Instance(m_pGameInstance)->Render_Text(message, CFont::MEDIUMBLUE, CFont::LEFT, -(g_iWinSizeX / 2.f) + 20.f, fposY)
+#define RENDER_ITEMDIALOG(message, fposY)  CUI_Manager::Get_Instance()->Render_Text(message, CFont::MEDIUMBLUE, CFont::LEFT, -(g_iWinSizeX / 2.f) + 20.f, fposY)
 
 // Render_Text BigOrangeCenter
 // 노란 글씨 중앙 정렬
 #define RENDER_TEXT_BOC(message, fX, fY, fSize) \
-CUI_Manager::Get_Instance(m_pGameInstance)->Set_ButtonBrightness(1.f, CFont::BIGORANGE);\
-CUI_Manager::Get_Instance(m_pGameInstance)->Render_Text(message, CFont::BIGORANGE, CFont::CENTER, fX, fY, fSize)
+CUI_Manager::Get_Instance()->Set_ButtonBrightness(1.f, CFont::BIGORANGE);\
+CUI_Manager::Get_Instance()->Render_Text(message, CFont::BIGORANGE, CFont::CENTER, fX, fY, fSize)
 // Render_Text BigOrangeLeft
 // 노란 글씨 좌측 정렬
 #define RENDER_TEXT_BOL(message, fX, fY, fSize) \
-CUI_Manager::Get_Instance(m_pGameInstance)->Set_ButtonBrightness(1.f, CFont::BIGORANGE);\
-CUI_Manager::Get_Instance(m_pGameInstance)->Render_Text(message, CFont::BIGORANGE, CFont::LEFT, fX, fY, fSize)
+CUI_Manager::Get_Instance()->Set_ButtonBrightness(1.f, CFont::BIGORANGE);\
+CUI_Manager::Get_Instance()->Render_Text(message, CFont::BIGORANGE, CFont::LEFT, fX, fY, fSize)
 
 // Render_Text BigOrangeCenter Dark
 // 노란 글씨 중앙 정렬, 어둡게
 #define RENDER_TEXT_BOC_DARK(message, fX, fY, fSize) \
-CUI_Manager::Get_Instance(m_pGameInstance)->Set_ButtonBrightness(0.6f, CFont::BIGORANGE);\
-CUI_Manager::Get_Instance(m_pGameInstance)->Render_Text(message, CFont::BIGORANGE, CFont::CENTER, fX, fY, fSize)
+CUI_Manager::Get_Instance()->Set_ButtonBrightness(0.6f, CFont::BIGORANGE);\
+CUI_Manager::Get_Instance()->Render_Text(message, CFont::BIGORANGE, CFont::CENTER, fX, fY, fSize)
 // Render_Text BigOrangeLeft Dark
 // 노란 글씨 좌측 정렬
 #define RENDER_TEXT_BOL_DARK(message, fX, fY, fSize) \
-CUI_Manager::Get_Instance(m_pGameInstance)->Set_ButtonBrightness(0.6f, CFont::BIGORANGE);\
-CUI_Manager::Get_Instance(m_pGameInstance)->Render_Text(message, CFont::BIGORANGE, CFont::LEFT, fX, fY, fSize)
+CUI_Manager::Get_Instance()->Set_ButtonBrightness(0.6f, CFont::BIGORANGE);\
+CUI_Manager::Get_Instance()->Render_Text(message, CFont::BIGORANGE, CFont::LEFT, fX, fY, fSize)
 
 
 // HP를 UI가 Get해오도록 전달
-#define UPDATE_HP() CUI_Manager::Get_Instance(m_pGameInstance)->Update_GameUI(CUI_Manager::GUI_PORTRAIT)
+#define UPDATE_HP() CUI_Manager::Get_Instance()->Update_GameUI(CUI_Manager::GUI_PORTRAIT)
 // Armor를 UI가 Get해오도록 전달
-#define UPDATE_ARMOR() CUI_Manager::Get_Instance(m_pGameInstance)->Update_GameUI(CUI_Manager::GUI_ARMOR);
+#define UPDATE_ARMOR() CUI_Manager::Get_Instance()->Update_GameUI(CUI_Manager::GUI_ARMOR);
 // Ammo를..
-#define UPDATE_AMMO(Type) CUI_Manager::Get_Instance(m_pGameInstance)->Update_GameUI(CUI_Manager::GUI_AMMO, Type);
+#define UPDATE_AMMO(Type) CUI_Manager::Get_Instance()->Update_GameUI(CUI_Manager::GUI_AMMO, Type);
 
 
 #pragma endregion

@@ -31,9 +31,12 @@ HRESULT CTtakkeun_i::Initialize(void* pArg)
 	Ready_Textures();
 	
 	//애니메이션(수정예정)
-	m_fAnimationMaxFrame = 11.f;
-	m_fAnimationSpeed = 13.f;
-
+	m_iState = (_uint)(MONSTER_STATE::STATE_WALK);
+	m_fAnimationMaxFrame = (_float)(STATE_MAXFRAME::MAX_WALK);
+	m_fAnimationSpeed = 17.f;
+	//_float3 vOrigSize = {};
+	//m_pTextureMap[m_iState][m_iDegree]->Get_TextureSize(static_cast<_uint>(m_fAnimationFrame), &m_vScale);
+	//m_pTransformCom->Scaling(m_vScale);
 
 	return S_OK;
 }
@@ -73,7 +76,6 @@ void CTtakkeun_i::Late_Update(_float fTimeDelta)
 
 HRESULT CTtakkeun_i::Render()
 {
-	Animate_Monster();
 	return __super::Render();
 
 	//특별히 더 렌더링 할게 있는 경우 ↓
@@ -170,23 +172,35 @@ HRESULT CTtakkeun_i::Ready_Textures()
  	return S_OK;
 }
 
-//HRESULT CTtakkeun_i::Set_TextureType()
-//{
-//	if (KEY_DOWN(DIK_1)) // 테스트용
-//		int a = 0;
-//
-//	_float degree = m_fPlayersViewAngle / m_fDivOffset;
-//	_float div = 0.f;
-//	_float mod = modff(degree, &div);
-//
-//	m_iDegree = (_uint)div + (_uint)(mod > 0.5f ? 1 : 0); // 기준 각도에서 +- 하는 중
-//
-//	// state는 보스의 상태에 따라 결정
-//	// 임시로 walk만 지정
-//	m_iState = (_uint)(STATE_WALK);
-//
-//	return S_OK;
-//}
+HRESULT CTtakkeun_i::Set_MaxFrame()
+{
+	m_iState = (_uint)(m_eMonsterState);
+	switch (m_eMonsterState)
+	{
+	case Client::CTtakkeun_i::STATE_WALK:
+		m_fAnimationMaxFrame = MAX_WALK;
+		break;
+	case Client::CTtakkeun_i::STATE_FLY:
+		m_fAnimationMaxFrame = MAX_FLY;
+		break;
+	case Client::CTtakkeun_i::STATE_FLY_ATTACK:
+		m_fAnimationMaxFrame = MAX_FLY_ATTACK;
+		break;
+	case Client::CTtakkeun_i::STATE_JUMP:
+		m_fAnimationMaxFrame = MAX_JUMP;
+		break;
+	case Client::CTtakkeun_i::STATE_LAVA_ATTACK:
+		m_fAnimationMaxFrame = MAX_LAVA_ATTACK;
+		break;
+	case Client::CTtakkeun_i::STATE_LAVA_DIVEIN:
+		m_fAnimationMaxFrame = MAX_LAVA_DIVEIN;
+		break;
+	default:
+		break;
+	}
+
+	return S_OK;
+}
 
 void CTtakkeun_i::On_Collision(_uint MyColliderID, _uint OtherColliderID)
 {

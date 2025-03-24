@@ -10,6 +10,16 @@
 #include "Armor.h"
 
 CUI_Manager* CUI_Manager::m_pInstance = nullptr;
+
+CUI_Manager* CUI_Manager::Get_Instance()
+{
+	if (nullptr == m_pInstance)
+	{
+		return nullptr;
+	}
+	return m_pInstance;
+}
+
 CUI_Manager* CUI_Manager::Get_Instance(CGameInstance* pGameInstance)
 {	
 	if (nullptr == pGameInstance)
@@ -21,7 +31,8 @@ CUI_Manager* CUI_Manager::Get_Instance(CGameInstance* pGameInstance)
 		m_pInstance->Initialize();
 	}
 	return m_pInstance;
-}												
+}
+
 unsigned int CUI_Manager::Destroy_Instance()	
 {						
 	unsigned int iRefCnt = {};						
@@ -132,7 +143,7 @@ HRESULT CUI_Manager::Update_GameUI(GAMEUI eUIType, CAmmo::AMMOTYPE eAmmoType)
 	case Client::CUI_Manager::GUI_AIM:
 		break;
 	case Client::CUI_Manager::GUI_PORTRAIT:
-		static_cast<CPortrait*>(m_GameUIs[GUI_PORTRAIT])->Set_HP(/*m_pPlayer->Get_HP()*/rand()%100);
+		//static_cast<CPortrait*>(m_GameUIs[GUI_PORTRAIT])->Set_HP(m_pPlayer.);
 		break;
 	case Client::CUI_Manager::GUI_ARMOR:
 		static_cast<CArmor*>(m_GameUIs[GUI_ARMOR])->Set_Armor(/*m_pPlayer->Get_Armor()*/rand()%100);
