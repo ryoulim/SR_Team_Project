@@ -56,7 +56,7 @@ EVENT CAim::Update(_float fTimeDelta)
 	{
 		m_fMaskingDist = 1.f;
 	}
-	Calc_Magazine(m_pAmmoInfo->iMaxAmmo, m_pAmmoInfo->iReloadedAmmo);
+ 	Calc_Magazine(m_pAmmoInfo->iMaxAmmo, m_pAmmoInfo->iReloadedAmmo);
 
 	return __super::Update(fTimeDelta);
 }

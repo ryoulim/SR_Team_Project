@@ -40,7 +40,7 @@ public:
 	void Go_Right_On_Terrain(_float fTimedelta);
 
 	void Set_JumpOption(const JUMPDESC& JumpDESC);
-	//void Parabolic_Motion();
+	void Parabolic_Motion(const _float3* vDirection);
 	void Force_Set_FloorY(_float fFloorY);
 	void Update(_float fTimeDelta);
 	void Jump(_float fJumpPower);

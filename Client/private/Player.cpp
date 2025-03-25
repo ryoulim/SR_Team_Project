@@ -61,13 +61,13 @@ HRESULT CPlayer::Initialize(void* pArg)
 			PROTOTYPE::TYPE_GAMEOBJECT, LEVEL_GAMEPLAY,
 			TEXT("Prototype_GameObject_Weapon_Chaingun"))));
 
-	CUI_Manager::Get_Instance()->Change_Weapon(m_Weapons[m_iCurWeaponIndex]->Get_Info());
-
 	m_Weapons.push_back(
 		static_cast<CWeapon*>(m_pGameInstance->Clone_Prototype(
 			PROTOTYPE::TYPE_GAMEOBJECT, LEVEL_GAMEPLAY,
 			TEXT("Prototype_GameObject_Weapon_Dispenser"))));
 #pragma endregion
+	CUI_Manager::Get_Instance()->Change_Weapon(m_Weapons[m_iCurWeaponIndex]->Get_Info());
+
 
 	return S_OK;
 }
@@ -190,7 +190,6 @@ void CPlayer::Key_Input(_float fTimeDelta)
 		m_iCurWeaponIndex--;
 		if (m_iCurWeaponIndex < 0)
 			m_iCurWeaponIndex = m_iMaxWeaponIndex;
-		m_iCurWeaponIndex = 0;
 		CUI_Manager::Get_Instance()->Change_Weapon(m_Weapons[m_iCurWeaponIndex]->Get_Info());
 		bTriger = TRUE;
 	}
@@ -199,8 +198,6 @@ void CPlayer::Key_Input(_float fTimeDelta)
 		m_iCurWeaponIndex++;
 		if (m_iMaxWeaponIndex < m_iCurWeaponIndex)
 			m_iCurWeaponIndex = 0;
-
-		m_iCurWeaponIndex = 1;
 		CUI_Manager::Get_Instance()->Change_Weapon(m_Weapons[m_iCurWeaponIndex]->Get_Info());
 		bTriger = TRUE;
 	}
