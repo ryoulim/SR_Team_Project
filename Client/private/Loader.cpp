@@ -494,7 +494,10 @@ HRESULT CLoader::Loading_For_GamePlay()
 			break;
 	}
 
-#pragma region MONSTER_LOADING
+	/*******************************************************************************************************************************************/
+	/********************************************************     여기 접기 !!!!     ************************************************************/
+	/*******************************************************************************************************************************************/
+#pragma region MONSTER_LOADING 
 
 #pragma region BOSS_TEXTURES
 	ADD_TEXTURE(Boss_Walk_0, "../bin/Resources/Textures/Monster/boss/walk/0/boss_walk_0_%d.PNG", 12);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;

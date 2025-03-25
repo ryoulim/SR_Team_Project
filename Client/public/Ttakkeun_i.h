@@ -19,7 +19,7 @@ public:
 	enum FLY_DIR { DOWN = 0, LEFT = 2, RIGHT = 4, UP = 6, DIR_END = 8};
 	enum BOSS_DEGREE { D0, D22, D45, D67, D90, D112, D135, D157, D180, D_END };
 	//enum BOSS_STATUS { FLY_DOWN = 0, JUMP = 9, WALK = 54, STATUS_END = 162 };
-	//enum BOSS_STATUS_FRAME { FLY_DOWN = 1, JUMP = 5, WALK = 12 }; 안씀
+	//enum BOSS_STATUS_FRAME { FLY_DOWN = 1, JUMP = 5, WALK = 12 }; 안씀 안쓰고싶었는데
 
 private:
 	CTtakkeun_i(LPDIRECT3DDEVICE9 pGraphic_Device);
@@ -37,11 +37,12 @@ public:
 private:
 	virtual HRESULT Ready_Components(void* pArg);
 	virtual HRESULT Ready_Textures();
-	virtual HRESULT Set_MaxFrame();
+	virtual HRESULT Set_Animation();
 	//virtual HRESULT Set_TextureType();
 
 private:
-	MONSTER_STATE m_eMonsterState = { MONSTER_STATE::STATE_WALK };
+	MONSTER_STATE m_eCurMonsterState = { MONSTER_STATE::STATE_WALK };
+	MONSTER_STATE m_ePrevMonsterState = { MONSTER_STATE::STATE_WALK };
 
 
 public:

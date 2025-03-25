@@ -90,7 +90,7 @@ protected: // 이하 애니메이션 용도
 	virtual HRESULT Set_TextureType();		// enum을 uint변수로 옮기는 작업(그냥 함수로 뺌)
 	virtual HRESULT Animate_Monster(_float fTimeDelta);		// 애니메이션 설정 (위의 함수랑 겹치나??)
 	void	Compute_ViewAngle();			// 몬스터-플레이어 간 시선 각도 차 계산 
-	virtual HRESULT Set_MaxFrame() { return S_OK; }  // PURE | 각 몬스터 별로 상태에 따라 애니메이션 맥스 프레임 설정 필요 
+	virtual HRESULT Set_Animation() { return S_OK; }  // PURE | 각 몬스터 별로 상태에 따라 애니메이션 맥스 프레임 설정 필요 
 
 protected:
 	_uint	m_iState = {};					// 애니메이션 종류 선택(공격, 이동 ...)

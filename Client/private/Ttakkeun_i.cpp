@@ -43,6 +43,7 @@ HRESULT CTtakkeun_i::Initialize(void* pArg)
 
 void CTtakkeun_i::Priority_Update(_float fTimeDelta)
 {
+	Set_Animation();
 	__super::Priority_Update(fTimeDelta);
 }
 
@@ -52,6 +53,13 @@ EVENT CTtakkeun_i::Update(_float fTimeDelta)
 	{
 		m_eState = MODE::MODE_RETURN;
 	}
+
+	if (KEY_DOWN(DIK_P))
+		m_eCurMonsterState = STATE_JUMP;
+	if (KEY_DOWN(DIK_O))
+		m_eCurMonsterState = STATE_LAVA_ATTACK;
+	if (KEY_DOWN(DIK_L))
+		m_eCurMonsterState = STATE_WALK;
 
 	return __super::Update(fTimeDelta);
 }
@@ -175,31 +183,39 @@ HRESULT CTtakkeun_i::Ready_Textures()
  	return S_OK;
 }
 
-HRESULT CTtakkeun_i::Set_MaxFrame()
+HRESULT CTtakkeun_i::Set_Animation()
 {
-	m_iState = (_uint)(m_eMonsterState);
-	switch (m_eMonsterState)
+	if (m_eCurMonsterState != m_ePrevMonsterState)
 	{
-	case Client::CTtakkeun_i::STATE_WALK:
-		m_fAnimationMaxFrame = MAX_WALK;
-		break;
-	case Client::CTtakkeun_i::STATE_FLY:
-		m_fAnimationMaxFrame = MAX_FLY;
-		break;
-	case Client::CTtakkeun_i::STATE_FLY_ATTACK:
-		m_fAnimationMaxFrame = MAX_FLY_ATTACK;
-		break;
-	case Client::CTtakkeun_i::STATE_JUMP:
-		m_fAnimationMaxFrame = MAX_JUMP;
-		break;
-	case Client::CTtakkeun_i::STATE_LAVA_ATTACK:
-		m_fAnimationMaxFrame = MAX_LAVA_ATTACK;
-		break;
-	case Client::CTtakkeun_i::STATE_LAVA_DIVEIN:
-		m_fAnimationMaxFrame = MAX_LAVA_DIVEIN;
-		break;
-	default:
-		break;
+		m_ePrevMonsterState = m_eCurMonsterState;
+		m_iState = (_uint)(m_eCurMonsterState);
+		switch (m_eCurMonsterState)
+		{
+		case Client::CTtakkeun_i::STATE_WALK:
+			m_fAnimationMaxFrame = MAX_WALK;
+			m_fAnimationSpeed = 15.f;
+			break;
+		case Client::CTtakkeun_i::STATE_FLY:
+			m_fAnimationMaxFrame = MAX_FLY;
+			break;
+		case Client::CTtakkeun_i::STATE_FLY_ATTACK:
+			m_fAnimationMaxFrame = MAX_FLY_ATTACK;
+			break;
+		case Client::CTtakkeun_i::STATE_JUMP:
+			m_fAnimationMaxFrame = MAX_JUMP;
+			m_fAnimationSpeed = 3.f;
+			break;
+		case Client::CTtakkeun_i::STATE_LAVA_ATTACK:
+			m_fAnimationMaxFrame = MAX_LAVA_ATTACK;
+			m_fAnimationSpeed = 5.f;
+			break;
+		case Client::CTtakkeun_i::STATE_LAVA_DIVEIN:
+			m_fAnimationMaxFrame = MAX_LAVA_DIVEIN;
+			break;
+		default:
+			break;
+		}
+		m_fAnimationFrame = 0.f;
 	}
 
 	return S_OK;
