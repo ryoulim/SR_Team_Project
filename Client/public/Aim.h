@@ -3,6 +3,7 @@
 
 #pragma once
 #include "UI.h"
+#include "Weapon.h"
 
 BEGIN(Client)
 
@@ -27,8 +28,15 @@ public:
 	virtual void Late_Update(_float fTimeDelta) override;
 	virtual HRESULT Render() override;
 
+public:
+	void	Calc_Magazine(_uint iMax, _uint iCur);
+	void	Set_Ammo(const CWeapon::AMMOINFO* ammoInfo) { m_pAmmoInfo = ammoInfo; }
+
 private:
-	float	m_fMaskingDist = {1.f};
+	_float	m_fMaskingDist = {1.f};
+	_uint	m_iMaxMagazine = {};
+	_uint	m_iCurMagazine = {};
+	const CWeapon::AMMOINFO* m_pAmmoInfo = { nullptr };
 
 
 public:

@@ -47,14 +47,17 @@ EVENT CAim::Update(_float fTimeDelta)
 {
 	if (MOUSE_DOWN(DIMK_LBUTTON)) // 탄약 받아오는 것으로 변경 필요 
 	{
-		m_fMaskingDist -= 0.1f;
+		/*m_fMaskingDist -= 0.1f;
 		if (m_fMaskingDist < 0.f)
-			m_fMaskingDist = 0.f;
+			m_fMaskingDist = 0.f;*/
+		int a = 0;
 	}
 	if (KEY_DOWN(DIK_R))
 	{
 		m_fMaskingDist = 1.f;
 	}
+	Calc_Magazine(m_pAmmoInfo->iMaxAmmo, m_pAmmoInfo->iReloadedAmmo);
+
 	return __super::Update(fTimeDelta);
 }
 
@@ -69,6 +72,16 @@ HRESULT CAim::Render()
 	m_pTextureCom->Bind_Shader_To_Texture(m_pEffect, m_hTex, 0);
 
 	return __super::Render();
+}
+
+void CAim::Calc_Magazine(_uint iMax, _uint iCur)
+{
+	if (iMax < iCur)
+		return;
+	if (iCur < 3)
+		m_fMaskingDist = iCur * 0.2f;
+	else
+		m_fMaskingDist = 1.f;
 }
 
 CAim* CAim::Create(LPDIRECT3DDEVICE9 pGraphic_Device)

@@ -24,7 +24,7 @@ float4 PS(float2 texCoord : TEXCOORD0) : COLOR
 	if (distance > maskingDistance && color.r > 0.9 && color.g > 0.9 && color.b > 0.9)
     {
         // discard; // Èò»ö ÇÈ¼¿ Á¦°Å
-		color.a = 0.5;
+		color.a = 0.3;
     }
 
     return color;

@@ -15,7 +15,7 @@ BEGIN(Client)
 class CUI abstract : public CGameObject
 {
 public:
-	enum TYPE { PRIORITY, EFFECT, BUTTON, OBJECT, BACKGROUND };
+	//enum TYPE { PRIORITY, EFFECT, BUTTON, OBJECT, BACKGROUND };
 
 	typedef struct tagUIDesc : public CTransform::DESC
 	{

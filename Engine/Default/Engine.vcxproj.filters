@@ -166,6 +166,9 @@
     <ClInclude Include="..\Public\VIBuffer_BuildingV.h">
       <Filter>04.Components\VIBuffer\RaceTerrain\VIBuffer_BuildingV</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\Shader.h">
+      <Filter>04.Components\Shader</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="99.Headers">
@@ -324,6 +327,9 @@
     <Filter Include="04.Components\VIBuffer\TriangularPillar">
       <UniqueIdentifier>{bfc39af0-9640-4103-9f4c-6f516e854cc4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="04.Components\Shader">
+      <UniqueIdentifier>{1195ae93-e37d-4492-9b0c-6916d2e98d1b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Private\Base.cpp">
@@ -472,6 +478,9 @@
     </ClCompile>
     <ClCompile Include="..\private\VIBuffer.cpp">
       <Filter>04.Components\VIBuffer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Shader.cpp">
+      <Filter>04.Components\Shader</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -10,6 +10,7 @@
 
 #include "Font_MediumBlue.h"
 #include "Font_BigOrange.h"
+#include "Shader.h"
 #include "LoadingMenu.h"
 #include "LevelLoadingMenu.h"
 #include "UI_Manager.h"
@@ -160,6 +161,7 @@ HRESULT CMainApp::Ready_Component_For_Static()
 
 	ADD_PRTCOM(Transform);
 	ADD_PRTCOM(Gravity);
+	ADD_PRTCOM_EX(Shader, L"../bin/ShaderFiles/Shader_Rect.hlsl");
 	ADD_PRTCOM(Collider_AABB_Cube);
 	ADD_PRTCOM(Collider_OBB_Cube);
 	ADD_PRTCOM(Collider_Sphere);

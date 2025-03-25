@@ -147,6 +147,16 @@ void CWeapon::Key_Input()
 {
 	if (MOUSE_DOWN(DIMK_LBUTTON))
 	{
+		if (m_tAmmoInfo.iReloadedAmmo)										// 채영 총알 테스트로 추가함
+		{
+			m_tAmmoInfo.iReloadedAmmo--;
+			m_tAmmoInfo.iCurAmmo--;
+		}
+		else
+		{
+			Set_State(CWeapon::ST_RELOAD);
+			return;
+		}
 		Set_State(CWeapon::ST_W_ATK);
 		Create_Bullet();
 	}
@@ -156,6 +166,8 @@ void CWeapon::Key_Input()
 	}
 	if (KEY_DOWN(DIK_R))
 	{
+		m_tAmmoInfo.iCurAmmo -= m_tAmmoInfo.iMaxAmmo;								// 채영 총알 테스트로 추가함
+		m_tAmmoInfo.iReloadedAmmo = m_tAmmoInfo.iMaxAmmo;							// 채영 총알 테스트로 추가함
 		Set_State(CWeapon::ST_RELOAD);
 	}
 }

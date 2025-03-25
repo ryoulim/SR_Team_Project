@@ -66,8 +66,10 @@ public:
 
 public:
 	HRESULT Initialize_GamePlayUI();
+	HRESULT Initialize_Player();
 	HRESULT Clear_GamePlayUI();
-	HRESULT Update_GameUI(GAMEUI eUIType, CAmmo::AMMOTYPE eAmmoType = CAmmo::AMMOTYPE::LOVERBOY);
+	HRESULT Update_GameUI(GAMEUI eUIType, CWeapon::TYPE eAmmoType = CWeapon::TYPE::LOVERBOY);
+	HRESULT Change_Weapon(const CWeapon::AMMOINFO* pAmmoInfo);
 
 private:
 	HRESULT	Initialize_Font();

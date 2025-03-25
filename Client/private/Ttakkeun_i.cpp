@@ -37,6 +37,8 @@ HRESULT CTtakkeun_i::Initialize(void* pArg)
 	//_float3 vOrigSize = {};
 	//m_pTextureMap[m_iState][m_iDegree]->Get_TextureSize(static_cast<_uint>(m_fAnimationFrame), &m_vScale);
 	//m_pTransformCom->Scaling(m_vScale);
+	m_eCurFlyingDirection = UP;
+	m_ePrevFlyingDirection = UP;
 
 	return S_OK;
 }
@@ -54,12 +56,28 @@ EVENT CTtakkeun_i::Update(_float fTimeDelta)
 		m_eState = MODE::MODE_RETURN;
 	}
 
-	if (KEY_DOWN(DIK_P))
+	if (KEY_DOWN(DIK_6))
 		m_eCurMonsterState = STATE_JUMP;
-	if (KEY_DOWN(DIK_O))
-		m_eCurMonsterState = STATE_LAVA_ATTACK;
-	if (KEY_DOWN(DIK_L))
+	if (KEY_DOWN(DIK_7))
+		m_eCurMonsterState = STATE_FLY_ATTACK;
+	if (KEY_DOWN(DIK_8))
+		m_eCurMonsterState = STATE_FLY;
+	if (KEY_DOWN(DIK_9))
 		m_eCurMonsterState = STATE_WALK;
+	if (KEY_DOWN(DIK_0))
+		m_eCurMonsterState = STATE_LAVA_DIVEIN;
+
+	if (KEY_DOWN(DIK_UP))
+		m_eCurFlyingDirection = UP;
+	if (KEY_DOWN(DIK_DOWN))
+		m_eCurFlyingDirection = DOWN;
+	if (KEY_DOWN(DIK_LEFT))
+		m_eCurFlyingDirection = LEFT;
+	if (KEY_DOWN(DIK_RIGHT))
+		m_eCurFlyingDirection = RIGHT;
+
+
+
 
 	return __super::Update(fTimeDelta);
 }
@@ -80,6 +98,8 @@ void CTtakkeun_i::Late_Update(_float fTimeDelta)
 		//cout << "따끈이 상태 : " << GetMonsterStateName(m_eState) << '\n';
 		//cout << "따끈이 상태 : " << m_eIdlePhase << '\n';
 		cout << "플레이어와의 거리 : " << m_fCurDistance << endl;
+		cout << "따끈이 카메라와 각도 : " << m_iDegree << endl;
+		cout << "따끈이 시계방향이야? : " << m_bCW << endl;
 		g_LastLogTime = now;
 	}
 #endif
@@ -102,7 +122,6 @@ HRESULT CTtakkeun_i::Ready_Components(void* pArg)
 
 HRESULT CTtakkeun_i::Ready_Textures()
 {
-
 	/* WALK */
 	for (_uint i = 0; i < BOSS_DEGREE::D_END; i++)
 	{
@@ -117,30 +136,30 @@ HRESULT CTtakkeun_i::Ready_Textures()
 	}
 
 	/* FLY */
-	//for (_uint i = 0; i < BOSS_DEGREE::D_END; i++)
-	//{
-	//	_wstring sPrototypeTag = L"Prototype_Component_Texture_Boss_Fly_";
-	//	_uint num = static_cast<_uint>(i * m_fDivOffset);
-	//	_tchar buf[32];
-	//	_itow_s((int)num, buf, 10);
-	//	sPrototypeTag += buf;
-	//	if (FAILED(__super::Add_Component(m_eLevelID, sPrototypeTag,
-	//		_wstring(TEXT("Com_Texture")) + L"_Boss_Fly_" + buf, reinterpret_cast<CComponent**>(&(m_pTextureMap[STATE_FLY][i])))))
-	//		return E_FAIL;
-	//}
+	for (_uint i = 0; i < BOSS_DEGREE::D_END; i++)
+	{
+		_wstring sPrototypeTag = L"Prototype_Component_Texture_Boss_Fly_";
+		_uint num = static_cast<_uint>(i * m_fDivOffset);
+		_tchar buf[32];
+		_itow_s((int)num, buf, 10);
+		sPrototypeTag += buf;
+		if (FAILED(__super::Add_Component(m_eLevelID, sPrototypeTag,
+			_wstring(TEXT("Com_Texture")) + L"_Boss_Fly_" + buf, reinterpret_cast<CComponent**>(&(m_pTextureMap[STATE_FLY][i])))))
+			return E_FAIL;
+	}
 
 	/* FLY_ATTACK */
-	//for (_uint i = 0; i < BOSS_DEGREE::D_END; i++)
-	//{
-	//	_wstring sPrototypeTag = L"Prototype_Component_Texture_Boss_Fly_Attack_";
-	//	_uint num = static_cast<_uint>(i * m_fDivOffset);
-	//	_tchar buf[32];
-	//	_itow_s((int)num, buf, 10);
-	//	sPrototypeTag += buf;
-	//	if (FAILED(__super::Add_Component(m_eLevelID, sPrototypeTag,
-	//		_wstring(TEXT("Com_Texture")) + L"_Boss_Fly_Attack_" + buf, reinterpret_cast<CComponent**>(&(m_pTextureMap[STATE_FLY_ATTACK][i])))))
-	//		return E_FAIL;
-	//}
+	for (_uint i = 0; i < BOSS_DEGREE::D_END; i++)
+	{
+		_wstring sPrototypeTag = L"Prototype_Component_Texture_Boss_Fly_Attack_";
+		_uint num = static_cast<_uint>(i * m_fDivOffset);
+		_tchar buf[32];
+		_itow_s((int)num, buf, 10);
+		sPrototypeTag += buf;
+		if (FAILED(__super::Add_Component(m_eLevelID, sPrototypeTag,
+			_wstring(TEXT("Com_Texture")) + L"_Boss_Fly_Attack_" + buf, reinterpret_cast<CComponent**>(&(m_pTextureMap[STATE_FLY_ATTACK][i])))))
+			return E_FAIL;
+	}
 
 	/* JUMP */
 	for (_uint i = 0; i < BOSS_DEGREE::D_END; i++)
@@ -188,6 +207,7 @@ HRESULT CTtakkeun_i::Set_Animation()
 	if (m_eCurMonsterState != m_ePrevMonsterState)
 	{
 		m_ePrevMonsterState = m_eCurMonsterState;
+		m_fAnimationFrame = 0.f;
 		m_iState = (_uint)(m_eCurMonsterState);
 		switch (m_eCurMonsterState)
 		{
@@ -196,10 +216,13 @@ HRESULT CTtakkeun_i::Set_Animation()
 			m_fAnimationSpeed = 15.f;
 			break;
 		case Client::CTtakkeun_i::STATE_FLY:
-			m_fAnimationMaxFrame = MAX_FLY;
+			m_fAnimationFrame = _float(m_eCurFlyingDirection);
+			//m_eCurFlyingDirection = UP;
 			break;
 		case Client::CTtakkeun_i::STATE_FLY_ATTACK:
-			m_fAnimationMaxFrame = MAX_FLY_ATTACK;
+			//m_eCurFlyingDirection = UP;
+			m_fAnimationFrame = _float(m_eCurFlyingDirection) * 2.f;
+			m_fAnimationSpeed = 10.f;
 			break;
 		case Client::CTtakkeun_i::STATE_JUMP:
 			m_fAnimationMaxFrame = MAX_JUMP;
@@ -207,16 +230,93 @@ HRESULT CTtakkeun_i::Set_Animation()
 			break;
 		case Client::CTtakkeun_i::STATE_LAVA_ATTACK:
 			m_fAnimationMaxFrame = MAX_LAVA_ATTACK;
-			m_fAnimationSpeed = 5.f;
+			m_fAnimationSpeed = 3.f;
 			break;
 		case Client::CTtakkeun_i::STATE_LAVA_DIVEIN:
 			m_fAnimationMaxFrame = MAX_LAVA_DIVEIN;
+			m_fAnimationSpeed = 5.f;
 			break;
 		default:
 			break;
 		}
-		m_fAnimationFrame = 0.f;
 	}
+	if (m_eCurFlyingDirection != m_ePrevFlyingDirection)
+	{
+		m_ePrevFlyingDirection = m_eCurFlyingDirection;
+		m_fAnimationFrame = _float(m_eCurFlyingDirection) * 2.f;
+	}
+
+	return S_OK;
+}
+
+HRESULT CTtakkeun_i::Animate_Monster(_float fTimeDelta)
+{
+	if (m_fAnimationMaxFrame < 2.f)
+		return S_OK;
+
+	switch (m_eCurMonsterState)
+	{
+	case Client::CTtakkeun_i::STATE_WALK:
+		m_fAnimationFrame += fTimeDelta * m_fAnimationSpeed;
+		if (m_fAnimationFrame >= m_fAnimationMaxFrame)
+			m_fAnimationFrame = 0.f;
+		break;
+
+
+	case Client::CTtakkeun_i::STATE_FLY:
+		if (m_iDegree != 0 && m_iDegree != 8 && m_bCW == true)
+		{
+			if (m_eCurFlyingDirection == LEFT)
+				m_fAnimationFrame = (_float)(RIGHT);
+			else if (m_eCurFlyingDirection == RIGHT)
+				m_fAnimationFrame = (_float)(LEFT);
+		}
+		else
+			m_fAnimationFrame = (_float)(m_eCurFlyingDirection);
+		break;
+
+
+	case Client::CTtakkeun_i::STATE_FLY_ATTACK:
+		m_fAnimationFrame += fTimeDelta * m_fAnimationSpeed;
+		if (m_fAnimationFrame >= (_float)(m_eCurFlyingDirection) * 2.f + 2.f)
+			m_fAnimationFrame = (_float)(m_eCurFlyingDirection) * 2.f;
+		break;
+
+
+	case Client::CTtakkeun_i::STATE_JUMP:
+		m_fAnimationFrame += fTimeDelta * m_fAnimationSpeed;
+		if (m_fAnimationFrame < 1.f)
+			m_fAnimationFrame += fTimeDelta * 0.2f;
+		else if (m_fAnimationFrame < 2.f)
+			m_fAnimationFrame += fTimeDelta * 6.f;
+		else if (m_fAnimationFrame < 3.f)
+			m_fAnimationFrame += fTimeDelta * 0.1f;
+		else if (m_fAnimationFrame < 4.f)
+			m_fAnimationFrame += fTimeDelta * 6.f;
+		else if (m_fAnimationFrame < 5.f)
+			m_fAnimationFrame += fTimeDelta * 0.05f;
+		else if (m_fAnimationFrame >= 5.f)
+			m_eCurMonsterState = STATE_WALK;
+		break;
+
+
+	case Client::CTtakkeun_i::STATE_LAVA_ATTACK:
+		m_fAnimationFrame += fTimeDelta * m_fAnimationSpeed;
+		if (m_fAnimationFrame >= m_fAnimationMaxFrame)
+			m_fAnimationFrame = 0.f;
+		break;
+
+
+	case Client::CTtakkeun_i::STATE_LAVA_DIVEIN:
+		if (m_fAnimationFrame < m_fAnimationMaxFrame - 1.f)
+			m_fAnimationFrame += fTimeDelta * 0.05f;
+		else if (m_fAnimationFrame < m_fAnimationMaxFrame && m_fAnimationFrame >= m_fAnimationMaxFrame)
+			m_fAnimationFrame += fTimeDelta * m_fAnimationSpeed;
+		else if (m_fAnimationFrame >= m_fAnimationMaxFrame)
+			m_eCurMonsterState = STATE_LAVA_ATTACK;
+		break;
+	}
+
 
 	return S_OK;
 }
