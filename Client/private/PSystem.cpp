@@ -79,6 +79,8 @@ HRESULT CPSystem::Initialize(void* pArg)
 		m_fAnimationMaxFrame = pDesc->fMaxFrame;
 		m_fLifeTime = pDesc->fLifeTime;
 		m_fSize = pDesc->fSize;
+		m_fMin = pDesc->fMin;
+		m_fMax = pDesc->fMax;
 	
 		for (int i = 0; i < pDesc->iParticleNums; i++)
 		{

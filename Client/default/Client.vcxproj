@@ -187,6 +187,7 @@
     <ClInclude Include="..\public\Dust.h" />
     <ClInclude Include="..\public\Effect.h" />
     <ClInclude Include="..\public\FadeUI.h" />
+    <ClInclude Include="..\public\FireAttack.h" />
     <ClInclude Include="..\public\Firework.h" />
     <ClInclude Include="..\public\Flatform.h" />
     <ClInclude Include="..\public\Font.h" />
@@ -299,6 +300,7 @@
     <ClCompile Include="..\private\Dust.cpp" />
     <ClCompile Include="..\private\Effect.cpp" />
     <ClCompile Include="..\private\FadeUI.cpp" />
+    <ClCompile Include="..\private\FireAttack.cpp" />
     <ClCompile Include="..\private\Firework.cpp" />
     <ClCompile Include="..\private\Flatform.cpp" />
     <ClCompile Include="..\private\Font.cpp" />

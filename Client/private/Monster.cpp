@@ -181,6 +181,7 @@ HRESULT CMonster::Ready_Components(void* pArg)
 		m_pTransformCom->Set_State(CTransform::STATE_POSITION, pDesc->vPosition);
 		m_pTransformCom->Scaling(m_vScale);
 		m_bActive = pDesc->vActive;
+		m_vReturnPos = pDesc->vReturnPos;
 	}
 
 	/* 콜라이드 컴포넌트 */
@@ -469,7 +470,7 @@ void CMonster::DoIdle(_float dt)
 {
 	switch (m_eIdlePhase)
 	{
-	case EIdlePhase::WanderMove:
+	case EIdlePhase::IDLE_MOVE:
 	{
 		m_fWanderElapsed += dt;
 
@@ -478,29 +479,29 @@ void CMonster::DoIdle(_float dt)
 		if (m_fWanderElapsed >= m_fWanderTime)
 		{
 			m_fWanderElapsed = 0.f;
-			m_eIdlePhase = EIdlePhase::WanderWait;
+			m_eIdlePhase = EIdlePhase::IDLE_WAIT;
 		}
 		break;
 	}
-	case EIdlePhase::WanderWait:
+	case EIdlePhase::IDLE_WAIT:
 		m_fIdleWaitElapsed += dt;
 
 		if (m_fIdleWaitElapsed >= m_fIdleWaitTime)
 		{
 			SetRandomDirection();                  // 회전할 방향 설정
 			m_fIdleWaitElapsed = 0.f;
-			m_eIdlePhase = EIdlePhase::WanderTurn; // 다음엔 회전하러 간다
+			m_eIdlePhase = EIdlePhase::IDLE_TURN; // 다음엔 회전하러 간다
 		}
 		break;
 
-	case EIdlePhase::WanderTurn:
+	case EIdlePhase::IDLE_TURN:
 	{
 		_float3 vLook = *m_pTransformCom->Get_State(CTransform::STATE_LOOK);
 
 		bool bRotated = m_pTransformCom->RotateToDirection(vLook, m_vDirection, 5.f, dt);
 		if (bRotated)  // 회전 완료 신호
 		{
-			m_eIdlePhase = EIdlePhase::WanderMove;
+			m_eIdlePhase = EIdlePhase::IDLE_MOVE;
 		}
 		break;
 	}
@@ -510,15 +511,15 @@ void CMonster::DoIdle(_float dt)
 void CMonster::DoBattle(_float dt)
 {
 	// 1. 플레이어와의 거리 계산
-	_float fAttackRange = 300.f;
-	_float fChaseRange = 400.f;
+	_float fAttackRange = 250.f;
+	_float fChaseRange = 700.f;
 
 	// 2. 거리 기준 분기
 	if (m_fCurDistance < fAttackRange)
 	{
 		// 가까우면 공격
 		AttackPattern(dt);
-		cout << "몬스터의 공격 사거리 안입니다." << endl;
+		//cout << "몬스터의 공격 사거리 안입니다." << endl;
 	}
 	else if (m_fCurDistance < fChaseRange)
 	{
@@ -535,14 +536,11 @@ void CMonster::DoBattle(_float dt)
 
 void CMonster::DoReturn(_float dt)
 {
-	// 배치 지점
-	_float3 vReturnPos = _float3(900.f, 100.f, 600.f);
-
 	// 현재 위치
 	_float3 vMyPos = *m_pTransformCom->Get_State(CTransform::STATE_POSITION);
 
 	// 방향 계산
-	_float3 vDir = vReturnPos - vMyPos;
+	_float3 vDir = m_vReturnPos - vMyPos;
 	float fDistance = vDir.Length();
 	vDir.Normalize();
 
@@ -559,7 +557,7 @@ void CMonster::DoReturn(_float dt)
 		}
 
 		// 이동 처리 (dt 고려)
-		float fSpeed = m_fIdleMoveSpeed; // 예: 3.0f
+		float fSpeed = m_fSpeed; // 예: 3.0f
 		_float3 vMove = vDir * fSpeed * dt;
 
 		m_pTransformCom->Set_State(CTransform::STATE_POSITION, (vMyPos + vMove));
@@ -588,6 +586,7 @@ void CMonster::SetRandomDirection()
 
 void CMonster::AttackPattern(_float dt)
 {
+	//각각의 몬스터에 맞춰서 패턴을 오버라이딩 하시오.
 }
 
 void CMonster::ChasePlayer(_float dt)
@@ -606,7 +605,7 @@ void CMonster::ChasePlayer(_float dt)
 	//원래방향으로 턴하기
 	_float3 vLook = *m_pTransformCom->Get_State(CTransform::STATE_LOOK);
 	bool bRotated = m_pTransformCom->RotateToDirection(vLook, vDir, 5.f, dt);
-	m_pTransformCom->Chase(TargetPos, dt, 500.f);
+	m_pTransformCom->Chase(TargetPos, dt, 200.f);
 }
 
 

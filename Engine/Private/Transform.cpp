@@ -303,6 +303,26 @@ void CTransform::Chase(const _float3& vTargetPos, _float fTimeDelta, _float fMin
 	Set_State(STATE_POSITION, vPosition);
 }
 
+
+bool CTransform::ChaseCustom(const _float3& vTargetPos, _float fTimeDelta, _float fMinDistance, _float fSpeed)
+{
+	_float3		vPosition = *Get_State(STATE_POSITION);
+
+	_float3		vMoveDir = vTargetPos - vPosition;
+
+	//최소거리보다 길때는 포지션 갱신
+	if (fMinDistance <= vMoveDir.Length())
+	{
+		vPosition += vMoveDir.Normalize() * fSpeed * fTimeDelta;
+		Set_State(STATE_POSITION, vPosition);
+	}
+	else
+	{
+		return true;
+	}
+	return false;
+}
+
 void CTransform::Turn(const _float3& vAxis, _float fTimeDelta)
 {
 	_float3			vRight = *Get_State(STATE_RIGHT);

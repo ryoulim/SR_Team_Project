@@ -313,6 +313,12 @@
     <Filter Include="02.GameObjects\Map\BackGround\AnimeRect">
       <UniqueIdentifier>{683c6ea8-a0b1-4e95-8def-f1d0be8d0a57}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\Particle\_BossMobSkill">
+      <UniqueIdentifier>{4b9d5646-014e-4fba-8a94-9dc4dc172dab}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Particle\_BossMobSkill\FireAttack">
+      <UniqueIdentifier>{e9a31001-6a3a-443b-85d2-84aee3ab7729}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -632,6 +638,9 @@
     </ClInclude>
     <ClInclude Include="..\public\TriangularPillar.h">
       <Filter>02.GameObjects\Map\TriangularPillar</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\FireAttack.h">
+      <Filter>02.GameObjects\Particle\_BossMobSkill\FireAttack</Filter>
     </ClInclude>
     <ClInclude Include="..\public\BuildingU.h">
       <Filter>02.GameObjects\Statue\BuildingU</Filter>
@@ -977,6 +986,9 @@
     </ClCompile>
     <ClCompile Include="..\private\TPS_Camera.cpp">
       <Filter>02.GameObjects\Camera\TPSCamera</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\FireAttack.cpp">
+      <Filter>02.GameObjects\Particle\_BossMobSkill\FireAttack</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

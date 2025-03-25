@@ -66,11 +66,10 @@ void CTtakkeun_i::Late_Update(_float fTimeDelta)
 	auto now = steady_clock::now();
 	auto elapsed = duration_cast<milliseconds>(now - g_LastLogTime).count();
 	
-	if (elapsed >= 500) 
+	if (elapsed >= 1000) 
 	{
 		// 0.5초 이상 지났다면 출력
-		//cout << "따끈이 상태 : " << GetMonsterStateName(m_eState) << '\n';
-		//cout << "따끈이 상태 : " << m_eIdlePhase << '\n';
+		cout << "따끈이 상태 : " << GetMonsterStateName(m_eState) << '\n';
 		cout << "플레이어와의 거리 : " << m_fCurDistance << endl;
 		g_LastLogTime = now;
 	}
@@ -205,8 +204,152 @@ HRESULT CTtakkeun_i::Set_MaxFrame()
 	return S_OK;
 }
 
+void CTtakkeun_i::DoBattle(_float dt)
+{
+	// 1. 플레이어와의 거리 계산
+	_float fAttackRange = 250.f;
+	_float fChaseRange = 700.f;
+
+	// 2. 거리 기준 분기
+	if (m_fCurDistance < fAttackRange)
+	{
+		// 가까우면 공격
+		AttackPattern(dt);
+	}
+	else
+	{
+		//따끈이는 리턴 안합니다. (추격)
+		ChasePlayer(dt);
+	}
+}
+
+void CTtakkeun_i::AttackPattern(_float dt)
+{
+	// 쿨다운 중이면 진행하지 않음
+	if (m_bCoolingDown)
+	{
+		m_fCooldownTime += dt;
+
+		if (m_fCooldownTime >= m_fCooldownDuration)
+		{
+			m_bCoolingDown = false;
+			m_fCooldownTime = 0.f;
+		}
+		return;
+	}
+
+	bool isPhase2 = (m_iHP <= m_iMaxHP / 2);
+	int iRand = GetRandomInt(0, 99);
+
+	/* 따끈이의 공격패턴[ 2페이즈 ] */
+	if (isPhase2)
+	{
+		// 2페이즈일 때는 2페이즈 전용 패턴이 더 높은 확률로 등장
+		if (iRand < 20)
+			/* 1. 레이저 빔 */
+			LazerAttack(dt);      // 20% 확률
+		else if (iRand < 40)
+			/* 2. 공작 유도탄 */
+			MissileAttack(dt);    // 20% 확률
+		else if (iRand < 60)
+			/* 3. 몬스터 소환(다콘) */
+			SpawnAttack(dt);      // 20% 확률
+		else
+			BasicAttackSet(dt); // 20% 확률로 1페이즈 패턴
+	}
+	else
+	{
+		// 1페이즈일 때는 그냥 1페이즈 패턴만 사용
+		BasicAttackSet(dt);
+	}
+}
+
+void CTtakkeun_i::BasicAttackSet(_float dt)
+{
+	/* 따끈이의 공격패턴[ 1페이즈 ] */
+
+	//int iRand = GetRandomInt(0, 2);
+	int iRand = 0;
+
+	switch (iRand)
+	{
+	case 0: 
+		/* 1. 화염방사 */
+		FireAttack(dt);
+		break;
+	case 1: 
+		/* 2. 용암풍덩 */
+		LavaAttack(dt);
+		break;
+	case 2:
+		/* 3. 날아오르라 주작이여 */
+		FlyAttack(dt);
+		break;
+	}
+}
+
+void CTtakkeun_i::LazerAttack(_float dt)
+{
+}
+
+void CTtakkeun_i::MissileAttack(_float dt)
+{
+}
+
+void CTtakkeun_i::SpawnAttack(_float dt)
+{
+}
+
+void CTtakkeun_i::FireAttack(_float dt)
+{
+	// 2초 이상 공격했으면 isDone 설정하고 끝
+	m_fAttackTimer += dt;
+	if (m_fAttackTimer >= 2.f)
+	{
+		StartCooldown(dt);
+		m_fAttackTimer = 0.f;  // 필요하면 리셋하고
+		return;
+	}
+
+	/* 화염방사 패턴 */
+
+	/* 1. 플레이어에게 접근한다(조금 빠르게) */
+	_float3 vPlayerPos = *static_cast<CTransform*>(m_pTargetPlayer->Find_Component(L"Com_Transform"))->Get_State(CTransform::STATE_POSITION);
+	_float3 vMyPos = *m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+
+	_float3 vDir = vPlayerPos - vMyPos;
+	float fDistance = vDir.Length();
+	vDir.Normalize();
+
+	_float3 vLook = *m_pTransformCom->Get_State(CTransform::STATE_LOOK);
+	bool bRotated = m_pTransformCom->RotateToDirection(vLook, vDir, 5.f, dt);
+
+	m_pTransformCom->ChaseCustom(vPlayerPos, dt, 100.f, 150.f);
+	/* 2. 화염을 발사한다! */
+	CFXMgr::Get_Instance()->FireAttack(vMyPos, LEVEL_GAMEPLAY);
+
+}
+
+void CTtakkeun_i::LavaAttack(_float dt)
+{
+}
+
+void CTtakkeun_i::FlyAttack(_float dt)
+{
+}
+
+void CTtakkeun_i::StartCooldown(_float dt)
+{
+	m_bCoolingDown = true;
+	m_fCooldownDuration = GetRandomFloat(1.5f, 2.5f); // 쿨다운 시간 랜덤
+	m_fCooldownTime = 0.f;
+}
+
 void CTtakkeun_i::On_Collision(_uint MyColliderID, _uint OtherColliderID)
 {
+	//그 즉시 배틀모드 진입
+	m_eState = MODE::MODE_BATTLE;
+
 	//위치탐색
 	_float3 vImpactPos = CalculateEffectPos();
 
@@ -236,9 +379,10 @@ CTtakkeun_i* CTtakkeun_i::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 
 	//속성
 	pInstance->m_iHP			= 500;
+	pInstance->m_iMaxHP			= 500;
 	pInstance->m_iAttackPower	= 10;
 	pInstance->m_iDefense		= 3;
-	pInstance->m_fSpeed			= 10.f;
+	pInstance->m_fSpeed			= 60.f;
 	pInstance->m_vScale			= { 150.f, 147.f, 1.f };
 	pInstance->m_eState		= MODE::MODE_IDLE;
 	pInstance->m_fDetectiveDistance = 400.f;

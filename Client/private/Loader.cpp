@@ -44,6 +44,7 @@
 #include "CameraSprite.h"
 #include "Blood.h"
 #include "BulletImpactSpark.h"
+#include "FireAttack.h"
 
 //UI 인클루드
 #include "Aim.h"
@@ -179,7 +180,6 @@ HRESULT CLoader::Loading_For_Logo()
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_GameObject_PC_Sprite"),
 		CSprite::Create(m_pGraphic_Device))))
 		return E_FAIL;
-	
 	fDataCurNum++;
 	m_fLoadPercent = fDataCurNum / fDataNum;
 
@@ -197,6 +197,10 @@ HRESULT CLoader::Loading_For_Logo()
 
 	////////////////////////////////////////////파티클//////////////////////////////////////////////////////
 
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_GameObject_PC_FireAttack"),
+		CFireAttack::Create(m_pGraphic_Device, L"PARTICLE_FireAttack"))))
+		return E_FAIL;
+	fDataCurNum++;
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_GameObject_PC_BulletImpactSpark"),
 		CBulletImpactSpark::Create(m_pGraphic_Device, L"PARTICLE_BulletImpactSpark"))))
 		return E_FAIL;
@@ -238,6 +242,10 @@ HRESULT CLoader::Loading_For_Logo()
 	
 
 	////////////////////////////////////////////텍스처//////////////////////////////////////////////////////
+
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_FireAttack"),
+		CTexture::Create(m_pGraphic_Device, TEXT("../Bin/Resources/Textures/Particle/FireAttack%d.png"), 20))))
+		return E_FAIL; fDataCurNum++; m_fLoadPercent = fDataCurNum / fDataNum;
 
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_FireMachineGun"),
 		CTexture::Create(m_pGraphic_Device, TEXT("../Bin/Resources/Textures/Particle/FireMachineGun%d.png"), 7))))

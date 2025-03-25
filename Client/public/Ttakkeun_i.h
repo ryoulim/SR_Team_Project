@@ -40,6 +40,22 @@ private:
 	virtual HRESULT Set_MaxFrame();
 	//virtual HRESULT Set_TextureType();
 
+
+public: //해당객체의 몬스터 패턴
+	virtual void DoBattle(_float dt);
+	virtual void AttackPattern(_float dt);
+
+public: //따끈이 패턴
+	void BasicAttackSet(_float dt);
+	void LazerAttack(_float dt);
+	void MissileAttack(_float dt);
+	void SpawnAttack(_float dt);
+	void FireAttack(_float dt);
+	void LavaAttack(_float dt);
+	void FlyAttack(_float dt);
+	void StartCooldown(_float dt);
+
+
 private:
 	MONSTER_STATE m_eMonsterState = { MONSTER_STATE::STATE_WALK };
 

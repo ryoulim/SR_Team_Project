@@ -21,6 +21,8 @@ public:
 		_float3 vPosition;
 		_float	fMaxFrame;
 		_float	fSize;
+		_float	fMin = 0;
+		_float	fMax = 0;
 		_int	iParticleNums;
 	}DESC;
 
@@ -113,6 +115,9 @@ protected: //¸â¹öº¯¼ö
 
 	////////////////////////////////////////////////////////
 	bool					m_isClone = false;
+
+	_float					m_fMin = 0;
+	_float					m_fMax = 0;
 
 };
 
