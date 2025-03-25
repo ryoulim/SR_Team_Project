@@ -1,6 +1,8 @@
 #include "Level.h"
 #include "GameInstance.h"
 
+#include "GameObject.h"
+
 CLevel::CLevel(LPDIRECT3DDEVICE9 pGraphic_Device)
     : m_pGraphic_Device { pGraphic_Device }
     , m_pGameInstance { CGameInstance::Get_Instance() }
@@ -40,6 +42,34 @@ _wstring CLevel::Compute_PrototypeName(const _wstring& strPrototypeTag)
 HRESULT CLevel::Load_Map(_uint eLevelIdx, const _wstring& FileName)
 {
     return S_OK;
+}
+
+HRESULT CLevel::Load_VertexBuffer(CGameObject* _pGameObject, HANDLE phFile, _ulong* pByte)
+{
+	_bool bResult = {};
+	D3DVERTEXBUFFER_DESC VBDesc = {};
+	bResult = ReadFile(phFile, &VBDesc, sizeof(D3DVERTEXBUFFER_DESC), pByte, NULL);
+
+	CVIBuffer* pVIBuffer = dynamic_cast<CVIBuffer*>(_pGameObject->Find_Component(TEXT("Com_VIBuffer")));
+
+	if (nullptr != pVIBuffer)
+	{
+		LPDIRECT3DVERTEXBUFFER9 pLoadVB = { nullptr };
+		void* pData = { nullptr };
+		if (FAILED(m_pGraphic_Device->CreateVertexBuffer(VBDesc.Size, VBDesc.Usage, VBDesc.FVF, VBDesc.Pool, &pLoadVB, nullptr)))
+			return E_FAIL;
+
+		if (SUCCEEDED(pLoadVB->Lock(0, 0, &pData, 0)))
+		{
+			bResult = ReadFile(phFile, pData, VBDesc.Size, pByte, NULL);
+			pLoadVB->Unlock();
+
+			pVIBuffer->Set_VertexBuffer(pLoadVB);
+			Safe_Release(pLoadVB);
+		}
+	}
+
+	return S_OK;
 }
 
 void CLevel::Free()

@@ -6,7 +6,7 @@
 
 BEGIN(Client)
 
-class CBackGround final : public CMap
+class CBackGround : public CMap
 {
 public:
 	typedef struct tagBackGroundDesc : public CMap::DESC
@@ -14,7 +14,7 @@ public:
 
 	}DESC;
 
-private:
+protected:
 	CBackGround(LPDIRECT3DDEVICE9 pGraphic_Device);
 	CBackGround(const CBackGround& Prototype);
 	virtual ~CBackGround() = default;
@@ -27,7 +27,7 @@ public:
 	virtual void Late_Update(_float fTimeDelta) override;
 	virtual HRESULT Render() override;
 
-private:
+protected:
 	virtual HRESULT Ready_Components(void* pArg) override;
 
 public:

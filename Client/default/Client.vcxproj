@@ -158,6 +158,8 @@
     <ClInclude Include="..\Imgui\imstb_truetype.h" />
     <ClInclude Include="..\public\Aim.h" />
     <ClInclude Include="..\public\Ammo.h" />
+    <ClInclude Include="..\public\AnimeBlock.h" />
+    <ClInclude Include="..\public\AnimeRect.h" />
     <ClInclude Include="..\public\Archangel.h" />
     <ClInclude Include="..\public\Armor.h" />
     <ClInclude Include="..\public\BackGround.h" />
@@ -196,6 +198,7 @@
     <ClInclude Include="..\public\FPS_Camera.h" />
     <ClInclude Include="..\public\FXMgr.h" />
     <ClInclude Include="..\public\Greater.h" />
+    <ClInclude Include="..\public\Invisible_Block.h" />
     <ClInclude Include="..\public\GrenadeBullet.h" />
     <ClInclude Include="..\public\Item.h" />
     <ClInclude Include="..\public\Item_Ammo.h" />
@@ -268,6 +271,8 @@
     <ClCompile Include="..\Imgui\imgui_widgets.cpp" />
     <ClCompile Include="..\private\Aim.cpp" />
     <ClCompile Include="..\private\Ammo.cpp" />
+    <ClCompile Include="..\private\AnimeBlock.cpp" />
+    <ClCompile Include="..\private\AnimeRect.cpp" />
     <ClCompile Include="..\private\Archangel.cpp" />
     <ClCompile Include="..\private\Armor.cpp" />
     <ClCompile Include="..\Private\BackGround.cpp" />
@@ -306,6 +311,7 @@
     <ClCompile Include="..\private\FXMgr.cpp" />
     <ClCompile Include="..\private\Greater.cpp" />
     <ClCompile Include="..\private\GrenadeBullet.cpp" />
+    <ClCompile Include="..\private\Invisible_Block.cpp" />
     <ClCompile Include="..\private\Item.cpp" />
     <ClCompile Include="..\private\Item_Ammo.cpp" />
     <ClCompile Include="..\private\LevelLoadingMenu.cpp" />

@@ -462,13 +462,13 @@ HRESULT CLevel_GamePlay::Load_Map(_uint iLevelIdx, const _wstring& FileName)
 		return E_FAIL;
 	}
 	/* 텍스쿠드 변경해서 적용시켜 줄 때 각 오브젝트를 갖고오는 변수 ( 점점추가될 예정 )*/
-	_int iNumTile{}, iNumBlock{}, iNumTriPil{};
+	_int iNumTile{}, iNumBlock{}, iNumTriPil{}, iNumAniRect{}, iNumAniBlock{}, iNumInviBlock{};
 	/* 불러오기용 변수 */
 	_int iNumVertexX = {}, iNumVertexZ = {}, iLoadLength = {};
 	_uint iNumBackGround = {}, iNumModel = {};
 	_float fSpeedPerSec = {}, fRotationPerSec = {}, fTextureIdx = {};
 	_tchar szPrototypeTag[MAX_PATH] = {};;
-
+	_bool  bCollision = {};
 	_float3 vPosition = {}, vScale = {}, vAngle = {};
 	while (true)
 	{
@@ -490,6 +490,7 @@ HRESULT CLevel_GamePlay::Load_Map(_uint iLevelIdx, const _wstring& FileName)
 			bResult = ReadFile(hFile, &fTextureIdx, sizeof(_float), &dwByte, NULL);
 			bResult = ReadFile(hFile, &iLoadLength, sizeof(_int), &dwByte, NULL);
 			bResult = ReadFile(hFile, &szPrototypeTag, (iLoadLength * sizeof(_tchar)), &dwByte, NULL);
+			bResult = ReadFile(hFile, &bCollision, sizeof(_bool), &dwByte, NULL);
 
 			CMap::DESC tDesc = {};
 			tDesc.fSpeedPerSec = fSpeedPerSec;
@@ -498,22 +499,16 @@ HRESULT CLevel_GamePlay::Load_Map(_uint iLevelIdx, const _wstring& FileName)
 			tDesc.vScale = vScale;
 			tDesc.vAngle = vAngle;
 			tDesc.fTextureIdx = fTextureIdx;
+			tDesc.bCollision = bCollision;
 
-			/* 클라에서 해 줄 작업 */
-			//m_pData->Add_Data(strKey, {});
 			_wstring strKey = szPrototypeTag;
+
+			_wstring Prototype = strKey;
+
 			strKey = Compute_PrototypeName(strKey);
 
-			_wstring Prototype = TEXT("Prototype_GameObject_") + strKey;
-
-			_wstring Layertag;
-
-			if (strKey == TEXT("BackGround"))
-				Layertag = TEXT("Layer_BackGround");
-			if (strKey == TEXT("Block"))
-				Layertag = TEXT("Layer_Block");
-			if (strKey == TEXT("TriangularPillar"))
-				Layertag = TEXT("Layer_TriangularPillar");
+			_wstring Layertag = TEXT("Layer_") + strKey;
+			
 
 			CGravity::Add_StandableObjLayerTag(COL_BLOCK);
 
@@ -526,89 +521,78 @@ HRESULT CLevel_GamePlay::Load_Map(_uint iLevelIdx, const _wstring& FileName)
 			// 큐브인지 렉트인지 분기 필요함
 			if (Prototype == TEXT("Prototype_GameObject_BackGround"))
 			{
-				CGameObject* pGameObject = m_pGameInstance->Find_Object(iLevelIdx, TEXT("Layer_BackGround"), iNumTile++);
+				CGameObject* pGameObject = m_pGameInstance->Find_Object(iLevelIdx, Layertag, iNumTile++);
 				if (nullptr != pGameObject)
 				{
-					D3DVERTEXBUFFER_DESC VBDesc = {};
-					bResult = ReadFile(hFile, &VBDesc, sizeof(D3DVERTEXBUFFER_DESC), &dwByte, NULL);
-
-					CVIBuffer* pVIBuffer = dynamic_cast<CVIBuffer*>(pGameObject->Find_Component(TEXT("Com_VIBuffer")));
-
-					if (nullptr != pVIBuffer)
+					if (FAILED(__super::Load_VertexBuffer(pGameObject, hFile, &dwByte)))
 					{
-						LPDIRECT3DVERTEXBUFFER9 pLoadVB = { nullptr };
-						void* pData = { nullptr };
-						if (FAILED(m_pGraphic_Device->CreateVertexBuffer(VBDesc.Size, VBDesc.Usage, VBDesc.FVF, VBDesc.Pool, &pLoadVB, nullptr)))
-							continue;
-
-						if (SUCCEEDED(pLoadVB->Lock(0, 0, &pData, 0)))
-						{
-							bResult = ReadFile(hFile, pData, VBDesc.Size, &dwByte, NULL);
-							pLoadVB->Unlock();
-
-							pVIBuffer->Set_VertexBuffer(pLoadVB);
-							Safe_Release(pLoadVB);
-						}
+						MSG_BOX("버텍스 버퍼 로딩실패");
+						return E_FAIL;
 					}
 				}
 
 			}
 			else if (Prototype == TEXT("Prototype_GameObject_Block"))
 			{
-				CGameObject* pGameObject = m_pGameInstance->Find_Object(iLevelIdx, TEXT("Layer_Block"), iNumBlock++);
+				CGameObject* pGameObject = m_pGameInstance->Find_Object(iLevelIdx, Layertag, iNumBlock++);
 				if (nullptr != pGameObject)
 				{
-					D3DVERTEXBUFFER_DESC VBDesc = {};
-					bResult = ReadFile(hFile, &VBDesc, sizeof(D3DVERTEXBUFFER_DESC), &dwByte, NULL);
-
-					CVIBuffer* pVIBuffer = dynamic_cast<CVIBuffer*>(pGameObject->Find_Component(TEXT("Com_VIBuffer")));
-
-					if (nullptr != pVIBuffer)
+					if (FAILED(__super::Load_VertexBuffer(pGameObject, hFile, &dwByte)))
 					{
-						LPDIRECT3DVERTEXBUFFER9 pLoadVB = { nullptr };
-						void* pData = { nullptr };
-						if (FAILED(m_pGraphic_Device->CreateVertexBuffer(VBDesc.Size, VBDesc.Usage, VBDesc.FVF, VBDesc.Pool, &pLoadVB, nullptr)))
-							continue;
-
-						if (SUCCEEDED(pLoadVB->Lock(0, 0, &pData, 0)))
-						{
-							bResult = ReadFile(hFile, pData, VBDesc.Size, &dwByte, NULL);
-							pLoadVB->Unlock();
-
-							pVIBuffer->Set_VertexBuffer(pLoadVB);
-							Safe_Release(pLoadVB);
-						}
+						MSG_BOX("버텍스 버퍼 로딩실패");
+						return E_FAIL;
 					}
 				}
 			}
 			else if (Prototype == TEXT("Prototype_GameObject_TriangularPillar"))
 			{
-				CGameObject* pGameObject = m_pGameInstance->Find_Object(iLevelIdx, TEXT("Layer_TriangularPillar"), iNumTriPil++);
+				CGameObject* pGameObject = m_pGameInstance->Find_Object(iLevelIdx, Layertag, iNumTriPil++);
 				if (nullptr != pGameObject)
 				{
-					D3DVERTEXBUFFER_DESC VBDesc = {};
-					bResult = ReadFile(hFile, &VBDesc, sizeof(D3DVERTEXBUFFER_DESC), &dwByte, NULL);
-
-					CVIBuffer* pVIBuffer = dynamic_cast<CVIBuffer*>(pGameObject->Find_Component(TEXT("Com_VIBuffer")));
-
-					if (nullptr != pVIBuffer)
+					if (FAILED(__super::Load_VertexBuffer(pGameObject, hFile, &dwByte)))
 					{
-						LPDIRECT3DVERTEXBUFFER9 pLoadVB = { nullptr };
-						void* pData = { nullptr };
-						if (FAILED(m_pGraphic_Device->CreateVertexBuffer(VBDesc.Size, VBDesc.Usage, VBDesc.FVF, VBDesc.Pool, &pLoadVB, nullptr)))
-							continue;
-
-						if (SUCCEEDED(pLoadVB->Lock(0, 0, &pData, 0)))
-						{
-							bResult = ReadFile(hFile, pData, VBDesc.Size, &dwByte, NULL);
-							pLoadVB->Unlock();
-
-							pVIBuffer->Set_VertexBuffer(pLoadVB);
-							Safe_Release(pLoadVB);
-						}
+						MSG_BOX("버텍스 버퍼 로딩실패");
+						return E_FAIL;
 					}
 				}
 			}
+			else if (Prototype == TEXT("Prototype_GameObject_AnimeRect"))
+			{
+				CGameObject* pGameObject = m_pGameInstance->Find_Object(iLevelIdx, Layertag, iNumAniRect++);
+				if (nullptr != pGameObject)
+				{
+					if (FAILED(__super::Load_VertexBuffer(pGameObject, hFile, &dwByte)))
+					{
+						MSG_BOX("버텍스 버퍼 로딩실패");
+						return E_FAIL;
+					}
+				}
+			}
+			else if (Prototype == TEXT("Prototpye_GameObject_AnimeBlock"))
+			{
+				CGameObject* pGameObject = m_pGameInstance->Find_Object(iLevelIdx, Layertag, iNumAniBlock++);
+				if (nullptr != pGameObject)
+				{
+					if (FAILED(__super::Load_VertexBuffer(pGameObject, hFile, &dwByte)))
+					{
+						MSG_BOX("버텍스 버퍼 로딩실패");
+						return E_FAIL;
+					}
+				}
+			}
+			else if (Prototype == TEXT("Prototype_GameObject_InvisibleBlock"))
+			{
+				CGameObject* pGameObject = m_pGameInstance->Find_Object(iLevelIdx, Layertag, iNumInviBlock++);
+				if (nullptr != pGameObject)
+				{
+					if (FAILED(__super::Load_VertexBuffer(pGameObject, hFile, &dwByte)))
+					{
+						MSG_BOX("버텍스 버퍼 로딩실패");
+						return E_FAIL;
+					}
+				}
+			}
+
 
 
 			ZeroMemory(szPrototypeTag, sizeof(szPrototypeTag));
@@ -626,6 +610,7 @@ HRESULT CLevel_GamePlay::Load_Map(_uint iLevelIdx, const _wstring& FileName)
 			bResult = ReadFile(hFile, &vAngle, sizeof(_float3), &dwByte, NULL);
 			bResult = ReadFile(hFile, &iLoadLength, sizeof(_int), &dwByte, NULL);
 			bResult = ReadFile(hFile, &szPrototypeTag, (iLoadLength * sizeof(_tchar)), &dwByte, NULL);
+			bResult = ReadFile(hFile, &bCollision, sizeof(_bool), &dwByte, NULL);
 
 			CStatue::DESC tDesc = {};
 			tDesc.fSpeedPerSec = fSpeedPerSec;
@@ -633,6 +618,7 @@ HRESULT CLevel_GamePlay::Load_Map(_uint iLevelIdx, const _wstring& FileName)
 			tDesc.vInitPos = vPosition;
 			tDesc.vScale = vScale;
 			tDesc.vAngle = vAngle;
+			tDesc.bCollision = bCollision;
 
 			/* 클라에서 해 줄 작업 */
 			_wstring strKey = szPrototypeTag;

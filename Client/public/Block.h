@@ -3,7 +3,7 @@
 
 BEGIN(Client)
 
-class CBlock final : public CMap
+class CBlock : public CMap
 {
 public:
 	typedef struct tagMyCubeDesc : public CMap::DESC
