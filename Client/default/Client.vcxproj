@@ -164,6 +164,7 @@
     <ClInclude Include="..\public\Block.h" />
     <ClInclude Include="..\public\Blood.h" />
     <ClInclude Include="..\public\BuildingH.h" />
+    <ClInclude Include="..\public\BuildingU.h" />
     <ClInclude Include="..\public\BuildingV.h" />
     <ClInclude Include="..\public\BuildingW.h" />
     <ClInclude Include="..\public\Bullet.h" />
@@ -238,6 +239,7 @@
     <ClInclude Include="..\public\TestTerrain.h" />
     <ClInclude Include="..\public\Tornado.h" />
     <ClInclude Include="..\public\TestBullet.h" />
+    <ClInclude Include="..\public\TPS_Camera.h" />
     <ClInclude Include="..\public\TriangularPillar.h" />
     <ClInclude Include="..\public\Ttakkeun_i.h" />
     <ClInclude Include="..\public\Trapezoid.h" />
@@ -271,6 +273,7 @@
     <ClCompile Include="..\private\Block.cpp" />
     <ClCompile Include="..\private\Blood.cpp" />
     <ClCompile Include="..\private\BuildingH.cpp" />
+    <ClCompile Include="..\private\BuildingU.cpp" />
     <ClCompile Include="..\private\BuildingV.cpp" />
     <ClCompile Include="..\private\BuildingW.cpp" />
     <ClCompile Include="..\private\Bullet.cpp" />
@@ -341,6 +344,7 @@
     <ClCompile Include="..\private\TestTerrain.cpp" />
     <ClCompile Include="..\private\Tornado.cpp" />
     <ClCompile Include="..\private\TestBullet.cpp" />
+    <ClCompile Include="..\private\TPS_Camera.cpp" />
     <ClCompile Include="..\private\TriangularPillar.cpp" />
     <ClCompile Include="..\private\Ttakkeun_i.cpp" />
     <ClCompile Include="..\private\Trapezoid.cpp" />

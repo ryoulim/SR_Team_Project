@@ -3,6 +3,7 @@
 #include "GameInstance.h"
 #include "RaceLandscape.h"
 #include "PlayerOnBoat.h"
+#include "Camera.h"
 
 CLevel_Race::CLevel_Race(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CLevel { pGraphic_Device }
@@ -23,8 +24,8 @@ HRESULT CLevel_Race::Initialize(CLevelData* pLevelData)
 	if (FAILED(Ready_Layer_Terrain(TEXT("Layer_RaceTerrain"))))
 		return E_FAIL;
 
-	//if (FAILED(Ready_Layer_Pawn(TEXT("Layer_Pawn"))))
-	//	return E_FAIL;
+	if (FAILED(Ready_Layer_Pawn(TEXT("Layer_Pawn"))))
+		return E_FAIL;
 
 	return S_OK;
 }
@@ -58,7 +59,7 @@ HRESULT CLevel_Race::Ready_Layer_Statue(const _wstring& strLayerTag)
 	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_RACE, TEXT("Prototype_GameObject_RaceLandscapeLeft"),
 		LEVEL_RACE, strLayerTag, &desc)))
 		return E_FAIL;
-	
+
 	desc.vLook = _float3(0.f, 0.f, -1.f);
 	desc.vPosition = _float3(650.f, 36.f, 7150.f);
 
@@ -66,31 +67,36 @@ HRESULT CLevel_Race::Ready_Layer_Statue(const _wstring& strLayerTag)
 		LEVEL_RACE, strLayerTag, &desc)))
 		return E_FAIL;
 
-	/*if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_RACE, TEXT("Prototype_GameObject_BuildingH"),
-		LEVEL_RACE, strLayerTag)))
-		return E_FAIL;*/
-
-	/*if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_RACE, TEXT("Prototype_GameObject_BuildingW"),
-		LEVEL_RACE, strLayerTag)))
-		return E_FAIL;*/
-
-	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_RACE, TEXT("Prototype_GameObject_BuildingV"),
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_RACE, TEXT("Prototype_GameObject_BuildingH"),
 		LEVEL_RACE, strLayerTag)))
 		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_RACE, TEXT("Prototype_GameObject_BuildingW"),
+		LEVEL_RACE, strLayerTag)))
+		return E_FAIL;
+
+	/*if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_RACE, TEXT("Prototype_GameObject_BuildingV"),
+		LEVEL_RACE, strLayerTag)))
+		return E_FAIL;*/
+
+	/*if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_RACE, TEXT("Prototype_GameObject_BuildingU"),
+		LEVEL_RACE, strLayerTag)))
+		return E_FAIL;*/
 
 	return S_OK;
 }
 
 HRESULT CLevel_Race::Ready_Layer_Camera(const _wstring& strLayerTag)
 {
-	//LEVEL_STATIC : 프로토타입에 있는 레벨
-	//TEXT("Prototype_GameObject_Dynamic_Camera" : 프로토타입에 있는 CBase* 객체를 검색하기 위한 키값
-	//LEVEL_RACE : 레이어에 추가할때의 레벨
-	//strLayerTag : 레이어에 추가할때 설정해줄 키값, TEXT("Layer_Camera")
-	//레이어는 CGameObject* 객체들이 들어있는 벡터
-	//TEXT("Dynamic_Camera")를 통해 찾은 데이터는 pArg
-	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_Dynamic_Camera"),
-		LEVEL_RACE, strLayerTag, m_pData->Find_Data(TEXT("Dynamic_Camera")))))
+	CCamera::DESC desc = {};
+	desc.vEye = _float3(0.f, 0.f, -20.f);		
+	desc.vAt = _float3();						
+	desc.fFov = 60.f;
+	desc.fNear = 0.1f;
+	desc.fFar = 1000.f;
+
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_TPS_Camera"),
+		LEVEL_RACE, strLayerTag, &desc)))
 		return E_FAIL;
 
 	return S_OK;
@@ -99,10 +105,10 @@ HRESULT CLevel_Race::Ready_Layer_Camera(const _wstring& strLayerTag)
 HRESULT CLevel_Race::Ready_Layer_Pawn(const _wstring& strLayerTag)
 {
 	CPlayerOnBoat::DESC PlayerOnBoatDesc = {};
-	PlayerOnBoatDesc.vInitPos = { 10.f, 10.f, 10.f };
-	PlayerOnBoatDesc.vScale = { 200.f, 300.f, 200.f };
+	PlayerOnBoatDesc.vInitPos = { 0.f, 10.f, 0.f };
+	PlayerOnBoatDesc.vScale = { 20.f, 30.f, 20.f };
 	PlayerOnBoatDesc.fRotationPerSec = RADIAN(180.f);
-	PlayerOnBoatDesc.fSpeedPerSec = 150.f;
+	PlayerOnBoatDesc.fSpeedPerSec = 450.f;
 	PlayerOnBoatDesc.fMouseSensor = 0.1f;
 
 	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_RACE, TEXT("Prototype_GameObject_PlayerOnBoat"),

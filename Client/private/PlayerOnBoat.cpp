@@ -25,15 +25,10 @@ HRESULT CPlayerOnBoat::Initialize(void* pArg)
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
 
-	////카메라 매니저를 가져온다
-	//m_pCameraManager = static_cast<CCameraManager*>(m_pGameInstance->Find_Object(m_eLevelID, TEXT("Layer_Camera")));
-	//Safe_AddRef(m_pCameraManager);
+	CGameObject* FPS_Camera = m_pGameInstance->Find_Object(LEVEL_RACE, TEXT("Layer_Camera"), 0);
 
-	////매니저를 통해 특정 카메라를 가져온다
-	//CGameObject* FPS_Camera = m_pCameraManager->Get_Camera(CCameraManager::FPS);
-
-	//m_pCameraTransform = static_cast<CTransform*>(FPS_Camera->Find_Component(TEXT("Com_Transform")));
-	//Safe_AddRef(m_pCameraTransform);
+	m_pCameraTransform = static_cast<CTransform*>(FPS_Camera->Find_Component(TEXT("Com_Transform")));
+	Safe_AddRef(m_pCameraTransform);
 
 	return S_OK;
 }
@@ -56,6 +51,8 @@ EVENT CPlayerOnBoat::Update(_float fTimeDelta)
 void CPlayerOnBoat::Late_Update(_float fTimeDelta)
 {
 	m_pGameInstance->Add_RenderGroup(CRenderer::RG_NONBLEND, this);
+
+	Update_Camera_Link();
 
 	__super::Late_Update(fTimeDelta);
 }
@@ -94,6 +91,16 @@ void CPlayerOnBoat::Key_Input(_float fTimeDelta)
 		//m_pGravityCom->Go_Right_On_Terrain(fTimeDelta);
 		m_pTransformCom->Go_Right(fTimeDelta);
 	}
+}
+
+void CPlayerOnBoat::Update_Camera_Link()
+{	
+	//플레이어 스케일값을 가져온다
+	_float3 Scale = m_pCameraTransform->Compute_Scaled();
+
+	//카메라의 위치를 (플레이어 위치 + @)
+	m_pCameraTransform->Set_State(CTransform::STATE_POSITION, *m_pTransformCom->Get_State(CTransform::STATE_POSITION) 
+		+ _float3(0.f, 20.f, -50.f));
 }
 
 CPlayerOnBoat* CPlayerOnBoat::Create(LPDIRECT3DDEVICE9 pGraphic_Device)

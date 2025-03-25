@@ -25,7 +25,7 @@ HRESULT CCameraManager::Initialize(void* pArg)
 		PROTOTYPE::TYPE_GAMEOBJECT, LEVEL_STATIC, TEXT("Prototype_GameObject_FPS_Camera"), pArg)));
 	m_Cameras.push_back(static_cast<CCamera*>(m_pGameInstance->Clone_Prototype(
 		PROTOTYPE::TYPE_GAMEOBJECT, LEVEL_STATIC, TEXT("Prototype_GameObject_Dynamic_Camera"), pArg)));
-
+	
 	//if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_FPS_Camera"),
 	//LEVEL_GAMEPLAY, TEXT("Layer_Camera"), pArg)))
 	//return E_FAIL;
