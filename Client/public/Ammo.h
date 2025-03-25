@@ -3,23 +3,25 @@
 
 #pragma once
 #include "UI.h"
+#include "Weapon.h"
+
 
 BEGIN(Client)
 
 class CAmmo final : public CUI
 {
 public:	
-	enum AMMOTYPE {
-		LOVERBOY,
-		DISPERSER_SHELL,
-		DISPERSER_GRENADE,
-		PENETRATOR,
-		CHAINGUN,
-		BOWLINGBOMB,
-		IONBOW,
-		CLUSTERPUCK,
-		AMMO_END
-	};
+	//enum AMMOTYPE {
+	//	LOVERBOY,
+	//	DISPERSER_SHELL,
+	//	DISPERSER_GRENADE,
+	//	PENETRATOR,
+	//	CHAINGUN,
+	//	BOWLINGBOMB,
+	//	IONBOW,
+	//	CLUSTERPUCK,
+	//	AMMO_END
+	//};
 
 private:
 	CAmmo(LPDIRECT3DDEVICE9 pGraphic_Device);
@@ -35,12 +37,13 @@ public:
 	virtual HRESULT Render() override;
 
 public:
-	void	Set_Ammo(AMMOTYPE _type, _uint _Ammo) { m_eAmmoType = _type;  m_uiAmmo[_type] = _Ammo; Update(0.f); }
+	//void	Set_Ammo(CWeapon::TYPE _type, _uint _Ammo) { m_eAmmoType = _type;  m_uiAmmo[_type] = _Ammo; Update(0.f); }
+	void	Set_Ammo(const CWeapon::AMMOINFO* ammoInfo) { m_pAmmoInfo = ammoInfo; }
 
 private:
-	AMMOTYPE	m_eAmmoType = { LOVERBOY };
-	_uint		m_uiAmmo[AMMO_END] = {};
-
+	CWeapon::TYPE	m_eAmmoType = { CWeapon::TYPE::LOVERBOY };
+	//_uint			m_uiAmmo[CWeapon::TYPE::AMMO_END] = {};
+	const CWeapon::AMMOINFO* m_pAmmoInfo = { nullptr };
 
 public:
 	static CAmmo* Create(LPDIRECT3DDEVICE9 pGraphic_Device);

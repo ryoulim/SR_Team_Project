@@ -61,6 +61,8 @@ HRESULT CPlayer::Initialize(void* pArg)
 			PROTOTYPE::TYPE_GAMEOBJECT, LEVEL_GAMEPLAY,
 			TEXT("Prototype_GameObject_Weapon_Chaingun"))));
 
+	CUI_Manager::Get_Instance()->Change_Weapon(m_Weapons[m_iCurWeaponIndex]->Get_Info());
+
 	m_Weapons.push_back(
 		static_cast<CWeapon*>(m_pGameInstance->Clone_Prototype(
 			PROTOTYPE::TYPE_GAMEOBJECT, LEVEL_GAMEPLAY,
@@ -101,16 +103,6 @@ EVENT CPlayer::Update(_float fTimeDelta)
 
 	if (!m_bFpsMode || m_bBouseFixMod)
 		return EVN_NONE;
-
-	///****** 테스트용 ******/
-	//if (KEY_DOWN('1'))
-	//	UPDATE_HP();
-	//// Player의 HP에 Get요청을 보내도록 처리하기 때문에
-	//// 충돌 등의 처리가 모두 끝난 후 호출하면 좋음(player의 HP를 Get한 후 UI의 Update를 강제로 부름)
-	//if (KEY_DOWN('2'))
-	//	UPDATE_ARMOR();
-	///*********************/
-
 	
 	return __super::Update(fTimeDelta);
 }
@@ -198,6 +190,8 @@ void CPlayer::Key_Input(_float fTimeDelta)
 		m_iCurWeaponIndex--;
 		if (m_iCurWeaponIndex < 0)
 			m_iCurWeaponIndex = m_iMaxWeaponIndex;
+		m_iCurWeaponIndex = 0;
+		CUI_Manager::Get_Instance()->Change_Weapon(m_Weapons[m_iCurWeaponIndex]->Get_Info());
 		bTriger = TRUE;
 	}
 	if (KEY_DOWN(DIK_E))
@@ -206,11 +200,15 @@ void CPlayer::Key_Input(_float fTimeDelta)
 		if (m_iMaxWeaponIndex < m_iCurWeaponIndex)
 			m_iCurWeaponIndex = 0;
 
+		m_iCurWeaponIndex = 1;
+		CUI_Manager::Get_Instance()->Change_Weapon(m_Weapons[m_iCurWeaponIndex]->Get_Info());
 		bTriger = TRUE;
 	}
 
 	if (bTriger)
+	{
 		m_Weapons[m_iCurWeaponIndex]->Set_State(CWeapon::ST_OPENING);
+	}
 
 	m_Weapons[m_iCurWeaponIndex]->Key_Input();
 }

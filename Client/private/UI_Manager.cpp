@@ -8,6 +8,7 @@
 #include "Player.h"
 #include "Portrait.h"
 #include "Armor.h"
+#include <Aim.h>
 
 CUI_Manager* CUI_Manager::m_pInstance = nullptr;
 
@@ -109,11 +110,6 @@ HRESULT CUI_Manager::Initialize_GamePlayUI()
 	m_GameUIs[GUI_ARMOR]	= m_pGameInstance->Find_Object(LEVEL_GAMEPLAY, L"Layer_UI", GUI_ARMOR);
 	m_GameUIs[GUI_AMMO]		= m_pGameInstance->Find_Object(LEVEL_GAMEPLAY, L"Layer_UI", GUI_AMMO);
 
-	m_pPlayer = dynamic_cast<CPlayer*>(m_pGameInstance->Find_Object(LEVEL_GAMEPLAY, L"Layer_Pawn"));
-	if (nullptr == m_pPlayer)
-		return E_FAIL;
-	Safe_AddRef(m_pPlayer);
-
 	for (size_t i = 0; i < GUI_END; i++)
 	{
 		if (nullptr == m_GameUIs[i])
@@ -121,6 +117,15 @@ HRESULT CUI_Manager::Initialize_GamePlayUI()
 		Safe_AddRef(m_GameUIs[i]);
 	}
 
+	return S_OK;
+}
+
+HRESULT CUI_Manager::Initialize_Player()
+{
+	m_pPlayer = dynamic_cast<CPlayer*>(m_pGameInstance->Find_Object(LEVEL_GAMEPLAY, L"Layer_Pawn"));
+	if (nullptr == m_pPlayer)
+		return E_FAIL;
+	Safe_AddRef(m_pPlayer);
 	return S_OK;
 }
 
@@ -136,7 +141,7 @@ HRESULT CUI_Manager::Clear_GamePlayUI()
 	return S_OK;
 }
 
-HRESULT CUI_Manager::Update_GameUI(GAMEUI eUIType, CAmmo::AMMOTYPE eAmmoType)
+HRESULT CUI_Manager::Update_GameUI(GAMEUI eUIType, CWeapon::TYPE eAmmoType)
 {
 	switch (eUIType)
 	{
@@ -149,13 +154,22 @@ HRESULT CUI_Manager::Update_GameUI(GAMEUI eUIType, CAmmo::AMMOTYPE eAmmoType)
 		static_cast<CArmor*>(m_GameUIs[GUI_ARMOR])->Set_Armor(/*m_pPlayer->Get_Armor()*/rand()%100);
 		break;
 	case Client::CUI_Manager::GUI_AMMO:
-		static_cast<CAmmo*>(m_GameUIs[GUI_AMMO])->Set_Ammo(eAmmoType, /*m_pPlayer->Get_Ammo(eAmmoType)*/rand() % 80);
+		//static_cast<CAmmo*>(m_GameUIs[GUI_AMMO])->Set_Ammo(eAmmoType, /*m_pPlayer->Get_Ammo(eAmmoType)*/rand() % 80);
 		break;
 	case Client::CUI_Manager::GUI_END:
 		break;
 	default:
 		break;
 	}
+	return S_OK;
+}
+
+HRESULT CUI_Manager::Change_Weapon(const CWeapon::AMMOINFO* pAmmoInfo)
+{
+	//static_cast<CAim*>(m_GameUIs[GUI_AIM])->
+	static_cast<CAmmo*>(m_GameUIs[GUI_AMMO])->Set_Ammo(pAmmoInfo);
+	static_cast<CAim*>(m_GameUIs[GUI_AIM])->Set_Ammo(pAmmoInfo);
+
 	return S_OK;
 }
 

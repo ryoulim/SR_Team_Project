@@ -123,14 +123,15 @@ HRESULT CMonster::Render()
 	}
 	
 
-	if (m_bCW && m_iDegree != 0) {
+	if (!m_bCW || m_iDegree == 0 || m_iDegree == 180.f / m_fDivOffset) {
+		if (m_pGraphic_Device->SetTransform(D3DTS_WORLD, &m_pTransformCom->Billboard()))
+			return E_FAIL; 
+	}
+	else {
 		if (m_pGraphic_Device->SetTransform(D3DTS_WORLD, &m_pTransformCom->Billboard_Inverse()))
 			return E_FAIL;
 	}
-	else {
-		if (m_pGraphic_Device->SetTransform(D3DTS_WORLD, &m_pTransformCom->Billboard()))
-			return E_FAIL;
-	}
+	// 0일 때 좌우반전이 안 되어야 하는데 자꾸 좌우반전 되는 버그가 있다..? 
 
 
 	if (FAILED(m_pVIBufferCom->Bind_Buffers()))

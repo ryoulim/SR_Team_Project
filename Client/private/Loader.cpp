@@ -505,7 +505,10 @@ HRESULT CLoader::Loading_For_GamePlay()
 			break;
 	}
 
-#pragma region MONSTER_LOADING
+	/*******************************************************************************************************************************************/
+	/********************************************************     여기 접기 !!!!     ************************************************************/
+	/*******************************************************************************************************************************************/
+#pragma region MONSTER_LOADING 
 
 #pragma region BOSS_TEXTURES
 	ADD_TEXTURE(Boss_Walk_0, "../bin/Resources/Textures/Monster/boss/walk/0/boss_walk_0_%d.PNG", 12);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
@@ -533,27 +536,27 @@ HRESULT CLoader::Loading_For_GamePlay()
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/* Fly는 상하좌우 구분이 필요해서 일단 제외 */
-	//ADD_TEXTURE(Boss_Fly_0, "../bin/Resources/Textures/Monster/boss/fly/0/boss_fly_0_%d.PNG", 5);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
-	//ADD_TEXTURE(Boss_Fly_22, "../bin/Resources/Textures/Monster/boss/fly/22/boss_fly_22_%d.PNG", 5);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
-	//ADD_TEXTURE(Boss_Fly_45, "../bin/Resources/Textures/Monster/boss/fly/45/boss_fly_45_%d.PNG", 5);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
-	//ADD_TEXTURE(Boss_Fly_67, "../bin/Resources/Textures/Monster/boss/fly/67/boss_fly_67_%d.PNG", 5);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
-	//ADD_TEXTURE(Boss_Fly_90, "../bin/Resources/Textures/Monster/boss/fly/90/boss_fly_90_%d.PNG", 5);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
-	//ADD_TEXTURE(Boss_Fly_112, "../bin/Resources/Textures/Monster/boss/fly/112/boss_fly_112_%d.PNG", 5);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
-	//ADD_TEXTURE(Boss_Fly_135, "../bin/Resources/Textures/Monster/boss/fly/135/boss_fly_135_%d.PNG", 5);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
-	//ADD_TEXTURE(Boss_Fly_157, "../bin/Resources/Textures/Monster/boss/fly/157/boss_fly_157_%d.PNG", 5);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
-	//ADD_TEXTURE(Boss_Fly_180, "../bin/Resources/Textures/Monster/boss/fly/180/boss_fly_180_%d.PNG", 5);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
+	ADD_TEXTURE(Boss_Fly_0, "../bin/Resources/Textures/Monster/boss/fly/0/%d.PNG", 4);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
+	ADD_TEXTURE(Boss_Fly_22, "../bin/Resources/Textures/Monster/boss/fly/22/%d.PNG", 4);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
+	ADD_TEXTURE(Boss_Fly_45, "../bin/Resources/Textures/Monster/boss/fly/45/%d.PNG", 4);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
+	ADD_TEXTURE(Boss_Fly_67, "../bin/Resources/Textures/Monster/boss/fly/67/%d.PNG", 4);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
+	ADD_TEXTURE(Boss_Fly_90, "../bin/Resources/Textures/Monster/boss/fly/90/%d.PNG", 4);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
+	ADD_TEXTURE(Boss_Fly_112, "../bin/Resources/Textures/Monster/boss/fly/112/%d.PNG", 4);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
+	ADD_TEXTURE(Boss_Fly_135, "../bin/Resources/Textures/Monster/boss/fly/135/%d.PNG", 4);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
+	ADD_TEXTURE(Boss_Fly_157, "../bin/Resources/Textures/Monster/boss/fly/157/%d.PNG", 4);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
+	ADD_TEXTURE(Boss_Fly_180, "../bin/Resources/Textures/Monster/boss/fly/180/%d.PNG", 4);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	//ADD_TEXTURE(Boss_Fly_Attack_0,   "../bin/Resources/Textures/Monster/boss/fly_attack/0/boss_fly_0_%d.PNG", 5);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
-	//ADD_TEXTURE(Boss_Fly_Attack_22,  "../bin/Resources/Textures/Monster/boss/fly_attack/22/boss_fly_22_%d.PNG", 5);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
-	//ADD_TEXTURE(Boss_Fly_Attack_45,  "../bin/Resources/Textures/Monster/boss/fly_attack/45/boss_fly_45_%d.PNG", 5);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
-	//ADD_TEXTURE(Boss_Fly_Attack_67,  "../bin/Resources/Textures/Monster/boss/fly_attack/67/boss_fly_67_%d.PNG", 5);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
-	//ADD_TEXTURE(Boss_Fly_Attack_90,  "../bin/Resources/Textures/Monster/boss/fly_attack/90/boss_fly_90_%d.PNG", 5);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
-	//ADD_TEXTURE(Boss_Fly_Attack_112, "../bin/Resources/Textures/Monster/boss/fly_attack/112/boss_fly_112_%d.PNG", 5);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
-	//ADD_TEXTURE(Boss_Fly_Attack_135, "../bin/Resources/Textures/Monster/boss/fly_attack/135/boss_fly_135_%d.PNG", 5);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
-	//ADD_TEXTURE(Boss_Fly_Attack_157, "../bin/Resources/Textures/Monster/boss/fly_attack/157/boss_fly_157_%d.PNG", 5);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
-	//ADD_TEXTURE(Boss_Fly_Attack_180, "../bin/Resources/Textures/Monster/boss/fly_attack/180/boss_fly_180_%d.PNG", 5);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
+	ADD_TEXTURE(Boss_Fly_Attack_0,   "../bin/Resources/Textures/Monster/boss/fly_attack/0/%d.PNG",   8);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
+	ADD_TEXTURE(Boss_Fly_Attack_22,  "../bin/Resources/Textures/Monster/boss/fly_attack/22/%d.PNG",  8);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
+	ADD_TEXTURE(Boss_Fly_Attack_45,  "../bin/Resources/Textures/Monster/boss/fly_attack/45/%d.PNG",  8);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
+	ADD_TEXTURE(Boss_Fly_Attack_67,  "../bin/Resources/Textures/Monster/boss/fly_attack/67/%d.PNG",  8);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
+	ADD_TEXTURE(Boss_Fly_Attack_90,  "../bin/Resources/Textures/Monster/boss/fly_attack/90/%d.PNG",  8);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
+	ADD_TEXTURE(Boss_Fly_Attack_112, "../bin/Resources/Textures/Monster/boss/fly_attack/112/%d.PNG", 8);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
+	ADD_TEXTURE(Boss_Fly_Attack_135, "../bin/Resources/Textures/Monster/boss/fly_attack/135/%d.PNG", 8);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
+	ADD_TEXTURE(Boss_Fly_Attack_157, "../bin/Resources/Textures/Monster/boss/fly_attack/157/%d.PNG", 8);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
+	ADD_TEXTURE(Boss_Fly_Attack_180, "../bin/Resources/Textures/Monster/boss/fly_attack/180/%d.PNG", 8);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////
 

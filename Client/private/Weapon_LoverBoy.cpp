@@ -31,6 +31,13 @@ HRESULT CWeapon_LoverBoy::Initialize(void* pArg)
 	if (FAILED(__super::Initialize(&Desc)))
 		return E_FAIL;
 
+	///////
+	m_tAmmoInfo.eType = LOVERBOY;
+	m_tAmmoInfo.iCurAmmo = 50;
+	m_tAmmoInfo.iMaxAmmo = 6;
+	m_tAmmoInfo.iReloadedAmmo = 6;
+	///////
+
 	return S_OK;
 }
 
@@ -41,12 +48,6 @@ void CWeapon_LoverBoy::Priority_Update(_float fTimeDelta)
 
 EVENT CWeapon_LoverBoy::Update(_float fTimeDelta)
 {	
-
-	if (KEY_DOWN('4'))
-	{
-		UPDATE_AMMO(CAmmo::LOVERBOY);
-	}
-
 	__super::Update(fTimeDelta);
 
 	return EVN_NONE;
@@ -105,7 +106,6 @@ void CWeapon_LoverBoy::Set_State(STATE State)
 	case ST_W_ATK:
 		m_pGameInstance->Active_Object(TEXT("ObjectPool_Effect_Revolver"), LEVEL_GAMEPLAY, TEXT("LAYER_EFFECT"));
 		m_pGameInstance->Active_Object(TEXT("ObjectPool_Effect_RevolverTacer"), LEVEL_GAMEPLAY, TEXT("LAYER_EFFECT"));
-		CFXMgr::Get_Instance()->SpawnEmptyBullet(_float3(0.f, 0.f, 0.f), LEVEL_GAMEPLAY);
 		m_pTransformCom->Set_State(CTransform::STATE_POSITION, { 320.f,-105.f,0.1f });
 		m_fFrameSpeed = 50.f;
 		m_eState = ST_W_ATK;
@@ -130,6 +130,7 @@ void CWeapon_LoverBoy::Set_State(STATE State)
 		m_fTextureNum = 6.f;
 		m_fStartFrmae = 7.f;
 		m_fEndFrame = 12.f;
+		m_tAmmoInfo.iReloadedAmmo = m_tAmmoInfo.iMaxAmmo;								// 채영 총알 테스트로 추가함 
 		break;
 	case ST_ENDING:
 		m_pTransformCom->Set_State(CTransform::STATE_POSITION, { 320.f,-105.f,0.1f });

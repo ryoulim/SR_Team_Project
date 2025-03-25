@@ -37,6 +37,13 @@ HRESULT CWeapon_Chaingun::Initialize(void* pArg)
 	if (FAILED(__super::Initialize(&Desc)))
 		return E_FAIL;
 
+	///////
+	m_tAmmoInfo.eType = CHAINGUN;
+	m_tAmmoInfo.iCurAmmo = 50;
+	m_tAmmoInfo.iMaxAmmo = 6;
+	m_tAmmoInfo.iReloadedAmmo = 6;
+	///////
+
 	return S_OK;
 }
 

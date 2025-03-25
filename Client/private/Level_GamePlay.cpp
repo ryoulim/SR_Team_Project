@@ -6,6 +6,7 @@
 #include "Flatform.h"
 #include "Monster.h"
 #include "FXMgr.h"
+#include "UI_Manager.h"
 
 #include "Map.h"
 
@@ -27,8 +28,15 @@ HRESULT CLevel_GamePlay::Initialize(class CLevelData* pLevelData)
 	if (FAILED(Ready_Layer_Terrain(TEXT("Layer_Terrain"))))
 		return E_FAIL;
 
+	if (FAILED(Ready_Layer_UI(TEXT("Layer_UI"))))
+		return E_FAIL;
+
+	CUI_Manager::Get_Instance(m_pGameInstance)->Initialize_GamePlayUI();
+
 	if (FAILED(Ready_Layer_Pawn(TEXT("Layer_Pawn"))))
 		return E_FAIL;
+
+	CUI_Manager::Get_Instance()->Initialize_Player();
 
 	if (FAILED(Ready_Layer_Monster(TEXT("Layer_Monster"))))
 		return E_FAIL;
@@ -40,9 +48,6 @@ HRESULT CLevel_GamePlay::Initialize(class CLevelData* pLevelData)
 		return E_FAIL;
 
 	if (FAILED(Ready_Layer_Particle(TEXT("Layer_Particle"))))
-		return E_FAIL;
-
-	if (FAILED(Ready_Layer_UI(TEXT("Layer_UI"))))
 		return E_FAIL;
 
 	//if (FAILED(Ready_Layer_Item(TEXT("Layer_Item"))))
@@ -304,7 +309,7 @@ HRESULT CLevel_GamePlay::Ready_Layer_UI(const _wstring& strLayerTag)
 		LEVEL_GAMEPLAY, strLayerTag, m_pData->Find_Data(TEXT("Ammo")))))
 		return E_FAIL;
 	/* ui생성 순서 중요, player 생성 이후 호출 중요  */
-	CUI_Manager::Get_Instance(m_pGameInstance)->Initialize_GamePlayUI();
+
 	return S_OK;
 }
 
