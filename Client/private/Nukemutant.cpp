@@ -112,6 +112,9 @@ HRESULT CNukemutant::Ready_Textures()
 
 void CNukemutant::On_Collision(_uint MyColliderID, _uint OtherColliderID)
 {
+	//그 즉시 배틀모드 진입
+	m_eState = MODE::MODE_BATTLE;
+
 	//위치탐색
 	_float3 vImpactPos = CalculateEffectPos();
 
@@ -141,6 +144,7 @@ CNukemutant* CNukemutant::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 
 	//속성
 	pInstance->m_iHP			= 50;
+	pInstance->m_iMaxHP			= 50;
 	pInstance->m_iAttackPower	= 15;
 	pInstance->m_iDefense		= 0;
 	pInstance->m_fSpeed			= 15.f;

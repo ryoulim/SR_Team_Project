@@ -69,6 +69,9 @@ HRESULT CDeacon::Ready_Components(void* pArg)
 
 void CDeacon::On_Collision(_uint MyColliderID, _uint OtherColliderID)
 {
+	//그 즉시 배틀모드 진입
+	m_eState = MODE::MODE_BATTLE;
+
 	//위치탐색
 	_float3 vImpactPos = CalculateEffectPos();
 
@@ -115,6 +118,7 @@ CDeacon* CDeacon::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 
 	//속성
 	pInstance->m_iHP			= 30;
+	pInstance->m_iMaxHP			= 30;
 	pInstance->m_iAttackPower	= 5;
 	pInstance->m_iDefense		= 1;
 	pInstance->m_fSpeed			= 15.f;

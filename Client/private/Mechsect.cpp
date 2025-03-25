@@ -85,6 +85,9 @@ HRESULT CMechsect::Ready_Textures()
 
 void CMechsect::On_Collision(_uint MyColliderID, _uint OtherColliderID)
 {
+	//그 즉시 배틀모드 진입
+	m_eState = MODE::MODE_BATTLE;
+
 	//위치탐색
 	_float3 vImpactPos = CalculateEffectPos();
 
@@ -114,6 +117,7 @@ CMechsect* CMechsect::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 
 	//속성
 	pInstance->m_iHP			= 50;
+	pInstance->m_iMaxHP			= 50;
 	pInstance->m_iAttackPower	= 2;
 	pInstance->m_iDefense		= 1;
 	pInstance->m_fSpeed			= 20.f;

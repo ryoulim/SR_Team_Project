@@ -85,6 +85,9 @@ HRESULT CGreater::Ready_Textures()
 
 void CGreater::On_Collision(_uint MyColliderID, _uint OtherColliderID)
 {
+	//그 즉시 배틀모드 진입
+	m_eState = MODE::MODE_BATTLE;
+
 	//위치탐색
 	_float3 vImpactPos = CalculateEffectPos();
 
@@ -114,6 +117,7 @@ CGreater* CGreater::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 
 	//속성
 	pInstance->m_iHP			= 120;
+	pInstance->m_iMaxHP			= 120;
 	pInstance->m_iAttackPower	= 15;
 	pInstance->m_iDefense		= 2;
 	pInstance->m_fSpeed			= 12.f;

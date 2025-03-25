@@ -62,6 +62,10 @@ public: //피흘리기
 	void SpawnBlood(_float3 _vPosition, LEVEL eLevel);
 
 
+public: //보스스킬
+	void FireAttack(_float3 _vPosition, LEVEL eLevel);
+
+
 public:
 	float GetRandomValue(float min, float max)
 	{
@@ -75,7 +79,7 @@ public:
 
 private: //랜덤난수 생성 변수
 	random_device m_Rd;
-	mt19937 m_Gen;
+	mt19937 m_Gen{ std::random_device{}() };
 	uniform_real_distribution<float> m_Dist;
 
 public: //스크린 이펙트 활성화 배열

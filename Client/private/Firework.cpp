@@ -125,6 +125,11 @@ EVENT CFirework::Update(_float timeDelta)
 
 	FrameUpdate(timeDelta);
 
+	removeDeadParticle();
+	if (m_Particles.empty())
+	{
+		return EVN_DEAD;
+	}
 
 	return EVN_NONE;
 }

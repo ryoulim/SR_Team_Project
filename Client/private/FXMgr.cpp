@@ -9,6 +9,7 @@
 #include "Explosion.h"
 #include "Firework.h"
 #include "EmptyBullet.h"
+#include <iostream>
 
 IMPLEMENT_SINGLETON(CFXMgr);
 
@@ -21,6 +22,7 @@ void CFXMgr::Initialize()
 	//게임인스턴스 장착
 	m_pGameInstance = CGameInstance::Get_Instance();
 	Safe_AddRef(m_pGameInstance);
+
 }
 
 void CFXMgr::Update(_float fTimeDelta)
@@ -562,6 +564,34 @@ void CFXMgr::SpawnBlood(_float3 _vPosition, LEVEL eLevel)
 	BulletImpactSparkDesc.iParticleNums = 5;
 	if (FAILED(m_pGameInstance->Active_Object(TEXT("ObjectPool_PC_BulletImpactSpark"), LEVEL_STATIC,
 		TEXT("Layer_Particle"), &BulletImpactSparkDesc)))
+		return;
+}
+
+void CFXMgr::FireAttack(_float3 _vPosition, LEVEL eLevel)
+{
+	CPSystem::DESC FireAttackDesc{};
+	FireAttackDesc.vPosition = _vPosition;
+	FireAttackDesc.fMaxFrame = 20;
+	FireAttackDesc.szTextureTag = TEXT("FireAttack");
+	FireAttackDesc.iParticleNums = 8;
+	FireAttackDesc.fSize = 3.f;
+
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_PC_FireAttack"),
+		LEVEL_GAMEPLAY, L"Layer_Particle", &FireAttackDesc)))
+		return;
+
+
+	CPSystem::DESC FireAttackDesc2{};
+	FireAttackDesc2.vPosition = _vPosition;
+	FireAttackDesc2.fMaxFrame = 1;
+	FireAttackDesc2.szTextureTag = TEXT("PC_Generic");
+	FireAttackDesc2.iParticleNums = 5;
+	FireAttackDesc2.fSize = 0.2f;
+	FireAttackDesc2.fMin = -0.1f;
+	FireAttackDesc2.fMax = 0.1f;
+
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_PC_FireAttack"),
+		LEVEL_GAMEPLAY, L"Layer_Particle", &FireAttackDesc2)))
 		return;
 }
 

@@ -2,8 +2,10 @@
 #include "Client_Defines.h"
 #include "GameInstance.h"
 #include "GameObject.h"
+#include "FXMgr.h"
 #include <iostream>
 #include <chrono>
+#include <random>
 
 BEGIN(Engine)
 class CTexture;
@@ -20,13 +22,14 @@ class CMonster abstract : public CGameObject
 {
 public:
 	enum MODE{	MODE_IDLE, MODE_ATTACK, MODE_BATTLE, MODE_DETECTIVE, MODE_RETURN, MODE_END  };
-	enum EIdlePhase { WanderMove, WanderWait, WanderTurn };
+	enum EIdlePhase { IDLE_MOVE, IDLE_WAIT, IDLE_TURN };
 
 
 public:
 	typedef struct tagMonsterDesc : public CTransform::DESC
 	{
 		_float3		vPosition;
+		_float3		vReturnPos;
 		bool		vActive = false;
 	}DESC;
 
@@ -72,10 +75,24 @@ public: //몬스터 기본패턴
 
 public: // 충돌함수
 	virtual _float3		CalculateEffectPos();
-	virtual void On_Collision(_uint MyColliderID, _uint OtherColliderID) override {};
+	virtual void		On_Collision(_uint MyColliderID, _uint OtherColliderID) override {};
 
 public: // 디버깅
 	void	ToggleDebugMode() { m_bDebug = !m_bDebug; }
+
+public: // 난수 생성
+	float GetRandomFloat(float min, float max)
+	{
+		if (min > max) std::swap(min, max);
+		uniform_real_distribution<float> dist(min, max);
+		return dist(m_Gen);
+	}
+	int GetRandomInt(int min, int max)
+	{
+		if (min > max) std::swap(min, max);
+		std::uniform_int_distribution<int> dist(min, max); // min 이상 max 이하 정수
+		return dist(m_Gen);
+	}
 
 public:
 	virtual CGameObject* Clone(void* pArg) PURE;
@@ -126,14 +143,15 @@ protected: //충돌
 
 protected: //속성
 	_int	m_iHP			= 100;
+	_int	m_iMaxHP		= 100;
 	_int	m_iAttackPower	= 10;
 	_int	m_iDefense		= 5;
-	_float	m_fSpeed		= 1.0f;
+	_float	m_fSpeed		= 60.f;
 	_float3	m_vScale		= { 0.f, 0.f, 0.f };
 	_float3 m_vPosition		= { 0.f, 0.f, 0.f };
 	MODE	m_eState		= MODE::MODE_END;
 
-	EIdlePhase	m_eIdlePhase = EIdlePhase::WanderWait;
+	EIdlePhase	m_eIdlePhase = EIdlePhase::IDLE_WAIT;
 
 protected: //디버깅
 	steady_clock::time_point g_LastLogTime = steady_clock::now();
@@ -154,15 +172,29 @@ protected: //디텍티브
 	_float			m_fIdleTime			= 0;
 	_float			m_fMaxIdleTime		= 0;
 
+
+protected: // 랜덤 난수 생성변수
+	random_device m_Rd;
+	mt19937 m_Gen{ std::random_device{}() };
+	uniform_real_distribution<float> m_Dist;
+
+
 protected:
 	// 배회 이동 관련
 	_float  m_fWanderTime = 0.f;
 	_float  m_fWanderElapsed = 0.f;
-	_float  m_fIdleMoveSpeed = 60.f; // 느린 속도
+	_float3 m_vReturnPos = { 0.f, 0.f, 0.f };
 
 	// 멈춤 관련
 	_float  m_fIdleWaitTime = 3.0f;
 	_float  m_fIdleWaitElapsed = 0.f;
+	
+	// 공격 쿨다운
+	_bool m_bCoolingDown = false;
+	_float m_fCooldownTime = 0.f;
+	_float m_fCooldownDuration = 0.f;
+	_float m_fAttackTimer = 0.f;
+
 
 protected:
 	bool			m_bDead = false;
