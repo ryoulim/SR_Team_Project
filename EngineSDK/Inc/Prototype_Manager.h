@@ -12,6 +12,7 @@
 #include "VIBuffer_BuildingH.h"
 #include "VIBuffer_BuildingW.h"
 #include "VIBuffer_BuildingV.h"
+#include "VIBuffer_BuildingU.h"
 
 #include "VIBuffer_Terrain.h"
 #include "VIBuffer_RaceTerrain.h"

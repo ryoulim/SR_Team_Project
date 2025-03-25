@@ -201,6 +201,7 @@
     <ClInclude Include="..\Public\Vector.h" />
     <ClInclude Include="..\public\VIBuffer.h" />
     <ClInclude Include="..\Public\VIBuffer_BuildingH.h" />
+    <ClInclude Include="..\Public\VIBuffer_BuildingU.h" />
     <ClInclude Include="..\Public\VIBuffer_BuildingV.h" />
     <ClInclude Include="..\Public\VIBuffer_BuildingW.h" />
     <ClInclude Include="..\Public\VIBuffer_Cabinet.h" />
@@ -252,6 +253,7 @@
     <ClCompile Include="..\Private\Vector.cpp" />
     <ClCompile Include="..\private\VIBuffer.cpp" />
     <ClCompile Include="..\Private\VIBuffer_BuildingH.cpp" />
+    <ClCompile Include="..\Private\VIBuffer_BuildingU.cpp" />
     <ClCompile Include="..\Private\VIBuffer_BuildingV.cpp" />
     <ClCompile Include="..\Private\VIBuffer_BuildingW.cpp" />
     <ClCompile Include="..\Private\VIBuffer_Cabinet.cpp" />

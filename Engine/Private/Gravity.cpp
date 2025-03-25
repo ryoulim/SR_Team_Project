@@ -100,6 +100,10 @@ void CGravity::Set_JumpOption(const JUMPDESC& JumpDESC)
 	m_fMaxFallSpeedperSec = JumpDESC.fMaxFallSpeedPerSec;
 }
 
+void CGravity::Parabolic_Motion(const _float3* vDirection)
+{
+}
+
 void CGravity::Force_Set_FloorY(_float fFloorY)
 {
 	m_bForceSetFloor = TRUE;

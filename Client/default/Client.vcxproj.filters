@@ -292,6 +292,15 @@
     <Filter Include="02.GameObjects\UI\MenuUI\LevelLoadingMenu">
       <UniqueIdentifier>{f9967e05-e098-4fcc-b1ea-218980f9bbda}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\Statue\BuildingU">
+      <UniqueIdentifier>{7384122a-f587-4088-8d84-249653a83ad1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Statue\RacePortal">
+      <UniqueIdentifier>{ee86fe52-38f1-4aff-9c84-c41cb5d653af}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Camera\TPSCamera">
+      <UniqueIdentifier>{61f18ba6-ab02-41a7-940c-1548937d2c40}</UniqueIdentifier>
+    </Filter>
     <Filter Include="02.GameObjects\Weapon\Bullet\GrenadeBullet">
       <UniqueIdentifier>{47b0ffd8-4d8c-4380-9653-781fcca31fa8}</UniqueIdentifier>
     </Filter>
@@ -615,6 +624,12 @@
     <ClInclude Include="..\public\TriangularPillar.h">
       <Filter>02.GameObjects\Map\TriangularPillar</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\BuildingU.h">
+      <Filter>02.GameObjects\Statue\BuildingU</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\TPS_Camera.h">
+      <Filter>02.GameObjects\Camera\TPSCamera</Filter>
+    </ClInclude>
     <ClInclude Include="..\public\GrenadeBullet.h">
       <Filter>02.GameObjects\Weapon\Bullet\GrenadeBullet</Filter>
     </ClInclude>
@@ -929,6 +944,12 @@
     </ClCompile>
     <ClCompile Include="..\private\GrenadeBullet.cpp">
       <Filter>02.GameObjects\Weapon\Bullet\GrenadeBullet</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\BuildingU.cpp">
+      <Filter>02.GameObjects\Statue\BuildingU</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\TPS_Camera.cpp">
+      <Filter>02.GameObjects\Camera\TPSCamera</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

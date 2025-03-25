@@ -7,6 +7,7 @@
 #include "Dynamic_Camera.h"
 #include "FPS_Camera.h"
 #include "UI_Camera.h"
+#include "TPS_Camera.h"
 
 #include "Font_MediumBlue.h"
 #include "Font_BigOrange.h"
@@ -113,7 +114,7 @@ HRESULT CMainApp::Initialize()
 		return E_FAIL;
 
 	/* 최초 보여줄 레벨을 할당하자. */
-	if (FAILED(Open_Level(LEVEL_LOGO)))
+	if (FAILED(Open_Level(LEVEL_RACE)))
 		return E_FAIL;
 	
 	if (FAILED(Ready_Debug_Mode()))
@@ -157,6 +158,7 @@ HRESULT CMainApp::Ready_Component_For_Static()
 	ADD_MODEL(BuildingH);
 	ADD_MODEL(BuildingW);
 	ADD_MODEL(BuildingV);
+	ADD_MODEL(BuildingU);
 
 	ADD_PRTCOM(Transform);
 	ADD_PRTCOM(Gravity);
@@ -189,6 +191,7 @@ HRESULT CMainApp::Ready_Object_For_Static()
 	ADD_PRTOBJ(Dynamic_Camera);
 	ADD_PRTOBJ(FPS_Camera);
 	ADD_PRTOBJ(UI_Camera);
+	ADD_PRTOBJ(TPS_Camera);
 	ADD_PRTOBJ(Font_MediumBlue);
 	ADD_PRTOBJ(Font_BigOrange);
 	ADD_PRTOBJ(LoadingMenu);

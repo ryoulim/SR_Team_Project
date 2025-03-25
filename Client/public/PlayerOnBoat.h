@@ -34,6 +34,7 @@ private:
 
 private:
 	void			Key_Input(_float fTimeDelta);
+	void			Update_Camera_Link();
 
 public:
 	static CPlayerOnBoat* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
