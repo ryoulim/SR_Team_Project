@@ -292,6 +292,9 @@
     <Filter Include="02.GameObjects\UI\MenuUI\LevelLoadingMenu">
       <UniqueIdentifier>{f9967e05-e098-4fcc-b1ea-218980f9bbda}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\Weapon\Bullet\GrenadeBullet">
+      <UniqueIdentifier>{47b0ffd8-4d8c-4380-9653-781fcca31fa8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -612,6 +615,9 @@
     <ClInclude Include="..\public\TriangularPillar.h">
       <Filter>02.GameObjects\Map\TriangularPillar</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\GrenadeBullet.h">
+      <Filter>02.GameObjects\Weapon\Bullet\GrenadeBullet</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -920,6 +926,9 @@
     </ClCompile>
     <ClCompile Include="..\private\TriangularPillar.cpp">
       <Filter>02.GameObjects\Map\TriangularPillar</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\GrenadeBullet.cpp">
+      <Filter>02.GameObjects\Weapon\Bullet\GrenadeBullet</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

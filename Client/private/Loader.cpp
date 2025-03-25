@@ -16,7 +16,6 @@
 #include "BuildingV.h"
 #include "Explosion.h"
 
-
 //테스트용
 #include "MyCube.h"
 #include "TestBullet.h"
@@ -28,7 +27,8 @@
 #include "PlayerOnBoat.h"
 #include "Weapon_LoverBoy.h"
 #include "Weapon_Chaingun.h"
-
+#include "Weapon_Dispenser.h"
+#include "GrenadeBullet.h"
 
 //파티클 인클루드
 #include "Explosion.h"
@@ -477,9 +477,11 @@ HRESULT CLoader::Loading_For_GamePlay()
 	ADD_TEXTURE(Canopy, "../Bin/Resources/Textures/Object/Canopy/Canopy%d.png", 2);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
 
 	ADD_TEXTURE(TestBullet, "../Bin/Resources/Textures/Bullet/Test/tile7859.png", 1);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
+	ADD_TEXTURE(GrenadeBullet, "../Bin/Resources/Textures/Bullet/Grenade/GrenadeBullet.png", 1);
 	ADD_TEXTURE(Weapon_LoverBoy, "../Bin/Resources/Textures/Weapon/LoverBoy/LoverBoy%d.PNG", 15);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
 	ADD_TEXTURE(LeftHand, "../Bin/Resources/Textures/Weapon/LeftHand/LeftHand%d.PNG", 2);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
 	ADD_TEXTURE(Weapon_Chaingun, "../Bin/Resources/Textures/Weapon/ChainGun/ChainGun%d.PNG", 16);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
+	ADD_TEXTURE(Weapon_Dispenser, "../Bin/Resources/Textures/Weapon/Dispenser/Dispenser%d.PNG", 32);
 
 	ADD_TEXTURE(Test, "../Bin/Resources/Textures/TileTest/tile%d.PNG", 109); fDataCurNum++; m_fLoadPercent = fDataCurNum / fDataNum;
 	ADD_TEXTURE(TTest, "../Bin/Resources/Textures/Object/Cabinet/Cabinet%d.png", 3);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
@@ -725,6 +727,7 @@ HRESULT CLoader::Loading_For_GamePlay()
 	ADD_PRTOBJ(TestBullet);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
 	ADD_PRTOBJ(Weapon_LoverBoy);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
 	ADD_PRTOBJ(Weapon_Chaingun);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
+	ADD_PRTOBJ(Weapon_Dispenser);
 	ADD_PRTOBJ(Block);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
 	ADD_PRTOBJ(BackGround);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
 	for (size_t i = 0; i < 100000; i++)
@@ -823,10 +826,9 @@ HRESULT CLoader::Loading_For_GamePlay()
 	CPSystem::DESC EmptyBulletDesc{};
 	EmptyBulletDesc.fMaxFrame = 7;
 	EmptyBulletDesc.szTextureTag = TEXT("PC_BulletShell");
-	EmptyBulletDesc.iParticleNums = 1;
-	EmptyBulletDesc.fSize = 0.1f;
+	EmptyBulletDesc.fSize = 0.13f;
 	if (FAILED(m_pGameInstance->Create_Object_Pool(LEVEL_STATIC, TEXT("Prototype_GameObject_PC_EmptyBullet"),
-		TEXT("ObjectPool_PC_EmptyBullet"), 10, &EmptyBulletDesc)))
+		TEXT("ObjectPool_PC_EmptyBullet"), 20, &EmptyBulletDesc)))
 		return E_FAIL;
 #pragma endregion
 

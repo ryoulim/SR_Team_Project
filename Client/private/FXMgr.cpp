@@ -535,6 +535,7 @@ void CFXMgr::SpawnEmptyBullet(_float3 _vPosition, LEVEL eLevel)
 {
 	CPSystem::DESC EmptyBulletDesc{};
 	EmptyBulletDesc.vPosition = _vPosition;
+	EmptyBulletDesc.iParticleNums = 1;
 
 	if (FAILED(m_pGameInstance->Active_Object(TEXT("ObjectPool_PC_EmptyBullet"), eLevel,
 		TEXT("Layer_Particle"), &EmptyBulletDesc)))

@@ -5,7 +5,7 @@
 class CEmptyBullet : public CPSystem
 {
 public:
-	typedef struct tagPSystemDesc
+	typedef struct tagPSystemDesc : CPSystem::DESC
 	{
 		_float3 vMoveCamera;
 	}DESC;
@@ -16,6 +16,7 @@ public:
 	virtual ~CEmptyBullet() = default;
 
 	virtual void resetParticle(Attribute* attribute);
+	virtual HRESULT Reset(void* pArg) override;
 	virtual EVENT Update(_float timeDelta);
 	virtual void Late_Update(_float timeDelta) override;
 	virtual HRESULT Render() override;

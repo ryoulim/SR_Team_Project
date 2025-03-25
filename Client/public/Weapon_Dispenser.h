@@ -28,7 +28,10 @@ public:
 	virtual HRESULT Render() override;
 
 private:
-	// CWeapon을(를) 통해 상속됨
+	_bool m_bTrigger{};
+	_bool m_bGrenadeMode{};
+
+private:
 	virtual void Set_State(STATE State) override;
 	virtual void Key_Input() override;
 	virtual void Opening(_float fTimeDelta) override;
@@ -36,6 +39,7 @@ private:
 	virtual void Strong_Attack(_float fTimeDelta) override;
 	virtual void Reload(_float fTimeDelta) override;
 	virtual void Ending(_float fTimeDelta) override;
+	virtual void Create_Bullet() override;
 
 public:
 	static CWeapon_Dispenser* Create(LPDIRECT3DDEVICE9 pGraphic_Device);

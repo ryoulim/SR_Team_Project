@@ -33,12 +33,14 @@ HRESULT CPlayer::Initialize(void* pArg)
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
 
-	 
+	//카메라 매니저 가져옴
 	m_pCameraManager = static_cast<CCameraManager*>(m_pGameInstance->Find_Object(m_eLevelID, TEXT("Layer_Camera")));
 	Safe_AddRef(m_pCameraManager);
 
+	// FPS 카매라 뺴옴
 	auto FPS_Camera = m_pCameraManager->Get_Camera(CCameraManager::FPS);
 
+	// FPS 카메라의 트랜스폼 정보를 받아둠 이후 조작 그냥 플레이어에서 했음
 	m_pCameraTransform = static_cast<CTransform*>(FPS_Camera->Find_Component(TEXT("Com_Transform")));
 	Safe_AddRef(m_pCameraTransform);
 
@@ -48,15 +50,22 @@ HRESULT CPlayer::Initialize(void* pArg)
 	}
 	m_pGravityCom->Set_JumpOption(CGravity::JUMPDESC{ 8.2f, 840.f});
 
+#pragma region 무기추가
 	m_Weapons.push_back(
 		static_cast<CWeapon*>(m_pGameInstance->Clone_Prototype(
-			PROTOTYPE::TYPE_GAMEOBJECT, LEVEL_GAMEPLAY, 
+			PROTOTYPE::TYPE_GAMEOBJECT, LEVEL_GAMEPLAY,
 			TEXT("Prototype_GameObject_Weapon_LoverBoy"))));
 
 	m_Weapons.push_back(
 		static_cast<CWeapon*>(m_pGameInstance->Clone_Prototype(
 			PROTOTYPE::TYPE_GAMEOBJECT, LEVEL_GAMEPLAY,
 			TEXT("Prototype_GameObject_Weapon_Chaingun"))));
+
+	m_Weapons.push_back(
+		static_cast<CWeapon*>(m_pGameInstance->Clone_Prototype(
+			PROTOTYPE::TYPE_GAMEOBJECT, LEVEL_GAMEPLAY,
+			TEXT("Prototype_GameObject_Weapon_Dispenser"))));
+#pragma endregion
 
 	return S_OK;
 }
@@ -184,16 +193,22 @@ void CPlayer::Key_Input(_float fTimeDelta)
 
 
 	bTriger = FALSE;
-	if (KEY_DOWN(DIK_1))
+	if (KEY_DOWN(DIK_Q))
 	{
-		m_iCurWeaponIndex = 0;
+		m_iCurWeaponIndex--;
+		if (m_iCurWeaponIndex < 0)
+			m_iCurWeaponIndex = m_iMaxWeaponIndex;
 		bTriger = TRUE;
 	}
-	if (KEY_DOWN(DIK_2))
+	if (KEY_DOWN(DIK_E))
 	{
-		m_iCurWeaponIndex = 1;
+		m_iCurWeaponIndex++;
+		if (m_iMaxWeaponIndex < m_iCurWeaponIndex)
+			m_iCurWeaponIndex = 0;
+
 		bTriger = TRUE;
 	}
+
 	if (bTriger)
 		m_Weapons[m_iCurWeaponIndex]->Set_State(CWeapon::ST_OPENING);
 

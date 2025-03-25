@@ -39,7 +39,8 @@ private:
 	_bool						m_bFpsMode{TRUE};
 
 	vector<class CWeapon*>		m_Weapons;
-	_uint						m_iCurWeaponIndex{};
+	_int						m_iCurWeaponIndex{};
+	_int						m_iMaxWeaponIndex{2};
 	_int						m_iHP = 0;
 
 private:

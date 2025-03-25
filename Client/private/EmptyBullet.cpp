@@ -50,9 +50,19 @@ void CEmptyBullet::resetParticle(Attribute* attribute)
 	attribute->_Age = 0.f;								// 나이
 	attribute->_Color = WHITE;							// 색상
 	attribute->_ColorFade = WHITE;						// 디졸브색상
-	attribute->_LifeTime = 5.f;						// 라이프타임
+	attribute->_LifeTime = 1.f;						// 라이프타임
 
 
+}
+
+HRESULT CEmptyBullet::Reset(void* pArg)
+{
+	DESC* pDesc = static_cast<DESC*>(pArg);
+	m_pTransForm->Set_State(CTransform::STATE_POSITION, pDesc->vPosition);
+	for (int i = 0; i < pDesc->iParticleNums; i++)
+		addParticle();
+
+	return S_OK;
 }
 
 EVENT CEmptyBullet::Update(_float timeDelta)
@@ -86,7 +96,7 @@ EVENT CEmptyBullet::Update(_float timeDelta)
 
 
 	//죽은 놈 삭제하기
-	removeDeadParticle();
+	//removeDeadParticle();
 	FrameUpdate(timeDelta);
 
 	return EVN_NONE;

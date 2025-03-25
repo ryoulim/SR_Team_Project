@@ -189,7 +189,7 @@ HRESULT CWeapon::Ready_Components(void* pArg)
 _bool CWeapon::Update_Frame(_float fTimeDelta)
 {
 	m_fTextureNum += m_fFrameSpeed * fTimeDelta;
-	if (m_fEndFrame < m_fTextureNum)
+	if (m_fEndFrame+1 < m_fTextureNum)
 	{
 		m_fTextureNum = m_fStartFrmae;
 		return TRUE;

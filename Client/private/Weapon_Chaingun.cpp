@@ -2,6 +2,8 @@
 // 부모 클래스 이름 : Weapon
 
 #include "Weapon_Chaingun.h"
+#include "FXMgr.h"
+
 #define INITPOS {170.f,-218.f,0.1f}
 #define HEADPOS	_float3 INITPOS - _float3{35.f,-72.5f,0.f}
 #define ST_RELEASE ST_RELOAD
@@ -56,11 +58,21 @@ void CWeapon_Chaingun::Late_Update(_float fTimeDelta)
 
 HRESULT CWeapon_Chaingun::Render()
 {
-	Body_Render();
 	if (m_eState == ST_W_ATK ||
-		m_eState == ST_S_ATK || 
+		m_eState == ST_S_ATK ||
 		m_eState == ST_RELOAD)
+	{
+		m_pGraphic_Device->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
+		m_pGraphic_Device->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
+		m_pGraphic_Device->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
+		m_pGraphic_Device->SetRenderState(D3DRS_BLENDOP, D3DBLENDOP_ADD);
+
 		__super::Render();
+
+		m_pGraphic_Device->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
+	}
+
+	Body_Render();
 
 	return S_OK;
 }
@@ -129,6 +141,10 @@ void CWeapon_Chaingun::Set_State(STATE State)
 		m_iBodynum = 15;
 		break;
 	case ST_W_ATK: // 진짜 발사
+	{
+		_float3 vSize{};
+		m_pTextureCom->Get_TextureSize(8, &vSize);
+		m_pTransformCom->Scaling(vSize * 1.25f);
 		m_eState = ST_W_ATK;
 		m_fTextureNum = 8.f;
 		m_fStartFrmae = 8.f;
@@ -137,7 +153,12 @@ void CWeapon_Chaingun::Set_State(STATE State)
 		m_iBodynum = 0;
 		m_fLastActionTime = 0.f;
 		break;
+	}
 	case ST_S_ATK: // 예열
+	{
+		_float3 vSize{};
+		m_pTextureCom->Get_TextureSize(1, &vSize);
+		m_pTransformCom->Scaling(vSize * 1.25f);
 		m_iBodynum = 0;
 		m_eState = ST_S_ATK;
 		m_fTextureNum = 1.f;
@@ -145,18 +166,25 @@ void CWeapon_Chaingun::Set_State(STATE State)
 		m_fEndFrame = 7.f;
 		m_fFrameSpeed = 1.f;
 		break;
+	}
 	case ST_RELEASE:
+	{
+		_float3 vSize{};
+		m_pTextureCom->Get_TextureSize(1, &vSize);
+		m_pTransformCom->Scaling(vSize * 1.25f);
 		m_eState = ST_RELOAD;
 		m_iBodynum = 0;
 		m_fTextureNum = 1.f;
 		m_fStartFrmae = 1.f;
 		m_fEndFrame = 7.f;
 		break;
+	}
 	case ST_ENDING:
 		break;
 	default:
 		break;
 	}
+
 }
 
 void CWeapon_Chaingun::Key_Input()
@@ -195,9 +223,9 @@ HRESULT CWeapon_Chaingun::Ready_Components(void* pArg)
 
 void CWeapon_Chaingun::Weak_Attack(_float fTimeDelta)
 {
-#define AMPX 6.f
-#define AMPY 6.f
-#define AMPSPEED 80.f
+#define AMPX 4.f
+#define AMPY 4.f
+#define AMPSPEED 60.f
 #define BULLETINTER 0.1f
 
 	// 총 발사
@@ -205,6 +233,10 @@ void CWeapon_Chaingun::Weak_Attack(_float fTimeDelta)
 
 	if (m_fMotionTimer < 1.f)
 	{
+		_float3 vSize{};
+		m_pTextureCom->Get_TextureSize(1, &vSize);
+		m_pTransformCom->Scaling(vSize * 1.25f);
+		m_iBodynum = 0;
 		m_eState = ST_S_ATK;
 		m_fTextureNum = 1.f;
 		m_fStartFrmae = 1.f;
@@ -216,6 +248,9 @@ void CWeapon_Chaingun::Weak_Attack(_float fTimeDelta)
 	if (m_fMotionTimer - m_fLastActionTime >= BULLETINTER)
 	{
 		m_fLastActionTime = m_fMotionTimer;
+		//CFXMgr::Get_Instance()->SpawnFireMachineGun(_float3{ 750.f, 450.f, 0.1f }, LEVEL_GAMEPLAY);
+		//CFXMgr::Get_Instance()->SpawnGunFireMachineGun(_float3{ 750.f, 450.f, 0.2f }, LEVEL_GAMEPLAY);
+		CFXMgr::Get_Instance()->SpawnEmptyBullet(_float3(0.f, 0.f, 0.f), LEVEL_GAMEPLAY);
 		Create_Bullet();
 	}
 
@@ -245,6 +280,9 @@ void CWeapon_Chaingun::Strong_Attack(_float fTimeDelta)
 
 	if (m_fMotionTimer > 1.f && MOUSE_PRESSING(DIMK_LBUTTON))
 	{
+		_float3 vSize{};
+		m_pTextureCom->Get_TextureSize(8, &vSize);
+		m_pTransformCom->Scaling(vSize * 1.25f);
 		m_eState = ST_W_ATK;
 		m_fTextureNum = 8.f;
 		m_fStartFrmae = 8.f;

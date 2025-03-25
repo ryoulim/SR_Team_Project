@@ -85,11 +85,8 @@ void CCameraSprite::Priority_Update(_float fTimeDelta)
 
 EVENT CCameraSprite::Update(_float fTimeDelta)
 {
-	//if (!m_bActive)
-	//{
-	//	m_pGameInstance->Deactive_Object(_wstring(TEXT("ObjectPool_")) + m_szTextureID, this);
-	//	return EVN_NONE;
-	//}
+	//FrameUpdate(fTimeDelta, m_fAnimationMaxFrame, m_fAnimationSpeed, true);
+
 
 	FrameUpdate(fTimeDelta, m_fAnimationMaxFrame, m_fAnimationSpeed, false);
 	if (m_fAnimationMaxFrame <= m_fAnimationFrame)

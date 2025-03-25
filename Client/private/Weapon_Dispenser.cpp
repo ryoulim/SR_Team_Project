@@ -3,6 +3,9 @@
 
 #include "Weapon_Dispenser.h"
 
+#define INITPOS {370.f,-218.f,0.1f}
+#define GRENADEMODE 16
+
 CWeapon_Dispenser::CWeapon_Dispenser(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CWeapon{ pGraphic_Device }
 {
@@ -20,12 +23,17 @@ HRESULT CWeapon_Dispenser::Initialize_Prototype()
 
 HRESULT CWeapon_Dispenser::Initialize(void* pArg)
 {
+	DESC Desc{};
+	m_fTextureNum = 0.f;
+	Desc.fSpeedPerSec = 2600.f;
 	m_szTextureID = TEXT("Weapon_Dispenser");
+	m_vMovingPos = INITPOS;
 
-	if (FAILED(__super::Initialize(pArg)))
+	if (FAILED(__super::Initialize(&Desc)))
 		return E_FAIL;
 
 	return S_OK;
+
 }
 
 void CWeapon_Dispenser::Priority_Update(_float fTimeDelta)
@@ -50,22 +58,117 @@ HRESULT CWeapon_Dispenser::Render()
 
 void CWeapon_Dispenser::Set_State(STATE State)
 {
+	if (m_eState == State)
+		return;
+
+	m_eState = State;
+	m_fMotionTimer = 0.f;
+
+	switch (State)
+	{
+	case ST_IDLE:
+		m_fStartFrmae = 0.f;
+		m_fEndFrame = 0.f;
+		m_fTextureNum = 0.f;
+		break;
+	case ST_OPENING:
+		m_fStartFrmae = 0.f;
+		m_fEndFrame = 0.f;
+		m_fTextureNum = 0.f;
+		m_pTransformCom->Set_State(CTransform::STATE_POSITION, _float3 INITPOS + _float3{ 0.f,-400.f,0.f });
+		break;
+	case ST_WALK:
+		m_eState = ST_WALK;
+		m_fTextureNum = 0.f;
+		m_fStartFrmae = 0.f;
+		m_fTextureNum = 0.f;
+		break;
+	case ST_W_ATK: // °ø°Ý
+		m_pTransformCom->Set_State(CTransform::STATE_POSITION, INITPOS);
+		m_eState = ST_W_ATK;
+		m_fFrameSpeed = 35.f;
+		m_fTextureNum = 0.f;
+		m_fStartFrmae = 0.f;
+		m_fEndFrame = 5.f;
+		break;
+	case ST_S_ATK: // ÆßÇÎ(ÀÚµ¿)
+	{
+		_float3 vPos = INITPOS;
+		vPos.x -= 40.f;
+		m_pTransformCom->Set_State(CTransform::STATE_POSITION, vPos);
+		m_eState = ST_S_ATK;
+		m_fTextureNum = 6.f;
+		m_fStartFrmae = 6.f;
+		m_fEndFrame = 15.f;
+		m_fFrameSpeed = 20.f;
+		break;
+	}
+	case ST_RELOAD:
+		break;
+	}
+
+	if (m_bGrenadeMode)
+	{
+		m_fTextureNum += GRENADEMODE;
+		m_fStartFrmae += GRENADEMODE;
+		m_fEndFrame += GRENADEMODE;
+	}
+
+	_float3 vScale{};
+	m_pTextureCom->Get_TextureSize(static_cast<_uint>(m_fTextureNum), &vScale);
+	m_pTransformCom->Scaling(vScale);
 }
 
 void CWeapon_Dispenser::Key_Input()
 {
+	if (MOUSE_DOWN(DIMK_LBUTTON))
+	{
+		Set_State(ST_W_ATK);
+	}
+	if (MOUSE_DOWN(DIMK_RBUTTON))
+	{
+		m_bGrenadeMode = !m_bGrenadeMode;
+		Set_State(ST_ENDING); // ¸ðµå º¯°æÀÓ
+	}
+	if (KEY_DOWN(DIK_R))
+	{
+		Set_State(ST_RELOAD);
+	}
 }
 
 void CWeapon_Dispenser::Opening(_float fTimeDelta)
 {
+	m_pTransformCom->Go_Up(fTimeDelta);
+
+	if (m_fMotionTimer > 0.15f)
+	{
+		//m_pTransformCom->Rotation_Reset();
+		Set_State(ST_IDLE);
+	}
 }
 
 void CWeapon_Dispenser::Weak_Attack(_float fTimeDelta)
 {
+	// ½î°í Àá±ñ ´ë±â
+	if (m_bTrigger)
+	{
+		if (m_fMotionTimer > 0.3f)
+		{
+			m_bTrigger = FALSE;
+			Set_State(ST_S_ATK);
+		}
+	}
+	else
+	{
+		if (Update_Frame(fTimeDelta))
+			m_bTrigger = TRUE;
+	}
 }
 
-void CWeapon_Dispenser::Strong_Attack(_float fTimeDelta)
+void CWeapon_Dispenser::Strong_Attack(_float fTimeDelta) // ÆßÇÎ
 {
+	if (Update_Frame(fTimeDelta))
+		Set_State(ST_IDLE);
 }
 
 void CWeapon_Dispenser::Reload(_float fTimeDelta)
@@ -74,6 +177,21 @@ void CWeapon_Dispenser::Reload(_float fTimeDelta)
 
 void CWeapon_Dispenser::Ending(_float fTimeDelta)
 {
+	Set_State(ST_OPENING);
+}
+
+void CWeapon_Dispenser::Create_Bullet()
+{
+	// ÆøÅº»Ñ¸®±â
+	if (m_bGrenadeMode)
+	{
+
+	}
+	// ¼¦°Ç
+	else
+	{
+
+	}
 }
 
 CWeapon_Dispenser* CWeapon_Dispenser::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
