@@ -77,11 +77,12 @@ HRESULT CPawn::Ready_Components(void* pArg)
 		m_pTransformCom->Scaling(pDesc->vScale);
 	}
 
+
 	DESC* pDesc = static_cast<DESC*>(pArg);
 	CCollider_Capsule::DESC ColliderDesc{};
 	ColliderDesc.pTransform = m_pTransformCom;
 	ColliderDesc.vScale = pDesc->vScale;
-	ColliderDesc.pOwner = this;	
+	ColliderDesc.pOwner = this;
 	ColliderDesc.iColliderGroupID = COL_PAWN;
 
 	/* For.Com_Collider */

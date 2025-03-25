@@ -292,6 +292,15 @@
     <Filter Include="02.GameObjects\UI\MenuUI\LevelLoadingMenu">
       <UniqueIdentifier>{f9967e05-e098-4fcc-b1ea-218980f9bbda}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\Map\Block\AnimeBlock">
+      <UniqueIdentifier>{9228408d-f530-470a-93e5-e0c57fcaadc5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Map\Block\InvisibleBlock">
+      <UniqueIdentifier>{f5c3a730-75a7-45ab-92af-11a9799408f1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Map\BackGround\AnimeRect">
+      <UniqueIdentifier>{683c6ea8-a0b1-4e95-8def-f1d0be8d0a57}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -612,6 +621,15 @@
     <ClInclude Include="..\public\TriangularPillar.h">
       <Filter>02.GameObjects\Map\TriangularPillar</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\Invisible_Block.h">
+      <Filter>02.GameObjects\Map\Block\InvisibleBlock</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\AnimeBlock.h">
+      <Filter>02.GameObjects\Map\Block\AnimeBlock</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\AnimeRect.h">
+      <Filter>02.GameObjects\Map\BackGround\AnimeRect</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -920,6 +938,15 @@
     </ClCompile>
     <ClCompile Include="..\private\TriangularPillar.cpp">
       <Filter>02.GameObjects\Map\TriangularPillar</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Invisible_Block.cpp">
+      <Filter>02.GameObjects\Map\Block\InvisibleBlock</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\AnimeBlock.cpp">
+      <Filter>02.GameObjects\Map\Block\AnimeBlock</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\AnimeRect.cpp">
+      <Filter>02.GameObjects\Map\BackGround\AnimeRect</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -22,6 +22,8 @@ public:
 protected:
 	virtual _wstring Compute_PrototypeName(const _wstring& strPrototypeTag);
 	virtual HRESULT Load_Map(_uint eLevelIdx, const _wstring& FileName);
+	HRESULT Load_VertexBuffer(class CGameObject* _pGameObject, HANDLE phFile, _ulong* pByte);
+
 protected:
 	LPDIRECT3DDEVICE9		m_pGraphic_Device = { nullptr };
 	class CGameInstance*	m_pGameInstance = { nullptr };
