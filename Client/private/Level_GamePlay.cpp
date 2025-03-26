@@ -345,6 +345,7 @@ void CLevel_GamePlay::Check_Collision()
 {
 	m_pGameInstance->Intersect(COL_PAWN, COL_BLOCK);
 	m_pGameInstance->Intersect(COL_PBULLET, COL_MONSTER);
+	m_pGameInstance->Intersect(COL_PBULLET, COL_BLOCK);
 }
 
 void CLevel_GamePlay::SpawnTtakkeun_i(_float3 _Position, bool m_bActive)
