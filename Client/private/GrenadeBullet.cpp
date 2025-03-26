@@ -31,6 +31,8 @@ HRESULT CGrenadeBullet::Initialize(void* pArg)
 
 	//m_pGravityCom->Jump(30.f);
 
+	m_fSpeedperSec = static_cast<DESC*>(pArg)->fSpeedPerSec;
+
 	return S_OK;
 }
 
@@ -44,7 +46,10 @@ EVENT CGrenadeBullet::Update(_float fTimeDelta)
 	m_fTimeAcc += fTimeDelta;
 	if (m_fTimeAcc > m_fTimeLimit ||
 		m_bDead)
+	{
+		CFXMgr::Get_Instance()->SpawnExplosion(CCollider::Get_Last_Collision_Pos(), m_eLevelID);
 		return EVN_DEAD;
+	}
 
 	m_pTransformCom->Go_Straight(fTimeDelta);
 
@@ -57,7 +62,8 @@ void CGrenadeBullet::Late_Update(_float fTimeDelta)
 	m_pGravityCom->Update(fTimeDelta);
 	if (!m_pGravityCom->isJump())
 	{
-		m_pGravityCom->Jump(30.f);
+		Friction();
+		m_pGravityCom->Jump(m_fJumpPower);
 	}
 	__super::Late_Update(fTimeDelta);
 }
@@ -79,10 +85,11 @@ void CGrenadeBullet::On_Collision(_uint MyColliderID, _uint OtherColliderID)
 	if (OtherColliderID == COL_MONSTER)
 	{
 		m_bDead = TRUE;
-		CFXMgr::Get_Instance()->SpawnExplosion(CCollider::Get_Last_Collision_Pos(), m_eLevelID);
 	}
 	else if (OtherColliderID == COL_BLOCK && CCollider::Get_Last_Collision_Depth().y == 0)
 	{
+		Friction();
+
 		m_pTransformCom->Move(CCollider::Get_Last_Collision_Depth());
 
 		_float3 vScale = m_pTransformCom->Compute_Scaled();
@@ -149,7 +156,6 @@ HRESULT CGrenadeBullet::Ready_Components(void* pArg)
 			return E_FAIL;
 
 		/* For.Com_Gravity */
-
 		CGravity::DESC GravityDesc{};
 		GravityDesc.pTransformCom = m_pTransformCom;
 		GravityDesc.fTimeIncreasePerSec = 8.2f;
@@ -159,6 +165,15 @@ HRESULT CGrenadeBullet::Ready_Components(void* pArg)
 			return E_FAIL;
 	}
 	return S_OK;
+}
+
+void CGrenadeBullet::Friction()
+{
+	m_fSpeedperSec *= 0.9f;
+	m_fJumpPower *= 0.9f;
+	m_pTransformCom->Set_SpeedPerSec(m_fSpeedperSec);
+	if (m_fJumpPower < 1.f)
+		m_bDead = true;
 }
 
 CGrenadeBullet* CGrenadeBullet::Create(LPDIRECT3DDEVICE9 pGraphic_Device)

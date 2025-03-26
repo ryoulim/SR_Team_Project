@@ -45,6 +45,12 @@ public:
 	void Set_State(TRANSFORMSTATE eState, const _float3& vState) {
 		memcpy(&m_WorldMatrix.m[eState][0], &vState, sizeof vState);
 	}
+	void Set_SpeedPerSec(_float fSpeedPerSec) {
+		m_fSpeedPerSec = fSpeedPerSec;
+	}
+	void Set_RotationPerSec(_float fRotationPerSec) {
+		m_fRotationPerSec = fRotationPerSec;
+	}
 
 public:
 	virtual HRESULT Initialize_Prototype() override;

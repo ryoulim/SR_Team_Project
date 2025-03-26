@@ -24,8 +24,14 @@ public:
 	virtual void On_Collision(_uint MyColliderID, _uint OtherColliderID) override;
 
 private:
-	virtual HRESULT Ready_Components(void* pArg) override;
 	CGravity* m_pGravityCom = { nullptr };
+
+	_float m_fJumpPower{30.f};
+	_float m_fSpeedperSec{};
+
+private:
+	virtual HRESULT Ready_Components(void* pArg) override;
+	virtual void Friction();
 
 public:
 	static CGrenadeBullet* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
