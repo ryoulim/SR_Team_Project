@@ -1,5 +1,8 @@
 #include "Transform.h"
 #include "Collider_Sphere.h"
+#include "Collider_AABB_Cube.h"
+#include "Collider_OBB_Cube.h"
+#include "Collider_Capsule.h"
 
 CCollider_Sphere::CCollider_Sphere(LPDIRECT3DDEVICE9 pGraphic_Device)
     : CCollider{ pGraphic_Device }
@@ -28,12 +31,134 @@ void CCollider_Sphere::Update_Scale(const _float3& vScale)
 
 _bool CCollider_Sphere::Intersect_With_AABB_Cube(const CCollider* pOther)
 {
-    return _bool();
+    auto pAABBInfo = static_cast<const CCollider_AABB_Cube*>(pOther)->Get_Info();
+
+    // 1. AABB의 min/max 좌표
+    const _float3& vMin = pAABBInfo->vMinPos;
+    const _float3& vMax = pAABBInfo->vMaxPos;
+
+    // 2. 구의 중심 좌표
+    const _float3& vCenter = m_tInfo.vPosition;
+    const _float fRadius = m_tInfo.fRadius;
+
+    // 3. AABB 내부에서 구 중심에 가장 가까운 점 찾기 (클램핑)
+    _float3 vClosest = {
+        max(vMin.x, min(vCenter.x, vMax.x)),
+        max(vMin.y, min(vCenter.y, vMax.y)),
+        max(vMin.z, min(vCenter.z, vMax.z))
+    };
+
+    // 4. 구 중심과 가장 가까운 점 사이 거리
+    _float3 vDiff = vCenter - vClosest;
+    _float fDistSq = D3DXVec3LengthSq(&vDiff);
+
+    if (fDistSq >= fRadius * fRadius)
+        return FALSE; // 충돌 아님
+
+    _float fDist = sqrtf(fDistSq);
+    _float3 vNormal = {};
+
+    if (fDist > 0.f)
+    {
+        vNormal = vDiff / fDist;
+    }
+    else
+    {
+        // 구가 AABB 내부에 있음 → 가장 가까운 면 방향 찾기
+        _float3 vDelta = vCenter - pAABBInfo->vCenter;
+        _float3 vOverlap = {
+            (vMax.x - vMin.x) * 0.5f - fabsf(vDelta.x),
+            (vMax.y - vMin.y) * 0.5f - fabsf(vDelta.y),
+            (vMax.z - vMin.z) * 0.5f - fabsf(vDelta.z)
+        };
+
+        if (vOverlap.x <= vOverlap.y && vOverlap.x <= vOverlap.z)
+            vNormal = { (vDelta.x >= 0.f) ? 1.f : -1.f, 0.f, 0.f };
+        else if (vOverlap.y <= vOverlap.x && vOverlap.y <= vOverlap.z)
+            vNormal = { 0.f, (vDelta.y >= 0.f) ? 1.f : -1.f, 0.f };
+        else
+            vNormal = { 0.f, 0.f, (vDelta.z >= 0.f) ? 1.f : -1.f };
+    }
+
+    // 5. 충돌 깊이 벡터 (구가 이동해야 하는 방향)
+    const _float fPenetration = fRadius - fDist;
+    m_vLast_Collision_Depth = vNormal * fPenetration;
+
+    // 6. 충돌 좌표 (구의 외곽 중 AABB 면에 먼저 닿은 지점)
+    m_vLast_Collision_Pos = vCenter - vNormal * fRadius;
+
+    return TRUE;
 }
 
 _bool CCollider_Sphere::Intersect_With_OBB_Cube(const CCollider* pOther)
 {
-    return _bool();
+    auto pOBBInfo = static_cast<const CCollider_OBB_Cube*>(pOther)->Get_Info();
+
+    const _float3& vSphereCenter = m_tInfo.vPosition;
+    const _float fSphereRadius = m_tInfo.fRadius;
+
+    const _float3& vOBBCenter = pOBBInfo->vPosition;
+    const _float3* vAxis = pOBBInfo->vAxis;
+    const _float3& vHalf = pOBBInfo->vHalfScale;
+
+    // 1. 구 중심을 OBB 로컬 공간으로 투영
+    _float3 vLocal = vSphereCenter - vOBBCenter;
+
+    // 2. OBB 안에서 구 중심에 가장 가까운 점 계산
+    _float3 vClosest = vOBBCenter;
+
+    for (int i = 0; i < 3; ++i)
+    {
+        _float fDist = D3DXVec3Dot(&vLocal, &vAxis[i]);
+
+        if (fDist > vHalf[i]) fDist = vHalf[i];
+        if (fDist < -vHalf[i]) fDist = -vHalf[i];
+
+        vClosest = vClosest + vAxis[i] * fDist;
+    }
+
+    // 3. 거리 계산
+    _float3 vDiff = vSphereCenter - vClosest;
+    _float fDistSq = D3DXVec3LengthSq(&vDiff);
+
+    if (fDistSq >= fSphereRadius * fSphereRadius)
+        return FALSE; // 충돌 없음
+
+    _float fDist = sqrtf(fDistSq);
+    _float3 vNormal = {};
+
+    if (fDist > 0.f)
+    {
+        vNormal = vDiff / fDist;
+    }
+    else
+    {
+        // 구가 OBB 중심과 정확히 겹칠 경우 → 가장 가까운 면 방향 선택
+        _float3 vDelta = vSphereCenter - vOBBCenter;
+        _float fMinOverlap = FLT_MAX;
+        int iMinAxis = 0;
+
+        for (int i = 0; i < 3; ++i)
+        {
+            _float fProj = D3DXVec3Dot(&vDelta, &vAxis[i]);
+            _float fOverlap = vHalf[i] - fabsf(fProj);
+
+            if (fOverlap < fMinOverlap)
+            {
+                fMinOverlap = fOverlap;
+                iMinAxis = i;
+            }
+        }
+
+        vNormal = vAxis[iMinAxis] * ((D3DXVec3Dot(&vDelta, &vAxis[iMinAxis]) >= 0.f) ? 1.f : -1.f);
+    }
+
+    // 4. 깊이 벡터와 충돌 좌표
+    _float fPenetration = fSphereRadius - fDist;
+    m_vLast_Collision_Depth = vNormal * fPenetration;
+    m_vLast_Collision_Pos = vSphereCenter - vNormal * fSphereRadius;
+
+    return TRUE;
 }
 
 _bool CCollider_Sphere::Intersect_With_Sphere(const CCollider* pOther)
@@ -49,7 +174,63 @@ _bool CCollider_Sphere::Intersect_With_Sphere(const CCollider* pOther)
 
 _bool CCollider_Sphere::Intersect_With_Capsule(const CCollider* pOther)
 {
-    return _bool();
+    auto pCapsuleInfo = static_cast<const CCollider_Capsule*>(pOther)->Get_Info();
+
+    // 1. 캡슐 위/아래 중심 계산
+    const _float fHalfHeight = pCapsuleInfo->fHeight * 0.5f;
+    const _float3 vHalf = { 0.f, fHalfHeight, 0.f };
+    const _float3 vTop = pCapsuleInfo->vCenter + vHalf;
+    const _float3 vBottom = pCapsuleInfo->vCenter - vHalf;
+
+    // 2. 캡슐 선분 방향 및 길이
+    _float3 vCapsuleAxis = vTop - vBottom;
+    const _float fCapsuleHeightSq = D3DXVec3LengthSq(&vCapsuleAxis);
+    _float fCapsuleHeight = sqrtf(fCapsuleHeightSq);
+
+    // Normalize
+    _float3 vCapsuleDir = {};
+    if (fCapsuleHeight != 0.f)
+        vCapsuleDir = vCapsuleAxis / fCapsuleHeight;
+    else
+        vCapsuleDir = { 0.f, 1.f, 0.f }; // 비정상적인 경우, Y축 임시 처리
+
+    // 3. 구 중심에서 캡슐 아래까지 벡터
+    const _float3 vToSphere = m_tInfo.vPosition - vBottom;
+    _float t = D3DXVec3Dot(&vToSphere, &vCapsuleDir);
+
+    // clamp(t, 0.f, fCapsuleHeight)
+    if (t < 0.f) t = 0.f;
+    else if (t > fCapsuleHeight) t = fCapsuleHeight;
+
+    // 4. 캡슐 선분에서 가장 가까운 점
+    const _float3 vClosest = vBottom + vCapsuleDir * t;
+
+    // 5. 거리 및 충돌 판단
+    const _float3 vDiff = m_tInfo.vPosition - vClosest;
+    const _float fDistSq = D3DXVec3LengthSq(&vDiff);
+    const _float fTotalRadius = m_tInfo.fRadius + pCapsuleInfo->fRadius;
+    const _float fTotalRadiusSq = fTotalRadius * fTotalRadius;
+
+    if (fDistSq >= fTotalRadiusSq)
+        return FALSE; // 충돌 없음
+
+    // 6. 충돌 깊이 방향 벡터
+    _float fDist = sqrtf(fDistSq);
+    _float3 vNormal = {};
+    if (fDist > 0.f)
+        vNormal = vDiff / fDist;
+    else
+        vNormal = { 1.f, 0.f, 0.f }; // 겹친 경우 임의 방향
+
+    const _float fPenetration = fTotalRadius - fDist;
+    m_vLast_Collision_Depth = vNormal * fPenetration;
+
+    // 7. 충돌 좌표 계산 (접점의 중점)
+    const _float3 vPointOnSphere = m_tInfo.vPosition - vNormal * m_tInfo.fRadius;
+    const _float3 vPointOnCapsule = vClosest + vNormal * pCapsuleInfo->fRadius;
+    m_vLast_Collision_Pos = (vPointOnSphere + vPointOnCapsule) * 0.5f;
+
+    return TRUE;
 }
 
 _bool CCollider_Sphere::Intersect_With_Rect(const CCollider* pOther)

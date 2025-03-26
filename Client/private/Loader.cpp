@@ -740,6 +740,7 @@ HRESULT CLoader::Loading_For_GamePlay()
 	ADD_PRTOBJ(Weapon_LoverBoy);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
 	ADD_PRTOBJ(Weapon_Chaingun);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
 	ADD_PRTOBJ(Weapon_Dispenser);
+	ADD_PRTOBJ(GrenadeBullet);
 	ADD_PRTOBJ(Block);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
 	ADD_PRTOBJ(BackGround);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
 	ADD_PRTOBJ(AnimeRect);fDataCurNum++; m_fLoadPercent = fDataCurNum / fDataNum;

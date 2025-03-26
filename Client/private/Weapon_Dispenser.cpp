@@ -3,6 +3,7 @@
 
 #include "Weapon_Dispenser.h"
 #include "UI_Manager.h"
+#include "GrenadeBullet.h"
 
 #define INITPOS {350.f,-150.f,0.1f}
 #define GRENADEMODE 30
@@ -245,7 +246,12 @@ void CWeapon_Dispenser::Create_Bullet()
 	// ÆøÅº»Ñ¸®±â
 	if (m_bGrenadeMode)
 	{
-
+		CGrenadeBullet::DESC BulletDesc{};
+		BulletDesc.fSpeedPerSec = 300.f;
+		BulletDesc.vScale = { 6.f,6.f,6.f };
+		if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_GrenadeBullet"),
+			LEVEL_GAMEPLAY, TEXT("Layer_Bullet"), &BulletDesc)))
+			return;
 	}
 	// ¼¦°Ç
 	else

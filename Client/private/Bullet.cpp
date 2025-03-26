@@ -76,8 +76,8 @@ void CBullet::On_Collision(_uint MyColliderID, _uint OtherColliderID)
 {
 	m_bDead = TRUE;
 
-	if(OtherColliderID == COL_BLOCK)
-		CFXMgr::Get_Instance()->SpawnBlood(CCollider::Get_Last_Collision_Pos(), m_eLevelID);
+	if(OtherColliderID == COL_MONSTER)
+		CFXMgr::Get_Instance()->SpawnExplosion(CCollider::Get_Last_Collision_Pos(), m_eLevelID);
 }
 
 HRESULT CBullet::Ready_Components(void* pArg)

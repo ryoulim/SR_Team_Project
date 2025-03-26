@@ -8,12 +8,6 @@ BEGIN(Client)
 
 class CGrenadeBullet final : public CBullet
 {
-public:
-	typedef struct tagGrenadeBulletDesc : public CBullet::DESC
-	{
-
-	}DESC;
-
 private:
 	CGrenadeBullet(LPDIRECT3DDEVICE9 pGraphic_Device);
 	CGrenadeBullet(const CGrenadeBullet& Prototype);
@@ -29,6 +23,7 @@ public:
 
 private:
 	virtual HRESULT Ready_Components(void* pArg) override;
+	CGravity* m_pGravityCom = { nullptr };
 
 public:
 	static CGrenadeBullet* Create(LPDIRECT3DDEVICE9 pGraphic_Device);

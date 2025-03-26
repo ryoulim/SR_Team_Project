@@ -56,12 +56,9 @@ HRESULT CUI_Camera::Render() // UI설정 전 필요한 각종 셋팅 몰아두기
 {
 	if (FAILED(Bind_Resource()))
 		return E_FAIL;
-	if (FAILED(m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE)))
-		return E_FAIL;
-	if (FAILED(m_pGraphic_Device->SetRenderState(D3DRS_ALPHAREF, 40)))
-		return E_FAIL;
-	if (FAILED(m_pGraphic_Device->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER)))
-		return E_FAIL;
+	m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
+	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAREF, 40);
+	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER);
 	m_pGraphic_Device->SetRenderState(D3DRS_ZENABLE, FALSE);
 	m_pGraphic_Device->SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
 	//m_pGraphic_Device->SetRenderState(D3DRS_LIGHTING, FALSE);
@@ -69,7 +66,6 @@ HRESULT CUI_Camera::Render() // UI설정 전 필요한 각종 셋팅 몰아두기
 	m_pGraphic_Device->SetSamplerState(0, D3DSAMP_MINFILTER, D3DTEXF_POINT);
 	m_pGraphic_Device->SetSamplerState(0, D3DSAMP_MAGFILTER, D3DTEXF_POINT);
 	m_pGraphic_Device->SetSamplerState(0, D3DSAMP_MIPFILTER, D3DTEXF_POINT);
-
 
 	return S_OK;
 }
