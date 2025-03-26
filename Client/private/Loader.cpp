@@ -61,6 +61,9 @@
 #include "Block.h"
 #include "TriangularPillar.h"
 #include "AnimeRect.h"
+#include "AnimeBlock.h"
+#include "InvisibleBlock.h"
+#include "Lava.h"
 
 //전시용 플랫폼
 #include "Flatform.h"
@@ -493,7 +496,7 @@ HRESULT CLoader::Loading_For_GamePlay()
 	ADD_TEXTURE(Weapon_Chaingun, "../Bin/Resources/Textures/Weapon/ChainGun/ChainGun%d.PNG", 16);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
 	ADD_TEXTURE(Weapon_Dispenser, "../Bin/Resources/Textures/Weapon/Dispenser/Dispenser%d.PNG", 32);
 
-	ADD_TEXTURE(Test, "../Bin/Resources/Textures/TileTest/tile%d.PNG", 113); fDataCurNum++; m_fLoadPercent = fDataCurNum / fDataNum;
+	ADD_TEXTURE(Test, "../Bin/Resources/Textures/TileTest/tile%d.PNG", 119); fDataCurNum++; m_fLoadPercent = fDataCurNum / fDataNum;
 	//ADD_TEXTURE(Test, "../Bin/Resources/Textures/TileTest/tile%d.PNG", 121);
 	for (size_t i = 0; i < 100000; i++)
 	{
@@ -743,6 +746,9 @@ HRESULT CLoader::Loading_For_GamePlay()
 	ADD_PRTOBJ(Block);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
 	ADD_PRTOBJ(BackGround);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
 	ADD_PRTOBJ(AnimeRect);fDataCurNum++; m_fLoadPercent = fDataCurNum / fDataNum;
+	ADD_PRTOBJ(AnimeBlock);fDataCurNum++; m_fLoadPercent = fDataCurNum / fDataNum;
+	ADD_PRTOBJ(InvisibleBlock);fDataCurNum++; m_fLoadPercent = fDataCurNum / fDataNum;
+	ADD_PRTOBJ(Lava); fDataCurNum++; m_fLoadPercent = fDataCurNum / fDataNum;
 	for (size_t i = 0; i < 100000; i++)
 	{
 		for (size_t j = 0; j < 10000; j++)

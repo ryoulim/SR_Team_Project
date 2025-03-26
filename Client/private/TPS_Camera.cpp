@@ -81,6 +81,8 @@ HRESULT CTPS_Camera::Ready_Components(void* pArg)
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Transform"),
 		TEXT("Com_Transform"), reinterpret_cast<CComponent**>(&m_pTransformCom), &desc)))
 		return E_FAIL;
+
+	return S_OK;
 }
 
 CTPS_Camera* CTPS_Camera::Create(LPDIRECT3DDEVICE9 pGraphic_Device)

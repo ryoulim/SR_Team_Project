@@ -480,7 +480,7 @@ HRESULT CLevel_GamePlay::Load_Map(_uint iLevelIdx, const _wstring& FileName)
 		return E_FAIL;
 	}
 	/* 텍스쿠드 변경해서 적용시켜 줄 때 각 오브젝트를 갖고오는 변수 ( 점점추가될 예정 )*/
-	_int iNumTile{}, iNumBlock{}, iNumTriPil{}, iNumAniRect{}, iNumAniBlock{}, iNumInviBlock{};
+	_int iNumTile{}, iNumBlock{}, iNumTriPil{}, iNumAniRect{}, iNumAniBlock{}, iNumInviBlock{}, iNumLava{};
 	/* 불러오기용 변수 */
 	_int iNumVertexX = {}, iNumVertexZ = {}, iLoadLength = {};
 	_uint iNumBackGround = {}, iNumModel = {};
@@ -601,6 +601,18 @@ HRESULT CLevel_GamePlay::Load_Map(_uint iLevelIdx, const _wstring& FileName)
 			else if (Prototype == TEXT("Prototype_GameObject_InvisibleBlock"))
 			{
 				CGameObject* pGameObject = m_pGameInstance->Find_Object(iLevelIdx, Layertag, iNumInviBlock++);
+				if (nullptr != pGameObject)
+				{
+					if (FAILED(__super::Load_VertexBuffer(pGameObject, hFile, &dwByte)))
+					{
+						MSG_BOX("버텍스 버퍼 로딩실패");
+						return E_FAIL;
+					}
+				}
+			}
+			else if (Prototype == TEXT("Prototype_GameObject_Lava"))
+			{
+				CGameObject* pGameObject = m_pGameInstance->Find_Object(iLevelIdx, Layertag, iNumLava++);
 				if (nullptr != pGameObject)
 				{
 					if (FAILED(__super::Load_VertexBuffer(pGameObject, hFile, &dwByte)))
