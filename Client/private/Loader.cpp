@@ -45,6 +45,7 @@
 #include "Blood.h"
 #include "BulletImpactSpark.h"
 #include "FireAttack.h"
+#include "FlyEffect.h"
 
 //UI 인클루드
 #include "Aim.h"
@@ -75,6 +76,8 @@
 #include "Deacon.h"
 #include "Cultist.h"
 #include "Archangel.h"
+#include "MonsterBullet.h"
+#include "MonsterMissile.h"
 #include <LevelLoadingMenu.h>
 
 
@@ -177,6 +180,12 @@ HRESULT CLoader::Loading_For_Logo()
 
 	///////////////////////////////////////////스프라이트//////////////////////////////////////////////////////
 
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_GameObject_MonsterBullet"),
+		CMonsterBullet::Create(m_pGraphic_Device))))
+		return E_FAIL;
+	fDataCurNum++;
+	m_fLoadPercent = fDataCurNum / fDataNum;
+
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_GameObject_PC_Sprite"),
 		CSprite::Create(m_pGraphic_Device))))
 		return E_FAIL;
@@ -197,6 +206,14 @@ HRESULT CLoader::Loading_For_Logo()
 
 	////////////////////////////////////////////파티클//////////////////////////////////////////////////////
 
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_GameObject_PC_FlyEffect"),
+		CFlyEffect::Create(m_pGraphic_Device, L"PARTICLE_FlyEffect"))))
+		return E_FAIL;
+	fDataCurNum++;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_GameObject_PC_MonsterMissile"),
+		CMonsterMissile::Create(m_pGraphic_Device, L"PARTICLE_MonsterMissile"))))
+		return E_FAIL;
+	fDataCurNum++;
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_GameObject_PC_FireAttack"),
 		CFireAttack::Create(m_pGraphic_Device, L"PARTICLE_FireAttack"))))
 		return E_FAIL;

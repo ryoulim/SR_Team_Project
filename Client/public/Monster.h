@@ -136,7 +136,7 @@ protected: //컴포넌트
 	CTexture*	m_pTextureCom = { nullptr };
 	CVIBuffer*	m_pVIBufferCom = { nullptr };
 	CTransform* m_pTransformCom = { nullptr };
-	CGravity* m_pGravityCom = { nullptr };
+	CGravity*	m_pGravityCom = { nullptr };
 
 protected: //충돌	
 	CCollider* m_pCollider = { nullptr };
@@ -190,16 +190,18 @@ protected:
 	_float  m_fIdleWaitElapsed = 0.f;
 	
 	// 공격 쿨다운
-	_bool m_bCoolingDown = false;
-	_float m_fCooldownTime = 0.f;
-	_float m_fCooldownDuration = 0.f;
-	_float m_fAttackTimer = 0.f;
+	_bool	m_bCoolingDown = false;
+	_float	m_fCooldownTime = 0.f;
+	_float	m_fCooldownDuration = 0.f;
+	_float	m_fAttackTimer = 0.f;
+	_int	m_iRandom = 0;
 
 
 protected:
 	bool			m_bDead = false;
 	bool			m_bActive = false;
 	bool			m_bDebug = false;
+	bool			m_bRotateAnimation = true;
 
 
 };

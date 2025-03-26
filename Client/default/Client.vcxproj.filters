@@ -319,6 +319,15 @@
     <Filter Include="02.GameObjects\Particle\_BossMobSkill\FireAttack">
       <UniqueIdentifier>{e9a31001-6a3a-443b-85d2-84aee3ab7729}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\Weapon\Bullet\MonsterBullet">
+      <UniqueIdentifier>{1bd0cbf5-9a36-4776-b30d-fe67d9d6090b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Particle\_BossMobSkill\FlyAttack">
+      <UniqueIdentifier>{1e364046-6bff-481a-8049-3efda6bb3683}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Particle\_BossMobSkill\FlyEffect">
+      <UniqueIdentifier>{aaa7ff1c-ea40-474f-b424-9f379b6ca4f9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -660,6 +669,15 @@
     <ClInclude Include="..\public\AnimeRect.h">
       <Filter>02.GameObjects\Map\BackGround\AnimeRect</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\MonsterBullet.h">
+      <Filter>02.GameObjects\Weapon\Bullet\MonsterBullet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\MonsterMissile.h">
+      <Filter>02.GameObjects\Particle\_BossMobSkill\FlyAttack</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\FlyEffect.h">
+      <Filter>02.GameObjects\Particle\_BossMobSkill\FlyEffect</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -989,6 +1007,15 @@
     </ClCompile>
     <ClCompile Include="..\private\FireAttack.cpp">
       <Filter>02.GameObjects\Particle\_BossMobSkill\FireAttack</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\MonsterBullet.cpp">
+      <Filter>02.GameObjects\Weapon\Bullet\MonsterBullet</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\MonsterMissile.cpp">
+      <Filter>02.GameObjects\Particle\_BossMobSkill\FlyAttack</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\FlyEffect.cpp">
+      <Filter>02.GameObjects\Particle\_BossMobSkill\FlyEffect</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

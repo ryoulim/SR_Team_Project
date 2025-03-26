@@ -235,9 +235,6 @@ HRESULT CLevel_GamePlay::Ready_Layer_Particle(const _wstring& strLayerTag)
 
 HRESULT CLevel_GamePlay::Ready_Layer_Effect(const _wstring& strLayerTag)
 {
-	//CFXMgr::Get_Instance()->SpawnGunFire(_float3{ 750.f, 450.f, 0.1f }, LEVEL_GAMEPLAY);
-	//CFXMgr::Get_Instance()->SpawnBulletTracer(_float3{ 700.f, 400.f, 0.2f }, LEVEL_GAMEPLAY);
-
 	return S_OK;
 }
 
@@ -341,16 +338,11 @@ HRESULT CLevel_GamePlay::Ready_Light()
 
 void CLevel_GamePlay::Check_Collision()
 {
-	//m_pGameInstance->Intersect(LEVEL_GAMEPLAY, TEXT("Layer_Pawn"), TEXT("Layer_Statue"));
-	//m_pGameInstance->Intersect(LEVEL_GAMEPLAY, TEXT("Layer_Pawn"), TEXT("Layer_Monster"));
-	//m_pGameInstance->Intersect(LEVEL_GAMEPLAY, TEXT("Layer_Pawn"), TEXT("Layer_Block"));
-	//m_pGameInstance->Intersect(LEVEL_GAMEPLAY, TEXT("Layer_Pawn"), TEXT("Layer_BackGround"));
-	//m_pGameInstance->Intersect(LEVEL_GAMEPLAY, TEXT("Layer_PBullet"), TEXT("Layer_Monster"));
-	//m_pGameInstance->Intersect(LEVEL_GAMEPLAY, TEXT("Layer_PBullet"), TEXT("Layer_Block"));
-
 	m_pGameInstance->Intersect(COL_PAWN, COL_BLOCK);
 	m_pGameInstance->Intersect(COL_PBULLET, COL_MONSTER);
 	m_pGameInstance->Intersect(COL_PBULLET, COL_BLOCK);
+
+	m_pGameInstance->Intersect(COL_MBULLET, COL_BLOCK);
 }
 
 void CLevel_GamePlay::SpawnTtakkeun_i(_float3 _Position, bool m_bActive)

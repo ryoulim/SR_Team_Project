@@ -1,8 +1,7 @@
-// 내 클래스 이름 : TestMonster
-// 부모 클래스 이름 : Monster
-
 #include "Ttakkeun_i.h"
 #include "FXMgr.h"
+#include "MonsterBullet.h"
+#include "FlyEffect.h"
 
 CTtakkeun_i::CTtakkeun_i(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CMonster{ pGraphic_Device }
@@ -51,41 +50,27 @@ void CTtakkeun_i::Priority_Update(_float fTimeDelta)
 
 EVENT CTtakkeun_i::Update(_float fTimeDelta)
 {
-	if (KEY_DOWN(DIK_I))
-	{
-		m_eState = MODE::MODE_RETURN;
-	}
-
-	if (KEY_DOWN(DIK_6))
-		m_eCurMonsterState = STATE_JUMP;
-	if (KEY_DOWN(DIK_7))
-		m_eCurMonsterState = STATE_FLY_ATTACK;
-	if (KEY_DOWN(DIK_8))
-		m_eCurMonsterState = STATE_FLY;
-	if (KEY_DOWN(DIK_9))
-		m_eCurMonsterState = STATE_WALK;
-	if (KEY_DOWN(DIK_0))
-		m_eCurMonsterState = STATE_LAVA_DIVEIN;
-
-	if (KEY_DOWN(DIK_UP))
-		m_eCurFlyingDirection = UP;
-	if (KEY_DOWN(DIK_DOWN))
-		m_eCurFlyingDirection = DOWN;
-	if (KEY_DOWN(DIK_LEFT))
-		m_eCurFlyingDirection = LEFT;
-	if (KEY_DOWN(DIK_RIGHT))
-		m_eCurFlyingDirection = RIGHT;
-
-
-
+	if (m_pFlyEffect)
+		static_cast<CFlyEffect*>(m_pFlyEffect)->SetPosition(*m_pTransformCom->Get_State(CTransform::STATE_POSITION));
 
 	return __super::Update(fTimeDelta);
 }
 
 void CTtakkeun_i::Late_Update(_float fTimeDelta)
 {
-	__super::Late_Update(fTimeDelta);
+	//플레이어 감지 업데이트
+	PlayerDistance();
+	CalculateVectorToPlayer();
+	IsPlayerDetected();
 
+	//콜라이더 업데이트
+	m_pCollider->Update_Collider();
+
+	Compute_ViewAngle();
+
+	//렌더그룹 업데이트
+	if (FAILED(m_pGameInstance->Add_RenderGroup(CRenderer::RG_NONBLEND, this)))
+		return;
 
 
 #ifdef _DEBUG
@@ -94,11 +79,10 @@ void CTtakkeun_i::Late_Update(_float fTimeDelta)
 	
 	if (elapsed >= 1000) 
 	{
-		// 0.5초 이상 지났다면 출력
-		cout << "따끈이 상태 : " << GetMonsterStateName(m_eState) << '\n';
-		cout << "플레이어와의 거리 : " << m_fCurDistance << endl;
-		cout << "따끈이 카메라와 각도 : " << m_iDegree << endl;
-		cout << "따끈이 시계방향이야? : " << m_bCW << endl;
+		// 1초 이상 지났다면 출력
+		//cout << "따끈이 상태 : " << GetMonsterStateName(m_eState) << '\n';
+		//cout << "플레이어와의 거리 : " << m_fCurDistance << endl;
+		cout << "따끈이 랜덤변수 : " << m_iRandom << endl;
 		g_LastLogTime = now;
 	}
 #endif
@@ -173,18 +157,6 @@ HRESULT CTtakkeun_i::Ready_Textures()
 			return E_FAIL;
 	}
 
-	/* LAVA_ATTACK */
-	for (_uint i = 0; i < BOSS_DEGREE::D_END; i++)
-	{
-		_wstring sPrototypeTag = L"Prototype_Component_Texture_Boss_Lava_Attack_";
-		_uint num = static_cast<_uint>(i * m_fDivOffset);
-		_tchar buf[32];
-		_itow_s((int)num, buf, 10);
-		sPrototypeTag += buf;
-		if (FAILED(__super::Add_Component(m_eLevelID, sPrototypeTag,
-			_wstring(TEXT("Com_Texture")) + L"_Boss_Lava_Attack_" + buf, reinterpret_cast<CComponent**>(&(m_pTextureMap[STATE_LAVA_ATTACK][i])))))
-			return E_FAIL;
-	}
 
 
 	//divein은 0만 이미지 존재 ****
@@ -227,9 +199,9 @@ HRESULT CTtakkeun_i::Set_Animation()
 			m_fAnimationMaxFrame = MAX_JUMP;
 			m_fAnimationSpeed = 3.f;
 			break;
-		case Client::CTtakkeun_i::STATE_LAVA_ATTACK:
-			m_fAnimationMaxFrame = MAX_LAVA_ATTACK;
-			m_fAnimationSpeed = 3.f;
+		case Client::CTtakkeun_i::STATE_STAY:
+			m_fAnimationMaxFrame = 1.f;
+			m_fAnimationSpeed = 0.f;
 			break;
 		case Client::CTtakkeun_i::STATE_LAVA_DIVEIN:
 			m_fAnimationMaxFrame = MAX_LAVA_DIVEIN;
@@ -261,6 +233,11 @@ HRESULT CTtakkeun_i::Animate_Monster(_float fTimeDelta)
 			m_fAnimationFrame = 0.f;
 		break;
 
+	case Client::CTtakkeun_i::STATE_STAY:
+		m_fAnimationFrame += fTimeDelta * m_fAnimationSpeed;
+		if (m_fAnimationFrame >= m_fAnimationMaxFrame)
+			m_fAnimationFrame = 0.f;
+		break;
 
 	case Client::CTtakkeun_i::STATE_FLY:
 		if (m_iDegree != 0 && m_iDegree != 8 && m_bCW == true)
@@ -289,30 +266,19 @@ HRESULT CTtakkeun_i::Animate_Monster(_float fTimeDelta)
 		else if (m_fAnimationFrame < 2.f)
 			m_fAnimationFrame += fTimeDelta * 6.f;
 		else if (m_fAnimationFrame < 3.f)
-			m_fAnimationFrame += fTimeDelta * 0.1f;
+		{
+			if (m_bFlyAttack)
+				m_eCurMonsterState = STATE_FLY;
+			else
+				m_fAnimationFrame += fTimeDelta * 0.1f;
+		}
 		else if (m_fAnimationFrame < 4.f)
 			m_fAnimationFrame += fTimeDelta * 6.f;
 		else if (m_fAnimationFrame < 5.f)
 			m_fAnimationFrame += fTimeDelta * 0.05f;
 		else if (m_fAnimationFrame >= 5.f)
 			m_eCurMonsterState = STATE_WALK;
-		break;
-
-
-	case Client::CTtakkeun_i::STATE_LAVA_ATTACK:
-		m_fAnimationFrame += fTimeDelta * m_fAnimationSpeed;
-		if (m_fAnimationFrame >= m_fAnimationMaxFrame)
-			m_fAnimationFrame = 0.f;
-		break;
-
-
-	case Client::CTtakkeun_i::STATE_LAVA_DIVEIN:
-		if (m_fAnimationFrame < m_fAnimationMaxFrame - 1.f)
-			m_fAnimationFrame += fTimeDelta * 0.05f;
-		else if (m_fAnimationFrame < m_fAnimationMaxFrame && m_fAnimationFrame >= m_fAnimationMaxFrame)
-			m_fAnimationFrame += fTimeDelta * m_fAnimationSpeed;
-		else if (m_fAnimationFrame >= m_fAnimationMaxFrame)
-			m_eCurMonsterState = STATE_LAVA_ATTACK;
+			
 		break;
 	}
 
@@ -320,11 +286,63 @@ HRESULT CTtakkeun_i::Animate_Monster(_float fTimeDelta)
 	return S_OK;
 }
 
+void CTtakkeun_i::DoIdle(_float dt)
+{
+	switch (m_eIdlePhase)
+	{
+	case EIdlePhase::IDLE_MOVE:
+	{
+		m_eCurMonsterState = STATE_WALK;
+		m_fWanderElapsed += dt;
+
+		m_pTransformCom->Go_Straight(dt);
+
+		if (m_fWanderElapsed >= m_fWanderTime)
+		{
+			m_fWanderElapsed = 0.f;
+			m_eIdlePhase = EIdlePhase::IDLE_WAIT;
+		}
+		break;
+	}
+	case EIdlePhase::IDLE_WAIT:
+		m_fIdleWaitElapsed += dt;
+		//m_eCurMonsterState = STATE_STAY;
+
+		if (m_fIdleWaitElapsed >= m_fIdleWaitTime)
+		{
+			SetRandomDirection();                  // 회전할 방향 설정
+			m_fIdleWaitElapsed = 0.f;
+			m_eIdlePhase = EIdlePhase::IDLE_TURN; // 다음엔 회전하러 간다
+		}
+		break;
+
+	case EIdlePhase::IDLE_TURN:
+	{
+		m_eCurMonsterState = STATE_WALK;
+		_float3 vLook = *m_pTransformCom->Get_State(CTransform::STATE_LOOK);
+
+		bool bRotated = m_pTransformCom->RotateToDirection(vLook, m_vDirection, 5.f, dt);
+		if (bRotated)  // 회전 완료 신호
+		{
+			m_eIdlePhase = EIdlePhase::IDLE_MOVE;
+		}
+		break;
+	}
+	}
+}
+
 void CTtakkeun_i::DoBattle(_float dt)
 {
 	// 1. 플레이어와의 거리 계산
-	_float fAttackRange = 250.f;
+	_float fAttackRange = 350.f;
 	_float fChaseRange = 700.f;
+
+	//만약 공중공격중이라면
+	if (m_bFlyAttack)
+	{
+		FlyAttack(dt);
+		return;
+	}
 
 	// 2. 거리 기준 분기
 	if (m_fCurDistance < fAttackRange)
@@ -348,6 +366,7 @@ void CTtakkeun_i::AttackPattern(_float dt)
 
 		if (m_fCooldownTime >= m_fCooldownDuration)
 		{
+			m_iRandom = GetRandomInt(0, 1);
 			m_bCoolingDown = false;
 			m_fCooldownTime = 0.f;
 		}
@@ -383,23 +402,20 @@ void CTtakkeun_i::AttackPattern(_float dt)
 void CTtakkeun_i::BasicAttackSet(_float dt)
 {
 	/* 따끈이의 공격패턴[ 1페이즈 ] */
-
-	//int iRand = GetRandomInt(0, 2);
-	int iRand = 0;
-
-	switch (iRand)
+	
+	switch (m_iRandom)
 	{
 	case 0: 
 		/* 1. 화염방사 */
-		FireAttack(dt);
+		FireAttack(dt);	
 		break;
-	case 1: 
-		/* 2. 용암풍덩 */
-		LavaAttack(dt);
+	case 1:
+		/* 2. 날아오르라 주작이여 */
+		FlyAttack(dt);
 		break;
 	case 2:
-		/* 3. 날아오르라 주작이여 */
-		FlyAttack(dt);
+		/* 3. 용암풍덩 */
+		LavaAttack(dt);
 		break;
 	}
 }
@@ -418,12 +434,12 @@ void CTtakkeun_i::SpawnAttack(_float dt)
 
 void CTtakkeun_i::FireAttack(_float dt)
 {
-	// 2초 이상 공격했으면 isDone 설정하고 끝
+	// 어택 쿨타임
 	m_fAttackTimer += dt;
 	if (m_fAttackTimer >= 2.f)
 	{
 		StartCooldown(dt);
-		m_fAttackTimer = 0.f;  // 필요하면 리셋하고
+		m_fAttackTimer = 0.f;
 		return;
 	}
 
@@ -452,6 +468,120 @@ void CTtakkeun_i::LavaAttack(_float dt)
 
 void CTtakkeun_i::FlyAttack(_float dt)
 {
+	//내 위치
+	_float3 vMyPos = *m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+	
+	//날아오르기 변수
+	bool isFly = false;
+
+	if (m_eCurMonsterState == STATE_WALK)
+	{
+		//점프 후 Fly 로 스테이트를 바꿔준다.
+		m_eCurMonsterState = STATE_JUMP;
+		m_bFlyAttack = true;
+
+		//이펙트 소환
+		if (!m_bFlyEffect)
+		{
+			FlyEffect();
+			m_bFlyEffect = true;
+		}
+	}
+
+	//몬스터가 공중으로 일정높이까지 날아오른다.
+	if (m_eCurMonsterState == STATE_FLY || m_eCurMonsterState == STATE_FLY_ATTACK)
+	{
+		isFly = m_pTransformCom->Go_UpCustom(dt, 100.f, 250.f);
+	}
+
+	//몬스터가 m_vReturnPos 를 중점으로 공중에서 뱅글뱅글 돈다.
+	if (isFly)
+	{
+		if (m_pFlyEffect)
+		{
+			static_cast<CFlyEffect*>(m_pFlyEffect)->SetDead();
+			m_pFlyEffect = nullptr;
+		}
+
+		_float fRotationSpeed = 60.f;
+
+		// 현재 룩 벡터 가져오기
+		_float3 vLook = *m_pTransformCom->Get_State(CTransform::STATE_LOOK);
+
+		/* [ 회전수식 적용 ] */
+		_float fAngleRad = RADIAN(fRotationSpeed * dt);
+
+		_float cosA = cosf(fAngleRad);
+		_float sinA = sinf(fAngleRad);
+
+		_float3 vRotatedLook;
+		vRotatedLook.x = vLook.x * cosA - vLook.z * sinA;
+		vRotatedLook.z = vLook.x * sinA + vLook.z * cosA;
+		vRotatedLook.y = vLook.y;
+
+		//룩벡터 업데이트
+		vRotatedLook.Normalize();
+		m_pTransformCom->Set_State(CTransform::STATE_LOOK, vRotatedLook);
+
+		// 전방으로 이동
+		_float fSpeed = 600.f;
+		_float3 vForward = vRotatedLook * fSpeed * dt;
+
+		//센터방향 벡터
+		_float3 vToCenter = m_vReturnPos - vMyPos;
+		vToCenter.y = 0.f;
+		vToCenter.Normalize();
+
+		// 천천히 중심 쪽으로 밀기
+		_float fDriftSpeed = 100.f;
+		_float3 vDrift = vToCenter * fDriftSpeed * dt;
+
+		// 최종 위치 = 회전 + 중심 쪽 이동
+		_float3 vNewPos = vMyPos + vForward + vDrift;
+		m_pTransformCom->Set_State(CTransform::STATE_POSITION, vNewPos);
+	}
+
+	/* 몬스터가 플레이어를 향해서 미사일을 발사한다 */
+	if (isFly)
+	{
+		//3번 발사 시 패턴 종료
+		if (3 <= m_iMissileCount)
+		{
+			m_iRandom = GetRandomInt(0, 1);
+			m_eCurMonsterState = STATE_FLY;
+			m_eCurFlyingDirection = UP;
+			m_eState = MODE::MODE_RETURN;
+			m_iMissileCount = 0;
+			m_bFlyAttack = false;
+			m_bFlyEffect = false;
+			isFly = false;
+			return;
+		}
+
+		//fly 상태에서 2초마다 미사일 발사 함수를 호출한다.
+		m_fFlyAttack += dt;
+
+		if (m_fFlyAttack >= 4.f)
+		{
+			// 4초마다 초기화
+			m_fFlyAttack = 0.f;
+			++m_iMissileCount;
+		}
+
+		if (m_fFlyAttack >= 2.f) // 2~4초 구간
+		{
+			/* 공격모션으로 바꾸고 미사일을 발사한다 */
+			m_eCurMonsterState = STATE_FLY_ATTACK;
+			m_eCurFlyingDirection = RIGHT;
+			m_bRotateAnimation = false;
+
+			SpawnMissile(dt);
+			return;
+		}
+		m_eCurMonsterState = STATE_FLY;
+		m_eCurFlyingDirection = UP;
+		m_bRotateAnimation = true;
+	}
 }
 
 void CTtakkeun_i::StartCooldown(_float dt)
@@ -460,6 +590,81 @@ void CTtakkeun_i::StartCooldown(_float dt)
 	m_fCooldownDuration = GetRandomFloat(1.5f, 2.5f); // 쿨다운 시간 랜덤
 	m_fCooldownTime = 0.f;
 }
+
+void CTtakkeun_i::SpawnMissile(_float dt)
+{
+	m_fSpawnMissile += dt;
+
+	if (m_fSpawnMissile >= 0.2f)
+	{
+		// 0.2초마다 발사
+		CMonsterBullet::DESC MonsterBullet_iDesc{};
+		MonsterBullet_iDesc.fSpeedPerSec = 60.f;
+		MonsterBullet_iDesc.fRotationPerSec = RADIAN(180.f);
+		MonsterBullet_iDesc.vScale = { 10.f, 10.f, 0.f };
+		MonsterBullet_iDesc.vPosition = *m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+
+		if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_MonsterBullet"),
+			LEVEL_GAMEPLAY, L"Layer_MonsterBullet", &MonsterBullet_iDesc)))
+			return;
+
+
+		m_fSpawnMissile = 0.f;
+	}
+}
+
+void CTtakkeun_i::FlyEffect()
+{
+	//비행 파티클
+	CPSystem::DESC FlyEffect_iDesc{};
+	FlyEffect_iDesc.vPosition = { 0.f, 0.f, 0.f };
+	FlyEffect_iDesc.szTextureTag = TEXT("PC_Small_Smoke");
+	FlyEffect_iDesc.iParticleNums = 100;
+	FlyEffect_iDesc.fSize = 1.f;
+	FlyEffect_iDesc.fMaxFrame = 20.f;
+	FlyEffect_iDesc.fLifeTime = GetRandomFloat(1.f, 3.f);
+
+	CGameObject* pObject = nullptr;
+	CGameObject** ppOut = &pObject;
+	if (FAILED(m_pGameInstance->Add_GameObjectReturn(LEVEL_STATIC, TEXT("Prototype_GameObject_PC_FlyEffect"),
+		LEVEL_GAMEPLAY, L"Layer_Particle", ppOut, &FlyEffect_iDesc)))
+		return;
+
+	m_pFlyEffect = *ppOut;
+}
+
+void CTtakkeun_i::DoReturn(_float dt)
+{
+	// 현재 위치
+	_float3 vMyPos = *m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+
+	// 방향 계산
+	_float3 vDir = m_vReturnPos - vMyPos;
+	float fDistance = vDir.Length();
+	vDir.Normalize();
+
+	//원래방향으로 턴하기
+	_float3 vLook = *m_pTransformCom->Get_State(CTransform::STATE_LOOK);
+	bool bRotated = m_pTransformCom->RotateToDirection(vLook, vDir, 5.f, dt);
+
+	if (bRotated)  // 회전 완료 신호
+	{
+		// 너무 가까우면 이동 종료
+		if (fDistance < 10.0f) // 도착 판정 오차 허용
+		{
+			m_eState = MODE::MODE_IDLE;
+			m_eCurMonsterState = STATE_WALK;
+			return;
+		}
+
+		// 이동 처리 (dt 고려)
+		float fSpeed = 300.f;
+		_float3 vMove = vDir * fSpeed * dt;
+
+		m_pTransformCom->Set_State(CTransform::STATE_POSITION, (vMyPos + vMove));
+	}
+}
+
 
 void CTtakkeun_i::On_Collision(_uint MyColliderID, _uint OtherColliderID)
 {
@@ -498,7 +703,7 @@ CTtakkeun_i* CTtakkeun_i::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 	pInstance->m_iMaxHP			= 500;
 	pInstance->m_iAttackPower	= 10;
 	pInstance->m_iDefense		= 3;
-	pInstance->m_fSpeed			= 60.f;
+	pInstance->m_fSpeed			= 100.f;
 	pInstance->m_vScale			= { 150.f, 147.f, 1.f };
 	pInstance->m_eState		= MODE::MODE_IDLE;
 	pInstance->m_fDetectiveDistance = 400.f;

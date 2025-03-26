@@ -68,7 +68,7 @@ void CSphere::resetParticle(Attribute* attribute)
 
 	//초기 위치 (반지름 30.0f 범위 내에서 랜덤한 원형 배치)
 	float angle = GetRandomFloat(0.0f, D3DX_PI * 2.0f);
-	m_fRadius = GetRandomFloat(50.0f, 70.0f);
+	m_fRadius = GetRandomFloat(m_fMin, m_fMax);
 	attribute->_Position.x = cos(angle) * m_fRadius;
 	attribute->_Position.y = GetRandomFloat(0.0f, -25.0f);
 	attribute->_Position.z = sin(angle) * m_fRadius;
@@ -135,14 +135,25 @@ EVENT CSphere::Update(_float timeDelta)
 
 			if (i->_Age > i->_LifeTime)
 			{
-				//i->_isAlive = false;
-				resetParticle(&(*i));
+				if (m_bIsLoop)
+				{
+					resetParticle(&(*i));
+				}
+				else
+				{
+					i->_isAlive = false;
+				}				
 			}
 		}
 	}
 
 	FrameUpdate(timeDelta);
 
+	removeDeadParticle();
+	if (m_Particles.empty())
+	{
+		return EVN_DEAD;
+	}
 
 	return EVN_NONE;
 }
@@ -201,7 +212,6 @@ HRESULT CSphere::Render()
 		m_pGraphic_Device->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_ONE);
 
 		m_pTextureCom->Bind_Resource(0);
-		//m_pTextureCom->Bind_Resource((_uint)m_fFrame);
 		//m_pGraphic_Device->SetTexture(0, nullptr);
 
 		m_pGraphic_Device->SetFVF(Particle::FVF);

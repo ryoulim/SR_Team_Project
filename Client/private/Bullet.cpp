@@ -27,7 +27,7 @@ HRESULT CBullet::Reset(void* pArg)
 {
 	_float4x4 CameraWorld{};
 	m_pGraphic_Device->GetTransform(D3DTS_VIEW, &CameraWorld);
-	m_pTransformCom->Set_WorldMatrix(&CameraWorld.MakeInverseMat(CameraWorld));
+	m_pTransformCom->Set_WorldMatrix(&CameraWorld.MakeInverseMat(CameraWorld)); 
 
 	DESC* pDesc = static_cast<DESC*>(pArg);
 	m_pCollider->Update_Scale({ pDesc->fSpeedPerSec / 60.f ,0.f,0.f });
