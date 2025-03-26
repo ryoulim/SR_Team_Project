@@ -12,7 +12,7 @@ CVIBuffer_BuildingH::CVIBuffer_BuildingH(const CVIBuffer_BuildingH& Prototype)
 
 HRESULT CVIBuffer_BuildingH::Initialize_Prototype()
 {
-	m_iNumVertices = 40;					// 버텍스 갯수
+	m_iNumVertices = 43;					// 버텍스 갯수
 	m_iVertexStride = sizeof(VTXPOSNORTEX);	// 버텍스 크기
 	m_iFVF = D3DFVF_XYZ | D3DFVF_NORMAL | D3DFVF_TEX1;		// 버텍스 타입
 	m_iNumPritimive = 44;					// 삼각형 갯수
@@ -151,6 +151,15 @@ HRESULT CVIBuffer_BuildingH::Initialize_Prototype()
 
 	pVertices[39].vPosition = _float3(0.25f, -0.125f, -0.25f);	//10
 	pVertices[39].vTexcoord = _float2(1.f, 1.4f);
+
+	pVertices[40].vPosition = _float3(-0.25f, -0.125f, 0.25f);	//23
+	pVertices[40].vTexcoord = _float2(1.f, 1.f);
+
+	pVertices[41].vPosition = _float3(-0.25f, -0.125f, -0.25f);	//11
+	pVertices[41].vTexcoord = _float2(1.f, 2.f);
+
+	pVertices[42].vPosition = _float3(0.25f, -0.125f, -0.25f);	//10
+	pVertices[42].vTexcoord = _float2(0.f, 2.f);
 #pragma endregion
 
 	for (_uint i = 0; i < m_iNumVertices; i++)
@@ -301,7 +310,7 @@ HRESULT CVIBuffer_BuildingH::Initialize_Prototype()
 	pVertices[5].vNormal += ComputeNormalVector(pVertices, 16, 17, 5);
 	pVertices[4].vNormal += ComputeNormalVector(pVertices, 16, 5, 4);
 
-	Set_IndexBuffer(pIndices, 102, 32, 33, 11, 10);
+	Set_IndexBuffer(pIndices, 102, 22, 40, 41, 42);
 	pVertices[22].vNormal += ComputeNormalVector(pVertices, 22, 23, 11);
 	pVertices[23].vNormal += ComputeNormalVector(pVertices, 22, 23, 11);
 	pVertices[11].vNormal += ComputeNormalVector(pVertices, 22, 23, 11);

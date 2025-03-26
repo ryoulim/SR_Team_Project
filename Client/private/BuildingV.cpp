@@ -18,16 +18,15 @@ HRESULT CBuildingV::Initialize_Prototype()
 
 HRESULT CBuildingV::Initialize(void* pArg)
 {
+	DESC* desc = static_cast<DESC*>(pArg);
+
 	m_eLevelID = LEVEL_RACE;
 	m_szTextureID = TEXT("BuildingV");
 	m_szBufferType = TEXT("BuildingV");
 
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
-
-	m_pTransformCom->Scaling(_float3(800.f, 500.f, 720.f));
-	m_pTransformCom->Set_State(CTransform::STATE_POSITION, _float3(470.f, 350.f, 700.f));
-
+	
 	return S_OK;
 }
 

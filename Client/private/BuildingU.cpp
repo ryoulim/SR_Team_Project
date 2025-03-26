@@ -25,9 +25,6 @@ HRESULT CBuildingU::Initialize(void* pArg)
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
 
-	m_pTransformCom->Scaling(_float3(800.f, 500.f, 720.f));
-	m_pTransformCom->Set_State(CTransform::STATE_POSITION, _float3(470.f, 350.f, 700.f));
-
 	return S_OK;
 }
 
@@ -48,7 +45,7 @@ void CBuildingU::Late_Update(_float fTimeDelta)
 
 HRESULT CBuildingU::Render()
 {
-	__super::LightOn();
+	//__super::LightOn();
 	return __super::Render();
 }
 

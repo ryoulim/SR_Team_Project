@@ -17,18 +17,12 @@ HRESULT CRaceLandscape::Initialize_Prototype()
 
 HRESULT CRaceLandscape::Initialize(void* pArg)
 {
-	DESC* desc = static_cast<DESC*>(pArg);
-
 	m_eLevelID = LEVEL_RACE;
 	m_szTextureID = TEXT("RaceLandscape");
 	m_szBufferType = TEXT("RaceLandscape");
 
-	if (FAILED(__super::Ready_Components(pArg)))
+	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
-
-	m_pTransformCom->LookAt(desc->vLook);
-	m_pTransformCom->Set_State(CTransform::STATE_POSITION, desc->vPosition);
-	m_pTransformCom->Scaling(_float3(72.f, 72.f, 72.f));
 
 	return S_OK;
 }
@@ -58,6 +52,13 @@ HRESULT CRaceLandscape::Render()
 	return S_OK;
 }
 
+void CRaceLandscape::Surface_Plane()
+{
+	CGameObject* pRaceTerrain = m_pGameInstance->Find_Object(LEVEL_RACE, TEXT("Layer_RaceTerrain"), 0);
+	Safe_AddRef(pRaceTerrain);
+
+	//m_pTransformCom->Set_State()
+}
 CRaceLandscape* CRaceLandscape::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 {
 	CRaceLandscape* pInstance = new CRaceLandscape(pGraphic_Device);

@@ -1,21 +1,13 @@
-#pragma once
 #include "Statue.h"
 
 BEGIN(Client)
 
-class CRaceLandscape final : public CStatue
+class CRaceGate final : public CStatue
 {
-public:
-	typedef struct RACELANDSCAPEDESC
-	{
-		_float3 vPosition;
-		_float	fAngle;
-	}DESC;
-
 private:
-	CRaceLandscape(LPDIRECT3DDEVICE9 pGraphic_Device);
-	CRaceLandscape(const CRaceLandscape& Prototype);
-	virtual ~CRaceLandscape() = default;
+	CRaceGate(LPDIRECT3DDEVICE9 pGraphic_Device);
+	CRaceGate(const CRaceGate& Prototype);
+	virtual ~CRaceGate() = default;
 
 public:
 	virtual HRESULT Initialize_Prototype() override;
@@ -26,13 +18,11 @@ public:
 	virtual HRESULT Render() override;
 
 public:
-	void Surface_Plane();
-
-public:
-	static CRaceLandscape* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
+	static CRaceGate* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
 	virtual CGameObject* Clone(void* pArg) override;
 	virtual void Free();
 };
 
 END
+
 

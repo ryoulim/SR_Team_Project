@@ -26,7 +26,6 @@ HRESULT CPlayerOnBoat::Initialize(void* pArg)
 		return E_FAIL;
 
 	CGameObject* FPS_Camera = m_pGameInstance->Find_Object(LEVEL_RACE, TEXT("Layer_Camera"), 0);
-
 	m_pCameraTransform = static_cast<CTransform*>(FPS_Camera->Find_Component(TEXT("Com_Transform")));
 	Safe_AddRef(m_pCameraTransform);
 
@@ -35,15 +34,14 @@ HRESULT CPlayerOnBoat::Initialize(void* pArg)
 
 void CPlayerOnBoat::Priority_Update(_float fTimeDelta)
 {
+	Key_Input(fTimeDelta);
+
 	__super::Priority_Update(fTimeDelta);
 }
 
 EVENT CPlayerOnBoat::Update(_float fTimeDelta)
 {
-	Key_Input(fTimeDelta);
-
-	//m_pCameraTransform->Set_State(CTransform::STATE_POSITION, *m_pTransformCom->Get_State(CTransform::STATE_POSITION));
-
+	Update_Camera_Link();
 
 	return __super::Update(fTimeDelta);
 }
@@ -51,8 +49,6 @@ EVENT CPlayerOnBoat::Update(_float fTimeDelta)
 void CPlayerOnBoat::Late_Update(_float fTimeDelta)
 {
 	m_pGameInstance->Add_RenderGroup(CRenderer::RG_NONBLEND, this);
-
-	Update_Camera_Link();
 
 	__super::Late_Update(fTimeDelta);
 }
@@ -100,7 +96,7 @@ void CPlayerOnBoat::Update_Camera_Link()
 
 	//카메라의 위치를 (플레이어 위치 + @)
 	m_pCameraTransform->Set_State(CTransform::STATE_POSITION, *m_pTransformCom->Get_State(CTransform::STATE_POSITION) 
-		+ _float3(0.f, 20.f, -50.f));
+		+ _float3(0.f, 20.f, -80.f));// -20 50
 }
 
 CPlayerOnBoat* CPlayerOnBoat::Create(LPDIRECT3DDEVICE9 pGraphic_Device)

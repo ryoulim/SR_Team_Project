@@ -418,7 +418,6 @@ void CTransform::Quaternion_Turn(const _float3& vAngle)
 	Set_State(STATE_LOOK, RotateVectorByQuaternion(vLook, Qur));
 }
 
-
 void CTransform::Quaternion_Rotation(const _float3& vAngle)
 {
 	_float3 vScaled = Compute_Scaled();

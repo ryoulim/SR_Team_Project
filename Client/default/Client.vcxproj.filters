@@ -319,6 +319,9 @@
     <Filter Include="02.GameObjects\Particle\_BossMobSkill\FireAttack">
       <UniqueIdentifier>{e9a31001-6a3a-443b-85d2-84aee3ab7729}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\Statue\RaceGate">
+      <UniqueIdentifier>{fc288ff0-b5bb-4ed0-b86b-ee91ca2a1905}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -660,6 +663,9 @@
     <ClInclude Include="..\public\AnimeRect.h">
       <Filter>02.GameObjects\Map\BackGround\AnimeRect</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\RaceGate.h">
+      <Filter>02.GameObjects\Statue\RaceGate</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -989,6 +995,9 @@
     </ClCompile>
     <ClCompile Include="..\private\FireAttack.cpp">
       <Filter>02.GameObjects\Particle\_BossMobSkill\FireAttack</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\RaceGate.cpp">
+      <Filter>02.GameObjects\Statue\RaceGate</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

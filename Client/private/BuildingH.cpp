@@ -25,9 +25,6 @@ HRESULT CBuildingH::Initialize(void* pArg)
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
 
-	m_pTransformCom->Scaling(_float3(950.f, 500.f, 720.f));
-	m_pTransformCom->Set_State(CTransform::STATE_POSITION, _float3(450.f, 250.f, 700.f));
-
 	return S_OK;
 }
 
