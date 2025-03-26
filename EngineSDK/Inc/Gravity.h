@@ -29,6 +29,7 @@ private:
 public:
 	virtual HRESULT Initialize_Prototype();
 	virtual HRESULT Initialize(void* pArg) override;
+	void Update(_float fTimeDelta);
 	static void Set_GravityStaticInfo(const DESC& Desc);
 	static void Add_StandableObjLayerTag(_uint ID) {
 		m_StandableColliderGroupID.push_back(ID);
@@ -42,7 +43,6 @@ public:
 	void Set_JumpOption(const JUMPDESC& JumpDESC);
 	void Parabolic_Motion(const _float3* vDirection);
 	void Force_Set_FloorY(_float fFloorY);
-	void Update(_float fTimeDelta);
 	void Jump(_float fJumpPower);
 	void Stop_Jump() {
 		m_bJump = FALSE;

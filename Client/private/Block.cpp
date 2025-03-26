@@ -50,7 +50,7 @@ HRESULT CBlock::Render()
 
 void CBlock::On_Collision(_uint MyColliderID, _uint OtherColliderID)
 {
-    if (OtherColliderID == 1001)
+    if (OtherColliderID >= 1001)
         CFXMgr::Get_Instance()->SpawnBlood(CCollider::Get_Last_Collision_Pos(), m_eLevelID);
 }
 

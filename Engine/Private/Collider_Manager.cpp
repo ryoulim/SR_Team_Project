@@ -117,13 +117,24 @@ _float CCollider_Manager::Raycast_Downward(const _float3& rayOrigin, _uint iColl
     if (iColliderGroupID >= m_iNumGroups)
         return FALSE;
 
-    _float fResult{0};
+    _float3 vResultNormal{};
+    _float fResult{-10.f},fvCurHeight{};
 
     for (auto& pCollider : m_pColliders[iColliderGroupID])
     {
         if (pCollider->RayCast_Downward(rayOrigin))
         {
-            fResult = max(fResult, CCollider::Get_Last_Collision_Pos().y);
+            fvCurHeight = CCollider::Get_Last_Collision_Pos().y;
+
+            if (fResult < fvCurHeight)
+            {
+                fResult = fvCurHeight;
+                vResultNormal = CCollider::m_vLast_Collision_Depth;
+            }
+            else
+            {
+                CCollider::m_vLast_Collision_Depth = vResultNormal;
+            }
         }
     }
 

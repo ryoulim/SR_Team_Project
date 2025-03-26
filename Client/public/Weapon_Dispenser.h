@@ -40,6 +40,7 @@ private:
 	virtual void Reload(_float fTimeDelta) override;
 	virtual void Ending(_float fTimeDelta) override;
 	virtual void Create_Bullet() override;
+	_bool Update_Frame_Reverse(_float fTimeDelta);
 
 public:
 	static CWeapon_Dispenser* Create(LPDIRECT3DDEVICE9 pGraphic_Device);

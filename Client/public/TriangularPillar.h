@@ -18,6 +18,10 @@ private:
 	virtual void Late_Update(_float fTimeDelta) override;
 	virtual HRESULT Render() override;
 
+	virtual void On_Collision(_uint MyColliderID, _uint OtherColliderID) override;
+private:
+	virtual HRESULT Ready_Components(void* pArg) override;
+
 public:
 	static CTriangularPillar* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
 	virtual CGameObject* Clone(void* pArg) override;

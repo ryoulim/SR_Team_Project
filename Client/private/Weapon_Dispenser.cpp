@@ -3,8 +3,8 @@
 
 #include "Weapon_Dispenser.h"
 
-#define INITPOS {370.f,-218.f,0.1f}
-#define GRENADEMODE 16
+#define INITPOS {350.f,-200.f,0.1f}
+#define GRENADEMODE 30
 
 CWeapon_Dispenser::CWeapon_Dispenser(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CWeapon{ pGraphic_Device }
@@ -67,6 +67,7 @@ void CWeapon_Dispenser::Set_State(STATE State)
 	switch (State)
 	{
 	case ST_IDLE:
+		m_pTransformCom->Set_State(CTransform::STATE_POSITION, _float3 INITPOS);
 		m_fStartFrmae = 0.f;
 		m_fEndFrame = 0.f;
 		m_fTextureNum = 0.f;
@@ -104,8 +105,16 @@ void CWeapon_Dispenser::Set_State(STATE State)
 		break;
 	}
 	case ST_RELOAD:
+	{
+		m_pTransformCom->Set_State(CTransform::STATE_POSITION, { 0.f,0.f,0.f });
+		m_eState = ST_RELOAD;
+		m_fTextureNum = 16.f;
+		m_fStartFrmae = 16.f;
+		m_fEndFrame = 29.f;
+		m_fFrameSpeed = 20.f;
 		break;
 	}
+	} // Switch
 
 	if (m_bGrenadeMode)
 	{
@@ -117,6 +126,7 @@ void CWeapon_Dispenser::Set_State(STATE State)
 	_float3 vScale{};
 	m_pTextureCom->Get_TextureSize(static_cast<_uint>(m_fTextureNum), &vScale);
 	m_pTransformCom->Scaling(vScale);
+	
 }
 
 void CWeapon_Dispenser::Key_Input()
@@ -173,6 +183,22 @@ void CWeapon_Dispenser::Strong_Attack(_float fTimeDelta) // ÆßÇÎ
 
 void CWeapon_Dispenser::Reload(_float fTimeDelta)
 {
+	if (m_bTrigger)
+	{
+		if (Update_Frame_Reverse(fTimeDelta))
+		{
+			m_bTrigger = FALSE;
+			Set_State(ST_IDLE);
+		}
+	}
+	else
+	{
+		if (Update_Frame(fTimeDelta))
+		{
+			m_fTextureNum = m_fEndFrame + 0.9f;
+			m_bTrigger = TRUE;
+		}
+	}
 }
 
 void CWeapon_Dispenser::Ending(_float fTimeDelta)
@@ -192,6 +218,18 @@ void CWeapon_Dispenser::Create_Bullet()
 	{
 
 	}
+}
+
+_bool CWeapon_Dispenser::Update_Frame_Reverse(_float fTimeDelta)
+{
+	m_fTextureNum -= m_fFrameSpeed * fTimeDelta;
+	if (m_fStartFrmae > m_fTextureNum)
+	{
+		m_fTextureNum = m_fEndFrame;
+		return TRUE;
+	}
+	return FALSE;
+
 }
 
 CWeapon_Dispenser* CWeapon_Dispenser::Create(LPDIRECT3DDEVICE9 pGraphic_Device)

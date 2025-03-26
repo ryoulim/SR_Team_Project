@@ -4,6 +4,7 @@
 
 // 현재 이 그래비티와 연결된 트랜스폼의 Y 포지션
 #define CUR_Y m_pTransformCom->m_WorldMatrix._42
+#define MIN_HEIGHT		-10.f // 맵 최소 높이
 
 // 기울기에 따른 Y축 보정
 #define Y_UPPER_CORRECTION 20.f
@@ -114,7 +115,7 @@ void CGravity::Force_Set_FloorY(_float fFloorY)
 #include "Collider.h"
 void CGravity::Update(_float fTimeDelta)
 {
-	Check_Terrain();
+	//Check_Terrain();
 	Raycast_StandAble_Obj();
 	Jumping(fTimeDelta);
 }
@@ -127,7 +128,7 @@ void CGravity::Jump(_float fJumpPower)
 		m_fStartY = CUR_Y;
 		m_fTime = 0.f;
 		m_fJumpPower = fJumpPower;
-		m_bForceSetFloor = FALSE;
+		//m_bForceSetFloor = FALSE;
 	}
 }
 
@@ -180,15 +181,19 @@ void CGravity::Check_Terrain()
 
 void CGravity::Raycast_StandAble_Obj()
 {
+	_float fResult{};
 	for (auto& ID : m_StandableColliderGroupID)
 	{
-		if (_float fResult = m_pGameInstance->Raycast_Downward(
+		fResult = m_pGameInstance->Raycast_Downward(
 			*m_pTransformCom->Get_State(CTransform::STATE_POSITION) - _float3{ 0.f, m_fHalfHeight,0.f },
-			ID))
+			ID);
+		if (fResult > MIN_HEIGHT)
 		{	
-			Force_Set_FloorY(fResult);
-		}
+			m_vCurNormal = CCollider::Get_Last_Collision_Depth();	
+			//Force_Set_FloorY(fResult);
+		}	
 	}
+	m_fFloorY = fResult + m_fHalfHeight;
 }
 
 void CGravity::Jumping(_float fTimeDelta)

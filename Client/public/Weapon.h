@@ -4,8 +4,6 @@
 #include "GameInstance.h"
 #include "GameObject.h"
 
-#define RAY_LOVERBOY 1001
-
 #define MOTION(Num,Duration) _uint(m_fMotionTimer / Duration) % Num
 
 BEGIN(Client)
@@ -15,7 +13,7 @@ class CWeapon abstract : public CGameObject
 public:
 	enum STATE { ST_IDLE, ST_WALK, ST_OPENING, ST_W_ATK, ST_S_ATK, ST_RELOAD, ST_ENDING, ST_END };
 	enum TYPE {
-		LOVERBOY,
+		LOVERBOY = 1001,
 		DISPERSER_SHELL,
 		DISPERSER_GRENADE,
 		PENETRATOR,
@@ -86,7 +84,6 @@ protected:
 	_float3 m_vMovingPos{};
 
 	//¹ß»ç¿ë
-	_uint	m_iRayID{ RAY_LOVERBOY };
 	_float	m_fRayLength{1000.f};
 
 protected:

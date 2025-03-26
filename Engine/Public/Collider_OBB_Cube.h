@@ -21,7 +21,6 @@ public:
 	virtual HRESULT Initialize_Prototype() override;
 	virtual void Update_Collider() override;
 	virtual void Update_Scale(const _float3& vScale) override;
-
 	virtual _bool RayCasting(const _float3& rayOrigin, const _float3& rayDir) override;
 	virtual _bool RayCast_Downward(const _float3& rayOrigin) override;
 
@@ -37,6 +36,14 @@ public:
 private:
 	INFO m_tInfo{};
 	_float m_fMaxLength{};
+
+#ifdef _BUFFERRENDER
+	// 렌더링 가시화용
+	virtual HRESULT Initialize(void* pArg) override;
+	virtual void Render() override;
+	class CTransform* m_pRenderTransform = { nullptr };
+	class CVIBuffer* m_pRenderBuffer = { nullptr };
+#endif
 
 	virtual _bool Intersect_With_AABB_Cube(const CCollider* pOther) override;
 	virtual _bool Intersect_With_OBB_Cube(const CCollider* pOther) override;

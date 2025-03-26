@@ -20,6 +20,36 @@ HRESULT CCollider_OBB_Cube::Initialize_Prototype()
     return __super::Initialize_Prototype(OBB_CUBE);
 }
 
+#ifdef _BUFFERRENDER
+
+#include "VIBuffer_Cube.h"
+#include "Transform.h"
+
+HRESULT CCollider_OBB_Cube::Initialize(void* pArg)
+{
+    __super::Initialize(pArg);
+    
+
+    DESC* pDesc = static_cast<DESC*>(pArg);
+
+    m_pRenderTransform = CTransform::Create(m_pGraphic_Device);
+    m_pRenderBuffer = CVIBuffer_Cube::Create(m_pGraphic_Device);
+
+    m_pRenderTransform->Set_WorldMatrix(pDesc->pTransform->Get_WorldMatrix());
+    m_pRenderTransform->Scaling(pDesc->vScale);
+    m_pRenderTransform->Move(pDesc->vOffSet);
+
+    //m_pBuffer->Initialize(nullptr);
+    return S_OK;
+}
+
+void CCollider_OBB_Cube::Render()
+{
+    m_pRenderTransform->Bind_Resource();
+    m_pRenderBuffer->Render();
+}
+#endif
+
 void CCollider_OBB_Cube::Update_Collider()
 {
     m_tInfo.vPosition = *m_pTransform->Get_State(CTransform::STATE_POSITION) + m_vOffSet;
@@ -263,5 +293,10 @@ CComponent* CCollider_OBB_Cube::Clone(void* pArg)
 
 void CCollider_OBB_Cube::Free()
 {
-	__super::Free();
+    __super::Free();
+
+#ifdef _BUFFERRENDER
+    Safe_Release(m_pRenderTransform);
+    Safe_Release(m_pRenderBuffer);
+#endif
 }

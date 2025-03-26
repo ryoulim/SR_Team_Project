@@ -128,7 +128,7 @@ void CWeapon::Create_Bullet()
 	auto pPickedObj = m_pGameInstance->Raycast(pPos, pLook.Normalize(), m_fRayLength, {COL_BLOCK,COL_MONSTER}, iColliderID);
 	if (pPickedObj)
 	{
-		pPickedObj->On_Collision(iColliderID, m_iRayID);
+		pPickedObj->On_Collision(iColliderID, m_tAmmoInfo.eType);
 	}
 }
 //CTestBullet::DESC BulletDesc{};
