@@ -8,6 +8,7 @@
 #include "VIBuffer_Trapezoid.h"
 #include "VIBuffer_Rect.h"
 #include "VIBuffer_Cube.h"
+#include "VIBuffer_CubeEx.h"
 #include "VIBuffer_TriangularPillar.h"
 #include "VIBuffer_BuildingH.h"
 #include "VIBuffer_BuildingW.h"

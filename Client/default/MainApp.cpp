@@ -115,7 +115,6 @@ HRESULT CMainApp::Initialize()
 		return E_FAIL;
 
 	/* 최초 보여줄 레벨을 할당하자. */
-	if (FAILED(Open_Level(LEVEL_LOGO)))
 		return E_FAIL;
 	
 	if (FAILED(Ready_Debug_Mode()))
@@ -145,6 +144,7 @@ HRESULT CMainApp::Render()
 HRESULT CMainApp::Ready_Component_For_Static()
 {
 	ADD_MODEL(Cube);
+	ADD_MODEL(CubeEx);
 	ADD_MODEL(Rect);
 	ADD_MODEL(TriangularPillar);
 	ADD_MODEL(Trapezoid);
@@ -163,7 +163,7 @@ HRESULT CMainApp::Ready_Component_For_Static()
 
 	ADD_PRTCOM(Transform);
 	ADD_PRTCOM(Gravity);
-	ADD_PRTCOM_EX(Shader, L"../bin/ShaderFiles/Shader_Rect.hlsl");
+	ADD_PRTCOM_EX(Shader, L"../bin/ShaderFiles/Shader_TextureEffect.hlsl");
 	ADD_PRTCOM(Collider_AABB_Cube);
 	ADD_PRTCOM(Collider_OBB_Cube);
 	ADD_PRTCOM(Collider_Sphere);

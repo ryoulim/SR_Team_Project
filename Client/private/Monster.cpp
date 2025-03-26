@@ -131,7 +131,6 @@ HRESULT CMonster::Render()
 		if (m_pGraphic_Device->SetTransform(D3DTS_WORLD, &m_pTransformCom->Billboard_Inverse()))
 			return E_FAIL;
 	}
-	// 0일 때 좌우반전이 안 되어야 하는데 자꾸 좌우반전 되는 버그가 있다..? 
 
 
 	if (FAILED(m_pVIBufferCom->Bind_Buffers()))

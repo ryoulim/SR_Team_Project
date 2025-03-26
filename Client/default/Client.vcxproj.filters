@@ -310,6 +310,9 @@
     <Filter Include="02.GameObjects\Particle\_BossMobSkill\FireAttack">
       <UniqueIdentifier>{e9a31001-6a3a-443b-85d2-84aee3ab7729}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\Sky">
+      <UniqueIdentifier>{fb8359a3-f88c-4a22-b9c2-02ed4a1506ae}</UniqueIdentifier>
+    </Filter>
     <Filter Include="02.GameObjects\Map\InvisibleBlock">
       <UniqueIdentifier>{f5c3a730-75a7-45ab-92af-11a9799408f1}</UniqueIdentifier>
     </Filter>
@@ -666,6 +669,9 @@
     <ClInclude Include="..\public\Lava.h">
       <Filter>02.GameObjects\Map\AnimeRect\Lava</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\Sky.h">
+      <Filter>02.GameObjects\Sky</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -995,6 +1001,9 @@
     </ClCompile>
     <ClCompile Include="..\private\FireAttack.cpp">
       <Filter>02.GameObjects\Particle\_BossMobSkill\FireAttack</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Sky.cpp">
+      <Filter>02.GameObjects\Sky</Filter>
     </ClCompile>
     <ClCompile Include="..\private\Lava.cpp">
       <Filter>02.GameObjects\Map\AnimeRect\Lava</Filter>

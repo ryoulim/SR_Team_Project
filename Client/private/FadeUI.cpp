@@ -43,8 +43,10 @@ HRESULT CFadeUI::Initialize(void* pArg)
 
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
+	__super::Ready_ShaderComponent();
+
 	m_fDepth = 0.f;
-	Ready_Shader(L"../bin/Shader_AlphaChange.hlsl");
+
 	m_fAnimationFrame = 0.f;
 
 	return S_OK;
@@ -86,9 +88,17 @@ void CFadeUI::Late_Update(_float fTimeDelta)
 
 HRESULT CFadeUI::Render()
 {
-	m_pEffect->SetFloat("opacity", m_fFadeOpacity);
-	m_pTextureCom->Bind_Shader_To_Texture(m_pEffect, m_hTex, 0);
-	return __super::Render();
+ 	if (FAILED(m_pTextureCom->Bind_Shader_To_Texture(m_pShaderCom, "Tex", 0)))
+		return E_FAIL;
+	m_pShaderCom->SetFloat("opacity", m_fFadeOpacity);
+ 	m_pShaderCom->Begin(CShader::ALPHA);
+	m_pGraphic_Device->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
+	m_pGraphic_Device->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
+	m_pGraphic_Device->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
+	if (FAILED(__super::Render()))
+		return E_FAIL;
+	m_pShaderCom->End();
+	m_pGraphic_Device->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
 }
 
 void CFadeUI::Fade_In()

@@ -27,7 +27,6 @@ HRESULT CShader::Initialize(void* pArg)
 
 HRESULT CShader::Bind_Texture(D3DXHANDLE hParameter, LPDIRECT3DBASETEXTURE9 pTexture)
 {
-
 	return m_pEffect->SetTexture(hParameter, pTexture);
 }
 
@@ -35,6 +34,16 @@ HRESULT CShader::Bind_Matrix(D3DXHANDLE hParameter, const _float4x4* pMatrix)
 {
 	return m_pEffect->SetMatrix(hParameter, pMatrix);
 	
+}
+
+HRESULT CShader::SetFloat(D3DXHANDLE hParameter, _float fValue)
+{
+	return m_pEffect->SetFloat(hParameter, fValue);
+}
+
+HRESULT CShader::SetFloatArray(D3DXHANDLE hParameter, const _float* fValueArray, _uint iNum)
+{
+	return m_pEffect->SetFloatArray(hParameter, fValueArray, iNum);
 }
 
 void CShader::Begin(_uint iPassIndex)

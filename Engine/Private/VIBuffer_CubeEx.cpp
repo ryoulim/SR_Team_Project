@@ -13,7 +13,7 @@ CVIBuffer_CubeEx::CVIBuffer_CubeEx(const CVIBuffer_CubeEx& Prototype)
 HRESULT CVIBuffer_CubeEx::Initialize_Prototype()
 {
 	m_iNumVertices = 8;
-	m_iVertexStride = sizeof(VTXCUBE);
+	m_iVertexStride = sizeof(VTXSKYCUBE);
 	m_iFVF = D3DFVF_XYZ | D3DFVF_TEX1 | D3DFVF_TEXCOORDSIZE3(0);
 	m_iNumPritimive = 12;
 
@@ -25,7 +25,7 @@ HRESULT CVIBuffer_CubeEx::Initialize_Prototype()
 	if (FAILED(__super::Create_VertexBuffer()))
 		return E_FAIL;
 
-	VTXCUBE* pVertices = { nullptr };
+	VTXSKYCUBE* pVertices = { nullptr };
 
 	m_pVB->Lock(0, /*m_iNumVertices * m_iVertexStride*/0, reinterpret_cast<void**>(&pVertices), 0);
 
@@ -53,49 +53,6 @@ HRESULT CVIBuffer_CubeEx::Initialize_Prototype()
 	pVertices[7].vPosition = _float3(-0.5f, -0.5f, 0.5f);
 	pVertices[7].vTexcoord = pVertices[7].vPosition;
 
-#pragma endregion
-
-#pragma region ¹ý¼±
-	for (_uint i = 0; i < m_iNumPritimive; i++)
-	{
-		pVertices[i].vNormal = _float3(0.f, 0.f, 0.f);
-	}
-
-	//¸é1 (Á¤¸é), ÀÎµ¦½º : 0,1,2,3
-	pVertices[0].vNormal += ComputeNormalVector(pVertices, 0, 1, 2);
-	pVertices[1].vNormal += ComputeNormalVector(pVertices, 0, 1, 2);
-	pVertices[2].vNormal += ComputeNormalVector(pVertices, 0, 1, 2);
-	pVertices[3].vNormal += ComputeNormalVector(pVertices, 0, 2, 3);
-
-	//¸é2 (ÈÄ¸é), ÀÎµ¦½º : 5,4,7,6
-	pVertices[5].vNormal += ComputeNormalVector(pVertices, 5, 4, 7);
-	pVertices[4].vNormal += ComputeNormalVector(pVertices, 5, 4, 7);
-	pVertices[7].vNormal += ComputeNormalVector(pVertices, 5, 4, 7);
-	pVertices[6].vNormal += ComputeNormalVector(pVertices, 5, 7, 6);
-
-	//¸é3 (¿ÞÂÊ), ÀÎµ¦½º : 4,0,3,7
-	pVertices[4].vNormal += ComputeNormalVector(pVertices, 4, 0, 3);
-	pVertices[0].vNormal += ComputeNormalVector(pVertices, 4, 0, 3);
-	pVertices[3].vNormal += ComputeNormalVector(pVertices, 4, 0, 3);
-	pVertices[7].vNormal += ComputeNormalVector(pVertices, 4, 3, 7);
-
-	//¸é4 (¿À¸¥ÂÊ), ÀÎµ¦½º : 1,5,6,2
-	pVertices[1].vNormal += ComputeNormalVector(pVertices, 1, 5, 6);
-	pVertices[5].vNormal += ComputeNormalVector(pVertices, 1, 5, 6);
-	pVertices[6].vNormal += ComputeNormalVector(pVertices, 1, 5, 6);
-	pVertices[2].vNormal += ComputeNormalVector(pVertices, 1, 6, 2);
-
-	//¸é5 (À§), ÀÎµ¦½º : 4,5,1,0
-	pVertices[4].vNormal += ComputeNormalVector(pVertices, 4, 5, 1);
-	pVertices[5].vNormal += ComputeNormalVector(pVertices, 4, 5, 1);
-	pVertices[1].vNormal += ComputeNormalVector(pVertices, 4, 5, 1);
-	pVertices[0].vNormal += ComputeNormalVector(pVertices, 4, 1, 0);
-
-	//¸é6 (¾Æ·¡), ÀÎµ¦½º : 6,7,3,2
-	pVertices[6].vNormal += ComputeNormalVector(pVertices, 6, 7, 3);
-	pVertices[7].vNormal += ComputeNormalVector(pVertices, 6, 7, 3);
-	pVertices[3].vNormal += ComputeNormalVector(pVertices, 6, 7, 3);
-	pVertices[2].vNormal += ComputeNormalVector(pVertices, 6, 3, 2);
 #pragma endregion
 
 

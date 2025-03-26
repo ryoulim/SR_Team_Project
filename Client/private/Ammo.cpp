@@ -56,6 +56,7 @@ EVENT CAmmo::Update(_float fTimeDelta)
 			tmp = 0;
 		m_eAmmoType = CWeapon::TYPE(tmp);
 	}
+
 	m_fTextureNum = static_cast<_float>(m_eAmmoType);
 	switch (m_eAmmoType)
 	{

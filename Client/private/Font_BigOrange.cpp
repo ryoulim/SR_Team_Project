@@ -62,16 +62,6 @@ HRESULT CFont_BigOrange::Render_Text(const string& _text, FONTALIGN _align, _flo
 	else if (_align == CENTER)
 		startPosX = _posX - m_uiTextWidth / 2.f * 14.f;
 
-	/***********************************************************/
-	if (m_pEffect != nullptr)
-	{
-		m_pEffect->SetFloat("darknessFactor", m_fShadeVal);
-		m_pEffect->Begin(NULL, 0);
-		m_pEffect->BeginPass(0);
-	}
-	/***********************************************************/
-
-
 	_float fontWidth{};
 	for (auto ch : _text)
 	{
@@ -104,21 +94,24 @@ HRESULT CFont_BigOrange::Render_Text(const string& _text, FONTALIGN _align, _flo
 			m_pTransformCom->Set_State(CTransform::STATE_POSITION, _float3(startPosX + fontWidth, _posY, 0.f));
 			/***********************************************************/
 
-
-
 			/***********************************************************/
+			
+			if (m_pShaderCom != nullptr)
+			{
+				m_pShaderCom->SetFloat("darknessFactor", m_fShadeVal);
+				m_pTextureCom->Bind_Shader_To_Texture(m_pShaderCom, "Tex", m_fTextureNum);
+				m_pShaderCom->Begin(CShader::SHADE);
+			}
 			Render();
+			if (m_pShaderCom != nullptr)
+				m_pShaderCom->End();
 			fontWidth += m_vSize.x * 0.5f + 1.f;
 		}
 		else
 			fontWidth += 10.f;
 	}
 	/***********************************************************/
-	if (m_pEffect != nullptr)
-	{
-		m_pEffect->EndPass();
-		m_pEffect->End();
-	}
+
 	/***********************************************************/
 	return S_OK;
 }

@@ -106,6 +106,7 @@ void CTtakkeun_i::Late_Update(_float fTimeDelta)
 
 HRESULT CTtakkeun_i::Render()
 {
+	
 	return __super::Render();
 
 	//특별히 더 렌더링 할게 있는 경우 ↓
@@ -131,7 +132,7 @@ HRESULT CTtakkeun_i::Ready_Textures()
 		sPrototypeTag += buf;
    		if (FAILED(__super::Add_Component(m_eLevelID, sPrototypeTag,
 	 		_wstring(TEXT("Com_Texture")) + L"_Boss_Walk_" + buf, reinterpret_cast<CComponent**>(&(m_pTextureMap[STATE_WALK][i])))))
-       			return E_FAIL;
+       		return E_FAIL;
 	}
 
 	/* FLY */
