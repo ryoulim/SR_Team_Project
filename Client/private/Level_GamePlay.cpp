@@ -56,6 +56,8 @@ HRESULT CLevel_GamePlay::Initialize(class CLevelData* pLevelData)
 	//if(FAILED(Ready_Light()))
 	//	return E_FAIL;
 
+
+
 	if (FAILED(Load_Map(LEVEL_GAMEPLAY, TEXT("MapData.txt"))))
 		return E_FAIL;
 
@@ -136,6 +138,12 @@ HRESULT CLevel_GamePlay::Ready_Layer_Terrain(const _wstring& strLayerTag)
 	GravityDesc.iTerrainVtxNumX = pTerrainBuffer->Get_NumVerticesX();
   	GravityDesc.iTerrainVtxNumZ = pTerrainBuffer->Get_NumVerticesX();
 	CGravity::Set_GravityStaticInfo(GravityDesc);
+
+  	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Sky"),
+		LEVEL_GAMEPLAY, strLayerTag)))
+		return E_FAIL;
+
+
 	return S_OK;
 }
 

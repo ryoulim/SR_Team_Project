@@ -15,7 +15,7 @@ CTexture::CTexture(const CTexture& Prototype)
 		Safe_AddRef(pTexture);	
 }
 
-HRESULT CTexture::Initialize_Prototype(const _tchar* pTextureFilePath, _uint iNumTextures)
+HRESULT CTexture::Initialize_Prototype(const _tchar* pTextureFilePath, _uint iNumTextures, TYPE eType)
 {
 	m_iNumTextures = iNumTextures;
 
@@ -28,33 +28,39 @@ HRESULT CTexture::Initialize_Prototype(const _tchar* pTextureFilePath, _uint iNu
 		wsprintf(szTextureFileName, pTextureFilePath, i);
 
 
+		if (eType == TYPE_2D)
+		{
+			D3DXIMAGE_INFO imageInfo;
 
-		D3DXIMAGE_INFO imageInfo;
+			// 먼저 이미지 정보를 가져옴
+			if (FAILED(D3DXGetImageInfoFromFile(szTextureFileName, &imageInfo)))
+				return E_FAIL; // 이미지 정보를 가져오지 못한 경우
 
-		// 먼저 이미지 정보를 가져옴
-		if (FAILED(D3DXGetImageInfoFromFile(szTextureFileName, &imageInfo)))
-			return E_FAIL; // 이미지 정보를 가져오지 못한 경우
-
-		// 비정규 텍스처 크기를 유지하도록 텍스처 생성
-		if (FAILED(D3DXCreateTextureFromFileEx(
-			m_pGraphic_Device,
-			szTextureFileName,
-			imageInfo.Width,  // 원본 너비
-			imageInfo.Height, // 원본 높이
-			D3DX_DEFAULT,
-			0,
-			D3DFMT_UNKNOWN,
-			D3DPOOL_MANAGED,
-			D3DX_DEFAULT,
-			D3DX_DEFAULT,
-			0,
-			&imageInfo,
-			nullptr,
-			&pTexture
-		))) {
-			return E_FAIL; // 텍스처 생성 실패
+			// 비정규 텍스처 크기를 유지하도록 텍스처 생성
+			if (FAILED(D3DXCreateTextureFromFileEx(
+				m_pGraphic_Device,
+				szTextureFileName,
+				imageInfo.Width,  // 원본 너비
+				imageInfo.Height, // 원본 높이
+				D3DX_DEFAULT,
+				0,
+				D3DFMT_UNKNOWN,
+				D3DPOOL_MANAGED,
+				D3DX_DEFAULT,
+				D3DX_DEFAULT,
+				0,
+				&imageInfo,
+				nullptr,
+				&pTexture
+			))) {
+				return E_FAIL; // 텍스처 생성 실패
+			}
 		}
-
+		else
+		{
+			if (FAILED(D3DXCreateCubeTextureFromFile(m_pGraphic_Device, szTextureFileName, reinterpret_cast<IDirect3DCubeTexture9**>(&pTexture))))
+				return E_FAIL;
+		}
 		//if (FAILED(D3DXCreateTextureFromFile(m_pGraphic_Device, szTextureFileName, &pTexture)))
 		//	return E_FAIL;
 
@@ -101,11 +107,17 @@ HRESULT CTexture::Bind_Shader_To_Texture(LPD3DXEFFECT pEffect, D3DXHANDLE hTexPa
 	return pEffect->SetTexture(hTexParameter, m_Textures[iIndex]);
 }
 
-CTexture* CTexture::Create(LPDIRECT3DDEVICE9 pGraphic_Device, const _tchar* pTextureFilePath, _uint iNumTextures)
+
+HRESULT CTexture::Bind_Shader_To_Texture(CShader* pShader, D3DXHANDLE hTexParameter, _uint iIndex)
+{
+	return pShader->Bind_Texture(hTexParameter, m_Textures[iIndex]);
+}
+
+CTexture* CTexture::Create(LPDIRECT3DDEVICE9 pGraphic_Device, const _tchar* pTextureFilePath, _uint iNumTextures, TYPE eType)
 {
 	CTexture* pInstance = new CTexture(pGraphic_Device);
 
-	if (FAILED(pInstance->Initialize_Prototype(pTextureFilePath, iNumTextures)))
+	if (FAILED(pInstance->Initialize_Prototype(pTextureFilePath, iNumTextures, eType)))
 	{
 		MSG_BOX("Failed to Created : CTexture");
 		Safe_Release(pInstance);

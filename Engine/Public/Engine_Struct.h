@@ -38,4 +38,10 @@ typedef struct tagVertexNormalCube
 	VECTOR vTexcoord;
 }VTXCUBE;
 
+typedef struct tagVertexSkyboxCube
+{
+	VECTOR vPosition;
+	VECTOR vTexcoord;
+}VTXSKYCUBE;
+
 END

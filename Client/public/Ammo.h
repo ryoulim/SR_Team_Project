@@ -10,19 +10,6 @@ BEGIN(Client)
 
 class CAmmo final : public CUI
 {
-public:	
-	//enum AMMOTYPE {
-	//	LOVERBOY,
-	//	DISPERSER_SHELL,
-	//	DISPERSER_GRENADE,
-	//	PENETRATOR,
-	//	CHAINGUN,
-	//	BOWLINGBOMB,
-	//	IONBOW,
-	//	CLUSTERPUCK,
-	//	AMMO_END
-	//};
-
 private:
 	CAmmo(LPDIRECT3DDEVICE9 pGraphic_Device);
 	CAmmo(const CAmmo& Prototype);
@@ -37,13 +24,11 @@ public:
 	virtual HRESULT Render() override;
 
 public:
-	//void	Set_Ammo(CWeapon::TYPE _type, _uint _Ammo) { m_eAmmoType = _type;  m_uiAmmo[_type] = _Ammo; Update(0.f); }
 	void	Set_Ammo(const CWeapon::AMMOINFO* ammoInfo) { m_pAmmoInfo = ammoInfo; }
 
 private:
-	CWeapon::TYPE	m_eAmmoType = { CWeapon::TYPE::LOVERBOY };
-	//_uint			m_uiAmmo[CWeapon::TYPE::AMMO_END] = {};
-	const CWeapon::AMMOINFO* m_pAmmoInfo = { nullptr };
+	CWeapon::TYPE				m_eAmmoType = { CWeapon::TYPE::LOVERBOY };
+	const CWeapon::AMMOINFO*	m_pAmmoInfo = { nullptr };
 
 public:
 	static CAmmo* Create(LPDIRECT3DDEVICE9 pGraphic_Device);

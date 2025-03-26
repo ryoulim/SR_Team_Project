@@ -6,6 +6,8 @@ BEGIN(Engine)
 
 class ENGINE_DLL CShader final : public CComponent
 {
+public:
+	enum TYPE {COLOR, ALPHA, MASKING, SHADE};
 private:
 	CShader(LPDIRECT3DDEVICE9 pGraphic_Device);
 	CShader(const CShader& Prototype);
@@ -16,6 +18,8 @@ public:
 
 	HRESULT Bind_Texture(D3DXHANDLE hParameter, LPDIRECT3DBASETEXTURE9 pTexture);
 	HRESULT Bind_Matrix(D3DXHANDLE hParameter, const _float4x4* pMatrix);
+	HRESULT SetFloat(D3DXHANDLE hParameter, _float fValue);
+	HRESULT SetFloatArray(D3DXHANDLE hParameter, const _float* fValueArray, _uint iNum);
 
 
 public:

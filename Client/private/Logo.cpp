@@ -33,10 +33,11 @@ HRESULT CLogo::Initialize(void* pArg)
 
 	if (FAILED(__super::Initialize(&pDesc)))
 		return E_FAIL;
+	/* For.Com_Shader */
+	__super::Ready_ShaderComponent();
 
 	m_fDepth = 2.f;
 
-	Ready_Shader(L"../bin/Shader_AlphaChange.hlsl");
 	Ready_Component_For_Shadow(&pDesc);
 
 	m_pTextureCom->Get_TextureSize(0, &(pDesc.vScale));
@@ -92,11 +93,18 @@ HRESULT CLogo::Render()
 		return E_FAIL;
 
 
-	m_pEffect->SetFloat("opacity", m_fOpacity);
-	m_pTextureCom->Bind_Shader_To_Texture(m_pEffect, m_hTex, 0);
+	m_pTextureCom->Bind_Shader_To_Texture(m_pShaderCom, "Tex", 0);
+	m_pShaderCom->SetFloat("opacity", m_fOpacity);
+	m_pShaderCom->Begin(CShader::ALPHA);
+
+	m_pGraphic_Device->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
+	m_pGraphic_Device->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
+	m_pGraphic_Device->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
 
 	__super::Render();
-
+	
+	m_pShaderCom->End();
+	m_pGraphic_Device->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
 
 	return EVN_NONE;
 }

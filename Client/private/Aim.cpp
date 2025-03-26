@@ -29,7 +29,7 @@ HRESULT CAim::Initialize(void* pArg)
 		return E_FAIL;
 	m_pTextureCom->Get_TextureSize(0, &m_vSize);
 	m_pTransformCom->Scaling(m_vSize);
-	Ready_Shader(L"../bin/Shader_ImageMasking.hlsl");
+	__super::Ready_ShaderComponent();
 	//float newColor[3] = { 0.9f, 0.8f, 0.0f }; // ³ë¶û (230, 200, 0)
 	//m_pEffect->SetFloatArray("newColor", newColor, 3);
 
@@ -68,10 +68,17 @@ void CAim::Late_Update(_float fTimeDelta)
 
 HRESULT CAim::Render()
 {
-	m_pEffect->SetFloat("maskingDistance", m_fMaskingDist);
-	m_pTextureCom->Bind_Shader_To_Texture(m_pEffect, m_hTex, 0);
-
-	return __super::Render();
+	m_pTextureCom->Bind_Shader_To_Texture(m_pShaderCom, "Tex", 0);
+	m_pShaderCom->SetFloat("maskingDistance", m_fMaskingDist);
+	m_pShaderCom->Begin(CShader::MASKING);
+	m_pGraphic_Device->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
+	m_pGraphic_Device->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
+	m_pGraphic_Device->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
+	if (FAILED(__super::Render()))
+		return E_FAIL;
+	m_pShaderCom->End();
+	m_pGraphic_Device->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
+	return S_OK;
 }
 
 void CAim::Calc_Magazine(_uint iMax, _uint iCur)

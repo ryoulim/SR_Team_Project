@@ -3,6 +3,7 @@
 
 #pragma once
 #include "UI.h"
+#include "Shader.h"
 
 BEGIN(Client)
 
