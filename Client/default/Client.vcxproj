@@ -157,6 +157,8 @@
     <ClInclude Include="..\Imgui\imstb_textedit.h" />
     <ClInclude Include="..\Imgui\imstb_truetype.h" />
     <ClInclude Include="..\public\Aim.h" />
+    <ClInclude Include="..\public\AlphaBlock.h" />
+    <ClInclude Include="..\public\AlphaRect.h" />
     <ClInclude Include="..\public\Ammo.h" />
     <ClInclude Include="..\public\AnimeBlock.h" />
     <ClInclude Include="..\public\AnimeRect.h" />
@@ -272,6 +274,8 @@
     <ClCompile Include="..\Imgui\imgui_tables.cpp" />
     <ClCompile Include="..\Imgui\imgui_widgets.cpp" />
     <ClCompile Include="..\private\Aim.cpp" />
+    <ClCompile Include="..\private\AlphaBlock.cpp" />
+    <ClCompile Include="..\private\AlphaRect.cpp" />
     <ClCompile Include="..\private\Ammo.cpp" />
     <ClCompile Include="..\private\AnimeBlock.cpp" />
     <ClCompile Include="..\private\AnimeRect.cpp" />
