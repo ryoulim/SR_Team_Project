@@ -325,6 +325,12 @@
     <Filter Include="02.GameObjects\Map\AnimeRect\Lava">
       <UniqueIdentifier>{6a80bdca-69f5-473a-b1af-99ee2717bba3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\Map\AlphaBlock">
+      <UniqueIdentifier>{2d3f0690-093a-42cd-9b42-1ba56b35a182}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Map\AlphaRect">
+      <UniqueIdentifier>{60d0fe13-9f07-43e3-896e-3ed65200690c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -669,6 +675,12 @@
     <ClInclude Include="..\public\Lava.h">
       <Filter>02.GameObjects\Map\AnimeRect\Lava</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\AlphaBlock.h">
+      <Filter>02.GameObjects\Map\AlphaBlock</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\AlphaRect.h">
+      <Filter>02.GameObjects\Map\AlphaRect</Filter>
+    </ClInclude>
     <ClInclude Include="..\public\Sky.h">
       <Filter>02.GameObjects\Sky</Filter>
     </ClInclude>
@@ -1007,6 +1019,12 @@
     </ClCompile>
     <ClCompile Include="..\private\Lava.cpp">
       <Filter>02.GameObjects\Map\AnimeRect\Lava</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\AlphaBlock.cpp">
+      <Filter>02.GameObjects\Map\AlphaBlock</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\AlphaRect.cpp">
+      <Filter>02.GameObjects\Map\AlphaRect</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
