@@ -99,7 +99,7 @@ HRESULT CFont_BigOrange::Render_Text(const string& _text, FONTALIGN _align, _flo
 			if (m_pShaderCom != nullptr)
 			{
 				m_pShaderCom->SetFloat("darknessFactor", m_fShadeVal);
-				m_pTextureCom->Bind_Shader_To_Texture(m_pShaderCom, "Tex", m_fTextureNum);
+				m_pTextureCom->Bind_Shader_To_Texture(m_pShaderCom, "Tex", static_cast<_uint>(m_fTextureNum));
 				m_pShaderCom->Begin(CShader::SHADE);
 			}
 			Render();

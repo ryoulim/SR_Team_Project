@@ -99,6 +99,8 @@ HRESULT CFadeUI::Render()
 		return E_FAIL;
 	m_pShaderCom->End();
 	m_pGraphic_Device->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
+
+	return S_OK;
 }
 
 void CFadeUI::Fade_In()

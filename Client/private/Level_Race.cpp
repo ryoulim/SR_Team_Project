@@ -172,6 +172,8 @@ HRESULT CLevel_Race::Ready_Layer_Statue2(const _wstring& strLayerTag)
 	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_RACE, TEXT("Prototype_GameObject_RaceGate"),
 		LEVEL_RACE, strLayerTag, &desc)))
 		return E_FAIL;
+
+	return S_OK;
 }
 
 HRESULT CLevel_Race::Ready_Layer_Camera(const _wstring& strLayerTag)
