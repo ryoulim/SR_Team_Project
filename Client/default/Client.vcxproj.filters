@@ -304,20 +304,23 @@
     <Filter Include="02.GameObjects\Weapon\Bullet\GrenadeBullet">
       <UniqueIdentifier>{47b0ffd8-4d8c-4380-9653-781fcca31fa8}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\Map\Block\AnimeBlock">
-      <UniqueIdentifier>{9228408d-f530-470a-93e5-e0c57fcaadc5}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Map\Block\InvisibleBlock">
-      <UniqueIdentifier>{f5c3a730-75a7-45ab-92af-11a9799408f1}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Map\BackGround\AnimeRect">
-      <UniqueIdentifier>{683c6ea8-a0b1-4e95-8def-f1d0be8d0a57}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02.GameObjects\Particle\_BossMobSkill">
       <UniqueIdentifier>{4b9d5646-014e-4fba-8a94-9dc4dc172dab}</UniqueIdentifier>
     </Filter>
     <Filter Include="02.GameObjects\Particle\_BossMobSkill\FireAttack">
       <UniqueIdentifier>{e9a31001-6a3a-443b-85d2-84aee3ab7729}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Map\InvisibleBlock">
+      <UniqueIdentifier>{f5c3a730-75a7-45ab-92af-11a9799408f1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Map\AnimeBlock">
+      <UniqueIdentifier>{9228408d-f530-470a-93e5-e0c57fcaadc5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Map\AnimeRect">
+      <UniqueIdentifier>{683c6ea8-a0b1-4e95-8def-f1d0be8d0a57}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Map\AnimeRect\Lava">
+      <UniqueIdentifier>{6a80bdca-69f5-473a-b1af-99ee2717bba3}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -651,14 +654,17 @@
     <ClInclude Include="..\public\GrenadeBullet.h">
       <Filter>02.GameObjects\Weapon\Bullet\GrenadeBullet</Filter>
     </ClInclude>
-    <ClInclude Include="..\public\Invisible_Block.h">
-      <Filter>02.GameObjects\Map\Block\InvisibleBlock</Filter>
+    <ClInclude Include="..\public\InvisibleBlock.h">
+      <Filter>02.GameObjects\Map\InvisibleBlock</Filter>
     </ClInclude>
     <ClInclude Include="..\public\AnimeBlock.h">
-      <Filter>02.GameObjects\Map\Block\AnimeBlock</Filter>
+      <Filter>02.GameObjects\Map\AnimeBlock</Filter>
     </ClInclude>
     <ClInclude Include="..\public\AnimeRect.h">
-      <Filter>02.GameObjects\Map\BackGround\AnimeRect</Filter>
+      <Filter>02.GameObjects\Map\AnimeRect</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Lava.h">
+      <Filter>02.GameObjects\Map\AnimeRect\Lava</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -969,14 +975,14 @@
     <ClCompile Include="..\private\TriangularPillar.cpp">
       <Filter>02.GameObjects\Map\TriangularPillar</Filter>
     </ClCompile>
-    <ClCompile Include="..\private\Invisible_Block.cpp">
-      <Filter>02.GameObjects\Map\Block\InvisibleBlock</Filter>
+    <ClCompile Include="..\private\InvisibleBlock.cpp">
+      <Filter>02.GameObjects\Map\InvisibleBlock</Filter>
     </ClCompile>
     <ClCompile Include="..\private\AnimeBlock.cpp">
-      <Filter>02.GameObjects\Map\Block\AnimeBlock</Filter>
+      <Filter>02.GameObjects\Map\AnimeBlock</Filter>
     </ClCompile>
     <ClCompile Include="..\private\AnimeRect.cpp">
-      <Filter>02.GameObjects\Map\BackGround\AnimeRect</Filter>
+      <Filter>02.GameObjects\Map\AnimeRect</Filter>
     </ClCompile>
     <ClCompile Include="..\private\GrenadeBullet.cpp">
       <Filter>02.GameObjects\Weapon\Bullet\GrenadeBullet</Filter>
@@ -989,6 +995,9 @@
     </ClCompile>
     <ClCompile Include="..\private\FireAttack.cpp">
       <Filter>02.GameObjects\Particle\_BossMobSkill\FireAttack</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Lava.cpp">
+      <Filter>02.GameObjects\Map\AnimeRect\Lava</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

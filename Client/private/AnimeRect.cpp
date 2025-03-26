@@ -1,16 +1,16 @@
 // 내 클래스 이름 : AnimeRect
-// 부모 클래스 이름 : BackGround
+// 부모 클래스 이름 : Map
 
 #include "AnimeRect.h"
 #include "GameInstance.h"
 
 CAnimeRect::CAnimeRect(LPDIRECT3DDEVICE9 pGraphic_Device)
-	: CBackGround{ pGraphic_Device }
+	: CMap{ pGraphic_Device }
 {
 }
 
 CAnimeRect::CAnimeRect(const CAnimeRect& Prototype)
-	: CBackGround(Prototype)
+	: CMap(Prototype)
 {
 }
 
@@ -21,7 +21,7 @@ HRESULT CAnimeRect::Initialize_Prototype()
 
 HRESULT CAnimeRect::Initialize(void* pArg)
 {
-	m_eLevelID = LEVEL_STATIC;
+	m_eLevelID = LEVEL_GAMEPLAY;
 	m_szTextureID = TEXT("Test");
 	m_szBufferType = TEXT("Rect");
 

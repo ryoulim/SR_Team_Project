@@ -1,20 +1,20 @@
 // 내 클래스 이름 : AnimeRect
-// 부모 클래스 이름 : BackGround
+// 부모 클래스 이름 : Map
 
 #pragma once
-#include "BackGround.h"
+#include "Map.h"
 
 BEGIN(Client)
 
-class CAnimeRect final : public CBackGround
+class CAnimeRect : public CMap
 {
 public:
-	typedef struct tagAnimeRectDesc : public CBackGround::DESC
+	typedef struct tagAnimeRectDesc : public CMap::DESC
 	{
 
 	}DESC;
 
-private:
+protected:
 	CAnimeRect(LPDIRECT3DDEVICE9 pGraphic_Device);
 	CAnimeRect(const CAnimeRect& Prototype);
 	virtual ~CAnimeRect() = default;

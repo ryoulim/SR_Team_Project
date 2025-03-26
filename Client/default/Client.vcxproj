@@ -199,10 +199,11 @@
     <ClInclude Include="..\public\FPS_Camera.h" />
     <ClInclude Include="..\public\FXMgr.h" />
     <ClInclude Include="..\public\Greater.h" />
-    <ClInclude Include="..\public\Invisible_Block.h" />
+    <ClInclude Include="..\public\InvisibleBlock.h" />
     <ClInclude Include="..\public\GrenadeBullet.h" />
     <ClInclude Include="..\public\Item.h" />
     <ClInclude Include="..\public\Item_Ammo.h" />
+    <ClInclude Include="..\public\Lava.h" />
     <ClInclude Include="..\public\LevelLoadingMenu.h" />
     <ClInclude Include="..\public\Level_Race.h" />
     <ClInclude Include="..\public\Level_Test.h" />
@@ -313,9 +314,10 @@
     <ClCompile Include="..\private\FXMgr.cpp" />
     <ClCompile Include="..\private\Greater.cpp" />
     <ClCompile Include="..\private\GrenadeBullet.cpp" />
-    <ClCompile Include="..\private\Invisible_Block.cpp" />
+    <ClCompile Include="..\private\InvisibleBlock.cpp" />
     <ClCompile Include="..\private\Item.cpp" />
     <ClCompile Include="..\private\Item_Ammo.cpp" />
+    <ClCompile Include="..\private\Lava.cpp" />
     <ClCompile Include="..\private\LevelLoadingMenu.cpp" />
     <ClCompile Include="..\private\Level_Race.cpp" />
     <ClCompile Include="..\private\Level_Test.cpp" />
