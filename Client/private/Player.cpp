@@ -48,7 +48,6 @@ HRESULT CPlayer::Initialize(void* pArg)
 	{
 		m_fMouseSensor = static_cast<DESC*>(pArg)->fMouseSensor;
 	}
-	m_pGravityCom->Set_JumpOption(CGravity::JUMPDESC{ 8.2f, 840.f});
 
 #pragma region 무기추가
 	m_Weapons.push_back(

@@ -200,8 +200,12 @@ HRESULT CMonster::Ready_Components(void* pArg)
 
 	if (m_bActive)
 	{
+		CGravity::DESC GravityDesc{};
+		GravityDesc.pTransformCom = m_pTransformCom;
+		GravityDesc.fTimeIncreasePerSec = 8.2f;
+		GravityDesc.fMaxFallSpeedPerSec = 840.f;
 		if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Gravity"),
-			TEXT("Com_Gravity"), reinterpret_cast<CComponent**>(&m_pGravityCom), m_pTransformCom)))
+			TEXT("Com_Gravity"), reinterpret_cast<CComponent**>(&m_pGravityCom), &GravityDesc)))
 			return E_FAIL;
 	}
 

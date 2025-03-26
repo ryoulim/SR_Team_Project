@@ -50,6 +50,14 @@ HRESULT CGrenadeBullet::Render()
 	return __super::Render();
 }
 
+HRESULT CGrenadeBullet::Ready_Components(void* pArg)
+{
+	__super::Ready_Components(pArg);
+
+
+	return S_OK;
+}
+
 CGrenadeBullet* CGrenadeBullet::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 {
 	CGrenadeBullet* pInstance = new CGrenadeBullet(pGraphic_Device);

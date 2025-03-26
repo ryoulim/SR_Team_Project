@@ -30,6 +30,8 @@ public:
 private:
 	_bool m_bTrigger{};
 	_bool m_bGrenadeMode{};
+	AMMOINFO m_tGrenadeInfo{};
+	AMMOINFO* m_pCurAmmo{ nullptr };
 
 private:
 	virtual void Set_State(STATE State) override;

@@ -1,6 +1,7 @@
 #include "Gravity.h"
 #include "Transform.h"
 #include "GameInstance.h"
+#include "Collider.h"
 
 // 현재 이 그래비티와 연결된 트랜스폼의 Y 포지션
 #define CUR_Y m_pTransformCom->m_WorldMatrix._42
@@ -10,11 +11,70 @@
 #define Y_UPPER_CORRECTION 20.f
 #define Y_LOWER_CORRECTION 30.f
 
-const _float3*			CGravity::m_pTerrainVtxPos = { nullptr };
+vector<_uint>		CGravity::m_StandableColliderGroupID = {};
+
+// 높이맵 기반 터레인의 흔적
+#ifdef _GRV_TER
+const _float3* CGravity::m_pTerrainVtxPos = { nullptr };
 _uint					CGravity::m_iTerrainVtxNumX = {};
 _uint					CGravity::m_iTerrainVtxNumZ = {};
-_float3					CGravity::m_vTerrainScale = {1.f,1.f,1.f};
-vector<_uint>		CGravity::m_StandableColliderGroupID = {};
+_float3					CGravity::m_vTerrainScale = { 1.f,1.f,1.f };
+
+void CGravity::Set_GravityStaticInfo(const DESC& Desc)
+{
+	m_pTerrainVtxPos = Desc.pTerrainVtxPos;
+	m_iTerrainVtxNumX = Desc.iTerrainVtxNumX;
+	m_iTerrainVtxNumZ = Desc.iTerrainVtxNumZ;
+	m_vTerrainScale = Desc.vTerrainScale;
+}
+void CGravity::Check_Terrain()
+{
+	m_fFloorY = 0.f;
+
+	auto vPosition = *m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+
+	_uint	iIndex = _uint(vPosition.z / m_vTerrainScale.z) * m_iTerrainVtxNumX
+		+ _uint(vPosition.x / m_vTerrainScale.x);
+
+	_float	fRatioX = vPosition.x - m_pTerrainVtxPos[iIndex + m_iTerrainVtxNumX].x * m_vTerrainScale.x;
+	_float	fRatioZ = m_pTerrainVtxPos[iIndex + m_iTerrainVtxNumX].z - vPosition.z * m_vTerrainScale.z;
+
+	D3DXPLANE	Plane;
+
+	_float3 VtxPos[4]{
+		m_pTerrainVtxPos[iIndex + m_iTerrainVtxNumX] * m_vTerrainScale,
+		m_pTerrainVtxPos[iIndex + m_iTerrainVtxNumX + 1] * m_vTerrainScale,
+		m_pTerrainVtxPos[iIndex + 1] * m_vTerrainScale,
+		m_pTerrainVtxPos[iIndex] * m_vTerrainScale
+	};
+
+	// 우상단
+	if (fRatioX > fRatioZ)
+	{
+		D3DXPlaneFromPoints(&Plane,
+			&VtxPos[0],
+			&VtxPos[1],
+			&VtxPos[2]);
+	}
+
+	else
+	{
+		D3DXPlaneFromPoints(&Plane,
+			&VtxPos[0],
+			&VtxPos[2],
+			&VtxPos[3]);
+	}
+
+	Update_NormalVector(Plane);
+
+	_float fCurFloorY = (-Plane.a * vPosition.x - Plane.c * vPosition.z - Plane.d) / Plane.b;
+
+	if (vPosition.y + Y_UPPER_CORRECTION >= fCurFloorY)
+		m_fFloorY = fCurFloorY + m_fHalfHeight;
+
+}
+
+#endif
 
 CGravity::CGravity(LPDIRECT3DDEVICE9 pGraphic_Device)
 	:CComponent{pGraphic_Device}
@@ -34,21 +94,19 @@ HRESULT CGravity::Initialize_Prototype()
 HRESULT CGravity::Initialize(void* pArg)
 {
 	if (pArg == nullptr)
+	{
+		MSG_BOX("Gravity에 nullptr을 넣어주면 어떡해...");
 		return E_FAIL;
+	}
 
-	m_pTransformCom = static_cast<CTransform*>(pArg);
+	DESC* pDesc = static_cast<DESC*>(pArg);
+	m_pTransformCom = pDesc->pTransformCom;
 	m_pTransformCom->AddRef();
 	m_fHalfHeight = m_pTransformCom->Compute_Scaled().y * 0.5f;
+	m_fTimeIncreasePerSec = pDesc->fTimeIncreasePerSec;
+	m_fMaxFallSpeedperSec = pDesc->fMaxFallSpeedPerSec;
 
 	return S_OK;
-}
-
-void CGravity::Set_GravityStaticInfo(const DESC& Desc)
-{
-	m_pTerrainVtxPos = Desc.pTerrainVtxPos;
-	m_iTerrainVtxNumX = Desc.iTerrainVtxNumX;
-	m_iTerrainVtxNumZ = Desc.iTerrainVtxNumZ;
-	m_vTerrainScale = Desc.vTerrainScale;
 }
 
 void CGravity::Go_Straight_On_Terrain(_float fTimedelta)
@@ -95,24 +153,6 @@ void CGravity::Go_Right_On_Terrain(_float fTimedelta)
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, vPos);
 }
 
-void CGravity::Set_JumpOption(const JUMPDESC& JumpDESC)
-{
-	m_fTimeIncreasePerSec = JumpDESC.fTimeIncreasePerSec;
-	m_fMaxFallSpeedperSec = JumpDESC.fMaxFallSpeedPerSec;
-}
-
-void CGravity::Parabolic_Motion(const _float3* vDirection)
-{
-}
-
-void CGravity::Force_Set_FloorY(_float fFloorY)
-{
-	m_bForceSetFloor = TRUE;
-	if(fFloorY > m_fFloorY)
-		m_fFloorY = fFloorY + m_fHalfHeight;
-}
-
-#include "Collider.h"
 void CGravity::Update(_float fTimeDelta)
 {
 	//Check_Terrain();
@@ -130,53 +170,6 @@ void CGravity::Jump(_float fJumpPower)
 		m_fJumpPower = fJumpPower;
 		//m_bForceSetFloor = FALSE;
 	}
-}
-
-void CGravity::Check_Terrain()
-{
-	m_fFloorY = 0.f;
-
-	auto vPosition = *m_pTransformCom->Get_State(CTransform::STATE_POSITION);
-
-	_uint	iIndex = _uint(vPosition.z / m_vTerrainScale.z) * m_iTerrainVtxNumX
-		+ _uint(vPosition.x / m_vTerrainScale.x);
-
-	_float	fRatioX = vPosition.x - m_pTerrainVtxPos[iIndex + m_iTerrainVtxNumX].x * m_vTerrainScale.x;
-	_float	fRatioZ = m_pTerrainVtxPos[iIndex + m_iTerrainVtxNumX].z - vPosition.z * m_vTerrainScale.z;
-
-	D3DXPLANE	Plane;
-
-	_float3 VtxPos[4]{
-		m_pTerrainVtxPos[iIndex + m_iTerrainVtxNumX] * m_vTerrainScale,
-		m_pTerrainVtxPos[iIndex + m_iTerrainVtxNumX + 1] * m_vTerrainScale,
-		m_pTerrainVtxPos[iIndex + 1] * m_vTerrainScale,
-		m_pTerrainVtxPos[iIndex] * m_vTerrainScale
-	};
-
-	// 우상단
-	if (fRatioX > fRatioZ)
-	{
-		D3DXPlaneFromPoints(&Plane,
-			&VtxPos[0],
-			&VtxPos[1],
-			&VtxPos[2]);
-	}
-
-	else
-	{
-		D3DXPlaneFromPoints(&Plane,
-			&VtxPos[0],
-			&VtxPos[2],
-			&VtxPos[3]);
-	}
-	
-	Update_NormalVector(Plane);
-
-	_float fCurFloorY = (-Plane.a * vPosition.x - Plane.c * vPosition.z - Plane.d) / Plane.b;
-
-	if (vPosition.y + Y_UPPER_CORRECTION >= fCurFloorY)
-		m_fFloorY = fCurFloorY + m_fHalfHeight;
-
 }
 
 void CGravity::Raycast_StandAble_Obj()

@@ -32,7 +32,7 @@ void CWeapon::Priority_Update(_float fTimeDelta)
 
 EVENT CWeapon::Update(_float fTimeDelta)
 {
-	Action(fTimeDelta);
+ 	Action(fTimeDelta);
 
 	return EVN_NONE;
 }
@@ -145,20 +145,20 @@ void CWeapon::Create_Bullet()
 
 void CWeapon::Key_Input()
 {
+	if (m_eState >= ST_OPENING)
+		return;
+
 	if (MOUSE_DOWN(DIMK_LBUTTON))
 	{
-		if (m_tAmmoInfo.iReloadedAmmo)										// 채영 총알 테스트로 추가함
+		if (m_tAmmoInfo.iReloadedAmmo)
 		{
+			Set_State(CWeapon::ST_W_ATK);
+			Create_Bullet();
 			m_tAmmoInfo.iReloadedAmmo--;
 			m_tAmmoInfo.iCurAmmo--;
 		}
 		else
-		{
 			Set_State(CWeapon::ST_RELOAD);
-			return;
-		}
-		Set_State(CWeapon::ST_W_ATK);
-		Create_Bullet();
 	}
 	if (MOUSE_DOWN(DIMK_RBUTTON))
 	{
@@ -166,8 +166,6 @@ void CWeapon::Key_Input()
 	}
 	if (KEY_DOWN(DIK_R))
 	{
-		m_tAmmoInfo.iCurAmmo -= m_tAmmoInfo.iMaxAmmo;								// 채영 총알 테스트로 추가함
-		m_tAmmoInfo.iReloadedAmmo = m_tAmmoInfo.iMaxAmmo;							// 채영 총알 테스트로 추가함
 		Set_State(CWeapon::ST_RELOAD);
 	}
 }

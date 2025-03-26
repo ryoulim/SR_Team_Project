@@ -130,7 +130,7 @@ void CWeapon_LoverBoy::Set_State(STATE State)
 		m_fTextureNum = 6.f;
 		m_fStartFrmae = 7.f;
 		m_fEndFrame = 12.f;
-		m_tAmmoInfo.iReloadedAmmo = m_tAmmoInfo.iMaxAmmo;								// 채영 총알 테스트로 추가함 
+		m_tAmmoInfo.iReloadedAmmo = m_tAmmoInfo.iMaxAmmo;							// 채영 총알 테스트로 추가함
 		break;
 	case ST_ENDING:
 		m_pTransformCom->Set_State(CTransform::STATE_POSITION, { 320.f,-105.f,0.1f });

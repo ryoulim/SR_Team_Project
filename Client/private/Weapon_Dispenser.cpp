@@ -2,9 +2,12 @@
 // 부모 클래스 이름 : Weapon
 
 #include "Weapon_Dispenser.h"
+#include "UI_Manager.h"
 
-#define INITPOS {350.f,-200.f,0.1f}
+#define INITPOS {350.f,-150.f,0.1f}
 #define GRENADEMODE 30
+
+#define m_tShellInfo m_tAmmoInfo
 
 CWeapon_Dispenser::CWeapon_Dispenser(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CWeapon{ pGraphic_Device }
@@ -28,7 +31,22 @@ HRESULT CWeapon_Dispenser::Initialize(void* pArg)
 	Desc.fSpeedPerSec = 2600.f;
 	m_szTextureID = TEXT("Weapon_Dispenser");
 	m_vMovingPos = INITPOS;
+	
+	///////
+	m_tShellInfo.eType = DISPERSER_SHELL;
+	m_tShellInfo.iCurAmmo = 50;
+	m_tShellInfo.iMaxAmmo = 6;
+	m_tShellInfo.iReloadedAmmo = 6;
+	///////
+	
+	///////
+	m_tGrenadeInfo.eType = DISPERSER_GRENADE;
+	m_tGrenadeInfo.iCurAmmo = 40;
+	m_tGrenadeInfo.iMaxAmmo = 6;
+	m_tGrenadeInfo.iReloadedAmmo = 6;
+	///////
 
+	m_pCurAmmo = &m_tShellInfo;
 	if (FAILED(__super::Initialize(&Desc)))
 		return E_FAIL;
 
@@ -106,12 +124,13 @@ void CWeapon_Dispenser::Set_State(STATE State)
 	}
 	case ST_RELOAD:
 	{
-		m_pTransformCom->Set_State(CTransform::STATE_POSITION, { 0.f,0.f,0.f });
+		m_pTransformCom->Set_State(CTransform::STATE_POSITION, { 0.f,-50.f,0.f });
 		m_eState = ST_RELOAD;
 		m_fTextureNum = 16.f;
 		m_fStartFrmae = 16.f;
 		m_fEndFrame = 29.f;
-		m_fFrameSpeed = 20.f;
+		m_fFrameSpeed = 25.f;
+		m_pCurAmmo->iReloadedAmmo = m_pCurAmmo->iMaxAmmo;
 		break;
 	}
 	} // Switch
@@ -126,18 +145,33 @@ void CWeapon_Dispenser::Set_State(STATE State)
 	_float3 vScale{};
 	m_pTextureCom->Get_TextureSize(static_cast<_uint>(m_fTextureNum), &vScale);
 	m_pTransformCom->Scaling(vScale);
-	
 }
 
 void CWeapon_Dispenser::Key_Input()
 {
+	if (m_eState >= ST_OPENING)
+		return;
+
 	if (MOUSE_DOWN(DIMK_LBUTTON))
 	{
-		Set_State(ST_W_ATK);
+		if (m_pCurAmmo->iReloadedAmmo)
+		{
+			Set_State(CWeapon::ST_W_ATK);
+			Create_Bullet();
+			m_pCurAmmo->iReloadedAmmo--;
+			m_pCurAmmo->iCurAmmo--;
+		}
+		else
+			Set_State(CWeapon::ST_RELOAD);
 	}
 	if (MOUSE_DOWN(DIMK_RBUTTON))
 	{
 		m_bGrenadeMode = !m_bGrenadeMode;
+		if (m_bGrenadeMode)
+			m_pCurAmmo = &m_tGrenadeInfo;	
+		else
+			m_pCurAmmo = &m_tShellInfo;
+		CUI_Manager::Get_Instance()->Change_Weapon(m_pCurAmmo);
 		Set_State(ST_ENDING); // 모드 변경임
 	}
 	if (KEY_DOWN(DIK_R))
