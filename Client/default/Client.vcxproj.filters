@@ -328,6 +328,9 @@
     <Filter Include="02.GameObjects\Map\AlphaBlock">
       <UniqueIdentifier>{2d3f0690-093a-42cd-9b42-1ba56b35a182}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\Statue\RaceGate">
+      <UniqueIdentifier>{fc288ff0-b5bb-4ed0-b86b-ee91ca2a1905}</UniqueIdentifier>
+    </Filter>
     <Filter Include="02.GameObjects\Map\AlphaRect">
       <UniqueIdentifier>{60d0fe13-9f07-43e3-896e-3ed65200690c}</UniqueIdentifier>
     </Filter>
@@ -684,6 +687,9 @@
     <ClInclude Include="..\public\Sky.h">
       <Filter>02.GameObjects\Sky</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\RaceGate.h">
+      <Filter>02.GameObjects\Statue\RaceGate</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -1013,6 +1019,9 @@
     </ClCompile>
     <ClCompile Include="..\private\FireAttack.cpp">
       <Filter>02.GameObjects\Particle\_BossMobSkill\FireAttack</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\RaceGate.cpp">
+      <Filter>02.GameObjects\Statue\RaceGate</Filter>
     </ClCompile>
     <ClCompile Include="..\private\Sky.cpp">
       <Filter>02.GameObjects\Sky</Filter>

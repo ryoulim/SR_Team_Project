@@ -172,6 +172,9 @@
     <ClInclude Include="..\Public\Shader.h">
       <Filter>04.Components\Shader</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\VIBuffer_RaceGate.h">
+      <Filter>04.Components\VIBuffer\RaceTerrain\VIBuffer_RaceGate</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="99.Headers">
@@ -336,6 +339,9 @@
     <Filter Include="04.Components\Shader">
       <UniqueIdentifier>{1195ae93-e37d-4492-9b0c-6916d2e98d1b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="04.Components\VIBuffer\RaceTerrain\VIBuffer_RaceGate">
+      <UniqueIdentifier>{155a14c5-4098-48cc-9260-7091b1bf3c2b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Private\Base.cpp">
@@ -490,6 +496,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\Shader.cpp">
       <Filter>04.Components\Shader</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\VIBuffer_RaceGate.cpp">
+      <Filter>04.Components\VIBuffer\RaceTerrain\VIBuffer_RaceGate</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

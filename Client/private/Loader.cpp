@@ -5,6 +5,7 @@
 #include "Terrain.h"
 #include "RaceTerrain.h"
 #include "RaceLandscape.h"
+#include "RaceGate.h"
 #include "Trapezoid.h"
 #include "Stall.h"
 #include "Cabinet.h"
@@ -884,6 +885,7 @@ HRESULT CLoader::Loading_For_Race()/**/
 	ADD_TEXTURE(BuildingW, "../Bin/Resources/Textures/Object/BuildingW/BuildingW.PNG", 1);
 	ADD_TEXTURE(BuildingV, "../Bin/Resources/Textures/Object/BuildingV/BuildingV.PNG", 1);
 	ADD_TEXTURE(BuildingU, "../Bin/Resources/Textures/Object/BuildingU/BuildingU.PNG", 1);
+	ADD_TEXTURE(RaceGate, "../Bin/Resources/Textures/Object/RaceGate/RaceGate.PNG", 1);
 
 	lstrcpy(m_szLoadingText, TEXT("모델을(를) 로딩중입니다."));
 	ADD_MODEL_EX(RaceTerrain, 10, 1000);
@@ -894,6 +896,7 @@ HRESULT CLoader::Loading_For_Race()/**/
 
 	lstrcpy(m_szLoadingText, TEXT("원형객체을(를) 로딩중입니다."));
 	ADD_PRTOBJ(RaceTerrain);
+	ADD_PRTOBJ(RaceGate);
 
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_RACE, TEXT("Prototype_GameObject_RaceLandscapeLeft"),
 		CRaceLandscape::Create(m_pGraphic_Device))))
@@ -905,9 +908,46 @@ HRESULT CLoader::Loading_For_Race()/**/
 
 	ADD_PRTOBJ(PlayerOnBoat);
 	ADD_PRTOBJ(BuildingH);
-	ADD_PRTOBJ(BuildingW);
-	ADD_PRTOBJ(BuildingV);
-	ADD_PRTOBJ(BuildingU);
+	
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_RACE, TEXT("Prototype_GameObject_BuildingW1"),
+		CBuildingW::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_RACE, TEXT("Prototype_GameObject_BuildingW2"),
+		CBuildingW::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_RACE, TEXT("Prototype_GameObject_BuildingW3"),
+		CBuildingW::Create(m_pGraphic_Device))))
+		return E_FAIL;
+	
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_RACE, TEXT("Prototype_GameObject_BuildingV1"),
+		CBuildingV::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_RACE, TEXT("Prototype_GameObject_BuildingV2"),
+		CBuildingV::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_RACE, TEXT("Prototype_GameObject_BuildingV3"),
+		CBuildingV::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_RACE, TEXT("Prototype_GameObject_BuildingU1"),
+		CBuildingU::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_RACE, TEXT("Prototype_GameObject_BuildingU2"),
+		CBuildingU::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_RACE, TEXT("Prototype_GameObject_BuildingU3"),
+		CBuildingU::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_RACE, TEXT("Prototype_GameObject_BuildingU4"),
+		CBuildingU::Create(m_pGraphic_Device))))
+		return E_FAIL;
 
 	lstrcpy(m_szLoadingText, TEXT("데이터를 읽어들이는 중입니다."));
 	Add_Data(TEXT("GamePlayLevelData.csv"));

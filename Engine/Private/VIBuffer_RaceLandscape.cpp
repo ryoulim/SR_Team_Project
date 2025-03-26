@@ -12,7 +12,7 @@ CVIBuffer_RaceLandscape::CVIBuffer_RaceLandscape(const CVIBuffer_RaceLandscape& 
 
 HRESULT CVIBuffer_RaceLandscape::Initialize_Prototype()
 {
-	m_iNumber = 100;										// 기둥? 갯수
+	m_iNumber = 140;										// 기둥? 갯수
 	m_iNumVertices = 4 * (m_iNumber + 1);					// 버텍스 갯수
 	m_iVertexStride = sizeof(VTXPOSNORTEX);					// 버텍스 크기
 	m_iFVF = D3DFVF_XYZ | D3DFVF_NORMAL | D3DFVF_TEX1;		// 버텍스 타입

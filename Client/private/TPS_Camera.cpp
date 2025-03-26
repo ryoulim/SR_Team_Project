@@ -55,7 +55,7 @@ EVENT CTPS_Camera::Update(_float fTimeDelta)
 
 void CTPS_Camera::Late_Update(_float fTimeDelta)
 {
-	m_pGameInstance->Add_RenderGroup(CRenderer::RG_PRIORITY, this);
+	//m_pGameInstance->Add_RenderGroup(CRenderer::RG_PRIORITY, this);
 }
 
 HRESULT CTPS_Camera::Render()
