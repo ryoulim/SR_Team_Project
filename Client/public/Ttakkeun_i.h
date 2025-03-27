@@ -55,7 +55,7 @@ public: //따끈이 패턴
 	void MissileAttack(_float dt);
 	void SpawnAttack(_float dt);
 	void FireAttack(_float dt);
-	void LavaAttack(_float dt);
+	void JumpAttack(_float dt);
 	void FlyAttack(_float dt);
 	void StartCooldown(_float dt);
 	void SpawnMissile(_float dt);
@@ -77,7 +77,8 @@ private:
 	FLY_DIR			m_eCurFlyingDirection = { UP };
 	FLY_DIR			m_ePrevFlyingDirection = { UP };
 	_bool			m_bFlyAttack = false;
-	_bool			m_bFlyEffect = false;
+	_bool			m_bJumpStart = false;
+	_bool			m_bDoOnce = false;
 	_float			m_fFlyAttack = 0.f;
 	_float			m_fSpawnMissile = 0.f;
 	_int			m_iMissileCount = 0;

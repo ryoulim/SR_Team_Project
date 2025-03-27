@@ -369,7 +369,7 @@ bool CMonster::IsPlayerDetected()
 
 		float fDot = D3DXVec3Dot(&m_vToPlayer, &vLook);  // 3. 각도 비교
 
-		if (fDot > cosf(D3DXToRadian(20)))          // 4. 일정 각도 이내
+		if (fDot > cosf(D3DXToRadian(30)))          // 4. 일정 각도 이내
 		{
 			return true;
 		}
