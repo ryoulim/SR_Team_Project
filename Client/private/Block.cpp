@@ -50,7 +50,9 @@ HRESULT CBlock::Render()
 
 void CBlock::On_Collision(_uint MyColliderID, _uint OtherColliderID)
 {
-    if (OtherColliderID >= 1001)
+    if (OtherColliderID == CI_LOVERBOY ||
+        OtherColliderID == CI_CHAINGUN ||
+        OtherColliderID == CI_DISPENSOR_SHELL)
         CFXMgr::Get_Instance()->SpawnBlood(CCollider::Get_Last_Collision_Pos(), m_eLevelID);
 }
 
@@ -62,7 +64,8 @@ HRESULT CBlock::Ready_Components(void* pArg)
     ColliderDesc.pTransform = m_pTransformCom;
     ColliderDesc.vScale = m_pTransformCom->Compute_Scaled();
     ColliderDesc.pOwner = this;
-    ColliderDesc.iColliderGroupID = COL_BLOCK;
+    ColliderDesc.iColliderGroupID = CG_BLOCK;
+    ColliderDesc.iColliderID = CI_BLOCK_COMMON;
 
     auto& vAngle = static_cast<DESC*>(pArg)->vAngle;
     _wstring ColliderTag = vAngle.x == 0 && vAngle.y == 0 && vAngle.z == 0 ?

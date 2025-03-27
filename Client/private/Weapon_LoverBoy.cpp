@@ -60,16 +60,12 @@ void CWeapon_LoverBoy::Late_Update(_float fTimeDelta)
 
 HRESULT CWeapon_LoverBoy::Render()
 {
-	Setup_RenderState();
-
 	__super::Render();
 
 	if (m_eState == ST_S_ATK)
 	{
 		Left_Hand_Render();
 	}
-
-	Release_RenderState();
 
 	return S_OK;
 }

@@ -12,12 +12,12 @@ class CWeapon abstract : public CGameObject
 {
 public:
 	enum STATE { ST_IDLE, ST_WALK, ST_OPENING, ST_W_ATK, ST_S_ATK, ST_RELOAD, ST_ENDING, ST_END };
-	enum TYPE {
-		LOVERBOY = 1001,
+	enum TYPE { // 여기 순서를 콜라이더와 맞추지 않는다면 아주 피곤한 일이 벌어질것
+		LOVERBOY = CI_LOVERBOY,
+		CHAINGUN,
 		DISPERSER_SHELL,
 		DISPERSER_GRENADE,
 		PENETRATOR,
-		CHAINGUN,
 		BOWLINGBOMB,
 		IONBOW,
 		CLUSTERPUCK,

@@ -93,7 +93,7 @@ HRESULT CMainApp::Initialize()
 	Desc.iWinSizeX = g_iWinSizeX;
 	Desc.iWinSizeY = g_iWinSizeY;
 	Desc.iNumLevels = LEVEL_END;
-	Desc.INumColliderGroups = COL_END;
+	Desc.INumColliderGroups = CG_END;
 
 	CFXMgr::Get_Instance()->Initialize();
 

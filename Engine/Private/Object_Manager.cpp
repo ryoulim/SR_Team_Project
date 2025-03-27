@@ -154,6 +154,7 @@ _uint CObject_Manager::Active_Object(const _wstring& strObjectTag, _uint iLevelI
 	auto ObjPool = Find_Object_Pool(strObjectTag);
 	_uint iReturn{};
 	CGameObject* pGameObject = ObjPool->Active(iReturn);
+
 	if(FAILED(pGameObject->Reset(pArg)))
 		return 0;
 

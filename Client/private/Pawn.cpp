@@ -83,7 +83,8 @@ HRESULT CPawn::Ready_Components(void* pArg)
 	ColliderDesc.pTransform = m_pTransformCom;
 	ColliderDesc.vScale = pDesc->vScale;
 	ColliderDesc.pOwner = this;
-	ColliderDesc.iColliderGroupID = COL_PAWN;
+	ColliderDesc.iColliderGroupID = CG_PAWN;
+	ColliderDesc.iColliderID = CI_PLAYER;
 
 	/* For.Com_Collider */
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Collider_Capsule"),

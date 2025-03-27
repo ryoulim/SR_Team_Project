@@ -59,7 +59,8 @@ HRESULT CInvisibleBlock::Ready_Components(void* pArg)
 	ColliderDesc.pTransform = m_pTransformCom;
 	ColliderDesc.vScale = m_pTransformCom->Compute_Scaled();
 	ColliderDesc.pOwner = this;
-	ColliderDesc.iColliderGroupID = COL_BLOCK;
+	ColliderDesc.iColliderGroupID = CG_BLOCK;
+	ColliderDesc.iColliderID = CI_BLOCK_INVISIBLE;
 
 	auto& vAngle = static_cast<DESC*>(pArg)->vAngle;
 	_wstring ColliderTag = vAngle.x == 0 && vAngle.y == 0 && vAngle.z == 0 ?

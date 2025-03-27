@@ -33,7 +33,7 @@ HRESULT CBullet::Reset(void* pArg)
 	m_pCollider->Update_Scale({ pDesc->fSpeedPerSec / 60.f ,0.f,0.f });
 	m_pCollider->Update_Collider();
 
-	m_pGameInstance->Add_Collider(m_pCollider, COL_PBULLET);
+	m_pGameInstance->Add_Collider(m_pCollider, CG_PBULLET);
 	m_bDead = FALSE;
 	m_fTimeAcc = 0.f;
 
@@ -75,7 +75,7 @@ void CBullet::On_Collision(_uint MyColliderID, _uint OtherColliderID)
 {
 	m_bDead = TRUE;
 
-	if(OtherColliderID == COL_MONSTER)
+	if(OtherColliderID == CI_MON_BODY)
 		CFXMgr::Get_Instance()->SpawnExplosion(CCollider::Get_Last_Collision_Pos(), m_eLevelID);
 }
 

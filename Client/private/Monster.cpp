@@ -191,7 +191,8 @@ HRESULT CMonster::Ready_Components(void* pArg)
 	ColliderDesc.vOffSet = {};
 	ColliderDesc.vScale = m_pTransformCom->Compute_Scaled();
 	ColliderDesc.pOwner = this;
-	ColliderDesc.iColliderGroupID = COL_MONSTER;
+	ColliderDesc.iColliderGroupID = CG_MONSTER;
+	ColliderDesc.iColliderID = CI_MON_BODY;
 	
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Collider_Capsule"),
 		TEXT("Com_Collider"), reinterpret_cast<CComponent**>(&m_pCollider), &ColliderDesc)))

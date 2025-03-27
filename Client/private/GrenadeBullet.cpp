@@ -82,11 +82,12 @@ HRESULT CGrenadeBullet::Render()
 
 void CGrenadeBullet::On_Collision(_uint MyColliderID, _uint OtherColliderID)
 {
-	if (OtherColliderID == COL_MONSTER)
+	if (OtherColliderID == CI_MON_HEAD || 
+		OtherColliderID == CI_MON_BODY)
 	{
 		m_bDead = TRUE;
 	}
-	else if (OtherColliderID == COL_BLOCK && CCollider::Get_Last_Collision_Depth().y == 0)
+	else if (OtherColliderID == CI_BLOCK_COMMON && CCollider::Get_Last_Collision_Depth().y == 0)
 	{
 		Friction();
 
@@ -148,7 +149,8 @@ HRESULT CGrenadeBullet::Ready_Components(void* pArg)
 		ColliderDesc.pTransform = m_pTransformCom;
 		ColliderDesc.vScale = pDesc->vScale;
 		ColliderDesc.pOwner = this;
-		ColliderDesc.iColliderGroupID = COL_PBULLET;
+		ColliderDesc.iColliderGroupID = CG_PBULLET;
+		ColliderDesc.iColliderID = CI_DISPENSOR_GRENADE;
 
 		/* For.Com_Collider */
 		if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Collider_Sphere"),

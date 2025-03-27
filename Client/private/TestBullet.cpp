@@ -71,7 +71,8 @@ HRESULT CTestBullet::Ready_Components(void* pArg)
 	ColliderDesc.pTransform = m_pTransformCom;
 	ColliderDesc.vScale.x = pDesc->fSpeedPerSec / 60.f; // 총 길이 / 프레임 수
 	ColliderDesc.pOwner = this;
-	ColliderDesc.iColliderGroupID = COL_PBULLET;
+	ColliderDesc.iColliderGroupID = CG_PBULLET;
+	ColliderDesc.iColliderID = CI_LOVERBOY;
 
 	/* For.Com_Collider */
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Collider_Line"),

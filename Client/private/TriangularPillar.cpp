@@ -63,7 +63,7 @@ HRESULT CTriangularPillar::Ready_Components(void* pArg)
     CCollider::DESC ColliderDesc{};
     ColliderDesc.pTransform = m_pTransformCom;
     ColliderDesc.pOwner = this;
-    ColliderDesc.iColliderGroupID = COL_BLOCK;
+    ColliderDesc.iColliderGroupID = CG_BLOCK;
 
     _float3 vTriScale = m_pTransformCom->Compute_Scaled();
     _float3& vOBBScale = ColliderDesc.vScale;

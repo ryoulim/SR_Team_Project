@@ -343,9 +343,9 @@ HRESULT CLevel_GamePlay::Ready_Light()
 
 void CLevel_GamePlay::Check_Collision()
 {
-	m_pGameInstance->Intersect(COL_PAWN, COL_BLOCK);
-	m_pGameInstance->Intersect(COL_PBULLET, COL_MONSTER);
-	m_pGameInstance->Intersect(COL_PBULLET, COL_BLOCK);
+	m_pGameInstance->Intersect(CG_PAWN, CG_BLOCK);
+	m_pGameInstance->Intersect(CG_PBULLET, CG_MONSTER);
+	m_pGameInstance->Intersect(CG_PBULLET, CG_BLOCK);
 }
 
 void CLevel_GamePlay::SpawnTtakkeun_i(_float3 _Position, bool m_bActive)
@@ -525,7 +525,7 @@ HRESULT CLevel_GamePlay::Load_Map(_uint iLevelIdx, const _wstring& FileName)
 			_wstring Layertag = TEXT("Layer_") + strKey;
 			
 
-			CGravity::Add_StandableObjLayerTag(COL_BLOCK);
+			CGravity::Add_StandableObjLayerTag(CG_BLOCK);
 
 			if (FAILED(m_pGameInstance->Add_GameObject(iLevelIdx, Prototype, iLevelIdx, Layertag, &tDesc)))
 			{

@@ -21,9 +21,6 @@ HRESULT CAnimeRect::Initialize_Prototype()
 
 HRESULT CAnimeRect::Initialize(void* pArg)
 {
-	m_eLevelID = LEVEL_GAMEPLAY;
-	m_szTextureID = TEXT("Test");
-	m_szBufferType = TEXT("Rect");
 
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;

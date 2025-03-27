@@ -21,6 +21,7 @@ HRESULT CWeapon::Initialize(void* pArg)
 	if (FAILED(Ready_Components(pArg)))
 		return E_FAIL;
 
+	m_fDepth = 6.f;
 	Set_State(ST_OPENING);
 
 	return S_OK;
@@ -125,7 +126,7 @@ void CWeapon::Create_Bullet()
 	_float3 pLook = *reinterpret_cast<_float3*>(&matCamWorld.m[2][0]);
 	_uint iColliderID{};
 
-	auto pPickedObj = m_pGameInstance->Raycast(pPos, pLook.Normalize(), m_fRayLength, {COL_BLOCK,COL_MONSTER}, iColliderID);
+	auto pPickedObj = m_pGameInstance->Raycast(pPos, pLook.Normalize(), m_fRayLength, {CG_BLOCK,CG_MONSTER}, iColliderID);
 	if (pPickedObj)
 	{
 		pPickedObj->On_Collision(iColliderID, m_tAmmoInfo.eType);

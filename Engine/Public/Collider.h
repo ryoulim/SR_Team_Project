@@ -20,6 +20,8 @@ public:
 		_float3 vOffSet;
 		// 이 콜라이더의 그룹이 뭔지 넣어라
 		_uint iColliderGroupID;
+		// 이 콜라이더가 충돌되면 어떻게 처리할지 판별할 고유 아이디를 넣어라
+		_uint iColliderID;
 	}DESC;
 
 protected:
@@ -49,6 +51,7 @@ public:
 		return m_pOwner; 
 	}
 	const COLLIDER_TYPE Get_Type() const { return m_eType; }
+	const _uint Get_ID() const { return m_iColliderID; }
 	static const _float3& Get_Last_Collision_Depth() { return m_vLast_Collision_Depth; }
 	static const _float3& Get_Last_Collision_Pos() { return m_vLast_Collision_Pos; }
 	virtual _bool RayCasting(const _float3& rayOrigin, const _float3& rayDir) { return FALSE; }
@@ -65,6 +68,7 @@ protected:
 
 private:
 	COLLIDER_TYPE m_eType{};
+	_uint m_iColliderID{};
 
 private:
 	virtual _bool Intersect_With_AABB_Cube(const CCollider* pOther) PURE;

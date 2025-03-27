@@ -37,6 +37,7 @@ HRESULT CCollider::Initialize(void* pArg)
 	m_pTransform = pDesc->pTransform;
 	Safe_AddRef(m_pTransform);
 	m_vOffSet = pDesc->vOffSet;
+	m_iColliderID = pDesc->iColliderID;
 
 	Update_Scale(pDesc->vScale);
 	Update_Collider();

@@ -48,10 +48,7 @@ void CCollider_Manager::Clear()
     for (_uint i = 0; i < m_iNumGroups; ++i)
     {
         for (auto Collider : m_pColliders[i])
-        {
-            if (Safe_Release(Collider))
-                int a = 1;
-        }
+            Safe_Release(Collider);
         m_pColliders[i].clear();
     }
 }
@@ -68,8 +65,8 @@ void CCollider_Manager::Intersect(_uint iColliderGroupID1, _uint iColliderGroupI
         {
             if (pCollider1->Check_Intersect(pCollider2))
             {
-                pCollider1->Get_Owner()->On_Collision(iColliderGroupID1, iColliderGroupID2);
-                pCollider2->Get_Owner()->On_Collision(iColliderGroupID2, iColliderGroupID1);
+                pCollider1->Get_Owner()->On_Collision(pCollider1->Get_ID(), pCollider2->Get_ID());
+                pCollider2->Get_Owner()->On_Collision(pCollider2->Get_ID(), pCollider1->Get_ID());
             }
         }
     }
@@ -98,7 +95,7 @@ CGameObject* CCollider_Manager::Raycast(const _float3& rayOrigin, const _float3&
                     vCurNormal = CCollider::m_vLast_Collision_Depth;
                     vCurPos = CCollider::m_vLast_Collision_Pos;
                     pCurObj = pCollider->m_pOwner;
-                    ColliderID = ID;
+                    ColliderID = pCollider->Get_ID();
                 }
                 else
                 {
