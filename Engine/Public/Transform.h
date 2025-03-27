@@ -76,6 +76,7 @@ public:
 	bool RotateToDirection(const _float3& vCurLook, const _float3& vTargetDir, _float fTurnSpeed, _float dt);
 	void Chase(const _float3& vTargetPos, _float fTimeDelta, _float fMinDistance = 0.1f);
 	bool ChaseCustom(const _float3& vTargetPos, _float fTimeDelta, _float fMinDistance, _float fSpeed);
+	bool ChaseWithOutY(_float3& vTargetPos, _float fTimeDelta, _float fMinDistance, _float fSpeed);
 	void Turn(const _float3& vAxis, _float fTimeDelta);
 	void TurnCustom(const _float3& vAxis, _float _Rotation, _float fTimeDelta);
 	void Turn_Immediately(const _float3& vAxis, _float fRadian);

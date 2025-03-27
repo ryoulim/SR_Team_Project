@@ -64,7 +64,7 @@ void CTtakkeun_i::Late_Update(_float fTimeDelta)
 	IsPlayerDetected();
 
 	//콜라이더 업데이트
-	//m_pCollider->Update_Collider();
+	m_pCollider->Update_Collider();
 
 	Compute_ViewAngle();
 
@@ -258,9 +258,19 @@ HRESULT CTtakkeun_i::Animate_Monster(_float fTimeDelta)
 			m_fAnimationFrame += fTimeDelta * 6.f;
 		else if (m_fAnimationFrame < 3.f)
 		{
+			//날아오르라 패턴
 			if (m_bFlyAttack)
 				m_eCurMonsterState = STATE_FLY;
-			else
+			else if (!m_bFlyAttack && !m_bJumpStart)
+				m_fAnimationFrame += fTimeDelta * 0.1f;
+			
+			//내려찍기 패턴
+			if (m_bJumpStart)
+			{
+				m_fAnimationFrame = 2.f;
+				break;
+			}
+			else if (!m_bFlyAttack && !m_bJumpStart)
 				m_fAnimationFrame += fTimeDelta * 0.1f;
 		}
 		else if (m_fAnimationFrame < 4.f)
@@ -393,7 +403,9 @@ void CTtakkeun_i::AttackPattern(_float dt)
 void CTtakkeun_i::BasicAttackSet(_float dt)
 {
 	/* 따끈이의 공격패턴[ 1페이즈 ] */
-	
+
+	m_iRandom = 2;
+
 	switch (m_iRandom)
 	{
 	case 0: 
@@ -405,8 +417,8 @@ void CTtakkeun_i::BasicAttackSet(_float dt)
 		FlyAttack(dt);
 		break;
 	case 2:
-		/* 3. 용암풍덩 */
-		LavaAttack(dt);
+		/* 3. 내리찍기 */
+		JumpAttack(dt);
 		break;
 	}
 }
@@ -454,8 +466,34 @@ void CTtakkeun_i::FireAttack(_float dt)
 
 }
 
-void CTtakkeun_i::LavaAttack(_float dt)
+void CTtakkeun_i::JumpAttack(_float dt)
 {
+	/* [ 공중으로 점프를 한 뒤, 플레이어 방향으로 3번 내리꼽는다 ] */
+
+	//내리꼽을때 상자가 있으면 어쩌지 -> 내리꼽는 로직을 짤때 시간으로 짜야할듯
+
+	/* 필요변수 */
+	_bool bIsFly = false;
+	_bool bIsTop = false;
+	m_bJumpStart = true;
+	m_eCurMonsterState = STATE_JUMP;
+
+
+	/* 1. 점프모션을 취한 뒤에 타이밍 맞춰 날아오른다. */
+
+	if (m_eCurMonsterState == STATE_JUMP && m_fAnimationFrame == 2.f)
+	{
+		//날아오르고 플레이어 쪽으로 조금 다가와야할거같음.
+		bIsFly = m_pTransformCom->Go_UpCustom(dt, 400.f, 300.f);
+		if (!bIsFly)
+		{
+			_float3 TargetPos = *static_cast<CTransform*>(m_pTargetPlayer->Find_Component(L"Com_Transform"))->Get_State(CTransform::STATE_POSITION);
+			m_pTransformCom->ChaseWithOutY(TargetPos,dt,50.f,200.f);
+		}
+	}
+
+	/* 2. 내려오면서 블럭이랑 충돌하면 파티클이 비산한다. */
+
 }
 
 void CTtakkeun_i::FlyAttack(_float dt)
@@ -473,10 +511,10 @@ void CTtakkeun_i::FlyAttack(_float dt)
 		m_bFlyAttack = true;
 
 		//이펙트 소환
-		if (!m_bFlyEffect)
+		if (!m_bDoOnce)
 		{
 			FlyEffect();
-			m_bFlyEffect = true;
+			m_bDoOnce = true;
 		}
 	}
 
@@ -545,7 +583,7 @@ void CTtakkeun_i::FlyAttack(_float dt)
 			m_eState = MODE::MODE_RETURN;
 			m_iMissileCount = 0;
 			m_bFlyAttack = false;
-			m_bFlyEffect = false;
+			m_bDoOnce = false;
 			isFly = false;
 			return;
 		}
@@ -697,7 +735,7 @@ CTtakkeun_i* CTtakkeun_i::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 	pInstance->m_iDefense		= 3;
 	pInstance->m_fSpeed			= 100.f;
 	pInstance->m_vScale			= { 150.f, 147.f, 1.f };
-	pInstance->m_eState		= MODE::MODE_IDLE;
+	pInstance->m_eState			= MODE::MODE_IDLE;
 	pInstance->m_fDetectiveDistance = 400.f;
 
 	//부속성
