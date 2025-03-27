@@ -1,4 +1,4 @@
-#pragma once
+Ôªø#pragma once
 
 
 namespace Client
@@ -7,27 +7,27 @@ namespace Client
 	enum COLLIDER_GROUP { CG_PAWN, CG_MONSTER, CG_BLOCK, CG_PBULLET, CG_MBULLET, CG_END };
 
 	enum COLLIDER_ID {
-		CI_PLAYER_START,																			// «√∑π¿ÃæÓ
+		CI_PLAYER_START,																			// ÌîåÎ†àÏù¥Ïñ¥
 		CI_PLAYER, 
 		CI_PLAYER_END,		
 
-		CI_MONBODY_START,																			// ∏ÛΩ∫≈Õ ∏ˆ≈Î
+		CI_MONBODY_START,																			// Î™¨Ïä§ÌÑ∞ Î™∏ÌÜµ
 		CI_MON_BODY, 
 		CI_MONBODY_END,																				
 
-		CI_MONHEAD_START,																			// ∏ÛΩ∫≈Õ ∏”∏Æ(æ‡¡°)
+		CI_MONHEAD_START,																			// Î™¨Ïä§ÌÑ∞ Î®∏Î¶¨(ÏïΩÏ†ê)
 		CI_MON_HEAD, 
 		CI_MONHEAD_END,			
 
-		CI_WEAPON_START,																			// «√∑π¿ÃæÓ π´±‚
+		CI_WEAPON_START,																			// ÌîåÎ†àÏù¥Ïñ¥ Î¨¥Í∏∞
 		CI_LOVERBOY, CI_CHAINGUN, CI_DISPENSOR_SHELL, CI_DISPENSOR_GRENADE,							
 		CI_WEAPON_END,
 
-		CI_BLOCK_START,																				// ∫Ì∑∞µÈ
+		CI_BLOCK_START,																				// Î∏îÎü≠Îì§
 		CI_BLOCK_COMMON, CI_BLOCK_INVISIBLE,														
 		CI_BLOCK_END,
 
-		CI_MBULLET_START,																			// ∏ÛΩ∫≈Õ ≈ıªÁ√º
+		CI_MBULLET_START,																			// Î™¨Ïä§ÌÑ∞ Ìà¨ÏÇ¨Ï≤¥
 		CI_MONSTER_BULLET,
 		CI_MBULLET_END
 	};
