@@ -46,6 +46,9 @@ return E_FAIL
 
 #pragma region 유틸리티
 
+#define GET_PLAYER m_pGameInstance->Find_Object(LEVEL_GAMEPLAY,TEXT("Layer_Pawn"))
+#define GET_PLAYER_TRANSFORM static_cast<CTransform*>(GET_PLAYER->Find_Component(TEXT("Com_Transform")))
+
 #define CAMERA_MANAGER static_cast<CCameraManager*>(m_pGameInstance->Find_Object(m_eLevelID, TEXT("Layer_Camera")))
 
 #define GET_CAMERA											\
@@ -55,8 +58,6 @@ matCamWorld.MakeInverseMat(matCamWorld);
 
 #define Get_CamaraPos GET_CAMERA											\
 _float3 vCameraPos = { matCamWorld._41, matCamWorld._42, matCamWorld._43 };	
-
-#define GET_PLAYER m_pGameInstance->Find_Object(LEVEL_GAMEPLAY,TEXT("Layer_Pawn"))
 
 #define _VUp		_float3(0.f,1.f,0.f)
 

@@ -24,14 +24,17 @@ HRESULT CGrenadeBullet::Initialize(void* pArg)
 	m_eLevelID = LEVEL_GAMEPLAY;
 	m_szTextureID = TEXT("GrenadeBullet");
 	m_szBufferType = TEXT("Rect");
-	m_fTimeLimit = 10.f;
 
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
 
 	//m_pGravityCom->Jump(30.f);
 
-	m_fSpeedperSec = static_cast<DESC*>(pArg)->fSpeedPerSec;
+	DESC* pDesc = static_cast<DESC*>(pArg);
+
+	m_fSpeedperSec = pDesc->fSpeedPerSec;
+	m_fTimeLimit = pDesc->fTimeLimit;
+	m_fJumpPower = pDesc->fInitJumpPower;
 
 	return S_OK;
 }
@@ -134,22 +137,21 @@ HRESULT CGrenadeBullet::Ready_Components(void* pArg)
 	if (pArg != nullptr)
 	{
 		DESC* pDesc = static_cast<DESC*>(pArg);
-		_float4x4 mat{};
-		m_pGraphic_Device->GetTransform(D3DTS_VIEW, &mat);
-		mat.MakeInverseMat(mat);
 
-		_float3 vUp = _float3{ 0.f,1.f,0.f };
-		_float3 vLook = reinterpret_cast<_float3*>(&mat.m[0][0])->Cross(vUp);
-		memcpy(&mat.m[1][0], &vUp, sizeof _float3);
-		memcpy(&mat.m[2][0], &vLook, sizeof _float3);
-		m_pTransformCom->Set_WorldMatrix(&mat);
+		pDesc->vLook.y = max(pDesc->vLook.y, 0.f);
+		_float3 vRight = _float3(0.f, 1.f, 0.f).Cross(pDesc->vLook); 
+
+		m_pTransformCom->Set_State(CTransform::STATE_RIGHT, vRight);
+		m_pTransformCom->Set_State(CTransform::STATE_UP, pDesc->vLook.Cross(vRight));
+		m_pTransformCom->Set_State(CTransform::STATE_LOOK, pDesc->vLook);
+		m_pTransformCom->Set_State(CTransform::STATE_POSITION, pDesc->vPosition);
 		m_pTransformCom->Scaling(pDesc->vScale);
 
 		CCollider_Capsule::DESC ColliderDesc{};
 		ColliderDesc.pTransform = m_pTransformCom;
 		ColliderDesc.vScale = pDesc->vScale;
 		ColliderDesc.pOwner = this;
-		ColliderDesc.iColliderGroupID = CG_PBULLET;
+		ColliderDesc.iColliderGroupID = pDesc->ColliderGroup;
 		ColliderDesc.iColliderID = CI_DISPENSOR_GRENADE;
 
 		/* For.Com_Collider */

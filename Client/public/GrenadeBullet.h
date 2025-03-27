@@ -8,6 +8,15 @@ BEGIN(Client)
 
 class CGrenadeBullet final : public CBullet
 {
+public:
+	typedef struct tagGrenadeBulletDesc : public CBullet::DESC
+	{
+		// Look의 Y는 반드시 0보다 커야합니다.
+		_float3 vLook;
+		_float fInitJumpPower;
+		_float fTimeLimit;
+		COLLIDER_GROUP ColliderGroup;
+	}DESC;
 private:
 	CGrenadeBullet(LPDIRECT3DDEVICE9 pGraphic_Device);
 	CGrenadeBullet(const CGrenadeBullet& Prototype);

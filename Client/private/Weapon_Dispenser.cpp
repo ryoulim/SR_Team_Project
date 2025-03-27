@@ -47,6 +47,9 @@ HRESULT CWeapon_Dispenser::Initialize(void* pArg)
 	m_tGrenadeInfo.iReloadedAmmo = 6;
 	///////
 
+	m_pPlayerTransform = static_cast<CTransform*>(static_cast<CGameObject*>(pArg)->Find_Component(TEXT("Com_Transform")));
+	Safe_AddRef(m_pPlayerTransform);
+
 	m_pCurAmmo = &m_tShellInfo;
 	if (FAILED(__super::Initialize(&Desc)))
 		return E_FAIL;
@@ -257,6 +260,12 @@ void CWeapon_Dispenser::Create_Bullet()
 		CGrenadeBullet::DESC BulletDesc{};
 		BulletDesc.fSpeedPerSec = 300.f;
 		BulletDesc.vScale = { 6.f,6.f,6.f };
+		BulletDesc.vPosition = *m_pPlayerTransform->Get_State(CTransform::STATE_POSITION) + _float3{0.f,15.f,0.f};
+		BulletDesc.vLook = *m_pPlayerTransform->Get_State(CTransform::STATE_LOOK);
+		BulletDesc.ColliderGroup = CG_PBULLET;
+		BulletDesc.fInitJumpPower = 30.f;
+		BulletDesc.fTimeLimit = 10.f;
+
 		if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_GrenadeBullet"),
 			LEVEL_GAMEPLAY, TEXT("Layer_Bullet"), &BulletDesc)))
 			return;
@@ -309,4 +318,5 @@ CGameObject* CWeapon_Dispenser::Clone(void* pArg)
 void CWeapon_Dispenser::Free()
 {
 	__super::Free();
+	Safe_Release(m_pPlayerTransform);
 }

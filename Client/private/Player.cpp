@@ -58,7 +58,7 @@ HRESULT CPlayer::Initialize(void* pArg)
 	m_Weapons.push_back(
 		static_cast<CWeapon*>(m_pGameInstance->Clone_Prototype(
 			PROTOTYPE::TYPE_GAMEOBJECT, LEVEL_GAMEPLAY,
-			TEXT("Prototype_GameObject_Weapon_Dispenser"))));
+			TEXT("Prototype_GameObject_Weapon_Dispenser"),this)));
 #pragma endregion
 	CUI_Manager::Get_Instance()->Change_Weapon(m_Weapons[m_iCurWeaponIndex]->Get_Info());
 
