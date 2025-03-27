@@ -24,6 +24,7 @@ public:
 		_float	fMin = 0;
 		_float	fMax = 0;
 		_int	iParticleNums;
+		_bool	isLoop = true;
 	}DESC;
 
 
@@ -118,6 +119,8 @@ protected: //¸â¹öº¯¼ö
 
 	_float					m_fMin = 0;
 	_float					m_fMax = 0;
+
+	_bool					m_bIsLoop = true;
 
 };
 

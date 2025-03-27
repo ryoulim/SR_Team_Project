@@ -8,7 +8,7 @@ END
 
 BEGIN(Client)
 
-class CFireAttack : public CPSystem
+class CMonsterMissile : public CPSystem
 {
 public:
 	typedef struct tagFireworkDesc : public CPSystem::DESC
@@ -16,9 +16,9 @@ public:
 	}DESC;
 
 public:
-	CFireAttack(LPDIRECT3DDEVICE9 pGraphicDev, wstring _strObjName);
-	CFireAttack(const CPSystem& Prototype);
-	virtual ~CFireAttack() = default;
+	CMonsterMissile(LPDIRECT3DDEVICE9 pGraphicDev, wstring _strObjName);
+	CMonsterMissile(const CPSystem& Prototype);
+	virtual ~CMonsterMissile() = default;
 
 
 	HRESULT Initialize(void* pArg) override;
@@ -31,14 +31,17 @@ public:
 
 	void FrameUpdate(float timeDelta);
 	float GetRandomColor(float lowBound, float highBound);
+	void SetPosition(_float3 Position);
+	void SetDead() { m_bDead = true; }
 
 public:
-	static CFireAttack* Create(LPDIRECT3DDEVICE9 pGraphicDev, wstring _strObjName);
+	static CMonsterMissile* Create(LPDIRECT3DDEVICE9 pGraphicDev, wstring _strObjName);
 	virtual CGameObject* Clone(void* pArg) override;
 	virtual void Free();
 
 private:
-	float		m_fFrame = 0;
+	_float		m_fFrame = 0;
+	_bool		m_bDead = false;
 };
 
 END

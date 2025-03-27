@@ -192,6 +192,7 @@
     <ClInclude Include="..\public\FireAttack.h" />
     <ClInclude Include="..\public\Firework.h" />
     <ClInclude Include="..\public\Flatform.h" />
+    <ClInclude Include="..\public\FlyEffect.h" />
     <ClInclude Include="..\public\Font.h" />
     <ClInclude Include="..\public\EmptyBullet.h" />
     <ClInclude Include="..\public\Font_BigOrange.h" />
@@ -214,7 +215,9 @@
     <ClInclude Include="..\public\MainMenu.h" />
     <ClInclude Include="..\public\Map.h" />
     <ClInclude Include="..\public\Mechsect.h" />
+    <ClInclude Include="..\public\MonsterMissile.h" />
     <ClInclude Include="..\public\Monster.h" />
+    <ClInclude Include="..\public\MonsterBullet.h" />
     <ClInclude Include="..\public\MyComputer.h" />
     <ClInclude Include="..\public\Nukemutant.h" />
     <ClInclude Include="..\public\Particle_Define.h" />
@@ -310,6 +313,7 @@
     <ClCompile Include="..\private\FireAttack.cpp" />
     <ClCompile Include="..\private\Firework.cpp" />
     <ClCompile Include="..\private\Flatform.cpp" />
+    <ClCompile Include="..\private\FlyEffect.cpp" />
     <ClCompile Include="..\private\Font.cpp" />
     <ClCompile Include="..\private\EmptyBullet.cpp" />
     <ClCompile Include="..\private\Font_BigOrange.cpp" />
@@ -332,7 +336,9 @@
     <ClCompile Include="..\private\MainMenu.cpp" />
     <ClCompile Include="..\private\Map.cpp" />
     <ClCompile Include="..\private\Mechsect.cpp" />
+    <ClCompile Include="..\private\MonsterMissile.cpp" />
     <ClCompile Include="..\private\Monster.cpp" />
+    <ClCompile Include="..\private\MonsterBullet.cpp" />
     <ClCompile Include="..\private\MyComputer.cpp" />
     <ClCompile Include="..\private\Nukemutant.cpp" />
     <ClCompile Include="..\private\Particle_Define.cpp" />

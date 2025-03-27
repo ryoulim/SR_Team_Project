@@ -106,9 +106,11 @@ HRESULT CMonster::Render()
 	if (m_bDebug)
 		Render_DebugFOV();
 
-
 	Set_TextureType();
-	
+
+	if (!m_bRotateAnimation)
+		m_iDegree = 0;
+
 	if (m_isReadyMonster) // 몹 텍스쳐 전부 준비 안해서 임시로 분리
 	{
 		m_pTextureMap[m_iState][m_iDegree]->Get_TextureSize(static_cast<_uint>(m_fAnimationFrame), &m_vScale);
@@ -552,6 +554,7 @@ void CMonster::DoReturn(_float dt)
 	//원래방향으로 턴하기
 	_float3 vLook = *m_pTransformCom->Get_State(CTransform::STATE_LOOK);
 	bool bRotated = m_pTransformCom->RotateToDirection(vLook, vDir, 5.f, dt);
+
 	if (bRotated)  // 회전 완료 신호
 	{
 		// 너무 가까우면 이동 종료
@@ -562,7 +565,7 @@ void CMonster::DoReturn(_float dt)
 		}
 
 		// 이동 처리 (dt 고려)
-		float fSpeed = m_fSpeed; // 예: 3.0f
+		float fSpeed = m_fSpeed;
 		_float3 vMove = vDir * fSpeed * dt;
 
 		m_pTransformCom->Set_State(CTransform::STATE_POSITION, (vMyPos + vMove));

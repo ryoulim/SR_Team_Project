@@ -328,6 +328,15 @@
     <Filter Include="02.GameObjects\Map\AlphaBlock">
       <UniqueIdentifier>{2d3f0690-093a-42cd-9b42-1ba56b35a182}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\Weapon\Bullet\MonsterBullet">
+      <UniqueIdentifier>{1bd0cbf5-9a36-4776-b30d-fe67d9d6090b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Particle\_BossMobSkill\FlyAttack">
+      <UniqueIdentifier>{1e364046-6bff-481a-8049-3efda6bb3683}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Particle\_BossMobSkill\FlyEffect">
+      <UniqueIdentifier>{aaa7ff1c-ea40-474f-b424-9f379b6ca4f9}</UniqueIdentifier>
+    </Filter>
     <Filter Include="02.GameObjects\Statue\RaceGate">
       <UniqueIdentifier>{fc288ff0-b5bb-4ed0-b86b-ee91ca2a1905}</UniqueIdentifier>
     </Filter>
@@ -690,6 +699,15 @@
     <ClInclude Include="..\public\RaceGate.h">
       <Filter>02.GameObjects\Statue\RaceGate</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\MonsterBullet.h">
+      <Filter>02.GameObjects\Weapon\Bullet\MonsterBullet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\MonsterMissile.h">
+      <Filter>02.GameObjects\Particle\_BossMobSkill\FlyAttack</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\FlyEffect.h">
+      <Filter>02.GameObjects\Particle\_BossMobSkill\FlyEffect</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -1034,6 +1052,15 @@
     </ClCompile>
     <ClCompile Include="..\private\AlphaRect.cpp">
       <Filter>02.GameObjects\Map\AlphaRect</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\MonsterBullet.cpp">
+      <Filter>02.GameObjects\Weapon\Bullet\MonsterBullet</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\MonsterMissile.cpp">
+      <Filter>02.GameObjects\Particle\_BossMobSkill\FlyAttack</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\FlyEffect.cpp">
+      <Filter>02.GameObjects\Particle\_BossMobSkill\FlyEffect</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
