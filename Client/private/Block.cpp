@@ -48,14 +48,6 @@ HRESULT CBlock::Render()
     return __super::Render();
 }
 
-void CBlock::On_Collision(_uint MyColliderID, _uint OtherColliderID)
-{
-    if (OtherColliderID == CI_LOVERBOY ||
-        OtherColliderID == CI_CHAINGUN ||
-        OtherColliderID == CI_DISPENSOR_SHELL)
-        CFXMgr::Get_Instance()->SpawnBlood(CCollider::Get_Last_Collision_Pos(), m_eLevelID);
-}
-
 HRESULT CBlock::Ready_Components(void* pArg)
 {
     __super::Ready_Components(pArg);

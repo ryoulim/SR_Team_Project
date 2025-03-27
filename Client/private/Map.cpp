@@ -1,4 +1,5 @@
 #include "Map.h"
+#include "FXMgr.h"
 
 CMap::CMap(LPDIRECT3DDEVICE9 pGraphic_Device)
 	:CGameObject{pGraphic_Device}
@@ -59,6 +60,15 @@ HRESULT CMap::Render()
 		return E_FAIL;
 
 	return S_OK;
+}
+
+void CMap::On_Collision(_uint MyColliderID, _uint OtherColliderID)
+{
+
+	if (OtherColliderID == CI_LOVERBOY ||
+		OtherColliderID == CI_CHAINGUN ||
+		OtherColliderID == CI_DISPENSOR_SHELL)
+		CFXMgr::Get_Instance()->SpawnBlood(CCollider::Get_Last_Collision_Pos(), m_eLevelID);
 }
 
 HRESULT CMap::Ready_Components(void* pArg)
