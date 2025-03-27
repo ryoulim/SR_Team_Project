@@ -102,4 +102,5 @@ CGameObject* CBuildingW::Clone(void* pArg)
 void CBuildingW::Free()
 {
 	__super::Free();
+	Safe_Release(m_pShaderCom);
 }
