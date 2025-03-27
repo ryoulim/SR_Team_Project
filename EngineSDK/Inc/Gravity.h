@@ -44,6 +44,10 @@ public:
 	void Set_Height(_float fHeight) {
 		m_fHalfHeight = fHeight * 0.5f;
 	}
+	void Set_JumpOption(_float	fTimeIncreasePerSec, _float	fMaxFallSpeedPerSec) {
+		m_fTimeIncreasePerSec = fTimeIncreasePerSec;
+		m_fMaxFallSpeedperSec = fMaxFallSpeedPerSec;
+	}
 	_float Get_FloorY() {
 		return m_fFloorY;
 	}
