@@ -91,8 +91,10 @@ private:
 #endif
 
 
-private:
+public: //범죄은닉중
 	void Raycast_StandAble_Obj();
+
+private:
 	void Jumping(_float fTimeDelta);
 	void Update_NormalVector(const D3DXPLANE& Plane);
 

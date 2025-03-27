@@ -636,6 +636,31 @@ void CFXMgr::FireAttack(_float3 _vPosition, LEVEL eLevel)
 		return;
 }
 
+void CFXMgr::JumpAttack(_float3 _vPosition, LEVEL eLevel)
+{
+	CPSystem::DESC JumpAttackDesc{};
+	JumpAttackDesc.vPosition = _vPosition;
+	JumpAttackDesc.fMaxFrame = 1;
+	JumpAttackDesc.szTextureTag = TEXT("PC_Generic");
+	JumpAttackDesc.iParticleNums = 50;
+	JumpAttackDesc.fSize = 0.5f;
+
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_PC_JumpAttack"),
+		LEVEL_GAMEPLAY, L"Layer_Particle", &JumpAttackDesc)))
+		return;
+
+	CPSystem::DESC JumpAttackDesc2{};
+	JumpAttackDesc2.vPosition = _vPosition;
+	JumpAttackDesc2.fMaxFrame = 1;
+	JumpAttackDesc2.szTextureTag = TEXT("PC_Generic");
+	JumpAttackDesc2.iParticleNums = 100;
+	JumpAttackDesc2.fSize = 2.f;
+
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_PC_JumpAttack"),
+		LEVEL_GAMEPLAY, L"Layer_Particle", &JumpAttackDesc2)))
+		return;
+}
+
 void CFXMgr::SpawnRain(LEVEL eLevel)
 {
 	//ºø¹æ¿ï

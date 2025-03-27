@@ -188,6 +188,7 @@ protected:
 	// ¸ØÃã °ü·Ã
 	_float  m_fIdleWaitTime = 3.0f;
 	_float  m_fIdleWaitElapsed = 0.f;
+	_bool	m_bRotateAnimation = true;
 	
 	// °ø°Ý Äð´Ù¿î
 	_bool	m_bCoolingDown = false;
@@ -197,11 +198,12 @@ protected:
 	_int	m_iRandom = 0;
 
 
-protected:
-	bool			m_bDead = false;
-	bool			m_bActive = false;
-	bool			m_bDebug = false;
-	bool			m_bRotateAnimation = true;
+protected: // ÀÛµ¿º¯¼ö
+	_bool			m_bDead = false;
+	_bool			m_bActive = false;
+
+protected: // µð¹ö±ë
+	_bool			m_bDebug = false;
 
 
 };

@@ -45,6 +45,7 @@
 #include "BulletImpactSpark.h"
 #include "FireAttack.h"
 #include "FlyEffect.h"
+#include "JumpAttack.h"
 
 //UI 인클루드
 #include "Aim.h"
@@ -213,6 +214,10 @@ HRESULT CLoader::Loading_For_Logo()
 
 	////////////////////////////////////////////파티클//////////////////////////////////////////////////////
 
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_GameObject_PC_JumpAttack"),
+		CJumpAttack::Create(m_pGraphic_Device, L"PARTICLE_JumpAttack"))))
+		return E_FAIL;
+	fDataCurNum++;
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_GameObject_PC_FlyEffect"),
 		CFlyEffect::Create(m_pGraphic_Device, L"PARTICLE_FlyEffect"))))
 		return E_FAIL;

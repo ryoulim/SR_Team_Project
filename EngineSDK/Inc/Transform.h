@@ -70,6 +70,7 @@ public:
 	void Go_Right(_float fTimeDelta);
 	void Go_Up(_float fTimeDelta);
 	bool Go_UpCustom(_float fTimeDelta, _float fSpeed, _float fMaxHight);
+	void Go_DownCustom(_float fTimeDelta, _float fSpeed);
 	void Go_Down(_float fTimeDelta);
 
 	void LookAt(const _float3& vTargetPos);
