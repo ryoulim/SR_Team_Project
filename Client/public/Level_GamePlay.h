@@ -30,6 +30,7 @@ private:
 	HRESULT Ready_Layer_Effect(const _wstring& strLayerTag);
 	HRESULT Ready_Layer_UI(const _wstring& strLayerTag);
 	HRESULT Ready_Light();
+	HRESULT Ready_Layer_Trigger(const _wstring& strLayerTag);
 
 	void Check_Collision();
 

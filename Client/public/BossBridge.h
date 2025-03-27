@@ -27,7 +27,13 @@ public:
 	virtual void Late_Update(_float fTimeDelta) override;
 	virtual HRESULT Render() override;
 
+private:
+	_bool m_bTrigger{};
+	_float m_fTimeaAcc{};
+private:
 	virtual HRESULT Ready_Components(void* pArg) override;
+	virtual void On_Trigger() override { m_bTrigger = TRUE; };
+
 public:
 	static CBossBridge* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
 	virtual CGameObject* Clone(void* pArg) override;

@@ -32,6 +32,7 @@ public:
 	class CComponent* Find_Component(const _wstring& strComponentTag);
 
 	virtual void On_Collision(_uint MyColliderID, _uint OtherColliderID) {};
+	virtual void On_Trigger() {};
 
 protected:
 	LPDIRECT3DDEVICE9				m_pGraphic_Device = { nullptr };
