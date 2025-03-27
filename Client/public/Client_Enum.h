@@ -10,6 +10,7 @@ namespace Client
 		CI_PLAYER,															// 플레이어
 		CI_MON_HEAD, CI_MON_BODY,											// 몬스터
 		CI_LOVERBOY, CI_CHAINGUN, CI_DISPENSOR_SHELL, CI_DISPENSOR_GRENADE, // 플레이어 무기
-		CI_BLOCK_COMMON, CI_BLOCK_INVISIBLE									// 블럭들
+		CI_BLOCK_COMMON, CI_BLOCK_INVISIBLE,								// 블럭들
+		CI_MONSTER_BULLET
 	};
 }

@@ -76,7 +76,7 @@ void CLevel_GamePlay::Update(_float fTimeDelta)
 	//방목용
 	if (KEY_DOWN(DIK_M))
 	{
-		SpawnTtakkeun_i(_float3{ 1400.f, 75.f, 1500.f }, true);
+		SpawnTtakkeun_i(_float3{ 1400.f, 85.f, 1500.f }, true);
 		//SpawnWenteko(_float3{ 900.f, 40.f, 600.f }, true);
 		//SpawnShotgunner(_float3{ 900.f, 20.f, 600.f }, true);
 		//SpawnNukemutant(_float3{ 900.f, 30.f, 600.f }, true);
@@ -343,7 +343,7 @@ void CLevel_GamePlay::Check_Collision()
 	m_pGameInstance->Intersect(CG_PAWN, CG_BLOCK);
 	m_pGameInstance->Intersect(CG_PBULLET, CG_MONSTER);
 	m_pGameInstance->Intersect(CG_PBULLET, CG_BLOCK);
-	m_pGameInstance->Intersect(COL_MBULLET, COL_BLOCK);
+	m_pGameInstance->Intersect(CG_MBULLET, CG_BLOCK);
 }
 
 void CLevel_GamePlay::SpawnTtakkeun_i(_float3 _Position, bool m_bActive)

@@ -84,7 +84,8 @@ HRESULT CMonsterBullet::Ready_Components(void* pArg)
 	ColliderDesc.vOffSet = {};
 	ColliderDesc.vScale = m_pTransformCom->Compute_Scaled();
 	ColliderDesc.pOwner = this;
-	ColliderDesc.iColliderGroupID = COL_MBULLET;
+	ColliderDesc.iColliderGroupID = CG_MBULLET;
+	ColliderDesc.iColliderID = CI_MONSTER_BULLET;
 
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Collider_Capsule"),
 		TEXT("Com_Collider"), reinterpret_cast<CComponent**>(&m_pCollider), &ColliderDesc)))
@@ -133,7 +134,7 @@ void CMonsterBullet::On_Collision(_uint MyColliderID, _uint OtherColliderID)
 
 	m_bDead = TRUE;
 	
-	if (OtherColliderID == COL_BLOCK)
+	if (OtherColliderID == CI_BLOCK_COMMON)
 		CFXMgr::Get_Instance()->SpawnExplosion2(CCollider::Get_Last_Collision_Pos(), m_eLevelID);
 }
 
