@@ -161,6 +161,7 @@ HRESULT CMainApp::Ready_Component_For_Static()
 	ADD_MODEL(BuildingV);
 	ADD_MODEL(BuildingU);
 	ADD_MODEL(RaceGate);
+	ADD_MODEL(RaceCylinder);
 
 	ADD_PRTCOM(Transform);
 	ADD_PRTCOM(Gravity);

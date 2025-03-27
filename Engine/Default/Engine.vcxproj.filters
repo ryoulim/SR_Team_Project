@@ -175,6 +175,9 @@
     <ClInclude Include="..\Public\VIBuffer_RaceGate.h">
       <Filter>04.Components\VIBuffer\RaceTerrain\VIBuffer_RaceGate</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\VIBuffer_RaceCylinder.h">
+      <Filter>04.Components\VIBuffer\RaceTerrain\VIBuffer_RaceCylinder</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="99.Headers">
@@ -342,6 +345,12 @@
     <Filter Include="04.Components\VIBuffer\RaceTerrain\VIBuffer_RaceGate">
       <UniqueIdentifier>{155a14c5-4098-48cc-9260-7091b1bf3c2b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="04.Components\VIBuffer\RaceTerrain\VIBuffer_RaceCylinder">
+      <UniqueIdentifier>{3a842960-2b33-4a6d-b43c-25e97d784803}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04.Components\VIBuffer\StreetLamp">
+      <UniqueIdentifier>{eda876f1-fe55-433d-aa6b-58937f2d3af2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Private\Base.cpp">
@@ -499,6 +508,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\VIBuffer_RaceGate.cpp">
       <Filter>04.Components\VIBuffer\RaceTerrain\VIBuffer_RaceGate</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\VIBuffer_RaceCylinder.cpp">
+      <Filter>04.Components\VIBuffer\RaceTerrain\VIBuffer_RaceCylinder</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

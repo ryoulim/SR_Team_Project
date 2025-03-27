@@ -78,9 +78,9 @@ HRESULT CLevel_Race::Ready_Layer_Statue(const _wstring& strLayerTag)
 		LEVEL_RACE, strLayerTag, &desc)))
 		return E_FAIL;
 
-	desc.vAngle = _float3(D3DXToRadian(0.f), D3DXToRadian(0.f), D3DXToRadian(0.f));
-	desc.vInitPos = _float3(1100.f, 250.f, 2200.f);
-	desc.vScale = _float3(800.f, 500.f, 720.f);
+	desc.vAngle		= _float3(D3DXToRadian(0.f), D3DXToRadian(0.f), D3DXToRadian(0.f));
+	desc.vInitPos	= _float3(1100.f, 250.f, 2200.f);
+	desc.vScale		= _float3(800.f, 500.f, 720.f);
 
 	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_RACE, TEXT("Prototype_GameObject_BuildingU1"),
 		LEVEL_RACE, strLayerTag, &desc)))
@@ -94,17 +94,17 @@ HRESULT CLevel_Race::Ready_Layer_Statue(const _wstring& strLayerTag)
 		LEVEL_RACE, strLayerTag, &desc)))
 		return E_FAIL;
 
-	desc.vAngle = _float3(D3DXToRadian(0.f), D3DXToRadian(-90.f), D3DXToRadian(0.f));
-	desc.vInitPos = _float3(1100.f, 250.f, 3000.f);
-	desc.vScale = _float3(800.f, 500.f, 720.f);
+	desc.vAngle		= _float3(D3DXToRadian(0.f), D3DXToRadian(-90.f), D3DXToRadian(0.f));
+	desc.vInitPos	= _float3(1100.f, 250.f, 3000.f);
+	desc.vScale		= _float3(800.f, 500.f, 720.f);
 
 	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_RACE, TEXT("Prototype_GameObject_BuildingV1"),
 		LEVEL_RACE, strLayerTag, &desc)))
 		return E_FAIL;
 
-	desc.vAngle = _float3(D3DXToRadian(0.f), D3DXToRadian(30.f), D3DXToRadian(0.f));
-	desc.vInitPos = _float3(-350.f, 250.f, 4000.f);
-	desc.vScale = _float3(800.f, 500.f, 720.f);
+	desc.vAngle		= _float3(D3DXToRadian(0.f), D3DXToRadian(30.f), D3DXToRadian(0.f));
+	desc.vInitPos	= _float3(-350.f, 250.f, 4000.f);
+	desc.vScale		= _float3(800.f, 500.f, 720.f);
 
 	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_RACE, TEXT("Prototype_GameObject_BuildingU2"),
 		LEVEL_RACE, strLayerTag, &desc)))
@@ -134,35 +134,43 @@ HRESULT CLevel_Race::Ready_Layer_Statue(const _wstring& strLayerTag)
 		LEVEL_RACE, strLayerTag, &desc)))
 		return E_FAIL;
 
-	desc.vAngle = _float3(D3DXToRadian(0.f), D3DXToRadian(-90.f), D3DXToRadian(0.f));
-	desc.vInitPos = _float3(-120.f, 250.f, 7000.f);
-	desc.vScale = _float3(800.f, 500.f, 720.f);
+	desc.vAngle		= _float3(D3DXToRadian(0.f), D3DXToRadian(-90.f), D3DXToRadian(0.f));
+	desc.vInitPos	= _float3(-120.f, 250.f, 7000.f);
+	desc.vScale		= _float3(800.f, 500.f, 720.f);
 
 	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_RACE, TEXT("Prototype_GameObject_BuildingV3"),
 		LEVEL_RACE, strLayerTag, &desc)))
 		return E_FAIL;
 
-	desc.vAngle = _float3(D3DXToRadian(0.f), D3DXToRadian(-90.f), D3DXToRadian(0.f));
-	desc.vInitPos = _float3(1100.f, 250.f, 8500.f);
-	desc.vScale = _float3(800.f, 500.f, 720.f);
+	desc.vAngle		= _float3(D3DXToRadian(0.f), D3DXToRadian(-90.f), D3DXToRadian(0.f));
+	desc.vInitPos	= _float3(1100.f, 250.f, 8500.f);
+	desc.vScale		= _float3(800.f, 500.f, 720.f);
 
 	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_RACE, TEXT("Prototype_GameObject_BuildingW3"),
 		LEVEL_RACE, strLayerTag, &desc)))
 		return E_FAIL;
 
-	desc.vAngle = _float3(D3DXToRadian(0.f), D3DXToRadian(0.f), D3DXToRadian(0.f));
-	desc.vInitPos = _float3(-200.f, 250.f, 8200.f);
-	desc.vScale = _float3(800.f, 500.f, 720.f);
+	desc.vAngle		= _float3(D3DXToRadian(0.f), D3DXToRadian(0.f), D3DXToRadian(0.f));
+	desc.vInitPos	= _float3(-200.f, 250.f, 8200.f);
+	desc.vScale		= _float3(800.f, 500.f, 720.f);
 
 	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_RACE, TEXT("Prototype_GameObject_BuildingU4"),
 		LEVEL_RACE, strLayerTag, &desc)))
 		return E_FAIL;
 
-	desc.vAngle = _float3(D3DXToRadian(0.f), D3DXToRadian(0.f), D3DXToRadian(0.f));
-	desc.vInitPos = _float3(450.f, 100.f, 10000.f);
-	desc.vScale = _float3(350.f, 200.f, 200.f);
+	desc.vAngle		= _float3(D3DXToRadian(0.f), D3DXToRadian(0.f), D3DXToRadian(0.f));
+	desc.vInitPos	= _float3(450.f, 100.f, 10000.f);
+	desc.vScale		= _float3(350.f, 200.f, 200.f);
 
 	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_RACE, TEXT("Prototype_GameObject_RaceGate"),
+		LEVEL_RACE, strLayerTag, &desc)))
+		return E_FAIL;
+
+	desc.vAngle		= _float3(D3DXToRadian(0.f), D3DXToRadian(0.f), D3DXToRadian(0.f));
+	desc.vInitPos	= _float3(450.f, 30.f, 12480.f);//12480
+	desc.vScale		= _float3(30.f, 30.f, 5000.f);
+
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_RACE, TEXT("Prototype_GameObject_RaceCylinder"),
 		LEVEL_RACE, strLayerTag, &desc)))
 		return E_FAIL;
 
@@ -174,12 +182,14 @@ HRESULT CLevel_Race::Ready_Layer_Statue2(const _wstring& strLayerTag)
 	CStatue::DESC desc = {};
 
 	desc.vAngle = _float3(D3DXToRadian(0.f), D3DXToRadian(0.f), D3DXToRadian(0.f));
-	desc.vInitPos = _float3(450.f, 100.f, 500.f);
-	desc.vScale = _float3(350.f, 200.f, 200.f);
+	desc.vInitPos = _float3(450.f, 10.f, 500.f);
+	desc.vScale = _float3(10.f, 30.f, 0.f);
 
-	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_RACE, TEXT("Prototype_GameObject_RaceGate"),
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_RACE, TEXT("Prototype_GameObject_StreetLampHead"),
 		LEVEL_RACE, strLayerTag, &desc)))
 		return E_FAIL;
+
+	return S_OK;
 }
 
 HRESULT CLevel_Race::Ready_Layer_Camera(const _wstring& strLayerTag)
