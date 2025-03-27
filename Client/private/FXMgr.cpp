@@ -628,8 +628,8 @@ void CFXMgr::FireAttack(_float3 _vPosition, LEVEL eLevel)
 	FireAttackDesc2.szTextureTag = TEXT("PC_Generic");
 	FireAttackDesc2.iParticleNums = 5;
 	FireAttackDesc2.fSize = 0.2f;
-	FireAttackDesc2.fMin = -0.1f;
-	FireAttackDesc2.fMax = 0.1f;
+	FireAttackDesc2.fMin = -0.05f;
+	FireAttackDesc2.fMax = 0.05f;
 
 	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_PC_FireAttack"),
 		LEVEL_GAMEPLAY, L"Layer_Particle", &FireAttackDesc2)))

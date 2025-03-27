@@ -159,13 +159,6 @@ HRESULT CTtakkeun_i::Ready_Textures()
 
 
 
-	//divein은 0만 이미지 존재 ****
-	if (FAILED(__super::Add_Component(m_eLevelID, _wstring(TEXT("Prototype_Component_Texture_Boss_Lava_DiveIn")),
-		_wstring(TEXT("Com_Texture")) + L"_Boss_Lava_DiveIn", reinterpret_cast<CComponent**>(&(m_pTextureMap[STATE_LAVA_DIVEIN][0])))))
-		return E_FAIL;
-
-
-
 	//if (FAILED(__super::Add_Component(m_eLevelID, _wstring(TEXT("Prototype_Component_Texture_")) + m_szTextureID,
 	//	TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
 	//	return E_FAIL;
@@ -202,10 +195,7 @@ HRESULT CTtakkeun_i::Set_Animation()
 		case Client::CTtakkeun_i::STATE_STAY:
 			m_fAnimationMaxFrame = 1.f;
 			m_fAnimationSpeed = 0.f;
-			break;
-		case Client::CTtakkeun_i::STATE_LAVA_DIVEIN:
-			m_fAnimationMaxFrame = MAX_LAVA_DIVEIN;
-			m_fAnimationSpeed = 5.f;
+			m_iState = (_uint)(STATE_WALK);
 			break;
 		default:
 			break;
