@@ -10,8 +10,11 @@ class ENGINE_DLL CGravity final : public CComponent
 public:
 	typedef struct CGravityDesc
 	{
+		// 이곳에 트랜스폼을 넣으면 _42 (y축 포지션)에 대해 그래비티가 직접 관여합니다.
 		class CTransform* pTransformCom;
+		// 초당 증가하는 시간 (포물선 공식의 Time)
 		_float	fTimeIncreasePerSec;
+		// 초당 최대로 떨어질 수 있는 속도
 		_float	fMaxFallSpeedPerSec;
 	}DESC;
 
@@ -40,14 +43,18 @@ public:
 	_bool isJump() {
 		return m_bJump;
 	}
+	// 높이를 지금의 스케일에 맞춥니다.
 	void Update_Height();
+	// 높이를 강제로 조정합니다.
 	void Set_Height(_float fHeight) {
 		m_fHalfHeight = fHeight * 0.5f;
 	}
+	// 초기화시의 점프 옵션을 바꾸는 옵션.
 	void Set_JumpOption(_float	fTimeIncreasePerSec, _float	fMaxFallSpeedPerSec) {
 		m_fTimeIncreasePerSec = fTimeIncreasePerSec;
 		m_fMaxFallSpeedperSec = fMaxFallSpeedPerSec;
 	}
+	// 이 함수의 리턴을 트랜스폼의 _42에 넣으면 바닥에 예쁘게 붙습니다.
 	_float Get_FloorY() {
 		return m_fFloorY;
 	}

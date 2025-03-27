@@ -29,22 +29,29 @@ public:
 
 	void Mouse_Move();
 	void Mouse_Fix();
-	void StartShake(_float fIntensity, _float fDuration);
+	void StartShake(_float fIntensity, _float fDuration, _float fShakeFreqPos, _float fShakeFreqRot);
 
 private:
-	_float3				m_vInitPos{};
-	_float3				m_vInitLook{};
-	_float				m_fMouseSensor{};
-	_bool				m_bMouseFixMod{TRUE};
+	_float3 m_vInitLook{};
+	_float3 m_vInitPos{};
+	_float m_bMouseFixMod{TRUE};
+	_float m_fMouseSensor{};
 
-	// 카메라 쉐이킹용
-	_float				m_fIntensity{};
-	_float				m_fDuration{};
-	_float				m_fElapsed{};
+	_float m_fShakeTime = 0.f;
+	_float m_fShakeDuration = 0.f;
+	_float m_fShakeIntensity = 0.f;
+	_bool  m_bShake = FALSE;
+
+	_float3  m_vCurrentShakePos = { 0.f, 0.f, 0.f};
+	_float3  m_vCurrentShakeRot = { 0.f, 0.f, 0.f };
+
+	_float m_fShakeFreqPos = 100.f; // 위치 진동 속도
+	_float m_fShakeFreqRot = 40.f;  // 회전 진동 속도
 
 private:
 	virtual void		Update_Projection_Matrix() override;
 	virtual HRESULT		Ready_Components(void* pArg) override;
+	virtual void		Update_Camera_Shake(_float fDeltaTime);
 
 public:
 	static CFPS_Camera* Create(LPDIRECT3DDEVICE9 pGraphic_Device);

@@ -10,6 +10,7 @@
 #include <dinput.h>
 
 #include <string>
+#include <ctime>
 #include <map>
 #include <list>
 #include <vector>

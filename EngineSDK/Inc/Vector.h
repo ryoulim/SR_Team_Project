@@ -47,6 +47,8 @@ typedef struct ENGINE_DLL tagVector : public D3DXVECTOR3
 	// À§Ä¡º¤ÅÍ¿¡ Çà·Ä°ö¼À ¿¬»ê
 	const tagVector& TransformCoord(const D3DXMATRIX& _matrix);
 
+	static tagVector Lerp(const tagVector& from, const tagVector& to, FLOAT time);
+
 }VECTOR, *LPVECTOR;
 
 END

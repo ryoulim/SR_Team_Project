@@ -98,6 +98,13 @@ public:
 	HRESULT Readcsv(const _wstring& strcsvPath, class CLevelData* pDatas);
 #pragma endregion
 
+#pragma region UTILITY
+	_float RandomFloat(_float min, _float max)
+	{
+		return min + (_float(rand()) / RAND_MAX) * (max - min);
+	}
+#pragma endregion
+
 private:
 	class CGraphic_Device*		m_pGraphic_Device = { nullptr };
 	class CLevel_Manager*		m_pLevel_Manager = { nullptr };

@@ -46,6 +46,8 @@ return E_FAIL
 
 #pragma region 유틸리티
 
+#define CAMERA_MANAGER static_cast<CCameraManager*>(m_pGameInstance->Find_Object(m_eLevelID, TEXT("Layer_Camera")))
+
 #define GET_CAMERA											\
 _float4x4 matCamWorld;										\
 m_pGraphic_Device->GetTransform(D3DTS_VIEW, &matCamWorld);	\

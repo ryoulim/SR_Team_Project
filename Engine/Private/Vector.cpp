@@ -108,3 +108,12 @@ const tagVector& tagVector::TransformCoord(const D3DXMATRIX& _matrix)
     D3DXVec3TransformCoord(this, this, &_matrix);
     return *this;
 }
+
+tagVector tagVector::Lerp(const tagVector& from, const tagVector& to, _float time)
+{
+    return {
+        from.x + (to.x - from.x) * time,
+        from.y + (to.y - from.y) * time,
+        from.z + (to.z - from.z) * time
+    };
+}
