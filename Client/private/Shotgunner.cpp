@@ -32,7 +32,7 @@ HRESULT CShotgunner::Initialize(void* pArg)
 	//애니메이션(수정예정)
 	m_fAnimationMaxFrame = 3.f;
 	m_fAnimationSpeed = 5.f;
-	m_iState = STATE_ATTACK;
+	m_iState = STATE_MOVE;
 
 	return S_OK;
 }
@@ -45,6 +45,14 @@ void CShotgunner::Priority_Update(_float fTimeDelta)
 
 EVENT CShotgunner::Update(_float fTimeDelta)
 {
+	if (KEY_DOWN(DIK_RBRACKET))
+	{
+		int i = m_eCurMonsterState;
+		i++;
+		m_eCurMonsterState = MONSTER_STATE(i);
+		if (m_eCurMonsterState == STATE_END)
+			m_eCurMonsterState = MONSTER_STATE(0);
+	}
 	return __super::Update(fTimeDelta);
 }
 

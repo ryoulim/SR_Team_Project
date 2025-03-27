@@ -371,58 +371,24 @@ HRESULT CLoader::Loading_For_Logo()
 	
 	ADD_TEXTURE(Screen_Dust, "../Bin/Resources/Textures/Particle/ScreenDust/Screen_Dust%d.PNG", 50);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
 	ADD_TEXTURE(Save_Background, "../Bin/Resources/Textures/UI/Background/Save_Background.PNG", 1);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
-	
-	for (size_t i = 0; i < 100000; i++)
-	{
-		for (size_t j = 0; j < 10000; j++)
-		{
-			int a = 0;
-		}
-		if (KEY_PRESSING(DIK_SPACE))
-			break;
-	}
+
+	for (size_t i = 0; i < 100000; i++) { for (size_t j = 0; j < 10000; j++)int a = 0; if (KEY_PRESSING(DIK_SPACE))break; }
 	ADD_TEXTURE(Logo, "../Bin/Resources/Textures/UI/Logo/logo0.PNG", 1);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
 	
 	ADD_TEXTURE(Logo_Shadow, "../Bin/Resources/Textures/UI/Logo/logo1.PNG", 1);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
-	
 
-
-	for (size_t i = 0; i < 100000; i++)
-	{
-		for (size_t j = 0; j < 10000; j++)
-		{
-			int a = 0;
-		}
-		if (KEY_PRESSING(DIK_SPACE))
-			break;
-	}
+	for (size_t i = 0; i < 100000; i++) { for (size_t j = 0; j < 10000; j++)int a = 0; if (KEY_PRESSING(DIK_SPACE))break; }
 #pragma endregion
 
 #pragma region MODEL
 	lstrcpy(m_szLoadingText, TEXT("모델을(를) 로딩중입니다."));
-	for (size_t i = 0; i < 100000; i++)
-	{
-		for (size_t j = 0; j < 10000; j++)
-		{
-			int a = 0;
-		}
-		if (KEY_PRESSING(DIK_SPACE))
-			break;
-	}
+	for (size_t i = 0; i < 100000; i++) { for (size_t j = 0; j < 10000; j++)int a = 0; if (KEY_PRESSING(DIK_SPACE))break; }
 	
 #pragma endregion
 
 #pragma region SOUND
 	lstrcpy(m_szLoadingText, TEXT("사운드을(를) 로딩중입니다."));
-	for (size_t i = 0; i < 100000; i++)
-	{
-		for (size_t j = 0; j < 10000; j++)
-		{
-			int a = 0;
-		}
-		if (KEY_PRESSING(DIK_SPACE))
-			break;
-	}
+	for (size_t i = 0; i < 100000; i++) { for (size_t j = 0; j < 10000; j++)int a = 0; if (KEY_PRESSING(DIK_SPACE))break; }
 #pragma endregion
 	
 
@@ -439,15 +405,7 @@ HRESULT CLoader::Loading_For_Logo()
 	ADD_PRTOBJ(Button_Main);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
 	
 	ADD_PRTOBJ(Logo);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
-	for (size_t i = 0; i < 100000; i++)
-	{
-		for (size_t j = 0; j < 10000; j++)
-		{
-			int a = 0;
-		}
-		if (KEY_PRESSING(DIK_SPACE))
-			break;
-	}
+	for (size_t i = 0; i < 100000; i++) { for (size_t j = 0; j < 10000; j++)int a = 0; if (KEY_PRESSING(DIK_SPACE))break; }
 	
 
 #pragma endregion
@@ -456,27 +414,10 @@ HRESULT CLoader::Loading_For_Logo()
 	lstrcpy(m_szLoadingText, TEXT("데이터를 읽어들이는 중입니다."));
 	Add_Data(TEXT("GamePlayLevelData.csv"));fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
 	m_fLoadPercent = 1.01f;
-	for (size_t i = 0; i < 100000; i++)
-	{
-		for (size_t j = 0; j < 10000; j++)
-		{
-			int a = 0;
-		}
-		if (KEY_PRESSING(DIK_SPACE))
-			break;
-	}
+	for (size_t i = 0; i < 100000; i++) { for (size_t j = 0; j < 10000; j++)int a = 0; if (KEY_PRESSING(DIK_SPACE))break; }
 
 
-	for (size_t i = 0; i < 100000; i++)
-	{
-		for (size_t j = 0; j < 10000; j++)
-		{
-			int a = 0;
-			
-		}
-		if (KEY_PRESSING(DIK_SPACE))
-			break;
-	}
+	for (size_t i = 0; i < 100000; i++) { for (size_t j = 0; j < 10000; j++)int a = 0; if (KEY_PRESSING(DIK_SPACE))break; }
 #pragma endregion
 
 	lstrcpy(m_szLoadingText, TEXT("로딩이 완료되었습니다."));
@@ -523,15 +464,7 @@ HRESULT CLoader::Loading_For_GamePlay()
 
 	ADD_TEXTURE(Test, "../Bin/Resources/Textures/TileTest/tile%d.PNG", 123); fDataCurNum++; m_fLoadPercent = fDataCurNum / fDataNum;
 	//ADD_TEXTURE(Test, "../Bin/Resources/Textures/TileTest/tile%d.PNG", 121);
-	for (size_t i = 0; i < 100000; i++)
-	{
-		for (size_t j = 0; j < 10000; j++)
-		{
-			int a = 0;
-		}
-		if (KEY_PRESSING(DIK_SPACE))
-			break;
-	}
+	for (size_t i = 0; i < 100000; i++) { for (size_t j = 0; j < 10000; j++)int a = 0; if (KEY_PRESSING(DIK_SPACE))break; }
 
 	/*******************************************************************************************************************************************/
 	/********************************************************     여기 접기 !!!!     ************************************************************/
@@ -597,38 +530,43 @@ HRESULT CLoader::Loading_For_GamePlay()
 	ADD_TEXTURE(Shotgunner_Move_135, "../Bin/Resources/Textures/Monster/Shotgunner/move/135/shotgunner_move_sideback%d.PNG", 4);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
 	ADD_TEXTURE(Shotgunner_Move_180, "../Bin/Resources/Textures/Monster/Shotgunner/move/180/shotgunner_move_back%d.PNG", 4);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
 
-
-	// shock는 전기봉 추가되면 넣기 
-	//ADD_TEXTURE(Shotgunner_Shock_0, "../Bin/Resources/Textures/Monster/Shotgunner/shock/0/shotgunner_shock_front%d.PNG", 3);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
-	//ADD_TEXTURE(Shotgunner_Shock_45, "../Bin/Resources/Textures/Monster/Shotgunner/shock/45/shotgunner_shock_sidefront%d.PNG", 3);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
-	//ADD_TEXTURE(Shotgunner_Shock_90, "../Bin/Resources/Textures/Monster/Shotgunner/shock/90/shotgunner_shock_side%d.PNG", 3);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
-	//ADD_TEXTURE(Shotgunner_Shock_135, "../Bin/Resources/Textures/Monster/Shotgunner/shock/135/shotgunner_shock_sideback%d.PNG", 3);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
-	//ADD_TEXTURE(Shotgunner_Shock_180, "../Bin/Resources/Textures/Monster/Shotgunner/shock/180/shotgunner_shock_back%d.PNG", 3);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
-
-
 #pragma endregion
 
 #pragma region NUKEMUTANT_TEXTURES
 
-	ADD_TEXTURE(Nukemutant_Move_0, "../Bin/Resources/Textures/Monster/Nukemutant/move/0/%d.PNG", 4);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
-	ADD_TEXTURE(Nukemutant_Move_45, "../Bin/Resources/Textures/Monster/Nukemutant/move/45/%d.PNG", 4);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
-	ADD_TEXTURE(Nukemutant_Move_90, "../Bin/Resources/Textures/Monster/Nukemutant/move/90/%d.PNG", 4);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
-	ADD_TEXTURE(Nukemutant_Move_135, "../Bin/Resources/Textures/Monster/Nukemutant/move/135/%d.PNG", 4);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
-	ADD_TEXTURE(Nukemutant_Move_180, "../Bin/Resources/Textures/Monster/Nukemutant/move/180/%d.PNG", 4);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
+	ADD_TEXTURE(Nukemutant_Move_0, "../Bin/Resources/Textures/Monster/Nukemutant/move/0/%d.PNG", 4); fDataCurNum++; m_fLoadPercent = fDataCurNum / fDataNum;
+	ADD_TEXTURE(Nukemutant_Move_45, "../Bin/Resources/Textures/Monster/Nukemutant/move/45/%d.PNG", 4); fDataCurNum++; m_fLoadPercent = fDataCurNum / fDataNum;
+	ADD_TEXTURE(Nukemutant_Move_90, "../Bin/Resources/Textures/Monster/Nukemutant/move/90/%d.PNG", 4); fDataCurNum++; m_fLoadPercent = fDataCurNum / fDataNum;
+	ADD_TEXTURE(Nukemutant_Move_135, "../Bin/Resources/Textures/Monster/Nukemutant/move/135/%d.PNG", 4); fDataCurNum++; m_fLoadPercent = fDataCurNum / fDataNum;
+	ADD_TEXTURE(Nukemutant_Move_180, "../Bin/Resources/Textures/Monster/Nukemutant/move/180/%d.PNG", 4); fDataCurNum++; m_fLoadPercent = fDataCurNum / fDataNum;
+
+	ADD_TEXTURE(Nukemutant_Attack_0, "../Bin/Resources/Textures/Monster/Nukemutant/attack/0/%d.PNG", 5); fDataCurNum++; m_fLoadPercent = fDataCurNum / fDataNum;
+	ADD_TEXTURE(Nukemutant_Attack_45, "../Bin/Resources/Textures/Monster/Nukemutant/attack/45/%d.PNG", 5); fDataCurNum++; m_fLoadPercent = fDataCurNum / fDataNum;
+	ADD_TEXTURE(Nukemutant_Attack_90, "../Bin/Resources/Textures/Monster/Nukemutant/attack/90/%d.PNG", 5); fDataCurNum++; m_fLoadPercent = fDataCurNum / fDataNum;
+	ADD_TEXTURE(Nukemutant_Attack_135, "../Bin/Resources/Textures/Monster/Nukemutant/attack/135/%d.PNG", 5); fDataCurNum++; m_fLoadPercent = fDataCurNum / fDataNum;
+	ADD_TEXTURE(Nukemutant_Attack_180, "../Bin/Resources/Textures/Monster/Nukemutant/attack/180/%d.PNG", 5); fDataCurNum++; m_fLoadPercent = fDataCurNum / fDataNum;
+
+	ADD_TEXTURE(Nukemutant_Dead, "../Bin/Resources/Textures/Monster/Nukemutant/death/%d.PNG", 6); fDataCurNum++; m_fLoadPercent = fDataCurNum / fDataNum;
+	ADD_TEXTURE(Nukemutant_Revive, "../Bin/Resources/Textures/Monster/Nukemutant/revive/%d.PNG", 7); fDataCurNum++; m_fLoadPercent = fDataCurNum / fDataNum;
 
 #pragma endregion
-
 
 #pragma region MECHSECT_TEXTURES
 
-	ADD_TEXTURE(Mechsect_Move_0  , "../Bin/Resources/Textures/Monster/Mechsect/move/0/%d.PNG", 4);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
-	ADD_TEXTURE(Mechsect_Move_45 , "../Bin/Resources/Textures/Monster/Mechsect/move/45/%d.PNG", 4);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
-	ADD_TEXTURE(Mechsect_Move_90 , "../Bin/Resources/Textures/Monster/Mechsect/move/90/%d.PNG", 4);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
-	ADD_TEXTURE(Mechsect_Move_135, "../Bin/Resources/Textures/Monster/Mechsect/move/135/%d.PNG", 4);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
-	ADD_TEXTURE(Mechsect_Move_180, "../Bin/Resources/Textures/Monster/Mechsect/move/180/%d.PNG", 4);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
+	ADD_TEXTURE(Mechsect_Move_0, "../Bin/Resources/Textures/Monster/Mechsect/move/0/%d.PNG", 4); fDataCurNum++; m_fLoadPercent = fDataCurNum / fDataNum;
+	ADD_TEXTURE(Mechsect_Move_45, "../Bin/Resources/Textures/Monster/Mechsect/move/45/%d.PNG", 4); fDataCurNum++; m_fLoadPercent = fDataCurNum / fDataNum;
+	ADD_TEXTURE(Mechsect_Move_90, "../Bin/Resources/Textures/Monster/Mechsect/move/90/%d.PNG", 4); fDataCurNum++; m_fLoadPercent = fDataCurNum / fDataNum;
+	ADD_TEXTURE(Mechsect_Move_135, "../Bin/Resources/Textures/Monster/Mechsect/move/135/%d.PNG", 4); fDataCurNum++; m_fLoadPercent = fDataCurNum / fDataNum;
+	ADD_TEXTURE(Mechsect_Move_180, "../Bin/Resources/Textures/Monster/Mechsect/move/180/%d.PNG", 4); fDataCurNum++; m_fLoadPercent = fDataCurNum / fDataNum;
 
+	ADD_TEXTURE(Mechsect_Jump_0, "../Bin/Resources/Textures/Monster/Mechsect/jump/0/%d.PNG", 4); fDataCurNum++; m_fLoadPercent = fDataCurNum / fDataNum;
+	ADD_TEXTURE(Mechsect_Jump_45, "../Bin/Resources/Textures/Monster/Mechsect/jump/45/%d.PNG", 4); fDataCurNum++; m_fLoadPercent = fDataCurNum / fDataNum;
+	ADD_TEXTURE(Mechsect_Jump_90, "../Bin/Resources/Textures/Monster/Mechsect/jump/90/%d.PNG", 4); fDataCurNum++; m_fLoadPercent = fDataCurNum / fDataNum;
+	ADD_TEXTURE(Mechsect_Jump_135, "../Bin/Resources/Textures/Monster/Mechsect/jump/135/%d.PNG", 4); fDataCurNum++; m_fLoadPercent = fDataCurNum / fDataNum;
+	ADD_TEXTURE(Mechsect_Jump_180, "../Bin/Resources/Textures/Monster/Mechsect/jump/180/%d.PNG", 4); fDataCurNum++; m_fLoadPercent = fDataCurNum / fDataNum;
+
+	ADD_TEXTURE(Mechsect_Dead, "../Bin/Resources/Textures/Monster/Mechsect/death/%d.PNG", 7); fDataCurNum++; m_fLoadPercent = fDataCurNum / fDataNum;
 #pragma endregion
-
 
 #pragma region GREATER_TEXTURES
 
@@ -654,15 +592,7 @@ HRESULT CLoader::Loading_For_GamePlay()
 
 
 #pragma endregion
-	for (size_t i = 0; i < 100000; i++)
-	{
-		for (size_t j = 0; j < 10000; j++)
-		{
-			int a = 0;
-		}
-		if (KEY_PRESSING(DIK_SPACE))
-			break;
-	}
+	for (size_t i = 0; i < 100000; i++){for (size_t j = 0; j < 10000; j++)int a = 0;if (KEY_PRESSING(DIK_SPACE))break;}
 
 #pragma region DEACON_TEXTURES
 	ADD_TEXTURE(Deacon_Fly_0, "../Bin/Resources/Textures/Monster/deacon/move/0/%d.PNG", 4);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
@@ -710,6 +640,27 @@ HRESULT CLoader::Loading_For_GamePlay()
 	ADD_TEXTURE(Archangel_Move_90, "../Bin/Resources/Textures/Monster/archangel/move/90/%d.PNG", 4);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
 	ADD_TEXTURE(Archangel_Move_135, "../Bin/Resources/Textures/Monster/archangel/move/135/%d.PNG", 4);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
 	ADD_TEXTURE(Archangel_Move_180, "../Bin/Resources/Textures/Monster/archangel/move/180/%d.PNG", 4);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
+
+	ADD_TEXTURE(Archangel_Attack_0, "../Bin/Resources/Textures/Monster/archangel/attack/0/%d.PNG", 4); fDataCurNum++; m_fLoadPercent = fDataCurNum / fDataNum;
+	ADD_TEXTURE(Archangel_Attack_45, "../Bin/Resources/Textures/Monster/archangel/attack/45/%d.PNG", 4); fDataCurNum++; m_fLoadPercent = fDataCurNum / fDataNum;
+	ADD_TEXTURE(Archangel_Attack_90, "../Bin/Resources/Textures/Monster/archangel/attack/90/%d.PNG", 4); fDataCurNum++; m_fLoadPercent = fDataCurNum / fDataNum;
+	ADD_TEXTURE(Archangel_Attack_135, "../Bin/Resources/Textures/Monster/archangel/attack/135/%d.PNG", 4); fDataCurNum++; m_fLoadPercent = fDataCurNum / fDataNum;
+	ADD_TEXTURE(Archangel_Attack_180, "../Bin/Resources/Textures/Monster/archangel/attack/180/%d.PNG", 4); fDataCurNum++; m_fLoadPercent = fDataCurNum / fDataNum;
+
+	ADD_TEXTURE(Archangel_Stay_0, "../Bin/Resources/Textures/Monster/archangel/idle/0/%d.PNG", 4); fDataCurNum++; m_fLoadPercent = fDataCurNum / fDataNum;
+	ADD_TEXTURE(Archangel_Stay_45, "../Bin/Resources/Textures/Monster/archangel/idle/45/%d.PNG", 4); fDataCurNum++; m_fLoadPercent = fDataCurNum / fDataNum;
+	ADD_TEXTURE(Archangel_Stay_90, "../Bin/Resources/Textures/Monster/archangel/idle/90/%d.PNG", 4); fDataCurNum++; m_fLoadPercent = fDataCurNum / fDataNum;
+	ADD_TEXTURE(Archangel_Stay_135, "../Bin/Resources/Textures/Monster/archangel/idle/135/%d.PNG", 4); fDataCurNum++; m_fLoadPercent = fDataCurNum / fDataNum;
+	ADD_TEXTURE(Archangel_Stay_180, "../Bin/Resources/Textures/Monster/archangel/idle/180/%d.PNG", 4); fDataCurNum++; m_fLoadPercent = fDataCurNum / fDataNum;
+
+	ADD_TEXTURE(Archangel_Fly_0, "../Bin/Resources/Textures/Monster/archangel/fly/0/%d.PNG", 4); fDataCurNum++; m_fLoadPercent = fDataCurNum / fDataNum;
+	ADD_TEXTURE(Archangel_Fly_45, "../Bin/Resources/Textures/Monster/archangel/fly/45/%d.PNG", 4); fDataCurNum++; m_fLoadPercent = fDataCurNum / fDataNum;
+	ADD_TEXTURE(Archangel_Fly_90, "../Bin/Resources/Textures/Monster/archangel/fly/90/%d.PNG", 4); fDataCurNum++; m_fLoadPercent = fDataCurNum / fDataNum;
+	ADD_TEXTURE(Archangel_Fly_135, "../Bin/Resources/Textures/Monster/archangel/fly/135/%d.PNG", 4); fDataCurNum++; m_fLoadPercent = fDataCurNum / fDataNum;
+	ADD_TEXTURE(Archangel_Fly_180, "../Bin/Resources/Textures/Monster/archangel/fly/180/%d.PNG", 4); fDataCurNum++; m_fLoadPercent = fDataCurNum / fDataNum;
+
+	ADD_TEXTURE(Archangel_Dead, "../Bin/Resources/Textures/Monster/archangel/death/%d.PNG", 12); fDataCurNum++; m_fLoadPercent = fDataCurNum / fDataNum;
+
 #pragma endregion
  
  
@@ -726,24 +677,17 @@ HRESULT CLoader::Loading_For_GamePlay()
 
 
 	//몬스터
-	ADD_TEXTURE(Ttakkeun_i_Walk, "../Bin/Resources/Textures/Monster/Ttakkeun_i/Ttakkeun_i_Walk%d.PNG", 12);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
-	ADD_TEXTURE(Wenteko_Walk, "../Bin/Resources/Textures/Monster/Wenteko/Wenteko_Walk%d.PNG", 6);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
-	ADD_TEXTURE(Shotgunner_Walk, "../Bin/Resources/Textures/Monster/Shotgunner/Shotgunner_Walk%d.PNG", 4);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
-	ADD_TEXTURE(Nukemutant_Walk, "../Bin/Resources/Textures/Monster/Nukemutant/Nukemutant_Walk%d.PNG", 4);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
-	ADD_TEXTURE(Mechsect_Walk, "../Bin/Resources/Textures/Monster/Mechsect/Mechsect_Walk%d.PNG", 4);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
-	ADD_TEXTURE(Greater_Run, "../Bin/Resources/Textures/Monster/Greater/Greater_Run%d.PNG", 4);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
-	ADD_TEXTURE(Deacon_Walk, "../Bin/Resources/Textures/Monster/Deacon/Deacon_Walk%d.PNG", 1);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
-	ADD_TEXTURE(Cultist_Run, "../Bin/Resources/Textures/Monster/Cultist/Cultist_Run%d.PNG", 4);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
-	ADD_TEXTURE(Archangel_Walk, "../Bin/Resources/Textures/Monster/Archangel/Archangel_Walk%d.PNG", 4);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
-	for (size_t i = 0; i < 100000; i++)
-	{
-		for (size_t j = 0; j < 10000; j++)
-		{
-			int a = 0;
-		}
-		if (KEY_PRESSING(DIK_SPACE))
-			break;
-	}
+	//ADD_TEXTURE(Ttakkeun_i_Walk, "../Bin/Resources/Textures/Monster/Ttakkeun_i/Ttakkeun_i_Walk%d.PNG", 12);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
+	//ADD_TEXTURE(Wenteko_Walk, "../Bin/Resources/Textures/Monster/Wenteko/Wenteko_Walk%d.PNG", 6);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
+	//ADD_TEXTURE(Shotgunner_Walk, "../Bin/Resources/Textures/Monster/Shotgunner/Shotgunner_Walk%d.PNG", 4);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
+	//ADD_TEXTURE(Nukemutant_Walk, "../Bin/Resources/Textures/Monster/Nukemutant/Nukemutant_Walk%d.PNG", 4);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
+	//ADD_TEXTURE(Mechsect_Walk, "../Bin/Resources/Textures/Monster/Mechsect/Mechsect_Walk%d.PNG", 4);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
+	//ADD_TEXTURE(Greater_Run, "../Bin/Resources/Textures/Monster/Greater/Greater_Run%d.PNG", 4);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
+	//ADD_TEXTURE(Deacon_Walk, "../Bin/Resources/Textures/Monster/Deacon/Deacon_Walk%d.PNG", 1);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
+	//ADD_TEXTURE(Cultist_Run, "../Bin/Resources/Textures/Monster/Cultist/Cultist_Run%d.PNG", 4);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
+	//ADD_TEXTURE(Archangel_Walk, "../Bin/Resources/Textures/Monster/Archangel/Archangel_Walk%d.PNG", 4);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
+
+	for (size_t i = 0; i < 100000; i++) { for (size_t j = 0; j < 10000; j++)int a = 0; if (KEY_PRESSING(DIK_SPACE))break; }
 
 #pragma endregion
 
@@ -784,15 +728,8 @@ HRESULT CLoader::Loading_For_GamePlay()
 	ADD_PRTOBJ(Lava); fDataCurNum++; m_fLoadPercent = fDataCurNum / fDataNum;
 	ADD_PRTOBJ(AlphaRect); fDataCurNum++; m_fLoadPercent = fDataCurNum / fDataNum;
 	ADD_PRTOBJ(AlphaBlock); fDataCurNum++; m_fLoadPercent = fDataCurNum / fDataNum;
-	for (size_t i = 0; i < 100000; i++)
-	{
-		for (size_t j = 0; j < 10000; j++)
-		{
-			int a = 0;
-		}
-		if (KEY_PRESSING(DIK_SPACE))
-			break;
-	}
+
+	for (size_t i = 0; i < 100000; i++) { for (size_t j = 0; j < 10000; j++)int a = 0; if (KEY_PRESSING(DIK_SPACE))break; }
 	//몬스터
 	ADD_PRTOBJ(Ttakkeun_i);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
 	ADD_PRTOBJ(Wenteko);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;

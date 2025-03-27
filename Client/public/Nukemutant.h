@@ -30,17 +30,14 @@ public:
 private:
 	virtual HRESULT Ready_Components(void* pArg);
 	virtual HRESULT Ready_Textures();
-	//virtual HRESULT Set_Animation();
-	//virtual HRESULT Animate_Monster(_float fTimeDelta);
+	virtual HRESULT Set_Animation();
+	virtual HRESULT Animate_Monster(_float fTimeDelta);
 
 private:
-	enum MONSTER_STATE { STATE_MOVE, STATE_FLY, STATE_ATTACK, STATE_STAY, STATE_END };
-	MONSTER_STATE	m_eCurMonsterState = { MONSTER_STATE::STATE_FLY };
-	MONSTER_STATE	m_ePrevMonsterState = { MONSTER_STATE::STATE_FLY };
-
-	enum FLY_DIR { DOWN = 0, LEFT = 1, RIGHT = 2, UP = 3, DIR_END = 4 };
-	FLY_DIR			m_eCurFlyingDirection = { UP };
-	FLY_DIR			m_ePrevFlyingDirection = { UP };
+	enum MONSTER_STATE { STATE_MOVE, STATE_REVIVE, STATE_ATTACK, STATE_STAY, STATE_DEAD, STATE_END };
+	enum STATE_MAXFRAME { MAX_MOVERUN = 4, MAX_REVIVE = 7, MAX_ATTACK = 5, MAX_DEAD = 6 };
+	MONSTER_STATE	m_eCurMonsterState = { MONSTER_STATE::STATE_MOVE };
+	MONSTER_STATE	m_ePrevMonsterState = { MONSTER_STATE::STATE_MOVE };
 
 
 public:

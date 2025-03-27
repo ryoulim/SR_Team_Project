@@ -45,15 +45,14 @@ void CCultist::Priority_Update(_float fTimeDelta)
 
 EVENT CCultist::Update(_float fTimeDelta)
 {
-
-	if (KEY_DOWN(DIK_UP))
-		m_eCurMonsterState = STATE_MOVE;
-	if (KEY_DOWN(DIK_DOWN))
-		m_eCurMonsterState = STATE_RUN;
-	if (KEY_DOWN(DIK_LEFT))
-		m_eCurMonsterState = STATE_DEAD;
-	if (KEY_DOWN(DIK_RIGHT))
-		m_eCurMonsterState = STATE_ATTACK;
+	if (KEY_DOWN(DIK_RBRACKET))
+	{
+		int i = m_eCurMonsterState;
+		i++;
+		m_eCurMonsterState = MONSTER_STATE(i);
+		if (m_eCurMonsterState == STATE_END)
+			m_eCurMonsterState = MONSTER_STATE(0);
+	}
 	return __super::Update(fTimeDelta);
 }
 

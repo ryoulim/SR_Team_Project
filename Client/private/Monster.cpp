@@ -161,9 +161,9 @@ HRESULT CMonster::Release_RenderState()
 HRESULT CMonster::Ready_Components(void* pArg)
 {
 	/* 텍스처 컴포넌트 */ // 나중에 지울 것
-	if (FAILED(__super::Add_Component(m_eLevelID, _wstring(TEXT("Prototype_Component_Texture_")) + m_szTextureID,
-		TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
-		return E_FAIL;
+	//if (FAILED(__super::Add_Component(m_eLevelID, _wstring(TEXT("Prototype_Component_Texture_")) + m_szTextureID,
+	//	TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
+	//	return E_FAIL;
 
 	/* 렉트 버퍼 컴포넌트 */
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, _wstring(TEXT("Prototype_Component_VIBuffer_")) + m_szBufferType,
@@ -302,7 +302,7 @@ void CMonster::Free()
 	__super::Free();
 
 	Safe_Release(m_pVIBufferCom);
-	Safe_Release(m_pTextureCom);
+	//Safe_Release(m_pTextureCom);
 	Safe_Release(m_pTransformCom);
 	Safe_Release(m_pCollider);
 	Safe_Release(m_pTargetPlayer);

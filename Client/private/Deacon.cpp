@@ -45,6 +45,14 @@ void CDeacon::Priority_Update(_float fTimeDelta)
 
 EVENT CDeacon::Update(_float fTimeDelta)
 {
+	if (KEY_DOWN(DIK_RBRACKET))
+	{
+		int i = m_eCurMonsterState;
+		i++;
+		m_eCurMonsterState = MONSTER_STATE(i);
+		if (m_eCurMonsterState == STATE_END)
+			m_eCurMonsterState = MONSTER_STATE(0);
+	}
 	//if (m_eCurMonsterState == STATE_DEAD && m_fAnimationFrame >= m_fAnimationMaxFrame - 1.f)
 
 	return __super::Update(fTimeDelta);
