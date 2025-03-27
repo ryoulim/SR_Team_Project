@@ -60,7 +60,7 @@ EVENT CMonster::Update(_float fTimeDelta)
 
 	if (m_bActive)
 	{
-		m_pGravityCom->Update(fTimeDelta);
+		//m_pGravityCom->Update(fTimeDelta);
 		MonsterTick(fTimeDelta);
 	}
 
