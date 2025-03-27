@@ -348,12 +348,11 @@ HRESULT CLevel_GamePlay::Ready_Layer_Trigger(const _wstring& strLayerTag)
 	tDesc.fSpeedPerSec = 0;
 	tDesc.LayerTag = TEXT("Layer_BossBridge");
 	tDesc.vAngle = { 0.f, 0.f, 0.f };
-	tDesc.vInitPos = {1400.f, 36.f, 1000.f};
+	tDesc.vInitPos = {1400.f, 136.f, 1000.f};
 	tDesc.vScale = {100.f, 100.f, 100.f};
 	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_Trigger"),
 		LEVEL_GAMEPLAY, strLayerTag, &tDesc)))
 		return E_FAIL;
-
 
 	return S_OK;
 }
