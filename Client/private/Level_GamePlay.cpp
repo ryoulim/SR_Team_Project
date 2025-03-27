@@ -133,7 +133,7 @@ HRESULT CLevel_GamePlay::Ready_Layer_Terrain(const _wstring& strLayerTag)
 		Find_Component(TEXT("Com_Transform")));
 
 
-  	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Sky"),
+  	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_Sky"),
 		LEVEL_GAMEPLAY, strLayerTag)))
 		return E_FAIL;
 

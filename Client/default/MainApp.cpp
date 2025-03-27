@@ -21,6 +21,8 @@
 #include "DebugMode.h"
 #include "CameraManager.h"
 
+#include "Sky.h"
+
 #ifdef _IMGUI
 
 void ImGui::Render_Begin()
@@ -186,6 +188,12 @@ HRESULT CMainApp::Ready_Component_For_Static()
 
 	ADD_TEXTURE(LevelLoadingMenu, "../Bin/Resources/Textures/UI/Loading/lvlloading%d.png", 4);
 
+	
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Sky"),
+		CTexture::Create(m_pGraphic_Device, TEXT("../Bin/Resources/Textures/SkyBox/Sky_%d.dds"), 1, CTexture::TYPE_CUBE))))
+		return E_FAIL;
+
+
 	return S_OK;
 }
 
@@ -201,6 +209,7 @@ HRESULT CMainApp::Ready_Object_For_Static()
 	ADD_PRTOBJ(LoadingMenu);
 	ADD_PRTOBJ(LevelLoadingMenu);
 	ADD_PRTOBJ(FadeUI);
+	ADD_PRTOBJ(Sky);
 
 	return S_OK;
 }
