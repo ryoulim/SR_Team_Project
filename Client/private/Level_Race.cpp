@@ -160,6 +160,14 @@ HRESULT CLevel_Race::Ready_Layer_Statue(const _wstring& strLayerTag)
 		LEVEL_RACE, strLayerTag, &desc)))
 		return E_FAIL;
 
+	desc.vAngle = _float3(D3DXToRadian(0.f), D3DXToRadian(0.f), D3DXToRadian(0.f));
+	desc.vInitPos = _float3(450.f, 100.f, 10000.f);
+	desc.vScale = _float3(350.f, 200.f, 200.f);
+
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_RACE, TEXT("Prototype_GameObject_RaceGate"),
+		LEVEL_RACE, strLayerTag, &desc)))
+		return E_FAIL;
+
 	return S_OK;
 }
 
@@ -168,8 +176,8 @@ HRESULT CLevel_Race::Ready_Layer_Statue2(const _wstring& strLayerTag)
 	CStatue::DESC desc = {};
 
 	desc.vAngle = _float3(D3DXToRadian(0.f), D3DXToRadian(0.f), D3DXToRadian(0.f));
-	desc.vInitPos = _float3(500.f, 200.f, 500.f);
-	desc.vScale = _float3(300.f, 200.f, 200.f);
+	desc.vInitPos = _float3(450.f, 100.f, 500.f);
+	desc.vScale = _float3(350.f, 200.f, 200.f);
 
 	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_RACE, TEXT("Prototype_GameObject_RaceGate"),
 		LEVEL_RACE, strLayerTag, &desc)))

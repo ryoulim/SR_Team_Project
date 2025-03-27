@@ -6,6 +6,9 @@ BEGIN(Engine)
 
 class ENGINE_DLL CVIBuffer_RaceGate final : public CVIBuffer
 {
+public:
+	enum Surface { COMMON, MIDDLE, DOWN };
+
 private:
 	CVIBuffer_RaceGate(LPDIRECT3DDEVICE9 pGraphic_Device);
 	CVIBuffer_RaceGate(const CVIBuffer_RaceGate& Prototype);
@@ -14,6 +17,7 @@ private:
 public:
 	virtual HRESULT Initialize_Prototype() override;
 	virtual HRESULT Initialize(void* pArg) override;
+	virtual HRESULT Render(_uint Surface) override;
 
 private:
 	void Set_IndexBuffer(_ushort* pIndices, _uint StartIndex, _uint LT, _uint RT, _uint LB, _uint RB);
