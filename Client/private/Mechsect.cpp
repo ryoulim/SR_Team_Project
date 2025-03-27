@@ -39,6 +39,7 @@ HRESULT CMechsect::Initialize(void* pArg)
 
 void CMechsect::Priority_Update(_float fTimeDelta)
 {
+	Set_Animation();
 	__super::Priority_Update(fTimeDelta);
 }
 

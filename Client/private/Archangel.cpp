@@ -38,6 +38,7 @@ HRESULT CArchangel::Initialize(void* pArg)
 
 void CArchangel::Priority_Update(_float fTimeDelta)
 {
+	Set_Animation();
 	__super::Priority_Update(fTimeDelta);
 }
 

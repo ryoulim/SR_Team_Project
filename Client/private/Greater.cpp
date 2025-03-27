@@ -39,6 +39,7 @@ HRESULT CGreater::Initialize(void* pArg)
 
 void CGreater::Priority_Update(_float fTimeDelta)
 {
+	Set_Animation();
 	__super::Priority_Update(fTimeDelta);
 }
 
@@ -64,6 +65,80 @@ HRESULT CGreater::Ready_Components(void* pArg)
 	if (FAILED(__super::Ready_Components(pArg)))
 		return E_FAIL;
 
+	return S_OK;
+}
+
+HRESULT CGreater::Set_Animation()
+{
+	if (m_eCurMonsterState != m_ePrevMonsterState)
+	{
+		m_ePrevMonsterState = m_eCurMonsterState;
+		m_fAnimationFrame = 0.f;
+		m_iState = (_uint)(m_eCurMonsterState);
+		switch (m_eCurMonsterState)
+		{
+		case Client::CGreater::STATE_MOVE:
+			m_fAnimationMaxFrame = _float(MAX_MOVERUN);
+			m_fAnimationSpeed = 10.f;
+			break;
+		case Client::CGreater::STATE_RUN:
+			m_fAnimationMaxFrame = _float(MAX_MOVERUN);
+			m_fAnimationSpeed = 10.f;
+			break;
+		case Client::CGreater::STATE_ATTACK:
+			m_fAnimationMaxFrame = _float(MAX_ATTACK);
+			m_fAnimationSpeed = 10.f;
+			break;
+		case Client::CGreater::STATE_STAY:
+			m_fAnimationMaxFrame = 1.f;
+			m_fAnimationSpeed = 0.f;
+			m_iState = (_uint)(STATE_MOVE);
+			break;
+		case Client::CGreater::STATE_DEAD:
+			m_fAnimationMaxFrame = _float(MAX_DEAD);
+			m_fAnimationSpeed = 8.f;
+			m_bRotateAnimation = false;
+			break;
+		}
+	}
+	return S_OK;
+}
+
+HRESULT CGreater::Animate_Monster(_float fTimeDelta)
+{
+	if (m_fAnimationMaxFrame < 2.f)
+		return S_OK;
+
+	switch (m_eCurMonsterState)
+	{
+	case Client::CGreater::STATE_STAY:
+		m_bRotateAnimation = true;
+		return S_OK;
+	case Client::CGreater::STATE_MOVE:
+		m_fAnimationFrame += fTimeDelta * m_fAnimationSpeed;
+		if (m_fAnimationFrame >= m_fAnimationMaxFrame)
+			m_fAnimationFrame = 0.f;
+		m_bRotateAnimation = true;
+		break;
+	case Client::CGreater::STATE_RUN:
+		m_fAnimationFrame += fTimeDelta * m_fAnimationSpeed;
+		if (m_fAnimationFrame >= m_fAnimationMaxFrame)
+			m_fAnimationFrame = 0.f;
+		m_bRotateAnimation = true;
+		break;
+	case Client::CGreater::STATE_ATTACK:
+		m_fAnimationFrame += fTimeDelta * m_fAnimationSpeed;
+		if (m_fAnimationFrame >= m_fAnimationMaxFrame)
+			m_fAnimationFrame = 0.f;
+		m_bRotateAnimation = true;
+		break;
+	case Client::CGreater::STATE_DEAD:
+		m_fAnimationFrame += fTimeDelta * m_fAnimationSpeed;
+		if (m_fAnimationFrame >= m_fAnimationMaxFrame)
+			m_fAnimationFrame = m_fAnimationMaxFrame - 1.f;
+		m_bRotateAnimation = false;
+		break;
+	}
 	return S_OK;
 }
 

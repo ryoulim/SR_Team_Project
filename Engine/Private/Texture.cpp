@@ -102,10 +102,10 @@ HRESULT CTexture::Get_TextureSize(_uint iIndex, _float3* pOut)
 	return S_OK;
 }
 
-HRESULT CTexture::Bind_Shader_To_Texture(LPD3DXEFFECT pEffect, D3DXHANDLE hTexParameter, _uint iIndex)
-{
-	return pEffect->SetTexture(hTexParameter, m_Textures[iIndex]);
-}
+//HRESULT CTexture::Bind_Shader_To_Texture(LPD3DXEFFECT pEffect, D3DXHANDLE hTexParameter, _uint iIndex)
+//{
+//	return pEffect->SetTexture(hTexParameter, m_Textures[iIndex]);
+//}
 
 
 HRESULT CTexture::Bind_Shader_To_Texture(CShader* pShader, D3DXHANDLE hTexParameter, _uint iIndex)

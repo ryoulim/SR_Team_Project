@@ -32,18 +32,21 @@ HRESULT CDeacon::Initialize(void* pArg)
 	//애니메이션(수정예정)
 	m_fAnimationMaxFrame = 0.f;
 	m_fAnimationSpeed = 5.f;
-	m_iState = STATE_MOVE;
+	m_iState = STATE_FLY;
 
 	return S_OK;
 }
 
 void CDeacon::Priority_Update(_float fTimeDelta)
 {
+	Set_Animation();
 	__super::Priority_Update(fTimeDelta);
 }
 
 EVENT CDeacon::Update(_float fTimeDelta)
 {
+	//if (m_eCurMonsterState == STATE_DEAD && m_fAnimationFrame >= m_fAnimationMaxFrame - 1.f)
+
 	return __super::Update(fTimeDelta);
 }
 
@@ -57,7 +60,7 @@ HRESULT CDeacon::Render()
 	return __super::Render();
 
 	//특별히 더 렌더링 할게 있는 경우 ↓
-}
+} 
 
 HRESULT CDeacon::Ready_Components(void* pArg)
 {
@@ -91,20 +94,111 @@ void CDeacon::On_Collision(_uint MyColliderID, _uint OtherColliderID)
 
 HRESULT CDeacon::Ready_Textures()
 {
-	/* MOVE */
+	/* FLY */
 	for (_uint i = 0; i < D_END; i++)
 	{
-		_wstring sPrototypeTag = L"Prototype_Component_Texture_Deacon_Move_";
+		_wstring sPrototypeTag = L"Prototype_Component_Texture_Deacon_Fly_";
 		_uint num = static_cast<_uint>(i * m_fDivOffset);
 		_tchar buf[32];
 		_itow_s((int)num, buf, 10);
 		sPrototypeTag += buf;
 		if (FAILED(__super::Add_Component(m_eLevelID, sPrototypeTag,
-			_wstring(TEXT("Com_Texture")) + L"_Deacon_Move_" + buf, reinterpret_cast<CComponent**>(&(m_pTextureMap[STATE_MOVE][i])))))
+			_wstring(TEXT("Com_Texture")) + L"_Deacon_Fly_" + buf, reinterpret_cast<CComponent**>(&(m_pTextureMap[STATE_FLY][i])))))
 			return E_FAIL;
+	}
+	/* ATTACK */
+	for (_uint i = 0; i < D_END; i++)
+	{
+		_wstring sPrototypeTag = L"Prototype_Component_Texture_Deacon_Attack_";
+		_uint num = static_cast<_uint>(i * m_fDivOffset);
+		_tchar buf[32];
+		_itow_s((int)num, buf, 10);
+		sPrototypeTag += buf;
+		if (FAILED(__super::Add_Component(m_eLevelID, sPrototypeTag,
+			_wstring(TEXT("Com_Texture")) + L"_Deacon_Attack_" + buf, reinterpret_cast<CComponent**>(&(m_pTextureMap[STATE_ATTACK][i])))))
+			return E_FAIL;
+	}
+	/* DEAD */
+	if (FAILED(__super::Add_Component(m_eLevelID, L"Prototype_Component_Texture_Deacon_Dead",
+		_wstring(TEXT("Com_Texture")) + L"_Deacon_Dead", reinterpret_cast<CComponent**>(&(m_pTextureMap[STATE_DEAD][0])))))
+		return E_FAIL;
+
+	return S_OK;
+}
+
+HRESULT CDeacon::Set_Animation()
+{
+	if (m_eCurMonsterState != m_ePrevMonsterState)
+	{
+		m_ePrevMonsterState = m_eCurMonsterState;
+		m_fAnimationFrame = 0.f;
+		m_iState = (_uint)(m_eCurMonsterState);
+		switch (m_eCurMonsterState)
+		{
+		case Client::CDeacon::STATE_FLY:
+			m_fAnimationMaxFrame = 1.f;
+			m_fAnimationFrame = _float(m_eCurFlyingDirection);
+			m_fAnimationSpeed = 0.f;
+			break;
+		case Client::CDeacon::STATE_ATTACK:
+			m_fAnimationMaxFrame = _float(MAX_ATTACK);
+			m_fAnimationSpeed = 10.f;
+			break;
+		case Client::CDeacon::STATE_STAY:
+			m_fAnimationMaxFrame = 1.f;
+			m_fAnimationSpeed = 0.f;
+			m_iState = (_uint)(STATE_FLY);
+			break;
+		case Client::CDeacon::STATE_DEAD:
+			m_fAnimationMaxFrame = _float(MAX_DEAD);
+			m_fAnimationSpeed = 8.f;
+			m_bRotateAnimation = false;
+			break;
+		}
+	}
+	if (m_eCurFlyingDirection != m_ePrevFlyingDirection)
+	{
+		m_ePrevFlyingDirection = m_eCurFlyingDirection;
+		m_fAnimationFrame = _float(m_eCurFlyingDirection);
+	}
+
+	return S_OK;
+}
+
+HRESULT CDeacon::Animate_Monster(_float fTimeDelta)
+{
+	if (m_fAnimationMaxFrame < 2.f)
+		return S_OK;
+
+	switch (m_eCurMonsterState)
+	{
+	case Client::CDeacon::STATE_STAY:
+		return S_OK;
+	case Client::CDeacon::STATE_FLY:
+		if (m_iDegree != 0 && m_iDegree != 5 && m_bCW == true)
+		{
+			if (m_eCurFlyingDirection == LEFT)
+				m_fAnimationFrame = (_float)(RIGHT);
+			else if (m_eCurFlyingDirection == RIGHT)
+				m_fAnimationFrame = (_float)(LEFT);
+		}
+		else
+			m_fAnimationFrame = (_float)(m_eCurFlyingDirection);
+		break;
+	case Client::CDeacon::STATE_ATTACK:
+		m_fAnimationFrame += fTimeDelta * m_fAnimationSpeed;
+		if (m_fAnimationFrame >= m_fAnimationMaxFrame)
+			m_fAnimationFrame = 0.f;
+		break;
+	case Client::CDeacon::STATE_DEAD:
+		m_fAnimationFrame += fTimeDelta * m_fAnimationSpeed;
+		if (m_fAnimationFrame >= m_fAnimationMaxFrame)
+			m_fAnimationFrame = m_fAnimationMaxFrame - 1.f;
+		break;
 	}
 	return S_OK;
 }
+
 
 CDeacon* CDeacon::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 {

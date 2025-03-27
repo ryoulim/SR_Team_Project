@@ -79,7 +79,7 @@ void CMonster::Late_Update(_float fTimeDelta)
 
 	//몬스터 각도업데이트
 	Compute_ViewAngle();
-
+	Set_TextureType();
 	//렌더그룹 업데이트
 	if (FAILED(m_pGameInstance->Add_RenderGroup(CRenderer::RG_NONBLEND, this)))
 		return;

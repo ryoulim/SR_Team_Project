@@ -39,6 +39,7 @@ HRESULT CNukemutant::Initialize(void* pArg)
 
 void CNukemutant::Priority_Update(_float fTimeDelta)
 {
+	Set_Animation();
 	__super::Priority_Update(fTimeDelta);
 }
 
