@@ -51,15 +51,19 @@ public: //해당객체의 몬스터 패턴
 
 public: //따끈이 패턴
 	void BasicAttackSet(_float dt);
-	void LazerAttack(_float dt);
 	void MissileAttack(_float dt);
 	void SpawnAttack(_float dt);
 	void FireAttack(_float dt);
 	void BounceBall(_float dt);
 	void JumpAttack(_float dt);
 	void FlyAttack(_float dt);
-	void StartCooldown(_float dt, _float fMin, _float fMax);
+
+public: //서포팅 함수들
 	void SpawnMissile(_float dt);
+	void StartCooldown(_float dt, _float fMin, _float fMax);
+	_float3 Rotate_Y(_float3 vDir, float rad);
+	void SpawnBounce();
+
 
 public: //따끈이 전용 이펙트
 	void FlyEffect();
@@ -98,9 +102,6 @@ private: //바운스볼 패턴
 	_float			m_fBounceTime = 0.f;
 	_int			m_iBounceCount = 0;
 
-
-private: //2페이즈 변수
-	_int			m_iRand = 0;
 
 
 public: //데드 변수

@@ -12,6 +12,7 @@ public:
 	typedef struct tagGrenadeBulletDesc : public CBullet::DESC
 	{
 		// Look의 Y는 반드시 0보다 커야합니다.
+		const TCHAR* szTextureTag = TEXT("GrenadeBullet");
 		_float3 vLook;
 		_float fInitJumpPower;
 		_float fTimeLimit;

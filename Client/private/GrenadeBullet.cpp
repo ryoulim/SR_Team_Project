@@ -21,8 +21,9 @@ HRESULT CGrenadeBullet::Initialize_Prototype()
 
 HRESULT CGrenadeBullet::Initialize(void* pArg)
 {
+	DESC* pDesc = static_cast<DESC*>(pArg);
 	m_eLevelID = LEVEL_GAMEPLAY;
-	m_szTextureID = TEXT("GrenadeBullet");
+	m_szTextureID = pDesc->szTextureTag;
 	m_szBufferType = TEXT("Rect");
 
 	if (FAILED(__super::Initialize(pArg)))
@@ -30,7 +31,6 @@ HRESULT CGrenadeBullet::Initialize(void* pArg)
 
 	//m_pGravityCom->Jump(30.f);
 
-	DESC* pDesc = static_cast<DESC*>(pArg);
 
 	m_fSpeedperSec = pDesc->fSpeedPerSec;
 	m_fTimeLimit = pDesc->fTimeLimit;
