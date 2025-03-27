@@ -64,7 +64,7 @@ void CTtakkeun_i::Late_Update(_float fTimeDelta)
 	IsPlayerDetected();
 
 	//콜라이더 업데이트
-	m_pCollider->Update_Collider();
+	//m_pCollider->Update_Collider();
 
 	Compute_ViewAngle();
 
@@ -438,6 +438,7 @@ void CTtakkeun_i::FireAttack(_float dt)
 
 	/* 1. 플레이어에게 접근한다(조금 빠르게) */
 	_float3 vPlayerPos = *static_cast<CTransform*>(m_pTargetPlayer->Find_Component(L"Com_Transform"))->Get_State(CTransform::STATE_POSITION);
+	vPlayerPos.y = m_vReturnPos.y;
 	_float3 vMyPos = *m_pTransformCom->Get_State(CTransform::STATE_POSITION);
 
 	_float3 vDir = vPlayerPos - vMyPos;
