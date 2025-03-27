@@ -249,7 +249,6 @@ HRESULT CLevel_GamePlay::Ready_Layer_Pawn(const _wstring& strLayerTag)
 	PlayerDesc.vScale = { 20.f, 30.f, 20.f };
 	PlayerDesc.fRotationPerSec = RADIAN(180.f);
 	PlayerDesc.fSpeedPerSec = 150.f;
-	PlayerDesc.fMouseSensor = 0.1f;
 
 	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Player"),
 		LEVEL_GAMEPLAY, strLayerTag, &PlayerDesc)))

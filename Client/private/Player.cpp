@@ -44,11 +44,6 @@ HRESULT CPlayer::Initialize(void* pArg)
 	m_pCameraTransform = static_cast<CTransform*>(FPS_Camera->Find_Component(TEXT("Com_Transform")));
 	Safe_AddRef(m_pCameraTransform);
 
-	if (pArg != nullptr)
-	{
-		m_fMouseSensor = static_cast<DESC*>(pArg)->fMouseSensor;
-	}
-
 #pragma region 무기추가
 	m_Weapons.push_back(
 		static_cast<CWeapon*>(m_pGameInstance->Clone_Prototype(
@@ -78,19 +73,9 @@ void CPlayer::Priority_Update(_float fTimeDelta)
 		m_bFpsMode = !m_bFpsMode;
 		m_pCameraManager->Switch(m_bFpsMode);
 	}
-	if (KEY_DOWN(DIK_TAB))
-	{
-		m_bBouseFixMod = !m_bBouseFixMod;
-		ShowCursor(m_bBouseFixMod);
-	}
 	if (m_bFpsMode)
 	{
 		Key_Input(fTimeDelta);
-		if (!m_bBouseFixMod)
-		{
-			Mouse_Move();
-			Mouse_Fix();
-		}
 		m_Weapons[m_iCurWeaponIndex]->Priority_Update(fTimeDelta);
 		__super::Priority_Update(fTimeDelta);
 	}
@@ -100,7 +85,7 @@ EVENT CPlayer::Update(_float fTimeDelta)
 {
 	m_Weapons[m_iCurWeaponIndex]->Update(fTimeDelta);
 
-	if (!m_bFpsMode || m_bBouseFixMod)
+	if (!m_bFpsMode)
 		return EVN_NONE;
 	
 	return __super::Update(fTimeDelta);
@@ -113,13 +98,13 @@ void CPlayer::Late_Update(_float fTimeDelta)
 	if (!m_bFpsMode)
 		return;
 
+	m_Weapons[m_iCurWeaponIndex]->Late_Update(fTimeDelta);
+
 	Update_Camera_Link();
 
 	m_pCollider->Update_Collider();
 
 	m_pGravityCom->Update(fTimeDelta);
-
-	m_Weapons[m_iCurWeaponIndex]->Late_Update(fTimeDelta);
 
 	__super::Late_Update(fTimeDelta);	
 }
@@ -207,31 +192,6 @@ void CPlayer::Key_Input(_float fTimeDelta)
 	}
 
 	m_Weapons[m_iCurWeaponIndex]->Key_Input();
-}
-
-void CPlayer::Mouse_Move()
-{
-	_float		fMouseMoveX = { static_cast<_float>(m_pGameInstance->Get_DIMMoveState(DIMM_X)) };
-	_float		fMouseMoveY = { static_cast<_float>(m_pGameInstance->Get_DIMMoveState(DIMM_Y)) };
-
-	_float3		vRotationAxis = (*m_pCameraTransform->Get_State(CTransform::STATE_RIGHT) * fMouseMoveY)
-		+ (*m_pCameraTransform->Get_State(CTransform::STATE_UP) * fMouseMoveX);
-
-	_float fAngle = RADIAN(_float3(fMouseMoveX, fMouseMoveY, 0).Length() * m_fMouseSensor);
-
-	_float3 vLook = *m_pCameraTransform->Get_State(CTransform::STATE_LOOK);
-
-	_float4x4 matRot{ vRotationAxis,fAngle };
-	vLook.TransformNormal(matRot);
-	m_pCameraTransform->LookAt(*m_pCameraTransform->Get_State(CTransform::STATE_POSITION) + vLook);
-}
-
-void CPlayer::Mouse_Fix()
-{
-	POINT		ptMouse{ g_iWinSizeX >> 1, g_iWinSizeY >> 1 };
-
-	ClientToScreen(g_hWnd, &ptMouse);
-	SetCursorPos(ptMouse.x, ptMouse.y);
 }
 
 void CPlayer::Update_Camera_Link()

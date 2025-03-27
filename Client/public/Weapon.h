@@ -37,7 +37,7 @@ public:
 		_float3 vInitPos;
 	}DESC;
 
-	const AMMOINFO* Get_Info() {
+	virtual const AMMOINFO* Get_Info() {
 		return &m_tAmmoInfo;
 	}
 

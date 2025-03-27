@@ -27,6 +27,8 @@ public:
 	virtual void Late_Update(_float fTimeDelta) override;
 	virtual HRESULT Render() override;
 
+	virtual const AMMOINFO* Get_Info();
+
 private:
 	_bool m_bTrigger{};
 	_bool m_bGrenadeMode{};

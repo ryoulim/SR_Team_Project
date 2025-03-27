@@ -9,13 +9,6 @@ BEGIN(Client)
 
 class CPlayer final : public CPawn
 {
-friend CUI_Manager;
-public:
-	friend class CUI_Manager;
-	typedef struct tagPlayerDesc : public CPawn::DESC
-	{
-		_float			fMouseSensor;
-	}DESC;
 private:
 	CPlayer(LPDIRECT3DDEVICE9 pGraphic_Device);
 	CPlayer(const CPlayer& Prototype);
@@ -34,8 +27,6 @@ public:
 private:
 	class CCameraManager*		m_pCameraManager {};
 	CTransform*					m_pCameraTransform{};
-	_float						m_fMouseSensor{};
-	_bool						m_bBouseFixMod{};
 	_bool						m_bFpsMode{TRUE};
 
 	vector<class CWeapon*>		m_Weapons;
@@ -45,8 +36,6 @@ private:
 
 private:
 	void			Key_Input(_float fTimeDelta);
-	void			Mouse_Move();
-	void			Mouse_Fix();
 	void			Update_Camera_Link();
 
 public:

@@ -10,6 +10,10 @@ BEGIN(Client)
 
 class CFPS_Camera final : public CCamera
 {
+	typedef struct tagFPS_CameraDesc : public CCamera::DESC
+	{
+		_float			fMouseSensor;
+	}DESC;
 private:
 	CFPS_Camera(LPDIRECT3DDEVICE9 pGraphic_Device);
 	CFPS_Camera(const CFPS_Camera& Prototype);
@@ -23,11 +27,24 @@ public:
 	virtual void Late_Update(_float fTimeDelta) override;
 	virtual HRESULT Render() override;
 
+	void Mouse_Move();
+	void Mouse_Fix();
+	void StartShake(_float fIntensity, _float fDuration);
+
+private:
+	_float3				m_vInitPos{};
+	_float3				m_vInitLook{};
+	_float				m_fMouseSensor{};
+	_bool				m_bMouseFixMod{TRUE};
+
+	// 카메라 쉐이킹용
+	_float				m_fIntensity{};
+	_float				m_fDuration{};
+	_float				m_fElapsed{};
+
 private:
 	virtual void		Update_Projection_Matrix() override;
 	virtual HRESULT		Ready_Components(void* pArg) override;
-	_float3				m_vInitPos{};
-	_float3				m_vInitLook{};
 
 public:
 	static CFPS_Camera* Create(LPDIRECT3DDEVICE9 pGraphic_Device);

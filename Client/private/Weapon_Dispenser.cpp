@@ -75,6 +75,14 @@ HRESULT CWeapon_Dispenser::Render()
 	return __super::Render();
 }
 
+const CWeapon::AMMOINFO* CWeapon_Dispenser::Get_Info()
+{
+	if (m_bGrenadeMode)
+		return &m_tGrenadeInfo;
+	else
+		return &m_tShellInfo;
+}
+
 void CWeapon_Dispenser::Set_State(STATE State)
 {
 	if (m_eState == State)
