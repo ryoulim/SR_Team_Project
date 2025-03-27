@@ -40,7 +40,7 @@ public:
 	_bool isJump() {
 		return m_bJump;
 	}
-
+	void Update_Height();
 private:
 	class CTransform*		m_pTransformCom{ nullptr };
 	_float					m_fHalfHeight{};

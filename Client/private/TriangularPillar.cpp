@@ -48,12 +48,6 @@ HRESULT CTriangularPillar::Render()
     return __super::Render();
 }
 
-void CTriangularPillar::On_Collision(_uint MyColliderID, _uint OtherColliderID)
-{
-    if (OtherColliderID >= 1001)
-        CFXMgr::Get_Instance()->SpawnBlood(CCollider::Get_Last_Collision_Pos(), m_eLevelID);
-}
-
 HRESULT CTriangularPillar::Ready_Components(void* pArg)
 {
     __super::Ready_Components(pArg);

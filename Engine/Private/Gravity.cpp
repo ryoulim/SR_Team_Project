@@ -172,6 +172,11 @@ void CGravity::Jump(_float fJumpPower)
 	}
 }
 
+void CGravity::Update_Height()
+{
+	m_fHalfHeight = reinterpret_cast<_float3*>(&m_pTransformCom->m_WorldMatrix._21)->Length() * 0.5f;
+}
+
 void CGravity::Raycast_StandAble_Obj()
 {
 	_float fResult{};

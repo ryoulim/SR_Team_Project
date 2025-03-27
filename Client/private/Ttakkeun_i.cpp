@@ -63,10 +63,14 @@ void CTtakkeun_i::Late_Update(_float fTimeDelta)
 	CalculateVectorToPlayer();
 	IsPlayerDetected();
 
-	//콜라이더 업데이트
-	//m_pCollider->Update_Collider();
-
 	Compute_ViewAngle();
+
+	//if (m_eCurMonsterState != STATE_FLY &&
+	//	m_eCurMonsterState != STATE_FLY_ATTACK)
+	//{
+	//	m_pGravityCom->Update_Height();
+	//	m_pGravityCom->Update(fTimeDelta);
+	//}
 
 	//콜라이더 업데이트
 	m_pCollider->Update_Collider();
