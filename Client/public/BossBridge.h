@@ -1,24 +1,23 @@
-// 내 클래스 이름 : TextTerrain
-// 부모 클래스 이름 : Terrain
+// 내 클래스 이름 : BossBridge
+// 부모 클래스 이름 : Map
 
 #pragma once
-
 #include "Map.h"
 
 BEGIN(Client)
 
-class CTestTerrain final : public CMap
+class CBossBridge final : public CMap
 {
 public:
-	typedef struct tagTextTerrainDesc : public CMap::DESC
+	typedef struct tagBossBridgeDesc : public CMap::DESC
 	{
 
 	}DESC;
 
 private:
-	CTestTerrain(LPDIRECT3DDEVICE9 pGraphic_Device);
-	CTestTerrain(const CTestTerrain& Prototype);
-	virtual ~CTestTerrain() = default;
+	CBossBridge(LPDIRECT3DDEVICE9 pGraphic_Device);
+	CBossBridge(const CBossBridge& Prototype);
+	virtual ~CBossBridge() = default;
 
 public:
 	virtual HRESULT Initialize_Prototype() override;
@@ -29,7 +28,7 @@ public:
 	virtual HRESULT Render() override;
 
 public:
-	static CTestTerrain* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
+	static CBossBridge* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
 	virtual CGameObject* Clone(void* pArg) override;
 	virtual void Free();
 };

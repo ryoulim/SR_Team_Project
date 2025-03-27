@@ -21,8 +21,6 @@
 //테스트용
 #include "MyCube.h"
 #include "TestBullet.h"
-/* 테스트 터레인*/
-#include "TestTerrain.h"
 
 //플레이어와 무기
 #include "Player.h"
@@ -68,6 +66,7 @@
 #include "Lava.h"
 #include "AlphaBlock.h"
 #include "AlphaRect.h"
+#include "BossBridge.h"
 
 //전시용 플랫폼
 #include "Flatform.h"
@@ -782,6 +781,7 @@ HRESULT CLoader::Loading_For_GamePlay()
 	ADD_PRTOBJ(Lava); fDataCurNum++; m_fLoadPercent = fDataCurNum / fDataNum;
 	ADD_PRTOBJ(AlphaRect); fDataCurNum++; m_fLoadPercent = fDataCurNum / fDataNum;
 	ADD_PRTOBJ(AlphaBlock); fDataCurNum++; m_fLoadPercent = fDataCurNum / fDataNum;
+	ADD_PRTOBJ(BossBridge); fDataCurNum++; m_fLoadPercent = fDataCurNum / fDataNum;
 	for (size_t i = 0; i < 100000; i++)
 	{
 		for (size_t j = 0; j < 10000; j++)
@@ -994,7 +994,6 @@ HRESULT CLoader::Loading_For_Test()
 	ADD_PRTOBJ(BackGround);
 	ADD_PRTOBJ(Trapezoid);
 	ADD_PRTOBJ(Terrain);
-	ADD_PRTOBJ(TestTerrain);
 
 	lstrcpy(m_szLoadingText, TEXT("로딩이 완료되었습니다."));
 	m_isFinished = true;

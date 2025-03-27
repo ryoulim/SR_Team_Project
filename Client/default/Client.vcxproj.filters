@@ -196,9 +196,6 @@
     <Filter Include="02.GameObjects\Map\Block">
       <UniqueIdentifier>{c8ed5851-d677-4b27-bbf4-5114c532d80d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\Map\TextTerrain">
-      <UniqueIdentifier>{c3ef4eff-606f-4fdd-ab5a-b810076f6654}</UniqueIdentifier>
-    </Filter>
     <Filter Include="100.Imgui">
       <UniqueIdentifier>{5dfc6c89-573a-44c3-81d7-b3a0d6305c09}</UniqueIdentifier>
     </Filter>
@@ -342,6 +339,9 @@
     </Filter>
     <Filter Include="02.GameObjects\Map\AlphaRect">
       <UniqueIdentifier>{60d0fe13-9f07-43e3-896e-3ed65200690c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Map\BossBridge">
+      <UniqueIdentifier>{1c4ad648-28fa-4982-8bc2-f061d7f96695}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -546,9 +546,6 @@
     <ClInclude Include="..\public\Block.h">
       <Filter>02.GameObjects\Map\Block</Filter>
     </ClInclude>
-    <ClInclude Include="..\public\TestTerrain.h">
-      <Filter>02.GameObjects\Map\TextTerrain</Filter>
-    </ClInclude>
     <ClInclude Include="..\public\Client_Function.h">
       <Filter>99.Headers</Filter>
     </ClInclude>
@@ -692,6 +689,9 @@
     </ClInclude>
     <ClInclude Include="..\public\AlphaRect.h">
       <Filter>02.GameObjects\Map\AlphaRect</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\BossBridge.h">
+      <Filter>02.GameObjects\Map\BossBridge</Filter>
     </ClInclude>
     <ClInclude Include="..\public\Sky.h">
       <Filter>02.GameObjects\Sky</Filter>
@@ -906,9 +906,6 @@
     <ClCompile Include="..\private\Block.cpp">
       <Filter>02.GameObjects\Map\Block</Filter>
     </ClCompile>
-    <ClCompile Include="..\private\TestTerrain.cpp">
-      <Filter>02.GameObjects\Map\TextTerrain</Filter>
-    </ClCompile>
     <ClCompile Include="..\Imgui\imgui.cpp">
       <Filter>100.Imgui</Filter>
     </ClCompile>
@@ -1061,6 +1058,9 @@
     </ClCompile>
     <ClCompile Include="..\private\FlyEffect.cpp">
       <Filter>02.GameObjects\Particle\_BossMobSkill\FlyEffect</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\BossBridge.cpp">
+      <Filter>02.GameObjects\Map\BossBridge</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
