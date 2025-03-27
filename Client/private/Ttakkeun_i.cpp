@@ -68,11 +68,14 @@ void CTtakkeun_i::Late_Update(_float fTimeDelta)
 
 	Compute_ViewAngle();
 
+	//콜라이더 업데이트
+	m_pCollider->Update_Collider();
+
 	//렌더그룹 업데이트
 	if (FAILED(m_pGameInstance->Add_RenderGroup(CRenderer::RG_NONBLEND, this)))
 		return;
 
-
+	//__super::Late_Update(fTimeDelta);
 #ifdef _DEBUG
 	auto now = steady_clock::now();
 	auto elapsed = duration_cast<milliseconds>(now - g_LastLogTime).count();

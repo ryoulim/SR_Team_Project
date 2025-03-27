@@ -75,7 +75,7 @@ void CMonster::Late_Update(_float fTimeDelta)
 	IsPlayerDetected();
 	
 	//콜라이더 업데이트
-	m_pCollider->Update_Collider();
+  	m_pCollider->Update_Collider();
 
 	//몬스터 각도업데이트
 	Compute_ViewAngle();

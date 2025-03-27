@@ -87,7 +87,7 @@ HRESULT CMonsterBullet::Ready_Components(void* pArg)
 	ColliderDesc.iColliderGroupID = CG_MBULLET;
 	ColliderDesc.iColliderID = CI_MONSTER_BULLET;
 
-	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Collider_Capsule"),
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Collider_Sphere"),
 		TEXT("Com_Collider"), reinterpret_cast<CComponent**>(&m_pCollider), &ColliderDesc)))
 		return E_FAIL;
 
