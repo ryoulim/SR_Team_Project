@@ -493,12 +493,7 @@ HRESULT CLoader::Loading_For_GamePlay()
 #pragma region TEXTURE
 	lstrcpy(m_szLoadingText, TEXT("텍스쳐을(를) 로딩중입니다."));
 
-	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Sky"),
-		CTexture::Create(m_pGraphic_Device, TEXT("../Bin/Resources/Textures/SkyBox/Sky_%d.dds"), 1, CTexture::TYPE_CUBE))))
-		return E_FAIL;	/* For.Prototype_GameObject_Sky */
-	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Sky"),
-		CSky::Create(m_pGraphic_Device))))
-		return E_FAIL;
+
 
 	
 	/* 터레인 텍스쳐 잠깐 바꾸겠습니다 */

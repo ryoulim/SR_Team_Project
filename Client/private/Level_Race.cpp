@@ -46,7 +46,9 @@ HRESULT CLevel_Race::Ready_Layer_Terrain(const _wstring& strLayerTag)
 	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_RACE, TEXT("Prototype_GameObject_RaceTerrain"),
 		LEVEL_RACE, strLayerTag)))
 		return E_FAIL;
-
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_Sky"),
+		LEVEL_RACE, strLayerTag)))
+		return E_FAIL;
 	return S_OK;
 }
 

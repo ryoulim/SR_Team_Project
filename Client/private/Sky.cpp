@@ -75,7 +75,6 @@ HRESULT CSky::SetUp_RenderState()
 {
 	m_pGraphic_Device->SetRenderState(D3DRS_ZENABLE, FALSE);
 	m_pGraphic_Device->SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
-	m_pGraphic_Device->SetRenderState(D3DRS_LIGHTING, FALSE);
 	m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 
 
@@ -84,7 +83,6 @@ HRESULT CSky::SetUp_RenderState()
 
 HRESULT CSky::Release_RenderState()
 {
-	m_pGraphic_Device->SetRenderState(D3DRS_LIGHTING, TRUE);
 	m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
 
 	m_pGraphic_Device->SetRenderState(D3DRS_ZENABLE, TRUE);
@@ -97,7 +95,7 @@ HRESULT CSky::Release_RenderState()
 HRESULT CSky::Ready_Components()
 {
 	/* For.Com_Texture */
- 	if (FAILED(__super::Add_Component(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Sky"),
+ 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Sky"),
 		TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
 		return E_FAIL;
 
