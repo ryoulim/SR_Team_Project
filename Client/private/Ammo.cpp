@@ -48,14 +48,14 @@ void CAmmo::Priority_Update(_float fTimeDelta)
 
 EVENT CAmmo::Update(_float fTimeDelta)
 {
-	_uint tmp = m_eAmmoType;
-	if (GetKeyState('3') & 0x8000)
-	{
-		++tmp;
-		if (tmp > CWeapon::TYPE::CLUSTERPUCK)
-			tmp = 0;
-		m_eAmmoType = CWeapon::TYPE(tmp);
-	}
+	//_uint tmp = m_eAmmoType;
+	//if (GetKeyState('3') & 0x8000)
+	//{
+	//	++tmp;
+	//	if (tmp > CWeapon::TYPE::CLUSTERPUCK)
+	//		tmp = 0;
+	//	m_eAmmoType = CWeapon::TYPE(tmp);
+	//}
 
 	m_fTextureNum = static_cast<_float>(m_eAmmoType) - 10.f;
 	switch (m_eAmmoType)
