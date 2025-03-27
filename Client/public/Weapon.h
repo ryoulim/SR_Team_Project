@@ -34,6 +34,7 @@ public:
 
 	typedef struct tagWeaponDesc : public CTransform::DESC
 	{
+		CTransform* pPlayerTransform;
 		_float3 vInitPos;
 	}DESC;
 
@@ -69,6 +70,7 @@ protected:
 	CTexture* m_pTextureCom = { nullptr };
 	CVIBuffer* m_pVIBufferCom = { nullptr };
 	CTransform* m_pTransformCom = { nullptr };
+	CTransform* m_pPlayerTransform{ nullptr };
 
 	AMMOINFO m_tAmmoInfo{};
 	_float m_fFrameSpeed{};

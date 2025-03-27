@@ -21,6 +21,7 @@ HRESULT CWeapon::Initialize(void* pArg)
 	if (FAILED(Ready_Components(pArg)))
 		return E_FAIL;
 
+	m_pPlayerTransform = static_cast<DESC*>(pArg)->pPlayerTransform;
 	m_fDepth = 6.f;
 	Set_State(ST_OPENING);
 
@@ -132,24 +133,13 @@ void CWeapon::Create_Bullet()
 		pPickedObj->On_Collision(iColliderID, m_tAmmoInfo.eType);
 	}
 }
-//CTestBullet::DESC BulletDesc{};
-//BulletDesc.fSpeedPerSec = 3000.f;
-//BulletDesc.vScale = { 3.f,3.f,3.f };
-
-//if (FAILED(m_pGameInstance->Active_Object(TEXT("ObjectPool_TestBullet"),
-//	LEVEL_GAMEPLAY, TEXT("Layer_PBullet"), &BulletDesc)))
-//	return;
-
-//if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_TestBullet"),
-//	LEVEL_GAMEPLAY, TEXT("Layer_PBullet"), &BulletDesc)))
-//	return;
 
 void CWeapon::Key_Input()
 {
 	if (m_eState >= ST_OPENING)
 		return;
 
-	if (MOUSE_DOWN(DIMK_LBUTTON))
+	if (MOUSE_DOWN(DIMK_LBUTTON) && m_tAmmoInfo.iCurAmmo > 0)
 	{
 		if (m_tAmmoInfo.iReloadedAmmo)
 		{
@@ -165,7 +155,7 @@ void CWeapon::Key_Input()
 	{
 		Set_State(CWeapon::ST_S_ATK);
 	}
-	if (KEY_DOWN(DIK_R))
+	if (KEY_DOWN(DIK_R) && m_tAmmoInfo.iCurAmmo > 0)
 	{
 		Set_State(CWeapon::ST_RELOAD);
 	}
@@ -225,4 +215,5 @@ void CWeapon::Free()
 	Safe_Release(m_pVIBufferCom);
 	Safe_Release(m_pTextureCom);
 	Safe_Release(m_pTransformCom);
+	Safe_Release(m_pPlayerTransform);
 }

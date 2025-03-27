@@ -29,7 +29,6 @@ HRESULT CWeapon_Dispenser::Initialize(void* pArg)
 {
 	DESC Desc{};
 	m_fTextureNum = 0.f;
-	Desc.fSpeedPerSec = 2600.f;
 	m_szTextureID = TEXT("Weapon_Dispenser");
 	m_vMovingPos = INITPOS;
 	
@@ -47,12 +46,11 @@ HRESULT CWeapon_Dispenser::Initialize(void* pArg)
 	m_tGrenadeInfo.iReloadedAmmo = 6;
 	///////
 
-	m_pPlayerTransform = static_cast<CTransform*>(static_cast<CGameObject*>(pArg)->Find_Component(TEXT("Com_Transform")));
-	Safe_AddRef(m_pPlayerTransform);
-
 	m_pCurAmmo = &m_tShellInfo;
-	if (FAILED(__super::Initialize(&Desc)))
+	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
+
+	m_fRayLength = 300.f;
 
 	return S_OK;
 
@@ -164,7 +162,7 @@ void CWeapon_Dispenser::Key_Input()
 	if (m_eState >= ST_OPENING)
 		return;
 
-	if (MOUSE_DOWN(DIMK_LBUTTON))
+	if (MOUSE_DOWN(DIMK_LBUTTON) && m_pCurAmmo->iCurAmmo > 0)
 	{
 		if (m_pCurAmmo->iReloadedAmmo)
 		{
@@ -186,7 +184,7 @@ void CWeapon_Dispenser::Key_Input()
 		CUI_Manager::Get_Instance()->Change_Weapon(m_pCurAmmo);
 		Set_State(ST_ENDING); // ¸ðµå º¯°æÀÓ
 	}
-	if (KEY_DOWN(DIK_R))
+	if (KEY_DOWN(DIK_R) && m_pCurAmmo->iCurAmmo > 0)
 	{
 		Set_State(ST_RELOAD);
 	}
@@ -257,11 +255,15 @@ void CWeapon_Dispenser::Create_Bullet()
 	// ÆøÅº»Ñ¸®±â
 	if (m_bGrenadeMode)
 	{
+		_float3 vLook = m_pPlayerTransform->Get_State(CTransform::STATE_LOOK)->Normalize();
+		_float3 vRight = m_pPlayerTransform->Get_State(CTransform::STATE_RIGHT)->Normalize();
+
 		CGrenadeBullet::DESC BulletDesc{};
 		BulletDesc.fSpeedPerSec = 300.f;
 		BulletDesc.vScale = { 6.f,6.f,6.f };
-		BulletDesc.vPosition = *m_pPlayerTransform->Get_State(CTransform::STATE_POSITION) + _float3{0.f,15.f,0.f};
-		BulletDesc.vLook = *m_pPlayerTransform->Get_State(CTransform::STATE_LOOK);
+		BulletDesc.vPosition = *m_pPlayerTransform->Get_State(CTransform::STATE_POSITION) 
+			+ _float3{0.f,12.f,0.f} + vRight * 5.f + vLook * 5.f;
+		BulletDesc.vLook = vLook;
 		BulletDesc.ColliderGroup = CG_PBULLET;
 		BulletDesc.fInitJumpPower = 30.f;
 		BulletDesc.fTimeLimit = 10.f;
@@ -273,7 +275,26 @@ void CWeapon_Dispenser::Create_Bullet()
 	// ¼¦°Ç
 	else
 	{
+		_float4x4 matCamWorld;
+		m_pGraphic_Device->GetTransform(D3DTS_VIEW, &matCamWorld); matCamWorld.MakeInverseMat(matCamWorld);
+		_float3 pPos = *reinterpret_cast<_float3*>(&matCamWorld.m[3][0]);
+		_float3 vLook = reinterpret_cast<_float3*>(&matCamWorld.m[2][0])->Normalize();
+		_uint iColliderID{};
 
+		_float3 vOffset{};
+		for (_uint i = 0; i < 10; ++i)
+		{
+			vOffset = {
+				m_pGameInstance->RandomFloat(-0.15f, 0.15f),
+				m_pGameInstance->RandomFloat(-0.15f, 0.15f),
+				m_pGameInstance->RandomFloat(-0.15f, 0.15f)
+			};
+			auto pPickedObj = m_pGameInstance->Raycast(pPos, vLook + vOffset, m_fRayLength, { CG_BLOCK,CG_MONSTER }, iColliderID);
+			if (pPickedObj)
+			{
+				pPickedObj->On_Collision(iColliderID, m_tShellInfo.eType);
+			}
+		}
 	}
 }
 
@@ -318,5 +339,4 @@ CGameObject* CWeapon_Dispenser::Clone(void* pArg)
 void CWeapon_Dispenser::Free()
 {
 	__super::Free();
-	Safe_Release(m_pPlayerTransform);
 }

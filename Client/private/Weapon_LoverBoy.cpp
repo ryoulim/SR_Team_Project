@@ -24,11 +24,10 @@ HRESULT CWeapon_LoverBoy::Initialize(void* pArg)
 {
 	DESC Desc{};
 	m_fTextureNum = 0.f;
-	Desc.fSpeedPerSec = 600.f;
 	m_szTextureID = TEXT("Weapon_LoverBoy");
 	m_vMovingPos = { 320.f,-115.f,0.1f };
 
-	if (FAILED(__super::Initialize(&Desc)))
+	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
 
 	///////

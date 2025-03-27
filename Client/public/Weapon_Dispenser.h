@@ -32,7 +32,6 @@ public:
 private:
 	_bool m_bTrigger{};
 	_bool m_bGrenadeMode{};
-	CTransform* m_pPlayerTransform{ nullptr };
 	AMMOINFO m_tGrenadeInfo{};
 	AMMOINFO* m_pCurAmmo{ nullptr };
 

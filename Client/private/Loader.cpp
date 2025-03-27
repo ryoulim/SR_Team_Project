@@ -859,7 +859,7 @@ HRESULT CLoader::Loading_For_GamePlay()
 	BloodDesc.szTextureTag = TEXT("PS_Blood");
 	BloodDesc.fSize = 3.f;
 	if (FAILED(m_pGameInstance->Create_Object_Pool(LEVEL_STATIC, TEXT("Prototype_GameObject_PC_Blood"),
-		TEXT("ObjectPool_Effect_PS_Blood"), 20, &BloodDesc)))
+		TEXT("ObjectPool_Effect_PS_Blood"), 40, &BloodDesc)))
 		return E_FAIL;
 #pragma endregion
 
@@ -870,7 +870,7 @@ HRESULT CLoader::Loading_For_GamePlay()
 	BulletImpactSparkDesc.szTextureTag = TEXT("PC_Generic");
 	BulletImpactSparkDesc.fSize = 0.45f;
 	if (FAILED(m_pGameInstance->Create_Object_Pool(LEVEL_STATIC, TEXT("Prototype_GameObject_PC_BulletImpactSpark"),
-		TEXT("ObjectPool_PC_BulletImpactSpark"), 10, &BulletImpactSparkDesc)))
+		TEXT("ObjectPool_PC_BulletImpactSpark"), 20, &BulletImpactSparkDesc)))
 		return E_FAIL;
 #pragma endregion
 

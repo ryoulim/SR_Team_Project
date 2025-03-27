@@ -45,20 +45,26 @@ HRESULT CPlayer::Initialize(void* pArg)
 	Safe_AddRef(m_pCameraTransform);
 
 #pragma region 무기추가
-	m_Weapons.push_back(
-		static_cast<CWeapon*>(m_pGameInstance->Clone_Prototype(
-			PROTOTYPE::TYPE_GAMEOBJECT, LEVEL_GAMEPLAY,
-			TEXT("Prototype_GameObject_Weapon_LoverBoy"))));
+	CWeapon::DESC WeaponDesc{};
+	WeaponDesc.pPlayerTransform = m_pTransformCom;
 
+	WeaponDesc.fSpeedPerSec = 600.f;
 	m_Weapons.push_back(
 		static_cast<CWeapon*>(m_pGameInstance->Clone_Prototype(
 			PROTOTYPE::TYPE_GAMEOBJECT, LEVEL_GAMEPLAY,
-			TEXT("Prototype_GameObject_Weapon_Chaingun"))));
+			TEXT("Prototype_GameObject_Weapon_LoverBoy"), &WeaponDesc)));
 
+	WeaponDesc.fSpeedPerSec = 3000.f;
 	m_Weapons.push_back(
 		static_cast<CWeapon*>(m_pGameInstance->Clone_Prototype(
 			PROTOTYPE::TYPE_GAMEOBJECT, LEVEL_GAMEPLAY,
-			TEXT("Prototype_GameObject_Weapon_Dispenser"),this)));
+			TEXT("Prototype_GameObject_Weapon_Chaingun"), &WeaponDesc)));
+
+	WeaponDesc.fSpeedPerSec = 2600.f;
+	m_Weapons.push_back(
+		static_cast<CWeapon*>(m_pGameInstance->Clone_Prototype(
+			PROTOTYPE::TYPE_GAMEOBJECT, LEVEL_GAMEPLAY,
+			TEXT("Prototype_GameObject_Weapon_Dispenser"), &WeaponDesc)));
 #pragma endregion
 	CUI_Manager::Get_Instance()->Change_Weapon(m_Weapons[m_iCurWeaponIndex]->Get_Info());
 

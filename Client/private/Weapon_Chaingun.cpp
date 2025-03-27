@@ -28,18 +28,16 @@ HRESULT CWeapon_Chaingun::Initialize_Prototype()
 
 HRESULT CWeapon_Chaingun::Initialize(void* pArg)
 {
-	DESC Desc{};
 	m_fTextureNum = 0.f;
-	Desc.fSpeedPerSec = 3000.f;
 	m_szTextureID = TEXT("Weapon_Chaingun");
 	m_vMovingPos = INITPOS;
 
-	if (FAILED(__super::Initialize(&Desc)))
+	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
 
 	///////
 	m_tAmmoInfo.eType = CHAINGUN;
-	m_tAmmoInfo.iCurAmmo = 50;
+	m_tAmmoInfo.iCurAmmo = 99;
 	m_tAmmoInfo.iMaxAmmo = 6;
 	m_tAmmoInfo.iReloadedAmmo = 6;
 	///////
@@ -196,7 +194,7 @@ void CWeapon_Chaingun::Set_State(STATE State)
 
 void CWeapon_Chaingun::Key_Input()
 {
-	if (MOUSE_DOWN(DIMK_LBUTTON))
+	if (MOUSE_DOWN(DIMK_LBUTTON) && m_tAmmoInfo.iCurAmmo > 0)
 	{
 		Set_State(ST_W_ATK);
 	}
@@ -257,6 +255,7 @@ void CWeapon_Chaingun::Weak_Attack(_float fTimeDelta)
 		m_fLastActionTime = m_fMotionTimer;
 		//CFXMgr::Get_Instance()->SpawnFireMachineGun(_float3{ 750.f, 450.f, 0.1f }, LEVEL_GAMEPLAY);
 		//CFXMgr::Get_Instance()->SpawnGunFireMachineGun(_float3{ 750.f, 450.f, 0.2f }, LEVEL_GAMEPLAY);
+		m_tAmmoInfo.iCurAmmo--;
 		CFXMgr::Get_Instance()->SpawnEmptyBullet(_float3(0.f, 0.f, 0.f), LEVEL_GAMEPLAY);
 		Create_Bullet();
 	}
@@ -266,7 +265,7 @@ void CWeapon_Chaingun::Weak_Attack(_float fTimeDelta)
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, _float3(HEADPOS + m_vMovingOffset) + vInter);
 	m_pBodyTransformCom->Set_State(CTransform::STATE_POSITION, _float3(INITPOS) + m_vMovingOffset + vInter);
 
-	if (MOUSE_UP(DIMK_LBUTTON))
+	if (MOUSE_UP(DIMK_LBUTTON) || m_tAmmoInfo.iCurAmmo <= 0)
 	{
 		m_pTransformCom->Set_State(CTransform::STATE_POSITION, HEADPOS);
 		m_pBodyTransformCom->Set_State(CTransform::STATE_POSITION, INITPOS);
