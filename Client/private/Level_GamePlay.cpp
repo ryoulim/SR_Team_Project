@@ -76,7 +76,7 @@ void CLevel_GamePlay::Update(_float fTimeDelta)
 	//방목용
 	if (KEY_DOWN(DIK_M))
 	{
-		SpawnTtakkeun_i(_float3{ 1400.f, 77.f, 1500.f }, true);
+		SpawnTtakkeun_i(_float3{ 1400.f, 400.f, 1500.f }, true); 
 		//SpawnWenteko(_float3{ 900.f, 40.f, 600.f }, true);
 		//SpawnShotgunner(_float3{ 900.f, 20.f, 600.f }, true);
 		//SpawnNukemutant(_float3{ 900.f, 30.f, 600.f }, true);
@@ -245,7 +245,7 @@ HRESULT CLevel_GamePlay::Ready_Layer_Effect(const _wstring& strLayerTag)
 HRESULT CLevel_GamePlay::Ready_Layer_Pawn(const _wstring& strLayerTag)
 {
 	CPlayer::DESC PlayerDesc{};
-	PlayerDesc.vInitPos = _float3{ 1400.f, 75.f, 1500.f };
+	PlayerDesc.vInitPos = _float3{ 1400.f, 100.f, 200.f };
 	PlayerDesc.vScale = { 20.f, 30.f, 20.f };
 	PlayerDesc.fRotationPerSec = RADIAN(180.f);
 	PlayerDesc.fSpeedPerSec = 150.f;

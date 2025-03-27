@@ -41,6 +41,13 @@ public:
 		return m_bJump;
 	}
 	void Update_Height();
+	void Set_Height(_float fHeight) {
+		m_fHalfHeight = fHeight * 0.5f;
+	}
+	_float Get_FloorY() {
+		return m_fFloorY;
+	}
+	
 private:
 	class CTransform*		m_pTransformCom{ nullptr };
 	_float					m_fHalfHeight{};
