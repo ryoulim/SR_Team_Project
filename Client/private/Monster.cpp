@@ -613,7 +613,7 @@ void CMonster::ChasePlayer(_float dt)
 	//원래방향으로 턴하기
 	_float3 vLook = *m_pTransformCom->Get_State(CTransform::STATE_LOOK);
 	bool bRotated = m_pTransformCom->RotateToDirection(vLook, vDir, 5.f, dt);
-	m_pTransformCom->Chase(TargetPos, dt, 200.f);
+	m_pTransformCom->ChaseWithOutY(TargetPos, dt, 200.f,100.f);
 }
 
 
@@ -633,6 +633,7 @@ _float3 CMonster::CalculateEffectPos()
 
 	// Look 방향으로 이동 (앞으로 1.0f 만큼 밀기)
 	vImpactPos -= vCameraPos * 10.0f;
+	//vImpactPos.y += m_vScale.y / 2.f;
 
 	return vImpactPos;
 }

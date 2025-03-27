@@ -3,6 +3,7 @@
 #include "MonsterBullet.h"
 #include "FlyEffect.h"
 
+
 CTtakkeun_i::CTtakkeun_i(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CMonster{ pGraphic_Device }
 {
@@ -52,10 +53,43 @@ void CTtakkeun_i::Priority_Update(_float fTimeDelta)
 
 EVENT CTtakkeun_i::Update(_float fTimeDelta)
 {
-	if (m_pFlyEffect)
-		static_cast<CFlyEffect*>(m_pFlyEffect)->SetPosition(*m_pTransformCom->Get_State(CTransform::STATE_POSITION));
+	if (m_bDie)
+		return EVN_DEAD;
 
-	return __super::Update(fTimeDelta);
+	if (m_bDead)
+	{
+		_float3 vPos = *m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+		vPos.x += GetRandomFloat(-50.f, 50.f);
+		vPos.y += GetRandomFloat(-50.f, 50.f);
+		vPos.z += GetRandomFloat(-50.f, 50.f);
+
+		m_fCallTimer += fTimeDelta;
+		m_fTotalTime += fTimeDelta;
+
+		if (m_fCallTimer >= 0.2f)
+		{
+			CFXMgr::Get_Instance()->SpawnCustomExplosion(vPos, LEVEL_GAMEPLAY, _float3{ 60.f, 100.f, 1.f }, TEXT("Effect_Explorer"), 24);
+			m_fCallTimer = 0.f;
+		}
+		if (m_fTotalTime >= 3.f)
+		{
+			_float3 vImpactPos = *m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+			CFXMgr::Get_Instance()->SpawnCustomExplosion(vImpactPos, LEVEL_GAMEPLAY, _float3{ 200.f, 250.f, 1.f }, TEXT("Effect_Explor"), 32);
+			m_bDie = true;
+		}
+	}
+	
+
+	if (m_pBossEffect)
+		static_cast<CFlyEffect*>(m_pBossEffect)->SetPosition(*m_pTransformCom->Get_State(CTransform::STATE_POSITION));
+
+	if (m_bActive)
+	{
+		//m_pGravityCom->Update(fTimeDelta);
+		MonsterTick(fTimeDelta);
+	}
+
+	return EVN_NONE;
 }
 
 void CTtakkeun_i::Late_Update(_float fTimeDelta)
@@ -66,7 +100,8 @@ void CTtakkeun_i::Late_Update(_float fTimeDelta)
 	IsPlayerDetected();
 
 	if (m_eCurMonsterState != STATE_FLY &&
-		m_eCurMonsterState != STATE_FLY_ATTACK)
+		m_eCurMonsterState != STATE_FLY_ATTACK &&
+		!m_bJumpStart)
 	{
 		m_pGravityCom->Update(fTimeDelta);
 	}
@@ -272,9 +307,13 @@ HRESULT CTtakkeun_i::Animate_Monster(_float fTimeDelta)
 			else if (!m_bFlyAttack && !m_bJumpStart)
 				m_fAnimationFrame += fTimeDelta * 0.1f;
 			
-			//내려찍기 패턴
+			//내려찍기 패턴(점프모션에 스탑하려고)
 			if (m_bJumpStart)
 			{
+				if (m_bJumpEnd)
+					m_fAnimationFrame += fTimeDelta * 0.1f;
+					
+				//2프레임 고정
 				m_fAnimationFrame = 2.f;
 				break;
 			}
@@ -375,7 +414,8 @@ void CTtakkeun_i::AttackPattern(_float dt)
 
 		if (m_fCooldownTime >= m_fCooldownDuration)
 		{
-			m_iRandom = GetRandomInt(0, 1);
+			m_iRandom = GetRandomInt(0, 3);
+			m_iRand = GetRandomInt(0, 99);
 			m_bCoolingDown = false;
 			m_fCooldownTime = 0.f;
 		}
@@ -383,19 +423,18 @@ void CTtakkeun_i::AttackPattern(_float dt)
 	}
 
 	bool isPhase2 = (m_iHP <= m_iMaxHP / 2);
-	int iRand = GetRandomInt(0, 99);
 
 	/* 따끈이의 공격패턴[ 2페이즈 ] */
 	if (isPhase2)
 	{
 		// 2페이즈일 때는 2페이즈 전용 패턴이 더 높은 확률로 등장
-		if (iRand < 20)
+		if (m_iRand < 20)
 			/* 1. 레이저 빔 */
 			LazerAttack(dt);      // 20% 확률
-		else if (iRand < 40)
+		else if (m_iRand < 40)
 			/* 2. 공작 유도탄 */
 			MissileAttack(dt);    // 20% 확률
-		else if (iRand < 60)
+		else if (m_iRand < 60)
 			/* 3. 몬스터 소환(다콘) */
 			SpawnAttack(dt);      // 20% 확률
 		else
@@ -412,8 +451,6 @@ void CTtakkeun_i::BasicAttackSet(_float dt)
 {
 	/* 따끈이의 공격패턴[ 1페이즈 ] */
 
-	m_iRandom = 2;
-
 	switch (m_iRandom)
 	{
 	case 0: 
@@ -425,6 +462,10 @@ void CTtakkeun_i::BasicAttackSet(_float dt)
 		FlyAttack(dt);
 		break;
 	case 2:
+		/* 3. 바운스 볼 */
+		BounceBall(dt);
+		break;
+	case 3:
 		/* 3. 내리찍기 */
 		JumpAttack(dt);
 		break;
@@ -449,7 +490,7 @@ void CTtakkeun_i::FireAttack(_float dt)
 	m_fAttackTimer += dt;
 	if (m_fAttackTimer >= 2.f)
 	{
-		StartCooldown(dt);
+		StartCooldown(dt, 2.f, 2.5f);
 		m_fAttackTimer = 0.f;
 		return;
 	}
@@ -461,6 +502,7 @@ void CTtakkeun_i::FireAttack(_float dt)
 	vPlayerPos.y = m_vReturnPos.y;
 	_float3 vMyPos = *m_pTransformCom->Get_State(CTransform::STATE_POSITION);
 
+	//(고개를 돌린다)
 	_float3 vDir = vPlayerPos - vMyPos;
 	float fDistance = vDir.Length();
 	vDir.Normalize();
@@ -474,33 +516,109 @@ void CTtakkeun_i::FireAttack(_float dt)
 
 }
 
+void CTtakkeun_i::BounceBall(_float dt)
+{
+	/* 바운스볼 패턴 */
+
+	/* 1. 따끈이는 고정된 상태로 플레이어를 빌보드한다. */
+	m_bRotateAnimation = false;
+
+	/* 2. 일정시간마다 바운스볼을 플레이어에게 3방향 발사한다. */
+	m_fBounceTime += dt;
+	if (m_fBounceTime >= 2.f)
+	{
+		//여기에 소환 함수 호출하면 끝!
+		m_iBounceCount++;
+		m_fBounceTime = 0.f;
+		return;
+	}
+
+	/* 3. 총 4번을 발사하면 쿨다운함수를 호출한다 */
+	if (m_iBounceCount > 3)
+	{
+		StartCooldown(dt, 2.f, 2.5f);
+		m_bRotateAnimation = true;
+	}
+}
+
 void CTtakkeun_i::JumpAttack(_float dt)
 {
+	if (m_iJumpCount > 2)
+	{
+		m_iJumpCount = 0;
+		StartCooldown(dt, 2.f, 3.f);
+		return;
+	}
+
 	/* [ 공중으로 점프를 한 뒤, 플레이어 방향으로 3번 내리꼽는다 ] */
 
-	//내리꼽을때 상자가 있으면 어쩌지 -> 내리꼽는 로직을 짤때 시간으로 짜야할듯
-
 	/* 필요변수 */
-	_bool bIsFly = false;
-	_bool bIsTop = false;
+	_float3 vPlayerPos = *static_cast<CTransform*>(m_pTargetPlayer->Find_Component(L"Com_Transform"))->Get_State(CTransform::STATE_POSITION);
+	_float3 vPos = *m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+	_float3 vToPlayer = vPlayerPos - vPos;
 	m_bJumpStart = true;
 	m_eCurMonsterState = STATE_JUMP;
 
 
 	/* 1. 점프모션을 취한 뒤에 타이밍 맞춰 날아오른다. */
 
-	if (m_eCurMonsterState == STATE_JUMP && m_fAnimationFrame == 2.f)
+	if (m_eCurMonsterState == STATE_JUMP && m_fAnimationFrame == 2.f && !m_bJumpEnd)
 	{
 		//날아오르고 플레이어 쪽으로 조금 다가와야할거같음.
-		bIsFly = m_pTransformCom->Go_UpCustom(dt, 400.f, 300.f);
-		if (!bIsFly)
+		m_bIsFly = m_pTransformCom->Go_UpCustom(dt, 400.f, 300.f);
+		if (!m_bIsFly)
 		{
+			//고개를 돌린다.
+			_float3 vLook = *m_pTransformCom->Get_State(CTransform::STATE_LOOK);
+			bool bRotated = m_pTransformCom->RotateToDirection(vLook, vToPlayer, 60.f, dt);
+
 			_float3 TargetPos = *static_cast<CTransform*>(m_pTargetPlayer->Find_Component(L"Com_Transform"))->Get_State(CTransform::STATE_POSITION);
-			m_pTransformCom->ChaseWithOutY(TargetPos,dt,50.f,200.f);
+			m_pTransformCom->ChaseWithOutY(TargetPos,dt,80.f,500.f);
 		}
+		//연결해줄 변수 true
+		m_bIsLink = true;
 	}
 
 	/* 2. 내려오면서 블럭이랑 충돌하면 파티클이 비산한다. */
+	if (m_bIsFly && m_bIsLink)//연결 true
+	{
+		//바닥 레이의 float 보다 크면 낙하
+		m_pGravityCom->Raycast_StandAble_Obj();
+		if (vPos.y - 73.5f > m_pGravityCom->Get_FloorY())
+		{
+			m_bJumpEnd = true;
+
+			// 중력 가속 유지
+			m_fFallSpeed += 3000.f * dt;
+
+			vPos.y -= m_fFallSpeed * dt;
+			m_pTransformCom->Set_State(CTransform::STATE_POSITION, vPos);
+
+		}
+		else
+		{
+			//이펙트 생성 && 카메라 쉐이킹
+			vPos.y = 30.f;
+			CFXMgr::Get_Instance()->JumpAttack(vPos, LEVEL_GAMEPLAY);
+
+			//몬스터가 착지한 후 점프리셋
+			vPos.y = 77.f;
+			m_pTransformCom->Set_State(CTransform::STATE_POSITION, vPos);
+			m_fFallSpeed = 0.f;
+			m_iJumpCount++;
+
+			m_eCurMonsterState = STATE_WALK;
+
+			m_bJumpStart = false;
+			m_bJumpEnd = false;
+
+			//연결 false
+			m_bIsLink = false;
+
+			//재귀해야징~
+			JumpAttack(dt);
+		}
+	}
 
 }
 
@@ -535,10 +653,10 @@ void CTtakkeun_i::FlyAttack(_float dt)
 	//몬스터가 m_vReturnPos 를 중점으로 공중에서 뱅글뱅글 돈다.
 	if (isFly)
 	{
-		if (m_pFlyEffect)
+		if (m_pBossEffect)
 		{
-			static_cast<CFlyEffect*>(m_pFlyEffect)->SetDead();
-			m_pFlyEffect = nullptr;
+			static_cast<CFlyEffect*>(m_pBossEffect)->SetDead();
+			m_pBossEffect = nullptr;
 		}
 
 		_float fRotationSpeed = 60.f;
@@ -622,10 +740,10 @@ void CTtakkeun_i::FlyAttack(_float dt)
 	}
 }
 
-void CTtakkeun_i::StartCooldown(_float dt)
+void CTtakkeun_i::StartCooldown(_float dt, _float fMin, _float fMax)
 {
 	m_bCoolingDown = true;
-	m_fCooldownDuration = GetRandomFloat(1.5f, 2.5f); // 쿨다운 시간 랜덤
+	m_fCooldownDuration = GetRandomFloat(fMin, fMax); // 쿨다운 시간 랜덤
 	m_fCooldownTime = 0.f;
 }
 
@@ -668,7 +786,7 @@ void CTtakkeun_i::FlyEffect()
 		LEVEL_GAMEPLAY, L"Layer_Particle", ppOut, &FlyEffect_iDesc)))
 		return;
 
-	m_pFlyEffect = *ppOut;
+	m_pBossEffect = *ppOut;
 }
 
 void CTtakkeun_i::DoReturn(_float dt)
@@ -707,7 +825,8 @@ void CTtakkeun_i::DoReturn(_float dt)
 void CTtakkeun_i::On_Collision(_uint MyColliderID, _uint OtherColliderID)
 {
 	//그 즉시 배틀모드 진입
-	m_eState = MODE::MODE_BATTLE;
+	if(m_eState != MODE::MODE_RETURN)
+		m_eState = MODE::MODE_BATTLE;
 
 	//위치탐색
 	_float3 vImpactPos = CalculateEffectPos();
@@ -715,7 +834,14 @@ void CTtakkeun_i::On_Collision(_uint MyColliderID, _uint OtherColliderID)
 	//몬스터 사망
 	if (0 >= m_iHP)
 	{
-		CFXMgr::Get_Instance()->SpawnCustomExplosion(vImpactPos, LEVEL_GAMEPLAY, _float3{ 120.f, 160.f, 1.f }, TEXT("Effect_Explor"), 32);
+		m_bActive = false;
+
+		if (m_pBossEffect)
+		{
+			static_cast<CFlyEffect*>(m_pBossEffect)->SetDead();
+			m_pBossEffect = nullptr;
+		}
+
 		m_bDead = true;
 
 		return;

@@ -65,6 +65,7 @@ public: //피흘리기
 
 public: //보스스킬
 	void FireAttack(_float3 _vPosition, LEVEL eLevel);
+	void JumpAttack(_float3 _vPosition, LEVEL eLevel);
 
 
 public:

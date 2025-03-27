@@ -55,14 +55,14 @@ public: //따끈이 패턴
 	void MissileAttack(_float dt);
 	void SpawnAttack(_float dt);
 	void FireAttack(_float dt);
+	void BounceBall(_float dt);
 	void JumpAttack(_float dt);
 	void FlyAttack(_float dt);
-	void StartCooldown(_float dt);
+	void StartCooldown(_float dt, _float fMin, _float fMax);
 	void SpawnMissile(_float dt);
 
 public: //따끈이 전용 이펙트
 	void FlyEffect();
-
 
 public: //행동 오버라이딩
 	void DoReturn(_float dt);
@@ -71,17 +71,42 @@ public: //행동 오버라이딩
 private:
 	MONSTER_STATE	m_eCurMonsterState = { MONSTER_STATE::STATE_WALK };
 	MONSTER_STATE	m_ePrevMonsterState = { MONSTER_STATE::STATE_WALK };
-
-	CGameObject*	m_pFlyEffect = nullptr;
-
 	FLY_DIR			m_eCurFlyingDirection = { UP };
 	FLY_DIR			m_ePrevFlyingDirection = { UP };
-	_bool			m_bFlyAttack = false;
-	_bool			m_bJumpStart = false;
+
+private: //단발성 변수
 	_bool			m_bDoOnce = false;
+
+private: //공중패턴
+	_bool			m_bFlyAttack = false;
 	_float			m_fFlyAttack = 0.f;
 	_float			m_fSpawnMissile = 0.f;
 	_int			m_iMissileCount = 0;
+
+private: //이펙트
+	CGameObject*	m_pBossEffect = nullptr;
+
+private: //점프패턴
+	_bool			m_bJumpStart = false;
+	_bool			m_bJumpEnd = false;
+	_bool			m_bIsFly = false;
+	_bool			m_bIsLink = false;
+	_float			m_fFallSpeed = 0.f;
+	_int			m_iJumpCount = 0;
+
+private: //바운스볼 패턴
+	_float			m_fBounceTime = 0.f;
+	_int			m_iBounceCount = 0;
+
+
+private: //2페이즈 변수
+	_int			m_iRand = 0;
+
+
+public: //데드 변수
+	_float			m_fCallTimer = 0.f;
+	_float			m_fTotalTime = 0.f;
+	_bool			m_bDie = false;
 
 public:
 	virtual void On_Collision(_uint MyColliderID, _uint OtherColliderID) override;

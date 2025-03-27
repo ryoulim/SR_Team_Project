@@ -207,6 +207,7 @@
     <ClInclude Include="..\public\GrenadeBullet.h" />
     <ClInclude Include="..\public\Item.h" />
     <ClInclude Include="..\public\Item_Ammo.h" />
+    <ClInclude Include="..\public\JumpAttack.h" />
     <ClInclude Include="..\public\Lava.h" />
     <ClInclude Include="..\public\LevelLoadingMenu.h" />
     <ClInclude Include="..\public\Level_Race.h" />
@@ -328,6 +329,7 @@
     <ClCompile Include="..\private\InvisibleBlock.cpp" />
     <ClCompile Include="..\private\Item.cpp" />
     <ClCompile Include="..\private\Item_Ammo.cpp" />
+    <ClCompile Include="..\private\JumpAttack.cpp" />
     <ClCompile Include="..\private\Lava.cpp" />
     <ClCompile Include="..\private\LevelLoadingMenu.cpp" />
     <ClCompile Include="..\private\Level_Race.cpp" />
