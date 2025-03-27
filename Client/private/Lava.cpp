@@ -16,13 +16,15 @@ CLava::CLava(const CLava& Prototype)
 
 HRESULT CLava::Initialize_Prototype()
 {
+	m_fMaxFrame = 16.f;
+
 	return S_OK;
 }
 
 HRESULT CLava::Initialize(void* pArg)
 {
 	m_eLevelID = LEVEL_GAMEPLAY;
-	m_szTextureID = TEXT("Test");
+	m_szTextureID = TEXT("Lava");
 	m_szBufferType = TEXT("Rect");
 
 	if (FAILED(__super::Initialize(pArg)))
@@ -43,6 +45,7 @@ EVENT CLava::Update(_float fTimeDelta)
 
 void CLava::Late_Update(_float fTimeDelta)
 {
+	Move_Frame(fTimeDelta);
 	__super::Late_Update(fTimeDelta);
 }
 

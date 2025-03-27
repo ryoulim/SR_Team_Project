@@ -502,6 +502,7 @@ HRESULT CLoader::Loading_For_GamePlay()
 	
 	/* 터레인 텍스쳐 잠깐 바꾸겠습니다 */
 	ADD_TEXTURE(Terrain, "../Bin/Resources/Textures/Check_Tile.PNG", 1);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
+	ADD_TEXTURE(Lava, "../Bin/Resources/Textures/Map/Lava/Tile%d.PNG", 16); fDataCurNum++; m_fLoadPercent = fDataCurNum / fDataNum;
 	// ADD_TEXTURE(Terrain, "../Bin/Resources/Textures/Map/tile6191.PNG", 1);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
 
 	ADD_TEXTURE(MyCube, "../Bin/Resources/Textures/Snow/Snow.png", 1);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
