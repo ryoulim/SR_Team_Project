@@ -39,11 +39,20 @@ HRESULT CNukemutant::Initialize(void* pArg)
 
 void CNukemutant::Priority_Update(_float fTimeDelta)
 {
+	Set_Animation();
 	__super::Priority_Update(fTimeDelta);
 }
 
 EVENT CNukemutant::Update(_float fTimeDelta)
 {
+	if (KEY_DOWN(DIK_RBRACKET))
+	{
+		int i = m_eCurMonsterState;
+		i++;
+		m_eCurMonsterState = MONSTER_STATE(i);
+		if (m_eCurMonsterState == STATE_END)
+			m_eCurMonsterState = MONSTER_STATE(0);
+	}
 	return __super::Update(fTimeDelta);
 }
 
@@ -69,32 +78,6 @@ HRESULT CNukemutant::Ready_Components(void* pArg)
 
 HRESULT CNukemutant::Ready_Textures()
 {
-	/* ATTACK */
-	//for (_uint i = 0; i < D_END; i++)
-	//{
-	//	_wstring sPrototypeTag = L"Prototype_Component_Texture_Nukemutant_Attack_";
-	//	_uint num = static_cast<_uint>(i * m_fDivOffset);
-	//	_tchar buf[32];
-	//	_itow_s((int)num, buf, 10);
-	//	sPrototypeTag += buf;
-	//	if (FAILED(__super::Add_Component(m_eLevelID, sPrototypeTag,
-	//		_wstring(TEXT("Com_Texture")) + L"_Nukemutant_Attack_" + buf, reinterpret_cast<CComponent**>(&(m_pTextureMap[STATE_ATTACK][i])))))
-	//		return E_FAIL;
-	//}
-
-	/* DEATH */
-	//for (_uint i = 0; i < D_END; i++)
-	//{
-	//	_wstring sPrototypeTag = L"Prototype_Component_Texture_Nukemutant_Death_";
-	//	_uint num = static_cast<_uint>(0);
-	//	_tchar buf[32];
-	//	_itow_s((int)num, buf, 10);
-	//	sPrototypeTag += buf;
-	//	if (FAILED(__super::Add_Component(m_eLevelID, sPrototypeTag,
-	//		_wstring(TEXT("Com_Texture")) + L"_Nukemutant_Death_" + buf, reinterpret_cast<CComponent**>(&(m_pTextureMap[STATE_DEATH][0])))))
-	//		return E_FAIL;
-	//}
-
 	/* MOVE */
 	for (_uint i = 0; i < D_END; i++)
 	{
@@ -106,6 +89,117 @@ HRESULT CNukemutant::Ready_Textures()
 		if (FAILED(__super::Add_Component(m_eLevelID, sPrototypeTag,
 			_wstring(TEXT("Com_Texture")) + L"_Nukemutant_Move_" + buf, reinterpret_cast<CComponent**>(&(m_pTextureMap[STATE_MOVE][i])))))
 			return E_FAIL;
+	}
+
+	/* ATTACK */
+	for (_uint i = 0; i < D_END; i++)
+	{
+		_wstring sPrototypeTag = L"Prototype_Component_Texture_Nukemutant_Attack_";
+		_uint num = static_cast<_uint>(i * m_fDivOffset);
+		_tchar buf[32];
+		_itow_s((int)num, buf, 10);
+		sPrototypeTag += buf;	
+		if (FAILED(__super::Add_Component(m_eLevelID, sPrototypeTag,
+			_wstring(TEXT("Com_Texture")) + L"_Nukemutant_Attack_" + buf, reinterpret_cast<CComponent**>(&(m_pTextureMap[STATE_ATTACK][i])))))
+			return E_FAIL;
+	}
+
+	/* REVIVE */
+	if (FAILED(__super::Add_Component(m_eLevelID, L"Prototype_Component_Texture_Nukemutant_Revive",
+		_wstring(TEXT("Com_Texture")) + L"_Nukemutant_Revive", reinterpret_cast<CComponent**>(&(m_pTextureMap[STATE_REVIVE][0])))))
+		return E_FAIL;
+
+	/* DEAD */
+	if (FAILED(__super::Add_Component(m_eLevelID, L"Prototype_Component_Texture_Nukemutant_Dead",
+		_wstring(TEXT("Com_Texture")) + L"_Nukemutant_Dead", reinterpret_cast<CComponent**>(&(m_pTextureMap[STATE_DEAD][0])))))
+		return E_FAIL;
+
+	/* MOVE */
+	//for (_uint i = 0; i < D_END; i++)
+	//{
+	//	_wstring sPrototypeTag = L"Prototype_Component_Texture_Nukemutant_Move_";
+	//	_uint num = static_cast<_uint>(i * m_fDivOffset);
+	//	_tchar buf[32];
+	//	_itow_s((int)num, buf, 10);
+	//	sPrototypeTag += buf;
+	//	if (FAILED(__super::Add_Component(m_eLevelID, sPrototypeTag,
+	//		_wstring(TEXT("Com_Texture")) + L"_Nukemutant_Move_" + buf, reinterpret_cast<CComponent**>(&(m_pTextureMap[STATE_MOVE][i])))))
+	//		return E_FAIL;
+	//}
+	return S_OK;
+}
+
+HRESULT CNukemutant::Set_Animation()
+{
+	if (m_eCurMonsterState != m_ePrevMonsterState)
+	{
+		m_ePrevMonsterState = m_eCurMonsterState;
+		m_fAnimationFrame = 0.f;
+		m_iState = (_uint)(m_eCurMonsterState);
+		switch (m_eCurMonsterState)
+		{
+		case Client::CNukemutant::STATE_MOVE:
+			m_fAnimationMaxFrame = _float(MAX_MOVERUN);
+			m_fAnimationSpeed = 10.f;
+			break;
+		case Client::CNukemutant::STATE_ATTACK:
+			m_fAnimationMaxFrame = _float(MAX_ATTACK);
+			m_fAnimationSpeed = 10.f;
+			break;
+		case Client::CNukemutant::STATE_STAY:
+			m_fAnimationMaxFrame = 1.f;
+			m_fAnimationSpeed = 0.f;
+			m_iState = (_uint)(STATE_MOVE);
+			break;
+		case Client::CNukemutant::STATE_DEAD:
+			m_fAnimationMaxFrame = _float(MAX_DEAD);
+			m_fAnimationSpeed = 8.f;
+			m_bRotateAnimation = false;
+			break;
+		case Client::CNukemutant::STATE_REVIVE:
+			m_fAnimationMaxFrame = _float(MAX_REVIVE);
+			m_fAnimationSpeed = 8.f;
+			m_bRotateAnimation = false;
+			break;
+		}
+	}
+	return S_OK;
+}
+
+HRESULT CNukemutant::Animate_Monster(_float fTimeDelta)
+{
+	if (m_fAnimationMaxFrame < 2.f)
+		return S_OK;
+
+	switch (m_eCurMonsterState)
+	{
+	case Client::CNukemutant::STATE_STAY:
+		m_bRotateAnimation = true;
+		return S_OK;
+	case Client::CNukemutant::STATE_MOVE:
+		m_fAnimationFrame += fTimeDelta * m_fAnimationSpeed;
+		if (m_fAnimationFrame >= m_fAnimationMaxFrame)
+			m_fAnimationFrame = 0.f;
+		m_bRotateAnimation = true;
+		break;
+	case Client::CNukemutant::STATE_ATTACK:
+		m_fAnimationFrame += fTimeDelta * m_fAnimationSpeed;
+		if (m_fAnimationFrame >= m_fAnimationMaxFrame)
+			m_fAnimationFrame = 0.f;
+		m_bRotateAnimation = true;
+		break;
+	case Client::CNukemutant::STATE_DEAD:
+		m_fAnimationFrame += fTimeDelta * m_fAnimationSpeed;
+		if (m_fAnimationFrame >= m_fAnimationMaxFrame)
+			m_fAnimationFrame = m_fAnimationMaxFrame - 1.f;
+		m_bRotateAnimation = false;
+		break;
+	case Client::CNukemutant::STATE_REVIVE:
+		m_fAnimationFrame += fTimeDelta * m_fAnimationSpeed;
+		if (m_fAnimationFrame >= m_fAnimationMaxFrame)
+			m_eCurMonsterState = STATE_STAY;
+		m_bRotateAnimation = false;
+		break;
 	}
 	return S_OK;
 }

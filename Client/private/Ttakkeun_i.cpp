@@ -107,7 +107,6 @@ void CTtakkeun_i::Late_Update(_float fTimeDelta)
 	}
 
 	Compute_ViewAngle();
-
 	//콜라이더 업데이트
 	m_pCollider->Update_Collider();
 
@@ -220,7 +219,7 @@ HRESULT CTtakkeun_i::Set_Animation()
 		switch (m_eCurMonsterState)
 		{
 		case Client::CTtakkeun_i::STATE_WALK:
-			m_fAnimationMaxFrame = MAX_WALK;
+			m_fAnimationMaxFrame = _float(MAX_WALK);
 			m_fAnimationSpeed = 15.f;
 			break;
 		case Client::CTtakkeun_i::STATE_FLY:
@@ -233,7 +232,7 @@ HRESULT CTtakkeun_i::Set_Animation()
 			m_fAnimationSpeed = 10.f;
 			break;
 		case Client::CTtakkeun_i::STATE_JUMP:
-			m_fAnimationMaxFrame = MAX_JUMP;
+			m_fAnimationMaxFrame = _float(MAX_JUMP);
 			m_fAnimationSpeed = 3.f;
 			break;
 		case Client::CTtakkeun_i::STATE_STAY:

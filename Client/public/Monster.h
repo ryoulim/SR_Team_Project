@@ -104,10 +104,10 @@ public:
 	/************************/
 protected: // 이하 애니메이션 용도 
 	virtual HRESULT Ready_Textures() { return S_OK; }	// PURE | 텍스쳐 컴포넌트들 로딩, *부모에 일반몹 용도로 작성하고 보스만 오버라이딩 하기?
-	virtual HRESULT Set_TextureType();					// enum을 uint변수로 옮기는 작업(그냥 함수로 뺌)
-	virtual HRESULT Animate_Monster(_float fTimeDelta);	// 애니메이션 설정 (위의 함수랑 겹치나??)
-	void	Compute_ViewAngle();						// 몬스터-플레이어 간 시선 각도 차 계산 
 	virtual HRESULT Set_Animation() { return S_OK; }	// PURE | 각 몬스터 별로 상태에 따라 애니메이션 맥스 프레임 설정 필요 
+	virtual HRESULT Animate_Monster(_float fTimeDelta);	// PURE | 애니메이션 설정 (위의 함수랑 겹치나??)
+	HRESULT Set_TextureType();					// enum을 uint변수로 옮기는 작업(그냥 함수로 뺌)
+	void	Compute_ViewAngle();						// 몬스터-플레이어 간 시선 각도 차 계산 
 
 protected:
 	_uint	m_iState = {};					// 애니메이션 종류 선택(공격, 이동 ...)

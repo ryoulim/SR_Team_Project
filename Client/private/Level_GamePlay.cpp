@@ -82,10 +82,20 @@ void CLevel_GamePlay::Update(_float fTimeDelta)
 		//SpawnNukemutant(_float3{ 900.f, 30.f, 600.f }, true);
 		//SpawnMechsect(_float3{ 900.f, 10.f, 600.f }, true);
 		//SpawnGreater(_float3{ 900.f, 20.f, 600.f }, true);
-		//SpawnDeacon(_float3{ 900.f, 50.f, 600.f }, true);
-		//SpawnCultist(_float3{ 900.f, 30.f, 600.f }, true);
+		//SpawnDeacon(_float3{ 1400.f, 80.f, 1500.f }, true);
 		//SpawnArchangel(_float3{ 900.f, 80.f, 600.f }, true);
 	}
+	if (KEY_DOWN(DIK_Z))
+	{
+		SpawnCultist(_float3{ 1400.f, 50.f, 1500.f }, true);
+		SpawnShotgunner(_float3{ 1400.f, 50.f, 1500.f }, true);
+		SpawnNukemutant(_float3{ 1400.f, 50.f, 1500.f }, true);
+		SpawnGreater(_float3{ 1400.f, 50.f, 1500.f }, true);
+		SpawnArchangel(_float3{ 1400.f, 50.f, 1500.f }, true);
+		SpawnDeacon(_float3{ 1400.f, 50.f, 1500.f }, true);
+		SpawnMechsect(_float3{ 1400.f, 80.f, 1500.f }, true);
+	}
+		//SpawnWenteko(_float3{ 1400.f, 80.f, 1500.f }, true);
 
 	Check_Collision();
 
@@ -277,14 +287,14 @@ HRESULT CLevel_GamePlay::Ready_Layer_Monster(const _wstring& strLayerTag)
 
 	//전시용
 	//SpawnTtakkeun_i(_float3{ 100.f, 66.f, -250.f }, false);
-	SpawnWenteko(_float3{ 100.f, 40.f, -100.f }, false);
-	SpawnShotgunner(_float3{ 180.f, 20.f, -120.f }, false);
-	SpawnNukemutant(_float3{ 250.f, 30.f, -120.f }, false);
-	SpawnMechsect(_float3{ 330.f, 10.f, -120.f }, false);
-	SpawnGreater(_float3{ 410.f, 20.f, -120.f }, false);
-	SpawnDeacon(_float3{ 220.f, 50.f, -250.f }, false);
-	SpawnCultist(_float3{ 320.f, 30.f, -250.f }, false);
-	SpawnArchangel(_float3{ 420.f, 30.f, -250.f }, false);
+	//SpawnWenteko(_float3{ 100.f, 40.f, -100.f }, false);
+	//SpawnShotgunner(_float3{ 180.f, 20.f, -120.f }, false);
+	//SpawnNukemutant(_float3{ 250.f, 30.f, -120.f }, false);
+	//SpawnMechsect(_float3{ 330.f, 10.f, -120.f }, false);
+	//SpawnGreater(_float3{ 410.f, 20.f, -120.f }, false);
+	//SpawnDeacon(_float3{ 220.f, 50.f, -250.f }, false);
+	//SpawnCultist(_float3{ 320.f, 30.f, -250.f }, false);
+	//SpawnArchangel(_float3{ 420.f, 30.f, -250.f }, false);
 
 	return S_OK;
 }

@@ -32,18 +32,27 @@ HRESULT CShotgunner::Initialize(void* pArg)
 	//애니메이션(수정예정)
 	m_fAnimationMaxFrame = 3.f;
 	m_fAnimationSpeed = 5.f;
-	m_iState = STATE_ATTACK;
+	m_iState = STATE_MOVE;
 
 	return S_OK;
 }
 
 void CShotgunner::Priority_Update(_float fTimeDelta)
 {
+	Set_Animation();
 	__super::Priority_Update(fTimeDelta);
 }
 
 EVENT CShotgunner::Update(_float fTimeDelta)
 {
+	if (KEY_DOWN(DIK_RBRACKET))
+	{
+		int i = m_eCurMonsterState;
+		i++;
+		m_eCurMonsterState = MONSTER_STATE(i);
+		if (m_eCurMonsterState == STATE_END)
+			m_eCurMonsterState = MONSTER_STATE(0);
+	}
 	return __super::Update(fTimeDelta);
 }
 
@@ -83,17 +92,9 @@ HRESULT CShotgunner::Ready_Textures()
 	}
 
 	/* DEATH */
-	//for (_uint i = 0; i < D_END; i++)
-	{
-		_wstring sPrototypeTag = L"Prototype_Component_Texture_Shotgunner_Death_";
-		_uint num = static_cast<_uint>(0);
-		_tchar buf[32];
-		_itow_s((int)num, buf, 10);
-		sPrototypeTag += buf;
-		if (FAILED(__super::Add_Component(m_eLevelID, sPrototypeTag,
-			_wstring(TEXT("Com_Texture")) + L"_Shotgunner_Death_" + buf, reinterpret_cast<CComponent**>(&(m_pTextureMap[STATE_DEATH][0])))))
-			return E_FAIL;
-	}
+	if (FAILED(__super::Add_Component(m_eLevelID, L"Prototype_Component_Texture_Shotgunner_Death",
+		_wstring(TEXT("Com_Texture")) + L"_Shotgunner_Death", reinterpret_cast<CComponent**>(&(m_pTextureMap[STATE_DEAD][0])))))
+		return E_FAIL;
 
 	/* MOVE */
 	for (_uint i = 0; i < D_END; i++)
@@ -108,6 +109,70 @@ HRESULT CShotgunner::Ready_Textures()
 			return E_FAIL;
 	}
 
+	return S_OK;
+}
+
+HRESULT CShotgunner::Set_Animation()
+{
+	if (m_eCurMonsterState != m_ePrevMonsterState)
+	{
+		m_ePrevMonsterState = m_eCurMonsterState;
+		m_fAnimationFrame = 0.f;
+		m_iState = (_uint)(m_eCurMonsterState);
+		switch (m_eCurMonsterState)
+		{
+		case Client::CShotgunner::STATE_MOVE:
+			m_fAnimationMaxFrame = _float(MAX_MOVERUN);
+			m_fAnimationSpeed = 10.f;
+			break;
+		case Client::CShotgunner::STATE_ATTACK:
+			m_fAnimationMaxFrame = _float(MAX_ATTACK);
+			m_fAnimationSpeed = 10.f;
+			break;
+		case Client::CShotgunner::STATE_STAY:
+			m_fAnimationMaxFrame = 1.f;
+			m_fAnimationSpeed = 0.f;
+			m_iState = (_uint)(STATE_MOVE);
+			break;
+		case Client::CShotgunner::STATE_DEAD:
+			m_fAnimationMaxFrame = _float(MAX_DEAD);
+			m_fAnimationSpeed = 8.f;
+			m_bRotateAnimation = false;
+			break;
+		}
+	}
+	return S_OK;
+}
+
+HRESULT CShotgunner::Animate_Monster(_float fTimeDelta)
+{
+	if (m_fAnimationMaxFrame < 2.f)
+		return S_OK;
+
+	switch (m_eCurMonsterState)
+	{
+	case Client::CShotgunner::STATE_STAY:
+		m_bRotateAnimation = true;
+		return S_OK;
+	case Client::CShotgunner::STATE_MOVE:
+		m_fAnimationFrame += fTimeDelta * m_fAnimationSpeed;
+		if (m_fAnimationFrame >= m_fAnimationMaxFrame)
+			m_fAnimationFrame = 0.f;
+		m_bRotateAnimation = true;
+		break;
+	case Client::CShotgunner::STATE_ATTACK:
+		m_fAnimationFrame += fTimeDelta * m_fAnimationSpeed;
+		if (m_fAnimationFrame >= m_fAnimationMaxFrame)
+			m_fAnimationFrame = 0.f;
+		m_bRotateAnimation = true;
+		break;
+	case Client::CShotgunner::STATE_DEAD:
+		m_fAnimationFrame += fTimeDelta * m_fAnimationSpeed;
+		if (m_fAnimationFrame >= m_fAnimationMaxFrame)
+			m_fAnimationFrame = m_fAnimationMaxFrame - 1.f;
+		m_bRotateAnimation = false;
+		break;
+	}
 	return S_OK;
 }
 
