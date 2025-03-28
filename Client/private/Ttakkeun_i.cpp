@@ -102,7 +102,7 @@ void CTtakkeun_i::Late_Update(_float fTimeDelta)
 	//플레이어 감지 업데이트
 	PlayerDistance();
 	CalculateVectorToPlayer();
-	IsPlayerDetected();
+	//IsPlayerDetected();
 
 	if (m_eCurMonsterState != STATE_FLY &&
 		m_eCurMonsterState != STATE_FLY_ATTACK &&
@@ -119,6 +119,7 @@ void CTtakkeun_i::Late_Update(_float fTimeDelta)
 	if (FAILED(m_pGameInstance->Add_RenderGroup(CRenderer::RG_NONBLEND, this)))
 		return;
 	Set_TextureType();
+	Resize_Texture(0.35f);
 	//__super::Late_Update(fTimeDelta);
 #ifdef _DEBUG
 	auto now = steady_clock::now();
@@ -400,7 +401,7 @@ void CTtakkeun_i::DoIdle(_float dt)
 	}
 	case EIdlePhase::IDLE_WAIT:
 		m_fIdleWaitElapsed += dt;
-		//m_eCurMonsterState = STATE_STAY;
+		m_eCurMonsterState = STATE_STAY;
 
 		if (m_fIdleWaitElapsed >= m_fIdleWaitTime)
 		{

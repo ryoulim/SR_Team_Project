@@ -80,6 +80,7 @@ void CMonster::Late_Update(_float fTimeDelta)
 	//몬스터 각도업데이트
 	Compute_ViewAngle();
 	Set_TextureType();
+
 	//렌더그룹 업데이트
 	if (FAILED(m_pGameInstance->Add_RenderGroup(CRenderer::RG_NONBLEND, this)))
 		return;
@@ -239,6 +240,12 @@ void CMonster::Compute_ViewAngle()
 		m_bCW = false;
 	else
 		m_bCW = true;
+}
+
+void CMonster::Resize_Texture(_float fSizePercent)
+{
+	m_pTextureMap[m_iState][m_iDegree]->Get_TextureSize(static_cast<_uint>(m_fAnimationFrame), &m_vScale);
+	m_pTransformCom->Scaling(m_vScale * fSizePercent);
 }
 
 
@@ -461,7 +468,6 @@ void CMonster::DoIdle(_float dt)
 	}
 	case EIdlePhase::IDLE_WAIT:
 		m_fIdleWaitElapsed += dt;
-
 		if (m_fIdleWaitElapsed >= m_fIdleWaitTime)
 		{
 			SetRandomDirection();                  // 회전할 방향 설정
