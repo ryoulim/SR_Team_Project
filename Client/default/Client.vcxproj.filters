@@ -717,6 +717,27 @@
     <ClInclude Include="..\public\RaceGate.h">
       <Filter>02.GameObjects\Statue\RaceGate</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\MonsterBullet.h">
+      <Filter>02.GameObjects\Weapon\Bullet\MonsterBullet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Trigger.h">
+      <Filter>02.GameObjects\Trigger</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\StreetLampHead.h">
+      <Filter>02.GameObjects\Statue\StreetLamp\Head</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\RaceCylinder.h">
+      <Filter>02.GameObjects\Statue\RaceCylinder</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\JumpAttack.h">
+      <Filter>02.GameObjects\Particle\_BossMobSkill\JumpAttack</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\FlyEffect.h">
+      <Filter>02.GameObjects\Particle\_BossMobSkill\FlyEffect</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\MonsterMissile.h">
+      <Filter>02.GameObjects\Particle\_BossMobSkill\FlyAttack</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
