@@ -41,7 +41,7 @@ EVENT CBossBridge::Update(_float fTimeDelta)
 	if (m_bTrigger)
 	{
 		m_fTimeaAcc += fTimeDelta;
-		if (10 <= m_fTimeaAcc)
+		if (15 <= m_fTimeaAcc)
 			m_bTrigger = FALSE; // 어짜피 트리거는 켜지면서 죽으니까 다시 트루될 일 없음
 
 		m_pTransformCom->Go_Down(fTimeDelta);

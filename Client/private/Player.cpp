@@ -89,14 +89,14 @@ void CPlayer::Priority_Update(_float fTimeDelta)
 
 EVENT CPlayer::Update(_float fTimeDelta)
 {
-#ifdef _CONSOL
-	_float3 vPosition = *m_pTransformCom->Get_State(CTransform::STATE_POSITION);
-
-	printf("플레이어 X : %f\n", vPosition.x);
-	printf("플레이어 Y : %f\n", vPosition.y);
-	printf("플레이어 Z : %f\n", vPosition.z);
-
-#endif
+//#ifdef _CONSOL
+//	_float3 vPosition = *m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+//
+//	printf("플레이어 X : %f\n", vPosition.x);
+//	printf("플레이어 Y : %f\n", vPosition.y);
+//	printf("플레이어 Z : %f\n", vPosition.z);
+//
+//#endif
 
 	m_Weapons[m_iCurWeaponIndex]->Update(fTimeDelta);
 
@@ -142,7 +142,7 @@ void CPlayer::On_Collision(_uint MyColliderID, _uint OtherColliderID)
 	_float3 Depth = m_pCollider->Get_Last_Collision_Depth();
 	if (Depth.y != 0)
 		int a = 1;
-	vPos += Depth;
+ 	vPos += Depth;
 	vPos2 += Depth;
 
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, vPos);

@@ -52,23 +52,30 @@ HRESULT CBlock::Ready_Components(void* pArg)
 {
     __super::Ready_Components(pArg);
 
-    CCollider::DESC ColliderDesc{};
-    ColliderDesc.pTransform = m_pTransformCom;
-    ColliderDesc.vScale = m_pTransformCom->Compute_Scaled();
-    ColliderDesc.pOwner = this;
-    ColliderDesc.iColliderGroupID = CG_BLOCK;
-    ColliderDesc.iColliderID = CI_BLOCK_COMMON;
+    DESC* pDesc = static_cast<DESC*>(pArg);
 
-    auto& vAngle = static_cast<DESC*>(pArg)->vAngle;
-    _wstring ColliderTag = vAngle.x == 0 && vAngle.y == 0 && vAngle.z == 0 ?
-        TEXT("Prototype_Component_Collider_AABB_Cube") :
-        TEXT("Prototype_Component_Collider_OBB_Cube");
+    if (nullptr != pArg)
+    {
+        if (pDesc->bCollision)
+        {
+            CCollider::DESC ColliderDesc{};
+            ColliderDesc.pTransform = m_pTransformCom;
+            ColliderDesc.vScale = m_pTransformCom->Compute_Scaled();
+            ColliderDesc.pOwner = this;
+            ColliderDesc.iColliderGroupID = CG_BLOCK;
+            ColliderDesc.iColliderID = CI_BLOCK_COMMON;
 
-    /* For.Com_Collider */
-    if (FAILED(__super::Add_Component(LEVEL_STATIC, ColliderTag,
-        TEXT("Com_Collider"), reinterpret_cast<CComponent**>(&m_pColliderCom), &ColliderDesc)))
-        return E_FAIL;
+            auto& vAngle = static_cast<DESC*>(pArg)->vAngle;
+            _wstring ColliderTag = vAngle.x == 0 && vAngle.y == 0 && vAngle.z == 0 ?
+                TEXT("Prototype_Component_Collider_AABB_Cube") :
+                TEXT("Prototype_Component_Collider_OBB_Cube");
 
+            /* For.Com_Collider */
+            if (FAILED(__super::Add_Component(LEVEL_STATIC, ColliderTag,
+                TEXT("Com_Collider"), reinterpret_cast<CComponent**>(&m_pColliderCom), &ColliderDesc)))
+                return E_FAIL;
+        }
+    }
     return S_OK;
 }
 
