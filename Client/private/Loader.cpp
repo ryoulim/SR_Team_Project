@@ -48,6 +48,7 @@
 #include "FireAttack.h"
 #include "FlyEffect.h"
 #include "JumpAttack.h"
+#include "MonsterGuidBullet.h"
 
 //UI 인클루드
 #include "Aim.h"
@@ -189,6 +190,12 @@ HRESULT CLoader::Loading_For_Logo()
 #pragma region 파티클 준비물(스테틱)
 
 	///////////////////////////////////////////스프라이트//////////////////////////////////////////////////////
+
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_GameObject_PC_MonsterGuidBullet"),
+		CMonsterGuidBullet::Create(m_pGraphic_Device))))
+		return E_FAIL;
+	fDataCurNum++;
+	m_fLoadPercent = fDataCurNum / fDataNum;
 
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_GameObject_MonsterBullet"),
 		CMonsterBullet::Create(m_pGraphic_Device))))
@@ -468,7 +475,7 @@ HRESULT CLoader::Loading_For_GamePlay()
 	ADD_TEXTURE(LeftHand, "../Bin/Resources/Textures/Weapon/LeftHand/LeftHand%d.PNG", 2);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
 	ADD_TEXTURE(Weapon_Chaingun, "../Bin/Resources/Textures/Weapon/ChainGun/ChainGun%d.PNG", 16);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
 	ADD_TEXTURE(Weapon_Dispenser, "../Bin/Resources/Textures/Weapon/Dispenser/Dispenser%d.PNG", 60);
-	ADD_TEXTURE(MonsterBounce, "../Bin/Resources/Textures/Bullet/MonsterBounce/MonsterBounce.PNG", 1);
+	ADD_TEXTURE(MonsterBounce, "../Bin/Resources/Textures/Bullet/MonsterBounce/MonsterBounce%d.PNG", 4);
 
 	ADD_TEXTURE(Test, "../Bin/Resources/Textures/TileTest/tile%d.PNG", 123); fDataCurNum++; m_fLoadPercent = fDataCurNum / fDataNum;
 	//ADD_TEXTURE(Test, "../Bin/Resources/Textures/TileTest/tile%d.PNG", 121);

@@ -3,6 +3,8 @@
 #include "MonsterBullet.h"
 #include "FlyEffect.h"
 #include "GrenadeBullet.h"
+#include "CameraManager.h"
+#include "MonsterGuidBullet.h"
 
 CTtakkeun_i::CTtakkeun_i(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CMonster{ pGraphic_Device }
@@ -21,6 +23,10 @@ HRESULT CTtakkeun_i::Initialize_Prototype()
 
 HRESULT CTtakkeun_i::Initialize(void* pArg)
 {
+	/* 카메라를 알고 있어라 */
+	m_pCamera = static_cast<CCameraManager*>(m_pGameInstance->Find_Object(LEVEL_GAMEPLAY, L"Layer_Camera"));
+	Safe_AddRef(m_pCamera);
+
 	//위치, 크기초기화, 컴포넌트 부착
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
@@ -113,6 +119,8 @@ void CTtakkeun_i::Late_Update(_float fTimeDelta)
 	if (FAILED(m_pGameInstance->Add_RenderGroup(CRenderer::RG_NONBLEND, this)))
 		return;
 
+	Set_TextureType();
+
 	//__super::Late_Update(fTimeDelta);
 #ifdef _DEBUG
 	auto now = steady_clock::now();
@@ -198,12 +206,6 @@ HRESULT CTtakkeun_i::Ready_Textures()
 			_wstring(TEXT("Com_Texture")) + L"_Boss_Jump_" + buf, reinterpret_cast<CComponent**>(&(m_pTextureMap[STATE_JUMP][i])))))
 			return E_FAIL;
 	}
-
-
-
-	//if (FAILED(__super::Add_Component(m_eLevelID, _wstring(TEXT("Prototype_Component_Texture_")) + m_szTextureID,
-	//	TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
-	//	return E_FAIL;
 
  	return S_OK;
 }
@@ -426,7 +428,7 @@ void CTtakkeun_i::AttackPattern(_float dt)
 void CTtakkeun_i::BasicAttackSet(_float dt)
 {
 	/* 따끈이의 공격패턴[ 1페이즈 ] */
-	m_iRandom = 2;
+	m_iRandom = 4;
 	switch (m_iRandom)
 	{
 	case 0: 
@@ -459,6 +461,28 @@ void CTtakkeun_i::BasicAttackSet(_float dt)
 
 void CTtakkeun_i::MissileAttack(_float dt)
 {
+	/* [ 공작 미사일 패턴 ] */
+
+	/* 1. 딱 한번 공작모양으로 미사일을 스폰한다. */
+	/* 2. 따끈이는 일정시간 가만히 있는다. */
+
+	m_fAttackTimer += dt;
+	if (m_fAttackTimer >= 3.f)
+	{
+		//3초가 넘어가면 다른 행동시작
+		StartCooldown(dt, 1.5f, 3.f);
+		m_bDoOnce = false;
+		m_fAttackTimer = 0.f;
+		return;
+	}
+
+	//미사일 발사
+	if (!m_bDoOnce)
+	{
+		SpawnGuidMissile();
+		m_bDoOnce = true;
+	}
+
 }
 
 void CTtakkeun_i::SpawnAttack(_float dt)
@@ -591,6 +615,7 @@ void CTtakkeun_i::JumpAttack(_float dt)
 			//이펙트 생성 && 카메라 쉐이킹
 			vPos.y = 30.f;
 			CFXMgr::Get_Instance()->JumpAttack(vPos, LEVEL_GAMEPLAY);
+			m_pCamera->Shake_Camera();
 
 			//몬스터가 착지한 후 점프리셋
 			vPos.y = 77.f;
@@ -760,6 +785,46 @@ void CTtakkeun_i::SpawnMissile(_float dt)
 	}
 }
 
+void CTtakkeun_i::SpawnGuidMissile()
+{
+	// 중심 방향 (위쪽)
+	_float3 vBaseDir = { 0.f, 1.f, 0.f };
+
+	// 부채꼴 각도 설정
+	int missileCount = 5;
+	float totalAngleDeg = 60.f;
+	float angleStep = totalAngleDeg / (missileCount - 1); // 예: 15도 간격
+	float startAngle = -totalAngleDeg * 0.5f; // 예: -30도 시작
+
+	for (int i = 0; i < missileCount; ++i)
+	{
+		float angleDeg = startAngle + angleStep * i;
+		float angleRad = RADIAN(angleDeg);
+
+		// 위쪽 방향 기준으로 Z축 회전 (좌우로 퍼지게)
+		_float3 vRotated = Rotate_Z(vBaseDir, angleRad);
+		
+		CMonsterGuidBullet::DESC MonsterGuidBullet_iDesc{};
+		MonsterGuidBullet_iDesc.fSpeedPerSec = 60.f;
+		MonsterGuidBullet_iDesc.fRotationPerSec = RADIAN(180.f);
+		MonsterGuidBullet_iDesc.vScale = { 30.f, 30.f, 1.f };
+		MonsterGuidBullet_iDesc.vPosition = *m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+		MonsterGuidBullet_iDesc.vPosition.y += 30;
+		MonsterGuidBullet_iDesc.vDir = vRotated;
+
+		_float3 vLook = *m_pTransformCom->Get_State(CTransform::STATE_LOOK);
+		vLook.Normalize();
+
+		MonsterGuidBullet_iDesc.vPosition.x -= vLook.x * 10.f;
+		MonsterGuidBullet_iDesc.vPosition.y -= vLook.y * 10.f;
+		MonsterGuidBullet_iDesc.vPosition.z -= vLook.z * 10.f;
+
+		if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_PC_MonsterGuidBullet"),
+			LEVEL_GAMEPLAY, L"Layer_MonsterBullet", &MonsterGuidBullet_iDesc)))
+			return;
+	}
+}
+
 void CTtakkeun_i::SpawnBounce()
 {
 	//현재 포지션
@@ -788,6 +853,7 @@ void CTtakkeun_i::SpawnBounce()
 		BulletDesc.ColliderGroup = CG_MBULLET;
 		BulletDesc.fInitJumpPower = 30.f;
 		BulletDesc.fTimeLimit = 2.f;
+		BulletDesc.bAnimation = true;
 
 		if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_GrenadeBullet"),
 			LEVEL_GAMEPLAY, TEXT("Layer_Bullet"), &BulletDesc)))
@@ -805,6 +871,20 @@ _float3 CTtakkeun_i::Rotate_Y(_float3 vDir, float rad)
 	result.y = vDir.y;
 	result.z = vDir.x * sinA + vDir.z * cosA;
 	return result;
+}
+
+_float3 CTtakkeun_i::Rotate_Z(_float3 vDir, float rad)
+{
+	float cosA = cosf(rad);
+	float sinA = sinf(rad);
+
+	return 
+	{
+		vDir.x * cosA - vDir.y * sinA,
+		vDir.x * sinA + vDir.y * cosA,
+		vDir.z
+	};
+	return _float3();
 }
 
 void CTtakkeun_i::FlyEffect()
@@ -942,4 +1022,6 @@ CGameObject* CTtakkeun_i::Clone(void* pArg)
 void CTtakkeun_i::Free()
 {
 	__super::Free();
+
+	Safe_Release(m_pCamera);
 }

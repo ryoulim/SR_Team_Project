@@ -217,6 +217,7 @@
     <ClInclude Include="..\public\MainMenu.h" />
     <ClInclude Include="..\public\Map.h" />
     <ClInclude Include="..\public\Mechsect.h" />
+    <ClInclude Include="..\public\MonsterGuidBullet.h" />
     <ClInclude Include="..\public\MonsterMissile.h" />
     <ClInclude Include="..\public\Monster.h" />
     <ClInclude Include="..\public\MonsterBullet.h" />
@@ -342,6 +343,7 @@
     <ClCompile Include="..\private\MainMenu.cpp" />
     <ClCompile Include="..\private\Map.cpp" />
     <ClCompile Include="..\private\Mechsect.cpp" />
+    <ClCompile Include="..\private\MonsterGuidBullet.cpp" />
     <ClCompile Include="..\private\MonsterMissile.cpp" />
     <ClCompile Include="..\private\Monster.cpp" />
     <ClCompile Include="..\private\MonsterBullet.cpp" />

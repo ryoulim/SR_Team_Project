@@ -88,7 +88,7 @@ HRESULT CTexture::Bind_Resource(_uint iIndex)
 
 HRESULT CTexture::Get_TextureSize(_uint iIndex, _float3* pOut)
 {
-	if (iIndex >= m_iNumTextures)
+ 	if (iIndex >= m_iNumTextures)
 		return E_FAIL;
 
 	D3DSURFACE_DESC Desc{};

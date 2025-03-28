@@ -106,7 +106,6 @@ HRESULT CMonster::Render()
 	if (m_bDebug)
 		Render_DebugFOV();
 
-	Set_TextureType();
 
 	if (!m_bRotateAnimation)
 		m_iDegree = 0;
@@ -153,10 +152,6 @@ HRESULT CMonster::Release_RenderState()
 
 HRESULT CMonster::Ready_Components(void* pArg)
 {
-	/* 텍스처 컴포넌트 */ // 나중에 지울 것
-	//if (FAILED(__super::Add_Component(m_eLevelID, _wstring(TEXT("Prototype_Component_Texture_")) + m_szTextureID,
-	//	TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
-	//	return E_FAIL;
 
 	/* 렉트 버퍼 컴포넌트 */
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, _wstring(TEXT("Prototype_Component_VIBuffer_")) + m_szBufferType,
@@ -249,31 +244,13 @@ void CMonster::Compute_ViewAngle()
 
 HRESULT CMonster::Set_TextureType()
 {
-	if (KEY_DOWN(DIK_1)) // 브레이크포인트 테스트용
-		int a = 0;
+
 
 	_float degree = m_fPlayersViewAngle / m_fDivOffset;
 	_float div = 0.f;
 	_float mod = modff(degree, &div);
 
 	m_iDegree = (_uint)div + (_uint)(mod > 0.5f ? 1 : 0); // 기준 각도에서 +- 하는 중
-
-	// state는 보스의 상태에 따라 결정
-	// 임시로 walk만 지정
-	//m_iState = (_uint)(STATE_WALK);
-	// grenade같은 것은 state값을 방향 벡터의 각도로 두고 범용적으로 사용해도 좋을듯... 
-	//m_iState = 0;
-
-	/******************************************************************/
-	//m_fAnimationMaxFrame = (_float)BOSS_STATUS_FRAME::WALK;
-	////int maxframe = BOSS_STATUS_FRAME::WALK;
-	//int curstatus = BOSS_STATUS::WALK;
-	//_float startfrmnum = _float(m_iDegree * m_fAnimationMaxFrame + curstatus);
-	//m_fAnimationFrame = startfrmnum + _fTimeDelta;
-	//나중에쓸(수도있을)것
-	/******************************************************************/
-
-
 
 	return S_OK;
 }

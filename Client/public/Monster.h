@@ -38,14 +38,14 @@ protected:
 	CMonster(const CMonster& Prototype);
 	virtual ~CMonster() = default;
 
-public:
+protected:
 	virtual HRESULT Initialize_Prototype() override;
 	virtual HRESULT Initialize(void* pArg) override;
 	virtual void Priority_Update(_float fTimeDelta) override;
 	virtual EVENT Update(_float fTimeDelta) override;
 	virtual void Late_Update(_float fTimeDelta) override;
 
-public:
+protected:
 	virtual HRESULT SetUp_RenderState();
 	virtual HRESULT Render();
 	virtual HRESULT Release_RenderState();
@@ -53,34 +53,34 @@ public:
 protected:
 	virtual HRESULT Ready_Components(void* pArg);
 
-public: // 길찾기 및 디텍티브
+protected: // 길찾기 및 디텍티브
 	virtual void PlayerDistance();
 	virtual void CalculateVectorToPlayer();
 	virtual bool IsPlayerDetected();
 	virtual void Render_DebugFOV();
 	const char*	 GetMonsterStateName(CMonster::MODE eState);
 
-public: //상태변환
+protected: //상태변환
 	virtual void MonsterTick(_float fTimeDelta);
 
-public: //액션
+protected: //액션
 	virtual void DoIdle(_float dt);
 	virtual void DoBattle(_float dt);
 	virtual void DoReturn(_float dt);
 	virtual void SetRandomDirection();
 
-public: //몬스터 기본패턴
+protected: //몬스터 기본패턴
 	virtual void AttackPattern(_float dt);
 	virtual void ChasePlayer(_float dt);
 
-public: // 충돌함수
+protected: // 충돌함수
 	virtual _float3		CalculateEffectPos();
 	virtual void		On_Collision(_uint MyColliderID, _uint OtherColliderID) override {};
 
 public: // 디버깅
 	void	ToggleDebugMode() { m_bDebug = !m_bDebug; }
 
-public: // 난수 생성
+protected: // 난수 생성
 	float GetRandomFloat(float min, float max)
 	{
 		if (min > max) std::swap(min, max);
@@ -94,7 +94,7 @@ public: // 난수 생성
 		return dist(m_Gen);
 	}
 
-public:
+protected:
 	virtual CGameObject* Clone(void* pArg) PURE;
 	virtual void Free();
 

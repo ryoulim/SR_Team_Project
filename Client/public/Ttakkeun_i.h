@@ -19,15 +19,13 @@ public:
 	enum FLY_DIR { DOWN = 0, LEFT = 1, RIGHT = 2, UP = 3, DIR_END = 4};
 	enum BOSS_DEGREE { D0, D22, D45, D67, D90, D112, D135, D157, D180, D_END };
 
-	//enum BOSS_STATUS { FLY_DOWN = 0, JUMP = 9, WALK = 54, STATUS_END = 162 };
-	//enum BOSS_STATUS_FRAME { FLY_DOWN = 1, JUMP = 5, WALK = 12 }; 안씀 안쓰고싶었는데
 
 private:
 	CTtakkeun_i(LPDIRECT3DDEVICE9 pGraphic_Device);
 	CTtakkeun_i(const CTtakkeun_i& Prototype);
 	virtual ~CTtakkeun_i() = default;
 
-public:
+private:
 	virtual HRESULT Initialize_Prototype() override;
 	virtual HRESULT Initialize(void* pArg) override;
 	virtual void Priority_Update(_float fTimeDelta) override;
@@ -41,15 +39,13 @@ private:
 	virtual HRESULT Set_Animation();
 	virtual HRESULT Animate_Monster(_float fTimeDelta);
 
-	//virtual HRESULT Set_TextureType();
 
-
-public: //해당객체의 몬스터 패턴
+private: //해당객체의 몬스터 패턴
 	virtual void DoIdle(_float dt);
 	virtual void DoBattle(_float dt);
 	virtual void AttackPattern(_float dt);
 
-public: //따끈이 패턴
+private: //따끈이 패턴
 	void BasicAttackSet(_float dt);
 	void MissileAttack(_float dt);
 	void SpawnAttack(_float dt);
@@ -58,17 +54,19 @@ public: //따끈이 패턴
 	void JumpAttack(_float dt);
 	void FlyAttack(_float dt);
 
-public: //서포팅 함수들
+private: //서포팅 함수들
+	void SpawnBounce();
 	void SpawnMissile(_float dt);
+	void SpawnGuidMissile();
 	void StartCooldown(_float dt, _float fMin, _float fMax);
 	_float3 Rotate_Y(_float3 vDir, float rad);
-	void SpawnBounce();
+	_float3 Rotate_Z(_float3 vDir, float rad);
 
 
-public: //따끈이 전용 이펙트
+private: //따끈이 전용 이펙트
 	void FlyEffect();
 
-public: //행동 오버라이딩
+private: //행동 오버라이딩
 	void DoReturn(_float dt);
 
 
@@ -90,6 +88,9 @@ private: //공중패턴
 private: //이펙트
 	CGameObject*	m_pBossEffect = nullptr;
 
+private: //카메라
+	class CCameraManager* m_pCamera = nullptr;
+
 private: //점프패턴
 	_bool			m_bJumpStart = false;
 	_bool			m_bJumpEnd = false;
@@ -104,12 +105,12 @@ private: //바운스볼 패턴
 
 
 
-public: //데드 변수
+private: //데드 변수
 	_float			m_fCallTimer = 0.f;
 	_float			m_fTotalTime = 0.f;
 	_bool			m_bDie = false;
 
-public:
+private:
 	virtual void On_Collision(_uint MyColliderID, _uint OtherColliderID) override;
 
 public:

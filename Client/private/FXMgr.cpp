@@ -589,11 +589,11 @@ void CFXMgr::SpawnBlood(_float3 _vPosition, LEVEL eLevel)
 	CPSystem::DESC BloodDesc{};
 	BloodDesc.vPosition = _vPosition;
 	BloodDesc.iParticleNums = 1;
-
+	
 	if (FAILED(m_pGameInstance->Active_Object(TEXT("ObjectPool_Effect_PS_Blood"), eLevel,
 		TEXT("Layer_Particle"), &BloodDesc)))
 		return;
-
+	
 	BloodDesc.vPosition.x += 3;
 	if (FAILED(m_pGameInstance->Active_Object(TEXT("ObjectPool_Effect_PS_Blood"), eLevel,
 		TEXT("Layer_Particle"), &BloodDesc)))

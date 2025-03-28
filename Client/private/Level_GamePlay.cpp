@@ -290,13 +290,13 @@ HRESULT CLevel_GamePlay::Ready_Layer_Monster(const _wstring& strLayerTag)
 	//전시용
 	//SpawnTtakkeun_i(_float3{ 100.f, 66.f, -250.f }, false);
 	//SpawnWenteko(_float3{ 100.f, 40.f, -100.f }, false);
-	//SpawnShotgunner(_float3{ 180.f, 20.f, -120.f }, false);
-	//SpawnNukemutant(_float3{ 250.f, 30.f, -120.f }, false);
-	//SpawnMechsect(_float3{ 330.f, 10.f, -120.f }, false);
-	//SpawnGreater(_float3{ 410.f, 20.f, -120.f }, false);
-	//SpawnDeacon(_float3{ 220.f, 50.f, -250.f }, false);
-	//SpawnCultist(_float3{ 320.f, 30.f, -250.f }, false);
-	//SpawnArchangel(_float3{ 420.f, 30.f, -250.f }, false);
+	SpawnShotgunner(_float3{ 180.f, 20.f, -120.f }, false);
+	SpawnNukemutant(_float3{ 250.f, 30.f, -120.f }, false);
+	SpawnMechsect(_float3{ 330.f, 10.f, -120.f }, false);
+	SpawnGreater(_float3{ 410.f, 20.f, -120.f }, false);
+	SpawnDeacon(_float3{ 220.f, 50.f, -250.f }, false);
+	SpawnCultist(_float3{ 320.f, 30.f, -250.f }, false);
+	SpawnArchangel(_float3{ 420.f, 30.f, -250.f }, false);
 
 	return S_OK;
 }

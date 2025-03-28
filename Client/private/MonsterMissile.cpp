@@ -69,7 +69,7 @@ void CMonsterMissile::resetParticle(Attribute* attribute)
 	attribute->_Position = m_vPosition;
 
 	// 5. 중력 (원하면 살짝 적용, 원치 않으면 0)
-	attribute->_Accelerator = { 0.0f, -300.f, 0.0f };
+	attribute->_Accelerator = { 0.0f, 0.f, 0.0f };
 
 	// 6. 파티클 기본 설정
 	attribute->_Age = 0.f;
