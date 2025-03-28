@@ -15,10 +15,10 @@ HRESULT CVIBuffer_RaceGate::Initialize_Prototype()
 	m_iNumVertices = 34;					// ¹öÅØ½º °¹¼ö
 	m_iVertexStride = sizeof(VTXPOSNORTEX);	// ¹öÅØ½º Å©±â
 	m_iFVF = D3DFVF_XYZ | D3DFVF_NORMAL | D3DFVF_TEX1;		// ¹öÅØ½º Å¸ÀÔ
-	m_iNumPritimive = 52;					// »ï°¢Çü °¹¼ö
+	m_iNumPritimive = 48;					// »ï°¢Çü °¹¼ö
 
 	m_iIndexStride = 2;						// ÀÎµ¦½º Å©±â
-	m_iNumIndices = 156;						// ÀÎµ¦½º °¹¼ö
+	m_iNumIndices = 144;					// ÀÎµ¦½º °¹¼ö
 	m_eIndexFormat = D3DFMT_INDEX16;		// ÀÎµ¦½º Æ÷¸Ë
 
 #pragma region VERTEX_BUFFER
@@ -156,172 +156,162 @@ HRESULT CVIBuffer_RaceGate::Initialize_Prototype()
 	pVertices[10].vNormal += ComputeNormalVector(pVertices, 11, 22, 23);
 
 	Set_IndexBuffer(pIndices, 6, 9, 8, 20, 21);
-	pVertices[22].vNormal += ComputeNormalVector(pVertices, 22, 23, 11);
-	pVertices[23].vNormal += ComputeNormalVector(pVertices, 22, 23, 11);
-	pVertices[11].vNormal += ComputeNormalVector(pVertices, 22, 23, 11);
-	pVertices[10].vNormal += ComputeNormalVector(pVertices, 22, 11, 10);
+	pVertices[9].vNormal += ComputeNormalVector(pVertices, 9, 8, 20);
+	pVertices[8].vNormal += ComputeNormalVector(pVertices, 9, 8, 20);
+	pVertices[20].vNormal += ComputeNormalVector(pVertices, 9, 8, 20);
+	pVertices[21].vNormal += ComputeNormalVector(pVertices, 9, 20, 21);
 
 	Set_IndexBuffer(pIndices, 12, 8, 7, 19, 20);
-	pVertices[22].vNormal += ComputeNormalVector(pVertices, 22, 23, 11);
-	pVertices[23].vNormal += ComputeNormalVector(pVertices, 22, 23, 11);
-	pVertices[11].vNormal += ComputeNormalVector(pVertices, 22, 23, 11);
-	pVertices[10].vNormal += ComputeNormalVector(pVertices, 22, 11, 10);
+	pVertices[8].vNormal += ComputeNormalVector(pVertices, 8, 7, 19);
+	pVertices[7].vNormal += ComputeNormalVector(pVertices, 8, 7, 19);
+	pVertices[19].vNormal += ComputeNormalVector(pVertices, 8, 7, 19);
+	pVertices[20].vNormal += ComputeNormalVector(pVertices, 8, 19, 20);
 
 	Set_IndexBuffer(pIndices, 18, 6, 5, 17, 18);
-	pVertices[22].vNormal += ComputeNormalVector(pVertices, 22, 23, 11);
-	pVertices[23].vNormal += ComputeNormalVector(pVertices, 22, 23, 11);
-	pVertices[11].vNormal += ComputeNormalVector(pVertices, 22, 23, 11);
-	pVertices[10].vNormal += ComputeNormalVector(pVertices, 22, 11, 10);
+	pVertices[6].vNormal += ComputeNormalVector(pVertices, 6, 5, 17);
+	pVertices[5].vNormal += ComputeNormalVector(pVertices, 6, 5, 17);
+	pVertices[17].vNormal += ComputeNormalVector(pVertices, 6, 5, 17);
+	pVertices[18].vNormal += ComputeNormalVector(pVertices, 6, 17, 18);
 
 	Set_IndexBuffer(pIndices, 24, 5, 4, 16, 17);
-	pVertices[22].vNormal += ComputeNormalVector(pVertices, 22, 23, 11);
-	pVertices[23].vNormal += ComputeNormalVector(pVertices, 22, 23, 11);
-	pVertices[11].vNormal += ComputeNormalVector(pVertices, 22, 23, 11);
-	pVertices[10].vNormal += ComputeNormalVector(pVertices, 22, 11, 10);
+	pVertices[5].vNormal += ComputeNormalVector(pVertices, 5, 4, 16);
+	pVertices[4].vNormal += ComputeNormalVector(pVertices, 5, 4, 16);
+	pVertices[16].vNormal += ComputeNormalVector(pVertices, 5, 4, 16);
+	pVertices[17].vNormal += ComputeNormalVector(pVertices, 5, 16, 17);
 
 	Set_IndexBuffer(pIndices, 30, 3, 2, 14, 15);
-	pVertices[22].vNormal += ComputeNormalVector(pVertices, 22, 23, 11);
-	pVertices[23].vNormal += ComputeNormalVector(pVertices, 22, 23, 11);
-	pVertices[11].vNormal += ComputeNormalVector(pVertices, 22, 23, 11);
-	pVertices[10].vNormal += ComputeNormalVector(pVertices, 22, 11, 10);
+	pVertices[3].vNormal += ComputeNormalVector(pVertices, 3, 2, 14);
+	pVertices[2].vNormal += ComputeNormalVector(pVertices, 3, 2, 14);
+	pVertices[14].vNormal += ComputeNormalVector(pVertices, 3, 2, 14);
+	pVertices[15].vNormal += ComputeNormalVector(pVertices, 3, 14, 15);
 
-	Set_IndexBuffer(pIndices, 138, 7, 6, 24, 25);
-	pVertices[22].vNormal += ComputeNormalVector(pVertices, 22, 23, 11);
-	pVertices[23].vNormal += ComputeNormalVector(pVertices, 22, 23, 11);
-	pVertices[11].vNormal += ComputeNormalVector(pVertices, 22, 23, 11);
-	pVertices[10].vNormal += ComputeNormalVector(pVertices, 22, 11, 10);
+	Set_IndexBuffer(pIndices, 132, 7, 6, 24, 25);
+	pVertices[7].vNormal += ComputeNormalVector(pVertices, 7, 6, 24);
+	pVertices[6].vNormal += ComputeNormalVector(pVertices, 7, 6, 24);
+	pVertices[24].vNormal += ComputeNormalVector(pVertices, 7, 6, 24);
+	pVertices[25].vNormal += ComputeNormalVector(pVertices, 7, 24, 25);
 
-	Set_IndexBuffer(pIndices, 144, 33, 32, 30, 31);
-	pVertices[22].vNormal += ComputeNormalVector(pVertices, 22, 23, 11);
-	pVertices[23].vNormal += ComputeNormalVector(pVertices, 22, 23, 11);
-	pVertices[11].vNormal += ComputeNormalVector(pVertices, 22, 23, 11);
-	pVertices[10].vNormal += ComputeNormalVector(pVertices, 22, 11, 10);
-
-	Set_IndexBuffer(pIndices, 150, 31, 30, 18, 19);
-	pVertices[22].vNormal += ComputeNormalVector(pVertices, 22, 23, 11);
-	pVertices[23].vNormal += ComputeNormalVector(pVertices, 22, 23, 11);
-	pVertices[11].vNormal += ComputeNormalVector(pVertices, 22, 23, 11);
-	pVertices[10].vNormal += ComputeNormalVector(pVertices, 22, 11, 10);
+	Set_IndexBuffer(pIndices, 138, 33, 32, 30, 31);
+	pVertices[25].vNormal += ComputeNormalVector(pVertices, 25, 24, 30);
+	pVertices[24].vNormal += ComputeNormalVector(pVertices, 25, 24, 30);
+	pVertices[30].vNormal += ComputeNormalVector(pVertices, 25, 24, 30);
+	pVertices[31].vNormal += ComputeNormalVector(pVertices, 25, 30, 31);
 #pragma endregion
 
 #pragma region µÚ
-	Set_IndexBuffer(pIndices, 36, 1, 0, 12, 13);
-	pVertices[22].vNormal += ComputeNormalVector(pVertices, 22, 23, 11);
-	pVertices[23].vNormal += ComputeNormalVector(pVertices, 22, 23, 11);
-	pVertices[11].vNormal += ComputeNormalVector(pVertices, 22, 23, 11);
-	pVertices[10].vNormal += ComputeNormalVector(pVertices, 22, 11, 10);
+	
 #pragma endregion
 
 #pragma region ¿ÞÂÊ
-	Set_IndexBuffer(pIndices, 42, 0, 11, 23, 12);
-	pVertices[22].vNormal += ComputeNormalVector(pVertices, 22, 23, 11);
-	pVertices[23].vNormal += ComputeNormalVector(pVertices, 22, 23, 11);
-	pVertices[11].vNormal += ComputeNormalVector(pVertices, 22, 23, 11);
-	pVertices[10].vNormal += ComputeNormalVector(pVertices, 22, 11, 10);
+	Set_IndexBuffer(pIndices, 36, 0, 11, 23, 12);
+	pVertices[0].vNormal += ComputeNormalVector(pVertices, 0, 11, 23);
+	pVertices[11].vNormal += ComputeNormalVector(pVertices, 0, 11, 23);
+	pVertices[23].vNormal += ComputeNormalVector(pVertices, 0, 11, 23);
+	pVertices[12].vNormal += ComputeNormalVector(pVertices, 0, 23, 12);
 
-	Set_IndexBuffer(pIndices, 48, 4, 3, 15, 16);
-	pVertices[22].vNormal += ComputeNormalVector(pVertices, 22, 23, 11);
-	pVertices[23].vNormal += ComputeNormalVector(pVertices, 22, 23, 11);
-	pVertices[11].vNormal += ComputeNormalVector(pVertices, 22, 23, 11);
-	pVertices[10].vNormal += ComputeNormalVector(pVertices, 22, 11, 10);
+	Set_IndexBuffer(pIndices, 42, 4, 3, 15, 16);
+	pVertices[4].vNormal += ComputeNormalVector(pVertices, 4, 3, 15);
+	pVertices[3].vNormal += ComputeNormalVector(pVertices, 4, 3, 15);
+	pVertices[15].vNormal += ComputeNormalVector(pVertices, 4, 3, 15);
+	pVertices[16].vNormal += ComputeNormalVector(pVertices, 4, 15, 16);
 #pragma endregion
 
 #pragma region ¿À¸¥ÂÊ
-	Set_IndexBuffer(pIndices, 54, 10, 9, 21, 22);
-	pVertices[22].vNormal += ComputeNormalVector(pVertices, 22, 23, 11);
-	pVertices[23].vNormal += ComputeNormalVector(pVertices, 22, 23, 11);
-	pVertices[11].vNormal += ComputeNormalVector(pVertices, 22, 23, 11);
-	pVertices[10].vNormal += ComputeNormalVector(pVertices, 22, 11, 10);
+	Set_IndexBuffer(pIndices, 48, 10, 9, 21, 22);
+	pVertices[10].vNormal += ComputeNormalVector(pVertices, 10, 9, 21);
+	pVertices[9].vNormal += ComputeNormalVector(pVertices, 10, 9, 21);
+	pVertices[21].vNormal += ComputeNormalVector(pVertices, 10, 9, 21);
+	pVertices[22].vNormal += ComputeNormalVector(pVertices, 10, 21, 22);
 
-	Set_IndexBuffer(pIndices, 60, 2, 1, 13, 14);
-	pVertices[22].vNormal += ComputeNormalVector(pVertices, 22, 23, 11);
-	pVertices[23].vNormal += ComputeNormalVector(pVertices, 22, 23, 11);
-	pVertices[11].vNormal += ComputeNormalVector(pVertices, 22, 23, 11);
-	pVertices[10].vNormal += ComputeNormalVector(pVertices, 22, 11, 10);
+	Set_IndexBuffer(pIndices, 54, 2, 1, 13, 14);
+	pVertices[2].vNormal += ComputeNormalVector(pVertices, 2, 1, 13);
+	pVertices[1].vNormal += ComputeNormalVector(pVertices, 2, 1, 13);
+	pVertices[13].vNormal += ComputeNormalVector(pVertices, 2, 1, 13);
+	pVertices[14].vNormal += ComputeNormalVector(pVertices, 2, 13, 14);
 #pragma endregion
 
 #pragma region À§
-	Set_IndexBuffer(pIndices, 66, 0, 9, 10, 11);
-	pVertices[22].vNormal += ComputeNormalVector(pVertices, 22, 23, 11);
-	pVertices[23].vNormal += ComputeNormalVector(pVertices, 22, 23, 11);
-	pVertices[11].vNormal += ComputeNormalVector(pVertices, 22, 23, 11);
-	pVertices[10].vNormal += ComputeNormalVector(pVertices, 22, 11, 10);
+	Set_IndexBuffer(pIndices, 60, 0, 9, 10, 11);
+	pVertices[0].vNormal += ComputeNormalVector(pVertices, 0, 9, 10);
+	pVertices[9].vNormal += ComputeNormalVector(pVertices, 0, 9, 10);
+	pVertices[10].vNormal += ComputeNormalVector(pVertices, 0, 9, 10);
+	pVertices[11].vNormal += ComputeNormalVector(pVertices, 0, 10, 11);
 
-	Set_IndexBuffer(pIndices, 72, 0, 26, 7, 9);
-	pVertices[22].vNormal += ComputeNormalVector(pVertices, 22, 23, 11);
-	pVertices[23].vNormal += ComputeNormalVector(pVertices, 22, 23, 11);
-	pVertices[11].vNormal += ComputeNormalVector(pVertices, 22, 23, 11);
-	pVertices[10].vNormal += ComputeNormalVector(pVertices, 22, 11, 10);
+	Set_IndexBuffer(pIndices, 66, 0, 26, 7, 9);
+	pVertices[0].vNormal += ComputeNormalVector(pVertices, 0, 26, 7);
+	pVertices[26].vNormal += ComputeNormalVector(pVertices, 0, 26, 7);
+	pVertices[7].vNormal += ComputeNormalVector(pVertices, 0, 26, 7);
+	pVertices[9].vNormal += ComputeNormalVector(pVertices, 0, 7, 9);
 
-	Set_IndexBuffer(pIndices, 78, 26, 27, 6, 7);
-	pVertices[22].vNormal += ComputeNormalVector(pVertices, 22, 23, 11);
-	pVertices[23].vNormal += ComputeNormalVector(pVertices, 22, 23, 11);
-	pVertices[11].vNormal += ComputeNormalVector(pVertices, 22, 23, 11);
-	pVertices[10].vNormal += ComputeNormalVector(pVertices, 22, 11, 10);
+	Set_IndexBuffer(pIndices, 72, 26, 27, 6, 7);
+	pVertices[26].vNormal += ComputeNormalVector(pVertices, 26, 27, 6);
+	pVertices[27].vNormal += ComputeNormalVector(pVertices, 26, 27, 6);
+	pVertices[6].vNormal += ComputeNormalVector(pVertices, 26, 27, 6);
+	pVertices[7].vNormal += ComputeNormalVector(pVertices, 26, 6, 7);
 
-	Set_IndexBuffer(pIndices, 84, 27, 1, 4, 6);
-	pVertices[22].vNormal += ComputeNormalVector(pVertices, 22, 23, 11);
-	pVertices[23].vNormal += ComputeNormalVector(pVertices, 22, 23, 11);
-	pVertices[11].vNormal += ComputeNormalVector(pVertices, 22, 23, 11);
-	pVertices[10].vNormal += ComputeNormalVector(pVertices, 22, 11, 10);
+	Set_IndexBuffer(pIndices, 78, 27, 1, 4, 6);
+	pVertices[27].vNormal += ComputeNormalVector(pVertices, 27, 1, 4);
+	pVertices[1].vNormal += ComputeNormalVector(pVertices, 27, 1, 4);
+	pVertices[4].vNormal += ComputeNormalVector(pVertices, 27, 1, 4);
+	pVertices[6].vNormal += ComputeNormalVector(pVertices, 27, 4, 6);
 
-	Set_IndexBuffer(pIndices, 90, 4, 1, 2, 3);
-	pVertices[22].vNormal += ComputeNormalVector(pVertices, 22, 23, 11);
-	pVertices[23].vNormal += ComputeNormalVector(pVertices, 22, 23, 11);
-	pVertices[11].vNormal += ComputeNormalVector(pVertices, 22, 23, 11);
-	pVertices[10].vNormal += ComputeNormalVector(pVertices, 22, 11, 10);
+	Set_IndexBuffer(pIndices, 84, 4, 1, 2, 3);
+	pVertices[4].vNormal += ComputeNormalVector(pVertices, 4, 1, 2);
+	pVertices[1].vNormal += ComputeNormalVector(pVertices, 4, 1, 2);
+	pVertices[2].vNormal += ComputeNormalVector(pVertices, 4, 1, 2);
+	pVertices[3].vNormal += ComputeNormalVector(pVertices, 4, 2, 3);
 
-	pIndices[96] = 9; pIndices[97] = 7; pIndices[98] = 8;
-	pVertices[22].vNormal += ComputeNormalVector(pVertices, 22, 23, 11);
-	pVertices[23].vNormal += ComputeNormalVector(pVertices, 22, 23, 11);
-	pVertices[11].vNormal += ComputeNormalVector(pVertices, 22, 23, 11);
+	pIndices[90] = 9; pIndices[91] = 7; pIndices[92] = 8;
+	pVertices[9].vNormal += ComputeNormalVector(pVertices, 9, 7, 8);
+	pVertices[7].vNormal += ComputeNormalVector(pVertices, 9, 7, 8);
+	pVertices[8].vNormal += ComputeNormalVector(pVertices, 9, 7, 8);
 
-	pIndices[99] = 6; pIndices[100] = 4; pIndices[101] = 5;
-	pVertices[22].vNormal += ComputeNormalVector(pVertices, 22, 23, 11);
-	pVertices[23].vNormal += ComputeNormalVector(pVertices, 22, 23, 11);
-	pVertices[11].vNormal += ComputeNormalVector(pVertices, 22, 23, 11);
+	pIndices[93] = 6; pIndices[94] = 4; pIndices[95] = 5;
+	pVertices[6].vNormal += ComputeNormalVector(pVertices, 6, 4, 5);
+	pVertices[4].vNormal += ComputeNormalVector(pVertices, 6, 4, 5);
+	pVertices[5].vNormal += ComputeNormalVector(pVertices, 6, 4, 5);
 #pragma endregion
 
 #pragma region ¾Æ·¡
-	Set_IndexBuffer(pIndices, 102, 21, 12, 23, 22);
-	pVertices[22].vNormal += ComputeNormalVector(pVertices, 22, 23, 11);
-	pVertices[23].vNormal += ComputeNormalVector(pVertices, 22, 23, 11);
-	pVertices[11].vNormal += ComputeNormalVector(pVertices, 22, 23, 11);
-	pVertices[10].vNormal += ComputeNormalVector(pVertices, 22, 11, 10);
+	Set_IndexBuffer(pIndices, 96, 21, 12, 23, 22);
+	pVertices[21].vNormal += ComputeNormalVector(pVertices, 21, 12, 23);
+	pVertices[12].vNormal += ComputeNormalVector(pVertices, 21, 12, 23);
+	pVertices[23].vNormal += ComputeNormalVector(pVertices, 21, 12, 23);
+	pVertices[22].vNormal += ComputeNormalVector(pVertices, 21, 23, 22);
 
-	Set_IndexBuffer(pIndices, 108, 28, 12, 21, 19);
-	pVertices[22].vNormal += ComputeNormalVector(pVertices, 22, 23, 11);
-	pVertices[23].vNormal += ComputeNormalVector(pVertices, 22, 23, 11);
-	pVertices[11].vNormal += ComputeNormalVector(pVertices, 22, 23, 11);
-	pVertices[10].vNormal += ComputeNormalVector(pVertices, 22, 11, 10);
+	Set_IndexBuffer(pIndices, 102, 28, 12, 21, 19);
+	pVertices[28].vNormal += ComputeNormalVector(pVertices, 28, 12, 21);
+	pVertices[12].vNormal += ComputeNormalVector(pVertices, 28, 12, 21);
+	pVertices[21].vNormal += ComputeNormalVector(pVertices, 28, 12, 21);
+	pVertices[19].vNormal += ComputeNormalVector(pVertices, 28, 21, 19);
 
-	Set_IndexBuffer(pIndices, 114, 29, 28, 19, 18);
-	pVertices[22].vNormal += ComputeNormalVector(pVertices, 22, 23, 11);
-	pVertices[23].vNormal += ComputeNormalVector(pVertices, 22, 23, 11);
-	pVertices[11].vNormal += ComputeNormalVector(pVertices, 22, 23, 11);
-	pVertices[10].vNormal += ComputeNormalVector(pVertices, 22, 11, 10);
+	Set_IndexBuffer(pIndices, 108, 29, 28, 19, 18);
+	pVertices[29].vNormal += ComputeNormalVector(pVertices, 29, 28, 19);
+	pVertices[28].vNormal += ComputeNormalVector(pVertices, 29, 28, 19);
+	pVertices[19].vNormal += ComputeNormalVector(pVertices, 29, 28, 19);
+	pVertices[18].vNormal += ComputeNormalVector(pVertices, 29, 19, 18);
 
-	Set_IndexBuffer(pIndices, 120, 13, 29, 18, 16);
-	pVertices[22].vNormal += ComputeNormalVector(pVertices, 22, 23, 11);
-	pVertices[23].vNormal += ComputeNormalVector(pVertices, 22, 23, 11);
-	pVertices[11].vNormal += ComputeNormalVector(pVertices, 22, 23, 11);
-	pVertices[10].vNormal += ComputeNormalVector(pVertices, 22, 11, 10);
+	Set_IndexBuffer(pIndices, 114, 13, 29, 18, 16);
+	pVertices[13].vNormal += ComputeNormalVector(pVertices, 13, 29, 18);
+	pVertices[29].vNormal += ComputeNormalVector(pVertices, 13, 29, 18);
+	pVertices[18].vNormal += ComputeNormalVector(pVertices, 13, 29, 18);
+	pVertices[16].vNormal += ComputeNormalVector(pVertices, 13, 18, 16);
 
-	Set_IndexBuffer(pIndices, 126, 13, 16, 15, 14);
-	pVertices[22].vNormal += ComputeNormalVector(pVertices, 22, 23, 11);
-	pVertices[23].vNormal += ComputeNormalVector(pVertices, 22, 23, 11);
-	pVertices[11].vNormal += ComputeNormalVector(pVertices, 22, 23, 11);
-	pVertices[10].vNormal += ComputeNormalVector(pVertices, 22, 11, 10);
+	Set_IndexBuffer(pIndices, 120, 13, 16, 15, 14);
+	pVertices[13].vNormal += ComputeNormalVector(pVertices, 13, 16, 15);
+	pVertices[16].vNormal += ComputeNormalVector(pVertices, 13, 16, 15);
+	pVertices[15].vNormal += ComputeNormalVector(pVertices, 13, 16, 15);
+	pVertices[14].vNormal += ComputeNormalVector(pVertices, 13, 15, 14);
 
-	pIndices[132] = 16; pIndices[133] = 18; pIndices[134] = 17;
-	pVertices[22].vNormal += ComputeNormalVector(pVertices, 22, 23, 11);
-	pVertices[23].vNormal += ComputeNormalVector(pVertices, 22, 23, 11);
-	pVertices[11].vNormal += ComputeNormalVector(pVertices, 22, 23, 11);
+	pIndices[126] = 16; pIndices[127] = 18; pIndices[128] = 17;
+	pVertices[16].vNormal += ComputeNormalVector(pVertices, 16, 18, 17);
+	pVertices[18].vNormal += ComputeNormalVector(pVertices, 16, 18, 17);
+	pVertices[17].vNormal += ComputeNormalVector(pVertices, 16, 18, 17);
 
-	pIndices[135] = 19; pIndices[136] = 21; pIndices[137] = 20;
-	pVertices[22].vNormal += ComputeNormalVector(pVertices, 22, 23, 11);
-	pVertices[23].vNormal += ComputeNormalVector(pVertices, 22, 23, 11);
-	pVertices[11].vNormal += ComputeNormalVector(pVertices, 22, 23, 11);
+	pIndices[129] = 19; pIndices[130] = 21; pIndices[131] = 20;
+	pVertices[19].vNormal += ComputeNormalVector(pVertices, 19, 21, 20);
+	pVertices[21].vNormal += ComputeNormalVector(pVertices, 19, 21, 20);
+	pVertices[20].vNormal += ComputeNormalVector(pVertices, 19, 21, 20);
 #pragma endregion
 
 	m_pVB->Unlock();
@@ -347,11 +337,11 @@ HRESULT CVIBuffer_RaceGate::Render(_uint Surface)
 		break;
 
 	case MIDDLE:
-		iNumber = 138;
+		iNumber = 132;
 		break;
 
 	case DOWN:
-		iNumber = 144;
+		iNumber = 138;
 		break;
 
 	default:

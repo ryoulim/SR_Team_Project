@@ -337,6 +337,18 @@
     <Filter Include="02.GameObjects\Statue\RaceGate">
       <UniqueIdentifier>{fc288ff0-b5bb-4ed0-b86b-ee91ca2a1905}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\Statue\RaceCylinder">
+      <UniqueIdentifier>{957b9be7-f973-43db-a076-4a5a5d555ea3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Statue\StreetLamp">
+      <UniqueIdentifier>{24b83101-2a69-4027-a895-fc7627167812}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Statue\StreetLamp\Head">
+      <UniqueIdentifier>{da0e366d-9c74-4eac-a0ec-2cb765238ef0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Statue\StreetLamp\NewFilter1">
+      <UniqueIdentifier>{2e57f387-a905-4917-874b-cda316e94fba}</UniqueIdentifier>
+    </Filter>
     <Filter Include="02.GameObjects\Map\AlphaRect">
       <UniqueIdentifier>{60d0fe13-9f07-43e3-896e-3ed65200690c}</UniqueIdentifier>
     </Filter>
@@ -705,21 +717,6 @@
     <ClInclude Include="..\public\RaceGate.h">
       <Filter>02.GameObjects\Statue\RaceGate</Filter>
     </ClInclude>
-    <ClInclude Include="..\public\MonsterBullet.h">
-      <Filter>02.GameObjects\Weapon\Bullet\MonsterBullet</Filter>
-    </ClInclude>
-    <ClInclude Include="..\public\MonsterMissile.h">
-      <Filter>02.GameObjects\Particle\_BossMobSkill\FlyAttack</Filter>
-    </ClInclude>
-    <ClInclude Include="..\public\FlyEffect.h">
-      <Filter>02.GameObjects\Particle\_BossMobSkill\FlyEffect</Filter>
-    </ClInclude>
-    <ClInclude Include="..\public\JumpAttack.h">
-      <Filter>02.GameObjects\Particle\_BossMobSkill\JumpAttack</Filter>
-    </ClInclude>
-    <ClInclude Include="..\public\Trigger.h">
-      <Filter>02.GameObjects\Trigger</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -1079,6 +1076,12 @@
     </ClCompile>
     <ClCompile Include="..\private\Trigger.cpp">
       <Filter>02.GameObjects\Trigger</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\RaceCylinder.cpp">
+      <Filter>02.GameObjects\Statue\RaceCylinder</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\StreetLampHead.cpp">
+      <Filter>02.GameObjects\Statue\StreetLamp\Head</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

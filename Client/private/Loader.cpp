@@ -6,12 +6,14 @@
 #include "RaceTerrain.h"
 #include "RaceLandscape.h"
 #include "RaceGate.h"
+#include "RaceCylinder.h"
 #include "Trapezoid.h"
 #include "Stall.h"
 #include "Cabinet.h"
 #include "Signboard.h"
 #include "MyComputer.h"
 #include "Canopy.h"
+#include "StreetLampHead.h"
 #include "BuildingH.h"
 #include "BuildingW.h"
 #include "BuildingV.h"
@@ -847,6 +849,15 @@ HRESULT CLoader::Loading_For_Race()/**/
 	ADD_TEXTURE(BuildingV, "../Bin/Resources/Textures/Object/BuildingV/BuildingV.PNG", 1);
 	ADD_TEXTURE(BuildingU, "../Bin/Resources/Textures/Object/BuildingU/BuildingU.PNG", 1);
 	ADD_TEXTURE(RaceGate, "../Bin/Resources/Textures/Object/RaceGate/RaceGate%d.PNG", 3);
+	ADD_TEXTURE(RaceCylinder, "../Bin/Resources/Textures/Object/RaceCylinder/RaceCylinder%d.PNG", 3);
+
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_RACE, TEXT("Prototype_Component_Texture_StreetLampHead"),
+		CTexture::Create(m_pGraphic_Device, TEXT("../Bin/Resources/Textures/Object/StreetLamp/StreetLampHead.PNG"), 1))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_RACE, TEXT("Prototype_Component_Texture_StreetLampPillar"),
+		CTexture::Create(m_pGraphic_Device, TEXT("../Bin/Resources/Textures/Object/StreetLamp/StreetLampPillar.PNG"), 1))))
+		return E_FAIL;
 
 	lstrcpy(m_szLoadingText, TEXT("모델을(를) 로딩중입니다."));
 	ADD_MODEL_EX(RaceTerrain, 10, 1000);
@@ -869,6 +880,7 @@ HRESULT CLoader::Loading_For_Race()/**/
 
 	ADD_PRTOBJ(PlayerOnBoat);
 	ADD_PRTOBJ(BuildingH);
+	ADD_PRTOBJ(RaceCylinder);
 	
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_RACE, TEXT("Prototype_GameObject_BuildingW1"),
 		CBuildingW::Create(m_pGraphic_Device))))
@@ -908,6 +920,10 @@ HRESULT CLoader::Loading_For_Race()/**/
 
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_RACE, TEXT("Prototype_GameObject_BuildingU4"),
 		CBuildingU::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_RACE, TEXT("Prototype_GameObject_StreetLampHead"),
+		CStreetLampHead::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
 	lstrcpy(m_szLoadingText, TEXT("데이터를 읽어들이는 중입니다."));
