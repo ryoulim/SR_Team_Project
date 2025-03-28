@@ -111,18 +111,11 @@ HRESULT CMonster::Render()
 	if (!m_bRotateAnimation)
 		m_iDegree = 0;
 
-	if (m_isReadyMonster) // 몹 텍스쳐 전부 준비 안해서 임시로 분리
-	{
-		m_pTextureMap[m_iState][m_iDegree]->Get_TextureSize(static_cast<_uint>(m_fAnimationFrame), &m_vScale);
-		m_pTransformCom->Scaling(m_vScale * 0.32f);
-		if (FAILED(m_pTextureMap[m_iState][m_iDegree]->Bind_Resource(static_cast<_uint>(m_fAnimationFrame))))
-			return E_FAIL;
-	}
-	else 
-	{
-		if (FAILED(m_pTextureCom->Bind_Resource(static_cast<_uint>(m_fAnimationFrame))))
-			return E_FAIL;
-	}
+	m_pTextureMap[m_iState][m_iDegree]->Get_TextureSize(static_cast<_uint>(m_fAnimationFrame), &m_vScale);
+	m_pTransformCom->Scaling(m_vScale * 0.32f);
+	if (FAILED(m_pTextureMap[m_iState][m_iDegree]->Bind_Resource(static_cast<_uint>(m_fAnimationFrame))))
+		return E_FAIL;
+
 	
 
 	if (!m_bCW || m_iDegree == 0 || m_iDegree == 180.f / m_fDivOffset) {
