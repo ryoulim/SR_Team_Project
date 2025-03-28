@@ -8,6 +8,7 @@
 #include "FXMgr.h"
 #include "UI_Manager.h"
 
+#include "Trigger.h"
 #include "Map.h"
 
 #define CurLevel LEVEL_GAMEPLAY
@@ -56,9 +57,10 @@ HRESULT CLevel_GamePlay::Initialize(class CLevelData* pLevelData)
 	//if(FAILED(Ready_Light()))
 	//	return E_FAIL;
 
-
-
 	if (FAILED(Load_Map(LEVEL_GAMEPLAY, TEXT("MapData.txt"))))
+		return E_FAIL;
+
+	if (FAILED(Ready_Layer_Trigger(TEXT("Layer_Trigger"))))
 		return E_FAIL;
 
 	ShowCursor(FALSE);
@@ -347,12 +349,31 @@ HRESULT CLevel_GamePlay::Ready_Light()
 	return S_OK;
 }
 
+HRESULT CLevel_GamePlay::Ready_Layer_Trigger(const _wstring& strLayerTag)
+{
+	CTrigger::DESC tDesc = {};
+
+	tDesc.fRotationPerSec = 0;
+	tDesc.fSpeedPerSec = 0;
+	tDesc.LayerTag = TEXT("Layer_BossBridge");
+	tDesc.vAngle = { 0.f, 0.f, 0.f };
+	tDesc.vInitPos = {1400.f, 36.f, 1000.f};
+	tDesc.vScale = {100.f, 100.f, 100.f};
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_Trigger"),
+		LEVEL_GAMEPLAY, strLayerTag, &tDesc)))
+		return E_FAIL;
+
+
+	return S_OK;
+}
+
 void CLevel_GamePlay::Check_Collision()
 {
 	m_pGameInstance->Intersect(CG_PAWN, CG_BLOCK);
 	m_pGameInstance->Intersect(CG_PBULLET, CG_MONSTER);
 	m_pGameInstance->Intersect(CG_PBULLET, CG_BLOCK);
 	m_pGameInstance->Intersect(CG_MBULLET, CG_BLOCK);
+	m_pGameInstance->Intersect(CG_PAWN, CG_TRIGGER);
 }
 
 void CLevel_GamePlay::SpawnTtakkeun_i(_float3 _Position, bool m_bActive)

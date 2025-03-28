@@ -9,6 +9,8 @@
 #include "UI_Camera.h"
 #include "TPS_Camera.h"
 
+#include "Trigger.h"
+
 #include "Font_MediumBlue.h"
 #include "Font_BigOrange.h"
 #include "Shader.h"
@@ -209,6 +211,7 @@ HRESULT CMainApp::Ready_Object_For_Static()
 	ADD_PRTOBJ(LoadingMenu);
 	ADD_PRTOBJ(LevelLoadingMenu);
 	ADD_PRTOBJ(FadeUI);
+	ADD_PRTOBJ(Trigger);
 	ADD_PRTOBJ(Sky);
 
 	return S_OK;

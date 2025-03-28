@@ -89,11 +89,20 @@ void CPlayer::Priority_Update(_float fTimeDelta)
 
 EVENT CPlayer::Update(_float fTimeDelta)
 {
+#ifdef _CONSOL
+	_float3 vPosition = *m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+
+	printf("플레이어 X : %f\n", vPosition.x);
+	printf("플레이어 Y : %f\n", vPosition.y);
+	printf("플레이어 Z : %f\n", vPosition.z);
+
+#endif
+
 	m_Weapons[m_iCurWeaponIndex]->Update(fTimeDelta);
 
 	if (!m_bFpsMode)
 		return EVN_NONE;
-	
+
 	return __super::Update(fTimeDelta);
 }
 

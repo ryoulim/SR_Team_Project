@@ -343,6 +343,9 @@
     <Filter Include="02.GameObjects\Map\BossBridge">
       <UniqueIdentifier>{1c4ad648-28fa-4982-8bc2-f061d7f96695}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\Trigger">
+      <UniqueIdentifier>{3fb89945-b064-48a0-997b-ad2f1de23d5e}</UniqueIdentifier>
+    </Filter>
     <Filter Include="02.GameObjects\Particle\_BossMobSkill\JumpAttack">
       <UniqueIdentifier>{7fdd175d-aa74-493e-a0d1-fce9abb340a6}</UniqueIdentifier>
     </Filter>
@@ -714,6 +717,9 @@
     <ClInclude Include="..\public\JumpAttack.h">
       <Filter>02.GameObjects\Particle\_BossMobSkill\JumpAttack</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\Trigger.h">
+      <Filter>02.GameObjects\Trigger</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -1070,6 +1076,9 @@
     </ClCompile>
     <ClCompile Include="..\private\JumpAttack.cpp">
       <Filter>02.GameObjects\Particle\_BossMobSkill\JumpAttack</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Trigger.cpp">
+      <Filter>02.GameObjects\Trigger</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

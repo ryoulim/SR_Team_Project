@@ -10,7 +10,8 @@ CAnimeRect::CAnimeRect(LPDIRECT3DDEVICE9 pGraphic_Device)
 }
 
 CAnimeRect::CAnimeRect(const CAnimeRect& Prototype)
-	: CMap(Prototype)
+	: CMap(Prototype),
+	  m_fMaxFrame {Prototype.m_fMaxFrame}
 {
 }
 
@@ -46,6 +47,14 @@ void CAnimeRect::Late_Update(_float fTimeDelta)
 HRESULT CAnimeRect::Render()
 {
 	return __super::Render();
+}
+
+void CAnimeRect::Move_Frame(_float fTimeDelta)
+{
+	m_fTextureNum += m_fMaxFrame * fTimeDelta;
+
+	if (m_fTextureNum >= m_fMaxFrame)
+		m_fTextureNum = 0.f;
 }
 
 CAnimeRect* CAnimeRect::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
