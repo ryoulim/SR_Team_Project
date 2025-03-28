@@ -184,7 +184,7 @@ void CLoader::Clear_MapData()
 
 HRESULT CLoader::Loading_For_Logo()
 {
-	float fDataNum = {43.f};
+	float fDataNum = {49.f};
 	float fDataCurNum = {};
 
 #pragma region 파티클 준비물(스테틱)
@@ -441,7 +441,7 @@ HRESULT CLoader::Loading_For_Logo()
 
 HRESULT CLoader::Loading_For_GamePlay()
 {
-	float fDataNum = {128.f};
+	float fDataNum = {188.f};
 	float fDataCurNum = {};
 
 #pragma region TEXTURE
@@ -526,6 +526,26 @@ HRESULT CLoader::Loading_For_GamePlay()
 	ADD_TEXTURE(Boss_Fly_Attack_135, "../bin/Resources/Textures/Monster/boss/fly_attack/135/%d.PNG", 8);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
 	ADD_TEXTURE(Boss_Fly_Attack_157, "../bin/Resources/Textures/Monster/boss/fly_attack/157/%d.PNG", 8);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
 	ADD_TEXTURE(Boss_Fly_Attack_180, "../bin/Resources/Textures/Monster/boss/fly_attack/180/%d.PNG", 8);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
+
+	ADD_TEXTURE(Boss_Bomb_0, "../bin/Resources/Textures/Monster/boss/bomb/0/%d.PNG", 2); 
+	ADD_TEXTURE(Boss_Bomb_22, "../bin/Resources/Textures/Monster/boss/bomb/22/%d.PNG", 2);
+	ADD_TEXTURE(Boss_Bomb_45, "../bin/Resources/Textures/Monster/boss/bomb/45/%d.PNG", 2);
+	ADD_TEXTURE(Boss_Bomb_67, "../bin/Resources/Textures/Monster/boss/bomb/67/%d.PNG", 2);
+	ADD_TEXTURE(Boss_Bomb_90, "../bin/Resources/Textures/Monster/boss/bomb/90/%d.PNG", 2);
+	ADD_TEXTURE(Boss_Bomb_112, "../bin/Resources/Textures/Monster/boss/bomb/112/%d.PNG", 2);
+	ADD_TEXTURE(Boss_Bomb_135, "../bin/Resources/Textures/Monster/boss/bomb/135/%d.PNG", 2);
+	ADD_TEXTURE(Boss_Bomb_157, "../bin/Resources/Textures/Monster/boss/bomb/157/%d.PNG", 2);
+	ADD_TEXTURE(Boss_Bomb_180, "../bin/Resources/Textures/Monster/boss/bomb/180/%d.PNG", 2);
+
+	ADD_TEXTURE(Boss_Missile_0, "../bin/Resources/Textures/Monster/boss/missile/0/%d.PNG", 2);
+	ADD_TEXTURE(Boss_Missile_22, "../bin/Resources/Textures/Monster/boss/missile/22/%d.PNG", 2);
+	ADD_TEXTURE(Boss_Missile_45, "../bin/Resources/Textures/Monster/boss/missile/45/%d.PNG", 2);
+	ADD_TEXTURE(Boss_Missile_67, "../bin/Resources/Textures/Monster/boss/missile/67/%d.PNG", 2);
+	ADD_TEXTURE(Boss_Missile_90, "../bin/Resources/Textures/Monster/boss/missile/90/%d.PNG", 2);
+	ADD_TEXTURE(Boss_Missile_112, "../bin/Resources/Textures/Monster/boss/missile/112/%d.PNG", 2);
+	ADD_TEXTURE(Boss_Missile_135, "../bin/Resources/Textures/Monster/boss/missile/135/%d.PNG", 2);
+	ADD_TEXTURE(Boss_Missile_157, "../bin/Resources/Textures/Monster/boss/missile/157/%d.PNG", 2);
+	ADD_TEXTURE(Boss_Missile_180, "../bin/Resources/Textures/Monster/boss/missile/180/%d.PNG", 2);
 
 #pragma endregion
 
@@ -690,19 +710,6 @@ HRESULT CLoader::Loading_For_GamePlay()
 //#pragma endregion
 
 
-
-	//몬스터
-	//ADD_TEXTURE(Ttakkeun_i_Walk, "../Bin/Resources/Textures/Monster/Ttakkeun_i/Ttakkeun_i_Walk%d.PNG", 12);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
-	//ADD_TEXTURE(Wenteko_Walk, "../Bin/Resources/Textures/Monster/Wenteko/Wenteko_Walk%d.PNG", 6);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
-	//ADD_TEXTURE(Shotgunner_Walk, "../Bin/Resources/Textures/Monster/Shotgunner/Shotgunner_Walk%d.PNG", 4);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
-	//ADD_TEXTURE(Nukemutant_Walk, "../Bin/Resources/Textures/Monster/Nukemutant/Nukemutant_Walk%d.PNG", 4);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
-	//ADD_TEXTURE(Mechsect_Walk, "../Bin/Resources/Textures/Monster/Mechsect/Mechsect_Walk%d.PNG", 4);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
-	//ADD_TEXTURE(Greater_Run, "../Bin/Resources/Textures/Monster/Greater/Greater_Run%d.PNG", 4);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
-	//ADD_TEXTURE(Deacon_Walk, "../Bin/Resources/Textures/Monster/Deacon/Deacon_Walk%d.PNG", 1);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
-	//ADD_TEXTURE(Cultist_Run, "../Bin/Resources/Textures/Monster/Cultist/Cultist_Run%d.PNG", 4);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
-	//ADD_TEXTURE(Archangel_Walk, "../Bin/Resources/Textures/Monster/Archangel/Archangel_Walk%d.PNG", 4);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
-
-	//for (size_t i = 0; i < 100000; i++) { for (size_t j = 0; j < 10000; j++)int a = 0; if (KEY_PRESSING(DIK_SPACE))break; }
 
 #pragma endregion
 

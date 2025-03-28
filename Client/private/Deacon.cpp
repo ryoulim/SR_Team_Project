@@ -44,7 +44,14 @@ void CDeacon::Priority_Update(_float fTimeDelta)
 
 EVENT CDeacon::Update(_float fTimeDelta)
 {
-	if (KEY_DOWN(DIK_RBRACKET))
+	if (m_bDead) // 사망 체크
+	{
+		m_fDeadBodyCounter += fTimeDelta;
+		if (m_fDeadBodyCounter > 5.f)
+			return EVN_DEAD;
+	}
+
+	if (KEY_DOWN(DIK_RBRACKET)) // 모션 변경 확인용
 	{
 		int i = m_eCurMonsterState;
 		i++;
@@ -52,7 +59,13 @@ EVENT CDeacon::Update(_float fTimeDelta)
 		if (m_eCurMonsterState == STATE_END)
 			m_eCurMonsterState = MONSTER_STATE(0);
 	}
-	//if (m_eCurMonsterState == STATE_DEAD && m_fAnimationFrame >= m_fAnimationMaxFrame - 1.f)
+
+	if (m_bActive)
+	{
+		MonsterTick(fTimeDelta);
+	}
+
+
 
 	return __super::Update(fTimeDelta);
 }
@@ -97,6 +110,163 @@ void CDeacon::On_Collision(_uint MyColliderID, _uint OtherColliderID)
 	// 이펙트 생성
 	m_iHP += -50;
 	CFXMgr::Get_Instance()->SpawnBlood(vImpactPos, LEVEL_GAMEPLAY);
+}
+
+void CDeacon::MonsterTick(_float dt)
+{
+	//상태변화
+	switch (m_eState)
+	{
+	case MODE::MODE_IDLE:
+		if (IsPlayerDetected())	// 감지 거리 기준 계산
+		{
+			//플레이어 발견 시 행동
+			cout << "Deacon 플레이어 감지!!" << endl;
+			m_eState = MODE::MODE_DETECTIVE;
+		}
+		break;
+	case MODE::MODE_DETECTIVE:
+		//플레이어 공격 가능할 때 까지 탐색
+		if (IsMonsterAbleToAttack())	// RayPicking으로 플레이어와 몬스터 사이 장애물 X <- 공격 가능 상태가 됨
+			m_eState = MODE::MODE_READY;
+		break;
+
+	case MODE::MODE_READY:
+		//공격 할 준비  ( 장전 등의 딜레이 필요 )
+		// 준비 끝나면
+		if (m_isReadyToAttack)
+			m_eState = MODE::MODE_BATTLE;
+		break;
+
+	case MODE::MODE_BATTLE:
+		//실제 공격 시 행동
+		if (m_bCoolingDown)
+			m_eState = MODE::MODE_READY;
+		break;
+
+	case MODE::MODE_RETURN:
+		//본래위치로 돌아가고 IDLE로 상태가 변한다.
+		break;
+	}
+
+	// 상태행동(액션)
+	switch (m_eState)
+	{
+	case MODE::MODE_IDLE:
+		DoIdle(dt);
+		break;
+
+	case MODE::MODE_DETECTIVE:
+		DoDetect(dt);
+		break;
+
+	case MODE::MODE_READY:
+		DoReady(dt);
+		break;
+
+	case MODE::MODE_BATTLE:
+		DoBattle(dt);
+		break;
+
+	case MODE::MODE_RETURN:
+		DoReturn(dt);
+		break;
+	}
+}
+
+void CDeacon::DoDetect(_float dt)
+{
+	// 감지 가능 거리 이내일 때 / 감지 상태 중 추격 가능 거리일 때
+	ChasePlayer(dt);
+
+}
+
+_bool CDeacon::IsMonsterAbleToAttack()
+{
+	// 여기 레이캐스팅으로 플레이어와 몬스터 사이 장애물 유무 체크
+	
+	// 장애물 있을 경우
+	// return false;
+	// 없을 경우
+	return true;
+}
+
+void CDeacon::DoReady(_float dt)
+{
+}
+
+void CDeacon::DoBattle(_float dt)
+{
+	// 1. 플레이어와의 거리 계산
+	_float fAttackRange = 200.f;
+	_float fChaseRange = 500.f;
+
+	// 2. 거리 기준 분기
+	if (m_fCurDistance < fAttackRange)
+	{
+		// 가까우면 공격
+		AttackPattern(dt);
+		//cout << "몬스터의 공격 사거리 안입니다." << endl;
+	}
+	else if (m_fCurDistance < fChaseRange)
+	{
+		// 중간 거리면 추적
+		m_eState = MODE_DETECTIVE;
+
+		ChasePlayer(dt);
+		//cout << "몬스터 추격중입니다!" << endl;
+	}
+	else
+	{
+		// 너무 멀면 전투 종료
+		m_eState = MODE_RETURN;
+	}
+}
+
+void CDeacon::AttackPattern(_float dt)
+{
+	// 실제 공격 패턴 작성하는 곳
+	// 잡몹이라 일반공격정도만
+	// Archangel 특수공격 있음
+	// Wenteko 넣을 시 얘도 있음
+}
+
+void CDeacon::ChasePlayer(_float dt)
+{
+	//타겟을 350거리까지 추격한다.
+	_float3 TargetPos = *static_cast<CTransform*>(m_pTargetPlayer->Find_Component(L"Com_Transform"))->Get_State(CTransform::STATE_POSITION);
+
+	// 현재 위치
+	_float3 vMyPos = *m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+
+	// 방향 계산
+	_float3 vDir = TargetPos - vMyPos;
+	float fDistance = vDir.Length();
+	vDir.Normalize();
+
+	//원래방향으로 턴하기
+	_float3 vLook = *m_pTransformCom->Get_State(CTransform::STATE_LOOK);
+	bool bRotated = m_pTransformCom->RotateToDirection(vLook, vDir, 5.f, dt);
+	m_pTransformCom->ChaseWithOutY(TargetPos, dt, 200.f, 100.f);
+}
+
+void CDeacon::ChasePlayer(_float dt, _float fChaseDist)
+{
+	//타겟을 350거리까지 추격한다.
+	_float3 TargetPos = *static_cast<CTransform*>(m_pTargetPlayer->Find_Component(L"Com_Transform"))->Get_State(CTransform::STATE_POSITION);
+
+	// 현재 위치
+	_float3 vMyPos = *m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+
+	// 방향 계산
+	_float3 vDir = TargetPos - vMyPos;
+	float fDistance = vDir.Length();
+	vDir.Normalize();
+
+	//원래방향으로 턴하기
+	_float3 vLook = *m_pTransformCom->Get_State(CTransform::STATE_LOOK);
+	bool bRotated = m_pTransformCom->RotateToDirection(vLook, vDir, 5.f, dt);
+	m_pTransformCom->ChaseWithOutY(TargetPos, dt, fChaseDist, 100.f);
 }
 
 HRESULT CDeacon::Ready_Textures()
@@ -198,9 +368,13 @@ HRESULT CDeacon::Animate_Monster(_float fTimeDelta)
 			m_fAnimationFrame = 0.f;
 		break;
 	case Client::CDeacon::STATE_DEAD:
-		m_fAnimationFrame += fTimeDelta * m_fAnimationSpeed;
+		if (!m_bDead)
+			m_fAnimationFrame += fTimeDelta * m_fAnimationSpeed;
 		if (m_fAnimationFrame >= m_fAnimationMaxFrame)
-			m_fAnimationFrame = m_fAnimationMaxFrame - 1.f;
+		{
+			m_bDead = true;
+			m_fAnimationFrame = 0.f;
+		}
 		break;
 	}
 	return S_OK;

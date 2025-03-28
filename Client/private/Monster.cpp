@@ -110,8 +110,8 @@ HRESULT CMonster::Render()
 	if (!m_bRotateAnimation)
 		m_iDegree = 0;
 
-	m_pTextureMap[m_iState][m_iDegree]->Get_TextureSize(static_cast<_uint>(m_fAnimationFrame), &m_vScale);
-	m_pTransformCom->Scaling(m_vScale * 0.32f);
+	//m_pTextureMap[m_iState][m_iDegree]->Get_TextureSize(static_cast<_uint>(m_fAnimationFrame), &m_vScale);
+	//m_pTransformCom->Scaling(m_vScale * 0.32f);
 	if (FAILED(m_pTextureMap[m_iState][m_iDegree]->Bind_Resource(static_cast<_uint>(m_fAnimationFrame))))
 		return E_FAIL;
 
@@ -272,7 +272,6 @@ void CMonster::Free()
 	__super::Free();
 
 	Safe_Release(m_pVIBufferCom);
-	//Safe_Release(m_pTextureCom);
 	Safe_Release(m_pTransformCom);
 	Safe_Release(m_pCollider);
 	Safe_Release(m_pTargetPlayer);
@@ -400,7 +399,7 @@ const char* CMonster::GetMonsterStateName(MODE eState)
 	case MODE::MODE_IDLE:        return "IDLE";
 	case MODE::MODE_DETECTIVE:   return "DETECTIVE";
 	case MODE::MODE_BATTLE:      return "BATTLE";
-	case MODE::MODE_ATTACK:      return "ATTACK";
+	case MODE::MODE_READY:       return "READY";
 	case MODE::MODE_RETURN:      return "RETURN";
 	default:                     return "UNKNOWN";
 	}

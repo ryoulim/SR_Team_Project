@@ -89,13 +89,13 @@ void CLevel_GamePlay::Update(_float fTimeDelta)
 	}
 	if (KEY_DOWN(DIK_Z))
 	{
-		SpawnCultist(_float3{ 1400.f, 50.f, 1500.f }, true);
-		SpawnShotgunner(_float3{ 1400.f, 50.f, 1500.f }, true);
-		SpawnNukemutant(_float3{ 1400.f, 50.f, 1500.f }, true);
-		SpawnGreater(_float3{ 1400.f, 50.f, 1500.f }, true);
-		SpawnArchangel(_float3{ 1400.f, 50.f, 1500.f }, true);
-		SpawnDeacon(_float3{ 1400.f, 50.f, 1500.f }, true);
-		SpawnMechsect(_float3{ 1400.f, 80.f, 1500.f }, true);
+		SpawnCultist(_float3{ 1200.f, 50.f, 1500.f }, false);
+		SpawnShotgunner(_float3{ 1250.f, 50.f, 1500.f }, false);
+		SpawnNukemutant(_float3{ 1300.f, 50.f, 1500.f }, false);
+		SpawnGreater(_float3{ 1350.f, 50.f, 1500.f }, false);
+		SpawnArchangel(_float3{ 1400.f, 50.f, 1500.f }, false);
+		SpawnDeacon(_float3{ 1450.f, 50.f, 1500.f }, false);
+		SpawnMechsect(_float3{ 1500.f, 80.f, 1500.f }, false);
 	}
 		//SpawnWenteko(_float3{ 1400.f, 80.f, 1500.f }, true);
 

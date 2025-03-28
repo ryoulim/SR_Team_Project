@@ -1,5 +1,7 @@
-texture Tex; // 텍스처 선언
+matrix g_WorldMatrix, g_ViewMatrix, g_ProjMatrix;
 
+
+texture Tex; // 텍스처 선언
 sampler2D SamplerTex = sampler_state {
     Texture = <Tex>;
     MinFilter = POINT;
@@ -7,6 +9,50 @@ sampler2D SamplerTex = sampler_state {
     MipFilter = POINT;
 };
 
+#ifdef MAKE_VS
+struct VS_IN
+{
+    float3 vPosition : POSITION;
+    float2 vTexcoord : TEXCOORD0;
+};
+
+struct VS_OUT
+{    
+    float4 vPosition : POSITION;
+    float2 vTexcoord : TEXCOORD0;
+    float4 vWorldPos : TEXCOORD1;
+};
+
+VS_OUT VS_MAIN(VS_IN In)
+{
+    VS_OUT Out;
+
+    /* 로컬 정점의 위치 * 월드 * 뷰 * 투영 */    
+    vector      vPosition = mul(float4(In.vPosition, 1.f), g_WorldMatrix);
+    Out.vWorldPos = vPosition;
+    
+    vPosition = mul(vPosition, g_ViewMatrix);
+    vPosition = mul(vPosition, g_ProjMatrix);        
+    
+    Out.vPosition = vPosition;
+    Out.vTexcoord = In.vTexcoord;   
+    
+    return Out;   
+}
+
+struct PS_IN
+{
+    float4 vPosition : POSITION;
+    float2 vTexcoord : TEXCOORD0;
+    float4 vWorldPos : TEXCOORD1;
+};
+
+struct PS_OUT
+{
+    vector vColor : COLOR0;
+};
+
+#endif
 
 // ColorPickingChange
 float3 newColor = float3(1.f, 1.f, 1.f);
@@ -24,6 +70,23 @@ float opacity = 0.8f; // 지정하고 싶은 alpha opacity 값 전달
 // ShadeChange
 float darknessFactor = 0.5f; // 어둡게 만들기 위한 명암 감소 비율 (0.0 ~ 1.0)
 
+#ifdef MAKE_VS
+
+PS_OUT PS_AlphaChangeWithVS(PS_IN In) : COLOR
+{
+    PS_OUT Out;  
+    Out.vColor = tex2D(SamplerTex, In.vTexcoord);
+
+    if (Out.vColor.a < 0.1) {
+        // 배경 부분은 알파 값을 변경하지 않음
+        return Out.vColor;
+    }
+
+	Out.vColor.a *= opacity; // alpha channel에 지정한 opacity 곱연산
+
+    return Out.vColor;
+}
+#endif
 
 float4 PS_AlphaChange(float2 texCoord : TEXCOORD0) : COLOR {
     float4 color = tex2D(SamplerTex, texCoord);
@@ -158,15 +221,28 @@ float4 PS_ColorChange(float2 texCoord : TEXCOORD0) : COLOR
 
 technique Technique1 {
     pass P0 {
+        #ifdef MAKE_VS
+        VertexShader = compile vs_3_0 VS_MAIN();
+        #endif
         PixelShader = compile ps_2_0 PS_ColorChange();
     }
 	pass P1 {
+        #ifdef MAKE_VS
+        VertexShader = compile vs_3_0 VS_MAIN();
+        #endif
         PixelShader = compile ps_2_0 PS_AlphaChange();
 	}
 	pass P2 {
+        #ifdef MAKE_VS
+        VertexShader = compile vs_3_0 VS_MAIN();
+        #endif
         PixelShader = compile ps_2_0 PS_ImageMasking();
 	}
 	pass P3 {
+        #ifdef MAKE_VS
+        VertexShader = compile vs_3_0 VS_MAIN();
+        #endif
         PixelShader = compile ps_2_0 PS_ShadeChange();
 	}
+
 }
