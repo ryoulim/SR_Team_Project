@@ -1,6 +1,8 @@
 #include "Weapon.h"
 #include "Weapon.h"
 
+#define m_eLevelID  LEVEL_GAMEPLAY
+
 CWeapon::CWeapon(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CGameObject{ pGraphic_Device }
 {
@@ -22,6 +24,11 @@ HRESULT CWeapon::Initialize(void* pArg)
 		return E_FAIL;
 
 	m_pPlayerTransform = static_cast<DESC*>(pArg)->pPlayerTransform;
+	Safe_AddRef(m_pPlayerTransform);
+
+	m_pCameraManager = CAMERA_MANAGER;
+	Safe_AddRef(m_pCameraManager);
+
 	m_fDepth = 6.f;
 	Set_State(ST_OPENING);
 
@@ -46,17 +53,28 @@ void CWeapon::Late_Update(_float fTimeDelta)
 
 HRESULT CWeapon::Render()
 {
+	m_pTextureCom->Bind_Shader_To_Texture(m_pShaderCom, "Tex", static_cast<_uint>(m_fTextureNum));
+	m_pShaderCom->SetFloat("opacity", m_fAlpha);
+	m_pShaderCom->Begin(CShader::ALPHA);
+
+	m_pGraphic_Device->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
+	m_pGraphic_Device->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
+	m_pGraphic_Device->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
+
 	if (FAILED(m_pTransformCom->Bind_Resource()))
 		return E_FAIL;
 
-	if (FAILED(m_pTextureCom->Bind_Resource(static_cast<_uint>(m_fTextureNum))))
-		return E_FAIL;
+	//if (FAILED(m_pTextureCom->Bind_Resource(static_cast<_uint>(m_fTextureNum))))
+	//	return E_FAIL;
 
 	if (FAILED(m_pVIBufferCom->Bind_Buffers()))
 		return E_FAIL;
 
 	if (FAILED(m_pVIBufferCom->Render()))
 		return E_FAIL;
+
+	m_pShaderCom->End();
+	m_pGraphic_Device->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
 
 	return S_OK;
 }
@@ -121,13 +139,16 @@ void CWeapon::Idle()
 #include "TestBullet.h"
 void CWeapon::Create_Bullet()
 {
+	//m_pCameraManager->StartRecoil(10.f, 0.5f);
+	//m_pCameraManager->Shake_Camera(0.1f, 0.2f);
+
 	_float4x4 matCamWorld; 
 	m_pGraphic_Device->GetTransform(D3DTS_VIEW, &matCamWorld); matCamWorld.MakeInverseMat(matCamWorld);
 	_float3 pPos = *reinterpret_cast<_float3*>(&matCamWorld.m[3][0]);
 	_float3 pLook = *reinterpret_cast<_float3*>(&matCamWorld.m[2][0]);
 	_uint iColliderID{};
 
-	auto pPickedObj = m_pGameInstance->Raycast(pPos, pLook.Normalize(), m_fRayLength, {CG_BLOCK,CG_MONSTER}, iColliderID);
+	auto pPickedObj = m_pGameInstance->Raycast(pPos, pLook.Normalize(), m_fRayLength, {CG_BLOCK,CG_MONSTER,CG_MBULLET}, iColliderID);
 	if (pPickedObj)
 	{
 		pPickedObj->On_Collision(iColliderID, m_tAmmoInfo.eType);
@@ -178,6 +199,11 @@ HRESULT CWeapon::Ready_Components(void* pArg)
 		TEXT("Com_Transform"), reinterpret_cast<CComponent**>(&m_pTransformCom), pArg)))
 		return E_FAIL;
 
+	/* For.Com_Shader */
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Shader"),
+		TEXT("Com_Shader"), reinterpret_cast<CComponent**>(&m_pShaderCom))))
+		return E_FAIL;
+
 	if (pArg != nullptr)
 	{
 		DESC* pDesc = static_cast<DESC*>(pArg);
@@ -215,5 +241,8 @@ void CWeapon::Free()
 	Safe_Release(m_pVIBufferCom);
 	Safe_Release(m_pTextureCom);
 	Safe_Release(m_pTransformCom);
+	Safe_Release(m_pShaderCom);
+
 	Safe_Release(m_pPlayerTransform);
+	Safe_Release(m_pCameraManager);
 }

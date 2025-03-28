@@ -53,6 +53,11 @@ void CFPS_Camera::Priority_Update(_float fTimeDelta)
 		Update_Camera_Shake(fTimeDelta);
 	}
 
+	if (m_bRecoil)
+	{
+		Update_Weapon_Recoil(fTimeDelta);
+	}
+
 	Bind_Resource();
 }
 
@@ -109,6 +114,16 @@ void CFPS_Camera::StartShake(_float fIntensity, _float fDuration, _float fShakeF
 	m_bShake = TRUE;
 }
 
+void CFPS_Camera::StartRecoil(_float fIntensity, _float fDuration)
+{
+	m_fShakeIntensity = fIntensity;
+	m_fShakeDuration = fDuration;
+
+	m_fShakeTime = 0.f;
+
+	m_bRecoil = TRUE;
+}
+
 void CFPS_Camera::Update_Projection_Matrix()
 {
 	m_ProjMatrix.MakePerspectiveProjMat(m_fFov, m_fAspect, m_fNear, m_fFar);
@@ -131,9 +146,6 @@ void CFPS_Camera::Update_Camera_Shake(_float fTimedelta)
 {
 	m_pTransformCom->Move(-m_vCurrentShakePos);
 	m_pTransformCom->Quaternion_Turn(RADIAN(- m_vCurrentShakeRot)); // _float3로 회전 제거
-
-	if (!m_bShake)
-		return;
 
 	m_fShakeTime += fTimedelta;
 
@@ -171,6 +183,38 @@ void CFPS_Camera::Update_Camera_Shake(_float fTimedelta)
 
 	m_pTransformCom->Move(m_vCurrentShakePos);
 	m_pTransformCom->Quaternion_Turn(RADIAN(m_vCurrentShakeRot)); // 회전 적용 (Yaw, Pitch, Roll)}
+}
+
+void CFPS_Camera::Update_Weapon_Recoil(_float fTimedelta)
+{
+	m_pTransformCom->Move(-m_vCurrentShakePos);
+	m_pTransformCom->Quaternion_Turn(RADIAN(-m_vCurrentShakeRot)); // Roll, Pitch, Yaw 역적용
+
+	m_fShakeTime += fTimedelta;
+
+	if (m_fShakeTime >= m_fShakeDuration)
+	{
+		m_bRecoil = FALSE;
+		return;
+	}
+
+	// 4. 반동 커브 계산
+	_float t = m_fShakeTime / m_fShakeDuration;
+	_float recoilCurve = -powf(t - 1.f, 2.f) + 1.f;
+
+	// 5. 새 흔들림 값 계산
+	m_vCurrentShakePos = { 0.f, 0.f, 0.f }; // 위치 반동을 주고 싶다면 여기에
+	m_vCurrentShakeRot = { 0.f, recoilCurve * m_fShakeIntensity, 0.f };
+
+	// 6. 새 흔들림 적용
+	m_pTransformCom->Move(m_vCurrentShakePos);
+	m_pTransformCom->Quaternion_Turn(RADIAN(m_vCurrentShakeRot));
+}
+
+void CFPS_Camera::Reset_Shake_And_Recoil()
+{
+	m_pTransformCom->Move(-m_vCurrentShakePos);
+	m_pTransformCom->Quaternion_Turn(RADIAN(-m_vCurrentShakeRot));
 }
 
 

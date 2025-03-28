@@ -174,13 +174,21 @@ void CWeapon_Dispenser::Key_Input()
 		else
 			Set_State(CWeapon::ST_RELOAD);
 	}
-	if (MOUSE_DOWN(DIMK_RBUTTON))
+	if (MOUSE_DOWN(DIMK_RBUTTON) && m_pCurAmmo->iCurAmmo > 0)
 	{
 		m_bGrenadeMode = !m_bGrenadeMode;
+
+		// 여기서 총 바꿈
+		m_pCurAmmo->iCurAmmo -= m_pCurAmmo->iReloadedAmmo;
+		m_pCurAmmo->iReloadedAmmo = m_pCurAmmo->iMaxAmmo;
+		if (m_pCurAmmo->iCurAmmo < 0)
+			m_pCurAmmo->iCurAmmo = 0;
+
 		if (m_bGrenadeMode)
-			m_pCurAmmo = &m_tGrenadeInfo;	
+			m_pCurAmmo = &m_tGrenadeInfo;
 		else
 			m_pCurAmmo = &m_tShellInfo;
+
 		CUI_Manager::Get_Instance()->Change_Weapon(m_pCurAmmo);
 		Set_State(ST_ENDING); // 모드 변경임
 	}
@@ -247,7 +255,7 @@ void CWeapon_Dispenser::Reload(_float fTimeDelta)
 
 void CWeapon_Dispenser::Ending(_float fTimeDelta)
 {
-	Set_State(ST_OPENING);
+	Set_State(ST_RELOAD);
 }
 
 void CWeapon_Dispenser::Create_Bullet()

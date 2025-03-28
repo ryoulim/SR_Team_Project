@@ -29,6 +29,48 @@ void CCollider_Sphere::Update_Scale(const _float3& vScale)
     m_tInfo.fRadius = vScale.x;
 }
 
+_bool CCollider_Sphere::RayCasting(const _float3& rayOrigin, const _float3& rayDir)
+{
+    const _float3& center = m_tInfo.vPosition;
+    const _float radius = m_tInfo.fRadius;
+
+    // 벡터: 레이 시작점 → 구 중심
+    _float3 m = rayOrigin - center;
+
+    _float b = m.Dot(rayDir);
+    _float c = m.Dot(m) - radius * radius;
+
+    // 레이 시작점이 구 바깥이고, 구 쪽을 향하지 않음
+    if (c > 0.f && b > 0.f)
+        return FALSE;
+
+    _float discr = b * b - c;
+
+    // 판별식 < 0 → 교차 없음
+    if (discr < 0.f)
+        return FALSE;
+
+    // 교차 지점까지 거리
+    _float t = -b - sqrtf(discr);
+
+    // 음수면 레이 시작점이 구 안에 있는 경우 → 교차 지점은 앞으로
+    if (t < 0.f)
+        t = 0.f;
+
+    // 교차 지점 좌표
+    _float3 hitPoint = rayOrigin + rayDir * t;
+
+    // 충돌 방향: 구 중심 → 교차 지점
+    _float3 normal = hitPoint - center;
+    _float length = normal.Length();
+    _float3 pushDir = (length > 1e-4f) ? normal.Normalize() : _float3(0.f, 1.f, 0.f);
+
+    m_vLast_Collision_Pos = hitPoint;
+    m_vLast_Collision_Depth = pushDir;
+
+    return TRUE;
+}
+
 _bool CCollider_Sphere::Intersect_With_AABB_Cube(const CCollider* pOther)
 {
     auto pAABBInfo = static_cast<const CCollider_AABB_Cube*>(pOther)->Get_Info();

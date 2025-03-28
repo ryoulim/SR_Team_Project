@@ -43,16 +43,17 @@ public:
 	_bool isJump() {
 		return m_bJump;
 	}
+	// 초기화시의 점프 옵션을 바꾸는 옵션.
+	void Set_JumpOption(_float	fTimeIncreasePerSec, _float	fMaxFallSpeedPerSec) {
+		m_fTimeIncreasePerSec = fTimeIncreasePerSec;
+		m_fMaxFallSpeedperSec = fMaxFallSpeedPerSec;
+	}
+
 	// 높이를 지금의 스케일에 맞춥니다.
 	void Update_Height();
 	// 높이를 강제로 조정합니다.
 	void Set_Height(_float fHeight) {
 		m_fHalfHeight = fHeight * 0.5f;
-	}
-	// 초기화시의 점프 옵션을 바꾸는 옵션.
-	void Set_JumpOption(_float	fTimeIncreasePerSec, _float	fMaxFallSpeedPerSec) {
-		m_fTimeIncreasePerSec = fTimeIncreasePerSec;
-		m_fMaxFallSpeedperSec = fMaxFallSpeedPerSec;
 	}
 	// 이 함수의 리턴을 트랜스폼의 _42에 넣으면 바닥에 예쁘게 붙습니다.
 	_float Get_FloorY() {

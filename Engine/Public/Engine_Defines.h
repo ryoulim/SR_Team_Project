@@ -18,6 +18,7 @@
 #include <forward_list>
 #include <initializer_list>
 #include <array>
+#include <queue>
 using namespace std;
 
 #include "Engine_Macro.h"

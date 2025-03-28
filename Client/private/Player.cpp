@@ -9,6 +9,10 @@
 #include "Weapon_LoverBoy.h"
 #include <UI_Manager.h>
 
+#define DASH_TIME 0.5f
+#define JUST_DASH_TIME 0.2f
+#define DASH_SPEED 1500.f
+
 CPlayer::CPlayer(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CPawn{ pGraphic_Device }
 {
@@ -68,7 +72,6 @@ HRESULT CPlayer::Initialize(void* pArg)
 #pragma endregion
 	CUI_Manager::Get_Instance()->Change_Weapon(m_Weapons[m_iCurWeaponIndex]->Get_Info());
 
-
 	return S_OK;
 }
 
@@ -79,12 +82,9 @@ void CPlayer::Priority_Update(_float fTimeDelta)
 		m_bFpsMode = !m_bFpsMode;
 		m_pCameraManager->Switch(m_bFpsMode);
 	}
-	if (m_bFpsMode)
-	{
-		Key_Input(fTimeDelta);
-		m_Weapons[m_iCurWeaponIndex]->Priority_Update(fTimeDelta);
-		__super::Priority_Update(fTimeDelta);
-	}
+
+	m_Weapons[m_iCurWeaponIndex]->Priority_Update(fTimeDelta);
+	__super::Priority_Update(fTimeDelta);
 }
 
 EVENT CPlayer::Update(_float fTimeDelta)
@@ -98,16 +98,30 @@ EVENT CPlayer::Update(_float fTimeDelta)
 //
 //#endif
 
-	m_Weapons[m_iCurWeaponIndex]->Update(fTimeDelta);
-
 	if (!m_bFpsMode)
 		return EVN_NONE;
+
+	if (m_bDash)
+	{
+		Update_Dash(fTimeDelta);
+	}
+	else
+	{
+		if (m_bFpsMode)
+		{
+			Key_Input(fTimeDelta);
+		}
+	}
+
+	m_Weapons[m_iCurWeaponIndex]->Update(fTimeDelta);
 
 	return __super::Update(fTimeDelta);
 }
 
 void CPlayer::Late_Update(_float fTimeDelta)
 {
+	m_vPrePosition = *m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+
 	m_pGameInstance->Add_RenderGroup(CRenderer::RG_NONBLEND, this);
 
 	if (!m_bFpsMode)
@@ -153,6 +167,7 @@ void CPlayer::Key_Input(_float fTimeDelta)
 {
 	_bool bTriger{};
 
+	// 이동관련
 	if (KEY_PRESSING(DIK_W))
 	{
 		m_pGravityCom->Go_Straight_On_Terrain(fTimeDelta);
@@ -176,13 +191,24 @@ void CPlayer::Key_Input(_float fTimeDelta)
 	if (bTriger)
 		m_Weapons[m_iCurWeaponIndex]->Walk(fTimeDelta);
 
-
+	// 점프
 	if (KEY_DOWN(DIK_SPACE))
 	{
 		m_pGravityCom->Jump(33.f);
 	}
+	// 대쉬
+	if (KEY_DOWN(DIK_LSHIFT)	&&
+		!m_bDash				&&
+		m_vPrePosition != *m_pTransformCom->Get_State(CTransform::STATE_POSITION))
+	{
+		m_vDashDirection = (*m_pTransformCom->Get_State(CTransform::STATE_POSITION)
+			- m_vPrePosition).Normalize() * DASH_SPEED;
+		m_vDashDirection.y = 0.f;
+		m_bDash = TRUE;
+		m_fDashTimer = 0.f;
+	}
 
-
+	// 무기 교체
 	bTriger = FALSE;
 	if (KEY_DOWN(DIK_Q))
 	{
@@ -206,6 +232,7 @@ void CPlayer::Key_Input(_float fTimeDelta)
 		m_Weapons[m_iCurWeaponIndex]->Set_State(CWeapon::ST_OPENING);
 	}
 
+	// 무기 키 감지
 	m_Weapons[m_iCurWeaponIndex]->Key_Input();
 }
 
@@ -223,6 +250,25 @@ void CPlayer::Update_Camera_Link()
 
 	m_pCameraTransform->Set_State(CTransform::STATE_POSITION,
 		*m_pTransformCom->Get_State(CTransform::STATE_POSITION) + _float3{ 0.f,Scale.y * 0.5f ,0.f });
+}
+
+void CPlayer::Update_Dash(_float fTimeDelta)
+{
+	m_fDashTimer += fTimeDelta;
+	if (m_fDashTimer > DASH_TIME)
+		m_bDash = FALSE;
+
+	_float3 vPos = *m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+	_float fFloorY = m_pGravityCom->Get_FloorY();
+
+	vPos += (m_vDashDirection * fTimeDelta);
+
+	if (vPos.y < fFloorY)
+		vPos.y = fFloorY;
+
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION,vPos);
+
+	m_vDashDirection *= 0.93f;
 }
 
 CPlayer* CPlayer::Create(LPDIRECT3DDEVICE9 pGraphic_Device)

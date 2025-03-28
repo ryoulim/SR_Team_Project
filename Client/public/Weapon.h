@@ -3,6 +3,7 @@
 #include "Client_Defines.h"
 #include "GameInstance.h"
 #include "GameObject.h"
+#include "CameraManager.h"
 
 #define MOTION(Num,Duration) _uint(m_fMotionTimer / Duration) % Num
 
@@ -70,7 +71,10 @@ protected:
 	CTexture* m_pTextureCom = { nullptr };
 	CVIBuffer* m_pVIBufferCom = { nullptr };
 	CTransform* m_pTransformCom = { nullptr };
+	CShader* m_pShaderCom = { nullptr };
+
 	CTransform* m_pPlayerTransform{ nullptr };
+	CCameraManager* m_pCameraManager{ nullptr };
 
 	AMMOINFO m_tAmmoInfo{};
 	_float m_fFrameSpeed{};
@@ -78,6 +82,7 @@ protected:
 	_float m_fEndFrame{};
 	_float m_fMotionTimer{};
 	_float m_fWalkTimer{};
+	_float m_fAlpha{ 1.f };
 
 	STATE m_eState{ ST_IDLE };
 

@@ -65,6 +65,11 @@ void CCameraManager::Shake_Camera(_float fIntensity, _float fDuration, _float fS
 	static_cast<CFPS_Camera*>(m_Cameras[m_eID])->StartShake(fIntensity, fDuration, fShakeFreqPos, fShakeFreqRot);
 }
 
+void CCameraManager::StartRecoil(_float fIntensity, _float fDuration)
+{
+	static_cast<CFPS_Camera*>(m_Cameras[m_eID])->StartRecoil(fIntensity, fDuration);
+}
+
 
 void CCameraManager::Switch(_bool isFPSMode)
 {

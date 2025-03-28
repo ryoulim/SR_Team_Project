@@ -361,6 +361,9 @@
     <Filter Include="02.GameObjects\Particle\_BossMobSkill\JumpAttack">
       <UniqueIdentifier>{7fdd175d-aa74-493e-a0d1-fce9abb340a6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="97. ShaderFIles">
+      <UniqueIdentifier>{3970e915-f723-49bb-a664-32766fb16030}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">

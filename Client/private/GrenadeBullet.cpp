@@ -86,7 +86,8 @@ HRESULT CGrenadeBullet::Render()
 void CGrenadeBullet::On_Collision(_uint MyColliderID, _uint OtherColliderID)
 {
 	if (OtherColliderID == CI_MON_HEAD || 
-		OtherColliderID == CI_MON_BODY)
+		OtherColliderID == CI_MON_BODY ||
+		CI_WEAPON(OtherColliderID))
 	{
 		m_bDead = TRUE;
 	}

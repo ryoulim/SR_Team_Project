@@ -28,15 +28,22 @@ private:
 	class CCameraManager*		m_pCameraManager {};
 	CTransform*					m_pCameraTransform{};
 	_bool						m_bFpsMode{TRUE};
+	_bool						m_bDash{};
 
 	vector<class CWeapon*>		m_Weapons;
-	_int						m_iCurWeaponIndex{};
-	_int						m_iMaxWeaponIndex{2};
+	_uint						m_iCurWeaponIndex{};
+	_uint						m_iMaxWeaponIndex{2};
 	_int						m_iHP = 0;
+
+	// ´ë½¬
+	_float3						m_vPrePosition{};
+	_float3						m_vDashDirection{};
+	_float						m_fDashTimer{};
 
 private:
 	void			Key_Input(_float fTimeDelta);
 	void			Update_Camera_Link();
+	void			Update_Dash(_float fTimeDelta);
 
 public:
 	static CPlayer* Create(LPDIRECT3DDEVICE9 pGraphic_Device);

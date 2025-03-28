@@ -30,6 +30,7 @@ public:
 	void Mouse_Move();
 	void Mouse_Fix();
 	void StartShake(_float fIntensity, _float fDuration, _float fShakeFreqPos, _float fShakeFreqRot);
+	void StartRecoil(_float fIntensity, _float fDuration);
 
 private:
 	_float3 m_vInitLook{};
@@ -41,6 +42,7 @@ private:
 	_float m_fShakeDuration = 0.f;
 	_float m_fShakeIntensity = 0.f;
 	_bool  m_bShake = FALSE;
+	_bool	m_bRecoil = FALSE;
 
 	_float3  m_vCurrentShakePos = { 0.f, 0.f, 0.f};
 	_float3  m_vCurrentShakeRot = { 0.f, 0.f, 0.f };
@@ -51,7 +53,9 @@ private:
 private:
 	virtual void		Update_Projection_Matrix() override;
 	virtual HRESULT		Ready_Components(void* pArg) override;
-	virtual void		Update_Camera_Shake(_float fDeltaTime);
+	void				Update_Camera_Shake(_float fTimedelta);
+	void				Update_Weapon_Recoil(_float fTimedelta);
+	void				Reset_Shake_And_Recoil();
 
 public:
 	static CFPS_Camera* Create(LPDIRECT3DDEVICE9 pGraphic_Device);

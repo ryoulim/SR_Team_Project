@@ -64,7 +64,15 @@ public:
 	void Delete_Collider(const class CGameObject* pOwner);
 	// A그룹과 B그룹의 충돌을 검사한다.
 	void Intersect(_uint iColliderGroupID1, _uint iColliderGroupID2);
-	// 개같은 레이캐스트
+	/// <summary>
+	/// 개빡치는 레이캐스트
+	/// </summary>
+	/// <param name="rayOrigin"> 레이를 쏘는 시작지점 </param>
+	/// <param name="rayDir"> 레이를 쏘는 방향 </param>
+	/// <param name="rayLength"> 레이의 최대 길이 </param>
+	/// <param name="ColliderGroupIDs"> 체크할 그룹을 중괄호로 넣으세요 </param>
+	/// <param name="ColliderID"> 여기다가 부딪힌 콜라이더 아이디 뱉어줄게 온콜리전은 니가불러 </param>
+	/// <returns></returns>
 	class CGameObject* Raycast(const _float3& rayOrigin, const _float3& rayDir, _float rayLength, const initializer_list<_uint>& ColliderGroupIDs, _uint& _Out_ ColliderID);
 	// 아래로만 쏘는 레이
 	_float Raycast_Downward(const _float3& rayOrigin, _uint iColliderGroupID);
