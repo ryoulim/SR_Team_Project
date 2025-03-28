@@ -78,7 +78,7 @@ HRESULT CVIBuffer_BuildingU::Initialize_Prototype()
 	pVertices[15].vTexcoord = _float2(1.f, 1.f);//
 
 #pragma region ¹ý¼±
-	for (int i = 0; i < m_iNumVertices; i++)
+	for (_uint i = 0; i < m_iNumVertices; i++)
 	{
 		pVertices[i].vNormal = _float3(0.f, 0.f, 0.f);
 	}
