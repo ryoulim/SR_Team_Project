@@ -112,7 +112,7 @@ void CTtakkeun_i::Late_Update(_float fTimeDelta)
 	//렌더그룹 업데이트
 	if (FAILED(m_pGameInstance->Add_RenderGroup(CRenderer::RG_NONBLEND, this)))
 		return;
-
+	Set_TextureType();
 	//__super::Late_Update(fTimeDelta);
 #ifdef _DEBUG
 	auto now = steady_clock::now();
@@ -199,11 +199,31 @@ HRESULT CTtakkeun_i::Ready_Textures()
 			return E_FAIL;
 	}
 
+	/* BOMB */
+	for (_uint i = 0; i < BOSS_DEGREE::D_END; i++)
+	{
+		_wstring sPrototypeTag = L"Prototype_Component_Texture_Boss_Bomb_";
+		_uint num = static_cast<_uint>(i * m_fDivOffset);
+		_tchar buf[32];
+		_itow_s((int)num, buf, 10);
+		sPrototypeTag += buf;
+		if (FAILED(__super::Add_Component(m_eLevelID, sPrototypeTag,
+			_wstring(TEXT("Com_Texture")) + L"_Boss_Bomb_" + buf, reinterpret_cast<CComponent**>(&(m_pTextureMap[STATE_BOMB][i])))))
+			return E_FAIL;
+	}
 
-
-	//if (FAILED(__super::Add_Component(m_eLevelID, _wstring(TEXT("Prototype_Component_Texture_")) + m_szTextureID,
-	//	TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
-	//	return E_FAIL;
+	/* MISSILE */
+	for (_uint i = 0; i < BOSS_DEGREE::D_END; i++)
+	{
+		_wstring sPrototypeTag = L"Prototype_Component_Texture_Boss_Missile_";
+		_uint num = static_cast<_uint>(i * m_fDivOffset);
+		_tchar buf[32];
+		_itow_s((int)num, buf, 10);
+		sPrototypeTag += buf;
+		if (FAILED(__super::Add_Component(m_eLevelID, sPrototypeTag,
+			_wstring(TEXT("Com_Texture")) + L"_Boss_Missile_" + buf, reinterpret_cast<CComponent**>(&(m_pTextureMap[STATE_MISSILE][i])))))
+			return E_FAIL;
+	}
 
  	return S_OK;
 }
@@ -238,6 +258,14 @@ HRESULT CTtakkeun_i::Set_Animation()
 			m_fAnimationMaxFrame = 1.f;
 			m_fAnimationSpeed = 0.f;
 			m_iState = (_uint)(STATE_WALK);
+			break;
+		case Client::CTtakkeun_i::STATE_MISSILE: //두개
+			m_fAnimationMaxFrame = _float(MAX_GROUNDATK);
+			m_fAnimationSpeed = 20.f;
+			break;
+		case Client::CTtakkeun_i::STATE_BOMB: //꼬리
+			m_fAnimationMaxFrame = _float(MAX_GROUNDATK);
+			m_fAnimationSpeed = 20.f;
 			break;
 		default:
 			break;
@@ -325,6 +353,20 @@ HRESULT CTtakkeun_i::Animate_Monster(_float fTimeDelta)
 		else if (m_fAnimationFrame >= 5.f)
 			m_eCurMonsterState = STATE_WALK;
 			
+		break;
+
+
+	case Client::CTtakkeun_i::STATE_BOMB:
+		m_fAnimationFrame += fTimeDelta * m_fAnimationSpeed;
+		if (m_fAnimationFrame >= m_fAnimationMaxFrame)
+			m_fAnimationFrame = 0.f;
+		break;
+
+
+	case Client::CTtakkeun_i::STATE_MISSILE:
+		m_fAnimationFrame += fTimeDelta * m_fAnimationSpeed;
+		if (m_fAnimationFrame >= m_fAnimationMaxFrame)
+			m_fAnimationFrame = 0.f;
 		break;
 	}
 

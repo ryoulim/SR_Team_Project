@@ -21,7 +21,7 @@ using namespace std::chrono;
 class CMonster abstract : public CGameObject
 {
 public:
-	enum MODE{	MODE_IDLE, MODE_ATTACK, MODE_BATTLE, MODE_DETECTIVE, MODE_RETURN, MODE_END  };
+	enum MODE{	MODE_IDLE, MODE_READY, MODE_BATTLE, MODE_DETECTIVE, MODE_RETURN, MODE_END  };
 	enum EIdlePhase { IDLE_MOVE, IDLE_WAIT, IDLE_TURN };
 
 
@@ -42,6 +42,7 @@ public:
 	virtual HRESULT Initialize_Prototype() override;
 	virtual HRESULT Initialize(void* pArg) override;
 	virtual void Priority_Update(_float fTimeDelta) override;
+public: //상태변환	
 	virtual EVENT Update(_float fTimeDelta) override;
 	virtual void Late_Update(_float fTimeDelta) override;
 
@@ -60,7 +61,7 @@ public: // 길찾기 및 디텍티브
 	virtual void Render_DebugFOV();
 	const char*	 GetMonsterStateName(CMonster::MODE eState);
 
-public: //상태변환
+
 	virtual void MonsterTick(_float fTimeDelta);
 
 public: //액션
@@ -116,6 +117,7 @@ protected:
 	_bool	m_bCW = {true};					// Clockwise?
 	_float	m_fDivOffset = {45.f};			// 몇 도로 쪼개져 있는 이미지인지 (보스: 22.5도, 일반(기본): 45도) 
 	_bool	m_isReadyMonster = { false };	// 텍스쳐 준비 할 때 까지 기본 렌더링으로 돌리려고 
+	_float	m_fDeadBodyCounter = {};		// 시체 남아있는 시간 
 
 	typedef _uint STATE;					// 텍스쳐 컴포넌트 (해치지않아요)
 	typedef _uint VIEWDEGREE;
@@ -204,6 +206,10 @@ protected: // 작동변수
 
 protected: // 디버깅
 	_bool			m_bDebug = false;
+
+protected: // 일반 몬스터 행동 용 변수
+	_bool			m_bFoundPlayer = { false };
+	_bool			m_isReadyToAttack = { false };
 
 
 };

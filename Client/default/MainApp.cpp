@@ -170,7 +170,6 @@ HRESULT CMainApp::Ready_Component_For_Static()
 
 	ADD_PRTCOM(Transform);
 	ADD_PRTCOM(Gravity);
-	ADD_PRTCOM_EX(Shader, L"../bin/ShaderFiles/Shader_TextureEffect.hlsl");
 	ADD_PRTCOM(Collider_AABB_Cube);
 	ADD_PRTCOM(Collider_OBB_Cube);
 	ADD_PRTCOM(Collider_Sphere);
@@ -196,6 +195,9 @@ HRESULT CMainApp::Ready_Component_For_Static()
 		CTexture::Create(m_pGraphic_Device, TEXT("../Bin/Resources/Textures/SkyBox/Sky_%d.dds"), 1, CTexture::TYPE_CUBE))))
 		return E_FAIL;
 
+	if (((FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, _wstring(L"Prototype_Component_Shader"),
+		CShader::Create(m_pGraphic_Device, L"../bin/ShaderFiles/Shader_TextureEffect.hlsl"))))))
+		return E_FAIL;
 
 	return S_OK;
 }
