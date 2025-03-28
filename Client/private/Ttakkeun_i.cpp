@@ -2,7 +2,7 @@
 #include "FXMgr.h"
 #include "MonsterBullet.h"
 #include "FlyEffect.h"
-
+#include "GrenadeBullet.h"
 
 CTtakkeun_i::CTtakkeun_i(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CMonster{ pGraphic_Device }
@@ -381,7 +381,7 @@ void CTtakkeun_i::DoIdle(_float dt)
 void CTtakkeun_i::DoBattle(_float dt)
 {
 	// 1. 플레이어와의 거리 계산
-	_float fAttackRange = 350.f;
+	_float fAttackRange = 400.f;
 	_float fChaseRange = 700.f;
 
 	//만약 공중공격중이라면
@@ -414,42 +414,20 @@ void CTtakkeun_i::AttackPattern(_float dt)
 		if (m_fCooldownTime >= m_fCooldownDuration)
 		{
 			m_iRandom = GetRandomInt(0, 3);
-			m_iRand = GetRandomInt(0, 99);
 			m_bCoolingDown = false;
 			m_fCooldownTime = 0.f;
 		}
 		return;
 	}
 
-	bool isPhase2 = (m_iHP <= m_iMaxHP / 2);
-
-	/* 따끈이의 공격패턴[ 2페이즈 ] */
-	if (isPhase2)
-	{
-		// 2페이즈일 때는 2페이즈 전용 패턴이 더 높은 확률로 등장
-		if (m_iRand < 20)
-			/* 1. 레이저 빔 */
-			LazerAttack(dt);      // 20% 확률
-		else if (m_iRand < 40)
-			/* 2. 공작 유도탄 */
-			MissileAttack(dt);    // 20% 확률
-		else if (m_iRand < 60)
-			/* 3. 몬스터 소환(다콘) */
-			SpawnAttack(dt);      // 20% 확률
-		else
-			BasicAttackSet(dt); // 20% 확률로 1페이즈 패턴
-	}
-	else
-	{
-		// 1페이즈일 때는 그냥 1페이즈 패턴만 사용
-		BasicAttackSet(dt);
-	}
+	//공격하라~
+	BasicAttackSet(dt);
 }
 
 void CTtakkeun_i::BasicAttackSet(_float dt)
 {
 	/* 따끈이의 공격패턴[ 1페이즈 ] */
-
+	m_iRandom = 2;
 	switch (m_iRandom)
 	{
 	case 0: 
@@ -465,15 +443,20 @@ void CTtakkeun_i::BasicAttackSet(_float dt)
 		BounceBall(dt);
 		break;
 	case 3:
-		/* 3. 내리찍기 */
+		/* 4. 내리찍기 */
 		JumpAttack(dt);
+		break;
+	case 4:
+		/* 5. 공작 미사일발사 */
+		MissileAttack(dt);
+		break;
+	case 5:
+		/* 6. 몬스터 소환 */
+		SpawnAttack(dt);
 		break;
 	}
 }
 
-void CTtakkeun_i::LazerAttack(_float dt)
-{
-}
 
 void CTtakkeun_i::MissileAttack(_float dt)
 {
@@ -521,12 +504,20 @@ void CTtakkeun_i::BounceBall(_float dt)
 
 	/* 1. 따끈이는 고정된 상태로 플레이어를 빌보드한다. */
 	m_bRotateAnimation = false;
+	
+	/* 룩벡터 회전 */
+	_float3 vPlayerPos = *static_cast<CTransform*>(m_pTargetPlayer->Find_Component(L"Com_Transform"))->Get_State(CTransform::STATE_POSITION);
+	_float3 vPos = *m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+	_float3 vToPlayer = vPlayerPos - vPos;
+	_float3 vLook = *m_pTransformCom->Get_State(CTransform::STATE_LOOK);
+	bool bRotated = m_pTransformCom->RotateToDirection(vLook, vToPlayer, 60.f, dt);
 
 	/* 2. 일정시간마다 바운스볼을 플레이어에게 3방향 발사한다. */
 	m_fBounceTime += dt;
-	if (m_fBounceTime >= 2.f)
+	if (m_fBounceTime >= 1.f)
 	{
 		//여기에 소환 함수 호출하면 끝!
+		SpawnBounce();
 		m_iBounceCount++;
 		m_fBounceTime = 0.f;
 		return;
@@ -535,8 +526,10 @@ void CTtakkeun_i::BounceBall(_float dt)
 	/* 3. 총 4번을 발사하면 쿨다운함수를 호출한다 */
 	if (m_iBounceCount > 3)
 	{
-		StartCooldown(dt, 2.f, 2.5f);
+		StartCooldown(dt, 1.f, 2.f);
 		m_bRotateAnimation = true;
+		m_fBounceTime = 0;
+		m_iBounceCount = 0;
 	}
 }
 
@@ -545,7 +538,7 @@ void CTtakkeun_i::JumpAttack(_float dt)
 	if (m_iJumpCount > 2)
 	{
 		m_iJumpCount = 0;
-		StartCooldown(dt, 2.f, 3.f);
+		StartCooldown(dt, 1.f, 2.f);
 		return;
 	}
 
@@ -766,6 +759,53 @@ void CTtakkeun_i::SpawnMissile(_float dt)
 
 		m_fSpawnMissile = 0.f;
 	}
+}
+
+void CTtakkeun_i::SpawnBounce()
+{
+	//현재 포지션
+	_float3 fMyPos = *m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+	fMyPos.y += 30.f;
+
+	//발사방향
+	_float3 fMyLook = *m_pTransformCom->Get_State(CTransform::STATE_LOOK);
+	fMyLook.Normalize();
+
+	float fAngleOffsets[3] = { -30.f, 0.f, 30.f };
+
+	for (int i = 0; i < 3; ++i)
+	{
+		float rad = RADIAN(fAngleOffsets[i]);
+		_float3 vDir = Rotate_Y(fMyLook, rad); // Y축 기준으로 회전
+
+		CGrenadeBullet::DESC BulletDesc{};
+		BulletDesc.fSpeedPerSec = 300.f;
+		BulletDesc.vScale = { 20.f,20.f,20.f };
+
+		BulletDesc.vPosition = fMyPos;
+		BulletDesc.szTextureTag = TEXT("MonsterBounce");
+		BulletDesc.vLook = vDir;
+
+		BulletDesc.ColliderGroup = CG_MBULLET;
+		BulletDesc.fInitJumpPower = 30.f;
+		BulletDesc.fTimeLimit = 2.f;
+
+		if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_GrenadeBullet"),
+			LEVEL_GAMEPLAY, TEXT("Layer_Bullet"), &BulletDesc)))
+			return;
+	}
+}
+
+_float3 CTtakkeun_i::Rotate_Y(_float3 vDir, float rad)
+{
+	float cosA = cosf(rad);
+	float sinA = sinf(rad);
+
+	_float3 result;
+	result.x = vDir.x * cosA - vDir.z * sinA;
+	result.y = vDir.y;
+	result.z = vDir.x * sinA + vDir.z * cosA;
+	return result;
 }
 
 void CTtakkeun_i::FlyEffect()
