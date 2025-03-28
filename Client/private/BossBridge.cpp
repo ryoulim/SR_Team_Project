@@ -21,7 +21,7 @@ HRESULT CBossBridge::Initialize_Prototype()
 
 HRESULT CBossBridge::Initialize(void* pArg)
 {
-	m_eLevelID = LEVEL_GAMEPLAY;
+ 	m_eLevelID = LEVEL_GAMEPLAY;
 	m_szTextureID = TEXT("Test");
 	m_szBufferType = TEXT("Cube");
 

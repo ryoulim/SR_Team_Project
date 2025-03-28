@@ -695,7 +695,7 @@ HRESULT CLoader::Loading_For_GamePlay()
 	//ADD_TEXTURE(Cultist_Run, "../Bin/Resources/Textures/Monster/Cultist/Cultist_Run%d.PNG", 4);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
 	//ADD_TEXTURE(Archangel_Walk, "../Bin/Resources/Textures/Monster/Archangel/Archangel_Walk%d.PNG", 4);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
 
-	for (size_t i = 0; i < 100000; i++) { for (size_t j = 0; j < 10000; j++)int a = 0; if (KEY_PRESSING(DIK_SPACE))break; }
+	//for (size_t i = 0; i < 100000; i++) { for (size_t j = 0; j < 10000; j++)int a = 0; if (KEY_PRESSING(DIK_SPACE))break; }
 
 #pragma endregion
 
@@ -736,8 +736,9 @@ HRESULT CLoader::Loading_For_GamePlay()
 	ADD_PRTOBJ(Lava); fDataCurNum++; m_fLoadPercent = fDataCurNum / fDataNum;
 	ADD_PRTOBJ(AlphaRect); fDataCurNum++; m_fLoadPercent = fDataCurNum / fDataNum;
 	ADD_PRTOBJ(AlphaBlock); fDataCurNum++; m_fLoadPercent = fDataCurNum / fDataNum;
+	ADD_PRTOBJ(BossBridge);
 
-	for (size_t i = 0; i < 100000; i++) { for (size_t j = 0; j < 10000; j++)int a = 0; if (KEY_PRESSING(DIK_SPACE))break; }
+	//for (size_t i = 0; i < 100000; i++) { for (size_t j = 0; j < 10000; j++)int a = 0; if (KEY_PRESSING(DIK_SPACE))break; }
 	//몬스터
 	ADD_PRTOBJ(Ttakkeun_i);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
 	ADD_PRTOBJ(Wenteko);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;

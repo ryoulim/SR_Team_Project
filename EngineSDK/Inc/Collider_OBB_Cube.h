@@ -1,6 +1,6 @@
 #pragma once
 #include "Collider.h"
-#define _BUFFERRENDER
+
 BEGIN(Engine)
 
 class ENGINE_DLL CCollider_OBB_Cube final : public CCollider
