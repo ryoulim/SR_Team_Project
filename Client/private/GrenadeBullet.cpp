@@ -25,6 +25,7 @@ HRESULT CGrenadeBullet::Initialize(void* pArg)
 	m_eLevelID = LEVEL_GAMEPLAY;
 	m_szTextureID = pDesc->szTextureTag;
 	m_szBufferType = TEXT("Rect");
+	m_bAnimation = pDesc->bAnimation;
 
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
@@ -68,6 +69,10 @@ void CGrenadeBullet::Late_Update(_float fTimeDelta)
 		Friction();
 		m_pGravityCom->Jump(m_fJumpPower);
 	}
+
+	if(m_bAnimation)
+		FrameUpdate(fTimeDelta, 4.f, 15.f, true);
+
 	__super::Late_Update(fTimeDelta);
 }
 

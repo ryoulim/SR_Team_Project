@@ -361,6 +361,9 @@
     <Filter Include="02.GameObjects\Particle\_BossMobSkill\JumpAttack">
       <UniqueIdentifier>{7fdd175d-aa74-493e-a0d1-fce9abb340a6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\Weapon\Bullet\MonsterGuidBullet">
+      <UniqueIdentifier>{a38e0d7f-b59a-4b46-833b-930cd65c1a76}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -738,6 +741,9 @@
     <ClInclude Include="..\public\MonsterMissile.h">
       <Filter>02.GameObjects\Particle\_BossMobSkill\FlyAttack</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\MonsterGuidBullet.h">
+      <Filter>02.GameObjects\Weapon\Bullet\MonsterGuidBullet</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -1103,6 +1109,9 @@
     </ClCompile>
     <ClCompile Include="..\private\StreetLampHead.cpp">
       <Filter>02.GameObjects\Statue\StreetLamp\Head</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\MonsterGuidBullet.cpp">
+      <Filter>02.GameObjects\Weapon\Bullet\MonsterGuidBullet</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

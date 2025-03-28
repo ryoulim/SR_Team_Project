@@ -1,24 +1,25 @@
-#include "MonsterBullet.h"
+#include "MonsterGuidBullet.h"
 #include "MonsterMissile.h"
 #include "Particle_Define.h"
 #include "CameraManager.h"
 
-CMonsterBullet::CMonsterBullet(LPDIRECT3DDEVICE9 pGraphic_Device)
+
+CMonsterGuidBullet::CMonsterGuidBullet(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CBullet{ pGraphic_Device }
 {
 }
 
-CMonsterBullet::CMonsterBullet(const CMonsterBullet& Prototype)
+CMonsterGuidBullet::CMonsterGuidBullet(const CMonsterGuidBullet& Prototype)
 	: CBullet(Prototype)
 {
 }
 
-HRESULT CMonsterBullet::Initialize_Prototype()
+HRESULT CMonsterGuidBullet::Initialize_Prototype()
 {
 	return S_OK;
 }
 
-HRESULT CMonsterBullet::Initialize(void* pArg)
+HRESULT CMonsterGuidBullet::Initialize(void* pArg)
 {
 	/* 플레이어를 알고 있어라 */
 	m_pTargetPlayer = GET_PLAYER;
@@ -35,17 +36,18 @@ HRESULT CMonsterBullet::Initialize(void* pArg)
 	if (FAILED(Ready_Components(pArg)))
 		return E_FAIL;
 
-	/* [ 타겟 설정 ] */
-	SetTargetDir();
+
+	/* [ 방향 설정 ] */
+	m_vInitDir.Normalize();
+	m_vCurrentDir = m_vInitDir;
 
 	//미사일 파티클
 	CPSystem::DESC Missile_iDesc{};
 	Missile_iDesc.vPosition = { 0.f, 0.f, 0.f };
 	Missile_iDesc.szTextureTag = TEXT("PC_Small_Smoke");
 	Missile_iDesc.iParticleNums = 1000;
-	Missile_iDesc.fSize = 5.f;
+	Missile_iDesc.fSize = 2.f;
 	Missile_iDesc.fMaxFrame = 20.f;
-	Missile_iDesc.fLifeTime = GetRandomFloat(1.f, 3.f);
 
 	CGameObject* pObject = nullptr;
 	CGameObject** ppOut = &pObject;
@@ -57,7 +59,7 @@ HRESULT CMonsterBullet::Initialize(void* pArg)
 	return S_OK;
 }
 
-HRESULT CMonsterBullet::Ready_Components(void* pArg)
+HRESULT CMonsterGuidBullet::Ready_Components(void* pArg)
 {
 	/* For.Com_Texture */
 	if (FAILED(__super::Add_Component(m_eLevelID, _wstring(TEXT("Prototype_Component_Texture_")) + m_szTextureID,
@@ -80,6 +82,7 @@ HRESULT CMonsterBullet::Ready_Components(void* pArg)
 		DESC* pDesc = static_cast<DESC*>(pArg);
 		m_pTransformCom->Set_State(CTransform::STATE_POSITION, pDesc->vPosition);
 		m_pTransformCom->Scaling(pDesc->vScale);
+		m_vInitDir = pDesc->vDir;
 	}
 
 	/* 콜라이드 컴포넌트 */
@@ -100,26 +103,45 @@ HRESULT CMonsterBullet::Ready_Components(void* pArg)
 	return S_OK;
 }
 
-void CMonsterBullet::Priority_Update(_float fTimeDelta)
+void CMonsterGuidBullet::Priority_Update(_float fTimeDelta)
 {
 	__super::Priority_Update(fTimeDelta);
 }
 
-EVENT CMonsterBullet::Update(_float fTimeDelta)
+EVENT CMonsterGuidBullet::Update(_float fTimeDelta)
 {
 	if (m_bDead)
 		return EVN_DEAD;
-	
+
+	/* [ 타겟 설정 ] */
+	SetTargetDir();
+
+	//따라오는 파티클
 	if (m_pMissile)
 		static_cast<CMonsterMissile*>(m_pMissile)->SetPosition(*m_pTransformCom->Get_State(CTransform::STATE_POSITION));
+
+	// 플레이어까지 향하는 방향 벡터
+	_float3 vMyPos = *m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+	_float3 vToTarget = m_vTargetPos - vMyPos;
+	vToTarget.Normalize();
+
+	// ★ 현재 방향 벡터를 타겟 방향으로 보간 → 점점 꺾이는 방향
 	
-	//플레이어로 향해 날라가라
-	m_pTransformCom->ChaseCustom(m_vTargetPos, fTimeDelta, 1.f, 1000.f);
+	// 시간 누적
+	m_fPreChaseTime += fTimeDelta;
+	// 0 ~ maxTurnSpeed 사이로 점점 커지는 회전 속도
+	float fTurnSpeed = EaseInCubic(m_fPreChaseTime, 0.8f, 10.f);
+	m_vCurrentDir = LerpVec(m_vCurrentDir, vToTarget, fTimeDelta * fTurnSpeed);
+	m_vCurrentDir.Normalize();
+
+	// 이동
+	vMyPos += m_vCurrentDir * 300.f * fTimeDelta;
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION, vMyPos);
 
 	return __super::Update(fTimeDelta);
 }
 
-void CMonsterBullet::Late_Update(_float fTimeDelta)
+void CMonsterGuidBullet::Late_Update(_float fTimeDelta)
 {
 	//렌더그룹 업데이트
 	if (FAILED(m_pGameInstance->Add_RenderGroup(CRenderer::RG_NONBLEND, this)))
@@ -129,7 +151,7 @@ void CMonsterBullet::Late_Update(_float fTimeDelta)
 }
 
 #include "FXMgr.h"
-void CMonsterBullet::On_Collision(_uint MyColliderID, _uint OtherColliderID)
+void CMonsterGuidBullet::On_Collision(_uint MyColliderID, _uint OtherColliderID)
 {
 	if (m_pMissile)
 	{
@@ -138,7 +160,7 @@ void CMonsterBullet::On_Collision(_uint MyColliderID, _uint OtherColliderID)
 	}
 
 	m_bDead = TRUE;
-	
+
 	if (OtherColliderID == CI_BLOCK_COMMON)
 	{
 		CFXMgr::Get_Instance()->SpawnExplosion2(CCollider::Get_Last_Collision_Pos(), m_eLevelID);
@@ -146,7 +168,7 @@ void CMonsterBullet::On_Collision(_uint MyColliderID, _uint OtherColliderID)
 	}
 }
 
-HRESULT CMonsterBullet::Render()
+HRESULT CMonsterGuidBullet::Render()
 {
 	m_pGraphic_Device->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
 	m_pGraphic_Device->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
@@ -173,44 +195,50 @@ HRESULT CMonsterBullet::Render()
 	return S_OK;
 }
 
-void CMonsterBullet::SetTargetDir()
+void CMonsterGuidBullet::SetTargetDir()
 {
 	_float3 vMyPos = *m_pTransformCom->Get_State(CTransform::STATE_POSITION);
 	m_vTargetPos = *static_cast<CTransform*>(m_pTargetPlayer->Find_Component(L"Com_Transform"))->Get_State(CTransform::STATE_POSITION);
-	m_vTargetPos.y = 0.f;
 
 	// 약간의 랜덤 오차를 추가
-	m_vTargetPos.x += GetRandomFloat(-200.f, 250.f);
-	m_vTargetPos.z += GetRandomFloat(-200.f, 250.f);
+	m_vTargetPos.x += GetRandomFloat(-50.f, 50.f);
+	m_vTargetPos.z += GetRandomFloat(-50.f, 50.f);
 }
 
-CMonsterBullet* CMonsterBullet::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
+float CMonsterGuidBullet::EaseInCubic(float currentTime, float duration, float maxValue)
 {
-	CMonsterBullet* pInstance = new CMonsterBullet(pGraphic_Device);
+	float t = currentTime / duration;
+	t = clamp(t, 0.f, 1.f); // 안정성 확보
+	return t * t * t * maxValue;
+}
+
+CMonsterGuidBullet* CMonsterGuidBullet::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
+{
+	CMonsterGuidBullet* pInstance = new CMonsterGuidBullet(pGraphic_Device);
 
 	if (FAILED(pInstance->Initialize_Prototype()))
 	{
-		MSG_BOX("Failed to Created : CMonsterBullet");
+		MSG_BOX("Failed to Created : CMonsterGuidBullet");
 		Safe_Release(pInstance);
 	}
 
 	return pInstance;
 }
 
-CGameObject* CMonsterBullet::Clone(void* pArg)
+CGameObject* CMonsterGuidBullet::Clone(void* pArg)
 {
-	CMonsterBullet* pInstance = new CMonsterBullet(*this);
+	CMonsterGuidBullet* pInstance = new CMonsterGuidBullet(*this);
 
 	if (FAILED(pInstance->Initialize(pArg)))
 	{
-		MSG_BOX("Failed to Clone : CMonsterBullet");
+		MSG_BOX("Failed to Clone : CMonsterGuidBullet");
 		Safe_Release(pInstance);
 	}
 
 	return pInstance;
 }
 
-void CMonsterBullet::Free()
+void CMonsterGuidBullet::Free()
 {
 	__super::Free();
 

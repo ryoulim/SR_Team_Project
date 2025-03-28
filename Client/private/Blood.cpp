@@ -69,7 +69,7 @@ HRESULT CBlood::Ready_Components(void* pArg)
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, _wstring(TEXT("Prototype_Component_Texture_")) + pDesc->szTextureTag,
 		TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
 		return E_FAIL;
-
+    	int a = 0;
 	return S_OK;
 }
 
@@ -99,6 +99,7 @@ void CBlood::resetParticle(Attribute* attribute)
 
 EVENT CBlood::Update(_float timeDelta)
 {
+
 	if (m_Particles.empty())
 	{
 		m_pGameInstance->Deactive_Object(TEXT("ObjectPool_Effect_PS_Blood"), this); // 옵젝 비활성화
@@ -134,7 +135,7 @@ EVENT CBlood::Update(_float timeDelta)
 
 void CBlood::FrameUpdate(float timeDelta)
 {
-	m_fFrame += 8.f * timeDelta;
+	m_fFrame += 15.f * timeDelta;
 
 	if (m_fAnimationMaxFrame < m_fFrame)
 		m_fFrame = 0;
@@ -169,7 +170,7 @@ HRESULT CBlood::Render()
 		list<Attribute>::iterator i;
 		for (i = m_Particles.begin(); i != m_Particles.end(); i++)
 		{
-			m_fFrame = GetRandomFloat(0.f, m_fAnimationMaxFrame + 1);
+			m_fFrame = GetRandomFloat(0.f, m_fAnimationMaxFrame);
 			m_pTextureCom->Bind_Resource((_uint)m_fFrame);
 
 			if (i->_isAlive)

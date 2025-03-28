@@ -39,6 +39,8 @@ protected:
 	CGameObject*			m_pTargetPlayer = nullptr;
 	CGameObject*			m_pMissile = nullptr;
 	_float3					m_vTargetPos;
+
+	class CCameraManager*	m_pCamera = nullptr;
 };
 
 END

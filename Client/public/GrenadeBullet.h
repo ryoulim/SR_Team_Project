@@ -13,6 +13,7 @@ public:
 	{
 		// Look의 Y는 반드시 0보다 커야합니다.
 		const TCHAR* szTextureTag = TEXT("GrenadeBullet");
+		_bool bAnimation = false;
 		_float3 vLook;
 		_float fInitJumpPower;
 		_float fTimeLimit;
@@ -38,6 +39,7 @@ private:
 
 	_float m_fJumpPower{30.f};
 	_float m_fSpeedperSec{};
+	_bool  m_bAnimation = false;
 
 private:
 	virtual HRESULT Ready_Components(void* pArg) override;
