@@ -23,6 +23,7 @@ public:
 		_float	fSize;
 		_float	fMin = 0;
 		_float	fMax = 0;
+		_int	iNum = 0;
 		_int	iParticleNums;
 		_bool	isLoop = true;
 	}DESC;
@@ -99,6 +100,7 @@ protected: //멤버변수
 	
 	//최대 파티클 수
 	_int					m_iMaxParticle = 10000;
+	_int					m_iNum = 0;
 
 	//파티클 크기, 초당 개수
 	_float					m_fSize;

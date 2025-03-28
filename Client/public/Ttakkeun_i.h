@@ -56,6 +56,8 @@ private: //따끈이 패턴
 
 private: //서포팅 함수들
 	void SpawnBounce();
+	void SpawnDeacon(_float3 vPos);
+	void SpawnDeaconEffect(_float3 vPos);
 	void SpawnMissile(_float dt);
 	void SpawnGuidMissile();
 	void StartCooldown(_float dt, _float fMin, _float fMax);

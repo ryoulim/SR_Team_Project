@@ -36,7 +36,7 @@ private:
 
 
 public: //몬스터소환
-	void SpawnTtakkeun_i(_float3 _Position, bool m_bActive);
+	void SpawnTtakkeun_i(_float3 _Position, bool m_bActive, _int _iNum);
 	void SpawnWenteko(_float3 _Position, bool m_bActive);
 	void SpawnShotgunner(_float3 _Position, bool m_bActive);
 	void SpawnNukemutant(_float3 _Position, bool m_bActive);

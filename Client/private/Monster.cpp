@@ -172,6 +172,7 @@ HRESULT CMonster::Ready_Components(void* pArg)
 		m_pTransformCom->Scaling(m_vScale);
 		m_bActive = pDesc->vActive;
 		m_vReturnPos = pDesc->vReturnPos;
+		m_iNum = pDesc->iNums;
 	}
 
 	/* 콜라이드 컴포넌트 */

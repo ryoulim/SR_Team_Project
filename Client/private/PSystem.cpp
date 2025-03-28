@@ -82,6 +82,7 @@ HRESULT CPSystem::Initialize(void* pArg)
 		m_fMin = pDesc->fMin;
 		m_fMax = pDesc->fMax;
 		m_bIsLoop = pDesc->isLoop;
+		m_iNum = pDesc->iNum;
 	
 		for (int i = 0; i < pDesc->iParticleNums; i++)
 		{
