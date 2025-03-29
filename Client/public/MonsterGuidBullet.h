@@ -24,8 +24,10 @@ public:
 	virtual void Priority_Update(_float fTimeDelta) override;
 	virtual EVENT Update(_float fTimeDelta) override;
 	virtual void Late_Update(_float fTimeDelta) override;
-	virtual void On_Collision(_uint MyColliderID, _uint OtherColliderID);
 	virtual HRESULT Render() override;
+
+
+	virtual void On_Collision(_uint MyColliderID, _uint OtherColliderID);
 
 public:
 	void	SetTargetDir();
@@ -34,7 +36,7 @@ public:
 	{
 		return a * (1.f - t) + b * t;
 	}
-	float clamp(float value, float min, float max)
+	float	clamp(float value, float min, float max)
 	{
 		if (value < min) return min;
 		if (value > max) return max;

@@ -30,6 +30,7 @@ public:
 	{
 		_float3		vPosition;
 		_float3		vReturnPos;
+		_int		iNums = 0;
 		bool		vActive = false;
 	}DESC;
 
@@ -144,6 +145,7 @@ protected: //충돌
 	CCollider* m_pCollider = { nullptr };
 
 protected: //속성
+	_int	m_iNum			= 0;
 	_int	m_iHP			= 100;
 	_int	m_iMaxHP		= 100;
 	_int	m_iAttackPower	= 10;

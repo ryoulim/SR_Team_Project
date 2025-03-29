@@ -281,6 +281,10 @@ HRESULT CLoader::Loading_For_Logo()
 
 	////////////////////////////////////////////텍스처//////////////////////////////////////////////////////
 
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_DeaconSpawn"),
+		CTexture::Create(m_pGraphic_Device, TEXT("../Bin/Resources/Textures/Particle/DeaconSpawn%d.png"), 8))))
+		return E_FAIL; fDataCurNum++; m_fLoadPercent = fDataCurNum / fDataNum;
+
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_FireAttack"),
 		CTexture::Create(m_pGraphic_Device, TEXT("../Bin/Resources/Textures/Particle/FireAttack%d.png"), 20))))
 		return E_FAIL; fDataCurNum++; m_fLoadPercent = fDataCurNum / fDataNum;

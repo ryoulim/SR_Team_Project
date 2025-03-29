@@ -76,17 +76,7 @@ void CLevel_GamePlay::Update(_float fTimeDelta)
 	CFXMgr::Get_Instance()->SpawnMultipleExplosions3(fTimeDelta, LEVEL_GAMEPLAY);
 
 	//방목용
-	if (KEY_DOWN(DIK_M))
-	{
-		SpawnTtakkeun_i(_float3{ 1400.f, 100.f, 1500.f }, true); 
-		//SpawnWenteko(_float3{ 900.f, 40.f, 600.f }, true);
-		//SpawnShotgunner(_float3{ 900.f, 20.f, 600.f }, true);
-		//SpawnNukemutant(_float3{ 900.f, 30.f, 600.f }, true);
-		//SpawnMechsect(_float3{ 900.f, 10.f, 600.f }, true);
-		//SpawnGreater(_float3{ 900.f, 20.f, 600.f }, true);
-		//SpawnDeacon(_float3{ 1400.f, 80.f, 1500.f }, true);
-		//SpawnArchangel(_float3{ 900.f, 80.f, 600.f }, true);
-	}
+	
 	if (KEY_DOWN(DIK_Z))
 	{
 		SpawnCultist(_float3{ 1200.f, 50.f, 1500.f }, false);
@@ -287,6 +277,10 @@ HRESULT CLevel_GamePlay::Ready_Layer_Monster(const _wstring& strLayerTag)
 		LEVEL_GAMEPLAY, TEXT("Layer_Flatform"), &FlatformDESC)))
 		return E_FAIL;	
 
+
+	SpawnTtakkeun_i(_float3{ 1200.f, 100.f, 1500.f }, true, 0);
+	SpawnTtakkeun_i(_float3{ 1600.f, 100.f, 1500.f }, true, 1);
+
 	//전시용
 	//SpawnTtakkeun_i(_float3{ 100.f, 66.f, -250.f }, false);
 	//SpawnWenteko(_float3{ 100.f, 40.f, -100.f }, false);
@@ -375,7 +369,7 @@ void CLevel_GamePlay::Check_Collision()
 	//m_pGameInstance->Intersect(CG_PAWN, CG_TRIGGER);
 }
 
-void CLevel_GamePlay::SpawnTtakkeun_i(_float3 _Position, bool m_bActive)
+void CLevel_GamePlay::SpawnTtakkeun_i(_float3 _Position, bool m_bActive, _int _iNum)
 {
 	CMonster::DESC Ttakkeun_iDesc2{};
 	Ttakkeun_iDesc2.vPosition = _Position;
@@ -383,6 +377,7 @@ void CLevel_GamePlay::SpawnTtakkeun_i(_float3 _Position, bool m_bActive)
 	Ttakkeun_iDesc2.fRotationPerSec = RADIAN(180.f);
 	Ttakkeun_iDesc2.vActive = m_bActive;
 	Ttakkeun_iDesc2.vReturnPos = _Position;
+	Ttakkeun_iDesc2.iNums = _iNum;
 	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Ttakkeun_i"),
 		LEVEL_GAMEPLAY, L"Layer_Boss", &Ttakkeun_iDesc2)))
 		return;

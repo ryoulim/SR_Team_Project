@@ -31,8 +31,8 @@ private:
 	_bool						m_bDash{};
 
 	vector<class CWeapon*>		m_Weapons;
-	_uint						m_iCurWeaponIndex{};
-	_uint						m_iMaxWeaponIndex{2};
+	_int						m_iCurWeaponIndex{};
+	_int						m_iMaxWeaponIndex{2};
 	_int						m_iHP = 0;
 
 	// ´ë½¬

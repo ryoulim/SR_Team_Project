@@ -71,7 +71,7 @@ void CFireAttack::resetParticle(Attribute* attribute)
 
 	// 1. 보스의 현재 위치
 	auto pBossTransform = static_cast<CTransform*>(
-		m_pGameInstance->Find_Object(LEVEL_GAMEPLAY, L"Layer_Boss", 0)->Find_Component(L"Com_Transform")
+		m_pGameInstance->Find_Object(LEVEL_GAMEPLAY, L"Layer_Boss", m_iNum)->Find_Component(L"Com_Transform")
 		);
 	_float3 BossPos = *pBossTransform->Get_State(CTransform::STATE_POSITION);
 

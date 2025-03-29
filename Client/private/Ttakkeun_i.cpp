@@ -5,6 +5,7 @@
 #include "GrenadeBullet.h"
 #include "CameraManager.h"
 #include "MonsterGuidBullet.h"
+#include "Sprite.h"
 
 CTtakkeun_i::CTtakkeun_i(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CMonster{ pGraphic_Device }
@@ -460,7 +461,7 @@ void CTtakkeun_i::AttackPattern(_float dt)
 
 		if (m_fCooldownTime >= m_fCooldownDuration)
 		{
-			m_iRandom = GetRandomInt(0, 3);
+			m_iRandom = GetRandomInt(0, 5);
 			m_bCoolingDown = false;
 			m_fCooldownTime = 0.f;
 		}
@@ -473,8 +474,8 @@ void CTtakkeun_i::AttackPattern(_float dt)
 
 void CTtakkeun_i::BasicAttackSet(_float dt)
 {
-	/* 따끈이의 공격패턴[ 1페이즈 ] */
-	m_iRandom = 4;
+	/* [ 따끈이의 공격패턴 ] */
+	
 	switch (m_iRandom)
 	{
 	case 0: 
@@ -516,11 +517,23 @@ void CTtakkeun_i::MissileAttack(_float dt)
 	if (m_fAttackTimer >= 3.f)
 	{
 		//3초가 넘어가면 다른 행동시작
+		m_bRotateAnimation = true;
+		m_eCurMonsterState = STATE_WALK;
 		StartCooldown(dt, 1.5f, 3.f);
 		m_bDoOnce = false;
 		m_fAttackTimer = 0.f;
 		return;
 	}
+
+	/* 룩벡터 회전 */
+	_float3 vPlayerPos = *static_cast<CTransform*>(m_pTargetPlayer->Find_Component(L"Com_Transform"))->Get_State(CTransform::STATE_POSITION);
+	_float3 vPos = *m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+	_float3 vToPlayer = vPlayerPos - vPos;
+	_float3 vLook = *m_pTransformCom->Get_State(CTransform::STATE_LOOK);
+	bool bRotated = m_pTransformCom->RotateToDirection(vLook, vToPlayer, 60.f, dt);
+
+	m_bRotateAnimation = false;
+	m_eCurMonsterState = STATE_MISSILE;
 
 	//미사일 발사
 	if (!m_bDoOnce)
@@ -533,6 +546,48 @@ void CTtakkeun_i::MissileAttack(_float dt)
 
 void CTtakkeun_i::SpawnAttack(_float dt)
 {
+	/* [ 다콘 소환 패턴 ] */
+
+	/* 1. 다콘을 허공에서 소환한다. */
+	/* 2. 따끈이는 일정시간 가만히 있는다. */
+
+	m_fAttackTimer += dt;
+	if (m_fAttackTimer >= 3.f)
+	{
+		//3초가 넘어가면 다른 행동시작
+		m_eCurMonsterState = STATE_WALK;
+		m_bRotateAnimation = true;
+		StartCooldown(dt, 2.f, 3.f);
+		m_bDoOnce = false;
+		m_fAttackTimer = 0.f;
+		return;
+	}
+
+	m_bRotateAnimation = false;
+	m_eCurMonsterState = STATE_BOMB;
+
+	/* 룩벡터 회전 */
+	_float3 vPlayerPos = *static_cast<CTransform*>(m_pTargetPlayer->Find_Component(L"Com_Transform"))->Get_State(CTransform::STATE_POSITION);
+	_float3 vPos = *m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+	_float3 vToPlayer = vPlayerPos - vPos;
+	_float3 vLook = *m_pTransformCom->Get_State(CTransform::STATE_LOOK);
+	bool bRotated = m_pTransformCom->RotateToDirection(vLook, vToPlayer, 60.f, dt);
+
+	//다콘 소환
+	if (!m_bDoOnce)
+	{
+		for (int i = 0; i < 8; i++)
+		{
+			_float3 vRandomPos = *m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+			vRandomPos.x += GetRandomFloat(-300.f, 300.f);
+			vRandomPos.y += GetRandomFloat(100.f, 300.f);
+			vRandomPos.z += GetRandomFloat(-300.f, 300.f);
+
+			SpawnDeacon(vRandomPos);
+			SpawnDeaconEffect(vRandomPos);
+		}
+		m_bDoOnce = true;
+	}
 }
 
 void CTtakkeun_i::FireAttack(_float dt)
@@ -563,7 +618,7 @@ void CTtakkeun_i::FireAttack(_float dt)
 
 	m_pTransformCom->ChaseCustom(vPlayerPos, dt, 100.f, 150.f);
 	/* 2. 화염을 발사한다! */
-	CFXMgr::Get_Instance()->FireAttack(vMyPos, LEVEL_GAMEPLAY);
+	CFXMgr::Get_Instance()->FireAttack(vMyPos, LEVEL_GAMEPLAY, m_iNum);
 
 }
 
@@ -573,6 +628,7 @@ void CTtakkeun_i::BounceBall(_float dt)
 
 	/* 1. 따끈이는 고정된 상태로 플레이어를 빌보드한다. */
 	m_bRotateAnimation = false;
+	m_eCurMonsterState = STATE_BOMB;
 	
 	/* 룩벡터 회전 */
 	_float3 vPlayerPos = *static_cast<CTransform*>(m_pTargetPlayer->Find_Component(L"Com_Transform"))->Get_State(CTransform::STATE_POSITION);
@@ -595,6 +651,7 @@ void CTtakkeun_i::BounceBall(_float dt)
 	/* 3. 총 4번을 발사하면 쿨다운함수를 호출한다 */
 	if (m_iBounceCount > 3)
 	{
+		m_eCurMonsterState = STATE_WALK;
 		StartCooldown(dt, 1.f, 2.f);
 		m_bRotateAnimation = true;
 		m_fBounceTime = 0;
@@ -907,6 +964,35 @@ void CTtakkeun_i::SpawnBounce()
 	}
 }
 
+void CTtakkeun_i::SpawnDeacon(_float3 vPos)
+{
+	CMonster::DESC Deacon_iDesc{};
+	Deacon_iDesc.vPosition = vPos;
+	Deacon_iDesc.fSpeedPerSec = 60.f;
+	Deacon_iDesc.fRotationPerSec = RADIAN(180.f);
+	Deacon_iDesc.vActive = true;
+	Deacon_iDesc.vReturnPos = vPos;
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Deacon"),
+		LEVEL_GAMEPLAY, L"Layer_Monster", &Deacon_iDesc)))
+		return;
+}
+
+void CTtakkeun_i::SpawnDeaconEffect(_float3 vPos)
+{
+	CSprite::DESC ExplosionDesc{};
+	ExplosionDesc.vInitPos = vPos;
+	ExplosionDesc.vScale = { 120.f,120.f,1.f };
+	ExplosionDesc.bLoop = false;
+	ExplosionDesc.fMaxFrame = 8;
+	ExplosionDesc.fRotationPerSec = RADIAN(180.f);
+	ExplosionDesc.fSpeedPerSec = 100.f;
+	ExplosionDesc.szTextureTag = TEXT("DeaconSpawn");
+
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_PC_Sprite"),
+		LEVEL_GAMEPLAY, L"Layer_Effect", &ExplosionDesc)))
+		return;
+}
+
 _float3 CTtakkeun_i::Rotate_Y(_float3 vDir, float rad)
 {
 	float cosA = cosf(rad);
@@ -988,32 +1074,49 @@ void CTtakkeun_i::DoReturn(_float dt)
 
 void CTtakkeun_i::On_Collision(_uint MyColliderID, _uint OtherColliderID)
 {
-	//그 즉시 배틀모드 진입
-	if(m_eState != MODE::MODE_RETURN)
-		m_eState = MODE::MODE_BATTLE;
-
-	//위치탐색
-	_float3 vImpactPos = CalculateEffectPos();
-
-	//몬스터 사망
-	if (0 >= m_iHP)
+	if (CI_BLOCK(OtherColliderID))
 	{
-		m_bActive = false;
+		m_pCollider->Get_Last_Collision_Pos();
 
-		if (m_pBossEffect)
+		_float3 vPos = *m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+
+		_float3 Depth = m_pCollider->Get_Last_Collision_Depth();
+		if (Depth.y != 0)
+			int a = 1;
+		vPos += Depth;
+
+		m_pTransformCom->Set_State(CTransform::STATE_POSITION, vPos);
+	}
+	else if (CI_WEAPON(OtherColliderID))
+	{
+		//그 즉시 배틀모드 진입
+		if (m_eState != MODE::MODE_RETURN)
+			m_eState = MODE::MODE_BATTLE;
+
+		//위치탐색
+		_float3 vImpactPos = CalculateEffectPos();
+
+		//몬스터 사망
+		if (0 >= m_iHP)
 		{
-			static_cast<CFlyEffect*>(m_pBossEffect)->SetDead();
-			m_pBossEffect = nullptr;
+			m_bActive = false;
+
+			if (m_pBossEffect)
+			{
+				static_cast<CFlyEffect*>(m_pBossEffect)->SetDead();
+				m_pBossEffect = nullptr;
+			}
+
+			m_bDead = true;
+
+			return;
 		}
 
-		m_bDead = true;
-
-		return;
+		// 이펙트 생성
+		m_iHP += -10;
+		CFXMgr::Get_Instance()->SpawnBlood(vImpactPos, LEVEL_GAMEPLAY);
 	}
-
-	// 이펙트 생성
-	m_iHP += -10;
-	CFXMgr::Get_Instance()->SpawnBlood(vImpactPos, LEVEL_GAMEPLAY);
+	
 }
 
 CTtakkeun_i* CTtakkeun_i::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
