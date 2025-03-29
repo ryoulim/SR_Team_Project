@@ -148,8 +148,8 @@ HRESULT CLoader::Loading()
 		hr = Loading_For_Race();
 		break;
 
-	case LEVEL_TEST:
-		hr = Loading_For_Test();
+	case LEVEL_BOSS:
+		hr = Loading_For_Boss();
 		break;
 	}
 
@@ -470,7 +470,7 @@ HRESULT CLoader::Loading_For_GamePlay()
 	ADD_TEXTURE(Weapon_Dispenser, "../Bin/Resources/Textures/Weapon/Dispenser/Dispenser%d.PNG", 60);
 	ADD_TEXTURE(MonsterBounce, "../Bin/Resources/Textures/Bullet/MonsterBounce/MonsterBounce.PNG", 1);
 
-	ADD_TEXTURE(Test, "../Bin/Resources/Textures/TileTest/tile%d.PNG", 123); fDataCurNum++; m_fLoadPercent = fDataCurNum / fDataNum;
+	ADD_TEXTURE(Test, "../Bin/Resources/Textures/TileTest/tile%d.PNG", 126); fDataCurNum++; m_fLoadPercent = fDataCurNum / fDataNum;
 	//ADD_TEXTURE(Test, "../Bin/Resources/Textures/TileTest/tile%d.PNG", 121);
 	for (size_t i = 0; i < 100000; i++) { for (size_t j = 0; j < 10000; j++)int a = 0; if (KEY_PRESSING(DIK_SPACE))break; }
 
@@ -937,7 +937,7 @@ HRESULT CLoader::Loading_For_Race()/**/
 	return S_OK;
 }
 
-HRESULT CLoader::Loading_For_Test()
+HRESULT CLoader::Loading_For_Boss()
 {
 	lstrcpy(m_szLoadingText, TEXT("텍스쳐을(를) 로딩중입니다."));
 
@@ -995,29 +995,11 @@ HRESULT CLoader::Load_For_Terrain(const _wstring& strFileTag)
 	_int iNumVertexX = {}, iNumVertexZ = {};
 
 	_float3 vPosition = {}, vScale = {}, vAngle = {};
-	while (true)
-	{
-		bResult = ReadFile(hFile, &iNumVertexX, sizeof(_int), &dwByte, NULL);
-		bResult = ReadFile(hFile, &iNumVertexZ, sizeof(_int), &dwByte, NULL);
 
-		switch (m_eNextLevelID)
-		{
-		case LEVEL_LOGO:
-			break;
+	bResult = ReadFile(hFile, &iNumVertexX, sizeof(_int), &dwByte, NULL);
+	bResult = ReadFile(hFile, &iNumVertexZ, sizeof(_int), &dwByte, NULL);
 
-		case LEVEL_GAMEPLAY:
-			ADD_MODEL_EX(Terrain, iNumVertexX, iNumVertexZ);
-			break;
-
-		case LEVEL_TEST:
-			break;
-
-		default:
-			break;
-		}
-
-		break;
-	}
+	ADD_MODEL_EX(Terrain, iNumVertexX, iNumVertexZ);
 
 	CloseHandle(hFile);
 

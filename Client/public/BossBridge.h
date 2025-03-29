@@ -30,9 +30,10 @@ public:
 private:
 	_bool m_bTrigger{};
 	_float m_fTimeaAcc{};
+	_float m_fFallTime = {};
 private:
 	virtual HRESULT Ready_Components(void* pArg) override;
-	virtual void On_Trigger() override { m_bTrigger = TRUE; };
+	virtual void On_Trigger() override;
 
 public:
 	static CBossBridge* Create(LPDIRECT3DDEVICE9 pGraphic_Device);

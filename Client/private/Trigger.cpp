@@ -27,12 +27,12 @@ HRESULT CTrigger::Initialize(void* pArg)
 	if (pArg != nullptr)
 	{
 		DESC* pDesc = static_cast<DESC*>(pArg);
-		m_pTargets = m_pGameInstance->Find_Objects(LEVEL_GAMEPLAY, pDesc->LayerTag);
+
+		if (nullptr == m_pGameInstance->Find_Objects(LEVEL_GAMEPLAY, pDesc->LayerTag))
+			return E_FAIL;
+		m_pTargets = *m_pGameInstance->Find_Objects(LEVEL_GAMEPLAY, pDesc->LayerTag);
 		for (auto pGameObject : m_pTargets)
 			Safe_AddRef(pGameObject);
-
-		if (m_pTargets.empty())
-			return E_FAIL;
 	}
 
 	return S_OK;
@@ -132,10 +132,10 @@ void CTrigger::Free()
 {
 	__super::Free();
 
+
 	for (auto pGameObject : m_pTargets)
 		Safe_Release(pGameObject);
 
-	m_pTargets.clear();
 
 	Safe_Release(m_pTransformCom);
 	Safe_Release(m_pColliderCom);

@@ -55,7 +55,7 @@ private:
 	HRESULT Loading_For_Logo();
 	HRESULT Loading_For_GamePlay();
 	HRESULT Loading_For_Race();
-	HRESULT Loading_For_Test();
+	HRESULT Loading_For_Boss();
 	HRESULT Add_Data(const _wstring& strFilePath);
 	HRESULT Load_For_Terrain(const _wstring& strFileTag);
 public:

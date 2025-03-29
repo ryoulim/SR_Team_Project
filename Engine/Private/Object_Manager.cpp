@@ -115,9 +115,13 @@ CGameObject* CObject_Manager::Find_Object(_uint iLevelIndex, const _wstring& str
 	return Find_Layer(iLevelIndex, strLayerTag)->Find_Object(iVectorIndex);
 }
 
-list<CGameObject*>& CObject_Manager::Find_Objects(_uint iLevelIndex, const _wstring& strLayerTag)
+list<CGameObject*>* CObject_Manager::Find_Objects(_uint iLevelIndex, const _wstring& strLayerTag)
 {
-	return Find_Layer(iLevelIndex, strLayerTag)->Get_Objects();
+	CLayer* pLayer = Find_Layer(iLevelIndex, strLayerTag);
+	if (nullptr == pLayer)
+		return nullptr;
+	else
+		return pLayer->Get_Objects();
 }
 
 HRESULT CObject_Manager::Create_Object_Pool(_uint iPrototypeLevelIndex, const _wstring& strPrototypeTag, const _wstring& strObjectTag, _uint iPoolSize, void* pArg)

@@ -5,11 +5,11 @@
 
 BEGIN(Client)
 
-class CLevel_Test : public CLevel
+class CLevel_Boss final : public CLevel
 {
 private:
-	CLevel_Test(LPDIRECT3DDEVICE9 pGraphic_Device);
-	virtual ~CLevel_Test() = default;
+	CLevel_Boss(LPDIRECT3DDEVICE9 pGraphic_Device);
+	virtual ~CLevel_Boss() = default;
 
 public:
 	virtual HRESULT Initialize(class CLevelData* pLevelData);
@@ -19,12 +19,12 @@ public:
 private:
 	virtual HRESULT Load_Map(_uint iLevelIdx, const _wstring& FileName);
 
-	HRESULT Ready_Layer_Terrain(const _wstring& strLayerTag);
 	HRESULT Ready_Layer_Camera(const _wstring& strLayerTag);
 
 public:
-	static CLevel_Test* Create(LPDIRECT3DDEVICE9 pGraphic_Device, class CLevelData* pLevelData);
+	static CLevel_Boss* Create(LPDIRECT3DDEVICE9 pGraphic_Device, class CLevelData* pLevelData);
 	virtual void Free()override;
+
 };
 
 END

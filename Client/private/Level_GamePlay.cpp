@@ -111,12 +111,12 @@ void CLevel_GamePlay::Update(_float fTimeDelta)
 	if (KEY_DOWN(DIK_F4))
 	{
 		auto MosterList = m_pGameInstance->Find_Objects(LEVEL_GAMEPLAY , L"Layer_Monster");
-		for (auto Monster : MosterList)
+		for (auto Monster : *MosterList)
 		{
 			static_cast<CMonster*>(Monster)->ToggleDebugMode();
 		}
 		auto BossList = m_pGameInstance->Find_Objects(LEVEL_GAMEPLAY, L"Layer_Boss");
-		for (auto Boss : BossList)
+		for (auto Boss : *BossList)
 		{
 			static_cast<CMonster*>(Boss)->ToggleDebugMode();
 		}
@@ -537,8 +537,8 @@ HRESULT CLevel_GamePlay::Load_Map(_uint iLevelIdx, const _wstring& FileName)
 			CMap::DESC tDesc = {};
 			tDesc.fSpeedPerSec = fSpeedPerSec;
 			tDesc.fRotationPerSec = fRotationPerSec;
-			tDesc.vInitPos = vPosition;
-			tDesc.vScale = vScale;
+			tDesc.vInitPos = vPosition * BOSSSCALE;
+			tDesc.vScale = vScale * BOSSSCALE;
 			tDesc.vAngle = vAngle;
 			tDesc.fTextureIdx = fTextureIdx;
 			tDesc.bCollision = bCollision;
@@ -683,7 +683,6 @@ HRESULT CLevel_GamePlay::Load_Map(_uint iLevelIdx, const _wstring& FileName)
 				}
 			}
 
-
 			ZeroMemory(szPrototypeTag, sizeof(szPrototypeTag));
 
 		}
@@ -704,22 +703,18 @@ HRESULT CLevel_GamePlay::Load_Map(_uint iLevelIdx, const _wstring& FileName)
 			CStatue::DESC tDesc = {};
 			tDesc.fSpeedPerSec = fSpeedPerSec;
 			tDesc.fRotationPerSec = fRotationPerSec;
-			tDesc.vInitPos = vPosition;
-			tDesc.vScale = vScale;
+			tDesc.vInitPos = vPosition * BOSSSCALE;
+			tDesc.vScale = vScale * BOSSSCALE;
 			tDesc.vAngle = vAngle;
 			tDesc.bCollision = bCollision;
 
-			/* 클라에서 해 줄 작업 */
 			_wstring strKey = szPrototypeTag;
+
+			_wstring Prototype = strKey;
+
 			strKey = Compute_PrototypeName(strKey);
 
-			_wstring Prototype = TEXT("Prototype_GameObject_") + strKey;
-
-			_wstring Layertag;
-
-			if (strKey == TEXT("Cabinet") || strKey == TEXT("Trapezoid"))
-				Layertag = TEXT("Layer_Staute");
-
+			_wstring Layertag = TEXT("Layer_") + strKey;
 
 
 			if (FAILED(m_pGameInstance->Add_GameObject(iLevelIdx, Prototype, iLevelIdx, Layertag, &tDesc)))

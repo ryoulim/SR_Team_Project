@@ -67,6 +67,8 @@ HRESULT CRaceCylinder::Render()
 
 	if (FAILED(m_pVIBufferCom->Render(CVIBuffer_RaceCylinder::SIDE)))
 		return E_FAIL;
+
+	return S_OK;
 }
 
 CRaceCylinder* CRaceCylinder::Create(LPDIRECT3DDEVICE9 pGraphic_Device)

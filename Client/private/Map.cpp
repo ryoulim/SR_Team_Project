@@ -100,8 +100,8 @@ HRESULT CMap::Ready_Components(void* pArg)
 	{
 		DESC* pDesc = static_cast<DESC*>(pArg);
 		m_pTransformCom->QurternionRotation(pDesc->vAngle);
-		m_pTransformCom->Scaling(pDesc->vScale * SCALE);
-		m_pTransformCom->Set_State(CTransform::STATE_POSITION, (pDesc->vInitPos * SCALE));
+		m_pTransformCom->Scaling(pDesc->vScale);
+		m_pTransformCom->Set_State(CTransform::STATE_POSITION, (pDesc->vInitPos));
 
 		m_fTextureNum = pDesc->fTextureIdx;
 	}
