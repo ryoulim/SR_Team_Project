@@ -57,11 +57,11 @@ HRESULT CLevel_GamePlay::Initialize(class CLevelData* pLevelData)
 	//if(FAILED(Ready_Light()))
 	//	return E_FAIL;
 
-	if (FAILED(Load_Map(LEVEL_GAMEPLAY, TEXT("NormalMapData.txt"))))
+	if (FAILED(Load_Map(LEVEL_GAMEPLAY, TEXT("MapData.txt"))))
 		return E_FAIL;
 
-	//if (FAILED(Ready_Layer_Trigger(TEXT("Layer_Trigger"))))
-	//	return E_FAIL;
+	if (FAILED(Ready_Layer_Trigger(TEXT("Layer_Trigger"))))
+		return E_FAIL;
 
 	ShowCursor(FALSE);
 
