@@ -33,14 +33,16 @@ private:
 
 public:
 	virtual void On_Collision(_uint MyColliderID, _uint OtherColliderID) override;
+	_bool		Raycast_Player();
+
 
 /* 몬스터 행동 */
 private: //해당객체의 몬스터 패턴
 	virtual void	MonsterTick(_float dt);
 	virtual void	AttackPattern(_float dt);
-	virtual void	ChasePlayer(_float dt);
 	virtual void	ChasePlayer(_float dt, _float fChaseDist);
 	virtual void	DoBattle(_float dt);
+	virtual void	DoIdle(_float dt);
 	void			DoReady(_float dt);
 	void			DoDetect(_float dt);
 	_bool			IsMonsterAbleToAttack();
@@ -59,6 +61,7 @@ private:
 	enum FLY_DIR { DOWN = 0, LEFT = 1, RIGHT = 2, UP = 3, DIR_END = 4 };
 	FLY_DIR			m_eCurFlyingDirection = { UP };
 	FLY_DIR			m_ePrevFlyingDirection = { UP };
+	
 
 public:
 	static CDeacon* Create(LPDIRECT3DDEVICE9 pGraphic_Device);

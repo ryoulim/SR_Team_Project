@@ -370,6 +370,9 @@
     <Filter Include="97. ShaderFIles">
       <UniqueIdentifier>{3970e915-f723-49bb-a664-32766fb16030}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\Weapon\Bullet\MonsterNormalBullet">
+      <UniqueIdentifier>{9838155a-0a57-4175-a485-3881d56f1f12}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -750,6 +753,9 @@
     <ClInclude Include="..\public\MonsterGuidBullet.h">
       <Filter>02.GameObjects\Weapon\Bullet\MonsterGuidBullet</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\MonsterNormalBullet.h">
+      <Filter>02.GameObjects\Weapon\Bullet\MonsterNormalBullet</Filter>
+    </ClInclude>
     <ClInclude Include="..\public\Level_Boss.h">
       <Filter>01.Levels\Boss</Filter>
     </ClInclude>
@@ -1124,6 +1130,9 @@
     </ClCompile>
     <ClCompile Include="..\private\MonsterGuidBullet.cpp">
       <Filter>02.GameObjects\Weapon\Bullet\MonsterGuidBullet</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\MonsterNormalBullet.cpp">
+      <Filter>02.GameObjects\Weapon\Bullet\MonsterNormalBullet</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

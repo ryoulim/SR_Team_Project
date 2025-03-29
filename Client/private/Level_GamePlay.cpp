@@ -76,7 +76,17 @@ void CLevel_GamePlay::Update(_float fTimeDelta)
 	CFXMgr::Get_Instance()->SpawnMultipleExplosions3(fTimeDelta, LEVEL_GAMEPLAY);
 
 	//방목용
-	
+	if (KEY_DOWN(DIK_M))
+	{
+		//SpawnTtakkeun_i(_float3{ 1400.f, 100.f, 1500.f }, true); 
+		//SpawnWenteko(_float3{ 900.f, 40.f, 600.f }, true);
+		//SpawnShotgunner(_float3{ 900.f, 20.f, 600.f }, true);
+		//SpawnNukemutant(_float3{ 900.f, 30.f, 600.f }, true);
+		//SpawnMechsect(_float3{ 900.f, 10.f, 600.f }, true);
+		//SpawnGreater(_float3{ 900.f, 20.f, 600.f }, true);
+		SpawnDeacon(_float3{ 1400.f, 80.f, 1500.f }, true);
+		//SpawnArchangel(_float3{ 900.f, 80.f, 600.f }, true);
+	}
 	if (KEY_DOWN(DIK_Z))
 	{
 		SpawnCultist(_float3{ 1200.f, 50.f, 1500.f }, false);
@@ -363,10 +373,11 @@ HRESULT CLevel_GamePlay::Ready_Layer_Trigger(const _wstring& strLayerTag)
 void CLevel_GamePlay::Check_Collision()
 {
 	m_pGameInstance->Intersect(CG_PAWN, CG_BLOCK);
-	//m_pGameInstance->Intersect(CG_PBULLET, CG_MONSTER);
-	//m_pGameInstance->Intersect(CG_PBULLET, CG_BLOCK);
-	//m_pGameInstance->Intersect(CG_MBULLET, CG_BLOCK);
-	//m_pGameInstance->Intersect(CG_PAWN, CG_TRIGGER);
+	m_pGameInstance->Intersect(CG_PBULLET, CG_MONSTER);
+	m_pGameInstance->Intersect(CG_PBULLET, CG_BLOCK);
+	m_pGameInstance->Intersect(CG_MBULLET, CG_BLOCK);
+	m_pGameInstance->Intersect(CG_PAWN, CG_TRIGGER);
+	m_pGameInstance->Intersect(CG_MONSTER, CG_BLOCK);
 }
 
 void CLevel_GamePlay::SpawnTtakkeun_i(_float3 _Position, bool m_bActive, _int _iNum)

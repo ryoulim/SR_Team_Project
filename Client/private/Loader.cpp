@@ -49,6 +49,7 @@
 #include "FlyEffect.h"
 #include "JumpAttack.h"
 #include "MonsterGuidBullet.h"
+#include "MonsterNormalBullet.h"
 
 //UI 인클루드
 #include "Aim.h"
@@ -199,6 +200,10 @@ HRESULT CLoader::Loading_For_Logo()
 
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_GameObject_MonsterBullet"),
 		CMonsterBullet::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_GameObject_MonsterNormalBullet"),
+		CMonsterNormalBullet::Create(m_pGraphic_Device))))
 		return E_FAIL;
 	fDataCurNum++;
 	m_fLoadPercent = fDataCurNum / fDataNum;

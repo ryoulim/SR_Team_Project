@@ -222,6 +222,7 @@
     <ClInclude Include="..\public\MonsterMissile.h" />
     <ClInclude Include="..\public\Monster.h" />
     <ClInclude Include="..\public\MonsterBullet.h" />
+    <ClInclude Include="..\public\MonsterNormalBullet.h" />
     <ClInclude Include="..\public\MyComputer.h" />
     <ClInclude Include="..\public\Nukemutant.h" />
     <ClInclude Include="..\public\Particle_Define.h" />
@@ -349,6 +350,7 @@
     <ClCompile Include="..\private\MonsterMissile.cpp" />
     <ClCompile Include="..\private\Monster.cpp" />
     <ClCompile Include="..\private\MonsterBullet.cpp" />
+    <ClCompile Include="..\private\MonsterNormalBullet.cpp" />
     <ClCompile Include="..\private\MyComputer.cpp" />
     <ClCompile Include="..\private\Nukemutant.cpp" />
     <ClCompile Include="..\private\Particle_Define.cpp" />
