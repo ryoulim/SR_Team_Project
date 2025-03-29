@@ -18,7 +18,9 @@ HRESULT CStall::Initialize_Prototype()
 
 HRESULT CStall::Initialize(void* pArg)
 {
-	m_eLevelID = LEVEL_GAMEPLAY;
+	DESC* pDesc = static_cast<DESC*>(pArg);
+
+	m_eLevelID = pDesc->eNextLevel;
 	m_szTextureID = TEXT("Stall");
 	m_szBufferType = TEXT("Stall");
 

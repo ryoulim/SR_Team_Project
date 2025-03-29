@@ -21,7 +21,7 @@ public:
 		_float3 vScale;
 		_float3 vAngle;
 		_bool   bCollision;
-
+		LEVEL   eNextLevel;
 	}DESC;
 
 protected:

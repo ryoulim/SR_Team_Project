@@ -18,7 +18,9 @@ HRESULT CRaceCylinder::Initialize_Prototype()
 
 HRESULT CRaceCylinder::Initialize(void* pArg)
 {
-	m_eLevelID = LEVEL_RACE;
+	DESC* pDesc = static_cast<DESC*>(pArg);
+
+	m_eLevelID = pDesc->eNextLevel;
 	m_szTextureID = TEXT("RaceCylinder");
 	m_szBufferType = TEXT("RaceCylinder");
 

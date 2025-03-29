@@ -17,7 +17,9 @@ HRESULT CRaceLandscape::Initialize_Prototype()
 
 HRESULT CRaceLandscape::Initialize(void* pArg)
 {
-	m_eLevelID = LEVEL_RACE;
+	CStatue::DESC* pDesc = static_cast<CStatue::DESC*>(pArg);
+
+	m_eLevelID = pDesc->eNextLevel;
 	m_szTextureID = TEXT("RaceLandscape");
 	m_szBufferType = TEXT("RaceLandscape");
 

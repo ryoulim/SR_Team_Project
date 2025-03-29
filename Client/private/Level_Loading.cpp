@@ -3,6 +3,7 @@
 #include "Level_GamePlay.h"
 #include "Level_Race.h"
 #include "Level_Indoor.h"
+#include "Level_Boss.h"
 #include "Level_Logo.h"
 #include "Loader.h"
 
@@ -44,9 +45,6 @@ HRESULT CLevel_Loading::Initialize(LEVEL eNextLevelID)
 			return E_FAIL;
 	}
 
-
-
-	
 	return S_OK;
 }
 
@@ -74,6 +72,10 @@ void CLevel_Loading::Update(_float fTimeDelta)
 				break;
 
 			case LEVEL_BOSS:
+				pLevel = CLevel_Boss::Create(m_pGraphic_Device, m_pLoader->Get_LevelData());
+				break;
+
+			case LEVEL_INDOOR:
 				pLevel = CLevel_Indoor::Create(m_pGraphic_Device, m_pLoader->Get_LevelData());
 				break;
 			}
