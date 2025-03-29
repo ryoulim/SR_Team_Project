@@ -54,47 +54,31 @@ void CCollider_OBB_Cube::Update_Collider()
 {
     m_tInfo.vPosition = *m_pTransform->Get_State(CTransform::STATE_POSITION) + m_vOffSet;
 
-    // 원래 로컬 축 가져오기
     _float3 right = m_pTransform->Get_State(CTransform::STATE_RIGHT)->Normalize();
     _float3 up = m_pTransform->Get_State(CTransform::STATE_UP)->Normalize();
     _float3 look = m_pTransform->Get_State(CTransform::STATE_LOOK)->Normalize();
 
-    // Y축 후보 중에서 {0,1,0}과 가장 가까운 축 찾기
+    m_tInfo.vAxis[AXIS_X] = right;
+    m_tInfo.vAxis[AXIS_Y] = up;
+    m_tInfo.vAxis[AXIS_Z] = look;
+
     _float3 upDir = { 0.f, 1.f, 0.f };
 
     _float dotRight = fabsf(right.Dot(upDir));
     _float dotUp = fabsf(up.Dot(upDir));
     _float dotLook = fabsf(look.Dot(upDir));
 
-    // 정렬된 축
-    _float3 axisY, axisX, axisZ;
+    // Y에 가장 가까운 축의 인덱스를 구함
+    _uint bestY = AXIS_Y;
 
     if (dotRight >= dotUp && dotRight >= dotLook)
-    {
-        axisY = right;
-        axisX = up;
-        axisZ = look;
-    }
-    else if (dotUp >= dotRight && dotUp >= dotLook)
-    {
-        axisY = up;
-        axisX = look;
-        axisZ = right;
-    }
-    else
-    {
-        axisY = look;
-        axisX = right;
-        axisZ = up;
-    }
+        bestY = AXIS_X;
+    else if (dotLook >= dotUp && dotLook >= dotRight)
+        bestY = AXIS_Z;
 
-    // Y축 재정렬 후, 나머지 두 축은 직교 보장
-    axisX = axisY.Cross(axisZ).Normalize();
-    axisZ = axisX.Cross(axisY).Normalize();
-
-    m_tInfo.vAxis[AXIS_X] = axisX;
-    m_tInfo.vAxis[AXIS_Y] = axisY;
-    m_tInfo.vAxis[AXIS_Z] = axisZ;
+    // bestY가 Y가 아니라면 스왑
+    if (bestY != AXIS_Y)
+        std::swap(m_tInfo.vAxis[AXIS_Y], m_tInfo.vAxis[bestY]);
 }
 
 void CCollider_OBB_Cube::Update_Scale(const _float3& vScale)

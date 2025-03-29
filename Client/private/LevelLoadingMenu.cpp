@@ -57,7 +57,7 @@ EVENT CLevelLoadingMenu::Update(_float fTimeDelta)
 	{
 		if (!m_isFinished)
 		{
-			CUI_Manager::Get_Instance()->Fade_Out();
+			CUI_Manager::Get_Instance(m_pGameInstance)->Fade_Out();
 			m_isFinished = true;
 		}
 	}

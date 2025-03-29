@@ -109,19 +109,27 @@ HRESULT CMainApp::Initialize()
 		return E_FAIL;
 #endif
 
+	/*디폴트 셋팅을 설정하는 함수입니다.*/
 	if (FAILED(Ready_Default_Setting()))
 		return E_FAIL;
 
+	/*모든레벨에서 쓰이는 컴포넌트의 프로토타입을 생성하는 함수입니다.*/
 	if (FAILED(Ready_Component_For_Static()))
 		return E_FAIL;
 
- 	if(FAILED(Ready_Object_For_Static()))
+	/*모든레벨에서 쓰이는 오브젝트의 프로토타입을 생성하는 함수입니다.*/
+	if(FAILED(Ready_Protype_Object_For_Static()))
+		return E_FAIL;
+
+	/*모든레벨에서 쓰이는 오브젝트의 사본을 생성하는 함수입니다.*/
+	if (FAILED(Ready_Object_For_Static()))
 		return E_FAIL;
 
 	/* 최초 보여줄 레벨을 할당하자. */
 	if(FAILED(Open_Level(LEVEL_LOGO)))
 		return E_FAIL;
 	
+	/*FPS 출력용*/
 	if (FAILED(Ready_Debug_Mode()))
 		return E_FAIL;
 
@@ -202,13 +210,14 @@ HRESULT CMainApp::Ready_Component_For_Static()
 	return S_OK;
 }
 
-HRESULT CMainApp::Ready_Object_For_Static()
+HRESULT CMainApp::Ready_Protype_Object_For_Static()
 {
 	ADD_PRTOBJ(CameraManager);
 	ADD_PRTOBJ(Dynamic_Camera);
 	ADD_PRTOBJ(FPS_Camera);
 	ADD_PRTOBJ(UI_Camera);
 	ADD_PRTOBJ(TPS_Camera);
+
 	ADD_PRTOBJ(Font_MediumBlue);
 	ADD_PRTOBJ(Font_BigOrange);
 	ADD_PRTOBJ(LoadingMenu);
@@ -216,6 +225,35 @@ HRESULT CMainApp::Ready_Object_For_Static()
 	ADD_PRTOBJ(FadeUI);
 	ADD_PRTOBJ(Trigger);
 	ADD_PRTOBJ(Sky);
+
+	return S_OK;
+}
+
+HRESULT CMainApp::Ready_Object_For_Static()
+{
+	CDynamic_Camera::DESC DynamicCameraDesc{};
+	DynamicCameraDesc.fFar = 2000.f;
+	DynamicCameraDesc.fNear = 0.1f;
+	DynamicCameraDesc.fMouseSensor = 0.1f;
+	DynamicCameraDesc.fFov = 60.f;
+	DynamicCameraDesc.vAt = { 0.f,0.f,1.f };
+	DynamicCameraDesc.vEye = { 0.f,0.f,0.f };
+	DynamicCameraDesc.fSpeedPerSec = 300.f;
+	DynamicCameraDesc.fRotationPerSec = 0.f;
+
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_CameraManager"),
+		LEVEL_STATIC, TEXT("Layer_Camera"), &DynamicCameraDesc)))
+		return E_FAIL;
+
+	CUI_Camera::DESC UICameraDesc{};
+	UICameraDesc.fFar = 1000.f;
+	UICameraDesc.fNear = 0.f;
+	UICameraDesc.fFov = 0;
+	UICameraDesc.vAt = { 0.f,0.f,1.f };
+	UICameraDesc.vEye = { 0.f,0.f,0.f };
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_UI_Camera"),
+		LEVEL_STATIC, TEXT("Layer_Camera"), &UICameraDesc)))
+		return E_FAIL;
 
 	return S_OK;
 }
@@ -233,17 +271,6 @@ HRESULT CMainApp::Ready_Debug_Mode()
 
 HRESULT CMainApp::Open_Level(LEVEL eLevelID)
 {
-	/* 둘만한 곳이 여기밖에 안 보여서 임시로 둡니다 .. */
-	CUI_Camera::DESC UIDesc{};
-	UIDesc.fFar = 1000.f;
-	UIDesc.fNear = 0.f;
-	UIDesc.fFov = 0;
-	UIDesc.vAt = {0.f,0.f,1.f};
-	UIDesc.vEye = { 0.f,0.f,0.f };
-	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_UI_Camera"),
-		LEVEL_STATIC, TEXT("Layer_Camera"), &UIDesc)))
-		return E_FAIL;
-
 	if (FAILED(m_pGameInstance->Change_Level(LEVEL_LOADING, CLevel_Loading::Create(m_pGraphic_Device, eLevelID))))
 		return E_FAIL;
 
@@ -261,6 +288,7 @@ HRESULT CMainApp::Ready_Default_Setting()
 
 	m_pGraphic_Device->SetRenderState(D3DRS_LIGHTING, FALSE);
 
+	CGravity::Add_StandableObjLayerTag(CG_BLOCK);
 	return S_OK;
 }
 

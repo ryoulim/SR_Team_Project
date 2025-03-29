@@ -25,7 +25,7 @@ HRESULT CTtakkeun_i::Initialize_Prototype()
 HRESULT CTtakkeun_i::Initialize(void* pArg)
 {
 	/* 카메라를 알고 있어라 */
-	m_pCamera = static_cast<CCameraManager*>(m_pGameInstance->Find_Object(LEVEL_GAMEPLAY, L"Layer_Camera"));
+	m_pCamera = CAMERA_MANAGER;
 	Safe_AddRef(m_pCamera);
 
 	//위치, 크기초기화, 컴포넌트 부착

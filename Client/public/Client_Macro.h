@@ -49,7 +49,7 @@ return E_FAIL
 #define GET_PLAYER m_pGameInstance->Find_Object(LEVEL_GAMEPLAY,TEXT("Layer_Pawn"))
 #define GET_PLAYER_TRANSFORM static_cast<CTransform*>(GET_PLAYER->Find_Component(TEXT("Com_Transform")))
 
-#define CAMERA_MANAGER static_cast<CCameraManager*>(m_pGameInstance->Find_Object(m_eLevelID, TEXT("Layer_Camera")))
+#define CAMERA_MANAGER static_cast<CCameraManager*>(m_pGameInstance->Find_Object(LEVEL_STATIC, TEXT("Layer_Camera")))
 
 #define GET_CAMERA											\
 _float4x4 matCamWorld;										\

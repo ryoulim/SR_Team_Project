@@ -27,6 +27,7 @@ private:
 	HRESULT Open_Level(LEVEL eLevelID);
 	HRESULT Ready_Default_Setting();
 	HRESULT Ready_Component_For_Static();
+	HRESULT Ready_Protype_Object_For_Static();
 	HRESULT Ready_Object_For_Static();
 	HRESULT Ready_Debug_Mode();
 

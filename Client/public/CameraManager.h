@@ -34,6 +34,7 @@ public:
 	virtual void Shake_Camera(_float fIntensity = 1.f, _float fDuration = 1.f, _float fShakeFreqPos = 100.f, _float fShakeFreqRot = 40.f);
 	void StartRecoil(_float fIntensity = 1.f, _float fDuration = 1.f);
 	void Switch(_bool isFPSMode);
+	void Mouse_Fix_Mode_Switch();
 
 	CGameObject* Get_Camera(CAMERAID m_ID) {
 		return m_Cameras[m_ID];

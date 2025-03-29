@@ -115,7 +115,7 @@ HRESULT CButton::Render()
 		if (MOUSE_DOWN(DIMK_LBUTTON))
 		{
 			if (FAILED(m_pGameInstance->Change_Level(LEVEL_LOADING,
-				CLevel_Loading::Create(m_pGraphic_Device, LEVEL_GAMEPLAY))))
+				CLevel_Loading::Create(m_pGraphic_Device, LEVEL_BOSS))))
 				return E_FAIL;
 		}
 	}

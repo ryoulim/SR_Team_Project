@@ -79,6 +79,12 @@ void CCameraManager::Switch(_bool isFPSMode)
 		m_eID = DYNAMIC;
 }
 
+void CCameraManager::Mouse_Fix_Mode_Switch()
+{
+	// 일단 FPS만 해
+	static_cast<CFPS_Camera*>(m_Cameras[FPS])->Mode_Switch();
+}
+
 CCameraManager* CCameraManager::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 {
 	CCameraManager* pInstance = new CCameraManager(pGraphic_Device);

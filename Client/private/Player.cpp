@@ -39,7 +39,7 @@ HRESULT CPlayer::Initialize(void* pArg)
 		return E_FAIL;
 
 	//카메라 매니저 가져옴
-	m_pCameraManager = CAMERA_MANAGER;
+	m_pCameraManager = static_cast<CCameraManager*>(m_pGameInstance->Find_Object(LEVEL_STATIC, L"Layer_Camera"));
 	Safe_AddRef(m_pCameraManager);
 
 	// FPS 카매라 뺴옴

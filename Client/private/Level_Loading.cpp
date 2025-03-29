@@ -4,6 +4,7 @@
 #include "Level_Race.h"
 #include "Level_Indoor.h"
 #include "Level_Logo.h"
+#include "Level_Boss.h"
 #include "Loader.h"
 
 #include "GameInstance.h"
@@ -73,9 +74,14 @@ void CLevel_Loading::Update(_float fTimeDelta)
 				pLevel = CLevel_Race::Create(m_pGraphic_Device, m_pLoader->Get_LevelData());
 				break;
 
-			case LEVEL_BOSS:
+			case LEVEL_INDOOR:
 				pLevel = CLevel_Indoor::Create(m_pGraphic_Device, m_pLoader->Get_LevelData());
 				break;
+
+			case LEVEL_BOSS:
+				pLevel = CLevel_Boss::Create(m_pGraphic_Device, m_pLoader->Get_LevelData());
+				break;
+
 			}
 
 			if (nullptr == pLevel)

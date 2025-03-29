@@ -13,12 +13,6 @@
     <Filter Include="01.Levels">
       <UniqueIdentifier>{41256f5c-82f1-4be2-a738-7bf24b49e419}</UniqueIdentifier>
     </Filter>
-    <Filter Include="01.Levels\Logo">
-      <UniqueIdentifier>{a926e41f-b171-4b7c-90c8-605be1a166f7}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="01.Levels\GamePlay">
-      <UniqueIdentifier>{efb49076-2627-4a87-abf5-c51f865b5c61}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02.GameObjects">
       <UniqueIdentifier>{fc197735-46d5-4551-ad66-96d8601cef85}</UniqueIdentifier>
     </Filter>
@@ -99,12 +93,6 @@
     </Filter>
     <Filter Include="02.GameObjects\Pawn\Player">
       <UniqueIdentifier>{7824ea17-ff1a-481c-ab6e-d2abce003704}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="01.Levels\Loading">
-      <UniqueIdentifier>{cd6f1077-a658-4259-ad08-ca7b827e1e50}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="01.Levels\Loading\Loader">
-      <UniqueIdentifier>{a4567c73-3efb-4ce1-a29b-da4945a9cb93}</UniqueIdentifier>
     </Filter>
     <Filter Include="02.GameObjects\Particle">
       <UniqueIdentifier>{3845da3f-5600-47ea-9730-6da610be76f0}</UniqueIdentifier>
@@ -210,9 +198,6 @@
     </Filter>
     <Filter Include="02.GameObjects\Monster\Ttakkeun_i">
       <UniqueIdentifier>{3674c8bc-204a-4475-9166-b2788d2c5c42}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="01.Levels\Race">
-      <UniqueIdentifier>{27f94f0c-0863-4cd2-b493-30a0998805a9}</UniqueIdentifier>
     </Filter>
     <Filter Include="02.GameObjects\Map\Race">
       <UniqueIdentifier>{c6e4dfd4-97b2-4b0a-80f3-abd67204c7e4}</UniqueIdentifier>
@@ -358,12 +343,6 @@
     <Filter Include="02.GameObjects\Particle\_BossMobSkill\JumpAttack">
       <UniqueIdentifier>{7fdd175d-aa74-493e-a0d1-fce9abb340a6}</UniqueIdentifier>
     </Filter>
-    <Filter Include="01.Levels\Boss">
-      <UniqueIdentifier>{fb67a493-7c28-490a-9c62-08f4fccbf0d7}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="01.Levels\Indoor">
-      <UniqueIdentifier>{28e29652-c666-48a6-98b3-c2bfe2ffccd2}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02.GameObjects\Weapon\Bullet\MonsterGuidBullet">
       <UniqueIdentifier>{a38e0d7f-b59a-4b46-833b-930cd65c1a76}</UniqueIdentifier>
     </Filter>
@@ -372,6 +351,30 @@
     </Filter>
     <Filter Include="02.GameObjects\Weapon\Bullet\MonsterNormalBullet">
       <UniqueIdentifier>{9838155a-0a57-4175-a485-3881d56f1f12}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Levels\00. Loading">
+      <UniqueIdentifier>{cd6f1077-a658-4259-ad08-ca7b827e1e50}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Levels\00. Loading\Loader">
+      <UniqueIdentifier>{a4567c73-3efb-4ce1-a29b-da4945a9cb93}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Levels\01. Logo">
+      <UniqueIdentifier>{a926e41f-b171-4b7c-90c8-605be1a166f7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Levels\04. Race">
+      <UniqueIdentifier>{27f94f0c-0863-4cd2-b493-30a0998805a9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Levels\05. Boss">
+      <UniqueIdentifier>{fb67a493-7c28-490a-9c62-08f4fccbf0d7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Levels\99. GamePlay">
+      <UniqueIdentifier>{efb49076-2627-4a87-abf5-c51f865b5c61}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Levels\03. Outdoor">
+      <UniqueIdentifier>{6d6e6a6a-af45-4a1a-a5d9-a8592fe5b4a3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Levels\01. Logo\02. Indoor">
+      <UniqueIdentifier>{28e29652-c666-48a6-98b3-c2bfe2ffccd2}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -397,10 +400,10 @@
       <Filter>99.Headers</Filter>
     </ClInclude>
     <ClInclude Include="..\public\Level_Logo.h">
-      <Filter>01.Levels\Logo</Filter>
+      <Filter>01.Levels\01. Logo</Filter>
     </ClInclude>
     <ClInclude Include="..\public\Level_Loading.h">
-      <Filter>01.Levels\Loading</Filter>
+      <Filter>01.Levels\00. Loading</Filter>
     </ClInclude>
     <ClInclude Include="..\public\BackGround.h">
       <Filter>02.GameObjects\Map\BackGround</Filter>
@@ -430,7 +433,7 @@
       <Filter>02.GameObjects\UI\GamePlayUI\Portrait</Filter>
     </ClInclude>
     <ClInclude Include="..\public\Loader.h">
-      <Filter>01.Levels\Loading\Loader</Filter>
+      <Filter>01.Levels\00. Loading\Loader</Filter>
     </ClInclude>
     <ClInclude Include="..\public\Effect.h">
       <Filter>02.GameObjects\Effect</Filter>
@@ -478,7 +481,7 @@
       <Filter>02.GameObjects\__DebugMode</Filter>
     </ClInclude>
     <ClInclude Include="..\public\Level_GamePlay.h">
-      <Filter>01.Levels\GamePlay</Filter>
+      <Filter>01.Levels\99. GamePlay</Filter>
     </ClInclude>
     <ClInclude Include="..\public\Button.h">
       <Filter>02.GameObjects\UI\Button</Filter>
@@ -571,7 +574,7 @@
       <Filter>02.GameObjects\Weapon\LoverBoy</Filter>
     </ClInclude>
     <ClInclude Include="..\public\Level_Indoor.h">
-      <Filter>01.Levels\Indoor</Filter>
+      <Filter>01.Levels\01. Logo\02. Indoor</Filter>
     </ClInclude>
     <ClInclude Include="..\public\Block.h">
       <Filter>02.GameObjects\Map\Block</Filter>
@@ -652,7 +655,7 @@
       <Filter>02.GameObjects\Statue\Canopy</Filter>
     </ClInclude>
     <ClInclude Include="..\public\Level_Race.h">
-      <Filter>01.Levels\Race</Filter>
+      <Filter>01.Levels\04. Race</Filter>
     </ClInclude>
     <ClInclude Include="..\public\RaceTerrain.h">
       <Filter>02.GameObjects\Map\Race</Filter>
@@ -757,7 +760,7 @@
       <Filter>02.GameObjects\Weapon\Bullet\MonsterNormalBullet</Filter>
     </ClInclude>
     <ClInclude Include="..\public\Level_Boss.h">
-      <Filter>01.Levels\Boss</Filter>
+      <Filter>01.Levels\05. Boss</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -781,13 +784,13 @@
       <Filter>00.MainApp</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Level_Logo.cpp">
-      <Filter>01.Levels\Logo</Filter>
+      <Filter>01.Levels\01. Logo</Filter>
     </ClCompile>
     <ClCompile Include="..\private\Level_Loading.cpp">
-      <Filter>01.Levels\Loading</Filter>
+      <Filter>01.Levels\00. Loading</Filter>
     </ClCompile>
     <ClCompile Include="..\private\Loader.cpp">
-      <Filter>01.Levels\Loading\Loader</Filter>
+      <Filter>01.Levels\00. Loading\Loader</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\BackGround.cpp">
       <Filter>02.GameObjects\Map\BackGround</Filter>
@@ -862,7 +865,7 @@
       <Filter>02.GameObjects\Pawn\Player</Filter>
     </ClCompile>
     <ClCompile Include="..\private\Level_GamePlay.cpp">
-      <Filter>01.Levels\GamePlay</Filter>
+      <Filter>01.Levels\99. GamePlay</Filter>
     </ClCompile>
     <ClCompile Include="..\private\Button.cpp">
       <Filter>02.GameObjects\UI\Button</Filter>
@@ -952,7 +955,7 @@
       <Filter>02.GameObjects\Weapon\LoverBoy</Filter>
     </ClCompile>
     <ClCompile Include="..\private\Level_Indoor.cpp">
-      <Filter>01.Levels\Indoor</Filter>
+      <Filter>01.Levels\01. Logo\02. Indoor</Filter>
     </ClCompile>
     <ClCompile Include="..\private\Block.cpp">
       <Filter>02.GameObjects\Map\Block</Filter>
@@ -1027,7 +1030,7 @@
       <Filter>02.GameObjects\Particle</Filter>
     </ClCompile>
     <ClCompile Include="..\private\Level_Race.cpp">
-      <Filter>01.Levels\Race</Filter>
+      <Filter>01.Levels\04. Race</Filter>
     </ClCompile>
     <ClCompile Include="..\private\RaceTerrain.cpp">
       <Filter>02.GameObjects\Map\Race</Filter>
@@ -1126,7 +1129,7 @@
       <Filter>02.GameObjects\Statue\StreetLamp\Head</Filter>
     </ClCompile>
     <ClCompile Include="..\private\Level_Boss.cpp">
-      <Filter>01.Levels\Boss</Filter>
+      <Filter>01.Levels\05. Boss</Filter>
     </ClCompile>
     <ClCompile Include="..\private\MonsterGuidBullet.cpp">
       <Filter>02.GameObjects\Weapon\Bullet\MonsterGuidBullet</Filter>
