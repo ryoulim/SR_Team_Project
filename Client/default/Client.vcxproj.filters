@@ -181,9 +181,6 @@
     <Filter Include="02.GameObjects\Weapon\LoverBoy">
       <UniqueIdentifier>{938caa6e-991d-4371-8c1a-c40eec5364c9}</UniqueIdentifier>
     </Filter>
-    <Filter Include="01.Levels\Test">
-      <UniqueIdentifier>{28e29652-c666-48a6-98b3-c2bfe2ffccd2}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02.GameObjects\Map\BackGround">
       <UniqueIdentifier>{cacde4f5-7fc7-406d-9ed5-7a738becec0f}</UniqueIdentifier>
     </Filter>
@@ -360,6 +357,12 @@
     </Filter>
     <Filter Include="02.GameObjects\Particle\_BossMobSkill\JumpAttack">
       <UniqueIdentifier>{7fdd175d-aa74-493e-a0d1-fce9abb340a6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Levels\Boss">
+      <UniqueIdentifier>{fb67a493-7c28-490a-9c62-08f4fccbf0d7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Levels\Indoor">
+      <UniqueIdentifier>{28e29652-c666-48a6-98b3-c2bfe2ffccd2}</UniqueIdentifier>
     </Filter>
     <Filter Include="02.GameObjects\Weapon\Bullet\MonsterGuidBullet">
       <UniqueIdentifier>{a38e0d7f-b59a-4b46-833b-930cd65c1a76}</UniqueIdentifier>
@@ -564,8 +567,8 @@
     <ClInclude Include="..\public\Weapon_LoverBoy.h">
       <Filter>02.GameObjects\Weapon\LoverBoy</Filter>
     </ClInclude>
-    <ClInclude Include="..\public\Level_Test.h">
-      <Filter>01.Levels\Test</Filter>
+    <ClInclude Include="..\public\Level_Indoor.h">
+      <Filter>01.Levels\Indoor</Filter>
     </ClInclude>
     <ClInclude Include="..\public\Block.h">
       <Filter>02.GameObjects\Map\Block</Filter>
@@ -746,6 +749,9 @@
     </ClInclude>
     <ClInclude Include="..\public\MonsterGuidBullet.h">
       <Filter>02.GameObjects\Weapon\Bullet\MonsterGuidBullet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Level_Boss.h">
+      <Filter>01.Levels\Boss</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -939,8 +945,8 @@
     <ClCompile Include="..\private\Weapon_LoverBoy.cpp">
       <Filter>02.GameObjects\Weapon\LoverBoy</Filter>
     </ClCompile>
-    <ClCompile Include="..\private\Level_Test.cpp">
-      <Filter>01.Levels\Test</Filter>
+    <ClCompile Include="..\private\Level_Indoor.cpp">
+      <Filter>01.Levels\Indoor</Filter>
     </ClCompile>
     <ClCompile Include="..\private\Block.cpp">
       <Filter>02.GameObjects\Map\Block</Filter>
@@ -1112,6 +1118,9 @@
     </ClCompile>
     <ClCompile Include="..\private\StreetLampHead.cpp">
       <Filter>02.GameObjects\Statue\StreetLamp\Head</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Level_Boss.cpp">
+      <Filter>01.Levels\Boss</Filter>
     </ClCompile>
     <ClCompile Include="..\private\MonsterGuidBullet.cpp">
       <Filter>02.GameObjects\Weapon\Bullet\MonsterGuidBullet</Filter>

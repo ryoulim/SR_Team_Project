@@ -73,8 +73,8 @@ void CLevel_Loading::Update(_float fTimeDelta)
 				pLevel = CLevel_Race::Create(m_pGraphic_Device, m_pLoader->Get_LevelData());
 				break;
 
-			case LEVEL_TEST:
-				pLevel = CLevel_Test::Create(m_pGraphic_Device, m_pLoader->Get_LevelData());
+			case LEVEL_BOSS:
+				pLevel = CLevel_Indoor::Create(m_pGraphic_Device, m_pLoader->Get_LevelData());
 				break;
 			}
 

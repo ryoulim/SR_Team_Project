@@ -3,6 +3,7 @@
 
 #include "BossBridge.h"
 #include "GameInstance.h"
+#include "CameraManager.h"
 
 CBossBridge::CBossBridge(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CMap{ pGraphic_Device }
@@ -28,6 +29,8 @@ HRESULT CBossBridge::Initialize(void* pArg)
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
 
+	m_fFallTime = 15.f;
+
 	return S_OK;
 }
 
@@ -41,9 +44,9 @@ EVENT CBossBridge::Update(_float fTimeDelta)
 	if (m_bTrigger)
 	{
 		m_fTimeaAcc += fTimeDelta;
-		if (15 <= m_fTimeaAcc)
+		if (m_fFallTime <= m_fTimeaAcc)
 			m_bTrigger = FALSE; // 어짜피 트리거는 켜지면서 죽으니까 다시 트루될 일 없음
-
+		
 		m_pTransformCom->Go_Down(fTimeDelta);
 		m_pColliderCom->Update_Collider();
 	}
@@ -83,6 +86,11 @@ HRESULT CBossBridge::Ready_Components(void* pArg)
 		return E_FAIL;
 
 	return S_OK;
+}
+
+inline void CBossBridge::On_Trigger() {
+	m_bTrigger = TRUE;
+	CAMERA_MANAGER->Shake_Camera(0.2f, 5.f);
 }
 
 CBossBridge* CBossBridge::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
