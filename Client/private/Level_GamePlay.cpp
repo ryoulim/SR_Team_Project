@@ -132,9 +132,11 @@ HRESULT CLevel_GamePlay::Render()
 
 HRESULT CLevel_GamePlay::Ready_Layer_Terrain(const _wstring& strLayerTag)
 {
+	CMap::DESC tDesc = {};
+	tDesc.eNextLevel = LEVEL_GAMEPLAY;
 
 	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Terrain"),
-		LEVEL_GAMEPLAY, strLayerTag)))
+		LEVEL_GAMEPLAY, strLayerTag, &tDesc)))
 		return E_FAIL;
 
 	auto pTerrain = m_pGameInstance-> 
@@ -197,9 +199,9 @@ HRESULT CLevel_GamePlay::Ready_Layer_Statue(const _wstring& strLayerTag)
 		LEVEL_GAMEPLAY, strLayerTag, m_pData->Find_Data(TEXT("Stall")))))
 		return E_FAIL;*/
 
-	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Canopy"),
+	/*if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Canopy"),
 		LEVEL_GAMEPLAY, strLayerTag, m_pData->Find_Data(TEXT("Canopy")))))
-		return E_FAIL;
+		return E_FAIL;*/
 
 	return S_OK;
 }
@@ -546,6 +548,7 @@ HRESULT CLevel_GamePlay::Load_Map(_uint iLevelIdx, const _wstring& FileName)
 			tDesc.vAngle = vAngle;
 			tDesc.fTextureIdx = fTextureIdx;
 			tDesc.bCollision = bCollision;
+			tDesc.eNextLevel = static_cast<LEVEL>(iLevelIdx);
 
 			_wstring strKey = szPrototypeTag;
 
@@ -711,6 +714,7 @@ HRESULT CLevel_GamePlay::Load_Map(_uint iLevelIdx, const _wstring& FileName)
 			tDesc.vScale = vScale * BOSSSCALE;
 			tDesc.vAngle = vAngle;
 			tDesc.bCollision = bCollision;
+			tDesc.eNextLevel = static_cast<LEVEL>(iLevelIdx);
 
 			_wstring strKey = szPrototypeTag;
 

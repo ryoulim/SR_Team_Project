@@ -4,6 +4,7 @@
 #include "Map.h"
 #include "Statue.h"
 #include "Dynamic_Camera.h"
+#include "Player.h"
 
 CLevel_Indoor::CLevel_Indoor(LPDIRECT3DDEVICE9 pGraphic_Device)
 	:CLevel{pGraphic_Device}
@@ -13,11 +14,12 @@ CLevel_Indoor::CLevel_Indoor(LPDIRECT3DDEVICE9 pGraphic_Device)
 HRESULT CLevel_Indoor::Initialize(CLevelData* pLevelData)
 {
 
-	if (FAILED(Load_Map(LEVEL_INDOOR, TEXT("MapData.txt"))))
+ 	if (FAILED(Load_Map(LEVEL_INDOOR, TEXT("NormalMapData.txt"))))
 		return E_FAIL;
 
 	if (FAILED(Ready_Layer_Camera(TEXT("Layer_Camera"))))
 		return E_FAIL;
+
 
 	return S_OK;
 }
@@ -87,6 +89,7 @@ HRESULT CLevel_Indoor::Load_Map(_uint iLevelIdx, const _wstring& FileName)
 			tDesc.vAngle = vAngle;
 			tDesc.fTextureIdx = fTextureIdx;
 			tDesc.bCollision = bCollision;
+			tDesc.eNextLevel = static_cast<LEVEL>(iLevelIdx);
 
 			_wstring strKey = szPrototypeTag;
 
@@ -99,7 +102,7 @@ HRESULT CLevel_Indoor::Load_Map(_uint iLevelIdx, const _wstring& FileName)
 
 			CGravity::Add_StandableObjLayerTag(CG_BLOCK);
 
-			if (FAILED(m_pGameInstance->Add_GameObject(iLevelIdx, Prototype, iLevelIdx, Layertag, &tDesc)))
+ 			if (FAILED(m_pGameInstance->Add_GameObject(iLevelIdx, Prototype, iLevelIdx, Layertag, &tDesc)))
 			{
 				MSG_BOX("객체 생성 실패");
 				return E_FAIL;
@@ -224,10 +227,11 @@ HRESULT CLevel_Indoor::Load_Map(_uint iLevelIdx, const _wstring& FileName)
 			CStatue::DESC tDesc = {};
 			tDesc.fSpeedPerSec = fSpeedPerSec;
 			tDesc.fRotationPerSec = fRotationPerSec;
-			tDesc.vInitPos = vPosition * BOSSSCALE;
-			tDesc.vScale = vScale * BOSSSCALE;
+			tDesc.vInitPos = vPosition * PLAYSCALE;
+			tDesc.vScale = vScale * PLAYSCALE;
 			tDesc.vAngle = vAngle;
 			tDesc.bCollision = bCollision;
+			tDesc.eNextLevel = static_cast<LEVEL>(iLevelIdx);
 
 			_wstring strKey = szPrototypeTag;
 
@@ -258,12 +262,12 @@ HRESULT CLevel_Indoor::Ready_Layer_Camera(const _wstring& strLayerTag)
 	CDynamic_Camera::DESC tDesc = {};
 
 	tDesc.fFov = 60.f;
-	tDesc.fFar = 100.f;
+	tDesc.fFar = 2000.f;
 	tDesc.fNear = 0.1f;
-	tDesc.fSpeedPerSec = 100.f;
+	tDesc.fSpeedPerSec = 300.f;
 	tDesc.fRotationPerSec = D3DXToRadian(180.f);
 	tDesc.vAt = _float3(0.f, 0.f, 0.f);
-	tDesc.vEye = _float3(0.f, 40.f, 50.f);
+	tDesc.vEye = _float3(0.f, 50.f, -40.f);
 	tDesc.fMouseSensor = 0.05f;
 
 	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_Dynamic_Camera"),

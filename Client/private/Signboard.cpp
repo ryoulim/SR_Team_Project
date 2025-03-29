@@ -17,7 +17,9 @@ HRESULT CSignboard::Initialize_Prototype()
 
 HRESULT CSignboard::Initialize(void* pArg)
 {
-	m_eLevelID = LEVEL_GAMEPLAY;
+	DESC* pDesc = static_cast<DESC*>(pArg);
+
+	m_eLevelID = pDesc->eNextLevel;
 	m_szTextureID = TEXT("Signboard");
 	m_szBufferType = TEXT("Signboard");
 

@@ -18,7 +18,9 @@ HRESULT CRaceGate::Initialize_Prototype()
 
 HRESULT CRaceGate::Initialize(void* pArg)
 {
-	m_eLevelID = LEVEL_RACE;
+	DESC* pDesc = static_cast<DESC*>(pArg);
+
+	m_eLevelID = pDesc->eNextLevel;
 	m_szTextureID = TEXT("RaceGate");
 	m_szBufferType = TEXT("RaceGate");
 

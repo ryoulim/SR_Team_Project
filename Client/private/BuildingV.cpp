@@ -18,9 +18,9 @@ HRESULT CBuildingV::Initialize_Prototype()
 
 HRESULT CBuildingV::Initialize(void* pArg)
 {
-	DESC* desc = static_cast<DESC*>(pArg);
+	DESC* pDesc = static_cast<DESC*>(pArg);
 
-	m_eLevelID = LEVEL_RACE;
+	m_eLevelID = pDesc->eNextLevel;
 	m_szTextureID = TEXT("BuildingV");
 	m_szBufferType = TEXT("BuildingV");
 

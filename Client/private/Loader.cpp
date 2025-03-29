@@ -153,6 +153,10 @@ HRESULT CLoader::Loading()
 	case LEVEL_BOSS:
 		hr = Loading_For_Boss();
 		break;
+
+	case LEVEL_INDOOR:
+		hr = Loading_For_Indoor();
+		break;
 	}
 
 	LeaveCriticalSection(&m_CriticalSection);
@@ -456,13 +460,8 @@ HRESULT CLoader::Loading_For_GamePlay()
 #pragma region TEXTURE
 	lstrcpy(m_szLoadingText, TEXT("텍스쳐을(를) 로딩중입니다."));
 
-
-
-	
-	/* 터레인 텍스쳐 잠깐 바꾸겠습니다 */
 	ADD_TEXTURE(Terrain, "../Bin/Resources/Textures/Check_Tile.PNG", 1);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
 	ADD_TEXTURE(Lava, "../Bin/Resources/Textures/Map/Lava/Tile%d.PNG", 16); fDataCurNum++; m_fLoadPercent = fDataCurNum / fDataNum;
-	// ADD_TEXTURE(Terrain, "../Bin/Resources/Textures/Map/tile6191.PNG", 1);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
 
 	ADD_TEXTURE(MyCube, "../Bin/Resources/Textures/Snow/Snow.png", 1);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
 	ADD_TEXTURE(Aim, "../Bin/Resources/Textures/Aim/aim0.PNG", 1);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
@@ -487,7 +486,6 @@ HRESULT CLoader::Loading_For_GamePlay()
 	ADD_TEXTURE(MonsterBounce, "../Bin/Resources/Textures/Bullet/MonsterBounce/MonsterBounce%d.PNG", 4);
 
 	ADD_TEXTURE(Test, "../Bin/Resources/Textures/TileTest/tile%d.PNG", 126); fDataCurNum++; m_fLoadPercent = fDataCurNum / fDataNum;
-	//ADD_TEXTURE(Test, "../Bin/Resources/Textures/TileTest/tile%d.PNG", 121);
 	for (size_t i = 0; i < 100000; i++) { for (size_t j = 0; j < 10000; j++)int a = 0; if (KEY_PRESSING(DIK_SPACE))break; }
 
 	/*******************************************************************************************************************************************/
@@ -751,6 +749,8 @@ HRESULT CLoader::Loading_For_GamePlay()
 	ADD_PRTOBJ(Weapon_Chaingun);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
 	ADD_PRTOBJ(Weapon_Dispenser);
 	ADD_PRTOBJ(GrenadeBullet);
+
+	ADD_PRTOBJ(TriangularPillar);
 	ADD_PRTOBJ(Block);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
 	ADD_PRTOBJ(BackGround);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
 	ADD_PRTOBJ(AnimeRect);fDataCurNum++; m_fLoadPercent = fDataCurNum / fDataNum;
@@ -773,7 +773,6 @@ HRESULT CLoader::Loading_For_GamePlay()
 	ADD_PRTOBJ(Cultist);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
 	ADD_PRTOBJ(Archangel);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
 
-	ADD_PRTOBJ(TriangularPillar);
 #pragma endregion
 
 #pragma region DATA
@@ -1352,12 +1351,59 @@ HRESULT CLoader::Loading_For_Boss()
 		TEXT("ObjectPool_PC_EmptyBullet"), 20, &EmptyBulletDesc)))
 		return E_FAIL;
 #pragma endregion
+	return S_OK;
+}
 
-#pragma endregion
+HRESULT CLoader::Loading_For_Indoor()
+{
+	lstrcpy(m_szLoadingText, TEXT("텍스쳐을(를) 로딩중입니다."));
+
+	ADD_TEXTURE(Test, "../Bin/Resources/Textures/TileTest/tile%d.PNG", 126);
+	ADD_TEXTURE(BackGround, "../Bin/Resources/Textures/Default%d.jpg", 2);
+	ADD_TEXTURE(Terrain, "../Bin/Resources/Textures/Check_Tile.PNG", 1);
+	ADD_TEXTURE(MyCube, "../Bin/Resources/Textures/Snow/Snow.png", 1);
+	ADD_TEXTURE(Box, "../Bin/Resources/Textures/Object/Box/tile6628.png", 1);
+	ADD_TEXTURE(Cabinet, "../Bin/Resources/Textures/Object/Cabinet/Cabinet%d.png", 3);
+	ADD_TEXTURE(Trapezoid, "../Bin/Resources/Textures/Object/Trapezoid/Trapezoid%d.PNG", 2);
+
+	ADD_TEXTURE(BuildingH, "../Bin/Resources/Textures/Object/BuildingH/BuildingH%d.PNG", 4);
+	ADD_TEXTURE(BuildingW, "../Bin/Resources/Textures/Object/BuildingW/BuildingW.PNG", 1);
+	ADD_TEXTURE(BuildingV, "../Bin/Resources/Textures/Object/BuildingV/BuildingV.PNG", 1);
+	ADD_TEXTURE(BuildingU, "../Bin/Resources/Textures/Object/BuildingU/BuildingU.PNG", 1);
+	ADD_TEXTURE(RaceGate, "../Bin/Resources/Textures/Object/RaceGate/RaceGate%d.PNG", 3);
+
+	lstrcpy(m_szLoadingText, TEXT("모델을(를) 로딩중입니다."));
+	Load_For_Terrain(TEXT("NormalMapData.txt"));
+
+	lstrcpy(m_szLoadingText, TEXT("원형객체을(를) 로딩중입니다."));
+	ADD_PRTOBJ(Terrain);
+
+	ADD_PRTOBJ(Portrait);
+	ADD_PRTOBJ(Trapezoid);
+	ADD_PRTOBJ(Stall);
+	ADD_PRTOBJ(Cabinet);
+	ADD_PRTOBJ(Signboard);
+	ADD_PRTOBJ(MyComputer);
+	ADD_PRTOBJ(Canopy);
+
+	ADD_PRTOBJ(Player);
+
+	ADD_PRTOBJ(Block);
+	ADD_PRTOBJ(BackGround);
+	ADD_PRTOBJ(AnimeRect);
+	ADD_PRTOBJ(AnimeBlock);
+	ADD_PRTOBJ(AlphaRect);
+	ADD_PRTOBJ(AlphaBlock);
+	ADD_PRTOBJ(InvisibleBlock);
+	ADD_PRTOBJ(TriangularPillar);
+
+	lstrcpy(m_szLoadingText, TEXT("사운드을(를) 로딩중입니다."));
+
+	lstrcpy(m_szLoadingText, TEXT("데이터를 읽어들이는 중입니다."));
 
 	lstrcpy(m_szLoadingText, TEXT("로딩이 완료되었습니다."));
 	m_isFinished = true;
-	m_fLoadPercent = 1.f;
+
 	return S_OK;
 }
 
