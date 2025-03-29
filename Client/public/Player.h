@@ -38,7 +38,7 @@ private:
 	// ´ë½¬
 	_float3						m_vPrePosition{};
 	_float3						m_vDashDirection{};
-	_float						m_fDashTimer{};
+	_float						m_fDashTimer{-2.f};
 
 private:
 	void			Key_Input(_float fTimeDelta);

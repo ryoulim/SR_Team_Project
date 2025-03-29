@@ -6,12 +6,13 @@
 #include "CameraManager.h"
 
 // 무기들 인클루드
-#include "Weapon_LoverBoy.h"
+//#include "Weapon_LoverBoy.h"
 #include <UI_Manager.h>
 
-#define DASH_TIME 0.5f
-#define JUST_DASH_TIME 0.2f
+#define DASH_TIME 0.25f
+#define JUST_DASH_TIME 0.15f
 #define DASH_SPEED 1500.f
+#define DASH_COOLTIME 2.f
 
 CPlayer::CPlayer(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CPawn{ pGraphic_Device }
@@ -107,6 +108,7 @@ EVENT CPlayer::Update(_float fTimeDelta)
 	}
 	else
 	{
+		m_fDashTimer -= fTimeDelta;
 		if (m_bFpsMode)
 		{
 			Key_Input(fTimeDelta);
@@ -197,8 +199,9 @@ void CPlayer::Key_Input(_float fTimeDelta)
 		m_pGravityCom->Jump(33.f);
 	}
 	// 대쉬
-	if (KEY_DOWN(DIK_LSHIFT)	&&
-		!m_bDash				&&
+	if (KEY_DOWN(DIK_LSHIFT)			&&
+		!m_bDash						&&
+		m_fDashTimer < -DASH_COOLTIME	&&
 		m_vPrePosition != *m_pTransformCom->Get_State(CTransform::STATE_POSITION))
 	{
 		m_vDashDirection = (*m_pTransformCom->Get_State(CTransform::STATE_POSITION)
@@ -268,7 +271,7 @@ void CPlayer::Update_Dash(_float fTimeDelta)
 
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION,vPos);
 
-	m_vDashDirection *= 0.93f;
+	m_vDashDirection *= 0.85f;
 }
 
 CPlayer* CPlayer::Create(LPDIRECT3DDEVICE9 pGraphic_Device)

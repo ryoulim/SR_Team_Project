@@ -57,11 +57,11 @@ HRESULT CLevel_GamePlay::Initialize(class CLevelData* pLevelData)
 	//if(FAILED(Ready_Light()))
 	//	return E_FAIL;
 
-	if (FAILED(Load_Map(LEVEL_GAMEPLAY, TEXT("MapData.txt"))))
+	if (FAILED(Load_Map(LEVEL_GAMEPLAY, TEXT("NormalMapData.txt"))))
 		return E_FAIL;
 
-	if (FAILED(Ready_Layer_Trigger(TEXT("Layer_Trigger"))))
-		return E_FAIL;
+	//if (FAILED(Ready_Layer_Trigger(TEXT("Layer_Trigger"))))
+	//	return E_FAIL;
 
 	ShowCursor(FALSE);
 
@@ -257,7 +257,7 @@ HRESULT CLevel_GamePlay::Ready_Layer_Effect(const _wstring& strLayerTag)
 HRESULT CLevel_GamePlay::Ready_Layer_Pawn(const _wstring& strLayerTag)
 {
 	CPlayer::DESC PlayerDesc{};
-	PlayerDesc.vInitPos = _float3{ 1400.f, 100.f, 200.f };
+	PlayerDesc.vInitPos = _float3{ 1400.f, 150.f, 200.f };
 	PlayerDesc.vScale = { 20.f, 30.f, 20.f };
 	PlayerDesc.fRotationPerSec = RADIAN(180.f);
 	PlayerDesc.fSpeedPerSec = 150.f;
@@ -369,10 +369,10 @@ HRESULT CLevel_GamePlay::Ready_Layer_Trigger(const _wstring& strLayerTag)
 void CLevel_GamePlay::Check_Collision()
 {
 	m_pGameInstance->Intersect(CG_PAWN, CG_BLOCK);
-	m_pGameInstance->Intersect(CG_PBULLET, CG_MONSTER);
-	m_pGameInstance->Intersect(CG_PBULLET, CG_BLOCK);
-	m_pGameInstance->Intersect(CG_MBULLET, CG_BLOCK);
-	m_pGameInstance->Intersect(CG_PAWN, CG_TRIGGER);
+	//m_pGameInstance->Intersect(CG_PBULLET, CG_MONSTER);
+	//m_pGameInstance->Intersect(CG_PBULLET, CG_BLOCK);
+	//m_pGameInstance->Intersect(CG_MBULLET, CG_BLOCK);
+	//m_pGameInstance->Intersect(CG_PAWN, CG_TRIGGER);
 }
 
 void CLevel_GamePlay::SpawnTtakkeun_i(_float3 _Position, bool m_bActive)
@@ -552,7 +552,7 @@ HRESULT CLevel_GamePlay::Load_Map(_uint iLevelIdx, const _wstring& FileName)
 			_wstring Layertag = TEXT("Layer_") + strKey;
 			
 
-			CGravity::Add_StandableObjLayerTag(CG_BLOCK);
+   			CGravity::Add_StandableObjLayerTag(CG_BLOCK);
 
 			if (FAILED(m_pGameInstance->Add_GameObject(iLevelIdx, Prototype, iLevelIdx, Layertag, &tDesc)))
 			{

@@ -24,8 +24,9 @@ public:
 	virtual void Update_Collider() override;
 	virtual void Update_Scale(const _float3& vScale) override;
 	virtual _bool RayCasting(const _float3& rayOrigin, const _float3& rayDir) override;
-
 	virtual _bool RayCast_Downward(const _float3& rayOrigin) override;
+
+	void Update_Rotation(const _float3& radEuler); // 직각으로 회전된 AABB 큐브용 셋팅함수
 
 	const INFO* Get_Info() const { return &m_tInfo; };
 	virtual const _float3& Get_Pos() const override {

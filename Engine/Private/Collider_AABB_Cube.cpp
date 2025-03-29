@@ -120,6 +120,32 @@ _bool CCollider_AABB_Cube::RayCast_Downward(const _float3& rayOrigin)
 	return TRUE;
 }
 
+void CCollider_AABB_Cube::Update_Rotation(const _float3& radEuler)
+{
+	_float3 half = m_vHalfScale;
+
+	const _float RAD90 = PI * 0.5f;
+	const _float RAD180 = PI;
+	const _float RAD270 = PI * 1.5f;
+
+	const _float epsilon = FLT_EPSILON * 10.f;
+
+	// X축 회전: Y-Z 스왑
+	if (fabs(radEuler.x - RAD90) < epsilon || fabsf(radEuler.x - RAD270) < epsilon)
+		swap(half.y, half.z);
+
+	// Y축 회전: X-Z 스왑
+	if (fabs(radEuler.y - RAD90) < epsilon || fabsf(radEuler.y - RAD270) < epsilon)
+		swap(half.x, half.z);
+
+	// Z축 회전: X-Y 스왑
+	if (fabs(radEuler.z - RAD90) < epsilon || fabsf(radEuler.z - RAD270) < epsilon)
+		swap(half.x, half.y);
+
+	m_tInfo.vMinPos = m_tInfo.vCenter - half;
+	m_tInfo.vMaxPos = m_tInfo.vCenter + half;
+}
+
 CCollider_AABB_Cube* CCollider_AABB_Cube::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 {
 	CCollider_AABB_Cube* pInstance = new CCollider_AABB_Cube(pGraphic_Device);
