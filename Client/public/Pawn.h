@@ -13,6 +13,7 @@ public:
 	{
 		_float3 vInitPos;
 		_float3 vScale;
+		LEVEL	eLevelID;
 	}DESC;
 
 protected:

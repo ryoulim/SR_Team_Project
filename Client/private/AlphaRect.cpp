@@ -21,7 +21,6 @@ HRESULT CAlphaRect::Initialize_Prototype()
 
 HRESULT CAlphaRect::Initialize(void* pArg)
 {
-	m_eLevelID = LEVEL_GAMEPLAY;
 	m_szTextureID = TEXT("Test");
 	m_szBufferType = TEXT("Rect");
 

@@ -76,9 +76,11 @@ HRESULT CLevel_Boss::Render()
 
 HRESULT CLevel_Boss::Ready_Layer_Terrain(const _wstring& strLayerTag)
 {
+	CMap::DESC MapDesc{};
+	MapDesc.eLevelID = LEVEL_BOSS;
 
 	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_BOSS, TEXT("Prototype_GameObject_Terrain"),
-		LEVEL_BOSS, strLayerTag)))
+		LEVEL_BOSS, strLayerTag, &MapDesc)))
 		return E_FAIL;
 
 	auto pTerrain = m_pGameInstance->
@@ -90,7 +92,7 @@ HRESULT CLevel_Boss::Ready_Layer_Terrain(const _wstring& strLayerTag)
 
 
 	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_Sky"),
-		LEVEL_GAMEPLAY, strLayerTag)))
+		LEVEL_BOSS, strLayerTag)))
 		return E_FAIL;
 
 

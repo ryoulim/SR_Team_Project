@@ -25,7 +25,7 @@ public:
 		_float3 vAngle;
 		_bool   bCollision;
 		_float  fTextureIdx;
-
+		LEVEL	eLevelID;
 	}DESC;
 
 protected:

@@ -31,7 +31,6 @@ HRESULT CPlayer::Initialize_Prototype()
 
 HRESULT CPlayer::Initialize(void* pArg)
 {
-	m_eLevelID = LEVEL_GAMEPLAY;
 	m_szTextureID = TEXT("MyCube");
 	m_szBufferType = TEXT("Cube");
 
@@ -45,33 +44,11 @@ HRESULT CPlayer::Initialize(void* pArg)
 	// FPS 카매라 뺴옴
 	auto FPS_Camera = m_pCameraManager->Get_Camera(CCameraManager::FPS);
 
-	// FPS 카메라의 트랜스폼 정보를 받아둠 이후 조작 그냥 플레이어에서 했음
+	// FPS 카메라의 트랜스폼 정보를 받아둠
 	m_pCameraTransform = static_cast<CTransform*>(FPS_Camera->Find_Component(TEXT("Com_Transform")));
 	Safe_AddRef(m_pCameraTransform);
 
-#pragma region 무기추가
-	CWeapon::DESC WeaponDesc{};
-	WeaponDesc.pPlayerTransform = m_pTransformCom;
-
-	WeaponDesc.fSpeedPerSec = 600.f;
-	m_Weapons.push_back(
-		static_cast<CWeapon*>(m_pGameInstance->Clone_Prototype(
-			PROTOTYPE::TYPE_GAMEOBJECT, LEVEL_GAMEPLAY,
-			TEXT("Prototype_GameObject_Weapon_LoverBoy"), &WeaponDesc)));
-
-	WeaponDesc.fSpeedPerSec = 3000.f;
-	m_Weapons.push_back(
-		static_cast<CWeapon*>(m_pGameInstance->Clone_Prototype(
-			PROTOTYPE::TYPE_GAMEOBJECT, LEVEL_GAMEPLAY,
-			TEXT("Prototype_GameObject_Weapon_Chaingun"), &WeaponDesc)));
-
-	WeaponDesc.fSpeedPerSec = 2600.f;
-	m_Weapons.push_back(
-		static_cast<CWeapon*>(m_pGameInstance->Clone_Prototype(
-			PROTOTYPE::TYPE_GAMEOBJECT, LEVEL_GAMEPLAY,
-			TEXT("Prototype_GameObject_Weapon_Dispenser"), &WeaponDesc)));
-#pragma endregion
-	CUI_Manager::Get_Instance()->Change_Weapon(m_Weapons[m_iCurWeaponIndex]->Get_Info());
+	Add_Weapons();
 
 	return S_OK;
 }
@@ -101,6 +78,8 @@ EVENT CPlayer::Update(_float fTimeDelta)
 
 	if (!m_bFpsMode)
 		return EVN_NONE;
+
+	m_pGameInstance->Set_Listener_Position(m_pTransformCom, *m_pTransformCom->Get_State(CTransform::STATE_POSITION) - m_vPrePosition);
 
 	if (m_bDash)
 	{
@@ -163,6 +142,32 @@ void CPlayer::On_Collision(_uint MyColliderID, _uint OtherColliderID)
 
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, vPos);
 	m_pCameraTransform->Set_State(CTransform::STATE_POSITION, vPos2);
+}
+
+void CPlayer::Add_Weapons()
+{
+	CWeapon::DESC WeaponDesc{};
+	WeaponDesc.pPlayerTransform = m_pTransformCom;
+
+	WeaponDesc.fSpeedPerSec = 600.f;
+	m_Weapons.push_back(
+		static_cast<CWeapon*>(m_pGameInstance->Clone_Prototype(
+			PROTOTYPE::TYPE_GAMEOBJECT, LEVEL_GAMEPLAY,
+			TEXT("Prototype_GameObject_Weapon_LoverBoy"), &WeaponDesc)));
+
+	WeaponDesc.fSpeedPerSec = 3000.f;
+	m_Weapons.push_back(
+		static_cast<CWeapon*>(m_pGameInstance->Clone_Prototype(
+			PROTOTYPE::TYPE_GAMEOBJECT, LEVEL_GAMEPLAY,
+			TEXT("Prototype_GameObject_Weapon_Chaingun"), &WeaponDesc)));
+
+	WeaponDesc.fSpeedPerSec = 2600.f;
+	m_Weapons.push_back(
+		static_cast<CWeapon*>(m_pGameInstance->Clone_Prototype(
+			PROTOTYPE::TYPE_GAMEOBJECT, LEVEL_GAMEPLAY,
+			TEXT("Prototype_GameObject_Weapon_Dispenser"), &WeaponDesc)));
+
+	CUI_Manager::Get_Instance()->Change_Weapon(m_Weapons[m_iCurWeaponIndex]->Get_Info());
 }
 
 void CPlayer::Key_Input(_float fTimeDelta)

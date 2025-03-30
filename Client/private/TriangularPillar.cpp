@@ -18,7 +18,6 @@ HRESULT CTriangularPillar::Initialize_Prototype()
 
 HRESULT CTriangularPillar::Initialize(void* pArg)
 {
-    m_eLevelID = LEVEL_GAMEPLAY;
     m_szTextureID = TEXT("Test");
     m_szBufferType = TEXT("TriangularPillar");
 

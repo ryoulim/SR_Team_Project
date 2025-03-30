@@ -23,6 +23,9 @@ HRESULT CLevel_GamePlay::Initialize(class CLevelData* pLevelData)
 	if (FAILED(__super::Initialize(pLevelData)))
 		return E_FAIL;
 
+	if (FAILED(m_pGameInstance->LoadBank("Test_Bank")))
+		return E_FAIL;
+
 	if (FAILED(Ready_Layer_Camera(TEXT("Layer_Camera"))))
 		return E_FAIL;
 
@@ -132,9 +135,11 @@ HRESULT CLevel_GamePlay::Render()
 
 HRESULT CLevel_GamePlay::Ready_Layer_Terrain(const _wstring& strLayerTag)
 {
+	CMap::DESC MapDesc{};
+	MapDesc.eLevelID = LEVEL_GAMEPLAY;
 
 	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Terrain"),
-		LEVEL_GAMEPLAY, strLayerTag)))
+		LEVEL_GAMEPLAY, strLayerTag, &MapDesc)))
 		return E_FAIL;
 
 	auto pTerrain = m_pGameInstance-> 
@@ -259,6 +264,7 @@ HRESULT CLevel_GamePlay::Ready_Layer_Pawn(const _wstring& strLayerTag)
 	PlayerDesc.vScale = { 20.f, 30.f, 20.f };
 	PlayerDesc.fRotationPerSec = RADIAN(180.f);
 	PlayerDesc.fSpeedPerSec = 150.f;
+	PlayerDesc.eLevelID = LEVEL_GAMEPLAY;
 
 	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Player"),
 		LEVEL_GAMEPLAY, strLayerTag, &PlayerDesc)))
@@ -546,6 +552,7 @@ HRESULT CLevel_GamePlay::Load_Map(_uint iLevelIdx, const _wstring& FileName)
 			tDesc.vAngle = vAngle;
 			tDesc.fTextureIdx = fTextureIdx;
 			tDesc.bCollision = bCollision;
+			tDesc.eLevelID = (LEVEL)iLevelIdx;
 
 			_wstring strKey = szPrototypeTag;
 

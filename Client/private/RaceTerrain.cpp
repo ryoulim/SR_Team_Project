@@ -17,7 +17,6 @@ HRESULT CRaceTerrain::Initialize_Prototype()
 
 HRESULT CRaceTerrain::Initialize(void* pArg)
 {
-	m_eLevelID = LEVEL_RACE;
 	m_szTextureID = TEXT("RaceTerrain");
 	m_szBufferType = TEXT("RaceTerrain");
 

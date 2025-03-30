@@ -13,6 +13,7 @@ typedef struct tagEngineDesc
 	unsigned int			iWinSizeY;
 	unsigned int			iNumLevels;		
 	unsigned int			INumColliderGroups;
+	string					strBankFilePath;
 }ENGINE_DESC;
 
 /*D3DDECLUSAGE*/

@@ -17,6 +17,8 @@ HRESULT CPawn::Initialize_Prototype()
 
 HRESULT CPawn::Initialize(void* pArg)
 {
+	m_eLevelID = static_cast<DESC*>(pArg)->eLevelID;
+
 	if (FAILED(Ready_Components(pArg)))
 		return E_FAIL;
 

@@ -18,7 +18,6 @@ HRESULT CBlock::Initialize_Prototype()
 
 HRESULT CBlock::Initialize(void* pArg)
 {
-    m_eLevelID = LEVEL_GAMEPLAY;
     m_szTextureID = TEXT("Test");
     m_szBufferType = TEXT("Cube");
 
@@ -74,21 +73,21 @@ HRESULT CBlock::Ready_Components(void* pArg)
                 1.0f * PI,
                 1.5f * PI
             };
-            bool isRightX = false, isRightY = false, isRightZ = false;
-            bool isZeroX = fabsf(vAngle.x) < FLT_EPSILON;
-            bool isZeroY = fabsf(vAngle.y) < FLT_EPSILON;
-            bool isZeroZ = fabsf(vAngle.z) < FLT_EPSILON;
+            _bool isRightX = false, isRightY = false, isRightZ = false;
+            _bool isZeroX = fabsf(vAngle.x) < FLT_EPSILON;
+            _bool isZeroY = fabsf(vAngle.y) < FLT_EPSILON;
+            _bool isZeroZ = fabsf(vAngle.z) < FLT_EPSILON;
 
             // 직각 각도인지 체크
-            for (int i = 0; i < 4; ++i)
+            for (_uint i = 0; i < 4; ++i)
             {
                 if (fabsf(vAngle.x - rightAngles[i]) < FLT_EPSILON) isRightX = true;
                 if (fabsf(vAngle.y - rightAngles[i]) < FLT_EPSILON) isRightY = true;
                 if (fabsf(vAngle.z - rightAngles[i]) < FLT_EPSILON) isRightZ = true;
             }
 
-            bool isAllZero = isZeroX && isZeroY && isZeroZ;
-            bool isAllRightAngle = isRightX && isRightY && isRightZ;
+            _bool isAllZero = isZeroX && isZeroY && isZeroZ;
+            _bool isAllRightAngle = isRightX && isRightY && isRightZ;
 
             if (isAllRightAngle)
             {

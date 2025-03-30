@@ -21,7 +21,6 @@ HRESULT CInvisibleBlock::Initialize_Prototype()
 
 HRESULT CInvisibleBlock::Initialize(void* pArg)
 {
-	m_eLevelID = LEVEL_GAMEPLAY;
 	m_szTextureID = TEXT("Test");
 	m_szBufferType = TEXT("Cube");
 

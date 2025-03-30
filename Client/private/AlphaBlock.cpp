@@ -21,7 +21,6 @@ HRESULT CAlphaBlock::Initialize_Prototype()
 
 HRESULT CAlphaBlock::Initialize(void* pArg)
 {
-	m_eLevelID = LEVEL_GAMEPLAY;
 	m_szTextureID = TEXT("Test");
 	m_szBufferType = TEXT("Cube");
 

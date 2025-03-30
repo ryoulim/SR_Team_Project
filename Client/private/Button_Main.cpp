@@ -185,7 +185,7 @@ HRESULT CButton_Main::Pick_Button()
 	if (m_fAnimationFrame > 1.7f)
 	{
 		if (FAILED(m_pGameInstance->Change_Level(LEVEL_LOADING,
-			CLevel_Loading::Create(m_pGraphic_Device, LEVEL_BOSS))))
+			CLevel_Loading::Create(m_pGraphic_Device, LEVEL_GAMEPLAY))))
 			return E_FAIL;
 	}
 	return S_OK;

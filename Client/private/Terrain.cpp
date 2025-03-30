@@ -21,7 +21,6 @@ HRESULT CTerrain::Initialize_Prototype()
 
 HRESULT CTerrain::Initialize(void* pArg)
 {
-	m_eLevelID = LEVEL_GAMEPLAY;
 	m_szTextureID = TEXT("Terrain");
 	m_szBufferType = TEXT("Terrain");
 

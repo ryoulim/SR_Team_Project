@@ -23,7 +23,6 @@ HRESULT CLava::Initialize_Prototype()
 
 HRESULT CLava::Initialize(void* pArg)
 {
-	m_eLevelID = LEVEL_GAMEPLAY;
 	m_szTextureID = TEXT("Lava");
 	m_szBufferType = TEXT("Rect");
 

@@ -21,7 +21,6 @@ HRESULT CAnimeBlock::Initialize_Prototype()
 
 HRESULT CAnimeBlock::Initialize(void* pArg)
 {
-	m_eLevelID = LEVEL_GAMEPLAY;
 	m_szTextureID = TEXT("Test");
 	m_szBufferType = TEXT("Rect");
 
