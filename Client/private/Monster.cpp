@@ -194,6 +194,7 @@ HRESULT CMonster::Ready_Components(void* pArg)
 		m_bActive = pDesc->vActive;
 		m_vReturnPos = pDesc->vReturnPos;
 		m_iNum = pDesc->iNums;
+		m_eLevelID = pDesc->eLevel;
 	}
 
 	/* 콜라이드 컴포넌트 */

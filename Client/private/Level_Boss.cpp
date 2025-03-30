@@ -212,19 +212,8 @@ HRESULT CLevel_Boss::Ready_Layer_Monster(const _wstring& strLayerTag)
 		LEVEL_GAMEPLAY, TEXT("Layer_Flatform"), &FlatformDESC)))
 		return E_FAIL;
 
-	SpawnTtakkeun_i(_float3{ 1200.f, 100.f, 1500.f }, true, 0);
-	SpawnTtakkeun_i(_float3{ 1600.f, 100.f, 1500.f }, true, 1);
-
-	//Àü½Ã¿ë
-	//SpawnTtakkeun_i(_float3{ 100.f, 66.f, -250.f }, false);
-	//SpawnWenteko(_float3{ 100.f, 40.f, -100.f }, false);
-	//SpawnShotgunner(_float3{ 180.f, 20.f, -120.f }, false);
-	//SpawnNukemutant(_float3{ 250.f, 30.f, -120.f }, false);
-	//SpawnMechsect(_float3{ 330.f, 10.f, -120.f }, false);
-	//SpawnGreater(_float3{ 410.f, 20.f, -120.f }, false);
-	//SpawnDeacon(_float3{ 220.f, 50.f, -250.f }, false);
-	//SpawnCultist(_float3{ 320.f, 30.f, -250.f }, false);
-	//SpawnArchangel(_float3{ 420.f, 30.f, -250.f }, false);
+	SpawnTtakkeun_i(_float3{ 1200.f, 100.f, 1500.f }, true, 0, LEVEL_GAMEPLAY);
+	SpawnTtakkeun_i(_float3{ 1600.f, 100.f, 1500.f }, true, 1, LEVEL_GAMEPLAY);
 
 	return S_OK;
 }
@@ -548,7 +537,8 @@ HRESULT CLevel_Boss::Load_Map(_uint iLevelIdx, const _wstring& FileName)
 	return S_OK;
 }
 
-void CLevel_Boss::SpawnTtakkeun_i(const _float3& _Position, _bool m_bActive, _int _iNum)
+
+void CLevel_Boss::SpawnTtakkeun_i(const _float3& _Position, _bool m_bActive, _int _iNum, LEVEL _eLevel)
 {
 	CMonster::DESC Ttakkeun_iDesc2{};
 	Ttakkeun_iDesc2.vPosition = _Position;
@@ -557,8 +547,9 @@ void CLevel_Boss::SpawnTtakkeun_i(const _float3& _Position, _bool m_bActive, _in
 	Ttakkeun_iDesc2.vActive = m_bActive;
 	Ttakkeun_iDesc2.vReturnPos = _Position;
 	Ttakkeun_iDesc2.iNums = _iNum;
-	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Ttakkeun_i"),
-		LEVEL_GAMEPLAY, L"Layer_Boss", &Ttakkeun_iDesc2)))
+	Ttakkeun_iDesc2.eLevel = _eLevel;
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_BOSS, TEXT("Prototype_GameObject_Ttakkeun_i"),
+		_eLevel, L"Layer_Boss", &Ttakkeun_iDesc2)))
 		return;
 }
 

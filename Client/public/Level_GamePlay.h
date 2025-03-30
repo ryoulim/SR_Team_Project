@@ -35,16 +35,15 @@ private:
 	void Check_Collision();
 
 
-public: //몬스터소환
-	void SpawnTtakkeun_i(_float3 _Position, bool m_bActive, _int _iNum);
-	void SpawnWenteko(_float3 _Position, bool m_bActive);
-	void SpawnShotgunner(_float3 _Position, bool m_bActive);
-	void SpawnNukemutant(_float3 _Position, bool m_bActive);
-	void SpawnMechsect(_float3 _Position, bool m_bActive);
-	void SpawnGreater(_float3 _Position, bool m_bActive);
-	void SpawnDeacon(_float3 _Position, bool m_bActive);
-	void SpawnCultist(_float3 _Position, bool m_bActive);
-	void SpawnArchangel(_float3 _Position, bool m_bActive);
+public: //몬스터소환(게임플레이)
+	void SpawnWenteko(_float3 _Position, bool m_bActive, LEVEL _eLevel);
+	void SpawnShotgunner(_float3 _Position, bool m_bActive, LEVEL _eLevel);
+	void SpawnNukemutant(_float3 _Position, bool m_bActive, LEVEL _eLevel);
+	void SpawnMechsect(_float3 _Position, bool m_bActive, LEVEL _eLevel);
+	void SpawnGreater(_float3 _Position, bool m_bActive, LEVEL _eLevel);
+	void SpawnDeacon(_float3 _Position, bool m_bActive, LEVEL _eLevel);
+	void SpawnCultist(_float3 _Position, bool m_bActive, LEVEL _eLevel);
+	void SpawnArchangel(_float3 _Position, bool m_bActive, LEVEL _eLevel);
 
 private:
 	_int m_iIndex{-1};

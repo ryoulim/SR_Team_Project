@@ -28,6 +28,7 @@ public:
 public:
 	typedef struct tagMonsterDesc : public CTransform::DESC
 	{
+		LEVEL		eLevel;
 		_float3		vPosition;
 		_float3		vReturnPos;
 		_int		iNums = 0;
