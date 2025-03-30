@@ -28,6 +28,12 @@ public:
 	virtual void Late_Update(_float fTimeDelta) override;
 	virtual HRESULT Render() override;
 
+protected:
+	_float m_fMaxFrame = {};
+
+protected:
+	void Move_Frame(_float fTimeDelta);
+
 public:
 	static CAnimeBlock* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
 	virtual CGameObject* Clone(void* pArg) override;

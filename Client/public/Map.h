@@ -51,6 +51,8 @@ protected:
 	LEVEL m_eLevelID = { LEVEL_END };
 	const _tchar* m_szTextureID = { nullptr };
 	const _tchar* m_szBufferType = { nullptr };
+	_float	  m_fTextureIdx = {};
+
 
 	CTexture* m_pTextureCom = { nullptr };
 	CVIBuffer* m_pVIBufferCom = { nullptr };
