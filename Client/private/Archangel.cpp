@@ -16,6 +16,27 @@ CArchangel::CArchangel(const CArchangel& Prototype)
 
 HRESULT CArchangel::Initialize_Prototype()
 {
+	//프로토타입의 기본정의
+	m_szTextureID = TEXT("Archangel_Walk");
+	m_szBufferType = TEXT("Rect");
+
+	//속성
+	m_iHP = 350;
+	m_iMaxHP = 350;
+	m_iAttackPower = 20;
+	m_iDefense = 3;
+	m_fSpeed = 13.f;
+	m_vScale = { 61.f, 162.f, 1.f };
+	m_eState = MODE::MODE_IDLE;
+
+	m_fDetectiveDistance = 300.f;
+
+	//부속성
+	m_strDialogue = "Archangel..Archangel...";
+	m_strSound = "SoundFilePath";
+
+	m_vDropItems.push_back("ArchangelDropItem");
+
 	return S_OK;
 }
 
@@ -235,30 +256,7 @@ void CArchangel::On_Collision(_uint MyColliderID, _uint OtherColliderID)
 
 CArchangel* CArchangel::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 {
-	//프로토타입의 기본정의
 	CArchangel* pInstance = new CArchangel(pGraphic_Device);
-
-	//기본 정보
-	pInstance->m_eLevelID		= LEVEL_GAMEPLAY;
-	pInstance->m_szTextureID	= TEXT("Archangel_Walk");
-	pInstance->m_szBufferType	= TEXT("Rect");
-
-	//속성
-	pInstance->m_iHP			= 350;
-	pInstance->m_iMaxHP			= 350;
-	pInstance->m_iAttackPower	= 20;
-	pInstance->m_iDefense		= 3;
-	pInstance->m_fSpeed			= 13.f;
-	pInstance->m_vScale			= { 61.f, 162.f, 1.f };
-	pInstance->m_eState		= MODE::MODE_IDLE;
-	pInstance->m_fDetectiveDistance = 300.f;
-
-	//부속성
-	pInstance->m_strDialogue	= "Archangel..Archangel...";
-	pInstance->m_strSound		= "SoundFilePath";
-
-	pInstance->m_vDropItems.push_back("ArchangelDropItem");
-
 
 	if (FAILED(pInstance->Initialize_Prototype()))
 	{

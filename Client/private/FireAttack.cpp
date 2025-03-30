@@ -21,7 +21,7 @@ HRESULT CFireAttack::Initialize(void* pArg)
 		return E_FAIL;
 
 	//만약 보스가 1마리만 남으면 구분이 사라지게
-	if (m_pGameInstance->Find_Objects(LEVEL_BOSS, L"Layer_Boss")->size() < 2)
+	if (m_pGameInstance->Find_Objects(LEVEL_GAMEPLAY, L"Layer_Boss")->size() < 2)
 		m_iNum = 0;
 
 	return S_OK;

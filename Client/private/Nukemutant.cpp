@@ -16,6 +16,27 @@ CNukemutant::CNukemutant(const CNukemutant& Prototype)
 
 HRESULT CNukemutant::Initialize_Prototype()
 {
+	//프로토타입의 기본정의
+	m_szTextureID = TEXT("Nukemutant_Walk");
+	m_szBufferType = TEXT("Rect");
+
+	//속성
+	m_iHP = 50;
+	m_iMaxHP = 50;
+	m_iAttackPower = 15;
+	m_iDefense = 0;
+	m_fSpeed = 15.f;
+	m_vScale = { 27.f, 56.f, 1.f };
+	m_eState = MODE::MODE_IDLE;
+
+	m_fDetectiveDistance = 300.f;
+
+	//부속성
+	m_strDialogue = "Nuke..Nu...";
+	m_strSound = "SoundFilePath";
+
+	m_vDropItems.push_back("NukemutantDropItem");
+
 	return S_OK;
 }
 
@@ -228,30 +249,7 @@ void CNukemutant::On_Collision(_uint MyColliderID, _uint OtherColliderID)
 
 CNukemutant* CNukemutant::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 {
-	//프로토타입의 기본정의
 	CNukemutant* pInstance = new CNukemutant(pGraphic_Device);
-
-	//기본 정보
-	pInstance->m_eLevelID		= LEVEL_GAMEPLAY;
-	pInstance->m_szTextureID	= TEXT("Nukemutant_Walk");
-	pInstance->m_szBufferType	= TEXT("Rect");
-
-	//속성
-	pInstance->m_iHP			= 50;
-	pInstance->m_iMaxHP			= 50;
-	pInstance->m_iAttackPower	= 15;
-	pInstance->m_iDefense		= 0;
-	pInstance->m_fSpeed			= 15.f;
-	pInstance->m_vScale			= { 27.f, 56.f, 1.f };
-	pInstance->m_eState		= MODE::MODE_IDLE;
-	pInstance->m_fDetectiveDistance = 300.f;
-
-	//부속성
-	pInstance->m_strDialogue	= "Nuke..Nu...";
-	pInstance->m_strSound		= "SoundFilePath";
-
-	pInstance->m_vDropItems.push_back("NukemutantDropItem");
-
 
 	if (FAILED(pInstance->Initialize_Prototype()))
 	{
