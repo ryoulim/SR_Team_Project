@@ -21,12 +21,6 @@ HRESULT CAnimeBlock::Initialize_Prototype()
 
 HRESULT CAnimeBlock::Initialize(void* pArg)
 {
-	if (nullptr == pArg)
-		return E_FAIL;
-
-	DESC* pDesc = static_cast<DESC*>(pArg);
-
-	m_eLevelID = pDesc->eNextLevel;
 	m_szTextureID = TEXT("Test");
 	m_szBufferType = TEXT("Rect");
 

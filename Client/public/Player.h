@@ -41,6 +41,7 @@ private:
 	_float						m_fDashTimer{-2.f};
 
 private:
+	void			Add_Weapons();
 	void			Key_Input(_float fTimeDelta);
 	void			Update_Camera_Link();
 	void			Update_Dash(_float fTimeDelta);

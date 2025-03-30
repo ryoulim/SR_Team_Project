@@ -21,12 +21,6 @@ HRESULT CInvisibleBlock::Initialize_Prototype()
 
 HRESULT CInvisibleBlock::Initialize(void* pArg)
 {
-	if (nullptr == pArg)
-		return E_FAIL;
-
-	DESC* pDesc = static_cast<DESC*>(pArg);
-
-	m_eLevelID = pDesc->eNextLevel;
 	m_szTextureID = TEXT("Test");
 	m_szBufferType = TEXT("Cube");
 

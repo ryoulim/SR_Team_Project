@@ -164,6 +164,11 @@ void CWeapon::Key_Input()
 	{
 		if (m_tAmmoInfo.iReloadedAmmo)
 		{
+			//m_pTestSound->Set3DAttributes(*m_pPlayerTransform->Get_State(CTransform::STATE_POSITION));
+			//m_pTestSound->SetVolume(0.7f);
+			//m_pTestSound->Play();
+			m_pCoreSoundTest->Set3DPosition(*m_pPlayerTransform->Get_State(CTransform::STATE_POSITION));
+			m_pCoreSoundTest->Play(0.7f);
 			Set_State(CWeapon::ST_W_ATK);
 			Create_Bullet();
 			m_tAmmoInfo.iReloadedAmmo--;
@@ -242,6 +247,8 @@ void CWeapon::Free()
 	Safe_Release(m_pTextureCom);
 	Safe_Release(m_pTransformCom);
 	Safe_Release(m_pShaderCom);
+	Safe_Release(m_pTestSound);
+	Safe_Release(m_pCoreSoundTest);
 
 	Safe_Release(m_pPlayerTransform);
 	Safe_Release(m_pCameraManager);

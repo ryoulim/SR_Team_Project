@@ -184,17 +184,8 @@ void CGraphic_Device::Free()
 {
 	Safe_Release(m_pFont);
 	Safe_Release(m_pSprite);
-
-	int b = Safe_Release(m_pDevice);
-	if (0 != b)
-	{
-		int a = 0;
+	if (0 != Safe_Release(m_pDevice))
 		MSG_BOX("Failed to Release : IDirect3DDevice9");
-	}
 	if(0 != Safe_Release(m_pSDK))
-	{
-		int a = 0;
 		MSG_BOX("Failed to Release : IDirect3D9");
-	}
-
 }

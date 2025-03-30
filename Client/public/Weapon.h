@@ -75,6 +75,8 @@ protected:
 
 	CTransform* m_pPlayerTransform{ nullptr };
 	CCameraManager* m_pCameraManager{ nullptr };
+	CSound_Event* m_pTestSound{ nullptr };
+	CSound_Core* m_pCoreSoundTest{ nullptr };
 
 	AMMOINFO m_tAmmoInfo{};
 	_float m_fFrameSpeed{};

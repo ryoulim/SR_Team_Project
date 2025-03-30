@@ -98,6 +98,7 @@ HRESULT CMainApp::Initialize()
 	Desc.iWinSizeY = g_iWinSizeY;
 	Desc.iNumLevels = LEVEL_END;
 	Desc.INumColliderGroups = CG_END;
+	Desc.strBankFilePath = "../bin/BankFiles/";
 
 	CFXMgr::Get_Instance()->Initialize();
 
@@ -131,6 +132,12 @@ HRESULT CMainApp::Initialize()
 	
 	/*FPS 출력용*/
 	if (FAILED(Ready_Debug_Mode()))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->LoadBank("Master")))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->LoadBank("Master.strings")))
 		return E_FAIL;
 
 	ShowCursor(FALSE);

@@ -373,7 +373,7 @@
     <Filter Include="01.Levels\03. Outdoor">
       <UniqueIdentifier>{6d6e6a6a-af45-4a1a-a5d9-a8592fe5b4a3}</UniqueIdentifier>
     </Filter>
-    <Filter Include="01.Levels\01. Logo\02. Indoor">
+    <Filter Include="01.Levels\02. Indoor">
       <UniqueIdentifier>{28e29652-c666-48a6-98b3-c2bfe2ffccd2}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -574,7 +574,7 @@
       <Filter>02.GameObjects\Weapon\LoverBoy</Filter>
     </ClInclude>
     <ClInclude Include="..\public\Level_Indoor.h">
-      <Filter>01.Levels\01. Logo\02. Indoor</Filter>
+      <Filter>01.Levels\02. Indoor</Filter>
     </ClInclude>
     <ClInclude Include="..\public\Block.h">
       <Filter>02.GameObjects\Map\Block</Filter>
@@ -955,7 +955,7 @@
       <Filter>02.GameObjects\Weapon\LoverBoy</Filter>
     </ClCompile>
     <ClCompile Include="..\private\Level_Indoor.cpp">
-      <Filter>01.Levels\01. Logo\02. Indoor</Filter>
+      <Filter>01.Levels\02. Indoor</Filter>
     </ClCompile>
     <ClCompile Include="..\private\Block.cpp">
       <Filter>02.GameObjects\Map\Block</Filter>

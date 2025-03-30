@@ -26,7 +26,7 @@ HRESULT CMonsterGuidBullet::Initialize(void* pArg)
 	Safe_AddRef(m_pTargetPlayer);
 
 	/* 카메라를 알고 있어라 */
-	m_pCamera = static_cast<CCameraManager*>(m_pGameInstance->Find_Object(LEVEL_GAMEPLAY, L"Layer_Camera"));
+	m_pCamera = CAMERA_MANAGER;
 	Safe_AddRef(m_pCamera);
 
 	m_eLevelID = LEVEL_STATIC;

@@ -178,6 +178,18 @@
     <ClInclude Include="..\Public\VIBuffer_RaceCylinder.h">
       <Filter>04.Components\VIBuffer\RaceTerrain\VIBuffer_RaceCylinder</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\Sound_Device.h">
+      <Filter>97.Device\Sound</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Sound_Event.h">
+      <Filter>97.Device\Sound\Event</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Sound_Core.h">
+      <Filter>97.Device\Sound\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Sound_Control_Group.h">
+      <Filter>97.Device\Sound\Control_Group</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="99.Headers">
@@ -230,9 +242,6 @@
     </Filter>
     <Filter Include="02.GameObject\Camera">
       <UniqueIdentifier>{8e51b43f-9f32-4225-aa51-8d46faf6048d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="96.Key">
-      <UniqueIdentifier>{5128e514-946d-4beb-8061-00cf27acef87}</UniqueIdentifier>
     </Filter>
     <Filter Include="95.Timers">
       <UniqueIdentifier>{282b95d5-7bad-4eef-828f-0992ba7f9700}</UniqueIdentifier>
@@ -350,6 +359,21 @@
     </Filter>
     <Filter Include="04.Components\VIBuffer\StreetLamp">
       <UniqueIdentifier>{eda876f1-fe55-433d-aa6b-58937f2d3af2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="97.Device\Sound">
+      <UniqueIdentifier>{990a5d82-a8e2-431f-bba1-a86ffbfc57c6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="97.Device\Sound\Event">
+      <UniqueIdentifier>{f9c24a1a-0c50-47b6-98aa-02d7d81d8b3b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="96.Key">
+      <UniqueIdentifier>{5128e514-946d-4beb-8061-00cf27acef87}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="97.Device\Sound\Core">
+      <UniqueIdentifier>{913838e1-7e64-4488-a264-54ea9eebb94c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="97.Device\Sound\Control_Group">
+      <UniqueIdentifier>{e5e581a5-f93d-489d-a5a5-c5c0859ff9af}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -511,6 +535,18 @@
     </ClCompile>
     <ClCompile Include="..\Private\VIBuffer_RaceCylinder.cpp">
       <Filter>04.Components\VIBuffer\RaceTerrain\VIBuffer_RaceCylinder</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Sound_Device.cpp">
+      <Filter>97.Device\Sound</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Sound_Event.cpp">
+      <Filter>97.Device\Sound\Event</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Sound_Core.cpp">
+      <Filter>97.Device\Sound\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Sound_Control_Group.cpp">
+      <Filter>97.Device\Sound\Control_Group</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

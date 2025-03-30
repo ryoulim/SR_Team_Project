@@ -21,12 +21,6 @@ HRESULT CTerrain::Initialize_Prototype()
 
 HRESULT CTerrain::Initialize(void* pArg)
 {
-	if (nullptr == pArg)
-		return E_FAIL;
-
-	DESC* pDesc = static_cast<DESC*>(pArg);
-
-	m_eLevelID = pDesc->eNextLevel;
 	m_szTextureID = TEXT("Terrain");
 	m_szBufferType = TEXT("Terrain");
 
@@ -36,7 +30,7 @@ HRESULT CTerrain::Initialize(void* pArg)
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
 
-	//m_pTransformCom->Scaling(_float3(BOSSSCALE, BOSSSCALE, BOSSSCALE));
+	m_pTransformCom->Scaling(_float3(BOSSSCALE, BOSSSCALE, BOSSSCALE));
 	return S_OK;
 }
 

@@ -23,12 +23,6 @@ HRESULT CLava::Initialize_Prototype()
 
 HRESULT CLava::Initialize(void* pArg)
 {
-	if (nullptr == pArg)
-		return E_FAIL;
-
-	DESC* pDesc = static_cast<DESC*>(pArg);
-
-	m_eLevelID = pDesc->eNextLevel;
 	m_szTextureID = TEXT("Lava");
 	m_szBufferType = TEXT("Rect");
 

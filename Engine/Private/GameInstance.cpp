@@ -10,6 +10,7 @@
 #include "Timer_Manager.h"
 #include "csvReader.h"
 #include "Collider_Manager.h"
+#include "Sound_Device.h"
 
 IMPLEMENT_SINGLETON(CGameInstance);
 
@@ -27,6 +28,10 @@ HRESULT CGameInstance::Initialize_Engine(const ENGINE_DESC& EngineDesc, LPDIRECT
 
 	m_pInputDevice = CInput_Device::Create(EngineDesc.hInst,EngineDesc.hWnd);
 	if (nullptr == m_pInputDevice)
+		return E_FAIL;
+
+	m_pSound_Device = CSound_Device::Create(EngineDesc.strBankFilePath);
+	if (nullptr == m_pSound_Device)
 		return E_FAIL;
 
 	m_pLevel_Manager = CLevel_Manager::Create();
@@ -67,14 +72,12 @@ HRESULT CGameInstance::Initialize_Engine(const ENGINE_DESC& EngineDesc, LPDIRECT
 void CGameInstance::Update_Engine(_float fTimeDelta)
 {
 	m_pInputDevice->Update();
+	m_pSound_Device->Update();
 
 	m_pObject_Manager->Priority_Update(fTimeDelta);
 	m_pObject_Manager->Update(fTimeDelta);
 
-	
-
 	m_pObject_Manager->Late_Update(fTimeDelta);
-
 
 	m_pLevel_Manager->Update(fTimeDelta);
 }
@@ -321,11 +324,52 @@ void CGameInstance::Update_Timer(const _wstring& strTimerTag)
 {
 	return m_pTimer_Manager->Update(strTimerTag);
 }
+#pragma endregion
 
+#pragma region CSV_READER
 FORCEINLINE
 HRESULT CGameInstance::Readcsv(const _wstring& strcsvPath, class CLevelData* pDatas)
 {
 	return m_pCsv_Reader->Readcsv(strcsvPath, pDatas);
+}
+#pragma endregion
+
+
+#pragma region SOUND_DEVICE
+FORCEINLINE
+HRESULT CGameInstance::LoadBank(const string& name)
+{
+	return m_pSound_Device->LoadBank(name);
+}
+
+FORCEINLINE
+void CGameInstance::UnloadBank(const string& name)
+{
+	m_pSound_Device->UnloadBank(name);
+}
+
+FORCEINLINE
+CSound_Event* CGameInstance::Create_Sound_Event(const string& eventPath)
+{
+	return m_pSound_Device->Create_Event_Instance(eventPath);
+}
+
+FORCEINLINE
+CSound_Core* CGameInstance::Create_Core_Sound(const string& path, _bool is3D, _bool loop, _bool stream)
+{
+	return m_pSound_Device->Create_Core_Instance(path, is3D, loop, stream);
+}
+
+FORCEINLINE
+void CGameInstance::Set_Listener_Position(const CTransform* pTransform, const _float3& vel)
+{
+	m_pSound_Device->Set_Listener_Position(pTransform, vel);
+}
+
+FORCEINLINE
+void CGameInstance::Set_Master_Volume(_float volume)
+{
+	m_pSound_Device->Set_Master_Volume(volume);
 }
 
 #pragma endregion
@@ -347,6 +391,8 @@ void CGameInstance::Release_Engine()
 	Safe_Release(m_pPrototype_Manager);
 
 	Safe_Release(m_pLevel_Manager);
+
+	Safe_Release(m_pSound_Device);
 
 	Safe_Release(m_pInputDevice);
 

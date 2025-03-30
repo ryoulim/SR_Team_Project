@@ -106,6 +106,18 @@ public:
 	HRESULT Readcsv(const _wstring& strcsvPath, class CLevelData* pDatas);
 #pragma endregion
 
+#pragma region SOUND_DEVICE
+	HRESULT LoadBank(const string& name);
+	void UnloadBank(const string& name);
+
+	class CSound_Event* Create_Sound_Event(const string& eventPath);
+	class CSound_Core* Create_Core_Sound(const string& path, _bool is3D = TRUE, _bool loop = FALSE, _bool stream = FALSE);
+
+	void Set_Listener_Position(const class CTransform* pTransform, const _float3& vel);
+	void Set_Master_Volume(_float volume);
+#pragma endregion
+
+
 #pragma region UTILITY
 	_float RandomFloat(_float min, _float max)
 	{
@@ -124,6 +136,7 @@ private:
 	class CTimer_Manager*		m_pTimer_Manager = { nullptr };
 	class CcsvReader*			m_pCsv_Reader = { nullptr };
 	class CCollider_Manager*	m_pCollider_Manager = { nullptr };
+	class CSound_Device*		m_pSound_Device = { nullptr };
 
 public:
 	void Release_Engine();
