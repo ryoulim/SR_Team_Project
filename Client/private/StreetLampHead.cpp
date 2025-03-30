@@ -18,9 +18,6 @@ HRESULT CStreetLampHead::Initialize_Prototype()
 
 HRESULT CStreetLampHead::Initialize(void* pArg)
 {
-	DESC* pDesc = static_cast<DESC*>(pArg);
-
-	m_eLevelID = pDesc->eNextLevel;
 	m_szTextureID = TEXT("StreetLampHead");
 	m_szBufferType = TEXT("Rect");
 

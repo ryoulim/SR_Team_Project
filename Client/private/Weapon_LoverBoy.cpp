@@ -38,7 +38,7 @@ HRESULT CWeapon_LoverBoy::Initialize(void* pArg)
 	///////
 
 	//m_pTestSound = m_pGameInstance->Create_Sound_Event("event:/Test_SFX");
-	m_pCoreSoundTest = m_pGameInstance->Create_Core_Sound("../../FmodStudio/Sr_Project/Assets/bobs.ogg");
+	m_pCoreSoundTest = m_pGameInstance->Create_Core_Sound("../bin/Resources/Sound/Music/bobs.ogg");
 	m_pCoreSoundTest->Set3DMinMaxDistance(10.f, 500.f);
 	return S_OK;
 }

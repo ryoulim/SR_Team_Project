@@ -18,9 +18,6 @@ HRESULT CMyComputer::Initialize_Prototype()
 
 HRESULT CMyComputer::Initialize(void* pArg)
 {
-	DESC* pDesc = static_cast<DESC*>(pArg);
-
-	m_eLevelID = pDesc->eNextLevel;
 	m_szTextureID = TEXT("MyComputer");
 	m_szBufferType = TEXT("Computer");
 

@@ -21,9 +21,6 @@ HRESULT CCabinet::Initialize_Prototype()
 
 HRESULT CCabinet::Initialize(void* pArg)
 {
-	DESC* pDesc = static_cast<DESC*>(pArg);
-
-	m_eLevelID = pDesc->eNextLevel;
 	m_szTextureID = TEXT("Cabinet");
 	m_szBufferType = TEXT("Cabinet");
 

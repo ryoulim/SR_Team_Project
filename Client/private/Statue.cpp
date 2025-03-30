@@ -17,7 +17,7 @@ HRESULT CStatue::Initialize_Prototype()
 
 HRESULT CStatue::Initialize(void* pArg)
 {
-	//m_eLevelID = static_cast<DESC*>(pArg)->eLevelID;
+	m_eLevelID = static_cast<DESC*>(pArg)->eLevelID;
 	if (FAILED(Ready_Components(pArg)))
 		return E_FAIL;
 

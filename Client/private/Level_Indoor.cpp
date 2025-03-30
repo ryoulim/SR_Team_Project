@@ -89,7 +89,7 @@ HRESULT CLevel_Indoor::Load_Map(_uint iLevelIdx, const _wstring& FileName)
 			tDesc.vAngle = vAngle;
 			tDesc.fTextureIdx = fTextureIdx;
 			tDesc.bCollision = bCollision;
-			tDesc.eNextLevel = static_cast<LEVEL>(iLevelIdx);
+			tDesc.eLevelID = static_cast<LEVEL>(iLevelIdx);
 
 			_wstring strKey = szPrototypeTag;
 
@@ -231,7 +231,7 @@ HRESULT CLevel_Indoor::Load_Map(_uint iLevelIdx, const _wstring& FileName)
 			tDesc.vScale = vScale * PLAYSCALE;
 			tDesc.vAngle = vAngle;
 			tDesc.bCollision = bCollision;
-			tDesc.eNextLevel = static_cast<LEVEL>(iLevelIdx);
+			tDesc.eLevelID = static_cast<LEVEL>(iLevelIdx);
 
 			_wstring strKey = szPrototypeTag;
 

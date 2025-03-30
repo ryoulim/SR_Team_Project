@@ -18,9 +18,6 @@ HRESULT CBuildingH::Initialize_Prototype()
 
 HRESULT CBuildingH::Initialize(void* pArg)
 {
-	DESC* pDesc = static_cast<DESC*>(pArg);
-
-	m_eLevelID = pDesc->eNextLevel;
 	m_szTextureID = TEXT("BuildingH");
 	m_szBufferType = TEXT("BuildingH");
 

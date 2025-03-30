@@ -18,9 +18,6 @@ HRESULT CCanopy::Initialize_Prototype()
 
 HRESULT CCanopy::Initialize(void* pArg)
 {
-	DESC* pDesc = static_cast<DESC*>(pArg);
-
-	m_eLevelID = pDesc->eNextLevel;
 	m_szTextureID = TEXT("Canopy");
 	m_szBufferType = TEXT("Canopy");
 

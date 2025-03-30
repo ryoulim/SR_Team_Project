@@ -59,7 +59,7 @@ HRESULT CLevel_Race::Ready_Layer_Statue(const _wstring& strLayerTag)
 	desc.vAngle		= _float3(D3DXToRadian(0.f), D3DXToRadian(0.f), D3DXToRadian(0.f));
 	desc.vInitPos	= _float3(250.f, 36.f, 0.f);
 	desc.vScale		= _float3(72.f, 120.f, 72.f);
-	desc.eNextLevel = LEVEL_RACE;
+	desc.eLevelID = LEVEL_RACE;
 	
 	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_RACE, TEXT("Prototype_GameObject_RaceLandscapeLeft"),
 		LEVEL_RACE, strLayerTag, &desc)))
@@ -187,7 +187,7 @@ HRESULT CLevel_Race::Ready_Layer_Statue2(const _wstring& strLayerTag)
 	desc.vAngle = _float3(D3DXToRadian(0.f), D3DXToRadian(0.f), D3DXToRadian(0.f));
 	desc.vInitPos = _float3(450.f, 10.f, 500.f);
 	desc.vScale = _float3(10.f, 30.f, 0.f);
-	desc.eNextLevel = LEVEL_RACE;
+	desc.eLevelID = LEVEL_RACE;
 
 	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_RACE, TEXT("Prototype_GameObject_StreetLampHead"),
 		LEVEL_RACE, strLayerTag, &desc)))
