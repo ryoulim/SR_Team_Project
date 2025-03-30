@@ -22,12 +22,36 @@ HRESULT CLevelLoadingMenu::Initialize_Prototype()
 
 HRESULT CLevelLoadingMenu::Initialize(void* pArg)
 {
-	m_eLevelID = LEVEL_STATIC;
+	m_eLevelID = static_cast<DESC*>(pArg)->eLevelID;
 	m_szTextureID = TEXT("LevelLoadingMenu");
 	m_szBufferType = TEXT("Rect");
 
-	if (FAILED(__super::Initialize(pArg)))
+
+	/* For.Com_Texture */
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, _wstring(TEXT("Prototype_Component_Texture_")) + m_szTextureID,
+		TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
 		return E_FAIL;
+
+	/* For.Com_VIBuffer */
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, _wstring(TEXT("Prototype_Component_VIBuffer_")) + m_szBufferType,
+		TEXT("Com_VIBuffer"), reinterpret_cast<CComponent**>(&m_pVIBufferCom))))
+		return E_FAIL;
+
+	/* For.Com_Transform */
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Transform"),
+		TEXT("Com_Transform"), reinterpret_cast<CComponent**>(&m_pTransformCom), pArg)))
+		return E_FAIL;
+
+
+	if (pArg != nullptr)
+	{
+		DESC* pDesc = static_cast<DESC*>(pArg);
+		m_vPos = pDesc->vInitPos;
+		m_fDepth = m_vPos.z = 0.99f;
+		m_vSize = pDesc->vScale;
+		m_fDepth = pDesc->fDepth;
+		m_pTransformCom->Set_State(CTransform::STATE_POSITION, m_vPos);
+	}
 
 	if (FAILED(m_pTextureCom->Get_TextureSize(0, &m_vSize)))
 		return E_FAIL;
@@ -57,7 +81,7 @@ EVENT CLevelLoadingMenu::Update(_float fTimeDelta)
 	{
 		if (!m_isFinished)
 		{
-			CUI_Manager::Get_Instance(m_pGameInstance)->Fade_Out();
+			CUI_Manager::Get_Instance()->Fade_Out();
 			m_isFinished = true;
 		}
 	}

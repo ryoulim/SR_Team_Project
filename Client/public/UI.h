@@ -21,6 +21,8 @@ public:
 	{
 		_float3 vInitPos;
 		_float3 vScale;
+		_float	fDepth;
+		LEVEL	eLevelID;
 	}DESC;
 
 protected:

@@ -127,7 +127,7 @@ HRESULT CMainApp::Initialize()
 		return E_FAIL;
 
 	/* 최초 보여줄 레벨을 할당하자. */
-	if(FAILED(Open_Level(LEVEL_LOGO)))
+ 	if(FAILED(Open_Level(LEVEL_LOGO)))
 		return E_FAIL;
 	
 	/*FPS 출력용*/
@@ -203,15 +203,15 @@ HRESULT CMainApp::Ready_Component_For_Static()
 	ADD_TEXTURE(FadeUI, "../Bin/Resources/Textures/UI/black.PNG", 1);
 	//ADD_TEXTURE(DipWhiteUI, "../Bin/Resources/Textures/UI/white.PNG", 1);
 
-	ADD_TEXTURE(LevelLoadingMenu, "../Bin/Resources/Textures/UI/Loading/lvlloading%d.png", 4);
+	ADD_TEXTURE(LevelLoadingMenu, "../Bin/Resources/Textures/UI/Loading/lvlloading%d.png", 4);  // 치워도돼
 
-	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Sky"),
-		CTexture::Create(m_pGraphic_Device, TEXT("../Bin/Resources/Textures/SkyBox/Sky_%d.dds"), 1, CTexture::TYPE_CUBE))))
-		return E_FAIL;
+	ADD_TEXTURE_EX(Sky, "../Bin/Resources/Textures/SkyBox/Sky_%d.dds", 1, CTexture::TYPE_CUBE); // 치워도?돼
+	ADD_PRTCOM_EX(Shader, L"../bin/ShaderFiles/Shader_TextureEffect.hlsl"); // 치우면안돼
 
-	if (((FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, _wstring(L"Prototype_Component_Shader"),
-		CShader::Create(m_pGraphic_Device, L"../bin/ShaderFiles/Shader_TextureEffect.hlsl"))))))
-		return E_FAIL;
+	ADD_TEXTURE(Aim, "../Bin/Resources/Textures/Aim/aim0.PNG", 1);						// 치워도돼
+	ADD_TEXTURE(Armor, "../Bin/Resources/Textures/UI/Armor/armor%d.PNG", 3);			// 치워도돼
+	ADD_TEXTURE(Ammo, "../Bin/Resources/Textures/UI/Ammo/ammo%d.PNG", 8);				// 치워도돼
+	ADD_TEXTURE(Portrait, "../Bin/Resources/Textures/UI/Portrait/portrait%d.PNG", 25);	// 치워도돼
 
 #pragma region PLAYER
 	ADD_TEXTURE(MyCube, "../Bin/Resources/Textures/Snow/Snow.png", 1);
@@ -239,14 +239,19 @@ HRESULT CMainApp::Ready_Protype_Object_For_Static()
 	ADD_PRTOBJ(FPS_Camera);
 	ADD_PRTOBJ(UI_Camera);
 	ADD_PRTOBJ(TPS_Camera);
+	ADD_PRTOBJ(Trigger);
 
+	// UI Ready
 	ADD_PRTOBJ(Font_MediumBlue);
 	ADD_PRTOBJ(Font_BigOrange);
 	ADD_PRTOBJ(LoadingMenu);
-	ADD_PRTOBJ(LevelLoadingMenu);
 	ADD_PRTOBJ(FadeUI);
-	ADD_PRTOBJ(Trigger);
-	ADD_PRTOBJ(Sky);
+	ADD_PRTOBJ(LevelLoadingMenu); // 치워도돼
+	ADD_PRTOBJ(Sky);// 치워도돼
+	ADD_PRTOBJ(Aim);// 치워도돼
+	ADD_PRTOBJ(Ammo);// 치워도돼
+	ADD_PRTOBJ(Portrait);// 치워도돼
+	ADD_PRTOBJ(Armor);// 치워도돼
 
 #pragma region PLAYER
 	ADD_PRTOBJ(Player);
@@ -357,5 +362,3 @@ void CMainApp::Free()
 	/* 내멤버를 정리한다.*/	
 	Safe_Release(m_pGameInstance);
 }
-
-

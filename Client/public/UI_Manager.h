@@ -8,6 +8,9 @@
 #include "Font.h"
 #include "FadeUI.h"
 #include "Ammo.h"
+#include "Aim.h"
+#include "Armor.h"
+#include "Portrait.h"
 
 BEGIN(Engine)
 class CGameInstance;
@@ -26,7 +29,6 @@ private:
 
 public:												
 	static CUI_Manager* Get_Instance();
-	static CUI_Manager* Get_Instance(CGameInstance* pGameInstance);
 	static unsigned int Destroy_Instance();	
 
 private:											
@@ -44,8 +46,6 @@ public:
 	void Late_Update(_float fTimeDelta);
 	HRESULT Render();
 
-private:
-	void	Set_GameInstance(CGameInstance* pGameInstance) { m_pGameInstance = pGameInstance; Safe_AddRef(m_pGameInstance); }
 
 public:
 	HRESULT Render_Text(const string& _text, CFont::FONTTYPE _type, CFont::FONTALIGN _align, _float _posX, _float _posY, _float vSizeMul = 1.f) {
@@ -65,11 +65,11 @@ public:
 	void	Fade_Out();
 
 public:
-	HRESULT Initialize_GamePlayUI();
+	HRESULT Initialize_GamePlayUI(LEVEL eLevelID);
 	HRESULT Initialize_Player();
 	HRESULT Clear_GamePlayUI();
-	HRESULT Update_GameUI(GAMEUI eUIType, CWeapon::TYPE eAmmoType = CWeapon::TYPE::LOVERBOY);
 	HRESULT Change_Weapon(const CWeapon::AMMOINFO* pAmmoInfo);
+	HRESULT Init_UI_To_Player();
 
 private:
 	HRESULT	Initialize_Font();
@@ -77,10 +77,9 @@ private:
 	
 private:
 	class CFont*						m_Fonts[CFont::FONT_END] = {nullptr,};
-	class CFadeUI*						m_FadeUI = { nullptr };
 	array<class CGameObject*, GUI_END>	m_GameUIs = { nullptr };
 	class CPlayer*						m_pPlayer = { nullptr };
-
+	//const CPlayer::INFO*				m_pPlayerInfo = { nullptr }; // 플레이어 받고 다시 키기 
 
 public:
 	virtual void Free();
@@ -109,7 +108,7 @@ CUI_Manager::Get_Instance()->Render_Text(message, CFont::BIGORANGE, CFont::LEFT,
 CUI_Manager::Get_Instance()->Set_ButtonBrightness(0.6f, CFont::BIGORANGE);\
 CUI_Manager::Get_Instance()->Render_Text(message, CFont::BIGORANGE, CFont::CENTER, fX, fY, fSize)
 // Render_Text BigOrangeLeft Dark
-// 노란 글씨 좌측 정렬
+// 노란 글씨 좌측 정렬, 어둡게
 #define RENDER_TEXT_BOL_DARK(message, fX, fY, fSize) \
 CUI_Manager::Get_Instance()->Set_ButtonBrightness(0.6f, CFont::BIGORANGE);\
 CUI_Manager::Get_Instance()->Render_Text(message, CFont::BIGORANGE, CFont::LEFT, fX, fY, fSize)

@@ -37,6 +37,7 @@ private:
 public:
 	virtual HRESULT Initialize_Prototype() override;
 	virtual HRESULT Initialize(void* pArg) override;
+	virtual HRESULT Ready_Components(void* pArg) override;
 	virtual void Priority_Update(_float fTimeDelta) override;
 	virtual EVENT Update(_float fTimeDelta) override;
 	virtual void Late_Update(_float fTimeDelta) override;
@@ -46,15 +47,16 @@ private:
 	void	Change_Face(_float fTimeDelta);
 
 public:
-	_uint	Get_HP() { return m_uiHP; }
-	void	Set_HP(_uint _HP) { m_uiHP = _HP; Update(0.f); }
-	void	Add_HP(_uint _HP) { m_uiHP += _HP; Update(0.f); }
+	//_int	Get_HP() { return m_pPlayerInfo->iHP; }
+	//void	Set_Info(_const CPlayer::INFO* pInfo) { m_pPlayerInfo = pInfo; }
 
 private:
 	_float			m_fAnimTick = {};
 	PORTRAITSTATUS	m_eFace = { PORTRAIT_IDLE };
 	HPSTATUS		m_eHPStatus = { HP100 };
 	_uint			m_uiHP = {};
+	//_const CPlayer::INFO* = m_pPlayerInfo = { nullptr };
+	
 
 public:
 	static CPortrait* Create(LPDIRECT3DDEVICE9 pGraphicDevice);

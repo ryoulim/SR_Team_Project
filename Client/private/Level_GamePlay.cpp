@@ -35,12 +35,12 @@ HRESULT CLevel_GamePlay::Initialize(class CLevelData* pLevelData)
 	if (FAILED(Ready_Layer_UI(TEXT("Layer_UI"))))
 		return E_FAIL;
 
-	CUI_Manager::Get_Instance(m_pGameInstance)->Initialize_GamePlayUI();
+	CUI_Manager::Get_Instance()->Initialize_GamePlayUI(LEVEL_GAMEPLAY);
 
 	if (FAILED(Ready_Layer_Pawn(TEXT("Layer_Pawn"))))
 		return E_FAIL;
 
-	CUI_Manager::Get_Instance()->Initialize_Player();
+	CUI_Manager::Get_Instance()->Initialize_Player(/*CurLevel */ );
 
 	if (FAILED(Ready_Layer_Monster(TEXT("Layer_Monster"))))
 		return E_FAIL;
@@ -299,23 +299,36 @@ HRESULT CLevel_GamePlay::Ready_Layer_Monster(const _wstring& strLayerTag)
 
 HRESULT CLevel_GamePlay::Ready_Layer_UI(const _wstring& strLayerTag)
 {
-	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Aim"),
-		LEVEL_GAMEPLAY, strLayerTag, m_pData->Find_Data(TEXT("Aim")))))
+	CUI::DESC Desc{};
+	Desc.eLevelID = LEVEL_GAMEPLAY;
+	Desc.fDepth = 3.f;
+	Desc.vScale = _float3(1.f, 1.f, 1.f);
+	Desc.vInitPos = _float3(0.f, 0.f, 0.1f);
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_Aim"),
+		Desc.eLevelID, strLayerTag, &Desc)))
 		return E_FAIL;
 
-	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Portrait"),
-		LEVEL_GAMEPLAY, strLayerTag, m_pData->Find_Data(TEXT("Portrait")))))
+	Desc.vScale = _float3(80.f, 80.f, 1.f); 
+	Desc.vInitPos = _float3(-(g_iWinSizeX / 2.f) + Desc.vScale.x / 2.f - 10.f, -(g_iWinSizeY / 2.f) + Desc.vScale.y / 2.f, 0.1f);
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_Portrait"),
+		Desc.eLevelID, strLayerTag, &Desc)))
 		return E_FAIL;
 
-	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Armor"),
-		LEVEL_GAMEPLAY, strLayerTag, m_pData->Find_Data(TEXT("Armor")))))
+	Desc.vScale = _float3(75.f, 75.f, 1.f);
+	Desc.vInitPos = _float3(-(g_iWinSizeX / 2.f) + 208.f, -(g_iWinSizeY / 2.f) + Desc.vScale.y / 2.f, 0.1f);
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_Armor"),
+		Desc.eLevelID, strLayerTag, &Desc)))
 		return E_FAIL;
 
-	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Ammo"),
-		LEVEL_GAMEPLAY, strLayerTag, m_pData->Find_Data(TEXT("Ammo")))))
+	Desc.vScale = _float3(48.f, 54.f, 1.f);
+	Desc.vInitPos = _float3((g_iWinSizeX / 2.f) - 40.f, -(g_iWinSizeY / 2.f) + Desc.vScale.y / 2.f + 7.f, 0.1f);
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_Ammo"),
+		Desc.eLevelID, strLayerTag, &Desc)))
 		return E_FAIL;
+
+
 	/* ui생성 순서 중요, player 생성 이후 호출 중요  */
-
+	// 과거의 나야 미안해 
 	return S_OK;
 }
 
@@ -746,7 +759,7 @@ void CLevel_GamePlay::Free()
 {
 	__super::Free();
 
-	//CUI_Manager::Get_Instance(m_pGameInstance)->Clear_GamePlayUI();
+	//CUI_Manager::Get_Instance()->Clear_GamePlayUI();
 
 	while (m_iIndex >= 0)
 	{

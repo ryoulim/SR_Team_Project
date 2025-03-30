@@ -23,12 +23,8 @@ HRESULT CButton_Main::Initialize_Prototype()
 
 HRESULT CButton_Main::Initialize(void* pArg)
 {
-	m_eLevelID = LEVEL_LOGO;
-	m_szTextureID = TEXT("Button_Main");
+	m_eLevelID = static_cast<DESC*>(pArg)->eLevelID;
 	m_szBufferType = TEXT("Rect");
-
-	//if (FAILED(__super::Initialize(pArg)))
-	//	return E_FAIL;
 
 	/* For.Com_VIBuffer */
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, _wstring(TEXT("Prototype_Component_VIBuffer_")) + m_szBufferType,
@@ -43,7 +39,6 @@ HRESULT CButton_Main::Initialize(void* pArg)
 	if (pArg != nullptr)
 	{
 		DESC* pDesc = static_cast<DESC*>(pArg);
-		m_eAlign = pDesc->eAlign;
 		m_vPos = pDesc->vInitPos;
 		m_vPos.z = 0.f;
 		m_vSize = pDesc->vScale;
@@ -52,16 +47,8 @@ HRESULT CButton_Main::Initialize(void* pArg)
 		m_pTransformCom->Scaling(m_vSize);
 		_float posx = m_vPos.x + g_iWinSizeX * 0.5f;
 		_float posy = -(m_vPos.y - g_iWinSizeY * 0.5f);
-
-
-		//m_tRect.left = LONG(posx);
-		//m_tRect.top = LONG(posy - (m_vSize.y * 0.5f));
-		//m_tRect.right = m_tRect.left + m_vSize.x;
-		//m_tRect.bottom = m_tRect.top + m_vSize.y;
 		Initialize_ButtonRect();
-		/*__super::Update_Rect();*/
 	}
-	m_fAnimationFrame = 0.f;
 	m_fDepth = 5.f;
 	return S_OK;
 }
@@ -91,7 +78,7 @@ HRESULT CButton_Main::Render()
 	if (FAILED(m_pTransformCom->Bind_Resource()))
 		return E_FAIL;
 
-	_float2 vPos = { m_pTransformCom->Get_State(CTransform::STATE_POSITION)->x , m_pTransformCom->Get_State(CTransform::STATE_POSITION)->y };
+	//_float2 vPos = { m_pTransformCom->Get_State(CTransform::STATE_POSITION)->x , m_pTransformCom->Get_State(CTransform::STATE_POSITION)->y };
 
 
 	Pick_Button();
@@ -142,9 +129,8 @@ HRESULT CButton_Main::Pick_Button()
 		RENDER_TEXT_BOL("NEW GAME", 280.f - g_iWinSizeX * 0.5f, g_iWinSizeY * 0.5f - 460.f, 0.9f);
 		if (MOUSE_DOWN(DIMK_LBUTTON))
 		{
-			CUI_Manager::Get_Instance(m_pGameInstance)->Fade_Out();
+			CUI_Manager::Get_Instance()->Fade_Out();
 			m_bNextLevel = true;
-
 		}
 	}
 	else

@@ -23,6 +23,7 @@ private:
 public:
 	virtual HRESULT Initialize_Prototype() override;
 	virtual HRESULT Initialize(void* pArg) override;
+	virtual HRESULT Ready_Components(void* pArg) override;
 	virtual void Priority_Update(_float fTimeDelta) override;
 	virtual EVENT Update(_float fTimeDelta) override;
 	virtual void Late_Update(_float fTimeDelta) override;
@@ -37,6 +38,7 @@ private:
 	_uint	m_iMaxMagazine = {};
 	_uint	m_iCurMagazine = {};
 	const CWeapon::AMMOINFO* m_pAmmoInfo = { nullptr };
+	_bool	m_bActive = { false };
 
 
 public:

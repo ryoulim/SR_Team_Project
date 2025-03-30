@@ -516,9 +516,6 @@
     <ClInclude Include="..\public\Font_TinyBlue.h">
       <Filter>02.GameObjects\UI\Font\Font_TinyBlue</Filter>
     </ClInclude>
-    <ClInclude Include="..\public\Button_Test.h">
-      <Filter>02.GameObjects\UI\Button</Filter>
-    </ClInclude>
     <ClInclude Include="..\public\Logo.h">
       <Filter>02.GameObjects\UI\MenuUI\MainMenu</Filter>
     </ClInclude>
@@ -899,9 +896,6 @@
     </ClCompile>
     <ClCompile Include="..\private\Font_BigOrange.cpp">
       <Filter>02.GameObjects\UI\Font\Font_BigOrange</Filter>
-    </ClCompile>
-    <ClCompile Include="..\private\Button_Test.cpp">
-      <Filter>02.GameObjects\UI\Button</Filter>
     </ClCompile>
     <ClCompile Include="..\private\Logo.cpp">
       <Filter>02.GameObjects\UI\MenuUI\MainMenu</Filter>

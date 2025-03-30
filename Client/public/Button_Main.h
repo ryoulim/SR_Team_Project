@@ -9,10 +9,6 @@ BEGIN(Client)
 class CButton_Main : public CUI
 {
 public:
-	typedef struct tagButton_MainDesc : public CUI::DESC
-	{
-		CFont::FONTALIGN eAlign;
-	}DESC;
 	enum BUTTONTYPE {GAMESTART, OPTIONS, QUIT, BUTTON_END};
 protected:
 	CButton_Main(LPDIRECT3DDEVICE9 pGraphic_Device);

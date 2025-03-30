@@ -150,15 +150,15 @@ HRESULT CLoadingMenu::Render()
 	temp = _uint(m_fLoadingGauge / 0.2f);
 
 	if (m_fLoadingGauge > 0.2f)
-		CUI_Manager::Get_Instance(m_pGameInstance)->Render_Text("Press bar to skip Loading Level !!!", CFont::MEDIUMBLUE, CFont::LEFT, -600.f, -325.f + 26.f * (int(m_fLoadingGauge / 0.2f) - 1));
+		CUI_Manager::Get_Instance()->Render_Text("Press bar to skip Loading Level !!!", CFont::MEDIUMBLUE, CFont::LEFT, -600.f, -325.f + 26.f * (int(m_fLoadingGauge / 0.2f) - 1));
 	if (m_fLoadingGauge > 0.4f)
-		CUI_Manager::Get_Instance(m_pGameInstance)->Render_Text("Loading ... \"ION FURY\"", CFont::MEDIUMBLUE, CFont::LEFT, -600.f, -325.f + 26.f * (int(m_fLoadingGauge / 0.2f) - 2));
+		CUI_Manager::Get_Instance()->Render_Text("Loading ... \"ION FURY\"", CFont::MEDIUMBLUE, CFont::LEFT, -600.f, -325.f + 26.f * (int(m_fLoadingGauge / 0.2f) - 2));
 	if (m_fLoadingGauge > 0.6f)
-		CUI_Manager::Get_Instance(m_pGameInstance)->Render_Text("And now I have no idea ", CFont::MEDIUMBLUE, CFont::LEFT, -600.f, -325.f + 26.f * (int(m_fLoadingGauge / 0.2f) - 3));
+		CUI_Manager::Get_Instance()->Render_Text("And now I have no idea ", CFont::MEDIUMBLUE, CFont::LEFT, -600.f, -325.f + 26.f * (int(m_fLoadingGauge / 0.2f) - 3));
 	if (m_fLoadingGauge > 0.8f)
-		CUI_Manager::Get_Instance(m_pGameInstance)->Render_Text("HINT : hint hint hint hint hint hint.", CFont::MEDIUMBLUE, CFont::LEFT, -600.f, -325.f + 26.f * (int(m_fLoadingGauge / 0.2f) - 4));
+		CUI_Manager::Get_Instance()->Render_Text("HINT : hint hint hint hint hint hint.", CFont::MEDIUMBLUE, CFont::LEFT, -600.f, -325.f + 26.f * (int(m_fLoadingGauge / 0.2f) - 4));
 	if (m_fLoadingGauge > 1.f)
-	CUI_Manager::Get_Instance(m_pGameInstance)->Render_Text("Loading Complete !! ", CFont::MEDIUMBLUE, CFont::LEFT, -600.f, -325.f + 26.f * (int(m_fLoadingGauge / 0.2f) - 5));
+	CUI_Manager::Get_Instance()->Render_Text("Loading Complete !! ", CFont::MEDIUMBLUE, CFont::LEFT, -600.f, -325.f + 26.f * (int(m_fLoadingGauge / 0.2f) - 5));
 
 	Render_Animation();
 	Render_LoadingBar();

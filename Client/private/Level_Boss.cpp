@@ -29,7 +29,7 @@ HRESULT CLevel_Boss::Initialize(CLevelData* pLevelData)
 	if (FAILED(Ready_Layer_UI(TEXT("Layer_UI"))))
 		return E_FAIL;
 
-	CUI_Manager::Get_Instance(m_pGameInstance)->Initialize_GamePlayUI();
+	CUI_Manager::Get_Instance()->Initialize_GamePlayUI(LEVEL_BOSS);
 
 	if (FAILED(Ready_Layer_Pawn(TEXT("Layer_Pawn"))))
 		return E_FAIL;
