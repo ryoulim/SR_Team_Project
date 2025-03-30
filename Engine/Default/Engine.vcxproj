@@ -156,8 +156,8 @@ CALL $(SolutionDir)\UpdateLib.bat</Command>
       <AdditionalDependencies>d3d9.lib;d3dx9.lib;dInput8.lib;dxguid.lib;fmod_vc.lib;fmodstudio_vc.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>CD $(SolutionDir)
-CALL $(SolutionDir)\UpdateLib.bat</Command>
+      <Command>
+      </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>

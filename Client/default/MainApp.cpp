@@ -4,12 +4,7 @@
 #include "Level_Logo.h"
 #include "Level_Loading.h"
 
-#include "Dynamic_Camera.h"
-#include "FPS_Camera.h"
 #include "UI_Camera.h"
-#include "TPS_Camera.h"
-
-#include "Trigger.h"
 
 #include "Font_MediumBlue.h"
 #include "Font_BigOrange.h"
@@ -24,7 +19,6 @@
 #include "CameraManager.h"
 
 #include "Sky.h"
-
 #include "PlayerOnBoat.h"
 
 #ifdef _IMGUI
@@ -165,34 +159,9 @@ HRESULT CMainApp::Render()
 
 HRESULT CMainApp::Ready_Component_For_Static()
 {
-	ADD_MODEL(Cube);
-	ADD_MODEL(CubeEx);
 	ADD_MODEL(Rect);
-	ADD_MODEL(TriangularPillar);
-	ADD_MODEL(Trapezoid);
-	ADD_MODEL(Stall);
-	ADD_MODEL(Cabinet);
-	ADD_MODEL(Signboard);
-	ADD_MODEL(Computer);
- 	//ADD_MODEL_EX(Terrain, 129, 129, TEXT("../Bin/Resources/Textures/Terrain/Height__.bmp"));
-	//Load_ProtoType_Terrain(TEXT("MapData.txt"));
-	ADD_MODEL(Canopy);
-	ADD_MODEL(RaceLandscape);
-	ADD_MODEL(BuildingH);
-	ADD_MODEL(BuildingW);
-	ADD_MODEL(BuildingV);
-	ADD_MODEL(BuildingU);
-	ADD_MODEL(RaceGate);
-	ADD_MODEL(RaceCylinder);
-
 	ADD_PRTCOM(Transform);
-	ADD_PRTCOM(Gravity);
-	ADD_PRTCOM(Collider_AABB_Cube);
-	ADD_PRTCOM(Collider_OBB_Cube);
-	ADD_PRTCOM(Collider_Sphere);
-	ADD_PRTCOM(Collider_Capsule);
-	ADD_PRTCOM(Collider_Line); 
-	ADD_PRTCOM(Collider_Rect);
+	ADD_TEXTURE(LevelLoadingMenu, "../Bin/Resources/Textures/UI/Loading/lvlloading%d.png", 4);  // 치워도돼
 
 	ADD_TEXTURE(Font_MediumBlue, "../Bin/Resources/Textures/UI/Font/Font_MediumBlue/font%d.PNG", 94);
 	ADD_TEXTURE(Font_BigOrange, "../Bin/Resources/Textures/UI/Font/Font_BigOrange/font%d.PNG", 46);
@@ -202,35 +171,10 @@ HRESULT CMainApp::Ready_Component_For_Static()
 	ADD_TEXTURE(Loading_BarBack, "../Bin/Resources/Textures/UI/Loading/loadingbar0.PNG", 1);
 	ADD_TEXTURE(Loading_Bar, "../Bin/Resources/Textures/UI/Loading/loadingbar1.PNG", 1);
 
+
 	ADD_TEXTURE(FadeUI, "../Bin/Resources/Textures/UI/black.PNG", 1);
-	//ADD_TEXTURE(DipWhiteUI, "../Bin/Resources/Textures/UI/white.PNG", 1);
 
-	ADD_TEXTURE(LevelLoadingMenu, "../Bin/Resources/Textures/UI/Loading/lvlloading%d.png", 4);  // 치워도돼
-
-	ADD_TEXTURE_EX(Sky, "../Bin/Resources/Textures/SkyBox/Sky_%d.dds", 1, CTexture::TYPE_CUBE); // 치워도?돼
 	ADD_PRTCOM_EX(Shader, L"../bin/ShaderFiles/Shader_TextureEffect.hlsl"); // 치우면안돼
-
-	ADD_TEXTURE(Aim, "../Bin/Resources/Textures/Aim/aim0.PNG", 1);						// 치워도돼
-	ADD_TEXTURE(Armor, "../Bin/Resources/Textures/UI/Armor/armor%d.PNG", 3);			// 치워도돼
-	ADD_TEXTURE(Ammo, "../Bin/Resources/Textures/UI/Ammo/ammo%d.PNG", 8);				// 치워도돼
-	ADD_TEXTURE(Portrait, "../Bin/Resources/Textures/UI/Portrait/portrait%d.PNG", 25);	// 치워도돼
-
-#pragma region PLAYER
-	ADD_TEXTURE(MyCube, "../Bin/Resources/Textures/Snow/Snow.png", 1);
-	ADD_TEXTURE(GrenadeBullet, "../Bin/Resources/Textures/Bullet/Grenade/GrenadeBullet.png", 1);
-	ADD_TEXTURE(Weapon_LoverBoy, "../Bin/Resources/Textures/Weapon/LoverBoy/LoverBoy%d.PNG", 15);
-	ADD_TEXTURE(LeftHand, "../Bin/Resources/Textures/Weapon/LeftHand/LeftHand%d.PNG", 2);
-	ADD_TEXTURE(Weapon_Chaingun, "../Bin/Resources/Textures/Weapon/ChainGun/ChainGun%d.PNG", 16);
-	ADD_TEXTURE(Weapon_Dispenser, "../Bin/Resources/Textures/Weapon/Dispenser/Dispenser%d.PNG", 60);
-
-#pragma endregion
-
-#pragma region 레이싱 레벨 플레이어
-	ADD_TEXTURE(PlayerOnBoat, "../Bin/Resources/Textures/Player/PlayerOnBoat/Tile15947.PNG", 1);
-
-
-
-#pragma endregion
 
 	return S_OK;
 }
@@ -243,53 +187,20 @@ HRESULT CMainApp::Ready_Component_For_Static()
 
 HRESULT CMainApp::Ready_Protype_Object_For_Static()
 {
-	ADD_PRTOBJ(CameraManager);
-	ADD_PRTOBJ(Dynamic_Camera);
-	ADD_PRTOBJ(FPS_Camera);
 	ADD_PRTOBJ(UI_Camera);
-	ADD_PRTOBJ(TPS_Camera);
-	ADD_PRTOBJ(Trigger);
+	ADD_PRTOBJ(LevelLoadingMenu); // 치워도 안돼
 
 	// UI Ready
 	ADD_PRTOBJ(Font_MediumBlue);
 	ADD_PRTOBJ(Font_BigOrange);
 	ADD_PRTOBJ(LoadingMenu);
 	ADD_PRTOBJ(FadeUI);
-	ADD_PRTOBJ(LevelLoadingMenu); // 치워도돼
-	ADD_PRTOBJ(Sky);// 치워도돼
-	ADD_PRTOBJ(Aim);// 치워도돼
-	ADD_PRTOBJ(Ammo);// 치워도돼
-	ADD_PRTOBJ(Portrait);// 치워도돼
-	ADD_PRTOBJ(Armor);// 치워도돼
 
-	ADD_PRTOBJ(PlayerOnBoat);
-
-#pragma region PLAYER
-	ADD_PRTOBJ(Player);
-	ADD_PRTOBJ(Weapon_LoverBoy);
-	ADD_PRTOBJ(Weapon_Chaingun);
-	ADD_PRTOBJ(Weapon_Dispenser);
-	ADD_PRTOBJ(GrenadeBullet);
-#pragma endregion
 	return S_OK;
 }
 
 HRESULT CMainApp::Ready_Object_For_Static()
 {
-	CDynamic_Camera::DESC DynamicCameraDesc{};
-	DynamicCameraDesc.fFar = 2000.f;
-	DynamicCameraDesc.fNear = 0.1f;
-	DynamicCameraDesc.fMouseSensor = 0.1f;
-	DynamicCameraDesc.fFov = 60.f;
-	DynamicCameraDesc.vAt = { 0.f,0.f,1.f };
-	DynamicCameraDesc.vEye = { 0.f,0.f,0.f };
-	DynamicCameraDesc.fSpeedPerSec = 300.f;
-	DynamicCameraDesc.fRotationPerSec = 0.f;
-
-	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_CameraManager"),
-		LEVEL_STATIC, TEXT("Layer_Camera"), &DynamicCameraDesc)))
-		return E_FAIL;
-
 	CUI_Camera::DESC UICameraDesc{};
 	UICameraDesc.fFar = 1000.f;
 	UICameraDesc.fNear = 0.f;
@@ -298,17 +209,6 @@ HRESULT CMainApp::Ready_Object_For_Static()
 	UICameraDesc.vEye = { 0.f,0.f,0.f };
 	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_UI_Camera"),
 		LEVEL_STATIC, TEXT("Layer_Camera"), &UICameraDesc)))
-		return E_FAIL;
-
-	CCamera::DESC desc = {};
-	desc.vEye = _float3(0.f, 0.f, -20.f);
-	desc.vAt = _float3();
-	desc.fFov = 60.f;
-	desc.fNear = 0.1f;
-	desc.fFar = 2000.f;
-
-	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_TPS_Camera"),
-		LEVEL_STATIC, TEXT("Layer_Camera"), &desc)))
 		return E_FAIL;
 
 	return S_OK;

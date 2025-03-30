@@ -92,6 +92,11 @@
 
 #include "Sky.h"
 
+#include "FPS_Camera.h"
+#include "TPS_Camera.h"
+#include "Trigger.h"
+
+
 /* 맵툴에서 넘어오는 텍스쳐 갯수, 건들지 말아주세요 감사합니다 */ // 시른데? ㅋ
 #define NUMMAPTEX 133
 
@@ -143,7 +148,7 @@ HRESULT CLoader::Loading()
 	{
 	case LEVEL_LOGO:
 		hr = Loding_For_Static();
-		hr &= Loading_For_Logo();
+		hr = Loading_For_Logo();
 		break;
 
 	case LEVEL_GAMEPLAY:
@@ -182,7 +187,9 @@ HRESULT CLoader::Loading()
 void CLoader::Output_LoadingText()
 {
 	SetWindowText(g_hWnd, m_szLoadingText);
-	if (m_eNextLevelID == LEVEL_LOGO)
+
+	if (m_eNextLevelID == LEVEL_LOGO ||
+		m_eNextLevelID == LEVEL_STATIC)
 	{
 		auto LoadingMenu = m_pGameInstance->Find_Object(LEVEL_LOADING, TEXT("Layer_UI"));
 		dynamic_cast<CLoadingMenu*>(LoadingMenu)->Set_LoadingGauge(m_fLoadPercent);
@@ -201,18 +208,74 @@ void CLoader::Clear_MapData()
 
 HRESULT CLoader::Loding_For_Static()
 {
+	LEVEL Tmp = m_eNextLevelID;
 	m_eNextLevelID = LEVEL_STATIC;
-	// 이사이에 쓰면 문제 없을듯?
 
+	// 모델
+	ADD_MODEL(Cube);
+	ADD_MODEL(CubeEx);
+	ADD_MODEL(TriangularPillar);
+	ADD_MODEL(Trapezoid);
+	ADD_MODEL(Stall);
+	ADD_MODEL(Cabinet);
+	ADD_MODEL(Signboard);
+	ADD_MODEL(Computer);
+	ADD_MODEL(Canopy);
+	ADD_MODEL(RaceLandscape);
+	ADD_MODEL(BuildingH);
+	ADD_MODEL(BuildingW);
+	ADD_MODEL(BuildingV);
+	ADD_MODEL(BuildingU);
+	ADD_MODEL(RaceGate);
+	ADD_MODEL(RaceCylinder);
 
-	m_eNextLevelID = LEVEL_LOGO;
-	return S_OK;
-}
+	// 기능 컴포넌트
+	ADD_PRTCOM(Gravity);
+	ADD_PRTCOM(Collider_AABB_Cube);
+	ADD_PRTCOM(Collider_OBB_Cube);
+	ADD_PRTCOM(Collider_Sphere);
+	ADD_PRTCOM(Collider_Capsule);
+	ADD_PRTCOM(Collider_Line);
+	ADD_PRTCOM(Collider_Rect);
 
-HRESULT CLoader::Loading_For_Logo()
-{
-	float fDataNum = {49.f};
-	float fDataCurNum = {};
+	ADD_TEXTURE_EX(Sky, "../Bin/Resources/Textures/SkyBox/Sky_%d.dds", 1, CTexture::TYPE_CUBE); // 치워도?돼
+	ADD_TEXTURE(Aim, "../Bin/Resources/Textures/Aim/aim0.PNG", 1);						// 치워도돼
+	ADD_TEXTURE(Armor, "../Bin/Resources/Textures/UI/Armor/armor%d.PNG", 3);			// 치워도돼
+	ADD_TEXTURE(Ammo, "../Bin/Resources/Textures/UI/Ammo/ammo%d.PNG", 8);				// 치워도돼
+	ADD_TEXTURE(Portrait, "../Bin/Resources/Textures/UI/Portrait/portrait%d.PNG", 25);	// 치워도돼
+
+#pragma region PLAYER
+	ADD_TEXTURE(MyCube, "../Bin/Resources/Textures/Snow/Snow.png", 1);
+	ADD_TEXTURE(GrenadeBullet, "../Bin/Resources/Textures/Bullet/Grenade/GrenadeBullet.png", 1);
+	ADD_TEXTURE(Weapon_LoverBoy, "../Bin/Resources/Textures/Weapon/LoverBoy/LoverBoy%d.PNG", 15);
+	ADD_TEXTURE(LeftHand, "../Bin/Resources/Textures/Weapon/LeftHand/LeftHand%d.PNG", 2);
+	ADD_TEXTURE(Weapon_Chaingun, "../Bin/Resources/Textures/Weapon/ChainGun/ChainGun%d.PNG", 16);
+	ADD_TEXTURE(Weapon_Dispenser, "../Bin/Resources/Textures/Weapon/Dispenser/Dispenser%d.PNG", 60);
+	ADD_TEXTURE(PlayerOnBoat, "../Bin/Resources/Textures/Player/PlayerOnBoat/Tile15947.PNG", 1);
+
+#pragma endregion
+
+	ADD_PRTOBJ(CameraManager);
+	ADD_PRTOBJ(Dynamic_Camera);
+	ADD_PRTOBJ(FPS_Camera);
+	ADD_PRTOBJ(TPS_Camera);
+	ADD_PRTOBJ(Trigger);
+
+	ADD_PRTOBJ(Sky);
+	ADD_PRTOBJ(Aim);
+	ADD_PRTOBJ(Ammo);
+	ADD_PRTOBJ(Portrait);
+	ADD_PRTOBJ(Armor);
+
+#pragma region PLAYER
+	ADD_PRTOBJ(Player);
+	ADD_PRTOBJ(Weapon_LoverBoy);
+	ADD_PRTOBJ(Weapon_Chaingun);
+	ADD_PRTOBJ(Weapon_Dispenser);
+	ADD_PRTOBJ(GrenadeBullet);
+	ADD_PRTOBJ(PlayerOnBoat);
+
+#pragma endregion
 
 #pragma region 파티클 준비물(스테틱)
 
@@ -221,8 +284,6 @@ HRESULT CLoader::Loading_For_Logo()
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_GameObject_PC_MonsterGuidBullet"),
 		CMonsterGuidBullet::Create(m_pGraphic_Device))))
 		return E_FAIL;
-	fDataCurNum++;
-	m_fLoadPercent = fDataCurNum / fDataNum;
 
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_GameObject_MonsterBullet"),
 		CMonsterBullet::Create(m_pGraphic_Device))))
@@ -231,189 +292,246 @@ HRESULT CLoader::Loading_For_Logo()
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_GameObject_MonsterNormalBullet"),
 		CMonsterNormalBullet::Create(m_pGraphic_Device))))
 		return E_FAIL;
-	fDataCurNum++;
-	m_fLoadPercent = fDataCurNum / fDataNum;
 
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_GameObject_PC_Sprite"),
 		CSprite::Create(m_pGraphic_Device))))
 		return E_FAIL;
-	fDataCurNum++;
-	m_fLoadPercent = fDataCurNum / fDataNum;
 
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Flatform"),
 		CFlatform::Create(m_pGraphic_Device))))
 		return E_FAIL;
-	fDataCurNum++;
-	m_fLoadPercent = fDataCurNum / fDataNum;
 
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_GameObject_PC_CameraSprite"),
 		CCameraSprite::Create(m_pGraphic_Device))))
 		return E_FAIL;
-	fDataCurNum++;
-	m_fLoadPercent = fDataCurNum / fDataNum;
 
 	////////////////////////////////////////////파티클//////////////////////////////////////////////////////
 
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_GameObject_PC_JumpAttack"),
 		CJumpAttack::Create(m_pGraphic_Device, L"PARTICLE_JumpAttack"))))
 		return E_FAIL;
-	fDataCurNum++;
+
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_GameObject_PC_FlyEffect"),
 		CFlyEffect::Create(m_pGraphic_Device, L"PARTICLE_FlyEffect"))))
 		return E_FAIL;
-	fDataCurNum++;
+
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_GameObject_PC_MonsterMissile"),
 		CMonsterMissile::Create(m_pGraphic_Device, L"PARTICLE_MonsterMissile"))))
 		return E_FAIL;
-	fDataCurNum++;
+
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_GameObject_PC_FireAttack"),
 		CFireAttack::Create(m_pGraphic_Device, L"PARTICLE_FireAttack"))))
 		return E_FAIL;
-	fDataCurNum++;
+
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_GameObject_PC_BulletImpactSpark"),
 		CBulletImpactSpark::Create(m_pGraphic_Device, L"PARTICLE_BulletImpactSpark"))))
 		return E_FAIL;
-	fDataCurNum++;
-	m_fLoadPercent = fDataCurNum / fDataNum;
+
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_GameObject_PC_Blood"),
 		CBlood::Create(m_pGraphic_Device, L"PARTICLE_Blood"))))
 		return E_FAIL;
-	fDataCurNum++;
-	m_fLoadPercent = fDataCurNum / fDataNum;
+
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_GameObject_PC_Sphere"),
 		CSphere::Create(m_pGraphic_Device, L"PARTICLE_Sphere"))))
 		return E_FAIL;
-	fDataCurNum++;
-	m_fLoadPercent = fDataCurNum / fDataNum;
+
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_GameObject_PC_Tornado"),
 		CTornado::Create(m_pGraphic_Device, L"PARTICLE_Tornado"))))
 		return E_FAIL;
-	fDataCurNum++;
-	m_fLoadPercent = fDataCurNum / fDataNum;
 
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_GameObject_PC_Rain"),
 		CRain::Create(m_pGraphic_Device, L"PARTICLE_SNOW", 200, _float3(550.f, 0.f, -350.f), _float3(1050.f, 500.f, -50.f)))))
-		return E_FAIL;fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
+		return E_FAIL;
 
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_GameObject_PC_Firework"),
 		CFirework::Create(m_pGraphic_Device, L"PARTICLE_FIREWORK"))))
-		return E_FAIL;fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
-	
+		return E_FAIL;
+
 
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_GameObject_PC_Smoke"),
 		CSmoke::Create(m_pGraphic_Device, L"PARTICLE_SMOKE"))))
-		return E_FAIL;fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
-	
+		return E_FAIL;
+
 
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_GameObject_PC_EmptyBullet"),
 		CEmptyBullet::Create(m_pGraphic_Device, L"PARTICLE_EMPTYBULLET"))))
-		return E_FAIL;fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
-	
+		return E_FAIL;
+
 
 	////////////////////////////////////////////텍스처//////////////////////////////////////////////////////
 
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Effect_Dash"),
 		CTexture::Create(m_pGraphic_Device, TEXT("../Bin/Resources/Textures/Player/Dash/DashEffect%d.png"), 10))))
-		return E_FAIL; fDataCurNum++; m_fLoadPercent = fDataCurNum / fDataNum;
+		return E_FAIL;
 
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_DeaconSpawn"),
 		CTexture::Create(m_pGraphic_Device, TEXT("../Bin/Resources/Textures/Particle/DeaconSpawn%d.png"), 8))))
-		return E_FAIL; fDataCurNum++; m_fLoadPercent = fDataCurNum / fDataNum;
+		return E_FAIL; 
 
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_FireAttack"),
 		CTexture::Create(m_pGraphic_Device, TEXT("../Bin/Resources/Textures/Particle/FireAttack%d.png"), 20))))
-		return E_FAIL; fDataCurNum++; m_fLoadPercent = fDataCurNum / fDataNum;
+		return E_FAIL; 
 
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_FireMachineGun"),
 		CTexture::Create(m_pGraphic_Device, TEXT("../Bin/Resources/Textures/Particle/FireMachineGun%d.png"), 7))))
-		return E_FAIL;fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
+		return E_FAIL; 
 
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_GunFireMachineGun"),
 		CTexture::Create(m_pGraphic_Device, TEXT("../Bin/Resources/Textures/Particle/GunFireMachineGun%d.png"), 7))))
-		return E_FAIL;fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
+		return E_FAIL; 
 
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_PS_Blood"),
 		CTexture::Create(m_pGraphic_Device, TEXT("../Bin/Resources/Textures/Particle/PS_Blood%d.png"), 5))))
-		return E_FAIL;fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
+		return E_FAIL; 
 
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Effect_Explorer"),
 		CTexture::Create(m_pGraphic_Device, TEXT("../Bin/Resources/Textures/Particle/Effect_Explorer%d.png"), 24))))
-		return E_FAIL;fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
+		return E_FAIL; 
 
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Effect_Revolver"),
 		CTexture::Create(m_pGraphic_Device, TEXT("../Bin/Resources/Textures/Particle/Effect_Revolver%d.png"), 3))))
-		return E_FAIL;fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
-	
+		return E_FAIL; 
+
 
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Effect_RevolverTacer"),
 		CTexture::Create(m_pGraphic_Device, TEXT("../Bin/Resources/Textures/Particle/Effect_RevolverTacer%d.png"), 3))))
-		return E_FAIL;fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
-	
+		return E_FAIL; 
+
 
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Effect_Explor"),
 		CTexture::Create(m_pGraphic_Device, TEXT("../Bin/Resources/Textures/Particle/Effect_Explor%d.png"), 32))))
-		return E_FAIL;fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
+		return E_FAIL; 
 
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_PC_Generic"),
 		CTexture::Create(m_pGraphic_Device, TEXT("../Bin/Resources/Textures/Particle/PC_Generic.png"), 1))))
-		return E_FAIL;fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
+		return E_FAIL; 
 
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Effect_GunFire"),
 		CTexture::Create(m_pGraphic_Device, TEXT("../Bin/Resources/Textures/Particle/Effect_GunFire2%d.png"), 3))))
-		return E_FAIL;fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
-	
+		return E_FAIL; 
+
 
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Check_Tile"),
 		CTexture::Create(m_pGraphic_Device, TEXT("../Bin/Resources/Textures/Particle/Check_Tile.png"), 1))))
-		return E_FAIL;fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
-	
+		return E_FAIL; 
+
 
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_PC_Small_Fire"),
 		CTexture::Create(m_pGraphic_Device, TEXT("../Bin/Resources/Textures/Particle/PC_Small_Fire%d.png"), 5))))
-		return E_FAIL;fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
-	
+		return E_FAIL; 
+
 
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_PC_Tornado"),
 		CTexture::Create(m_pGraphic_Device, TEXT("../Bin/Resources/Textures/Particle/PC_Tornado%d.png"), 25))))
-		return E_FAIL;fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
-	
+		return E_FAIL; 
+
 
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_PC_Small_Smoke"),
 		CTexture::Create(m_pGraphic_Device, TEXT("../Bin/Resources/Textures/Particle/PC_Small_Smoke%d.png"), 20))))
-		return E_FAIL;fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
-	
+		return E_FAIL; 
+
 
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_PC_Explosion"),
 		CTexture::Create(m_pGraphic_Device, TEXT("../Bin/Resources/Textures/Particle/PS_EXPLOSION%d.png"), 14))))
-		return E_FAIL;fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
-	
+		return E_FAIL; 
+
 
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_PC_BulletShell"),
 		CTexture::Create(m_pGraphic_Device, TEXT("../Bin/Resources/Textures/Particle/PC_BulletShell%d.png"), 7))))
-		return E_FAIL;fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
-	
+		return E_FAIL; 
+
 
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_PS_Firework"),
 		CTexture::Create(m_pGraphic_Device, TEXT("../Bin/Resources/Textures/Particle/PS_Firework%d.png"), 4))))
-		return E_FAIL;fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
-	
+		return E_FAIL; 
+
 
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_PC_Rain"),
 		CTexture::Create(m_pGraphic_Device, TEXT("../Bin/Resources/Textures/Particle/PC_Rain.png"), 1))))
-		return E_FAIL;fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
-	
+		return E_FAIL; 
+
 
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_PC_Fire"),
 		CTexture::Create(m_pGraphic_Device, TEXT("../Bin/Resources/Textures/Particle/PC_Fire%d.png"), 20))))
-		return E_FAIL;fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
-	
+		return E_FAIL; 
+
 
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_MonsterFlatform"),
 		CTexture::Create(m_pGraphic_Device, TEXT("../Bin/Resources/Textures/Monster/Flatform/Flatform.PNG"), 1))))
-		return E_FAIL;fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
-	
+		return E_FAIL; 
+
 
 #pragma endregion
+
+#pragma region 우리의 발목을 잡는 오브젝트 풀
+
+#pragma region BLOOD
+	CPSystem::DESC BloodDesc{};
+	BloodDesc.fMaxFrame = 5;
+	BloodDesc.szTextureTag = TEXT("PS_Blood");
+	BloodDesc.fSize = 3.f;
+	if (FAILED(m_pGameInstance->Create_Object_Pool(LEVEL_STATIC, TEXT("Prototype_GameObject_PC_Blood"),
+		TEXT("ObjectPool_Effect_PS_Blood"), 40, &BloodDesc)))
+		return E_FAIL;
+#pragma endregion
+
+#pragma region BULLETIMPACTSPARK
+	CPSystem::DESC BulletImpactSparkDesc{};
+	BulletImpactSparkDesc.vPosition.y += -20.f;
+	BulletImpactSparkDesc.fMaxFrame = 1;
+	BulletImpactSparkDesc.szTextureTag = TEXT("PC_Generic");
+	BulletImpactSparkDesc.fSize = 0.45f;
+	if (FAILED(m_pGameInstance->Create_Object_Pool(LEVEL_STATIC, TEXT("Prototype_GameObject_PC_BulletImpactSpark"),
+		TEXT("ObjectPool_PC_BulletImpactSpark"), 20, &BulletImpactSparkDesc)))
+		return E_FAIL;
+#pragma endregion
+
+#pragma region EmptyBullet
+	CPSystem::DESC EmptyBulletDesc{};
+	EmptyBulletDesc.fMaxFrame = 7;
+	EmptyBulletDesc.szTextureTag = TEXT("PC_BulletShell");
+	EmptyBulletDesc.fSize = 0.13f;
+	if (FAILED(m_pGameInstance->Create_Object_Pool(LEVEL_STATIC, TEXT("Prototype_GameObject_PC_EmptyBullet"),
+		TEXT("ObjectPool_PC_EmptyBullet"), 20, &EmptyBulletDesc)))
+		return E_FAIL;
+#pragma endregion
+
+#pragma endregion
+
+	CDynamic_Camera::DESC DynamicCameraDesc{};
+	DynamicCameraDesc.fFar = 2000.f;
+	DynamicCameraDesc.fNear = 0.1f;
+	DynamicCameraDesc.fMouseSensor = 0.1f;
+	DynamicCameraDesc.fFov = 60.f;
+	DynamicCameraDesc.vAt = { 0.f,0.f,1.f };
+	DynamicCameraDesc.vEye = { 0.f,0.f,0.f };
+	DynamicCameraDesc.fSpeedPerSec = 300.f;
+	DynamicCameraDesc.fRotationPerSec = 0.f;
+
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_CameraManager"),
+		LEVEL_STATIC, TEXT("Layer_Camera"), &DynamicCameraDesc)))
+		return E_FAIL;
+
+	// 내일 카메라 매니저에 넣어야함
+	//CCamera::DESC desc = {};
+	//desc.vEye = _float3(0.f, 0.f, -20.f);
+	//desc.vAt = _float3();
+	//desc.fFov = 60.f;
+	//desc.fNear = 0.1f;
+	//desc.fFar = 2000.f;
+
+	//if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_TPS_Camera"),
+	//	LEVEL_STATIC, TEXT("Layer_Camera"), &desc)))
+	//	return E_FAIL;
+
+	m_eNextLevelID = Tmp;
+	return S_OK;
+}
+
+HRESULT CLoader::Loading_For_Logo()
+{
+	float fDataNum = {49.f};
+	float fDataCurNum = {};
 
 #pragma region TEXTURE
 	lstrcpy(m_szLoadingText, TEXT("텍스쳐을(를) 로딩중입니다."));
@@ -424,23 +542,19 @@ HRESULT CLoader::Loading_For_Logo()
 	ADD_TEXTURE(Screen_Dust, "../Bin/Resources/Textures/Particle/ScreenDust/Screen_Dust%d.PNG", 50);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
 	ADD_TEXTURE(Save_Background, "../Bin/Resources/Textures/UI/Background/Save_Background.PNG", 1);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
 
-	for (size_t i = 0; i < 100000; i++) { for (size_t j = 0; j < 10000; j++)int a = 0; if (KEY_PRESSING(DIK_SPACE))break; }
 	ADD_TEXTURE(Logo, "../Bin/Resources/Textures/UI/Logo/logo0.PNG", 1);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
 	
 	ADD_TEXTURE(Logo_Shadow, "../Bin/Resources/Textures/UI/Logo/logo1.PNG", 1);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
 
-	for (size_t i = 0; i < 100000; i++) { for (size_t j = 0; j < 10000; j++)int a = 0; if (KEY_PRESSING(DIK_SPACE))break; }
 #pragma endregion
 
 #pragma region MODEL
 	lstrcpy(m_szLoadingText, TEXT("모델을(를) 로딩중입니다."));
-	for (size_t i = 0; i < 100000; i++) { for (size_t j = 0; j < 10000; j++)int a = 0; if (KEY_PRESSING(DIK_SPACE))break; }
 	
 #pragma endregion
 
 #pragma region SOUND
 	lstrcpy(m_szLoadingText, TEXT("사운드을(를) 로딩중입니다."));
-	for (size_t i = 0; i < 100000; i++) { for (size_t j = 0; j < 10000; j++)int a = 0; if (KEY_PRESSING(DIK_SPACE))break; }
 #pragma endregion
 	
 
@@ -451,13 +565,12 @@ HRESULT CLoader::Loading_For_Logo()
 	
 	ADD_PRTOBJ(MainMenu);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
 	ADD_PRTOBJ(ScreenDust);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
-	ADD_PRTOBJ(Button);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
+	//ADD_PRTOBJ(Button);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
 	m_fLoadPercent = 4.f / 5.f;
 	
 	ADD_PRTOBJ(Button_Main);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
 	
 	ADD_PRTOBJ(Logo);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
-	for (size_t i = 0; i < 100000; i++) { for (size_t j = 0; j < 10000; j++)int a = 0; if (KEY_PRESSING(DIK_SPACE))break; }
 	
 
 #pragma endregion
@@ -466,10 +579,7 @@ HRESULT CLoader::Loading_For_Logo()
 	lstrcpy(m_szLoadingText, TEXT("데이터를 읽어들이는 중입니다."));
 	Add_Data(TEXT("GamePlayLevelData.csv"));fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
 	m_fLoadPercent = 1.01f;
-	for (size_t i = 0; i < 100000; i++) { for (size_t j = 0; j < 10000; j++)int a = 0; if (KEY_PRESSING(DIK_SPACE))break; }
 
-
-	for (size_t i = 0; i < 100000; i++) { for (size_t j = 0; j < 10000; j++)int a = 0; if (KEY_PRESSING(DIK_SPACE))break; }
 #pragma endregion
 
 	lstrcpy(m_szLoadingText, TEXT("로딩이 완료되었습니다."));
@@ -489,12 +599,6 @@ HRESULT CLoader::Loading_For_GamePlay()
 	ADD_TEXTURE(Terrain, "../Bin/Resources/Textures/Check_Tile.PNG", 1);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
 	ADD_TEXTURE(Lava, "../Bin/Resources/Textures/Map/Lava/Tile%d.PNG", 16); fDataCurNum++; m_fLoadPercent = fDataCurNum / fDataNum;
 
-	//ADD_TEXTURE(MyCube, "../Bin/Resources/Textures/Snow/Snow.png", 1);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
-	//ADD_TEXTURE(Aim, "../Bin/Resources/Textures/Aim/aim0.PNG", 1);
-	//ADD_TEXTURE(Armor, "../Bin/Resources/Textures/UI/Armor/armor%d.PNG", 3);
-	//ADD_TEXTURE(Ammo, "../Bin/Resources/Textures/UI/Ammo/ammo%d.PNG", 8);
-	//ADD_TEXTURE(Portrait, "../Bin/Resources/Textures/UI/Portrait/portrait%d.PNG", 25);
-
 	ADD_TEXTURE(Box, "../Bin/Resources/Textures/Object/Box/tile6628.png", 1);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
 	ADD_TEXTURE(Cabinet, "../Bin/Resources/Textures/Object/Cabinet/Cabinet%d.png", 3);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
 	ADD_TEXTURE(Trapezoid, "../Bin/Resources/Textures/Object/Trapezoid/Trapezoid%d.png", 2);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
@@ -507,7 +611,6 @@ HRESULT CLoader::Loading_For_GamePlay()
 	ADD_TEXTURE(MonsterBounce, "../Bin/Resources/Textures/Bullet/MonsterBounce/MonsterBounce%d.PNG", 4);
 
 	ADD_TEXTURE(Test, "../Bin/Resources/Textures/TileTest/tile%d.PNG", NUMMAPTEX); fDataCurNum++; m_fLoadPercent = fDataCurNum / fDataNum;
-	for (size_t i = 0; i < 100000; i++) { for (size_t j = 0; j < 10000; j++)int a = 0; if (KEY_PRESSING(DIK_SPACE))break; }
 
 	/*******************************************************************************************************************************************/
 	/********************************************************     여기 접기 !!!!     ************************************************************/
@@ -655,7 +758,7 @@ HRESULT CLoader::Loading_For_GamePlay()
 
 
 #pragma endregion
-	for (size_t i = 0; i < 100000; i++){for (size_t j = 0; j < 10000; j++)int a = 0;if (KEY_PRESSING(DIK_SPACE))break;}
+	//for (size_t i = 0; i < 100000; i++){for (size_t j = 0; j < 10000; j++)int a = 0;if (KEY_PRESSING(DIK_SPACE))break;}
 
 #pragma region DEACON_TEXTURES
 	ADD_TEXTURE(Deacon_Fly_0, "../Bin/Resources/Textures/Monster/deacon/move/0/%d.PNG", 4);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
@@ -725,8 +828,9 @@ HRESULT CLoader::Loading_For_GamePlay()
 	ADD_TEXTURE(Archangel_Dead, "../Bin/Resources/Textures/Monster/archangel/death/%d.PNG", 12); fDataCurNum++; m_fLoadPercent = fDataCurNum / fDataNum;
 
 #pragma endregion
- 
- 
+
+
+
  
  
 //#pragma region WENTEKO_TEXTURES
@@ -793,74 +897,6 @@ HRESULT CLoader::Loading_For_GamePlay()
 #pragma region DATA
 	lstrcpy(m_szLoadingText, TEXT("데이터를 읽어들이는 중입니다."));
 	Add_Data(TEXT("GamePlayLevelData.csv"));
-
-//#pragma region GUNFIRE
-//	CCameraSprite::DESC SpriteDesc{};
-//	SpriteDesc.bActive = false;
-//	SpriteDesc.fMaxFrame = 3;
-//	SpriteDesc.fRotationPerSec = RADIAN(180.f);
-//	SpriteDesc.fSpeedPerSec = 100.f;
-//	SpriteDesc.szTextureTag = TEXT("Effect_Revolver");
-//	SpriteDesc.vInitPos = _float3{ 750.f, 450.f, 0.1f };
-//	SpriteDesc.vScale = _float3{ 200.f, 200.f, 1.f };
-//	SpriteDesc.fAniSpeed = 20.f;
-//	SpriteDesc.bRandom = false;
-//	SpriteDesc.eEffectType = CCameraSprite::eEffectType::GUNFIRE;
-//
-//	if (FAILED(m_pGameInstance->Create_Object_Pool(LEVEL_STATIC, TEXT("Prototype_GameObject_PC_CameraSprite"),
-//		TEXT("ObjectPool_Effect_Revolver"), 2, &SpriteDesc)))
-//		return E_FAIL;
-//#pragma endregion
-//
-//#pragma region BULLET_TRACER
-//	SpriteDesc.bActive = false;
-//	SpriteDesc.fMaxFrame = 3;
-//	SpriteDesc.fRotationPerSec = RADIAN(180.f);
-//	SpriteDesc.fSpeedPerSec = 100.f;
-//	SpriteDesc.szTextureTag = TEXT("Effect_RevolverTacer");
-//	SpriteDesc.vInitPos = _float3{ 700.f, 400.f, 0.2f };
-//	SpriteDesc.vScale = _float3{ 200.f, 200.f, 1.f };
-//	SpriteDesc.fAniSpeed = 20.f;
-//	SpriteDesc.bRandom = false;
-//	SpriteDesc.eEffectType = CCameraSprite::eEffectType::BULLETTRACER;
-//
-//	CGameObject* pObject = nullptr;
-//	CGameObject** ppOut = &pObject;
-//	if (FAILED(m_pGameInstance->Create_Object_Pool(LEVEL_STATIC, TEXT("Prototype_GameObject_PC_CameraSprite"),
-//		TEXT("ObjectPool_Effect_RevolverTacer"), 2, &SpriteDesc)))
-//		return E_FAIL;
-//#pragma endregion
-//
-#pragma region BLOOD
-	CPSystem::DESC BloodDesc{};
-	BloodDesc.fMaxFrame = 5;
-	BloodDesc.szTextureTag = TEXT("PS_Blood");
-	BloodDesc.fSize = 3.f;
-	if (FAILED(m_pGameInstance->Create_Object_Pool(LEVEL_STATIC, TEXT("Prototype_GameObject_PC_Blood"),
-		TEXT("ObjectPool_Effect_PS_Blood"), 40, &BloodDesc)))
-		return E_FAIL;
-#pragma endregion
-
-#pragma region BULLETIMPACTSPARK
-	CPSystem::DESC BulletImpactSparkDesc{};
-	BulletImpactSparkDesc.vPosition.y += -20.f;
-	BulletImpactSparkDesc.fMaxFrame = 1;
-	BulletImpactSparkDesc.szTextureTag = TEXT("PC_Generic");
-	BulletImpactSparkDesc.fSize = 0.45f;
-	if (FAILED(m_pGameInstance->Create_Object_Pool(LEVEL_STATIC, TEXT("Prototype_GameObject_PC_BulletImpactSpark"),
-		TEXT("ObjectPool_PC_BulletImpactSpark"), 20, &BulletImpactSparkDesc)))
-		return E_FAIL;
-#pragma endregion
-
-#pragma region EmptyBullet
-	CPSystem::DESC EmptyBulletDesc{};
-	EmptyBulletDesc.fMaxFrame = 7;
-	EmptyBulletDesc.szTextureTag = TEXT("PC_BulletShell");
-	EmptyBulletDesc.fSize = 0.13f;
-	if (FAILED(m_pGameInstance->Create_Object_Pool(LEVEL_STATIC, TEXT("Prototype_GameObject_PC_EmptyBullet"),
-		TEXT("ObjectPool_PC_EmptyBullet"), 20, &EmptyBulletDesc)))
-		return E_FAIL;
-#pragma endregion
 
 #pragma endregion
 
@@ -944,6 +980,7 @@ HRESULT CLoader::Loading_For_RaceSecond()
 
 	lstrcpy(m_szLoadingText, TEXT("데이터를 읽어들이는 중입니다."));
 	Add_Data(TEXT("GamePlayLevelData.csv"));
+
 
 	lstrcpy(m_szLoadingText, TEXT("로딩이 완료되었습니다."));
 	m_isFinished = true;

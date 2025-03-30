@@ -253,7 +253,7 @@ void CPlayer::Key_Input(_float fTimeDelta)
 void CPlayer::Init_Camera_Link()
 {
 	//카메라 매니저 가져옴
-	m_pCameraManager = static_cast<CCameraManager*>(m_pGameInstance->Find_Object(LEVEL_STATIC, L"Layer_Camera"));
+	m_pCameraManager = CAMERA_MANAGER;
 	Safe_AddRef(m_pCameraManager);
 
 	// FPS 카매라 뺴옴

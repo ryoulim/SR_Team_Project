@@ -6,6 +6,8 @@
 #include "Dynamic_Camera.h"
 #include "Player.h"
 
+#define CurLevel LEVEL_INDOOR
+
 CLevel_Indoor::CLevel_Indoor(LPDIRECT3DDEVICE9 pGraphic_Device)
 	:CLevel{pGraphic_Device}
 {
@@ -13,15 +15,23 @@ CLevel_Indoor::CLevel_Indoor(LPDIRECT3DDEVICE9 pGraphic_Device)
 
 HRESULT CLevel_Indoor::Initialize(CLevelData* pLevelData)
 {
-
  	if (FAILED(Load_Map(LEVEL_INDOOR, TEXT("NormalMapData.txt"))))
 		return E_FAIL;
-
+	
 	if (FAILED(Ready_Layer_Camera(TEXT("Layer_Camera"))))
 		return E_FAIL;
 
-	if (FAILED(Ready_Layer_Pawn(TEXT("Layer_Player"))))
+	if (FAILED(Ready_Layer_UI(TEXT("Layer_UI"))))
 		return E_FAIL;
+
+	CUI_Manager::Get_Instance()->Initialize_GamePlayUI(CurLevel);
+
+	if (FAILED(Ready_Layer_Pawn(TEXT("Layer_Pawn"))))
+		return E_FAIL;
+
+	CUI_Manager::Get_Instance()->Initialize_Player();
+
+	
 
 	return S_OK;
 }
@@ -254,6 +264,41 @@ HRESULT CLevel_Indoor::Load_Map(_uint iLevelIdx, const _wstring& FileName)
 	}
 
 	CloseHandle(hFile);
+	return S_OK;
+}
+
+HRESULT CLevel_Indoor::Ready_Layer_UI(const _wstring& strLayerTag)
+{
+	CUI::DESC Desc{};
+	Desc.eLevelID = LEVEL_INDOOR;
+	Desc.fDepth = 3.f;
+	Desc.vScale = _float3(1.f, 1.f, 1.f);
+	Desc.vInitPos = _float3(0.f, 0.f, 0.1f);
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_Aim"),
+		Desc.eLevelID, strLayerTag, &Desc)))
+		return E_FAIL;
+
+	Desc.vScale = _float3(80.f, 80.f, 1.f);
+	Desc.vInitPos = _float3(-(g_iWinSizeX / 2.f) + Desc.vScale.x / 2.f - 10.f, -(g_iWinSizeY / 2.f) + Desc.vScale.y / 2.f, 0.1f);
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_Portrait"),
+		Desc.eLevelID, strLayerTag, &Desc)))
+		return E_FAIL;
+
+	Desc.vScale = _float3(75.f, 75.f, 1.f);
+	Desc.vInitPos = _float3(-(g_iWinSizeX / 2.f) + 208.f, -(g_iWinSizeY / 2.f) + Desc.vScale.y / 2.f, 0.1f);
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_Armor"),
+		Desc.eLevelID, strLayerTag, &Desc)))
+		return E_FAIL;
+
+	Desc.vScale = _float3(48.f, 54.f, 1.f);
+	Desc.vInitPos = _float3((g_iWinSizeX / 2.f) - 40.f, -(g_iWinSizeY / 2.f) + Desc.vScale.y / 2.f + 7.f, 0.1f);
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_Ammo"),
+		Desc.eLevelID, strLayerTag, &Desc)))
+		return E_FAIL;
+
+
+	/* ui생성 순서 중요, player 생성 이후 호출 중요  */
+	// 과거의 나야 미안해 
 	return S_OK;
 }
 
