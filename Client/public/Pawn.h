@@ -29,6 +29,9 @@ public:
 	virtual void Late_Update(_float fTimeDelta) override;
 	virtual HRESULT Render() override;
 
+	void Set_LevelID(LEVEL ID) {
+		m_eLevelID = ID;
+	}
 protected:
 	virtual HRESULT Ready_Components(void* pArg);
 

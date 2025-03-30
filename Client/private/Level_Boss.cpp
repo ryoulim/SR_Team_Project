@@ -8,6 +8,7 @@
 #include "FXMgr.h"
 #include "UI_Manager.h"
 
+#define CurLevel LEVEL_BOSS
 
 CLevel_Boss::CLevel_Boss(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CLevel{pGraphic_Device}
@@ -176,6 +177,7 @@ HRESULT CLevel_Boss::Ready_Layer_Pawn(const _wstring& strLayerTag)
 	{
 		static_cast<CTransform*>(pPlayer->Find_Component(TEXT("Com_Transform")))
 			->Set_State(CTransform::STATE_POSITION, vInitPosition);
+		static_cast<CPawn*>(pPlayer)->Set_LevelID(CurLevel);
 		return S_OK;
 	}
 
@@ -185,7 +187,7 @@ HRESULT CLevel_Boss::Ready_Layer_Pawn(const _wstring& strLayerTag)
 	PlayerDesc.vScale = { 20.f, 30.f, 20.f };
 	PlayerDesc.fRotationPerSec = RADIAN(180.f);
 	PlayerDesc.fSpeedPerSec = 150.f;
-	PlayerDesc.eLevelID = LEVEL_STATIC;
+	PlayerDesc.eLevelID = CurLevel;
 
 	// 최초 게임 입장할때 어디에서 입장하던 스태틱에 생성해준다.
 	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_Player"),

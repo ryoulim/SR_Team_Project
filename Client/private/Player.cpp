@@ -148,19 +148,19 @@ void CPlayer::Add_Weapons()
 	WeaponDesc.fSpeedPerSec = 600.f;
 	m_Weapons.push_back(
 		static_cast<CWeapon*>(m_pGameInstance->Clone_Prototype(
-			PROTOTYPE::TYPE_GAMEOBJECT, m_eLevelID,
+			PROTOTYPE::TYPE_GAMEOBJECT, LEVEL_STATIC,
 			TEXT("Prototype_GameObject_Weapon_LoverBoy"), &WeaponDesc)));
 
 	WeaponDesc.fSpeedPerSec = 3000.f;
 	m_Weapons.push_back(
 		static_cast<CWeapon*>(m_pGameInstance->Clone_Prototype(
-			PROTOTYPE::TYPE_GAMEOBJECT, m_eLevelID,
+			PROTOTYPE::TYPE_GAMEOBJECT, LEVEL_STATIC,
 			TEXT("Prototype_GameObject_Weapon_Chaingun"), &WeaponDesc)));
 
 	WeaponDesc.fSpeedPerSec = 2600.f;
 	m_Weapons.push_back(
 		static_cast<CWeapon*>(m_pGameInstance->Clone_Prototype(
-			PROTOTYPE::TYPE_GAMEOBJECT, m_eLevelID,
+			PROTOTYPE::TYPE_GAMEOBJECT, LEVEL_STATIC,
 			TEXT("Prototype_GameObject_Weapon_Dispenser"), &WeaponDesc)));
 
 	CUI_Manager::Get_Instance()->Change_Weapon(m_Weapons[m_iCurWeaponIndex]->Get_Info());

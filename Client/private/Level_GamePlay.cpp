@@ -263,6 +263,7 @@ HRESULT CLevel_GamePlay::Ready_Layer_Pawn(const _wstring& strLayerTag)
 	{
 		static_cast<CTransform*>(pPlayer->Find_Component(TEXT("Com_Transform")))
 			->Set_State(CTransform::STATE_POSITION, vInitPosition);
+		static_cast<CPawn*>(pPlayer)->Set_LevelID(CurLevel);
 		return S_OK;
 	}
 
