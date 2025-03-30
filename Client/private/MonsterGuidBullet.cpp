@@ -163,12 +163,12 @@ void CMonsterGuidBullet::On_Collision(_uint MyColliderID, _uint OtherColliderID)
 
 	if (OtherColliderID == CI_BLOCK_COMMON)
 	{
-		CFXMgr::Get_Instance()->SpawnExplosion2(CCollider::Get_Last_Collision_Pos(), m_eLevelID);
+		FX_MGR->SpawnExplosion2(CCollider::Get_Last_Collision_Pos(), m_eLevelID);
 		m_pCamera->Shake_Camera();
 	}
 
 	if (CI_WEAPON(OtherColliderID))
-		CFXMgr::Get_Instance()->SpawnExplosion2(CCollider::Get_Last_Collision_Pos(), m_eLevelID);
+		FX_MGR->SpawnExplosion2(CCollider::Get_Last_Collision_Pos(), m_eLevelID);
 
 }
 

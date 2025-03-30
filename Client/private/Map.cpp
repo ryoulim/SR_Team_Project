@@ -70,7 +70,7 @@ void CMap::On_Collision(_uint MyColliderID, _uint OtherColliderID)
 	if (OtherColliderID == CI_LOVERBOY ||
 		OtherColliderID == CI_CHAINGUN ||
 		OtherColliderID == CI_DISPENSOR_SHELL)
-		CFXMgr::Get_Instance()->SpawnBlood(CCollider::Get_Last_Collision_Pos(), m_eLevelID);
+		FX_MGR->SpawnBlood(CCollider::Get_Last_Collision_Pos(), m_eLevelID);
 }
 
 HRESULT CMap::Ready_Components(void* pArg)

@@ -1,40 +1,54 @@
 #include "ObjectPool.h"
 #include "GameObject.h"
 
-CObjectPool::CObjectPool()
+CObjectPool::CObjectPool(_uint iPoolSize)
+	:m_pGameInstance(CGameInstance::Get_Instance())
+	, m_iPoolSize{ iPoolSize }
 {
+	Safe_AddRef(m_pGameInstance);
 }
 
-CGameObject* CObjectPool::Active(_uint& _Out_ iNum)
+HRESULT CObjectPool::Initialize(_uint iPrototypeLevelIndex, const _wstring& strPrototypeTag, void* pArg)
 {
-	if (m_Objectlist.empty())
+	m_Objects.reserve(m_iPoolSize);
+	for (_uint i = 0; i < m_iPoolSize; ++i)
 	{
-		MSG_BOX("Failed to Active: CObjectPool");
-		return nullptr;
+		m_Objects.push_back(static_cast<CGameObject*>(m_pGameInstance->Clone_Prototype(
+			PROTOTYPE::TYPE_GAMEOBJECT, iPrototypeLevelIndex, strPrototypeTag, pArg)));
+	}
+	return S_OK;
+}
+
+void CObjectPool::Active_Object(_uint iLevelIndex, const _wstring& strLayertag, void* pArg)
+{
+	Safe_AddRef(m_Objects[m_iCurIndex]);
+
+	m_pGameInstance->Push_GameObject(m_Objects[m_iCurIndex], iLevelIndex, strLayertag);
+	m_Objects[m_iCurIndex++]->Reset(pArg);
+
+
+	if (m_iCurIndex >= m_iPoolSize)
+		m_iCurIndex = 0;
+}
+
+CObjectPool* CObjectPool::Create(_uint iPoolSize, _uint iPrototypeLevelIndex, const _wstring& strPrototypeTag, void* pArg)
+{
+	CObjectPool* pInstance = new CObjectPool(iPoolSize);
+
+	if (FAILED(pInstance->Initialize(iPrototypeLevelIndex, strPrototypeTag, pArg)))
+	{
+		MSG_BOX("Failed to Created : CObjectPool");
+		Safe_Release(pInstance);
 	}
 
-	CGameObject* pReturn = m_Objectlist.front();
-	m_Objectlist.pop_front();
-	iNum = --m_iSize;
-	
-	return pReturn;
-}
-
-_uint CObjectPool::DeActive(class CGameObject* ptr)
-{
-	m_Objectlist.push_front(ptr);
-	return ++m_iSize;
-}
-
-CObjectPool* CObjectPool::Create()
-{
-	return new CObjectPool;
+	return pInstance;
 }
 
 void CObjectPool::Free()
 {
 	__super::Free();
-	for (auto& Obj : m_Objectlist)
+	Safe_Release(m_pGameInstance);
+	for (auto Obj : m_Objects)
 		Safe_Release(Obj);
-	m_Objectlist.clear();
+	m_Objects.clear();
 }

@@ -186,7 +186,7 @@ void CShotgunner::On_Collision(_uint MyColliderID, _uint OtherColliderID)
 	//¸ó½ºÅÍ »ç¸Á
 	if (0 >= m_iHP)
 	{
-		CFXMgr::Get_Instance()->SpawnCustomExplosion(vImpactPos, LEVEL_GAMEPLAY, _float3{ 40.f, 80.f, 1.f }, TEXT("PC_Explosion"), 14);
+		FX_MGR->SpawnCustomExplosion(vImpactPos, LEVEL_GAMEPLAY, _float3{ 40.f, 80.f, 1.f }, TEXT("PC_Explosion"), 14);
 		m_bDead = true;
 
 		return;
@@ -194,7 +194,7 @@ void CShotgunner::On_Collision(_uint MyColliderID, _uint OtherColliderID)
 
 	// ÀÌÆåÆ® »ý¼º
 	m_iHP += -50;
-	CFXMgr::Get_Instance()->SpawnBlood(vImpactPos, LEVEL_GAMEPLAY);
+	FX_MGR->SpawnBlood(vImpactPos, LEVEL_GAMEPLAY);
 }
 
 CShotgunner* CShotgunner::Create(LPDIRECT3DDEVICE9 pGraphic_Device)

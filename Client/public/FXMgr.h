@@ -1,36 +1,33 @@
 #pragma once
 
 #include "Base.h"
-#include "GameInstance.h"
-
 #include "Client_Defines.h"
+#include "GameInstance.h"
 #include <random>
 
-
+#define FX_MGR static_cast<CFXMgr*>(m_pGameInstance->Find_Manager(TEXT("FX_Manager")))
 			/* 이펙트 싱글톤 */
 
 /* [ 언제어디서든 이펙트를 실행시킬 수 있다. ] */
+
+BEGIN(Engine)
+class CObjectPool;
+END
 
 BEGIN(Client)
 
 class CCameraSprite;
 class CFXMgr : public CBase
 {
-	DECLARE_SINGLETON(CFXMgr)
-	
 private:
 	CFXMgr();
 	virtual ~CFXMgr() = default;
 
 public:
-	void		Initialize();
-	void		Update(_float fTimeDelta);
-	void		LateUpdate();
-
-	void		SpawnCustomExplosion(_float3 _vPosition, LEVEL eLevel, _float3 Size, const TCHAR* szTextureTag, _float Maxframe);
-
+	HRESULT		Initialize();
 
 public: //폭발
+	void SpawnCustomExplosion(_float3 _vPosition, LEVEL eLevel, _float3 Size, const TCHAR* szTextureTag, _float Maxframe);
 	void SpawnExplosion(_float3 _vPosition, LEVEL eLevel);
 	void SpawnExplosion2(_float3 _vPosition, LEVEL eLevel);
 	void SpawnExplosion3(_float3 _vPosition, LEVEL eLevel);
@@ -62,36 +59,19 @@ public: //탄피
 public: //피흘리기
 	void SpawnBlood(_float3 _vPosition, LEVEL eLevel);
 
-
 public: //보스스킬
 	void FireAttack(_float3 _vPosition, LEVEL eLevel, _int _iNum);
 	void JumpAttack(_float3 _vPosition, LEVEL eLevel);
 
 public: 
-	void PlayerDash(LEVEL eLevel); // 하나만 쓰겠습니다 감사합니다.
-
-public:
-	float GetRandomValue(float min, float max)
-	{
-		if (min > max) std::swap(min, max);
-		uniform_real_distribution<float> dist(min, max);
-		return dist(m_Gen);
-	}
-
-public:
-	virtual void Free() override;
-
-private: //랜덤난수 생성 변수
-	random_device m_Rd;
-	mt19937 m_Gen{ std::random_device{}() };
-	uniform_real_distribution<float> m_Dist;
-
-public: //스크린 이펙트 활성화 배열
-	vector<CCameraSprite*> m_vecSceenEffect;
-
+	void PlayerDash(LEVEL eLevel);
 
 private:
-	CGameInstance*	m_pGameInstance;
+	class CGameInstance* m_pGameInstance;
+	unordered_map<_wstring, class CObjectPool*> m_ObjectPools;
+public:
+	static CFXMgr* Create();
+	virtual void Free() override;
 };
 
 END

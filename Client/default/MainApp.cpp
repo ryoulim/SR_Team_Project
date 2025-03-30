@@ -96,8 +96,6 @@ HRESULT CMainApp::Initialize()
 	Desc.INumColliderGroups = CG_END;
 	//Desc.strBankFilePath = "../bin/BankFiles/";
 
-	CFXMgr::Get_Instance()->Initialize();
-
 	if (FAILED(m_pGameInstance->Initialize_Engine(Desc, &m_pGraphic_Device)))
 		return E_FAIL;
 
@@ -125,7 +123,7 @@ HRESULT CMainApp::Initialize()
 	/* 최초 보여줄 레벨을 할당하자. */
  	if(FAILED(Open_Level(LEVEL_LOGO)))
 		return E_FAIL;
-	
+
 	/*FPS 출력용*/
 	if (FAILED(Ready_Debug_Mode()))
 		return E_FAIL;
@@ -144,7 +142,6 @@ HRESULT CMainApp::Initialize()
 void CMainApp::Update(_float fTimeDelta)
 {
 	m_pGameInstance->Update_Engine(fTimeDelta);
-	CFXMgr::Get_Instance()->Update(fTimeDelta);
 
 	if(KEY_DOWN(DIK_ESCAPE))
 		PostQuitMessage(0);
@@ -275,7 +272,6 @@ void CMainApp::Free()
 	Free_Imgui();
 #endif
 
-	CFXMgr::Destroy_Instance();
 	CUI_Manager::Destroy_Instance();
 	Safe_Release(m_pGraphic_Device);
 

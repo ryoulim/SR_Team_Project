@@ -66,7 +66,7 @@ void CWenteko::On_Collision(_uint MyColliderID, _uint OtherColliderID)
 	//¸ó½ºÅÍ »ç¸Á
 	if (0 >= m_iHP)
 	{
-		CFXMgr::Get_Instance()->SpawnCustomExplosion(vImpactPos, LEVEL_GAMEPLAY, _float3{ 70.f, 110.f, 1.f }, TEXT("Effect_Explor"), 32);
+		FX_MGR->SpawnCustomExplosion(vImpactPos, LEVEL_GAMEPLAY, _float3{ 70.f, 110.f, 1.f }, TEXT("Effect_Explor"), 32);
 		m_bDead = true;
 
 		return;
@@ -74,7 +74,7 @@ void CWenteko::On_Collision(_uint MyColliderID, _uint OtherColliderID)
 
 	// ÀÌÆåÆ® »ý¼º
 	m_iHP += -10;
-	CFXMgr::Get_Instance()->SpawnBlood(vImpactPos, LEVEL_GAMEPLAY);
+	FX_MGR->SpawnBlood(vImpactPos, LEVEL_GAMEPLAY);
 }
 
 HRESULT CWenteko::Ready_Components(void* pArg)

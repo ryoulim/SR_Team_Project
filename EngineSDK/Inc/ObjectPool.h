@@ -1,29 +1,30 @@
 #pragma once
-
 #include "Base.h"
+#include "GameInstance.h"
 
 /* 객체들을 모아놓는다. */
 
 BEGIN(Engine)
 
-class CGameObject;
-class CObjectPool final : public CBase
+class ENGINE_DLL CObjectPool : public CBase
 {
 private:
-	CObjectPool();
+	CObjectPool(_uint iPoolSize);
 	virtual ~CObjectPool() = default;
 
 public:
-	CGameObject* Active(_uint& _Out_ iNum);
-	_uint DeActive(CGameObject* ptr);
+	HRESULT	Initialize(_uint iPrototypeLevelIndex, const _wstring& strPrototypeTag, void* pArg);
+	void Active_Object(_uint iLevelIndex, const _wstring& strLayertag, void* pArg);
 
 private:
-	forward_list<CGameObject*> m_Objectlist;
-	_uint					   m_iSize{};
+	CGameInstance*	m_pGameInstance{ nullptr };
+	vector<class CGameObject*>	m_Objects{};
+	_uint	m_iCurIndex{};
+	_uint	m_iPoolSize{};
 
 public:
-	static CObjectPool* Create();
-	virtual void Free();
+	static CObjectPool* Create(_uint iPoolSize, _uint iPrototypeLevelIndex, const _wstring& strPrototypeTag, void* pArg = nullptr);
+	virtual void Free() override;
 };
 
 END

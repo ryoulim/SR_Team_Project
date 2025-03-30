@@ -205,7 +205,7 @@ void CPlayer::Key_Input(_float fTimeDelta)
 		m_fDashTimer < -DASH_COOLTIME	&&
 		m_vPrePosition != *m_pTransformCom->Get_State(CTransform::STATE_POSITION))
 	{
-		CFXMgr::Get_Instance()->PlayerDash(m_eLevelID);
+		FX_MGR->PlayerDash(m_eLevelID);
 
 		m_vDashDirection = (*m_pTransformCom->Get_State(CTransform::STATE_POSITION)
 			- m_vPrePosition).Normalize() * DASH_SPEED;

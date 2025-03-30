@@ -1,4 +1,5 @@
 #include "FXMgr.h"
+#include "ObjectPool.h"
 
 #include "Particle_Define.h"
 #include "CameraSprite.h"
@@ -11,48 +12,56 @@
 #include "EmptyBullet.h"
 #include <iostream>
 
-IMPLEMENT_SINGLETON(CFXMgr);
+//IMPLEMENT_SINGLETON(CFXMgr);
 
 CFXMgr::CFXMgr()
+	: m_pGameInstance(CGameInstance::Get_Instance())
 {
-}
-
-void CFXMgr::Initialize()
-{
-	//게임인스턴스 장착
-	m_pGameInstance = CGameInstance::Get_Instance();
 	Safe_AddRef(m_pGameInstance);
-
 }
 
-void CFXMgr::Update(_float fTimeDelta)
+HRESULT CFXMgr::Initialize()
 {
-	//탄피 생성
-	//if (MOUSE_PRESSING(DIMK_LBUTTON))
-	//{
-	//	SpawnEmptyBullet(_float3(0.f, 0.f, 0.f), LEVEL_GAMEPLAY);
-	//}
+	CObjectPool* pPool{};
 
+#pragma region BLOOD
+	CPSystem::DESC BloodDesc{};
+	BloodDesc.fMaxFrame = 5;
+	BloodDesc.szTextureTag = TEXT("PS_Blood");
+	BloodDesc.fSize = 3.f;
+	pPool = CObjectPool::Create(40, LEVEL_STATIC,
+		TEXT("Prototype_GameObject_PC_Blood"), &BloodDesc);
+	if (!pPool)
+		return E_FAIL;
+	m_ObjectPools.emplace(TEXT("PS_Blood"), pPool);
+#pragma endregion
 
-	//카메라 스프라이트 테스트
-	//if (MOUSE_PRESSING(DIMK_LBUTTON))
-	//{
-	//	for (auto SceenEffect : m_vecSceenEffect)
-	//	{
-	//		SceenEffect->isActive(true);
-	//	}
-	//}
-	//else
-	//{
-	//	for (auto SceenEffect : m_vecSceenEffect)
-	//	{
-	//		SceenEffect->isActive(false);
-	//	}
-	//}
-}
+#pragma region BULLETIMPACTSPARK
+	CPSystem::DESC BulletImpactSparkDesc{};
+	BulletImpactSparkDesc.vPosition.y += -20.f;
+	BulletImpactSparkDesc.fMaxFrame = 1;
+	BulletImpactSparkDesc.szTextureTag = TEXT("PC_Generic");
+	BulletImpactSparkDesc.fSize = 0.45f;
+	pPool = CObjectPool::Create(20, LEVEL_STATIC,
+		TEXT("Prototype_GameObject_PC_BulletImpactSpark"), &BulletImpactSparkDesc);
+	if (!pPool)
+		return E_FAIL;
+	m_ObjectPools.emplace(TEXT("PC_BulletImpactSpark"), pPool);
+#pragma endregion
 
-void CFXMgr::LateUpdate()
-{
+#pragma region EmptyBullet
+	CPSystem::DESC EmptyBulletDesc{};
+	EmptyBulletDesc.fMaxFrame = 7;
+	EmptyBulletDesc.szTextureTag = TEXT("PC_BulletShell");
+	EmptyBulletDesc.fSize = 0.13f;
+	pPool = CObjectPool::Create(20, LEVEL_STATIC,
+		TEXT("Prototype_GameObject_PC_EmptyBullet"), &EmptyBulletDesc);
+	if (!pPool)
+		return E_FAIL;
+	m_ObjectPools.emplace(TEXT("PC_BulletShell"), pPool);
+#pragma endregion
+
+	return S_OK;
 }
 
 void CFXMgr::SpawnCustomExplosion(_float3 _vPosition, LEVEL eLevel, _float3 Size, const TCHAR* szTextureTag, _float Maxframe)
@@ -69,7 +78,6 @@ void CFXMgr::SpawnCustomExplosion(_float3 _vPosition, LEVEL eLevel, _float3 Size
 	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_PC_Sprite"),
 		eLevel, L"Layer_Effect", &ExplosionDesc)))
 		return;
-
 
 	CPSystem::DESC FireworkDesc{};
 	FireworkDesc.vPosition = _vPosition;
@@ -102,14 +110,12 @@ void CFXMgr::SpawnCustomExplosion(_float3 _vPosition, LEVEL eLevel, _float3 Size
 	SmokeDesc.fVelocity = 100.f;
 	SmokeDesc.vecMinDirection = _float3(-2.f, 0.f, -2.f);
 	SmokeDesc.vecMaxDirection = _float3(3.f, 1.5f, 3.f);
-	SmokeDesc.fLifeTime = GetRandomValue(0.5, 1.5f);
+	SmokeDesc.fLifeTime = m_pGameInstance->RandomFloat(0.5, 1.5f);
 	SmokeDesc.fSize = 3.f;
 
 	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_PC_Smoke"),
 		LEVEL_GAMEPLAY, L"Layer_Particle", &SmokeDesc)))
 		return;
-
-
 }
 
 void CFXMgr::SpawnExplosion(_float3 _vPosition, LEVEL eLevel)
@@ -128,7 +134,6 @@ void CFXMgr::SpawnExplosion(_float3 _vPosition, LEVEL eLevel)
 		eLevel, L"Layer_Effect", &ExplosionDesc)))
 		return;
 
-
 	CPSystem::DESC FireworkDesc{};
 	FireworkDesc.vPosition = _vPosition;
 	FireworkDesc.fMaxFrame = 14;
@@ -160,14 +165,12 @@ void CFXMgr::SpawnExplosion(_float3 _vPosition, LEVEL eLevel)
 	SmokeDesc.fVelocity = 100.f;
 	SmokeDesc.vecMinDirection = _float3(-2.f, 0.f, -2.f);
 	SmokeDesc.vecMaxDirection = _float3(3.f, 1.5f, 3.f);
-	SmokeDesc.fLifeTime = GetRandomValue(0.5, 1.5f);
+	SmokeDesc.fLifeTime = m_pGameInstance->RandomFloat(0.5, 1.5f);
 	SmokeDesc.fSize = 3.f;
 
 	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_PC_Smoke"),
 		LEVEL_GAMEPLAY, L"Layer_Particle", &SmokeDesc)))
 		return;
-
-
 }
 void CFXMgr::SpawnExplosion2(_float3 _vPosition, LEVEL eLevel)
 {
@@ -216,7 +219,7 @@ void CFXMgr::SpawnExplosion2(_float3 _vPosition, LEVEL eLevel)
 	SmokeDesc.fVelocity = 100.f;
 	SmokeDesc.vecMinDirection = _float3(-2.f, 0.f, -2.f);
 	SmokeDesc.vecMaxDirection = _float3(3.f, 1.5f, 3.f);
-	SmokeDesc.fLifeTime = GetRandomValue(0.5, 1.5f);
+	SmokeDesc.fLifeTime = m_pGameInstance->RandomFloat(0.5, 1.5f);
 	SmokeDesc.fSize = 3.f;
 
 	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_PC_Smoke"),
@@ -272,7 +275,7 @@ void CFXMgr::SpawnExplosion3(_float3 _vPosition, LEVEL eLevel)
 	SmokeDesc.fVelocity = 100.f;
 	SmokeDesc.vecMinDirection = _float3(-2.f, 0.f, -2.f);
 	SmokeDesc.vecMaxDirection = _float3(3.f, 1.5f, 3.f);
-	SmokeDesc.fLifeTime = GetRandomValue(0.5, 1.5f);
+	SmokeDesc.fLifeTime = m_pGameInstance->RandomFloat(0.5, 1.5f);
 	SmokeDesc.fSize = 3.f;
 
 	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_PC_Smoke"),
@@ -284,7 +287,7 @@ void CFXMgr::SpawnFire(_float3 _vPosition, LEVEL eLevel)
 {
 	for (int i = 0; i < 10; i++)
 	{
-		_float3 vPosition = { GetRandomValue(550.f, 1050.f) , 15.f , GetRandomValue(-50.f, -350.f) };
+		_float3 vPosition = { m_pGameInstance->RandomFloat(550.f, 1050.f) , 15.f , m_pGameInstance->RandomFloat(-50.f, -350.f) };
 
 		CSprite::DESC SpriteDesc{};
 		SpriteDesc.bLoop = true;
@@ -539,7 +542,9 @@ void CFXMgr::SpawnMultipleExplosions(_float fTimeDelta, LEVEL eLevel)
 	fTimer += fTimeDelta;
 	if (fTimer >= fInterval)
 	{
-		_float3 vPosition = { GetRandomValue(550.f, 1050.f) , GetRandomValue(50.f, 200.f) , GetRandomValue(-50.f, -350.f) };
+		_float3 vPosition = { m_pGameInstance->RandomFloat(550.f, 1050.f) ,
+			m_pGameInstance->RandomFloat(50.f, 200.f) ,
+			m_pGameInstance->RandomFloat(-50.f, -350.f) };
 		SpawnExplosion(vPosition, eLevel);
 
 		fTimer = 0.0f;
@@ -553,7 +558,7 @@ void CFXMgr::SpawnMultipleExplosions2(_float fTimeDelta, LEVEL eLevel)
 	fTimer += fTimeDelta;
 	if (fTimer >= fInterval)
 	{
-		_float3 vPosition = { GetRandomValue(550.f, 1050.f) , GetRandomValue(50.f, 200.f) , GetRandomValue(-50.f, -350.f) };
+		_float3 vPosition = { m_pGameInstance->RandomFloat(550.f, 1050.f) , m_pGameInstance->RandomFloat(50.f, 200.f) , m_pGameInstance->RandomFloat(-50.f, -350.f) };
 		SpawnExplosion2(vPosition, eLevel);
 
 		fTimer = 0.0f;
@@ -567,7 +572,7 @@ void CFXMgr::SpawnMultipleExplosions3(_float fTimeDelta, LEVEL eLevel)
 	fTimer += fTimeDelta;
 	if (fTimer >= fInterval)
 	{
-		_float3 vPosition = { GetRandomValue(550.f, 1050.f) , GetRandomValue(50.f, 200.f) , GetRandomValue(-50.f, -350.f) };
+		_float3 vPosition = { m_pGameInstance->RandomFloat(550.f, 1050.f) , m_pGameInstance->RandomFloat(50.f, 200.f) , m_pGameInstance->RandomFloat(-50.f, -350.f) };
 		SpawnExplosion3(vPosition, eLevel);
 
 		fTimer = 0.0f;
@@ -579,9 +584,11 @@ void CFXMgr::SpawnEmptyBullet(_float3 _vPosition, LEVEL eLevel)
 	EmptyBulletDesc.vPosition = _vPosition;
 	EmptyBulletDesc.iParticleNums = 1;
 
-	if (FAILED(m_pGameInstance->Active_Object(TEXT("ObjectPool_PC_EmptyBullet"), eLevel,
-		TEXT("Layer_Particle"), &EmptyBulletDesc)))
+	auto Iter = m_ObjectPools.find(TEXT("PC_BulletShell"));
+	if (Iter == m_ObjectPools.end())
 		return;
+
+	Iter->second->Active_Object(eLevel, TEXT("Layer_Particle"), &EmptyBulletDesc);
 }
 
 void CFXMgr::SpawnBlood(_float3 _vPosition, LEVEL eLevel)
@@ -590,22 +597,26 @@ void CFXMgr::SpawnBlood(_float3 _vPosition, LEVEL eLevel)
 	BloodDesc.vPosition = _vPosition;
 	BloodDesc.iParticleNums = 1;
 	
-	if (FAILED(m_pGameInstance->Active_Object(TEXT("ObjectPool_Effect_PS_Blood"), eLevel,
-		TEXT("Layer_Particle"), &BloodDesc)))
+	auto Iter = m_ObjectPools.find(TEXT("PS_Blood"));
+	if (Iter == m_ObjectPools.end())
 		return;
-	
+
+	Iter->second->Active_Object(eLevel, TEXT("Layer_Particle"), &BloodDesc);
+
 	BloodDesc.vPosition.x += 3;
-	if (FAILED(m_pGameInstance->Active_Object(TEXT("ObjectPool_Effect_PS_Blood"), eLevel,
-		TEXT("Layer_Particle"), &BloodDesc)))
-		return;
+	Iter->second->Active_Object(eLevel, TEXT("Layer_Particle"), &BloodDesc);
+
 
 	CPSystem::DESC BulletImpactSparkDesc{};
 	BulletImpactSparkDesc.vPosition = _vPosition;
 	BulletImpactSparkDesc.vPosition.y += -20.f;
 	BulletImpactSparkDesc.iParticleNums = 5;
-	if (FAILED(m_pGameInstance->Active_Object(TEXT("ObjectPool_PC_BulletImpactSpark"), LEVEL_STATIC,
-		TEXT("Layer_Particle"), &BulletImpactSparkDesc)))
+
+	Iter = m_ObjectPools.find(TEXT("PC_BulletImpactSpark"));
+	if (Iter == m_ObjectPools.end())
 		return;
+
+	Iter->second->Active_Object(eLevel, TEXT("Layer_Particle"), &BulletImpactSparkDesc);
 }
 
 void CFXMgr::FireAttack(_float3 _vPosition, LEVEL eLevel, _int _iNum)
@@ -689,10 +700,27 @@ void CFXMgr::SpawnRain(LEVEL eLevel)
 }
 
 
+CFXMgr* CFXMgr::Create()
+{
+	CFXMgr* pInstance = new CFXMgr();
+
+	if (FAILED(pInstance->Initialize()))
+	{
+		MSG_BOX("Failed to Created : CFXMgr");
+		Safe_Release(pInstance);
+	}
+
+	return pInstance;
+}
+
 void CFXMgr::Free()
 {
 	__super::Free();
 
 	Safe_Release(m_pGameInstance);
+
+	for (auto Pair : m_ObjectPools)
+		Safe_Release(Pair.second);
+	m_ObjectPools.clear();
 }
 

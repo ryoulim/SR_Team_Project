@@ -98,7 +98,7 @@
       <Filter>92.Vector</Filter>
     </ClInclude>
     <ClInclude Include="..\public\ObjectPool.h">
-      <Filter>02.GameObject\Manager\ObjectPool</Filter>
+      <Filter>02.GameObject\Pool</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\VIBuffer_Cabinet.h">
       <Filter>04.Components\VIBuffer\Cabinet</Filter>
@@ -190,6 +190,9 @@
     <ClInclude Include="..\public\Sound_Control_Group.h">
       <Filter>97.Device\Sound\Control_Group</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\Management.h">
+      <Filter>06.Management</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="99.Headers">
@@ -257,9 +260,6 @@
     </Filter>
     <Filter Include="93.Matrix">
       <UniqueIdentifier>{0c6983b9-14e1-415b-bc12-b1ef475b7bef}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObject\Manager\ObjectPool">
-      <UniqueIdentifier>{4fbcb975-7b7a-4572-a7a8-8eadeb594170}</UniqueIdentifier>
     </Filter>
     <Filter Include="04.Components\VIBuffer\Trapezoid">
       <UniqueIdentifier>{8045495a-7080-4cce-b237-13d898a49c82}</UniqueIdentifier>
@@ -375,6 +375,12 @@
     <Filter Include="97.Device\Sound\Control_Group">
       <UniqueIdentifier>{e5e581a5-f93d-489d-a5a5-c5c0859ff9af}</UniqueIdentifier>
     </Filter>
+    <Filter Include="06.Management">
+      <UniqueIdentifier>{b7dc617e-f092-449d-be05-27b4046c2fbf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObject\Pool">
+      <UniqueIdentifier>{4fbcb975-7b7a-4572-a7a8-8eadeb594170}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Private\Base.cpp">
@@ -453,7 +459,7 @@
       <Filter>92.Vector</Filter>
     </ClCompile>
     <ClCompile Include="..\private\ObjectPool.cpp">
-      <Filter>02.GameObject\Manager\ObjectPool</Filter>
+      <Filter>02.GameObject\Pool</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\VIBuffer_Cabinet.cpp">
       <Filter>04.Components\VIBuffer\Cabinet</Filter>
@@ -547,6 +553,9 @@
     </ClCompile>
     <ClCompile Include="..\private\Sound_Control_Group.cpp">
       <Filter>97.Device\Sound\Control_Group</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Management.cpp">
+      <Filter>06.Management</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

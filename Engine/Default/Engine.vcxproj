@@ -189,6 +189,7 @@
     <ClInclude Include="..\public\Level.h" />
     <ClInclude Include="..\Public\LevelData.h" />
     <ClInclude Include="..\public\Level_Manager.h" />
+    <ClInclude Include="..\public\Management.h" />
     <ClInclude Include="..\Public\Matrix.h" />
     <ClInclude Include="..\public\ObjectPool.h" />
     <ClInclude Include="..\public\Object_Manager.h" />
@@ -248,6 +249,7 @@
     <ClCompile Include="..\private\Level.cpp" />
     <ClCompile Include="..\Private\LevelData.cpp" />
     <ClCompile Include="..\Private\Level_Manager.cpp" />
+    <ClCompile Include="..\private\Management.cpp" />
     <ClCompile Include="..\Private\Matrix.cpp" />
     <ClCompile Include="..\private\ObjectPool.cpp" />
     <ClCompile Include="..\private\Object_Manager.cpp" />

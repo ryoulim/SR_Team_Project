@@ -72,13 +72,13 @@ EVENT CTtakkeun_i::Update(_float fTimeDelta)
 
 		if (m_fCallTimer >= 0.2f)
 		{
-			CFXMgr::Get_Instance()->SpawnCustomExplosion(vPos, LEVEL_GAMEPLAY, _float3{ 60.f, 100.f, 1.f }, TEXT("Effect_Explorer"), 24);
+			FX_MGR->SpawnCustomExplosion(vPos, LEVEL_GAMEPLAY, _float3{ 60.f, 100.f, 1.f }, TEXT("Effect_Explorer"), 24);
 			m_fCallTimer = 0.f;
 		}
 		if (m_fTotalTime >= 3.f)
 		{
 			_float3 vImpactPos = *m_pTransformCom->Get_State(CTransform::STATE_POSITION);
-			CFXMgr::Get_Instance()->SpawnCustomExplosion(vImpactPos, LEVEL_GAMEPLAY, _float3{ 200.f, 250.f, 1.f }, TEXT("Effect_Explor"), 32);
+			FX_MGR->SpawnCustomExplosion(vImpactPos, LEVEL_GAMEPLAY, _float3{ 200.f, 250.f, 1.f }, TEXT("Effect_Explor"), 32);
 			m_bDie = true;
 		}
 	}
@@ -619,7 +619,7 @@ void CTtakkeun_i::FireAttack(_float dt)
 
 	m_pTransformCom->ChaseCustom(vPlayerPos, dt, 100.f, 150.f);
 	/* 2. 화염을 발사한다! */
-	CFXMgr::Get_Instance()->FireAttack(vMyPos, LEVEL_GAMEPLAY, m_iNum);
+	FX_MGR->FireAttack(vMyPos, LEVEL_GAMEPLAY, m_iNum);
 
 }
 
@@ -718,7 +718,7 @@ void CTtakkeun_i::JumpAttack(_float dt)
 		{
 			//이펙트 생성 && 카메라 쉐이킹
 			vPos.y = 30.f;
-			CFXMgr::Get_Instance()->JumpAttack(vPos, LEVEL_GAMEPLAY);
+			FX_MGR->JumpAttack(vPos, LEVEL_GAMEPLAY);
 			m_pCamera->Shake_Camera();
 
 			//몬스터가 착지한 후 점프리셋
@@ -1115,7 +1115,7 @@ void CTtakkeun_i::On_Collision(_uint MyColliderID, _uint OtherColliderID)
 
 		// 이펙트 생성
 		m_iHP += -10;
-		CFXMgr::Get_Instance()->SpawnBlood(vImpactPos, LEVEL_GAMEPLAY);
+		FX_MGR->SpawnBlood(vImpactPos, LEVEL_GAMEPLAY);
 	}
 	
 }

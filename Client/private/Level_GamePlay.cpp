@@ -74,9 +74,9 @@ HRESULT CLevel_GamePlay::Initialize(class CLevelData* pLevelData)
 
 void CLevel_GamePlay::Update(_float fTimeDelta)
 {
-	CFXMgr::Get_Instance()->SpawnMultipleExplosions(fTimeDelta, LEVEL_GAMEPLAY);
-	CFXMgr::Get_Instance()->SpawnMultipleExplosions2(fTimeDelta, LEVEL_GAMEPLAY);
-	CFXMgr::Get_Instance()->SpawnMultipleExplosions3(fTimeDelta, LEVEL_GAMEPLAY);
+	FX_MGR->SpawnMultipleExplosions(fTimeDelta, LEVEL_GAMEPLAY);
+	FX_MGR->SpawnMultipleExplosions2(fTimeDelta, LEVEL_GAMEPLAY);
+	FX_MGR->SpawnMultipleExplosions3(fTimeDelta, LEVEL_GAMEPLAY);
 
 	Check_Collision();
 
@@ -212,18 +212,18 @@ HRESULT CLevel_GamePlay::Ready_Layer_Particle(const _wstring& strLayerTag)
 		return E_FAIL;
 
 	//빗방울
-	CFXMgr::Get_Instance()->SpawnRain(LEVEL_GAMEPLAY);
+	FX_MGR->SpawnRain(LEVEL_GAMEPLAY);
 	
 	//소용돌이
-	CFXMgr::Get_Instance()->SpawnSpher(_float3{ 800.f, 0.f, -200.f }, LEVEL_GAMEPLAY);
+	FX_MGR->SpawnSpher(_float3{ 800.f, 0.f, -200.f }, LEVEL_GAMEPLAY);
 	
 	//토네이도(불기둥)
-	CFXMgr::Get_Instance()->SpawnTornado(_float3{ 630.f, 25.f, -320.f }, LEVEL_GAMEPLAY);
-	CFXMgr::Get_Instance()->SpawnTornado(_float3{ 760.f, 25.f, -100.f }, LEVEL_GAMEPLAY);
-	CFXMgr::Get_Instance()->SpawnTornado(_float3{ 850.f, 25.f, -230.f }, LEVEL_GAMEPLAY);
+	FX_MGR->SpawnTornado(_float3{ 630.f, 25.f, -320.f }, LEVEL_GAMEPLAY);
+	FX_MGR->SpawnTornado(_float3{ 760.f, 25.f, -100.f }, LEVEL_GAMEPLAY);
+	FX_MGR->SpawnTornado(_float3{ 850.f, 25.f, -230.f }, LEVEL_GAMEPLAY);
 	
 	//불지르기
-	CFXMgr::Get_Instance()->SpawnFire(_float3{ 800.f, 0.f, -200.f }, LEVEL_GAMEPLAY);
+	FX_MGR->SpawnFire(_float3{ 800.f, 0.f, -200.f }, LEVEL_GAMEPLAY);
 
 	return S_OK;
 }

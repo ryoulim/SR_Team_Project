@@ -222,7 +222,7 @@ void CArchangel::On_Collision(_uint MyColliderID, _uint OtherColliderID)
 	//¸ó½ºÅÍ »ç¸Á
 	if (0 >= m_iHP)
 	{
-		CFXMgr::Get_Instance()->SpawnCustomExplosion(vImpactPos, LEVEL_GAMEPLAY, _float3{ 230.f, 300.f, 1.f }, TEXT("Effect_Explor"), 32);
+		FX_MGR->SpawnCustomExplosion(vImpactPos, LEVEL_GAMEPLAY, _float3{ 230.f, 300.f, 1.f }, TEXT("Effect_Explor"), 32);
 		m_bDead = true;
 
 		return;
@@ -230,7 +230,7 @@ void CArchangel::On_Collision(_uint MyColliderID, _uint OtherColliderID)
 
 	// ÀÌÆåÆ® »ý¼º
 	m_iHP += -50;
-	CFXMgr::Get_Instance()->SpawnBlood(vImpactPos, LEVEL_GAMEPLAY);
+	FX_MGR->SpawnBlood(vImpactPos, LEVEL_GAMEPLAY);
 }
 
 CArchangel* CArchangel::Create(LPDIRECT3DDEVICE9 pGraphic_Device)

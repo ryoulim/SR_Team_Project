@@ -634,38 +634,9 @@ HRESULT CLoader::Loding_For_Static()
 
 #pragma endregion
 
-#pragma region 우리의 발목을 잡는 오브젝트 풀
+#pragma region 매니저 생성
 
-#pragma region BLOOD
-	CPSystem::DESC BloodDesc{};
-	BloodDesc.fMaxFrame = 5;
-	BloodDesc.szTextureTag = TEXT("PS_Blood");
-	BloodDesc.fSize = 3.f;
-	if (FAILED(m_pGameInstance->Create_Object_Pool(LEVEL_STATIC, TEXT("Prototype_GameObject_PC_Blood"),
-		TEXT("ObjectPool_Effect_PS_Blood"), 40, &BloodDesc)))
-		return E_FAIL;
-#pragma endregion
-
-#pragma region BULLETIMPACTSPARK
-	CPSystem::DESC BulletImpactSparkDesc{};
-	BulletImpactSparkDesc.vPosition.y += -20.f;
-	BulletImpactSparkDesc.fMaxFrame = 1;
-	BulletImpactSparkDesc.szTextureTag = TEXT("PC_Generic");
-	BulletImpactSparkDesc.fSize = 0.45f;
-	if (FAILED(m_pGameInstance->Create_Object_Pool(LEVEL_STATIC, TEXT("Prototype_GameObject_PC_BulletImpactSpark"),
-		TEXT("ObjectPool_PC_BulletImpactSpark"), 20, &BulletImpactSparkDesc)))
-		return E_FAIL;
-#pragma endregion
-
-#pragma region EmptyBullet
-	CPSystem::DESC EmptyBulletDesc{};
-	EmptyBulletDesc.fMaxFrame = 7;
-	EmptyBulletDesc.szTextureTag = TEXT("PC_BulletShell");
-	EmptyBulletDesc.fSize = 0.13f;
-	if (FAILED(m_pGameInstance->Create_Object_Pool(LEVEL_STATIC, TEXT("Prototype_GameObject_PC_EmptyBullet"),
-		TEXT("ObjectPool_PC_EmptyBullet"), 20, &EmptyBulletDesc)))
-		return E_FAIL;
-#pragma endregion
+	m_pGameInstance->Add_Manager(TEXT("FX_Manager"), CFXMgr::Create());
 
 #pragma endregion
 
@@ -1345,38 +1316,6 @@ HRESULT CLoader::Loading_For_Boss()
 #pragma region DATA
 	lstrcpy(m_szLoadingText, TEXT("데이터를 읽어들이는 중입니다."));
 	Add_Data(TEXT("GamePlayLevelData.csv"));
-
-#pragma region BLOOD
-	CPSystem::DESC BloodDesc{};
-	BloodDesc.fMaxFrame = 5;
-	BloodDesc.szTextureTag = TEXT("PS_Blood");
-	BloodDesc.fSize = 3.f;
-	if (FAILED(m_pGameInstance->Create_Object_Pool(LEVEL_STATIC, TEXT("Prototype_GameObject_PC_Blood"),
-		TEXT("ObjectPool_Effect_PS_Blood"), 40, &BloodDesc)))
-		return E_FAIL;
-#pragma endregion
-
-#pragma region BULLETIMPACTSPARK
-	CPSystem::DESC BulletImpactSparkDesc{};
-	BulletImpactSparkDesc.vPosition.y += -20.f;
-	BulletImpactSparkDesc.fMaxFrame = 1;
-	BulletImpactSparkDesc.szTextureTag = TEXT("PC_Generic");
-	BulletImpactSparkDesc.fSize = 0.45f;
-	if (FAILED(m_pGameInstance->Create_Object_Pool(LEVEL_STATIC, TEXT("Prototype_GameObject_PC_BulletImpactSpark"),
-		TEXT("ObjectPool_PC_BulletImpactSpark"), 20, &BulletImpactSparkDesc)))
-		return E_FAIL;
-#pragma endregion
-
-#pragma region EmptyBullet
-	CPSystem::DESC EmptyBulletDesc{};
-	EmptyBulletDesc.fMaxFrame = 7;
-	EmptyBulletDesc.szTextureTag = TEXT("PC_BulletShell");
-	EmptyBulletDesc.fSize = 0.13f;
-	if (FAILED(m_pGameInstance->Create_Object_Pool(LEVEL_STATIC, TEXT("Prototype_GameObject_PC_EmptyBullet"),
-		TEXT("ObjectPool_PC_EmptyBullet"), 20, &EmptyBulletDesc)))
-		return E_FAIL;
-#pragma endregion
-
 
 	lstrcpy(m_szLoadingText, TEXT("로딩이 완료되었습니다."));
 	m_isFinished = true;

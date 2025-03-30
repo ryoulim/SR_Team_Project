@@ -11,6 +11,7 @@
 #include "csvReader.h"
 #include "Collider_Manager.h"
 #include "Sound_Device.h"
+#include "Management.h"
 
 IMPLEMENT_SINGLETON(CGameInstance);
 
@@ -64,6 +65,10 @@ HRESULT CGameInstance::Initialize_Engine(const ENGINE_DESC& EngineDesc, LPDIRECT
 
 	m_pCollider_Manager = CCollider_Manager::Create(EngineDesc.INumColliderGroups);
 	if(nullptr == m_pCsv_Reader)
+		return E_FAIL;
+
+	m_pManagement = CManagement::Create();
+	if (nullptr == m_pManagement)
 		return E_FAIL;
 
 	return S_OK;
@@ -156,6 +161,12 @@ HRESULT CGameInstance::Add_GameObjectReturn(_uint iPrototypeLevelIndex, const _w
 }
 
 FORCEINLINE
+HRESULT CGameInstance::Push_GameObject(CGameObject* pObject, _uint iLevelIndex, const _wstring& strLayerTag)
+{
+	return m_pObject_Manager->Push_GameObject(pObject, iLevelIndex, strLayerTag);
+}
+
+FORCEINLINE
 CGameObject* CGameInstance::Find_Object(_uint iLevelIndex, const _wstring& strLayerTag, _uint iVectorIndex)
 {
 	return m_pObject_Manager->Find_Object(iLevelIndex,strLayerTag,iVectorIndex);
@@ -165,30 +176,6 @@ FORCEINLINE
 list<CGameObject*>* CGameInstance::Find_Objects(_uint iLevelIndex, const _wstring& strLayerTag)
 {
 	return m_pObject_Manager->Find_Objects(iLevelIndex, strLayerTag);
-}
-
-FORCEINLINE
-HRESULT CGameInstance::Create_Object_Pool(_uint iPrototypeLevelIndex, const _wstring& strPrototypeTag, const _wstring& strObjectTag, _uint iPoolSize, void* pArg)
-{
-	return m_pObject_Manager->Create_Object_Pool(iPrototypeLevelIndex, strPrototypeTag, strObjectTag, iPoolSize,pArg);
-}
-
-FORCEINLINE
-HRESULT CGameInstance::Release_Object_Pool(const _wstring& strObjectTag)
-{
-	return m_pObject_Manager->Release_Object_Pool(strObjectTag);
-}
-
-FORCEINLINE
-_uint CGameInstance::Active_Object(const _wstring& strObjectTag, _uint iLevelIndex, const _wstring& strLayerTag, void* pArg)
-{
-	return m_pObject_Manager->Active_Object(strObjectTag, iLevelIndex, strLayerTag, pArg);
-}
-
-FORCEINLINE
-_uint CGameInstance::Deactive_Object(const _wstring& strObjectTag, CGameObject* pObject)
-{
-	return m_pObject_Manager->Deactive_Object(strObjectTag, pObject);
 }
 
 FORCEINLINE
@@ -371,11 +358,28 @@ void CGameInstance::Set_Master_Volume(_float volume)
 {
 	m_pSound_Device->Set_Master_Volume(volume);
 }
+#pragma endregion
+
+#pragma region 
+
+FORCEINLINE
+HRESULT CGameInstance::Add_Manager(const _wstring& strManagertag, CBase* pManager)
+{
+	return m_pManagement->Add_Manager(strManagertag, pManager);
+}
+
+FORCEINLINE
+CBase* CGameInstance::Find_Manager(const _wstring& strManagertag) const
+{
+	return m_pManagement->Find_Manager(strManagertag);
+}
 
 #pragma endregion
 
 void CGameInstance::Release_Engine()
 {
+	Safe_Release(m_pManagement);
+
 	Safe_Release(m_pCollider_Manager);
 
 	Safe_Release(m_pCsv_Reader);

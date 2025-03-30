@@ -141,7 +141,7 @@ void CMonsterNormalBullet::On_Collision(_uint MyColliderID, _uint OtherColliderI
 
 	if (OtherColliderID == CI_BLOCK_COMMON)
 	{
-		//CFXMgr::Get_Instance()->SpawnExplosion2(CCollider::Get_Last_Collision_Pos(), m_eLevelID);
+		//FX_MGR->SpawnExplosion2(CCollider::Get_Last_Collision_Pos(), m_eLevelID);
 		//m_pCamera->Shake_Camera(0.1f, 0.1f, 2.f, 1.f);
 	}
 }
