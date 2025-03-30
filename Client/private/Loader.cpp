@@ -91,6 +91,9 @@
 #include "LevelLoadingMenu.h"
 
 #include "Sky.h"
+#include "FPS_Camera.h"
+#include "TPS_Camera.h"
+#include "Trigger.h"
 
 /* 맵툴에서 넘어오는 텍스쳐 갯수, 건들지 말아주세요 감사합니다 */
 #define NUMMAPTEX 135
@@ -680,17 +683,17 @@ HRESULT CLoader::Loding_For_Static()
 		LEVEL_STATIC, TEXT("Layer_Camera"), &DynamicCameraDesc)))
 		return E_FAIL;
 
-	 //내일 카메라 매니저에 넣어야함
-	CCamera::DESC desc = {};
-	desc.vEye = _float3(0.f, 0.f, -20.f);
-	desc.vAt = _float3();
-	desc.fFov = 60.f;
-	desc.fNear = 0.1f;
-	desc.fFar = 2000.f;
+	// //내일 카메라 매니저에 넣어야함
+	//CCamera::DESC desc = {};
+	//desc.vEye = _float3(0.f, 0.f, -20.f);
+	//desc.vAt = _float3();
+	//desc.fFov = 60.f;
+	//desc.fNear = 0.1f;
+	//desc.fFar = 2000.f;
 
-	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_TPS_Camera"),
-		LEVEL_STATIC, TEXT("Layer_Camera"), &desc)))
-		return E_FAIL;
+	//if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_TPS_Camera"),
+	//	LEVEL_STATIC, TEXT("Layer_Camera"), &desc)))
+	//	return E_FAIL;
 
 	m_eNextLevelID = Tmp;
 	return S_OK;
