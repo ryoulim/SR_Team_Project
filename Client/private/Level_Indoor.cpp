@@ -20,6 +20,8 @@ HRESULT CLevel_Indoor::Initialize(CLevelData* pLevelData)
 	if (FAILED(Ready_Layer_Camera(TEXT("Layer_Camera"))))
 		return E_FAIL;
 
+	if (FAILED(Ready_Layer_Pawn(TEXT("Layer_Player"))))
+		return E_FAIL;
 
 	return S_OK;
 }
@@ -264,7 +266,7 @@ HRESULT CLevel_Indoor::Ready_Layer_Camera(const _wstring& strLayerTag)
 	tDesc.fFov = 60.f;
 	tDesc.fFar = 2000.f;
 	tDesc.fNear = 0.1f;
-	tDesc.fSpeedPerSec = 300.f;
+	tDesc.fSpeedPerSec = 150.f;
 	tDesc.fRotationPerSec = D3DXToRadian(180.f);
 	tDesc.vAt = _float3(0.f, 0.f, 0.f);
 	tDesc.vEye = _float3(0.f, 50.f, -40.f);
@@ -272,6 +274,36 @@ HRESULT CLevel_Indoor::Ready_Layer_Camera(const _wstring& strLayerTag)
 
 	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_Dynamic_Camera"),
 		LEVEL_BOSS, strLayerTag, &tDesc)))
+		return E_FAIL;
+
+	return S_OK;
+}
+
+HRESULT CLevel_Indoor::Ready_Layer_Pawn(const _wstring& strLayerTag)
+{
+	//이 레벨의 플레이어 생성위치
+	_float3 vInitPosition = { 1400.f, 150.f, 200.f };
+
+	// 플레이어가 있는지 체크하고 있으면 위치만 변경해줌.
+	auto pPlayer = GET_PLAYER;
+	if (pPlayer)
+	{
+		static_cast<CTransform*>(pPlayer->Find_Component(TEXT("Com_Transform")))
+			->Set_State(CTransform::STATE_POSITION, vInitPosition);
+		return S_OK;
+	}
+
+	//없으면 새로 생성해서 넣어줌
+	CPlayer::DESC PlayerDesc{};
+	PlayerDesc.vInitPos = vInitPosition;
+	PlayerDesc.vScale = { 20.f, 30.f, 20.f };
+	PlayerDesc.fRotationPerSec = RADIAN(180.f);
+	PlayerDesc.fSpeedPerSec = 150.f;
+	PlayerDesc.eLevelID = LEVEL_STATIC;
+
+	// 최초 게임 입장할때 어디에서 입장하던 스태틱에 생성해준다.
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_Player"),
+		LEVEL_STATIC, strLayerTag, &PlayerDesc)))
 		return E_FAIL;
 
 	return S_OK;

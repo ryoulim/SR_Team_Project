@@ -5,7 +5,7 @@
 #include "GameInstance.h"
 
 #define BOSSSCALE 22.f
-#define PLAYSCALE 13.f
+#define PLAYSCALE 12.f
 
 BEGIN(Engine)
 class CTexture;
