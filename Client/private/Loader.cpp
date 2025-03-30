@@ -92,7 +92,7 @@
 
 #include "Sky.h"
 
-/* 맵툴에서 넘어오는 텍스쳐 갯수, 건들지 말아주세요 감사합니다 */
+/* 맵툴에서 넘어오는 텍스쳐 갯수, 건들지 말아주세요 감사합니다 */ // 시른데? ㅋ
 #define NUMMAPTEX 133
 
 
@@ -142,7 +142,8 @@ HRESULT CLoader::Loading()
 	switch (m_eNextLevelID)
 	{
 	case LEVEL_LOGO:
-		hr = Loading_For_Logo();
+		hr = Loding_For_Static();
+		hr &= Loading_For_Logo();
 		break;
 
 	case LEVEL_GAMEPLAY:
@@ -188,6 +189,16 @@ void CLoader::Output_LoadingText()
 void CLoader::Clear_MapData()
 {
 	//m_pData->
+}
+
+HRESULT CLoader::Loding_For_Static()
+{
+	m_eNextLevelID = LEVEL_STATIC;
+	// 이사이에 쓰면 문제 없을듯?
+
+
+	m_eNextLevelID = LEVEL_LOGO;
+	return S_OK;
 }
 
 HRESULT CLoader::Loading_For_Logo()
@@ -292,6 +303,10 @@ HRESULT CLoader::Loading_For_Logo()
 	
 
 	////////////////////////////////////////////텍스처//////////////////////////////////////////////////////
+
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Effect_Dash"),
+		CTexture::Create(m_pGraphic_Device, TEXT("../Bin/Resources/Textures/Player/Dash/DashEffect%d.png"), 10))))
+		return E_FAIL; fDataCurNum++; m_fLoadPercent = fDataCurNum / fDataNum;
 
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_DeaconSpawn"),
 		CTexture::Create(m_pGraphic_Device, TEXT("../Bin/Resources/Textures/Particle/DeaconSpawn%d.png"), 8))))
@@ -770,43 +785,43 @@ HRESULT CLoader::Loading_For_GamePlay()
 	lstrcpy(m_szLoadingText, TEXT("데이터를 읽어들이는 중입니다."));
 	Add_Data(TEXT("GamePlayLevelData.csv"));
 
-#pragma region GUNFIRE
-	CCameraSprite::DESC SpriteDesc{};
-	SpriteDesc.bActive = false;
-	SpriteDesc.fMaxFrame = 3;
-	SpriteDesc.fRotationPerSec = RADIAN(180.f);
-	SpriteDesc.fSpeedPerSec = 100.f;
-	SpriteDesc.szTextureTag = TEXT("Effect_Revolver");
-	SpriteDesc.vInitPos = _float3{ 750.f, 450.f, 0.1f };
-	SpriteDesc.vScale = _float3{ 200.f, 200.f, 1.f };
-	SpriteDesc.fAniSpeed = 20.f;
-	SpriteDesc.bRandom = false;
-	SpriteDesc.eEffectType = CCameraSprite::eEffectType::GUNFIRE;
-
-	if (FAILED(m_pGameInstance->Create_Object_Pool(LEVEL_STATIC, TEXT("Prototype_GameObject_PC_CameraSprite"),
-		TEXT("ObjectPool_Effect_Revolver"), 2, &SpriteDesc)))
-		return E_FAIL;
-#pragma endregion
-
-#pragma region BULLET_TRACER
-	SpriteDesc.bActive = false;
-	SpriteDesc.fMaxFrame = 3;
-	SpriteDesc.fRotationPerSec = RADIAN(180.f);
-	SpriteDesc.fSpeedPerSec = 100.f;
-	SpriteDesc.szTextureTag = TEXT("Effect_RevolverTacer");
-	SpriteDesc.vInitPos = _float3{ 700.f, 400.f, 0.2f };
-	SpriteDesc.vScale = _float3{ 200.f, 200.f, 1.f };
-	SpriteDesc.fAniSpeed = 20.f;
-	SpriteDesc.bRandom = false;
-	SpriteDesc.eEffectType = CCameraSprite::eEffectType::BULLETTRACER;
-
-	CGameObject* pObject = nullptr;
-	CGameObject** ppOut = &pObject;
-	if (FAILED(m_pGameInstance->Create_Object_Pool(LEVEL_STATIC, TEXT("Prototype_GameObject_PC_CameraSprite"),
-		TEXT("ObjectPool_Effect_RevolverTacer"), 2, &SpriteDesc)))
-		return E_FAIL;
-#pragma endregion
-
+//#pragma region GUNFIRE
+//	CCameraSprite::DESC SpriteDesc{};
+//	SpriteDesc.bActive = false;
+//	SpriteDesc.fMaxFrame = 3;
+//	SpriteDesc.fRotationPerSec = RADIAN(180.f);
+//	SpriteDesc.fSpeedPerSec = 100.f;
+//	SpriteDesc.szTextureTag = TEXT("Effect_Revolver");
+//	SpriteDesc.vInitPos = _float3{ 750.f, 450.f, 0.1f };
+//	SpriteDesc.vScale = _float3{ 200.f, 200.f, 1.f };
+//	SpriteDesc.fAniSpeed = 20.f;
+//	SpriteDesc.bRandom = false;
+//	SpriteDesc.eEffectType = CCameraSprite::eEffectType::GUNFIRE;
+//
+//	if (FAILED(m_pGameInstance->Create_Object_Pool(LEVEL_STATIC, TEXT("Prototype_GameObject_PC_CameraSprite"),
+//		TEXT("ObjectPool_Effect_Revolver"), 2, &SpriteDesc)))
+//		return E_FAIL;
+//#pragma endregion
+//
+//#pragma region BULLET_TRACER
+//	SpriteDesc.bActive = false;
+//	SpriteDesc.fMaxFrame = 3;
+//	SpriteDesc.fRotationPerSec = RADIAN(180.f);
+//	SpriteDesc.fSpeedPerSec = 100.f;
+//	SpriteDesc.szTextureTag = TEXT("Effect_RevolverTacer");
+//	SpriteDesc.vInitPos = _float3{ 700.f, 400.f, 0.2f };
+//	SpriteDesc.vScale = _float3{ 200.f, 200.f, 1.f };
+//	SpriteDesc.fAniSpeed = 20.f;
+//	SpriteDesc.bRandom = false;
+//	SpriteDesc.eEffectType = CCameraSprite::eEffectType::BULLETTRACER;
+//
+//	CGameObject* pObject = nullptr;
+//	CGameObject** ppOut = &pObject;
+//	if (FAILED(m_pGameInstance->Create_Object_Pool(LEVEL_STATIC, TEXT("Prototype_GameObject_PC_CameraSprite"),
+//		TEXT("ObjectPool_Effect_RevolverTacer"), 2, &SpriteDesc)))
+//		return E_FAIL;
+//#pragma endregion
+//
 #pragma region BLOOD
 	CPSystem::DESC BloodDesc{};
 	BloodDesc.fMaxFrame = 5;
@@ -1275,73 +1290,6 @@ HRESULT CLoader::Loading_For_Boss()
 	lstrcpy(m_szLoadingText, TEXT("데이터를 읽어들이는 중입니다."));
 	Add_Data(TEXT("GamePlayLevelData.csv"));
 
-#pragma region GUNFIRE
-	CCameraSprite::DESC SpriteDesc{};
-	SpriteDesc.bActive = false;
-	SpriteDesc.fMaxFrame = 3;
-	SpriteDesc.fRotationPerSec = RADIAN(180.f);
-	SpriteDesc.fSpeedPerSec = 100.f;
-	SpriteDesc.szTextureTag = TEXT("Effect_Revolver");
-	SpriteDesc.vInitPos = _float3{ 750.f, 450.f, 0.1f };
-	SpriteDesc.vScale = _float3{ 200.f, 200.f, 1.f };
-	SpriteDesc.fAniSpeed = 20.f;
-	SpriteDesc.bRandom = false;
-	SpriteDesc.eEffectType = CCameraSprite::eEffectType::GUNFIRE;
-
-	if (FAILED(m_pGameInstance->Create_Object_Pool(LEVEL_STATIC, TEXT("Prototype_GameObject_PC_CameraSprite"),
-		TEXT("ObjectPool_Effect_Revolver"), 2, &SpriteDesc)))
-		return E_FAIL;
-#pragma endregion
-
-#pragma region BULLET_TRACER
-	SpriteDesc.bActive = false;
-	SpriteDesc.fMaxFrame = 3;
-	SpriteDesc.fRotationPerSec = RADIAN(180.f);
-	SpriteDesc.fSpeedPerSec = 100.f;
-	SpriteDesc.szTextureTag = TEXT("Effect_RevolverTacer");
-	SpriteDesc.vInitPos = _float3{ 700.f, 400.f, 0.2f };
-	SpriteDesc.vScale = _float3{ 200.f, 200.f, 1.f };
-	SpriteDesc.fAniSpeed = 20.f;
-	SpriteDesc.bRandom = false;
-	SpriteDesc.eEffectType = CCameraSprite::eEffectType::BULLETTRACER;
-
-	CGameObject* pObject = nullptr;
-	CGameObject** ppOut = &pObject;
-	if (FAILED(m_pGameInstance->Create_Object_Pool(LEVEL_STATIC, TEXT("Prototype_GameObject_PC_CameraSprite"),
-		TEXT("ObjectPool_Effect_RevolverTacer"), 2, &SpriteDesc)))
-		return E_FAIL;
-#pragma endregion
-
-#pragma region BLOOD
-	CPSystem::DESC BloodDesc{};
-	BloodDesc.fMaxFrame = 5;
-	BloodDesc.szTextureTag = TEXT("PS_Blood");
-	BloodDesc.fSize = 3.f;
-	if (FAILED(m_pGameInstance->Create_Object_Pool(LEVEL_STATIC, TEXT("Prototype_GameObject_PC_Blood"),
-		TEXT("ObjectPool_Effect_PS_Blood"), 40, &BloodDesc)))
-		return E_FAIL;
-#pragma endregion
-
-#pragma region BULLETIMPACTSPARK
-	CPSystem::DESC BulletImpactSparkDesc{};
-	BulletImpactSparkDesc.vPosition.y += -20.f;
-	BulletImpactSparkDesc.fMaxFrame = 1;
-	BulletImpactSparkDesc.szTextureTag = TEXT("PC_Generic");
-	BulletImpactSparkDesc.fSize = 0.45f;
-	if (FAILED(m_pGameInstance->Create_Object_Pool(LEVEL_STATIC, TEXT("Prototype_GameObject_PC_BulletImpactSpark"),
-		TEXT("ObjectPool_PC_BulletImpactSpark"), 20, &BulletImpactSparkDesc)))
-		return E_FAIL;
-#pragma endregion
-
-#pragma region EmptyBullet
-	CPSystem::DESC EmptyBulletDesc{};
-	EmptyBulletDesc.fMaxFrame = 7;
-	EmptyBulletDesc.szTextureTag = TEXT("PC_BulletShell");
-	EmptyBulletDesc.fSize = 0.13f;
-	if (FAILED(m_pGameInstance->Create_Object_Pool(LEVEL_STATIC, TEXT("Prototype_GameObject_PC_EmptyBullet"),
-		TEXT("ObjectPool_PC_EmptyBullet"), 20, &EmptyBulletDesc)))
-		return E_FAIL;
-#pragma endregion
 	return S_OK;
 }
 

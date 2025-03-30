@@ -67,6 +67,8 @@ public: //보스스킬
 	void FireAttack(_float3 _vPosition, LEVEL eLevel, _int _iNum);
 	void JumpAttack(_float3 _vPosition, LEVEL eLevel);
 
+public: 
+	void PlayerDash(LEVEL eLevel); // 하나만 쓰겠습니다 감사합니다.
 
 public:
 	float GetRandomValue(float min, float max)

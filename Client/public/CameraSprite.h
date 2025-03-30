@@ -6,7 +6,7 @@ BEGIN(Client)
 class CCameraSprite final : public CEffect
 {
 public:
-	enum eEffectType { GUNFIRE , BULLETTRACER, FIRE , NONE };
+	enum eEffectType { GUNFIRE , BULLETTRACER, FIRE, DASH , NONE };
 public:
 	typedef struct tagSpriteDesc : public CEffect::DESC
 	{
@@ -44,7 +44,7 @@ public:
 	virtual void Free();
 
 public:
-	void	isActive(bool _bActive) {}// m_bActive = _bActive;
+	void	isActive(bool _bActive) {}
 
 private:
 	//bool				m_bActive = false;

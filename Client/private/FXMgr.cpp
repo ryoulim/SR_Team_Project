@@ -35,20 +35,20 @@ void CFXMgr::Update(_float fTimeDelta)
 
 
 	//카메라 스프라이트 테스트
-	if (MOUSE_PRESSING(DIMK_LBUTTON))
-	{
-		for (auto SceenEffect : m_vecSceenEffect)
-		{
-			SceenEffect->isActive(true);
-		}
-	}
-	else
-	{
-		for (auto SceenEffect : m_vecSceenEffect)
-		{
-			SceenEffect->isActive(false);
-		}
-	}
+	//if (MOUSE_PRESSING(DIMK_LBUTTON))
+	//{
+	//	for (auto SceenEffect : m_vecSceenEffect)
+	//	{
+	//		SceenEffect->isActive(true);
+	//	}
+	//}
+	//else
+	//{
+	//	for (auto SceenEffect : m_vecSceenEffect)
+	//	{
+	//		SceenEffect->isActive(false);
+	//	}
+	//}
 }
 
 void CFXMgr::LateUpdate()
@@ -322,7 +322,7 @@ void CFXMgr::SpawnGunFire(_float3 _ScreenPos, LEVEL eLevel)
 		eLevel, L"Layer_Particle", ppOut, &SpriteDesc)))
 		return;
 
-	m_vecSceenEffect.push_back(dynamic_cast<CCameraSprite*>(*ppOut));
+	//m_vecSceenEffect.push_back(dynamic_cast<CCameraSprite*>(*ppOut));
 }
 void CFXMgr::SpawnBulletTracer(_float3 _ScreenPos, LEVEL eLevel)
 {
@@ -345,7 +345,7 @@ void CFXMgr::SpawnBulletTracer(_float3 _ScreenPos, LEVEL eLevel)
 		eLevel, L"Layer_Particle", ppOut, &SpriteDesc)))
 		return;
 
-	m_vecSceenEffect.push_back(dynamic_cast<CCameraSprite*>(*ppOut));
+	//m_vecSceenEffect.push_back(dynamic_cast<CCameraSprite*>(*ppOut));
 }
 void CFXMgr::SpawnBulletTracerMachineGun(_float3 _ScreenPos, LEVEL eLevel)
 {
@@ -368,7 +368,7 @@ void CFXMgr::SpawnBulletTracerMachineGun(_float3 _ScreenPos, LEVEL eLevel)
 		eLevel, L"Layer_Particle", ppOut, &SpriteDesc)))
 		return;
 
-	m_vecSceenEffect.push_back(dynamic_cast<CCameraSprite*>(*ppOut));
+	//m_vecSceenEffect.push_back(dynamic_cast<CCameraSprite*>(*ppOut));
 }
 void CFXMgr::SpawnGunFireMachineGun(_float3 _ScreenPos, LEVEL eLevel)
 {
@@ -391,7 +391,7 @@ void CFXMgr::SpawnGunFireMachineGun(_float3 _ScreenPos, LEVEL eLevel)
 		eLevel, L"Layer_Particle", ppOut, &SpriteDesc)))
 		return;
 
-	m_vecSceenEffect.push_back(dynamic_cast<CCameraSprite*>(*ppOut));
+	//m_vecSceenEffect.push_back(dynamic_cast<CCameraSprite*>(*ppOut));
 }
 void CFXMgr::SpawnFireMachineGun(_float3 _ScreenPos, LEVEL eLevel)
 {
@@ -414,7 +414,7 @@ void CFXMgr::SpawnFireMachineGun(_float3 _ScreenPos, LEVEL eLevel)
 		eLevel, L"Layer_Particle", ppOut, &SpriteDesc)))
 		return;
 
-	m_vecSceenEffect.push_back(dynamic_cast<CCameraSprite*>(*ppOut));
+	//m_vecSceenEffect.push_back(dynamic_cast<CCameraSprite*>(*ppOut));
 }
 void CFXMgr::SpawnTornado(_float3 _vPosition, LEVEL eLevel)
 {
@@ -661,6 +661,23 @@ void CFXMgr::JumpAttack(_float3 _vPosition, LEVEL eLevel)
 	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_PC_JumpAttack"),
 		LEVEL_GAMEPLAY, L"Layer_Particle", &JumpAttackDesc2)))
 		return;
+}
+
+void CFXMgr::PlayerDash(LEVEL eLevel)
+{
+	CCameraSprite::DESC SpriteDesc{};
+	SpriteDesc.fMaxFrame = 10;
+	SpriteDesc.szTextureTag = TEXT("Effect_Dash");
+	SpriteDesc.vScale = _float3{ FWINCX, FWINCY, 1.f };
+	SpriteDesc.vInitPos = { g_iWinSizeX * 0.5f, g_iWinSizeY * 0.5f,1.f }; 
+	SpriteDesc.fAniSpeed = 20.f;
+	SpriteDesc.bRandom = false;
+	SpriteDesc.eEffectType = CCameraSprite::eEffectType::DASH;
+;
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_PC_CameraSprite"),
+		eLevel, L"Layer_Particle", &SpriteDesc)))
+		return;
+
 }
 
 void CFXMgr::SpawnRain(LEVEL eLevel)

@@ -98,7 +98,7 @@ HRESULT CMainApp::Initialize()
 	Desc.iWinSizeY = g_iWinSizeY;
 	Desc.iNumLevels = LEVEL_END;
 	Desc.INumColliderGroups = CG_END;
-	Desc.strBankFilePath = "../bin/BankFiles/";
+	//Desc.strBankFilePath = "../bin/BankFiles/";
 
 	CFXMgr::Get_Instance()->Initialize();
 
@@ -114,15 +114,15 @@ HRESULT CMainApp::Initialize()
 	if (FAILED(Ready_Default_Setting()))
 		return E_FAIL;
 
-	/*모든레벨에서 쓰이는 컴포넌트의 프로토타입을 생성하는 함수입니다.*/
+	/*로딩레벨에서 쓰이는 컴포넌트의 프로토타입을 생성하는 함수입니다.*/
 	if (FAILED(Ready_Component_For_Static()))
 		return E_FAIL;
 
-	/*모든레벨에서 쓰이는 오브젝트의 프로토타입을 생성하는 함수입니다.*/
+	/*로딩레벨에서 쓰이는 오브젝트의 프로토타입을 생성하는 함수입니다.*/
 	if(FAILED(Ready_Protype_Object_For_Static()))
 		return E_FAIL;
 
-	/*모든레벨에서 쓰이는 오브젝트의 사본을 생성하는 함수입니다.*/
+	/*로딩레벨에서 쓰이는 오브젝트의 사본을 생성하는 함수입니다.*/
 	if (FAILED(Ready_Object_For_Static()))
 		return E_FAIL;
 
@@ -134,11 +134,11 @@ HRESULT CMainApp::Initialize()
 	if (FAILED(Ready_Debug_Mode()))
 		return E_FAIL;
 
-	if (FAILED(m_pGameInstance->LoadBank("Master")))
-		return E_FAIL;
+	//if (FAILED(m_pGameInstance->LoadBank("Master")))
+	//	return E_FAIL;
 
-	if (FAILED(m_pGameInstance->LoadBank("Master.strings")))
-		return E_FAIL;
+	//if (FAILED(m_pGameInstance->LoadBank("Master.strings")))
+	//	return E_FAIL;
 
 	ShowCursor(FALSE);
 

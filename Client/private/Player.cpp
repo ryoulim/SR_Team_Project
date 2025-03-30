@@ -4,6 +4,7 @@
 #include "Player.h"
 #include "GameInstance.h"
 #include "CameraManager.h"
+#include "FXMgr.h"
 
 // 무기들 인클루드
 //#include "Weapon_LoverBoy.h"
@@ -204,6 +205,8 @@ void CPlayer::Key_Input(_float fTimeDelta)
 		m_fDashTimer < -DASH_COOLTIME	&&
 		m_vPrePosition != *m_pTransformCom->Get_State(CTransform::STATE_POSITION))
 	{
+		CFXMgr::Get_Instance()->PlayerDash(m_eLevelID);
+
 		m_vDashDirection = (*m_pTransformCom->Get_State(CTransform::STATE_POSITION)
 			- m_vPrePosition).Normalize() * DASH_SPEED;
 		m_vDashDirection.y = 0.f;

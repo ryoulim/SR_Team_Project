@@ -90,10 +90,7 @@ EVENT CCameraSprite::Update(_float fTimeDelta)
 
 	FrameUpdate(fTimeDelta, m_fAnimationMaxFrame, m_fAnimationSpeed, false);
 	if (m_fAnimationMaxFrame <= m_fAnimationFrame)
-	{
-		m_pGameInstance->Deactive_Object(_wstring(TEXT("ObjectPool_")) + m_szTextureID, this);
-		return EVN_OFF;
-	}
+		return EVN_DEAD;
 
 	return __super::Update(fTimeDelta);
 }
@@ -113,14 +110,6 @@ HRESULT CCameraSprite::SetUp_RenderState()
 	m_pGraphic_Device->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
 	m_pGraphic_Device->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
 	m_pGraphic_Device->SetRenderState(D3DRS_BLENDOP, D3DBLENDOP_ADD);
-
-
-	// 저희 프레임워크 UI 랜더그룹에 넣으면 이거 필요없어요
-	//m_pGraphic_Device->GetTransform(D3DTS_VIEW, &m_OldViewMatrix);
-	//m_pGraphic_Device->GetTransform(D3DTS_PROJECTION, &m_OldProjMatrix);
-
-	//m_pGraphic_Device->SetTransform(D3DTS_VIEW, &m_ViewMatrix);
-	//m_pGraphic_Device->SetTransform(D3DTS_PROJECTION, &m_ProjMatrix);
 
 	return S_OK;
 }
@@ -150,9 +139,6 @@ HRESULT CCameraSprite::Release_RenderState()
 {
 	m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
 	m_pGraphic_Device->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
-
-	//m_pGraphic_Device->SetTransform(D3DTS_VIEW, &m_OldViewMatrix);
-	//m_pGraphic_Device->SetTransform(D3DTS_PROJECTION, &m_OldProjMatrix);
 
 	return S_OK;
 }
