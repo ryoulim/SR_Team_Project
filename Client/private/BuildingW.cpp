@@ -25,11 +25,6 @@ HRESULT CBuildingW::Initialize(void* pArg)
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
 
-	m_pTransformCom->Scaling(_float3(800.f, 500.f, 720.f));
-	m_pTransformCom->Set_State(CTransform::STATE_POSITION, _float3(-200.f, 250.f, 250.f));
-
-
-
 	/**************************************************************/
 	// 임시로 이 빌딩에만 추가했는데 부모에 넣긴 뭐해서 필요한 곳에 셰이더 컴포넌트를 생성하시오
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Shader"),

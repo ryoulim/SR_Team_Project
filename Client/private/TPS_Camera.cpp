@@ -28,7 +28,7 @@ HRESULT CTPS_Camera::Initialize(void* pArg)
 
 void CTPS_Camera::Priority_Update(_float fTimeDelta)
 {
-	/*if (KEY_PRESSING(DIK_A))
+	if (KEY_PRESSING(DIK_A))
 	{
 		m_pTransformCom->Go_Left(fTimeDelta);
 	}
@@ -43,7 +43,12 @@ void CTPS_Camera::Priority_Update(_float fTimeDelta)
 	if (KEY_PRESSING(DIK_S))
 	{
 		m_pTransformCom->Go_Backward(fTimeDelta);
-	}*/
+	}
+
+	if (KEY_PRESSING(DIK_UP))
+	{
+		m_pTransformCom->Go_Up(fTimeDelta);
+	}
 
 	Bind_Resource();
 }

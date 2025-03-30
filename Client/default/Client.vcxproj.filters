@@ -376,6 +376,15 @@
     <Filter Include="01.Levels\02. Indoor">
       <UniqueIdentifier>{28e29652-c666-48a6-98b3-c2bfe2ffccd2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01.Levels\04. Race\First">
+      <UniqueIdentifier>{69a31c4c-6f81-4bce-9c0b-0edbe3ccbff8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Levels\04. Race\Second">
+      <UniqueIdentifier>{01347779-2021-476c-97fb-934d1a3a0324}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Levels\04. Race\Third">
+      <UniqueIdentifier>{ddbf0416-6761-4365-babd-545fed9fd109}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -651,9 +660,6 @@
     <ClInclude Include="..\public\Canopy.h">
       <Filter>02.GameObjects\Statue\Canopy</Filter>
     </ClInclude>
-    <ClInclude Include="..\public\Level_Race.h">
-      <Filter>01.Levels\04. Race</Filter>
-    </ClInclude>
     <ClInclude Include="..\public\RaceTerrain.h">
       <Filter>02.GameObjects\Map\Race</Filter>
     </ClInclude>
@@ -758,6 +764,15 @@
     </ClInclude>
     <ClInclude Include="..\public\Level_Boss.h">
       <Filter>01.Levels\05. Boss</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Level_RaceFirst.h">
+      <Filter>01.Levels\04. Race\First</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Level_RaceSecond.h">
+      <Filter>01.Levels\04. Race\Second</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Level_RaceThird.h">
+      <Filter>01.Levels\04. Race\Third</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1023,9 +1038,6 @@
     <ClCompile Include="..\private\FXMgr.cpp">
       <Filter>02.GameObjects\Particle</Filter>
     </ClCompile>
-    <ClCompile Include="..\private\Level_Race.cpp">
-      <Filter>01.Levels\04. Race</Filter>
-    </ClCompile>
     <ClCompile Include="..\private\RaceTerrain.cpp">
       <Filter>02.GameObjects\Map\Race</Filter>
     </ClCompile>
@@ -1130,6 +1142,15 @@
     </ClCompile>
     <ClCompile Include="..\private\MonsterNormalBullet.cpp">
       <Filter>02.GameObjects\Weapon\Bullet\MonsterNormalBullet</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Level_RaceFirst.cpp">
+      <Filter>01.Levels\04. Race\First</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Level_RaceSecond.cpp">
+      <Filter>01.Levels\04. Race\Second</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Level_RaceThird.cpp">
+      <Filter>01.Levels\04. Race\Third</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -25,6 +25,8 @@
 
 #include "Sky.h"
 
+#include "PlayerOnBoat.h"
+
 #ifdef _IMGUI
 
 void ImGui::Render_Begin()
@@ -223,6 +225,13 @@ HRESULT CMainApp::Ready_Component_For_Static()
 
 #pragma endregion
 
+#pragma region 레이싱 레벨 플레이어
+	ADD_TEXTURE(PlayerOnBoat, "../Bin/Resources/Textures/Player/PlayerOnBoat/Tile15947.PNG", 1);
+
+
+
+#pragma endregion
+
 	return S_OK;
 }
 
@@ -252,6 +261,8 @@ HRESULT CMainApp::Ready_Protype_Object_For_Static()
 	ADD_PRTOBJ(Ammo);// 치워도돼
 	ADD_PRTOBJ(Portrait);// 치워도돼
 	ADD_PRTOBJ(Armor);// 치워도돼
+
+	ADD_PRTOBJ(PlayerOnBoat);
 
 #pragma region PLAYER
 	ADD_PRTOBJ(Player);
@@ -287,6 +298,17 @@ HRESULT CMainApp::Ready_Object_For_Static()
 	UICameraDesc.vEye = { 0.f,0.f,0.f };
 	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_UI_Camera"),
 		LEVEL_STATIC, TEXT("Layer_Camera"), &UICameraDesc)))
+		return E_FAIL;
+
+	CCamera::DESC desc = {};
+	desc.vEye = _float3(0.f, 0.f, -20.f);
+	desc.vAt = _float3();
+	desc.fFov = 60.f;
+	desc.fNear = 0.1f;
+	desc.fFar = 2000.f;
+
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_TPS_Camera"),
+		LEVEL_STATIC, TEXT("Layer_Camera"), &desc)))
 		return E_FAIL;
 
 	return S_OK;

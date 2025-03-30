@@ -83,7 +83,7 @@ void CLevel_GamePlay::Update(_float fTimeDelta)
 	if (KEY_DOWN(DIK_F11))
 	{
 		if (FAILED(m_pGameInstance->Change_Level(LEVEL_LOADING,
-			CLevel_Loading::Create(m_pGraphic_Device, LEVEL_RACE))))
+			CLevel_Loading::Create(m_pGraphic_Device, LEVEL_RACEFIRST))))
 			return;
 	}
 
