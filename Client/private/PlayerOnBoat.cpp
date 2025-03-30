@@ -18,14 +18,14 @@ HRESULT CPlayerOnBoat::Initialize_Prototype()
 
 HRESULT CPlayerOnBoat::Initialize(void* pArg)
 {
-	m_eLevelID = LEVEL_RACE;
 	m_szTextureID = TEXT("PlayerOnBoat");
 	m_szBufferType = TEXT("Rect");
 
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
 
-	CGameObject* FPS_Camera = m_pGameInstance->Find_Object(LEVEL_RACE, TEXT("Layer_Camera"), 0);
+	//TPS카메라는 Layer_Camera의 3번째에 있습니다.
+	CGameObject* FPS_Camera = m_pGameInstance->Find_Object(LEVEL_STATIC, TEXT("Layer_Camera"), 2);
 	m_pCameraTransform = static_cast<CTransform*>(FPS_Camera->Find_Component(TEXT("Com_Transform")));
 	Safe_AddRef(m_pCameraTransform);
 
@@ -34,7 +34,14 @@ HRESULT CPlayerOnBoat::Initialize(void* pArg)
 
 void CPlayerOnBoat::Priority_Update(_float fTimeDelta)
 {
-	Key_Input(fTimeDelta);
+	if (m_pTransformCom->Get_State(CTransform::STATE_POSITION)->z > 9500.f
+		|| m_pTransformCom->Get_State(CTransform::STATE_POSITION)->z < 100.f)
+	{
+		m_pTransformCom->Go_Straight(fTimeDelta);
+	}
+
+	else
+		Key_Input(fTimeDelta);
 
 	__super::Priority_Update(fTimeDelta);
 }

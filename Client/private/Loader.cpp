@@ -146,8 +146,16 @@ HRESULT CLoader::Loading()
 		hr = Loading_For_GamePlay();
 		break;
 
-	case LEVEL_RACE:
-		hr = Loading_For_Race();
+	case LEVEL_RACEFIRST:
+		hr = Loading_For_RaceFirst();
+		break;
+
+	case LEVEL_RACESECOND:
+		hr = Loading_For_RaceSecond();
+		break;
+
+	case LEVEL_RACETHIRD:
+		hr = Loading_For_RaceThird();
 		break;
 
 	case LEVEL_BOSS:
@@ -855,12 +863,11 @@ HRESULT CLoader::Loading_For_GamePlay()
 	return S_OK;
 }
 
-HRESULT CLoader::Loading_For_Race()/**/
+HRESULT CLoader::Loading_For_RaceFirst()/**/
 {
 	lstrcpy(m_szLoadingText, TEXT("텍스쳐을(를) 로딩중입니다."));
 	ADD_TEXTURE(RaceTerrain, "../Bin/Resources/Textures/Map/RaceTerrain/RaceTerrain%d.PNG", 2);
 	ADD_TEXTURE(RaceLandscape, "../Bin/Resources/Textures/Object/RaceLandscape/Tile15415.PNG", 1);
-	ADD_TEXTURE(PlayerOnBoat, "../Bin/Resources/Textures/Player/PlayerOnBoat/Tile15947.PNG", 1);
 	ADD_TEXTURE(BuildingH, "../Bin/Resources/Textures/Object/BuildingH/BuildingH%d.PNG", 4);
 	ADD_TEXTURE(BuildingW, "../Bin/Resources/Textures/Object/BuildingW/BuildingW.PNG", 1);
 	ADD_TEXTURE(BuildingV, "../Bin/Resources/Textures/Object/BuildingV/BuildingV.PNG", 1);
@@ -868,11 +875,11 @@ HRESULT CLoader::Loading_For_Race()/**/
 	ADD_TEXTURE(RaceGate, "../Bin/Resources/Textures/Object/RaceGate/RaceGate%d.PNG", 3);
 	ADD_TEXTURE(RaceCylinder, "../Bin/Resources/Textures/Object/RaceCylinder/RaceCylinder%d.PNG", 3);
 
-	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_RACE, TEXT("Prototype_Component_Texture_StreetLampHead"),
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_RACEFIRST, TEXT("Prototype_Component_Texture_StreetLampHead"),
 		CTexture::Create(m_pGraphic_Device, TEXT("../Bin/Resources/Textures/Object/StreetLamp/StreetLampHead.PNG"), 1))))
 		return E_FAIL;
 
-	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_RACE, TEXT("Prototype_Component_Texture_StreetLampPillar"),
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_RACEFIRST, TEXT("Prototype_Component_Texture_StreetLampPillar"),
 		CTexture::Create(m_pGraphic_Device, TEXT("../Bin/Resources/Textures/Object/StreetLamp/StreetLampPillar.PNG"), 1))))
 		return E_FAIL;
 
@@ -886,62 +893,78 @@ HRESULT CLoader::Loading_For_Race()/**/
 	lstrcpy(m_szLoadingText, TEXT("원형객체을(를) 로딩중입니다."));
 	ADD_PRTOBJ(RaceTerrain);
 	ADD_PRTOBJ(RaceGate);
-
-	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_RACE, TEXT("Prototype_GameObject_RaceLandscapeLeft"),
-		CRaceLandscape::Create(m_pGraphic_Device))))
-		return E_FAIL;
-
-	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_RACE, TEXT("Prototype_GameObject_RaceLandscapeRight"),
-		CRaceLandscape::Create(m_pGraphic_Device))))
-		return E_FAIL;
-
-	ADD_PRTOBJ(PlayerOnBoat);
+	ADD_PRTOBJ(RaceLandscape);
 	ADD_PRTOBJ(BuildingH);
+	ADD_PRTOBJ(BuildingU);
+	ADD_PRTOBJ(BuildingV);
+	ADD_PRTOBJ(BuildingW);
 	ADD_PRTOBJ(RaceCylinder);
 	
-	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_RACE, TEXT("Prototype_GameObject_BuildingW1"),
-		CBuildingW::Create(m_pGraphic_Device))))
-		return E_FAIL;
-
-	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_RACE, TEXT("Prototype_GameObject_BuildingW2"),
-		CBuildingW::Create(m_pGraphic_Device))))
-		return E_FAIL;
-
-	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_RACE, TEXT("Prototype_GameObject_BuildingW3"),
-		CBuildingW::Create(m_pGraphic_Device))))
-		return E_FAIL;
-	
-	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_RACE, TEXT("Prototype_GameObject_BuildingV1"),
-		CBuildingV::Create(m_pGraphic_Device))))
-		return E_FAIL;
-
-	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_RACE, TEXT("Prototype_GameObject_BuildingV2"),
-		CBuildingV::Create(m_pGraphic_Device))))
-		return E_FAIL;
-
-	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_RACE, TEXT("Prototype_GameObject_BuildingV3"),
-		CBuildingV::Create(m_pGraphic_Device))))
-		return E_FAIL;
-
-	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_RACE, TEXT("Prototype_GameObject_BuildingU1"),
-		CBuildingU::Create(m_pGraphic_Device))))
-		return E_FAIL;
-
-	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_RACE, TEXT("Prototype_GameObject_BuildingU2"),
-		CBuildingU::Create(m_pGraphic_Device))))
-		return E_FAIL;
-
-	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_RACE, TEXT("Prototype_GameObject_BuildingU3"),
-		CBuildingU::Create(m_pGraphic_Device))))
-		return E_FAIL;
-
-	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_RACE, TEXT("Prototype_GameObject_BuildingU4"),
-		CBuildingU::Create(m_pGraphic_Device))))
-		return E_FAIL;
-
-	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_RACE, TEXT("Prototype_GameObject_StreetLampHead"),
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_RACEFIRST, TEXT("Prototype_GameObject_StreetLampHead"),
 		CStreetLampHead::Create(m_pGraphic_Device))))
 		return E_FAIL;
+
+	lstrcpy(m_szLoadingText, TEXT("데이터를 읽어들이는 중입니다."));
+	Add_Data(TEXT("GamePlayLevelData.csv"));
+
+	lstrcpy(m_szLoadingText, TEXT("로딩이 완료되었습니다."));
+	m_isFinished = true;
+
+	return S_OK;
+}
+
+HRESULT CLoader::Loading_For_RaceSecond()
+{
+	lstrcpy(m_szLoadingText, TEXT("텍스쳐을(를) 로딩중입니다."));
+	ADD_TEXTURE(RaceTerrain, "../Bin/Resources/Textures/Map/RaceTerrain/RaceTerrain%d.PNG", 2);
+	ADD_TEXTURE(RaceLandscape, "../Bin/Resources/Textures/Object/RaceLandscape/Tile15415.PNG", 1);
+	ADD_TEXTURE(RaceGate, "../Bin/Resources/Textures/Object/RaceGate/RaceGate%d.PNG", 3);
+	ADD_TEXTURE(RaceCylinder, "../Bin/Resources/Textures/Object/RaceCylinder/RaceCylinder%d.PNG", 3);
+	ADD_TEXTURE(BuildingW, "../Bin/Resources/Textures/Object/BuildingW/BuildingW.PNG", 1);
+
+	lstrcpy(m_szLoadingText, TEXT("모델을(를) 로딩중입니다."));
+	ADD_MODEL_EX(RaceTerrain, 10, 1000);
+
+	lstrcpy(m_szLoadingText, TEXT("사운드을(를) 로딩중입니다."));
+
+	lstrcpy(m_szLoadingText, TEXT("원형객체을(를) 로딩중입니다."));
+	ADD_PRTOBJ(RaceTerrain);
+	ADD_PRTOBJ(RaceGate);
+	ADD_PRTOBJ(RaceLandscape);
+	ADD_PRTOBJ(RaceCylinder);
+	ADD_PRTOBJ(BuildingW);
+	
+
+	lstrcpy(m_szLoadingText, TEXT("데이터를 읽어들이는 중입니다."));
+	Add_Data(TEXT("GamePlayLevelData.csv"));
+
+	lstrcpy(m_szLoadingText, TEXT("로딩이 완료되었습니다."));
+	m_isFinished = true;
+
+	return S_OK;
+}
+
+HRESULT CLoader::Loading_For_RaceThird()
+{
+	lstrcpy(m_szLoadingText, TEXT("텍스쳐을(를) 로딩중입니다."));
+	ADD_TEXTURE(RaceTerrain, "../Bin/Resources/Textures/Map/RaceTerrain/RaceTerrain%d.PNG", 2);
+	ADD_TEXTURE(RaceLandscape, "../Bin/Resources/Textures/Object/RaceLandscape/Tile15415.PNG", 1);
+	ADD_TEXTURE(RaceGate, "../Bin/Resources/Textures/Object/RaceGate/RaceGate%d.PNG", 3);
+	ADD_TEXTURE(RaceCylinder, "../Bin/Resources/Textures/Object/RaceCylinder/RaceCylinder%d.PNG", 3);
+	ADD_TEXTURE(BuildingW, "../Bin/Resources/Textures/Object/BuildingW/BuildingW.PNG", 1);
+
+	lstrcpy(m_szLoadingText, TEXT("모델을(를) 로딩중입니다."));
+	ADD_MODEL_EX(RaceTerrain, 10, 1000);
+
+	lstrcpy(m_szLoadingText, TEXT("사운드을(를) 로딩중입니다."));
+
+	lstrcpy(m_szLoadingText, TEXT("원형객체을(를) 로딩중입니다."));
+	ADD_PRTOBJ(RaceTerrain);
+	ADD_PRTOBJ(RaceGate);
+	ADD_PRTOBJ(RaceLandscape);
+	ADD_PRTOBJ(RaceCylinder);
+	ADD_PRTOBJ(BuildingW);
+	
 
 	lstrcpy(m_szLoadingText, TEXT("데이터를 읽어들이는 중입니다."));
 	Add_Data(TEXT("GamePlayLevelData.csv"));

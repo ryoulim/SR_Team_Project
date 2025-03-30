@@ -54,7 +54,9 @@ private:
 private:
 	HRESULT Loading_For_Logo();
 	HRESULT Loading_For_GamePlay();
-	HRESULT Loading_For_Race();
+	HRESULT Loading_For_RaceFirst();
+	HRESULT Loading_For_RaceSecond();
+	HRESULT Loading_For_RaceThird();
 	HRESULT Loading_For_Boss();
 	HRESULT Loading_For_Indoor();
 	HRESULT Add_Data(const _wstring& strFilePath);

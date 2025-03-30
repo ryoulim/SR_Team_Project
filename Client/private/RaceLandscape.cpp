@@ -53,7 +53,7 @@ HRESULT CRaceLandscape::Render()
 
 void CRaceLandscape::Surface_Plane()
 {
-	CGameObject* pRaceTerrain = m_pGameInstance->Find_Object(LEVEL_RACE, TEXT("Layer_RaceTerrain"), 0);
+	CGameObject* pRaceTerrain = m_pGameInstance->Find_Object(LEVEL_RACEFIRST, TEXT("Layer_RaceTerrain"), 0);
 	Safe_AddRef(pRaceTerrain);
 
 	//m_pTransformCom->Set_State()

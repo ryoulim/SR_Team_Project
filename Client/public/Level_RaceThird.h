@@ -5,11 +5,11 @@
 
 BEGIN(Client)
 
-class CLevel_Race : public CLevel
+class CLevel_RaceThird : public CLevel
 {
 private:
-	CLevel_Race(LPDIRECT3DDEVICE9 pGraphic_Device);
-	virtual ~CLevel_Race() = default;
+	CLevel_RaceThird(LPDIRECT3DDEVICE9 pGraphic_Device);
+	virtual ~CLevel_RaceThird() = default;
 
 public:
 	virtual HRESULT Initialize(class CLevelData* pLevelData);
@@ -19,12 +19,10 @@ public:
 private:
 	HRESULT Ready_Layer_Terrain(const _wstring& strLayerTag);
 	HRESULT Ready_Layer_Statue(const _wstring& strLayerTag);
-	HRESULT Ready_Layer_Statue2(const _wstring& strLayerTag);
-	HRESULT Ready_Layer_Camera(const _wstring& strLayerTag);
 	HRESULT Ready_Layer_Pawn(const _wstring& strLayerTag);
 
 public:
-	static CLevel_Race* Create(LPDIRECT3DDEVICE9 pGraphic_Device, class CLevelData* pLevelData);
+	static CLevel_RaceThird* Create(LPDIRECT3DDEVICE9 pGraphic_Device, class CLevelData* pLevelData);
 	virtual void Free()override;
 };
 
