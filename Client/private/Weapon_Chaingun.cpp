@@ -9,8 +9,6 @@
 #define ST_RELEASE ST_RELOAD
 #define RELEASE Reload
 
-#define LERP(a, b, t)  a + (b - a) * t
-
 CWeapon_Chaingun::CWeapon_Chaingun(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CWeapon{ pGraphic_Device }
 {

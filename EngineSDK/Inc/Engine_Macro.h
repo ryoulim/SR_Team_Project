@@ -10,6 +10,7 @@
 #define SQUARE(X)   (X)*(X)
 #define G_FORCE     9.80665f
 #define PERCENT(X)	((X) - rand()%100 > 0)
+#define LERP(a, b, t) ((a) + ((b) - (a)) * (t))
 
 #ifdef ENGINE_EXPORTS
 #define ENGINE_DLL _declspec(dllexport)

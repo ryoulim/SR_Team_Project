@@ -70,6 +70,11 @@ void CCameraManager::StartRecoil(_float fIntensity, _float fDuration)
 	static_cast<CFPS_Camera*>(m_Cameras[m_eID])->StartRecoil(fIntensity, fDuration);
 }
 
+void CCameraManager::Zoom(_float fFOV, _float Time)
+{
+	static_cast<CFPS_Camera*>(m_Cameras[m_eID])->Zoom(fFOV, Time);
+}
+
 
 void CCameraManager::Switch(_bool isFPSMode)
 {

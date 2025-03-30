@@ -32,7 +32,6 @@ HRESULT CGrenadeBullet::Initialize(void* pArg)
 
 	//m_pGravityCom->Jump(30.f);
 
-
 	m_fSpeedperSec = pDesc->fSpeedPerSec;
 	m_fTimeLimit = pDesc->fTimeLimit;
 	m_fJumpPower = pDesc->fInitJumpPower;

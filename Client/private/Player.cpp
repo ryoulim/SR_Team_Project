@@ -12,7 +12,7 @@
 #define DASH_TIME 0.25f
 #define JUST_DASH_TIME 0.15f
 #define DASH_SPEED 1500.f
-#define DASH_COOLTIME 2.f
+#define DASH_COOLTIME 0.7f
 
 CPlayer::CPlayer(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CPawn{ pGraphic_Device }
@@ -31,22 +31,17 @@ HRESULT CPlayer::Initialize_Prototype()
 
 HRESULT CPlayer::Initialize(void* pArg)
 {
+	m_tInfo.iHP = 100;
+	m_tInfo.iArmor = 0;
+	m_fDashTimer = -DASH_COOLTIME;
+
 	m_szTextureID = TEXT("MyCube");
 	m_szBufferType = TEXT("Cube");
 
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
 
-	//카메라 매니저 가져옴
-	m_pCameraManager = static_cast<CCameraManager*>(m_pGameInstance->Find_Object(LEVEL_STATIC, L"Layer_Camera"));
-	Safe_AddRef(m_pCameraManager);
-
-	// FPS 카매라 뺴옴
-	auto FPS_Camera = m_pCameraManager->Get_Camera(CCameraManager::FPS);
-
-	// FPS 카메라의 트랜스폼 정보를 받아둠
-	m_pCameraTransform = static_cast<CTransform*>(FPS_Camera->Find_Component(TEXT("Com_Transform")));
-	Safe_AddRef(m_pCameraTransform);
+	Init_Camera_Link();
 
 	Add_Weapons();
 
@@ -167,7 +162,7 @@ void CPlayer::Add_Weapons()
 			PROTOTYPE::TYPE_GAMEOBJECT, m_eLevelID,
 			TEXT("Prototype_GameObject_Weapon_Dispenser"), &WeaponDesc)));
 
-	//CUI_Manager::Get_Instance()->Change_Weapon(m_Weapons[m_iCurWeaponIndex]->Get_Info());
+	CUI_Manager::Get_Instance()->Change_Weapon(m_Weapons[m_iCurWeaponIndex]->Get_Info());
 }
 
 void CPlayer::Key_Input(_float fTimeDelta)
@@ -212,6 +207,14 @@ void CPlayer::Key_Input(_float fTimeDelta)
 		m_vDashDirection = (*m_pTransformCom->Get_State(CTransform::STATE_POSITION)
 			- m_vPrePosition).Normalize() * DASH_SPEED;
 		m_vDashDirection.y = 0.f;
+
+		_float fTargetFov{};
+		if (0 <= m_pTransformCom->Get_State(CTransform::STATE_LOOK)->Dot(m_vDashDirection))
+			fTargetFov = RADIAN(50.f);
+		else
+			fTargetFov = RADIAN(70.f);
+
+		m_pCameraManager->Zoom(fTargetFov, DASH_TIME * 0.5f);
 		m_bDash = TRUE;
 		m_fDashTimer = 0.f;
 	}
@@ -244,6 +247,21 @@ void CPlayer::Key_Input(_float fTimeDelta)
 	m_Weapons[m_iCurWeaponIndex]->Key_Input();
 }
 
+void CPlayer::Init_Camera_Link()
+{
+	//카메라 매니저 가져옴
+	m_pCameraManager = static_cast<CCameraManager*>(m_pGameInstance->Find_Object(LEVEL_STATIC, L"Layer_Camera"));
+	Safe_AddRef(m_pCameraManager);
+
+	// FPS 카매라 뺴옴
+	auto FPS_Camera = m_pCameraManager->Get_Camera(CCameraManager::FPS);
+
+	// FPS 카메라의 트랜스폼 정보를 받아둠
+	m_pCameraTransform = static_cast<CTransform*>(FPS_Camera->Find_Component(TEXT("Com_Transform")));
+	Safe_AddRef(m_pCameraTransform);
+
+}
+
 void CPlayer::Update_Camera_Link()
 {
 	_float3 Scale = m_pTransformCom->Compute_Scaled();
@@ -264,7 +282,10 @@ void CPlayer::Update_Dash(_float fTimeDelta)
 {
 	m_fDashTimer += fTimeDelta;
 	if (m_fDashTimer > DASH_TIME)
+	{
 		m_bDash = FALSE;
+		m_pCameraManager->Zoom(RADIAN(60.f), DASH_TIME * 2.f);
+	}
 
 	_float3 vPos = *m_pTransformCom->Get_State(CTransform::STATE_POSITION);
 	_float fFloorY = m_pGravityCom->Get_FloorY();

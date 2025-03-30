@@ -31,6 +31,7 @@ public:
 	void Mouse_Fix();
 	void StartShake(_float fIntensity, _float fDuration, _float fShakeFreqPos, _float fShakeFreqRot);
 	void StartRecoil(_float fIntensity, _float fDuration);
+	void Zoom(_float fFOV,_float Time);
 	void Mode_Switch()
 	{
 		m_bMouseFixMod = !m_bMouseFixMod;
@@ -55,12 +56,21 @@ private:
 	_float m_fShakeFreqPos = 100.f; // 위치 진동 속도
 	_float m_fShakeFreqRot = 40.f;  // 회전 진동 속도
 
+	_bool	m_bZoom{ FALSE };
+	_float	m_fOriginFov{};
+	_float	m_fTargetFov{};
+	_float	m_fZoomTimeLimit{};
+	_float	m_fZoomTimer{};
+
 private:
 	virtual void		Update_Projection_Matrix() override;
 	virtual HRESULT		Ready_Components(void* pArg) override;
+
 	void				Update_Camera_Shake(_float fTimedelta);
 	void				Update_Weapon_Recoil(_float fTimedelta);
 	void				Reset_Shake_And_Recoil();
+
+	void				Update_Zoom(_float fTimedelta);
 
 public:
 	static CFPS_Camera* Create(LPDIRECT3DDEVICE9 pGraphic_Device);

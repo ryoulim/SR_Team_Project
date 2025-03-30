@@ -58,6 +58,11 @@ void CFPS_Camera::Priority_Update(_float fTimeDelta)
 		Update_Weapon_Recoil(fTimeDelta);
 	}
 
+	if (m_bZoom)
+	{
+		Update_Zoom(fTimeDelta);
+	}
+
 	Bind_Resource();
 }
 
@@ -122,6 +127,15 @@ void CFPS_Camera::StartRecoil(_float fIntensity, _float fDuration)
 	m_fShakeTime = 0.f;
 
 	m_bRecoil = TRUE;
+}
+
+void CFPS_Camera::Zoom(_float fFOV, _float Time)
+{
+	m_bZoom = TRUE;
+	m_fZoomTimer = 0.f;
+	m_fOriginFov = m_fFov;
+	m_fTargetFov = fFOV;
+	m_fZoomTimeLimit = Time;
 }
 
 void CFPS_Camera::Update_Projection_Matrix()
@@ -215,6 +229,17 @@ void CFPS_Camera::Reset_Shake_And_Recoil()
 {
 	m_pTransformCom->Move(-m_vCurrentShakePos);
 	m_pTransformCom->Quaternion_Turn(RADIAN(-m_vCurrentShakeRot));
+}
+
+void CFPS_Camera::Update_Zoom(_float fTimedelta)
+{
+	m_fZoomTimer += fTimedelta;
+	if (m_fZoomTimer > m_fZoomTimeLimit)
+		m_bZoom = FALSE;
+
+	_float t = m_fZoomTimer / m_fZoomTimeLimit;
+	m_fFov = LERP(m_fOriginFov, m_fTargetFov, t);
+	Update_Projection_Matrix();
 }
 
 

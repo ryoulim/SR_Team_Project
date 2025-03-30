@@ -33,6 +33,7 @@ public:
 	/// <param name="fShakeFreqRot"> 회전 진동 주파수(클수록 빨라짐)</param>
 	virtual void Shake_Camera(_float fIntensity = 1.f, _float fDuration = 1.f, _float fShakeFreqPos = 100.f, _float fShakeFreqRot = 40.f);
 	void StartRecoil(_float fIntensity = 1.f, _float fDuration = 1.f);
+	void Zoom(_float fFOV, _float Time);
 	void Switch(_bool isFPSMode);
 	void Mouse_Fix_Mode_Switch();
 
