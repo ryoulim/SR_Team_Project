@@ -51,30 +51,43 @@ HRESULT CLevel_Logo::Ready_Layer_BackGround(const _wstring& strLayerTag)
 HRESULT CLevel_Logo::Ready_Layer_UI(const _wstring& strLayerTag)
 {
 	CUI::DESC BackGroundDesc{};
-
+	BackGroundDesc.eLevelID = LEVEL_LOGO;
 	BackGroundDesc.vInitPos = { 0.f,0.f,9.f };
 	BackGroundDesc.vScale = { FWINCX, FWINCY, 1.f };
+	BackGroundDesc.fDepth = 10.f;
 	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_LOGO, TEXT("Prototype_GameObject_MainMenu"),
 		LEVEL_LOGO, strLayerTag, &BackGroundDesc)))
 		return E_FAIL;
 
 	BackGroundDesc.vInitPos = { 0.f,0.f,1.f };
 	BackGroundDesc.vScale = { FWINCX , FWINCY, 1.f };
+	BackGroundDesc.fDepth = 9.f;
 	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_LOGO, TEXT("Prototype_GameObject_ScreenDust"),
 		LEVEL_LOGO, TEXT("Layer_UI"), &BackGroundDesc)))
 		return E_FAIL;
 
 	CUI::DESC TestButtonDesc{};
 
+	TestButtonDesc.eLevelID = LEVEL_LOGO;
 	TestButtonDesc.vInitPos = { 280.f - g_iWinSizeX * 0.5f, g_iWinSizeY * 0.5f - 460.f,1.f };
 	TestButtonDesc.vScale = { 200.f, 38.f, 10.f };
-
+	TestButtonDesc.fDepth = 5.f;
 	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_LOGO, TEXT("Prototype_GameObject_Button_Main"),
 		LEVEL_LOGO, strLayerTag, &TestButtonDesc)))
 		return E_FAIL;
 
+
+
+	CUI::DESC pDesc;
+	pDesc.fRotationPerSec = 0.f;
+	pDesc.fSpeedPerSec = 0.f;
+	pDesc.vInitPos = { -250.f,-20.f,0.9f };
+	pDesc.vScale = { 1.f,1.f,1.f };
+	pDesc.eLevelID = LEVEL_LOGO;
+	pDesc.fDepth = 2.f;
+
 	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_LOGO, TEXT("Prototype_GameObject_Logo"),
-		LEVEL_LOGO, strLayerTag)))
+		LEVEL_LOGO, strLayerTag, &pDesc)))
 		return E_FAIL;
 
 

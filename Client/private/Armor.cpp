@@ -22,17 +22,42 @@ HRESULT CArmor::Initialize_Prototype()
 
 HRESULT CArmor::Initialize(void* pArg)
 {
-	m_eLevelID = LEVEL_GAMEPLAY;
+	m_eLevelID = static_cast<DESC*>(pArg)->eLevelID;
 	m_szTextureID = TEXT("Armor");
 	m_szBufferType = TEXT("Rect");
-
-	DESC Desc{};
-	Desc.vScale = _float3(75.f, 75.f, 1.f);
-	Desc.vInitPos = _float3(-(g_iWinSizeX / 2.f) + 208.f, -(g_iWinSizeY / 2.f) + Desc.vScale.y / 2.f, 0.f);
 	m_fTextureNum = static_cast<_float>(m_eArmorType);
-	m_fDepth = 3.f;
+	if (FAILED(Ready_Components(pArg)))
+		return E_FAIL;
 
-	if (FAILED(__super::Initialize(&Desc)))
+	if (pArg != nullptr)
+	{
+		DESC* pDesc = static_cast<DESC*>(pArg);
+		m_vPos = pDesc->vInitPos;
+		m_fDepth = m_vPos.z = 0.99f;
+		m_vSize = pDesc->vScale;
+		m_fDepth = pDesc->fDepth;
+		m_pTransformCom->Set_State(CTransform::STATE_POSITION, m_vPos);
+		m_pTransformCom->Scaling(m_vSize);
+	}
+
+	return S_OK;
+}
+
+HRESULT CArmor::Ready_Components(void* pArg)
+{
+	/* For.Com_Texture */
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, _wstring(TEXT("Prototype_Component_Texture_")) + m_szTextureID,
+		TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
+		return E_FAIL;
+
+	/* For.Com_VIBuffer */
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, _wstring(TEXT("Prototype_Component_VIBuffer_")) + m_szBufferType,
+		TEXT("Com_VIBuffer"), reinterpret_cast<CComponent**>(&m_pVIBufferCom))))
+		return E_FAIL;
+
+	/* For.Com_Transform */
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Transform"),
+		TEXT("Com_Transform"), reinterpret_cast<CComponent**>(&m_pTransformCom), pArg)))
 		return E_FAIL;
 
 	return S_OK;
@@ -55,9 +80,10 @@ void CArmor::Late_Update(_float fTimeDelta)
 
 HRESULT CArmor::Render()
 {
-	RENDER_TEXT_BOL(m_uiArmor,
-		-(g_iWinSizeX / 2.f) + m_vSize.x*4.9f,
-		-(g_iWinSizeY / 2.f) + m_vSize.y / 2.f - 3.f, 1.1f);
+	_float fFontPosX = -(g_iWinSizeX / 2.f) + m_vSize.x * 4.9f;
+	_float fFontPosY = -(g_iWinSizeY / 2.f) + m_vSize.y / 2.f - 3.f;
+
+	RENDER_TEXT_BOL(m_uiArmor, fFontPosX, fFontPosY, 0.9f);
 
 	if (FAILED(m_pTextureCom->Get_TextureSize(static_cast<_uint>(m_fTextureNum), &m_vSize)))
 		return E_FAIL;

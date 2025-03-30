@@ -22,7 +22,7 @@ HRESULT CMainMenu::Initialize_Prototype()
 
 HRESULT CMainMenu::Initialize(void* pArg)
 {
-	m_eLevelID = LEVEL_LOGO;
+	//m_eLevelID = LEVEL_LOGO;
 	m_szTextureID = TEXT("MainMenu");
 	m_szBufferType = TEXT("Rect");
 
@@ -40,7 +40,7 @@ HRESULT CMainMenu::Initialize(void* pArg)
 
 	if (testbool == false)
 	{
-		CUI_Manager::Get_Instance(m_pGameInstance)->Fade_In();
+		CUI_Manager::Get_Instance()->Fade_In();
 		testbool = true;
 	}
 

@@ -61,7 +61,7 @@ EVENT CFadeUI::Update(_float fTimeDelta)
 {
 	if (m_isRenderOn)
 	{
-		m_fFadeOpacity += fTimeDelta * 5.f* (m_isFadeIn?-1.f:1.f);
+		m_fFadeOpacity += fTimeDelta * 5.f * (m_isFadeIn?-1.f:1.f); // 페이드 인 아웃에 맞춰서 더하기 빼기 변경
 		if (m_fFadeOpacity > 1.f || m_fFadeOpacity < 0.f)
 		{
 			//m_isRenderOn = false;

@@ -25,7 +25,7 @@ public:
 
 public:
 	void	Set_Ammo(const CWeapon::AMMOINFO* ammoInfo) { m_pAmmoInfo = ammoInfo; }
-
+	virtual HRESULT Ready_Components(void* pArg) override;
 private:
 	CWeapon::TYPE				m_eAmmoType = { CWeapon::TYPE::LOVERBOY };
 	const CWeapon::AMMOINFO*	m_pAmmoInfo = { nullptr };

@@ -7,6 +7,11 @@ if (FAILED(m_pGameInstance->Add_Prototype(m_eNextLevelID, _wstring(TEXT("Prototy
 CTexture::Create(m_pGraphic_Device, TEXT(Path), Cnt))))																\
 return E_FAIL
 
+#define ADD_TEXTURE_EX(Name,Path,Cnt,...)																			\
+if (FAILED(m_pGameInstance->Add_Prototype(m_eNextLevelID, _wstring(TEXT("Prototype_Component_Texture_"))+L###Name ,	\
+CTexture::Create(m_pGraphic_Device, TEXT(Path), Cnt, __VA_ARGS__))))												\
+return E_FAIL
+
 #define ADD_MODEL(Name)																								\
 if (FAILED(m_pGameInstance->Add_Prototype(m_eNextLevelID, _wstring(TEXT("Prototype_Component_VIBuffer_"))+L###Name,	\
 CVIBuffer_##Name::Create(m_pGraphic_Device))))																		\

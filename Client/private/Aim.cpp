@@ -21,22 +21,50 @@ HRESULT CAim::Initialize_Prototype()
 
 HRESULT CAim::Initialize(void* pArg)
 {
-	m_eLevelID = LEVEL_GAMEPLAY;
+	m_eLevelID = static_cast<DESC*>(pArg)->eLevelID;
 	m_szTextureID = TEXT("Aim");
 	m_szBufferType = TEXT("Rect");
 
-	if (FAILED(__super::Initialize(pArg)))
+	if (FAILED(Ready_Components(pArg)))
 		return E_FAIL;
+
+	if (pArg != nullptr)
+	{
+		DESC* pDesc = static_cast<DESC*>(pArg);
+		m_vPos = pDesc->vInitPos;
+		m_fDepth = m_vPos.z = 0.99f;
+		m_vSize = pDesc->vScale;
+		m_fDepth = pDesc->fDepth;
+		m_pTransformCom->Set_State(CTransform::STATE_POSITION, m_vPos);
+	}
 	m_pTextureCom->Get_TextureSize(0, &m_vSize);
 	m_pTransformCom->Scaling(m_vSize);
 	__super::Ready_ShaderComponent();
-	//float newColor[3] = { 0.9f, 0.8f, 0.0f }; // 노랑 (230, 200, 0)
-	//m_pEffect->SetFloatArray("newColor", newColor, 3);
 
-	//float origColor[3] = { 60.f / 255.f, 70.f / 255.f, 160.f / 255.f }; // 파랑 (60, 70, 160)
-	//m_pEffect->SetFloatArray("origColor", origColor, 3);
 	return S_OK;
 }
+
+
+HRESULT CAim::Ready_Components(void* pArg)
+{
+	/* For.Com_Texture */
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, _wstring(TEXT("Prototype_Component_Texture_")) + m_szTextureID,
+		TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
+		return E_FAIL;
+
+	/* For.Com_VIBuffer */
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, _wstring(TEXT("Prototype_Component_VIBuffer_")) + m_szBufferType,
+		TEXT("Com_VIBuffer"), reinterpret_cast<CComponent**>(&m_pVIBufferCom))))
+		return E_FAIL;
+
+	/* For.Com_Transform */
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Transform"),
+		TEXT("Com_Transform"), reinterpret_cast<CComponent**>(&m_pTransformCom), pArg)))
+		return E_FAIL;
+
+	return S_OK;
+}
+
 
 void CAim::Priority_Update(_float fTimeDelta)
 {
@@ -45,17 +73,14 @@ void CAim::Priority_Update(_float fTimeDelta)
 
 EVENT CAim::Update(_float fTimeDelta)
 {
-	if (MOUSE_DOWN(DIMK_LBUTTON)) // 탄약 받아오는 것으로 변경 필요 
-	{
-		/*m_fMaskingDist -= 0.1f;
-		if (m_fMaskingDist < 0.f)
-			m_fMaskingDist = 0.f;*/
-		int a = 0;
-	}
-	if (KEY_DOWN(DIK_R))
-	{
-		m_fMaskingDist = 1.f;
-	}
+	//if (MOUSE_DOWN(DIMK_LBUTTON)) // 탄약 받아오는 것으로 변경 필요 
+	//{
+	//	int a = 0;
+	//}
+	//if (KEY_DOWN(DIK_R))
+	//{
+	//	m_fMaskingDist = 1.f;
+	//}
  	Calc_Magazine(m_pAmmoInfo->iMaxAmmo, m_pAmmoInfo->iReloadedAmmo);
 
 	return __super::Update(fTimeDelta);

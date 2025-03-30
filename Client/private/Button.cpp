@@ -106,7 +106,7 @@ HRESULT CButton::Render()
 
 	if (PtInRect(&m_tRect, ptMouse))
 	{
-		CUI_Manager::Get_Instance(m_pGameInstance)->Render_Text(
+		CUI_Manager::Get_Instance()->Render_Text(
 			"New game",
 			CFont::BIGORANGE,
 			CFont::CENTER,

@@ -22,21 +22,24 @@ HRESULT CAmmo::Initialize_Prototype()
 
 HRESULT CAmmo::Initialize(void* pArg)
 {
-	m_eLevelID = LEVEL_GAMEPLAY;
+	m_eLevelID = static_cast<DESC*>(pArg)->eLevelID;
+	//m_eLevelID = LEVEL_GAMEPLAY;
 	m_szTextureID = TEXT("Ammo");
 	m_szBufferType = TEXT("Rect");
 
-	DESC Desc{};
-	Desc.vScale = _float3(48.f, 54.f, 1.f);
-	Desc.vInitPos = _float3((g_iWinSizeX / 2.f) - 40.f, -(g_iWinSizeY / 2.f) + Desc.vScale.y / 2.f + 7.f, 0.f);
-	//Desc.vScale = _float3(1.f, 1.f, 1.f);
-	//Desc.vInitPos = _float3(0.f,0.f, 0.f);
-	m_fTextureNum = 0;
-
-	m_fDepth = 3.f;
-
-	if (FAILED(__super::Initialize(&Desc)))
+	if (FAILED(Ready_Components(pArg)))
 		return E_FAIL;
+
+	if (pArg != nullptr)
+	{
+		DESC* pDesc = static_cast<DESC*>(pArg);
+		m_vPos = pDesc->vInitPos;
+		m_fDepth = m_vPos.z = 0.99f;
+		m_vSize = pDesc->vScale;
+		m_fDepth = pDesc->fDepth;
+		m_pTransformCom->Set_State(CTransform::STATE_POSITION, m_vPos);
+		m_pTransformCom->Scaling(m_vSize);
+	}
 
 	return S_OK;
 }
@@ -112,6 +115,26 @@ HRESULT CAmmo::Render()
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, m_vPos);
 	m_pTransformCom->Scaling(m_vSize);
 	return __super::Render();
+}
+
+HRESULT CAmmo::Ready_Components(void* pArg)
+{
+	/* For.Com_Texture */
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, _wstring(TEXT("Prototype_Component_Texture_")) + m_szTextureID,
+		TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
+		return E_FAIL;
+
+	/* For.Com_VIBuffer */
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, _wstring(TEXT("Prototype_Component_VIBuffer_")) + m_szBufferType,
+		TEXT("Com_VIBuffer"), reinterpret_cast<CComponent**>(&m_pVIBufferCom))))
+		return E_FAIL;
+
+	/* For.Com_Transform */
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Transform"),
+		TEXT("Com_Transform"), reinterpret_cast<CComponent**>(&m_pTransformCom), pArg)))
+		return E_FAIL;
+
+	return S_OK;
 }
 
 CAmmo* CAmmo::Create(LPDIRECT3DDEVICE9 pGraphic_Device)

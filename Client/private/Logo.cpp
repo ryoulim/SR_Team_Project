@@ -21,27 +21,23 @@ HRESULT CLogo::Initialize_Prototype()
 
 HRESULT CLogo::Initialize(void* pArg)
 {
-	m_eLevelID = LEVEL_LOGO;
+	//m_eLevelID = LEVEL_LOGO;
 	m_szTextureID = TEXT("Logo");
 	m_szBufferType = TEXT("Rect");
 
-	CLogo::DESC pDesc;
-	pDesc.fRotationPerSec = 0.f;
-	pDesc.fSpeedPerSec = 0.f;
-	pDesc.vInitPos = { -250.f,-20.f,0.9f };
-	pDesc.vScale = { 1.f,1.f,1.f };
 
-	if (FAILED(__super::Initialize(&pDesc)))
+
+	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
 	/* For.Com_Shader */
 	__super::Ready_ShaderComponent();
 
 	m_fDepth = 2.f;
 
-	Ready_Component_For_Shadow(&pDesc);
+	Ready_Component_For_Shadow(pArg);
 
-	m_pTextureCom->Get_TextureSize(0, &(pDesc.vScale));
-	m_pTransformCom->Scaling(pDesc.vScale);
+	m_pTextureCom->Get_TextureSize(0, &(m_vSize));
+	m_pTransformCom->Scaling(m_vSize);
 
 	return S_OK;
 }

@@ -18,17 +18,20 @@ private:
 public:
 	virtual HRESULT Initialize_Prototype() override;
 	virtual HRESULT Initialize(void* pArg) override;
+	virtual HRESULT Ready_Components(void* pArg) override;
 	virtual void Priority_Update(_float fTimeDelta) override;
 	virtual EVENT Update(_float fTimeDelta) override;
 	virtual void Late_Update(_float fTimeDelta) override;
 	virtual HRESULT Render() override;
 
 public:
-	void	Set_Armor(_uint _Armor) { m_uiArmor = _Armor; Update(0.f); }
+	//void	Set_Info(_const CPlayer::INFO* pInfo) { m_pPlayerInfo = pInfo; }
 
 private:
-	_uint	m_uiArmor = {};
+	_uint*		m_pArmor = {};
+	_uint		m_uiArmor = {};
 	ARMORSTATUS m_eArmorType = { ARMOR0 };
+	//_const CPlayer::INFO* = m_pPlayerInfo = { nullptr };
 
 
 public:

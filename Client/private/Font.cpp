@@ -21,7 +21,7 @@ HRESULT CFont::Initialize_Prototype()
 
 HRESULT CFont::Initialize(void* pArg)
 {
-	m_eLevelID = LEVEL_STATIC;
+	//m_eLevelID = LEVEL_STATIC;
 	//m_szTextureID = TEXT("Font");
 	m_szBufferType = TEXT("Rect");
 

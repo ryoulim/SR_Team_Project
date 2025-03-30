@@ -176,7 +176,6 @@
     <ClInclude Include="..\public\BulletImpactSpark.h" />
     <ClInclude Include="..\public\Button.h" />
     <ClInclude Include="..\public\Button_Main.h" />
-    <ClInclude Include="..\public\Button_Test.h" />
     <ClInclude Include="..\public\Cabinet.h" />
     <ClInclude Include="..\public\CameraSprite.h" />
     <ClInclude Include="..\public\CameraManager.h" />
@@ -305,7 +304,6 @@
     <ClCompile Include="..\private\BulletImpactSpark.cpp" />
     <ClCompile Include="..\private\Button.cpp" />
     <ClCompile Include="..\private\Button_Main.cpp" />
-    <ClCompile Include="..\private\Button_Test.cpp" />
     <ClCompile Include="..\private\Cabinet.cpp" />
     <ClCompile Include="..\private\CameraManager.cpp" />
     <ClCompile Include="..\private\CameraSprite.cpp" />

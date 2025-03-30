@@ -24,23 +24,45 @@ HRESULT CPortrait::Initialize_Prototype()
 HRESULT CPortrait::Initialize(void* pArg)
 {
 
-	m_eLevelID = LEVEL_GAMEPLAY;
+	m_eLevelID = static_cast<DESC*>(pArg)->eLevelID;
 	m_szTextureID = TEXT("Portrait");
 	m_szBufferType = TEXT("Rect");
 
-	//m_pFont = dynamic_cast<CFont*>(m_pGameInstance->Clone_Prototype(PROTOTYPE::TYPE_GAMEOBJECT, LEVEL_STATIC, TEXT("Prototype_GameObject_Font_MediumBlue")));
-	//if (nullptr == m_pFont)
-	//	return E_FAIL;
-
-
-
-	DESC Desc{};
-	Desc.vScale = _float3(80.f, 80.f, 1.f); // 고정
-	Desc.vInitPos = _float3(-(g_iWinSizeX / 2.f) + Desc.vScale.x / 2.f - 10.f, -(g_iWinSizeY / 2.f) + Desc.vScale.y / 2.f, 0.f);
-	m_fDepth = 3.f;
-	if (FAILED(__super::Initialize(&Desc)))
+	if (FAILED(Ready_Components(pArg)))
 		return E_FAIL;
+
+	if (pArg != nullptr)
+	{
+		DESC* pDesc = static_cast<DESC*>(pArg);
+		m_vPos = pDesc->vInitPos;
+		m_fDepth = m_vPos.z = 0.99f;
+		m_vSize = pDesc->vScale;
+		m_fDepth = pDesc->fDepth;
+		m_pTransformCom->Set_State(CTransform::STATE_POSITION, m_vPos);
+		m_pTransformCom->Scaling(m_vSize);
+	}
+
 	m_uiHP = 100;
+	return S_OK;
+}
+
+HRESULT CPortrait::Ready_Components(void* pArg)
+{
+	/* For.Com_Texture */
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, _wstring(TEXT("Prototype_Component_Texture_")) + m_szTextureID,
+		TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
+		return E_FAIL;
+
+	/* For.Com_VIBuffer */
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, _wstring(TEXT("Prototype_Component_VIBuffer_")) + m_szBufferType,
+		TEXT("Com_VIBuffer"), reinterpret_cast<CComponent**>(&m_pVIBufferCom))))
+		return E_FAIL;
+
+	/* For.Com_Transform */
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Transform"),
+		TEXT("Com_Transform"), reinterpret_cast<CComponent**>(&m_pTransformCom), pArg)))
+		return E_FAIL;
+
 	return S_OK;
 }
 
@@ -80,20 +102,6 @@ void CPortrait::Priority_Update(_float fTimeDelta)
 
 EVENT CPortrait::Update(_float fTimeDelta)
 {
-	//if (GetKeyState('1') & 0x8000)
-	//	m_uiHP++;
-	//
-	//if (GetKeyState('2')&0x8000)
-	//{
-	//	if (m_uiHP != 0)
-	//		m_uiHP--;
-	//}
-	//HP100 = 0,
-	//	HP80 = 5,
-	//	HP40 = 10,
-	//	HP25 = 15,
-	//	HP10 = 18,
-	//	HP0 = 21,
 	if (m_uiHP > 80)
 		m_eHPStatus = HP100;
 	else if (m_uiHP > 40)
@@ -117,7 +125,9 @@ void CPortrait::Late_Update(_float fTimeDelta)
 HRESULT CPortrait::Render()
 {
 	//CUI_Manager::Get_Instance(m_pGameInstance)->Render_Text("armor fragment x4", CFont::LEFT, CFont::MEDIUMBLUE, -(g_iWinSizeX / 2.f) + 20.f, g_iWinSizeY / 2.f - 20.f);
-	CUI_Manager::Get_Instance(m_pGameInstance)->Render_Text(
+
+	// item dialog로 옮길 것 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+	CUI_Manager::Get_Instance()->Render_Text(
 		"Hello World!!",
 		CFont::MEDIUMBLUE, 
 		CFont::LEFT, 
