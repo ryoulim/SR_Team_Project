@@ -277,6 +277,179 @@ HRESULT CLoader::Loding_For_Static()
 
 #pragma endregion
 
+#pragma region MONSTER_LOADING 
+
+#pragma region SHOTGUNNER_TEXTURES
+
+	ADD_TEXTURE(Shotgunner_Attack_0, "../Bin/Resources/Textures/Monster/Shotgunner/attack/0/shotgunner_attack_front%d.PNG", 3);  
+	ADD_TEXTURE(Shotgunner_Attack_45, "../Bin/Resources/Textures/Monster/Shotgunner/attack/45/shotgunner_attack_sidefront%d.PNG", 3);  
+	ADD_TEXTURE(Shotgunner_Attack_90, "../Bin/Resources/Textures/Monster/Shotgunner/attack/90/shotgunner_attack_side%d.PNG", 3);  
+	ADD_TEXTURE(Shotgunner_Attack_135, "../Bin/Resources/Textures/Monster/Shotgunner/attack/135/shotgunner_attack_sideback%d.PNG", 3);  
+	ADD_TEXTURE(Shotgunner_Attack_180, "../Bin/Resources/Textures/Monster/Shotgunner/attack/180/shotgunner_attack_back%d.PNG", 3);  
+
+	ADD_TEXTURE(Shotgunner_Death, "../Bin/Resources/Textures/Monster/Shotgunner/death/shotgunner_death%d.PNG", 6);  
+	ADD_TEXTURE(Shotgunner_Move_0, "../bin/Resources/Textures/Monster/Shotgunner/move/0/shotgunner_move_front%d.PNG", 4);  
+	ADD_TEXTURE(Shotgunner_Move_45, "../Bin/Resources/Textures/Monster/Shotgunner/move/45/shotgunner_move_sidefront%d.PNG", 4);  
+	ADD_TEXTURE(Shotgunner_Move_90, "../Bin/Resources/Textures/Monster/Shotgunner/move/90/shotgunner_move_side%d.PNG", 4);  
+	ADD_TEXTURE(Shotgunner_Move_135, "../Bin/Resources/Textures/Monster/Shotgunner/move/135/shotgunner_move_sideback%d.PNG", 4);  
+	ADD_TEXTURE(Shotgunner_Move_180, "../Bin/Resources/Textures/Monster/Shotgunner/move/180/shotgunner_move_back%d.PNG", 4);  
+
+#pragma endregion
+
+#pragma region NUKEMUTANT_TEXTURES
+
+	ADD_TEXTURE(Nukemutant_Move_0, "../Bin/Resources/Textures/Monster/Nukemutant/move/0/%d.PNG", 4);  
+	ADD_TEXTURE(Nukemutant_Move_45, "../Bin/Resources/Textures/Monster/Nukemutant/move/45/%d.PNG", 4);  
+	ADD_TEXTURE(Nukemutant_Move_90, "../Bin/Resources/Textures/Monster/Nukemutant/move/90/%d.PNG", 4);  
+	ADD_TEXTURE(Nukemutant_Move_135, "../Bin/Resources/Textures/Monster/Nukemutant/move/135/%d.PNG", 4);  
+	ADD_TEXTURE(Nukemutant_Move_180, "../Bin/Resources/Textures/Monster/Nukemutant/move/180/%d.PNG", 4);  
+
+	ADD_TEXTURE(Nukemutant_Attack_0, "../Bin/Resources/Textures/Monster/Nukemutant/attack/0/%d.PNG", 5);  
+	ADD_TEXTURE(Nukemutant_Attack_45, "../Bin/Resources/Textures/Monster/Nukemutant/attack/45/%d.PNG", 5);  
+	ADD_TEXTURE(Nukemutant_Attack_90, "../Bin/Resources/Textures/Monster/Nukemutant/attack/90/%d.PNG", 5);  
+	ADD_TEXTURE(Nukemutant_Attack_135, "../Bin/Resources/Textures/Monster/Nukemutant/attack/135/%d.PNG", 5);  
+	ADD_TEXTURE(Nukemutant_Attack_180, "../Bin/Resources/Textures/Monster/Nukemutant/attack/180/%d.PNG", 5);  
+
+	ADD_TEXTURE(Nukemutant_Dead, "../Bin/Resources/Textures/Monster/Nukemutant/death/%d.PNG", 6);  
+	ADD_TEXTURE(Nukemutant_Revive, "../Bin/Resources/Textures/Monster/Nukemutant/revive/%d.PNG", 7);  
+
+#pragma endregion
+
+#pragma region MECHSECT_TEXTURES
+
+	ADD_TEXTURE(Mechsect_Move_0, "../Bin/Resources/Textures/Monster/Mechsect/move/0/%d.PNG", 4);  
+	ADD_TEXTURE(Mechsect_Move_45, "../Bin/Resources/Textures/Monster/Mechsect/move/45/%d.PNG", 4);  
+	ADD_TEXTURE(Mechsect_Move_90, "../Bin/Resources/Textures/Monster/Mechsect/move/90/%d.PNG", 4);  
+	ADD_TEXTURE(Mechsect_Move_135, "../Bin/Resources/Textures/Monster/Mechsect/move/135/%d.PNG", 4);  
+	ADD_TEXTURE(Mechsect_Move_180, "../Bin/Resources/Textures/Monster/Mechsect/move/180/%d.PNG", 4);  
+
+	ADD_TEXTURE(Mechsect_Jump_0, "../Bin/Resources/Textures/Monster/Mechsect/jump/0/%d.PNG", 4);  
+	ADD_TEXTURE(Mechsect_Jump_45, "../Bin/Resources/Textures/Monster/Mechsect/jump/45/%d.PNG", 4);  
+	ADD_TEXTURE(Mechsect_Jump_90, "../Bin/Resources/Textures/Monster/Mechsect/jump/90/%d.PNG", 4);  
+	ADD_TEXTURE(Mechsect_Jump_135, "../Bin/Resources/Textures/Monster/Mechsect/jump/135/%d.PNG", 4);  
+	ADD_TEXTURE(Mechsect_Jump_180, "../Bin/Resources/Textures/Monster/Mechsect/jump/180/%d.PNG", 4);  
+
+	ADD_TEXTURE(Mechsect_Dead, "../Bin/Resources/Textures/Monster/Mechsect/death/%d.PNG", 7);  
+#pragma endregion
+
+#pragma region GREATER_TEXTURES
+
+	ADD_TEXTURE(Greater_Move_0, "../Bin/Resources/Textures/Monster/greater/move/0/%d.PNG", 4);  
+	ADD_TEXTURE(Greater_Move_45, "../Bin/Resources/Textures/Monster/greater/move/45/%d.PNG", 4);  
+	ADD_TEXTURE(Greater_Move_90, "../Bin/Resources/Textures/Monster/greater/move/90/%d.PNG", 4);  
+	ADD_TEXTURE(Greater_Move_135, "../Bin/Resources/Textures/Monster/greater/move/135/%d.PNG", 4);  
+	ADD_TEXTURE(Greater_Move_180, "../Bin/Resources/Textures/Monster/greater/move/180/%d.PNG", 4);  
+
+	ADD_TEXTURE(Greater_Run_0, "../Bin/Resources/Textures/Monster/greater/run/0/%d.PNG", 4);  
+	ADD_TEXTURE(Greater_Run_45, "../Bin/Resources/Textures/Monster/greater/run/45/%d.PNG", 4);  
+	ADD_TEXTURE(Greater_Run_90, "../Bin/Resources/Textures/Monster/greater/run/90/%d.PNG", 4);  
+	ADD_TEXTURE(Greater_Run_135, "../Bin/Resources/Textures/Monster/greater/run/135/%d.PNG", 4);  
+	ADD_TEXTURE(Greater_Run_180, "../Bin/Resources/Textures/Monster/greater/run/180/%d.PNG", 4);  
+
+	ADD_TEXTURE(Greater_Attack_0, "../Bin/Resources/Textures/Monster/greater/Attack/0/%d.PNG", 3);  
+	ADD_TEXTURE(Greater_Attack_45, "../Bin/Resources/Textures/Monster/greater/Attack/45/%d.PNG", 3);  
+	ADD_TEXTURE(Greater_Attack_90, "../Bin/Resources/Textures/Monster/greater/Attack/90/%d.PNG", 3);  
+	ADD_TEXTURE(Greater_Attack_135, "../Bin/Resources/Textures/Monster/greater/Attack/135/%d.PNG", 3);  
+	ADD_TEXTURE(Greater_Attack_180, "../Bin/Resources/Textures/Monster/greater/Attack/180/%d.PNG", 3);  
+
+	ADD_TEXTURE(Greater_Dead, "../Bin/Resources/Textures/Monster/greater/death/%d.PNG", 8);  
+
+
+#pragma endregion
+
+#pragma region DEACON_TEXTURES
+	ADD_TEXTURE(Deacon_Fly_0, "../Bin/Resources/Textures/Monster/deacon/move/0/%d.PNG", 4);  
+	ADD_TEXTURE(Deacon_Fly_45, "../Bin/Resources/Textures/Monster/deacon/move/45/%d.PNG", 4);  
+	ADD_TEXTURE(Deacon_Fly_90, "../Bin/Resources/Textures/Monster/deacon/move/90/%d.PNG", 4);  
+	ADD_TEXTURE(Deacon_Fly_135, "../Bin/Resources/Textures/Monster/deacon/move/135/%d.PNG", 4);  
+	ADD_TEXTURE(Deacon_Fly_180, "../Bin/Resources/Textures/Monster/deacon/move/180/%d.PNG", 4);  
+
+	ADD_TEXTURE(Deacon_Attack_0, "../Bin/Resources/Textures/Monster/deacon/attack/0/%d.PNG", 4);  
+	ADD_TEXTURE(Deacon_Attack_45, "../Bin/Resources/Textures/Monster/deacon/attack/45/%d.PNG", 4);  
+	ADD_TEXTURE(Deacon_Attack_90, "../Bin/Resources/Textures/Monster/deacon/attack/90/%d.PNG", 4);  
+	ADD_TEXTURE(Deacon_Attack_135, "../Bin/Resources/Textures/Monster/deacon/attack/135/%d.PNG", 4);  
+	ADD_TEXTURE(Deacon_Attack_180, "../Bin/Resources/Textures/Monster/deacon/attack/180/%d.PNG", 4);  
+
+	ADD_TEXTURE(Deacon_Dead, "../Bin/Resources/Textures/Monster/deacon/death/%d.PNG", 8);  
+#pragma endregion
+
+
+#pragma region CULTIST_TEXTURES
+	ADD_TEXTURE(Cultist_Move_0, "../Bin/Resources/Textures/Monster/cultist/move/0/%d.PNG", 4);  
+	ADD_TEXTURE(Cultist_Move_45, "../Bin/Resources/Textures/Monster/cultist/move/45/%d.PNG", 4);  
+	ADD_TEXTURE(Cultist_Move_90, "../Bin/Resources/Textures/Monster/cultist/move/90/%d.PNG", 4);  
+	ADD_TEXTURE(Cultist_Move_135, "../Bin/Resources/Textures/Monster/cultist/move/135/%d.PNG", 4);  
+	ADD_TEXTURE(Cultist_Move_180, "../Bin/Resources/Textures/Monster/cultist/move/180/%d.PNG", 4);  
+
+	ADD_TEXTURE(Cultist_Run_0, "../Bin/Resources/Textures/Monster/cultist/run/0/%d.PNG", 4);  
+	ADD_TEXTURE(Cultist_Run_45, "../Bin/Resources/Textures/Monster/cultist/run/45/%d.PNG", 4);  
+	ADD_TEXTURE(Cultist_Run_90, "../Bin/Resources/Textures/Monster/cultist/run/90/%d.PNG", 4);  
+	ADD_TEXTURE(Cultist_Run_135, "../Bin/Resources/Textures/Monster/cultist/run/135/%d.PNG", 4);  
+	ADD_TEXTURE(Cultist_Run_180, "../Bin/Resources/Textures/Monster/cultist/run/180/%d.PNG", 4);  
+
+	ADD_TEXTURE(Cultist_Attack_0, "../Bin/Resources/Textures/Monster/cultist/Attack/0/%d.PNG", 3);  
+	ADD_TEXTURE(Cultist_Attack_45, "../Bin/Resources/Textures/Monster/cultist/Attack/45/%d.PNG", 3);  
+	ADD_TEXTURE(Cultist_Attack_90, "../Bin/Resources/Textures/Monster/cultist/Attack/90/%d.PNG", 3);  
+	ADD_TEXTURE(Cultist_Attack_135, "../Bin/Resources/Textures/Monster/cultist/Attack/135/%d.PNG", 3);  
+	ADD_TEXTURE(Cultist_Attack_180, "../Bin/Resources/Textures/Monster/cultist/Attack/180/%d.PNG", 3);  
+
+	ADD_TEXTURE(Cultist_Dead, "../Bin/Resources/Textures/Monster/cultist/death/%d.PNG", 6);  
+
+#pragma endregion
+
+#pragma region ARCHANGEL_TEXTURES
+	ADD_TEXTURE(Archangel_Move_0, "../Bin/Resources/Textures/Monster/archangel/move/0/%d.PNG", 4);  
+	ADD_TEXTURE(Archangel_Move_45, "../Bin/Resources/Textures/Monster/archangel/move/45/%d.PNG", 4);  
+	ADD_TEXTURE(Archangel_Move_90, "../Bin/Resources/Textures/Monster/archangel/move/90/%d.PNG", 4);  
+	ADD_TEXTURE(Archangel_Move_135, "../Bin/Resources/Textures/Monster/archangel/move/135/%d.PNG", 4);  
+	ADD_TEXTURE(Archangel_Move_180, "../Bin/Resources/Textures/Monster/archangel/move/180/%d.PNG", 4);  
+
+	ADD_TEXTURE(Archangel_Attack_0, "../Bin/Resources/Textures/Monster/archangel/attack/0/%d.PNG", 4);  
+	ADD_TEXTURE(Archangel_Attack_45, "../Bin/Resources/Textures/Monster/archangel/attack/45/%d.PNG", 4);  
+	ADD_TEXTURE(Archangel_Attack_90, "../Bin/Resources/Textures/Monster/archangel/attack/90/%d.PNG", 4);  
+	ADD_TEXTURE(Archangel_Attack_135, "../Bin/Resources/Textures/Monster/archangel/attack/135/%d.PNG", 4);  
+	ADD_TEXTURE(Archangel_Attack_180, "../Bin/Resources/Textures/Monster/archangel/attack/180/%d.PNG", 4);  
+
+	ADD_TEXTURE(Archangel_Stay_0, "../Bin/Resources/Textures/Monster/archangel/idle/0/%d.PNG", 4);  
+	ADD_TEXTURE(Archangel_Stay_45, "../Bin/Resources/Textures/Monster/archangel/idle/45/%d.PNG", 4);  
+	ADD_TEXTURE(Archangel_Stay_90, "../Bin/Resources/Textures/Monster/archangel/idle/90/%d.PNG", 4);  
+	ADD_TEXTURE(Archangel_Stay_135, "../Bin/Resources/Textures/Monster/archangel/idle/135/%d.PNG", 4);  
+	ADD_TEXTURE(Archangel_Stay_180, "../Bin/Resources/Textures/Monster/archangel/idle/180/%d.PNG", 4);  
+
+	ADD_TEXTURE(Archangel_Fly_0, "../Bin/Resources/Textures/Monster/archangel/fly/0/%d.PNG", 4);  
+	ADD_TEXTURE(Archangel_Fly_45, "../Bin/Resources/Textures/Monster/archangel/fly/45/%d.PNG", 4);  
+	ADD_TEXTURE(Archangel_Fly_90, "../Bin/Resources/Textures/Monster/archangel/fly/90/%d.PNG", 4);  
+	ADD_TEXTURE(Archangel_Fly_135, "../Bin/Resources/Textures/Monster/archangel/fly/135/%d.PNG", 4);  
+	ADD_TEXTURE(Archangel_Fly_180, "../Bin/Resources/Textures/Monster/archangel/fly/180/%d.PNG", 4);  
+
+	ADD_TEXTURE(Archangel_Dead, "../Bin/Resources/Textures/Monster/archangel/death/%d.PNG", 12);  
+
+#pragma endregion
+
+
+
+
+
+	//#pragma region WENTEKO_TEXTURES
+	//	ADD_TEXTURE(_Move_0, "../Bin/Resources/Textures/Monster/      /move/0/%d.PNG", 4);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
+	//	ADD_TEXTURE(_Move_45, "../Bin/Resources/Textures/Monster/     /move/45/%d.PNG", 4);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
+	//	ADD_TEXTURE(_Move_90, "../Bin/Resources/Textures/Monster/     /move/90/%d.PNG", 4);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
+	//	ADD_TEXTURE(_Move_135, "../Bin/Resources/Textures/Monster/    /move/135/%d.PNG", 4);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
+	//	ADD_TEXTURE(_Move_180, "../Bin/Resources/Textures/Monster/    /move/180/%d.PNG", 4);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
+	//#pragma endregion
+
+
+
+#pragma endregion
+	ADD_PRTOBJ(Wenteko);  
+	ADD_PRTOBJ(Shotgunner);  
+	ADD_PRTOBJ(Nukemutant);  
+	ADD_PRTOBJ(Mechsect);  
+	ADD_PRTOBJ(Greater);  
+	ADD_PRTOBJ(Deacon);  
+	ADD_PRTOBJ(Cultist);  
+	ADD_PRTOBJ(Archangel);  
+
 #pragma region 파티클 준비물(스테틱)
 
 	///////////////////////////////////////////스프라이트//////////////////////////////////////////////////////
@@ -512,17 +685,17 @@ HRESULT CLoader::Loding_For_Static()
 		LEVEL_STATIC, TEXT("Layer_Camera"), &DynamicCameraDesc)))
 		return E_FAIL;
 
-	// 내일 카메라 매니저에 넣어야함
-	//CCamera::DESC desc = {};
-	//desc.vEye = _float3(0.f, 0.f, -20.f);
-	//desc.vAt = _float3();
-	//desc.fFov = 60.f;
-	//desc.fNear = 0.1f;
-	//desc.fFar = 2000.f;
+	 //내일 카메라 매니저에 넣어야함
+	CCamera::DESC desc = {};
+	desc.vEye = _float3(0.f, 0.f, -20.f);
+	desc.vAt = _float3();
+	desc.fFov = 60.f;
+	desc.fNear = 0.1f;
+	desc.fFar = 2000.f;
 
-	//if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_TPS_Camera"),
-	//	LEVEL_STATIC, TEXT("Layer_Camera"), &desc)))
-	//	return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_TPS_Camera"),
+		LEVEL_STATIC, TEXT("Layer_Camera"), &desc)))
+		return E_FAIL;
 
 	m_eNextLevelID = Tmp;
 	return S_OK;
@@ -615,50 +788,48 @@ HRESULT CLoader::Loading_For_GamePlay()
 	/*******************************************************************************************************************************************/
 	/********************************************************     여기 접기 !!!!     ************************************************************/
 	/*******************************************************************************************************************************************/
-#pragma region MONSTER_LOADING 
-
 #pragma region BOSS_TEXTURES
-	ADD_TEXTURE(Boss_Walk_0, "../bin/Resources/Textures/Monster/boss/walk/0/boss_walk_0_%d.PNG", 12);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
-	ADD_TEXTURE(Boss_Walk_22, "../bin/Resources/Textures/Monster/boss/walk/22/boss_walk_22_%d.PNG", 12);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
-	ADD_TEXTURE(Boss_Walk_45, "../bin/Resources/Textures/Monster/boss/walk/45/boss_walk_45_%d.PNG", 12);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
-	ADD_TEXTURE(Boss_Walk_67, "../bin/Resources/Textures/Monster/boss/walk/67/boss_walk_67_%d.PNG", 12);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
-	ADD_TEXTURE(Boss_Walk_90, "../bin/Resources/Textures/Monster/boss/walk/90/boss_walk_90_%d.PNG", 12);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
-	ADD_TEXTURE(Boss_Walk_112, "../bin/Resources/Textures/Monster/boss/walk/112/boss_walk_112_%d.PNG", 12);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
-	ADD_TEXTURE(Boss_Walk_135, "../bin/Resources/Textures/Monster/boss/walk/135/boss_walk_135_%d.PNG", 12);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
-	ADD_TEXTURE(Boss_Walk_157, "../bin/Resources/Textures/Monster/boss/walk/157/boss_walk_157_%d.PNG", 12);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
-	ADD_TEXTURE(Boss_Walk_180, "../bin/Resources/Textures/Monster/boss/walk/180/boss_walk_180_%d.PNG", 12);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum; 
+	ADD_TEXTURE(Boss_Walk_0, "../bin/Resources/Textures/Monster/boss/walk/0/boss_walk_0_%d.PNG", 12); fDataCurNum++; m_fLoadPercent = fDataCurNum / fDataNum;
+	ADD_TEXTURE(Boss_Walk_22, "../bin/Resources/Textures/Monster/boss/walk/22/boss_walk_22_%d.PNG", 12); fDataCurNum++; m_fLoadPercent = fDataCurNum / fDataNum;
+	ADD_TEXTURE(Boss_Walk_45, "../bin/Resources/Textures/Monster/boss/walk/45/boss_walk_45_%d.PNG", 12); fDataCurNum++; m_fLoadPercent = fDataCurNum / fDataNum;
+	ADD_TEXTURE(Boss_Walk_67, "../bin/Resources/Textures/Monster/boss/walk/67/boss_walk_67_%d.PNG", 12); fDataCurNum++; m_fLoadPercent = fDataCurNum / fDataNum;
+	ADD_TEXTURE(Boss_Walk_90, "../bin/Resources/Textures/Monster/boss/walk/90/boss_walk_90_%d.PNG", 12); fDataCurNum++; m_fLoadPercent = fDataCurNum / fDataNum;
+	ADD_TEXTURE(Boss_Walk_112, "../bin/Resources/Textures/Monster/boss/walk/112/boss_walk_112_%d.PNG", 12); fDataCurNum++; m_fLoadPercent = fDataCurNum / fDataNum;
+	ADD_TEXTURE(Boss_Walk_135, "../bin/Resources/Textures/Monster/boss/walk/135/boss_walk_135_%d.PNG", 12); fDataCurNum++; m_fLoadPercent = fDataCurNum / fDataNum;
+	ADD_TEXTURE(Boss_Walk_157, "../bin/Resources/Textures/Monster/boss/walk/157/boss_walk_157_%d.PNG", 12); fDataCurNum++; m_fLoadPercent = fDataCurNum / fDataNum;
+	ADD_TEXTURE(Boss_Walk_180, "../bin/Resources/Textures/Monster/boss/walk/180/boss_walk_180_%d.PNG", 12); fDataCurNum++; m_fLoadPercent = fDataCurNum / fDataNum;
 
-	ADD_TEXTURE(Boss_Jump_0, "../bin/Resources/Textures/Monster/boss/jump/0/boss_jump_0_%d.PNG", 5);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
-	ADD_TEXTURE(Boss_Jump_22, "../bin/Resources/Textures/Monster/boss/jump/22/boss_jump_22_%d.PNG", 5);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
-	ADD_TEXTURE(Boss_Jump_45, "../bin/Resources/Textures/Monster/boss/jump/45/boss_jump_45_%d.PNG", 5);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
-	ADD_TEXTURE(Boss_Jump_67, "../bin/Resources/Textures/Monster/boss/jump/67/boss_jump_67_%d.PNG", 5);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
-	ADD_TEXTURE(Boss_Jump_90, "../bin/Resources/Textures/Monster/boss/jump/90/boss_jump_90_%d.PNG", 5);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
-	ADD_TEXTURE(Boss_Jump_112, "../bin/Resources/Textures/Monster/boss/jump/112/boss_jump_112_%d.PNG", 5);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
-	ADD_TEXTURE(Boss_Jump_135, "../bin/Resources/Textures/Monster/boss/jump/135/boss_jump_135_%d.PNG", 5);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
-	ADD_TEXTURE(Boss_Jump_157, "../bin/Resources/Textures/Monster/boss/jump/157/boss_jump_157_%d.PNG", 5);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
-	ADD_TEXTURE(Boss_Jump_180, "../bin/Resources/Textures/Monster/boss/jump/180/boss_jump_180_%d.PNG", 5);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
+	ADD_TEXTURE(Boss_Jump_0, "../bin/Resources/Textures/Monster/boss/jump/0/boss_jump_0_%d.PNG", 5); fDataCurNum++; m_fLoadPercent = fDataCurNum / fDataNum;
+	ADD_TEXTURE(Boss_Jump_22, "../bin/Resources/Textures/Monster/boss/jump/22/boss_jump_22_%d.PNG", 5); fDataCurNum++; m_fLoadPercent = fDataCurNum / fDataNum;
+	ADD_TEXTURE(Boss_Jump_45, "../bin/Resources/Textures/Monster/boss/jump/45/boss_jump_45_%d.PNG", 5); fDataCurNum++; m_fLoadPercent = fDataCurNum / fDataNum;
+	ADD_TEXTURE(Boss_Jump_67, "../bin/Resources/Textures/Monster/boss/jump/67/boss_jump_67_%d.PNG", 5); fDataCurNum++; m_fLoadPercent = fDataCurNum / fDataNum;
+	ADD_TEXTURE(Boss_Jump_90, "../bin/Resources/Textures/Monster/boss/jump/90/boss_jump_90_%d.PNG", 5); fDataCurNum++; m_fLoadPercent = fDataCurNum / fDataNum;
+	ADD_TEXTURE(Boss_Jump_112, "../bin/Resources/Textures/Monster/boss/jump/112/boss_jump_112_%d.PNG", 5); fDataCurNum++; m_fLoadPercent = fDataCurNum / fDataNum;
+	ADD_TEXTURE(Boss_Jump_135, "../bin/Resources/Textures/Monster/boss/jump/135/boss_jump_135_%d.PNG", 5); fDataCurNum++; m_fLoadPercent = fDataCurNum / fDataNum;
+	ADD_TEXTURE(Boss_Jump_157, "../bin/Resources/Textures/Monster/boss/jump/157/boss_jump_157_%d.PNG", 5); fDataCurNum++; m_fLoadPercent = fDataCurNum / fDataNum;
+	ADD_TEXTURE(Boss_Jump_180, "../bin/Resources/Textures/Monster/boss/jump/180/boss_jump_180_%d.PNG", 5); fDataCurNum++; m_fLoadPercent = fDataCurNum / fDataNum;
 
-	ADD_TEXTURE(Boss_Fly_0, "../bin/Resources/Textures/Monster/boss/fly/0/%d.PNG", 4);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
-	ADD_TEXTURE(Boss_Fly_22, "../bin/Resources/Textures/Monster/boss/fly/22/%d.PNG", 4);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
-	ADD_TEXTURE(Boss_Fly_45, "../bin/Resources/Textures/Monster/boss/fly/45/%d.PNG", 4);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
-	ADD_TEXTURE(Boss_Fly_67, "../bin/Resources/Textures/Monster/boss/fly/67/%d.PNG", 4);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
-	ADD_TEXTURE(Boss_Fly_90, "../bin/Resources/Textures/Monster/boss/fly/90/%d.PNG", 4);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
-	ADD_TEXTURE(Boss_Fly_112, "../bin/Resources/Textures/Monster/boss/fly/112/%d.PNG", 4);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
-	ADD_TEXTURE(Boss_Fly_135, "../bin/Resources/Textures/Monster/boss/fly/135/%d.PNG", 4);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
-	ADD_TEXTURE(Boss_Fly_157, "../bin/Resources/Textures/Monster/boss/fly/157/%d.PNG", 4);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
-	ADD_TEXTURE(Boss_Fly_180, "../bin/Resources/Textures/Monster/boss/fly/180/%d.PNG", 4);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
+	ADD_TEXTURE(Boss_Fly_0, "../bin/Resources/Textures/Monster/boss/fly/0/%d.PNG", 4); fDataCurNum++; m_fLoadPercent = fDataCurNum / fDataNum;
+	ADD_TEXTURE(Boss_Fly_22, "../bin/Resources/Textures/Monster/boss/fly/22/%d.PNG", 4); fDataCurNum++; m_fLoadPercent = fDataCurNum / fDataNum;
+	ADD_TEXTURE(Boss_Fly_45, "../bin/Resources/Textures/Monster/boss/fly/45/%d.PNG", 4); fDataCurNum++; m_fLoadPercent = fDataCurNum / fDataNum;
+	ADD_TEXTURE(Boss_Fly_67, "../bin/Resources/Textures/Monster/boss/fly/67/%d.PNG", 4); fDataCurNum++; m_fLoadPercent = fDataCurNum / fDataNum;
+	ADD_TEXTURE(Boss_Fly_90, "../bin/Resources/Textures/Monster/boss/fly/90/%d.PNG", 4); fDataCurNum++; m_fLoadPercent = fDataCurNum / fDataNum;
+	ADD_TEXTURE(Boss_Fly_112, "../bin/Resources/Textures/Monster/boss/fly/112/%d.PNG", 4); fDataCurNum++; m_fLoadPercent = fDataCurNum / fDataNum;
+	ADD_TEXTURE(Boss_Fly_135, "../bin/Resources/Textures/Monster/boss/fly/135/%d.PNG", 4); fDataCurNum++; m_fLoadPercent = fDataCurNum / fDataNum;
+	ADD_TEXTURE(Boss_Fly_157, "../bin/Resources/Textures/Monster/boss/fly/157/%d.PNG", 4); fDataCurNum++; m_fLoadPercent = fDataCurNum / fDataNum;
+	ADD_TEXTURE(Boss_Fly_180, "../bin/Resources/Textures/Monster/boss/fly/180/%d.PNG", 4); fDataCurNum++; m_fLoadPercent = fDataCurNum / fDataNum;
 
-	ADD_TEXTURE(Boss_Fly_Attack_0,   "../bin/Resources/Textures/Monster/boss/fly_attack/0/%d.PNG",   8);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
-	ADD_TEXTURE(Boss_Fly_Attack_22,  "../bin/Resources/Textures/Monster/boss/fly_attack/22/%d.PNG",  8);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
-	ADD_TEXTURE(Boss_Fly_Attack_45,  "../bin/Resources/Textures/Monster/boss/fly_attack/45/%d.PNG",  8);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
-	ADD_TEXTURE(Boss_Fly_Attack_67,  "../bin/Resources/Textures/Monster/boss/fly_attack/67/%d.PNG",  8);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
-	ADD_TEXTURE(Boss_Fly_Attack_90,  "../bin/Resources/Textures/Monster/boss/fly_attack/90/%d.PNG",  8);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
-	ADD_TEXTURE(Boss_Fly_Attack_112, "../bin/Resources/Textures/Monster/boss/fly_attack/112/%d.PNG", 8);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
-	ADD_TEXTURE(Boss_Fly_Attack_135, "../bin/Resources/Textures/Monster/boss/fly_attack/135/%d.PNG", 8);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
-	ADD_TEXTURE(Boss_Fly_Attack_157, "../bin/Resources/Textures/Monster/boss/fly_attack/157/%d.PNG", 8);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
-	ADD_TEXTURE(Boss_Fly_Attack_180, "../bin/Resources/Textures/Monster/boss/fly_attack/180/%d.PNG", 8);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
+	ADD_TEXTURE(Boss_Fly_Attack_0, "../bin/Resources/Textures/Monster/boss/fly_attack/0/%d.PNG", 8); fDataCurNum++; m_fLoadPercent = fDataCurNum / fDataNum;
+	ADD_TEXTURE(Boss_Fly_Attack_22, "../bin/Resources/Textures/Monster/boss/fly_attack/22/%d.PNG", 8); fDataCurNum++; m_fLoadPercent = fDataCurNum / fDataNum;
+	ADD_TEXTURE(Boss_Fly_Attack_45, "../bin/Resources/Textures/Monster/boss/fly_attack/45/%d.PNG", 8); fDataCurNum++; m_fLoadPercent = fDataCurNum / fDataNum;
+	ADD_TEXTURE(Boss_Fly_Attack_67, "../bin/Resources/Textures/Monster/boss/fly_attack/67/%d.PNG", 8); fDataCurNum++; m_fLoadPercent = fDataCurNum / fDataNum;
+	ADD_TEXTURE(Boss_Fly_Attack_90, "../bin/Resources/Textures/Monster/boss/fly_attack/90/%d.PNG", 8); fDataCurNum++; m_fLoadPercent = fDataCurNum / fDataNum;
+	ADD_TEXTURE(Boss_Fly_Attack_112, "../bin/Resources/Textures/Monster/boss/fly_attack/112/%d.PNG", 8); fDataCurNum++; m_fLoadPercent = fDataCurNum / fDataNum;
+	ADD_TEXTURE(Boss_Fly_Attack_135, "../bin/Resources/Textures/Monster/boss/fly_attack/135/%d.PNG", 8); fDataCurNum++; m_fLoadPercent = fDataCurNum / fDataNum;
+	ADD_TEXTURE(Boss_Fly_Attack_157, "../bin/Resources/Textures/Monster/boss/fly_attack/157/%d.PNG", 8); fDataCurNum++; m_fLoadPercent = fDataCurNum / fDataNum;
+	ADD_TEXTURE(Boss_Fly_Attack_180, "../bin/Resources/Textures/Monster/boss/fly_attack/180/%d.PNG", 8); fDataCurNum++; m_fLoadPercent = fDataCurNum / fDataNum;
 
-	ADD_TEXTURE(Boss_Bomb_0, "../bin/Resources/Textures/Monster/boss/bomb/0/%d.PNG", 2); 
+	ADD_TEXTURE(Boss_Bomb_0, "../bin/Resources/Textures/Monster/boss/bomb/0/%d.PNG", 2);
 	ADD_TEXTURE(Boss_Bomb_22, "../bin/Resources/Textures/Monster/boss/bomb/22/%d.PNG", 2);
 	ADD_TEXTURE(Boss_Bomb_45, "../bin/Resources/Textures/Monster/boss/bomb/45/%d.PNG", 2);
 	ADD_TEXTURE(Boss_Bomb_67, "../bin/Resources/Textures/Monster/boss/bomb/67/%d.PNG", 2);
@@ -680,170 +851,6 @@ HRESULT CLoader::Loading_For_GamePlay()
 
 #pragma endregion
 
-#pragma region SHOTGUNNER_TEXTURES
-
-	ADD_TEXTURE(Shotgunner_Attack_0,   "../Bin/Resources/Textures/Monster/Shotgunner/attack/0/shotgunner_attack_front%d.PNG", 3);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
-	ADD_TEXTURE(Shotgunner_Attack_45,  "../Bin/Resources/Textures/Monster/Shotgunner/attack/45/shotgunner_attack_sidefront%d.PNG", 3);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
-	ADD_TEXTURE(Shotgunner_Attack_90,  "../Bin/Resources/Textures/Monster/Shotgunner/attack/90/shotgunner_attack_side%d.PNG", 3);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
-	ADD_TEXTURE(Shotgunner_Attack_135, "../Bin/Resources/Textures/Monster/Shotgunner/attack/135/shotgunner_attack_sideback%d.PNG", 3);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
-	ADD_TEXTURE(Shotgunner_Attack_180, "../Bin/Resources/Textures/Monster/Shotgunner/attack/180/shotgunner_attack_back%d.PNG", 3);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
-
-	ADD_TEXTURE(Shotgunner_Death,   "../Bin/Resources/Textures/Monster/Shotgunner/death/shotgunner_death%d.PNG", 6);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum; 
-
-	ADD_TEXTURE(Shotgunner_Move_0,   "../bin/Resources/Textures/Monster/Shotgunner/move/0/shotgunner_move_front%d.PNG", 4);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
-	ADD_TEXTURE(Shotgunner_Move_45,  "../Bin/Resources/Textures/Monster/Shotgunner/move/45/shotgunner_move_sidefront%d.PNG", 4);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
-	ADD_TEXTURE(Shotgunner_Move_90,  "../Bin/Resources/Textures/Monster/Shotgunner/move/90/shotgunner_move_side%d.PNG", 4);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
-	ADD_TEXTURE(Shotgunner_Move_135, "../Bin/Resources/Textures/Monster/Shotgunner/move/135/shotgunner_move_sideback%d.PNG", 4);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
-	ADD_TEXTURE(Shotgunner_Move_180, "../Bin/Resources/Textures/Monster/Shotgunner/move/180/shotgunner_move_back%d.PNG", 4);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
-
-#pragma endregion
-
-#pragma region NUKEMUTANT_TEXTURES
-
-	ADD_TEXTURE(Nukemutant_Move_0, "../Bin/Resources/Textures/Monster/Nukemutant/move/0/%d.PNG", 4); fDataCurNum++; m_fLoadPercent = fDataCurNum / fDataNum;
-	ADD_TEXTURE(Nukemutant_Move_45, "../Bin/Resources/Textures/Monster/Nukemutant/move/45/%d.PNG", 4); fDataCurNum++; m_fLoadPercent = fDataCurNum / fDataNum;
-	ADD_TEXTURE(Nukemutant_Move_90, "../Bin/Resources/Textures/Monster/Nukemutant/move/90/%d.PNG", 4); fDataCurNum++; m_fLoadPercent = fDataCurNum / fDataNum;
-	ADD_TEXTURE(Nukemutant_Move_135, "../Bin/Resources/Textures/Monster/Nukemutant/move/135/%d.PNG", 4); fDataCurNum++; m_fLoadPercent = fDataCurNum / fDataNum;
-	ADD_TEXTURE(Nukemutant_Move_180, "../Bin/Resources/Textures/Monster/Nukemutant/move/180/%d.PNG", 4); fDataCurNum++; m_fLoadPercent = fDataCurNum / fDataNum;
-
-	ADD_TEXTURE(Nukemutant_Attack_0, "../Bin/Resources/Textures/Monster/Nukemutant/attack/0/%d.PNG", 5); fDataCurNum++; m_fLoadPercent = fDataCurNum / fDataNum;
-	ADD_TEXTURE(Nukemutant_Attack_45, "../Bin/Resources/Textures/Monster/Nukemutant/attack/45/%d.PNG", 5); fDataCurNum++; m_fLoadPercent = fDataCurNum / fDataNum;
-	ADD_TEXTURE(Nukemutant_Attack_90, "../Bin/Resources/Textures/Monster/Nukemutant/attack/90/%d.PNG", 5); fDataCurNum++; m_fLoadPercent = fDataCurNum / fDataNum;
-	ADD_TEXTURE(Nukemutant_Attack_135, "../Bin/Resources/Textures/Monster/Nukemutant/attack/135/%d.PNG", 5); fDataCurNum++; m_fLoadPercent = fDataCurNum / fDataNum;
-	ADD_TEXTURE(Nukemutant_Attack_180, "../Bin/Resources/Textures/Monster/Nukemutant/attack/180/%d.PNG", 5); fDataCurNum++; m_fLoadPercent = fDataCurNum / fDataNum;
-
-	ADD_TEXTURE(Nukemutant_Dead, "../Bin/Resources/Textures/Monster/Nukemutant/death/%d.PNG", 6); fDataCurNum++; m_fLoadPercent = fDataCurNum / fDataNum;
-	ADD_TEXTURE(Nukemutant_Revive, "../Bin/Resources/Textures/Monster/Nukemutant/revive/%d.PNG", 7); fDataCurNum++; m_fLoadPercent = fDataCurNum / fDataNum;
-
-#pragma endregion
-
-#pragma region MECHSECT_TEXTURES
-
-	ADD_TEXTURE(Mechsect_Move_0, "../Bin/Resources/Textures/Monster/Mechsect/move/0/%d.PNG", 4); fDataCurNum++; m_fLoadPercent = fDataCurNum / fDataNum;
-	ADD_TEXTURE(Mechsect_Move_45, "../Bin/Resources/Textures/Monster/Mechsect/move/45/%d.PNG", 4); fDataCurNum++; m_fLoadPercent = fDataCurNum / fDataNum;
-	ADD_TEXTURE(Mechsect_Move_90, "../Bin/Resources/Textures/Monster/Mechsect/move/90/%d.PNG", 4); fDataCurNum++; m_fLoadPercent = fDataCurNum / fDataNum;
-	ADD_TEXTURE(Mechsect_Move_135, "../Bin/Resources/Textures/Monster/Mechsect/move/135/%d.PNG", 4); fDataCurNum++; m_fLoadPercent = fDataCurNum / fDataNum;
-	ADD_TEXTURE(Mechsect_Move_180, "../Bin/Resources/Textures/Monster/Mechsect/move/180/%d.PNG", 4); fDataCurNum++; m_fLoadPercent = fDataCurNum / fDataNum;
-
-	ADD_TEXTURE(Mechsect_Jump_0, "../Bin/Resources/Textures/Monster/Mechsect/jump/0/%d.PNG", 4); fDataCurNum++; m_fLoadPercent = fDataCurNum / fDataNum;
-	ADD_TEXTURE(Mechsect_Jump_45, "../Bin/Resources/Textures/Monster/Mechsect/jump/45/%d.PNG", 4); fDataCurNum++; m_fLoadPercent = fDataCurNum / fDataNum;
-	ADD_TEXTURE(Mechsect_Jump_90, "../Bin/Resources/Textures/Monster/Mechsect/jump/90/%d.PNG", 4); fDataCurNum++; m_fLoadPercent = fDataCurNum / fDataNum;
-	ADD_TEXTURE(Mechsect_Jump_135, "../Bin/Resources/Textures/Monster/Mechsect/jump/135/%d.PNG", 4); fDataCurNum++; m_fLoadPercent = fDataCurNum / fDataNum;
-	ADD_TEXTURE(Mechsect_Jump_180, "../Bin/Resources/Textures/Monster/Mechsect/jump/180/%d.PNG", 4); fDataCurNum++; m_fLoadPercent = fDataCurNum / fDataNum;
-
-	ADD_TEXTURE(Mechsect_Dead, "../Bin/Resources/Textures/Monster/Mechsect/death/%d.PNG", 7); fDataCurNum++; m_fLoadPercent = fDataCurNum / fDataNum;
-#pragma endregion
-
-#pragma region GREATER_TEXTURES
-
-	ADD_TEXTURE(Greater_Move_0, "../Bin/Resources/Textures/Monster/greater/move/0/%d.PNG", 4);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
-	ADD_TEXTURE(Greater_Move_45, "../Bin/Resources/Textures/Monster/greater/move/45/%d.PNG", 4);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
-	ADD_TEXTURE(Greater_Move_90, "../Bin/Resources/Textures/Monster/greater/move/90/%d.PNG", 4);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
-	ADD_TEXTURE(Greater_Move_135, "../Bin/Resources/Textures/Monster/greater/move/135/%d.PNG", 4);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
-	ADD_TEXTURE(Greater_Move_180, "../Bin/Resources/Textures/Monster/greater/move/180/%d.PNG", 4);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
-
-	ADD_TEXTURE(Greater_Run_0, "../Bin/Resources/Textures/Monster/greater/run/0/%d.PNG", 4); fDataCurNum++; m_fLoadPercent = fDataCurNum / fDataNum;
-	ADD_TEXTURE(Greater_Run_45, "../Bin/Resources/Textures/Monster/greater/run/45/%d.PNG", 4); fDataCurNum++; m_fLoadPercent = fDataCurNum / fDataNum;
-	ADD_TEXTURE(Greater_Run_90, "../Bin/Resources/Textures/Monster/greater/run/90/%d.PNG", 4); fDataCurNum++; m_fLoadPercent = fDataCurNum / fDataNum;
-	ADD_TEXTURE(Greater_Run_135, "../Bin/Resources/Textures/Monster/greater/run/135/%d.PNG", 4); fDataCurNum++; m_fLoadPercent = fDataCurNum / fDataNum;
-	ADD_TEXTURE(Greater_Run_180, "../Bin/Resources/Textures/Monster/greater/run/180/%d.PNG", 4); fDataCurNum++; m_fLoadPercent = fDataCurNum / fDataNum;
-
-	ADD_TEXTURE(Greater_Attack_0, "../Bin/Resources/Textures/Monster/greater/Attack/0/%d.PNG", 3); fDataCurNum++; m_fLoadPercent = fDataCurNum / fDataNum;
-	ADD_TEXTURE(Greater_Attack_45, "../Bin/Resources/Textures/Monster/greater/Attack/45/%d.PNG", 3); fDataCurNum++; m_fLoadPercent = fDataCurNum / fDataNum;
-	ADD_TEXTURE(Greater_Attack_90, "../Bin/Resources/Textures/Monster/greater/Attack/90/%d.PNG", 3); fDataCurNum++; m_fLoadPercent = fDataCurNum / fDataNum;
-	ADD_TEXTURE(Greater_Attack_135, "../Bin/Resources/Textures/Monster/greater/Attack/135/%d.PNG", 3); fDataCurNum++; m_fLoadPercent = fDataCurNum / fDataNum;
-	ADD_TEXTURE(Greater_Attack_180, "../Bin/Resources/Textures/Monster/greater/Attack/180/%d.PNG", 3); fDataCurNum++; m_fLoadPercent = fDataCurNum / fDataNum;
-
-	ADD_TEXTURE(Greater_Dead, "../Bin/Resources/Textures/Monster/greater/death/%d.PNG", 8); fDataCurNum++; m_fLoadPercent = fDataCurNum / fDataNum;
-
-
-#pragma endregion
-	//for (size_t i = 0; i < 100000; i++){for (size_t j = 0; j < 10000; j++)int a = 0;if (KEY_PRESSING(DIK_SPACE))break;}
-
-#pragma region DEACON_TEXTURES
-	ADD_TEXTURE(Deacon_Fly_0, "../Bin/Resources/Textures/Monster/deacon/move/0/%d.PNG", 4);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
-	ADD_TEXTURE(Deacon_Fly_45, "../Bin/Resources/Textures/Monster/deacon/move/45/%d.PNG", 4);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
-	ADD_TEXTURE(Deacon_Fly_90, "../Bin/Resources/Textures/Monster/deacon/move/90/%d.PNG", 4);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
-	ADD_TEXTURE(Deacon_Fly_135, "../Bin/Resources/Textures/Monster/deacon/move/135/%d.PNG", 4);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
-	ADD_TEXTURE(Deacon_Fly_180, "../Bin/Resources/Textures/Monster/deacon/move/180/%d.PNG", 4);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
-
-	ADD_TEXTURE(Deacon_Attack_0, "../Bin/Resources/Textures/Monster/deacon/attack/0/%d.PNG", 4); fDataCurNum++; m_fLoadPercent = fDataCurNum / fDataNum;
-	ADD_TEXTURE(Deacon_Attack_45, "../Bin/Resources/Textures/Monster/deacon/attack/45/%d.PNG", 4); fDataCurNum++; m_fLoadPercent = fDataCurNum / fDataNum;
-	ADD_TEXTURE(Deacon_Attack_90, "../Bin/Resources/Textures/Monster/deacon/attack/90/%d.PNG", 4); fDataCurNum++; m_fLoadPercent = fDataCurNum / fDataNum;
-	ADD_TEXTURE(Deacon_Attack_135, "../Bin/Resources/Textures/Monster/deacon/attack/135/%d.PNG", 4); fDataCurNum++; m_fLoadPercent = fDataCurNum / fDataNum;
-	ADD_TEXTURE(Deacon_Attack_180, "../Bin/Resources/Textures/Monster/deacon/attack/180/%d.PNG", 4);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
-
-	ADD_TEXTURE(Deacon_Dead, "../Bin/Resources/Textures/Monster/deacon/death/%d.PNG", 8);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
-#pragma endregion
-
-
-#pragma region CULTIST_TEXTURES
-	ADD_TEXTURE(Cultist_Move_0, "../Bin/Resources/Textures/Monster/cultist/move/0/%d.PNG", 4);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
-	ADD_TEXTURE(Cultist_Move_45, "../Bin/Resources/Textures/Monster/cultist/move/45/%d.PNG", 4);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
-	ADD_TEXTURE(Cultist_Move_90, "../Bin/Resources/Textures/Monster/cultist/move/90/%d.PNG", 4);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
-	ADD_TEXTURE(Cultist_Move_135, "../Bin/Resources/Textures/Monster/cultist/move/135/%d.PNG", 4);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
-	ADD_TEXTURE(Cultist_Move_180, "../Bin/Resources/Textures/Monster/cultist/move/180/%d.PNG", 4);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
-
-	ADD_TEXTURE(Cultist_Run_0, "../Bin/Resources/Textures/Monster/cultist/run/0/%d.PNG", 4); fDataCurNum++; m_fLoadPercent = fDataCurNum / fDataNum;
-	ADD_TEXTURE(Cultist_Run_45, "../Bin/Resources/Textures/Monster/cultist/run/45/%d.PNG", 4); fDataCurNum++; m_fLoadPercent = fDataCurNum / fDataNum;
-	ADD_TEXTURE(Cultist_Run_90, "../Bin/Resources/Textures/Monster/cultist/run/90/%d.PNG", 4); fDataCurNum++; m_fLoadPercent = fDataCurNum / fDataNum;
-	ADD_TEXTURE(Cultist_Run_135, "../Bin/Resources/Textures/Monster/cultist/run/135/%d.PNG", 4); fDataCurNum++; m_fLoadPercent = fDataCurNum / fDataNum;
-	ADD_TEXTURE(Cultist_Run_180, "../Bin/Resources/Textures/Monster/cultist/run/180/%d.PNG", 4); fDataCurNum++; m_fLoadPercent = fDataCurNum / fDataNum;
-
-	ADD_TEXTURE(Cultist_Attack_0, "../Bin/Resources/Textures/Monster/cultist/Attack/0/%d.PNG", 3); fDataCurNum++; m_fLoadPercent = fDataCurNum / fDataNum;
-	ADD_TEXTURE(Cultist_Attack_45, "../Bin/Resources/Textures/Monster/cultist/Attack/45/%d.PNG", 3); fDataCurNum++; m_fLoadPercent = fDataCurNum / fDataNum;
-	ADD_TEXTURE(Cultist_Attack_90, "../Bin/Resources/Textures/Monster/cultist/Attack/90/%d.PNG", 3); fDataCurNum++; m_fLoadPercent = fDataCurNum / fDataNum;
-	ADD_TEXTURE(Cultist_Attack_135, "../Bin/Resources/Textures/Monster/cultist/Attack/135/%d.PNG", 3); fDataCurNum++; m_fLoadPercent = fDataCurNum / fDataNum;
-	ADD_TEXTURE(Cultist_Attack_180, "../Bin/Resources/Textures/Monster/cultist/Attack/180/%d.PNG", 3); fDataCurNum++; m_fLoadPercent = fDataCurNum / fDataNum;
-
-	ADD_TEXTURE(Cultist_Dead, "../Bin/Resources/Textures/Monster/cultist/death/%d.PNG", 6); fDataCurNum++; m_fLoadPercent = fDataCurNum / fDataNum;
-
-#pragma endregion
-
-#pragma region ARCHANGEL_TEXTURES
-	ADD_TEXTURE(Archangel_Move_0, "../Bin/Resources/Textures/Monster/archangel/move/0/%d.PNG", 4);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
-	ADD_TEXTURE(Archangel_Move_45, "../Bin/Resources/Textures/Monster/archangel/move/45/%d.PNG", 4);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
-	ADD_TEXTURE(Archangel_Move_90, "../Bin/Resources/Textures/Monster/archangel/move/90/%d.PNG", 4);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
-	ADD_TEXTURE(Archangel_Move_135, "../Bin/Resources/Textures/Monster/archangel/move/135/%d.PNG", 4);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
-	ADD_TEXTURE(Archangel_Move_180, "../Bin/Resources/Textures/Monster/archangel/move/180/%d.PNG", 4);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
-
-	ADD_TEXTURE(Archangel_Attack_0, "../Bin/Resources/Textures/Monster/archangel/attack/0/%d.PNG", 4); fDataCurNum++; m_fLoadPercent = fDataCurNum / fDataNum;
-	ADD_TEXTURE(Archangel_Attack_45, "../Bin/Resources/Textures/Monster/archangel/attack/45/%d.PNG", 4); fDataCurNum++; m_fLoadPercent = fDataCurNum / fDataNum;
-	ADD_TEXTURE(Archangel_Attack_90, "../Bin/Resources/Textures/Monster/archangel/attack/90/%d.PNG", 4); fDataCurNum++; m_fLoadPercent = fDataCurNum / fDataNum;
-	ADD_TEXTURE(Archangel_Attack_135, "../Bin/Resources/Textures/Monster/archangel/attack/135/%d.PNG", 4); fDataCurNum++; m_fLoadPercent = fDataCurNum / fDataNum;
-	ADD_TEXTURE(Archangel_Attack_180, "../Bin/Resources/Textures/Monster/archangel/attack/180/%d.PNG", 4); fDataCurNum++; m_fLoadPercent = fDataCurNum / fDataNum;
-
-	ADD_TEXTURE(Archangel_Stay_0, "../Bin/Resources/Textures/Monster/archangel/idle/0/%d.PNG", 4); fDataCurNum++; m_fLoadPercent = fDataCurNum / fDataNum;
-	ADD_TEXTURE(Archangel_Stay_45, "../Bin/Resources/Textures/Monster/archangel/idle/45/%d.PNG", 4); fDataCurNum++; m_fLoadPercent = fDataCurNum / fDataNum;
-	ADD_TEXTURE(Archangel_Stay_90, "../Bin/Resources/Textures/Monster/archangel/idle/90/%d.PNG", 4); fDataCurNum++; m_fLoadPercent = fDataCurNum / fDataNum;
-	ADD_TEXTURE(Archangel_Stay_135, "../Bin/Resources/Textures/Monster/archangel/idle/135/%d.PNG", 4); fDataCurNum++; m_fLoadPercent = fDataCurNum / fDataNum;
-	ADD_TEXTURE(Archangel_Stay_180, "../Bin/Resources/Textures/Monster/archangel/idle/180/%d.PNG", 4); fDataCurNum++; m_fLoadPercent = fDataCurNum / fDataNum;
-
-	ADD_TEXTURE(Archangel_Fly_0, "../Bin/Resources/Textures/Monster/archangel/fly/0/%d.PNG", 4); fDataCurNum++; m_fLoadPercent = fDataCurNum / fDataNum;
-	ADD_TEXTURE(Archangel_Fly_45, "../Bin/Resources/Textures/Monster/archangel/fly/45/%d.PNG", 4); fDataCurNum++; m_fLoadPercent = fDataCurNum / fDataNum;
-	ADD_TEXTURE(Archangel_Fly_90, "../Bin/Resources/Textures/Monster/archangel/fly/90/%d.PNG", 4); fDataCurNum++; m_fLoadPercent = fDataCurNum / fDataNum;
-	ADD_TEXTURE(Archangel_Fly_135, "../Bin/Resources/Textures/Monster/archangel/fly/135/%d.PNG", 4); fDataCurNum++; m_fLoadPercent = fDataCurNum / fDataNum;
-	ADD_TEXTURE(Archangel_Fly_180, "../Bin/Resources/Textures/Monster/archangel/fly/180/%d.PNG", 4); fDataCurNum++; m_fLoadPercent = fDataCurNum / fDataNum;
-
-	ADD_TEXTURE(Archangel_Dead, "../Bin/Resources/Textures/Monster/archangel/death/%d.PNG", 12); fDataCurNum++; m_fLoadPercent = fDataCurNum / fDataNum;
-
-#pragma endregion
-
-
-
- 
- 
-//#pragma region WENTEKO_TEXTURES
-//	ADD_TEXTURE(_Move_0, "../Bin/Resources/Textures/Monster/      /move/0/%d.PNG", 4);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
-//	ADD_TEXTURE(_Move_45, "../Bin/Resources/Textures/Monster/     /move/45/%d.PNG", 4);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
-//	ADD_TEXTURE(_Move_90, "../Bin/Resources/Textures/Monster/     /move/90/%d.PNG", 4);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
-//	ADD_TEXTURE(_Move_135, "../Bin/Resources/Textures/Monster/    /move/135/%d.PNG", 4);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
-//	ADD_TEXTURE(_Move_180, "../Bin/Resources/Textures/Monster/    /move/180/%d.PNG", 4);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
-//#pragma endregion
-
-
-
-#pragma endregion
 
 #pragma region MODEL
 	lstrcpy(m_szLoadingText, TEXT("모델을(를) 로딩중입니다."));
@@ -880,17 +887,8 @@ HRESULT CLoader::Loading_For_GamePlay()
 	ADD_PRTOBJ(AlphaBlock); fDataCurNum++; m_fLoadPercent = fDataCurNum / fDataNum;
 	ADD_PRTOBJ(BossBridge);
 
-	//for (size_t i = 0; i < 100000; i++) { for (size_t j = 0; j < 10000; j++)int a = 0; if (KEY_PRESSING(DIK_SPACE))break; }
 	//몬스터
 	ADD_PRTOBJ(Ttakkeun_i);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
-	ADD_PRTOBJ(Wenteko);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
-	ADD_PRTOBJ(Shotgunner);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
-	ADD_PRTOBJ(Nukemutant);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
-	ADD_PRTOBJ(Mechsect);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
-	ADD_PRTOBJ(Greater);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
-	ADD_PRTOBJ(Deacon);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
-	ADD_PRTOBJ(Cultist);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
-	ADD_PRTOBJ(Archangel);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
 
 #pragma endregion
 

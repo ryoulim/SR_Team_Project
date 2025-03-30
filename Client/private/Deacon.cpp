@@ -28,7 +28,6 @@ HRESULT CDeacon::Initialize(void* pArg)
 		return E_FAIL;
 
 	m_fDivOffset = 45.f;
-	Ready_Textures();
 	//애니메이션(수정예정)
 	m_fAnimationMaxFrame = 0.f;
 	m_fAnimationSpeed = 5.f;
@@ -85,6 +84,7 @@ HRESULT CDeacon::Ready_Components(void* pArg)
 {
 	if (FAILED(__super::Ready_Components(pArg)))
 		return E_FAIL;
+	Ready_Textures();
 
 	return S_OK;
 }
@@ -403,7 +403,7 @@ HRESULT CDeacon::Ready_Textures()
 		_tchar buf[32];
 		_itow_s((int)num, buf, 10);
 		sPrototypeTag += buf;
-		if (FAILED(__super::Add_Component(m_eLevelID, sPrototypeTag,
+		if (FAILED(__super::Add_Component(LEVEL_STATIC, sPrototypeTag,
 			_wstring(TEXT("Com_Texture")) + L"_Deacon_Fly_" + buf, reinterpret_cast<CComponent**>(&(m_pTextureMap[STATE_FLY][i])))))
 			return E_FAIL;
 	}
@@ -415,12 +415,12 @@ HRESULT CDeacon::Ready_Textures()
 		_tchar buf[32];
 		_itow_s((int)num, buf, 10);
 		sPrototypeTag += buf;
-		if (FAILED(__super::Add_Component(m_eLevelID, sPrototypeTag,
+		if (FAILED(__super::Add_Component(LEVEL_STATIC, sPrototypeTag,
 			_wstring(TEXT("Com_Texture")) + L"_Deacon_Attack_" + buf, reinterpret_cast<CComponent**>(&(m_pTextureMap[STATE_ATTACK][i])))))
 			return E_FAIL;
 	}
 	/* DEAD */
-	if (FAILED(__super::Add_Component(m_eLevelID, L"Prototype_Component_Texture_Deacon_Dead",
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, L"Prototype_Component_Texture_Deacon_Dead",
 		_wstring(TEXT("Com_Texture")) + L"_Deacon_Dead", reinterpret_cast<CComponent**>(&(m_pTextureMap[STATE_DEAD][0])))))
 		return E_FAIL;
 

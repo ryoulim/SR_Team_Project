@@ -27,7 +27,6 @@ HRESULT CGreater::Initialize(void* pArg)
 		return E_FAIL;
 
 	m_fDivOffset = 45.f;
-	Ready_Textures();
 	//애니메이션(수정예정)
 	m_fAnimationMaxFrame = 4.f;
 	m_fAnimationSpeed = 5.f;
@@ -71,6 +70,8 @@ HRESULT CGreater::Ready_Components(void* pArg)
 {
 	if (FAILED(__super::Ready_Components(pArg)))
 		return E_FAIL;
+
+	Ready_Textures();
 
 	return S_OK;
 }
@@ -159,7 +160,7 @@ HRESULT CGreater::Ready_Textures()
 		_tchar buf[32];
 		_itow_s((int)num, buf, 10);
 		sPrototypeTag += buf;
-		if (FAILED(__super::Add_Component(m_eLevelID, sPrototypeTag,
+		if (FAILED(__super::Add_Component(LEVEL_STATIC, sPrototypeTag,
 			_wstring(TEXT("Com_Texture")) + L"_Greater_Move_" + buf, reinterpret_cast<CComponent**>(&(m_pTextureMap[STATE_MOVE][i])))))
 			return E_FAIL;
 	}
@@ -171,7 +172,7 @@ HRESULT CGreater::Ready_Textures()
 		_tchar buf[32];
 		_itow_s((int)num, buf, 10);
 		sPrototypeTag += buf;
-		if (FAILED(__super::Add_Component(m_eLevelID, sPrototypeTag,
+		if (FAILED(__super::Add_Component(LEVEL_STATIC, sPrototypeTag,
 			_wstring(TEXT("Com_Texture")) + L"_Greater_Run_" + buf, reinterpret_cast<CComponent**>(&(m_pTextureMap[STATE_RUN][i])))))
 			return E_FAIL;
 	}
@@ -183,13 +184,13 @@ HRESULT CGreater::Ready_Textures()
 		_tchar buf[32];
 		_itow_s((int)num, buf, 10);
 		sPrototypeTag += buf;
-		if (FAILED(__super::Add_Component(m_eLevelID, sPrototypeTag,
+		if (FAILED(__super::Add_Component(LEVEL_STATIC, sPrototypeTag,
 			_wstring(TEXT("Com_Texture")) + L"_Greater_Attack_" + buf, reinterpret_cast<CComponent**>(&(m_pTextureMap[STATE_ATTACK][i])))))
 			return E_FAIL;
 	}
 
 	/* DEATH */
-	if (FAILED(__super::Add_Component(m_eLevelID, L"Prototype_Component_Texture_Greater_Dead",
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, L"Prototype_Component_Texture_Greater_Dead",
 		_wstring(TEXT("Com_Texture")) + L"_Greater_Death", reinterpret_cast<CComponent**>(&(m_pTextureMap[STATE_DEAD][0])))))
 		return E_FAIL;
 	return S_OK;

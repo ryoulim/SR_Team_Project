@@ -21,13 +21,11 @@ HRESULT CArchangel::Initialize_Prototype()
 
 HRESULT CArchangel::Initialize(void* pArg)
 {
-
 	//위치, 크기초기화, 컴포넌트 부착
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
 
 	m_fDivOffset = 45.f;
-	Ready_Textures();
 	//애니메이션(수정예정)
 	m_fAnimationMaxFrame = 4.f;
 	m_fAnimationSpeed = 5.f;
@@ -71,6 +69,8 @@ HRESULT CArchangel::Ready_Components(void* pArg)
 	if (FAILED(__super::Ready_Components(pArg)))
 		return E_FAIL;
 
+	Ready_Textures();
+
 	return S_OK;
 }
 
@@ -84,7 +84,7 @@ HRESULT CArchangel::Ready_Textures()
 		_tchar buf[32];
 		_itow_s((int)num, buf, 10);
 		sPrototypeTag += buf;
-		if (FAILED(__super::Add_Component(m_eLevelID, sPrototypeTag,
+		if (FAILED(__super::Add_Component(LEVEL_STATIC, sPrototypeTag,
 			_wstring(TEXT("Com_Texture")) + L"_Archangel_Move_" + buf, reinterpret_cast<CComponent**>(&(m_pTextureMap[STATE_MOVE][i])))))
 			return E_FAIL;
 	}
@@ -96,7 +96,7 @@ HRESULT CArchangel::Ready_Textures()
 		_tchar buf[32];
 		_itow_s((int)num, buf, 10);
 		sPrototypeTag += buf;
-		if (FAILED(__super::Add_Component(m_eLevelID, sPrototypeTag,
+		if (FAILED(__super::Add_Component(LEVEL_STATIC, sPrototypeTag,
 			_wstring(TEXT("Com_Texture")) + L"_Archangel_Attack_" + buf, reinterpret_cast<CComponent**>(&(m_pTextureMap[STATE_ATTACK][i])))))
 			return E_FAIL;
 	}
@@ -108,7 +108,7 @@ HRESULT CArchangel::Ready_Textures()
 		_tchar buf[32];
 		_itow_s((int)num, buf, 10);
 		sPrototypeTag += buf;
-		if (FAILED(__super::Add_Component(m_eLevelID, sPrototypeTag,
+		if (FAILED(__super::Add_Component(LEVEL_STATIC, sPrototypeTag,
 			_wstring(TEXT("Com_Texture")) + L"_Archangel_Fly_" + buf, reinterpret_cast<CComponent**>(&(m_pTextureMap[STATE_FLY][i])))))
 			return E_FAIL;
 	}
@@ -120,13 +120,13 @@ HRESULT CArchangel::Ready_Textures()
 		_tchar buf[32];
 		_itow_s((int)num, buf, 10);
 		sPrototypeTag += buf;
-		if (FAILED(__super::Add_Component(m_eLevelID, sPrototypeTag,
+		if (FAILED(__super::Add_Component(LEVEL_STATIC, sPrototypeTag,
 			_wstring(TEXT("Com_Texture")) + L"_Archangel_Stay_" + buf, reinterpret_cast<CComponent**>(&(m_pTextureMap[STATE_STAY][i])))))
 			return E_FAIL;
 	}
 
 	/* DEATH */
-	if (FAILED(__super::Add_Component(m_eLevelID, L"Prototype_Component_Texture_Archangel_Dead",
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, L"Prototype_Component_Texture_Archangel_Dead",
 		_wstring(TEXT("Com_Texture")) + L"_Archangel_Dead", reinterpret_cast<CComponent**>(&(m_pTextureMap[STATE_DEAD][0])))))
 		return E_FAIL;
 

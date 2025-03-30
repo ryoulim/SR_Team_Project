@@ -34,8 +34,6 @@ HRESULT CTtakkeun_i::Initialize(void* pArg)
 
 	m_fDivOffset = 22.5f;
 	// 보스랑 잡몹 텍스쳐 갯수가 달라서 별도 지정
-	Ready_Textures();
-	
 	//애니메이션(수정예정)
 	m_iState = (_uint)(MONSTER_STATE::STATE_WALK);
 	m_fAnimationMaxFrame = (_float)(STATE_MAXFRAME::MAX_WALK);
@@ -150,6 +148,8 @@ HRESULT CTtakkeun_i::Ready_Components(void* pArg)
 	if (FAILED(__super::Ready_Components(pArg)))
 		return E_FAIL;
 
+	Ready_Textures();
+
 	return S_OK;
 }
 
@@ -163,7 +163,7 @@ HRESULT CTtakkeun_i::Ready_Textures()
 		_tchar buf[32];
 		_itow_s((int)num, buf, 10);
 		sPrototypeTag += buf;
-   		if (FAILED(__super::Add_Component(m_eLevelID, sPrototypeTag,
+   		if (FAILED(__super::Add_Component(LEVEL_STATIC, sPrototypeTag,
 	 		_wstring(TEXT("Com_Texture")) + L"_Boss_Walk_" + buf, reinterpret_cast<CComponent**>(&(m_pTextureMap[STATE_WALK][i])))))
        		return E_FAIL;
 	}
@@ -176,7 +176,7 @@ HRESULT CTtakkeun_i::Ready_Textures()
 		_tchar buf[32];
 		_itow_s((int)num, buf, 10);
 		sPrototypeTag += buf;
-		if (FAILED(__super::Add_Component(m_eLevelID, sPrototypeTag,
+		if (FAILED(__super::Add_Component(LEVEL_STATIC, sPrototypeTag,
 			_wstring(TEXT("Com_Texture")) + L"_Boss_Fly_" + buf, reinterpret_cast<CComponent**>(&(m_pTextureMap[STATE_FLY][i])))))
 			return E_FAIL;
 	}
@@ -189,7 +189,7 @@ HRESULT CTtakkeun_i::Ready_Textures()
 		_tchar buf[32];
 		_itow_s((int)num, buf, 10);
 		sPrototypeTag += buf;
-		if (FAILED(__super::Add_Component(m_eLevelID, sPrototypeTag,
+		if (FAILED(__super::Add_Component(LEVEL_STATIC, sPrototypeTag,
 			_wstring(TEXT("Com_Texture")) + L"_Boss_Fly_Attack_" + buf, reinterpret_cast<CComponent**>(&(m_pTextureMap[STATE_FLY_ATTACK][i])))))
 			return E_FAIL;
 	}
@@ -202,7 +202,7 @@ HRESULT CTtakkeun_i::Ready_Textures()
 		_tchar buf[32];
 		_itow_s((int)num, buf, 10);
 		sPrototypeTag += buf;
-		if (FAILED(__super::Add_Component(m_eLevelID, sPrototypeTag,
+		if (FAILED(__super::Add_Component(LEVEL_STATIC, sPrototypeTag,
 			_wstring(TEXT("Com_Texture")) + L"_Boss_Jump_" + buf, reinterpret_cast<CComponent**>(&(m_pTextureMap[STATE_JUMP][i])))))
 			return E_FAIL;
 	}
@@ -215,7 +215,7 @@ HRESULT CTtakkeun_i::Ready_Textures()
 		_tchar buf[32];
 		_itow_s((int)num, buf, 10);
 		sPrototypeTag += buf;
-		if (FAILED(__super::Add_Component(m_eLevelID, sPrototypeTag,
+		if (FAILED(__super::Add_Component(LEVEL_STATIC, sPrototypeTag,
 			_wstring(TEXT("Com_Texture")) + L"_Boss_Bomb_" + buf, reinterpret_cast<CComponent**>(&(m_pTextureMap[STATE_BOMB][i])))))
 			return E_FAIL;
 	}
@@ -228,7 +228,7 @@ HRESULT CTtakkeun_i::Ready_Textures()
 		_tchar buf[32];
 		_itow_s((int)num, buf, 10);
 		sPrototypeTag += buf;
-		if (FAILED(__super::Add_Component(m_eLevelID, sPrototypeTag,
+		if (FAILED(__super::Add_Component(LEVEL_STATIC, sPrototypeTag,
 			_wstring(TEXT("Com_Texture")) + L"_Boss_Missile_" + buf, reinterpret_cast<CComponent**>(&(m_pTextureMap[STATE_MISSILE][i])))))
 			return E_FAIL;
 	}
