@@ -97,8 +97,8 @@ HRESULT CLevel_Indoor::Load_Map(_uint iLevelIdx, const _wstring& FileName)
 			CMap::DESC tDesc = {};
 			tDesc.fSpeedPerSec = fSpeedPerSec;
 			tDesc.fRotationPerSec = fRotationPerSec;
-			tDesc.vInitPos = vPosition * PLAYSCALE;
-			tDesc.vScale = vScale * PLAYSCALE;
+			tDesc.vInitPos = vPosition * INDOORSCALE;
+			tDesc.vScale = vScale * INDOORSCALE;
 			tDesc.vAngle = vAngle;
 			tDesc.fTextureIdx = fTextureIdx;
 			tDesc.bCollision = bCollision;
@@ -237,8 +237,8 @@ HRESULT CLevel_Indoor::Load_Map(_uint iLevelIdx, const _wstring& FileName)
 			CStatue::DESC tDesc = {};
 			tDesc.fSpeedPerSec = fSpeedPerSec;
 			tDesc.fRotationPerSec = fRotationPerSec;
-			tDesc.vInitPos = vPosition * PLAYSCALE;
-			tDesc.vScale = vScale * PLAYSCALE;
+			tDesc.vInitPos = vPosition * INDOORSCALE;
+			tDesc.vScale = vScale * INDOORSCALE;
 			tDesc.vAngle = vAngle;
 			tDesc.bCollision = bCollision;
 			tDesc.eLevelID = static_cast<LEVEL>(iLevelIdx);
@@ -312,7 +312,7 @@ HRESULT CLevel_Indoor::Ready_Layer_Camera(const _wstring& strLayerTag)
 HRESULT CLevel_Indoor::Ready_Layer_Pawn(const _wstring& strLayerTag)
 {
 	//이 레벨의 플레이어 생성위치
-	_float3 vInitPosition = { 1400.f, 150.f, 200.f };
+	_float3 vInitPosition = { 1400.f, 150.f, 500.f };
 
 	// 플레이어가 있는지 체크하고 있으면 위치만 변경해줌.
 	auto pPlayer = GET_PLAYER;
