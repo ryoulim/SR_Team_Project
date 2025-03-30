@@ -57,6 +57,7 @@ EVENT CCultist::Update(_float fTimeDelta)
 void CCultist::Late_Update(_float fTimeDelta)
 {
 	__super::Late_Update(fTimeDelta);
+	Resize_Texture(0.35f);
 }
 
 HRESULT CCultist::Render()

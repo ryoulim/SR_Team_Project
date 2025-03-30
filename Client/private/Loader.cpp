@@ -686,16 +686,16 @@ HRESULT CLoader::Loding_For_Static()
 		return E_FAIL;
 
 	 //내일 카메라 매니저에 넣어야함
-	CCamera::DESC desc = {};
-	desc.vEye = _float3(0.f, 0.f, -20.f);
-	desc.vAt = _float3();
-	desc.fFov = 60.f;
-	desc.fNear = 0.1f;
-	desc.fFar = 2000.f;
+	//CCamera::DESC desc = {};
+	//desc.vEye = _float3(0.f, 0.f, -20.f);
+	//desc.vAt = _float3();
+	//desc.fFov = 60.f;
+	//desc.fNear = 0.1f;
+	//desc.fFar = 2000.f;
 
-	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_TPS_Camera"),
-		LEVEL_STATIC, TEXT("Layer_Camera"), &desc)))
-		return E_FAIL;
+	//if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_TPS_Camera"),
+	//	LEVEL_STATIC, TEXT("Layer_Camera"), &desc)))
+	//	return E_FAIL;
 
 	m_eNextLevelID = Tmp;
 	return S_OK;

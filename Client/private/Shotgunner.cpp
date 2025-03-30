@@ -56,6 +56,7 @@ EVENT CShotgunner::Update(_float fTimeDelta)
 void CShotgunner::Late_Update(_float fTimeDelta)
 {
 	__super::Late_Update(fTimeDelta);
+	Resize_Texture(0.35f);
 }
 
 HRESULT CShotgunner::Render()
