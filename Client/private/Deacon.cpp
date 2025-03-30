@@ -107,7 +107,7 @@ void CDeacon::On_Collision(_uint MyColliderID, _uint OtherColliderID)
 	else if (CI_WEAPON(OtherColliderID))
 	{
 		//그 즉시 배틀모드 진입
-		if (!m_eState == MODE::MODE_RETURN)
+		if (m_eState != MODE::MODE_RETURN)
 			m_eState = MODE::MODE_BATTLE;
 
 		//위치탐색

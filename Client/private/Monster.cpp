@@ -151,6 +151,26 @@ HRESULT CMonster::Release_RenderState()
 	return S_OK;
 }
 
+void CMonster::FrameUpdate(_float timeDelta, _float _MaxFrame, _float fSpeed, _bool isLoop)
+{
+	if (isLoop)
+	{
+		//현재 프레임이 맥스프레임보다 크면 ? 0 으로 바꿔라.
+		if (_MaxFrame <= m_fAnimationFrame)
+		{
+			m_fAnimationFrame -= _MaxFrame;
+		}
+	}
+	else
+	{
+		//반복이 아니면 그냥 리턴 
+		if (_MaxFrame <= m_fAnimationFrame)
+			return;
+	}
+	m_fAnimationFrame += fSpeed * timeDelta;
+
+}
+
 HRESULT CMonster::Ready_Components(void* pArg)
 {
 

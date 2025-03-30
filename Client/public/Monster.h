@@ -52,6 +52,8 @@ protected:
 	virtual HRESULT Render();
 	virtual HRESULT Release_RenderState();
 
+	void FrameUpdate(_float timeDelta, _float _MaxFrame, _float fSpeed, _bool isLoop);
+
 protected:
 	virtual HRESULT Ready_Components(void* pArg);
 
@@ -183,6 +185,10 @@ protected: // 랜덤 난수 생성변수
 	mt19937 m_Gen{ std::random_device{}() };
 	uniform_real_distribution<float> m_Dist;
 
+protected: // 애니메이션
+	_float	m_fAnimationFrame = 0;
+	_float	m_fAnimationMaxFrame = 0;
+	_float	m_fAnimationSpeed = 0;
 
 protected:
 	// 배회 이동 관련

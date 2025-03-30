@@ -43,6 +43,8 @@ public:	//이니셜라이즈
 	virtual HRESULT Initialize_Prototype()override;
 	virtual HRESULT Initialize(void* pArg)override;
 
+	void FrameUpdate(_float timeDelta, _float _MaxFrame, _float fSpeed, _bool isLoop);
+
 
 public:
 	virtual EVENT	Update(_float fTimeDelta);
@@ -123,6 +125,11 @@ protected: //멤버변수
 	_float					m_fMax = 0;
 
 	_bool					m_bIsLoop = true;
+
+protected: // 애니메이션
+	_float	m_fAnimationFrame = 0;
+	_float	m_fAnimationMaxFrame = 0;
+	_float	m_fAnimationSpeed = 0;
 
 };
 
