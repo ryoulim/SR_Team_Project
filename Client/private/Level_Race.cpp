@@ -2,6 +2,7 @@
 
 #include "GameInstance.h"
 #include "Statue.h"
+#include "Map.h"
 #include "PlayerOnBoat.h"
 #include "Camera.h"
 
@@ -43,8 +44,12 @@ HRESULT CLevel_Race::Render()
 
 HRESULT CLevel_Race::Ready_Layer_Terrain(const _wstring& strLayerTag)
 {
+	CMap::DESC desc = {};
+	desc.vScale = _float3(1.f, 1.f, 1.f);
+	desc.eLevelID = LEVEL_RACE;
+
 	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_RACE, TEXT("Prototype_GameObject_RaceTerrain"),
-		LEVEL_RACE, strLayerTag)))
+		LEVEL_RACE, strLayerTag, &desc)))
 		return E_FAIL;
 	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_Sky"),
 		LEVEL_RACE, strLayerTag)))
@@ -220,6 +225,7 @@ HRESULT CLevel_Race::Ready_Layer_Pawn(const _wstring& strLayerTag)
 	PlayerOnBoatDesc.fRotationPerSec = RADIAN(180.f);
 	PlayerOnBoatDesc.fSpeedPerSec = 1000.f;
 	PlayerOnBoatDesc.fMouseSensor = 0.1f;
+	PlayerOnBoatDesc.eLevelID = LEVEL_RACE;
 
 	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_RACE, TEXT("Prototype_GameObject_PlayerOnBoat"),
 		LEVEL_RACE, strLayerTag, &PlayerOnBoatDesc)))

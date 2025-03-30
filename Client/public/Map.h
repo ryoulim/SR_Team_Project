@@ -5,7 +5,7 @@
 #include "GameInstance.h"
 
 #define BOSSSCALE 22.f
-#define PLAYSCALE 13.f
+#define PLAYSCALE 12.f
 
 BEGIN(Engine)
 class CTexture;
@@ -51,6 +51,8 @@ protected:
 	LEVEL m_eLevelID = { LEVEL_END };
 	const _tchar* m_szTextureID = { nullptr };
 	const _tchar* m_szBufferType = { nullptr };
+	_float	  m_fTextureIdx = {};
+
 
 	CTexture* m_pTextureCom = { nullptr };
 	CVIBuffer* m_pVIBufferCom = { nullptr };

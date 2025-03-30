@@ -52,7 +52,7 @@ HRESULT CMap::Render()
 
 	m_pGraphic_Device->SetTextureStageState(0, D3DTSS_TEXCOORDINDEX, 0);
 
-	if (FAILED(m_pTextureCom->Bind_Resource(static_cast<_uint>(m_fTextureNum))))
+	if (FAILED(m_pTextureCom->Bind_Resource(static_cast<_uint>(m_fTextureIdx))))
 		return E_FAIL;
 
 	if (FAILED(m_pVIBufferCom->Bind_Buffers()))
@@ -105,7 +105,7 @@ HRESULT CMap::Ready_Components(void* pArg)
 		m_pTransformCom->Scaling(pDesc->vScale);
 		m_pTransformCom->Set_State(CTransform::STATE_POSITION, (pDesc->vInitPos));
 
-		m_fTextureNum = pDesc->fTextureIdx;
+		m_fTextureIdx = pDesc->fTextureIdx;
 	}
 
 	return S_OK;

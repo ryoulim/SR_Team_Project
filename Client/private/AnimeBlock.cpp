@@ -50,6 +50,14 @@ HRESULT CAnimeBlock::Render()
 	return __super::Render();
 }
 
+void CAnimeBlock::Move_Frame(_float fTimeDelta)
+{
+	m_fTextureIdx += m_fMaxFrame * fTimeDelta;
+
+	if (m_fTextureIdx >= m_fMaxFrame)
+		m_fTextureIdx = 0.f;
+}
+
 CAnimeBlock* CAnimeBlock::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 {
 	CAnimeBlock* pInstance = new CAnimeBlock(pGraphic_Device);

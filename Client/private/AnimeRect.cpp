@@ -51,10 +51,10 @@ HRESULT CAnimeRect::Render()
 
 void CAnimeRect::Move_Frame(_float fTimeDelta)
 {
-	m_fTextureNum += m_fMaxFrame * fTimeDelta;
+	m_fTextureIdx += m_fMaxFrame * fTimeDelta;
 
-	if (m_fTextureNum >= m_fMaxFrame)
-		m_fTextureNum = 0.f;
+	if (m_fTextureIdx >= m_fMaxFrame)
+		m_fTextureIdx = 0.f;
 }
 
 CAnimeRect* CAnimeRect::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
