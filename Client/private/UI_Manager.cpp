@@ -126,6 +126,7 @@ HRESULT CUI_Manager::Initialize_Player()
 	if (nullptr == m_pPlayer)
 		return E_FAIL;
 	Safe_AddRef(m_pPlayer);
+
 	return S_OK;
 }
 

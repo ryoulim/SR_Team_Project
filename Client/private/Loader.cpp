@@ -463,7 +463,6 @@ HRESULT CLoader::Loading_For_GamePlay()
 	ADD_TEXTURE(Terrain, "../Bin/Resources/Textures/Check_Tile.PNG", 1);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
 	ADD_TEXTURE(Lava, "../Bin/Resources/Textures/Map/Lava/Tile%d.PNG", 16); fDataCurNum++; m_fLoadPercent = fDataCurNum / fDataNum;
 
-	ADD_TEXTURE(MyCube, "../Bin/Resources/Textures/Snow/Snow.png", 1);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
 	ADD_TEXTURE(Aim, "../Bin/Resources/Textures/Aim/aim0.PNG", 1);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
 	ADD_TEXTURE(Armor, "../Bin/Resources/Textures/UI/Armor/armor%d.PNG", 3);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
 	ADD_TEXTURE(Ammo, "../Bin/Resources/Textures/UI/Ammo/ammo%d.PNG", 8);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
@@ -478,11 +477,6 @@ HRESULT CLoader::Loading_For_GamePlay()
 	ADD_TEXTURE(Canopy, "../Bin/Resources/Textures/Object/Canopy/Canopy%d.png", 2);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
 
 	ADD_TEXTURE(TestBullet, "../Bin/Resources/Textures/Bullet/Test/tile7859.png", 1);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
-	ADD_TEXTURE(GrenadeBullet, "../Bin/Resources/Textures/Bullet/Grenade/GrenadeBullet.png", 1);
-	ADD_TEXTURE(Weapon_LoverBoy, "../Bin/Resources/Textures/Weapon/LoverBoy/LoverBoy%d.PNG", 15);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
-	ADD_TEXTURE(LeftHand, "../Bin/Resources/Textures/Weapon/LeftHand/LeftHand%d.PNG", 2);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
-	ADD_TEXTURE(Weapon_Chaingun, "../Bin/Resources/Textures/Weapon/ChainGun/ChainGun%d.PNG", 16);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
-	ADD_TEXTURE(Weapon_Dispenser, "../Bin/Resources/Textures/Weapon/Dispenser/Dispenser%d.PNG", 60);
 	ADD_TEXTURE(MonsterBounce, "../Bin/Resources/Textures/Bullet/MonsterBounce/MonsterBounce%d.PNG", 4);
 
 	ADD_TEXTURE(Test, "../Bin/Resources/Textures/TileTest/tile%d.PNG", 126); fDataCurNum++; m_fLoadPercent = fDataCurNum / fDataNum;
@@ -743,12 +737,6 @@ HRESULT CLoader::Loading_For_GamePlay()
 	ADD_PRTOBJ(Signboard);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
 	ADD_PRTOBJ(MyComputer);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
 	ADD_PRTOBJ(Canopy);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
-	ADD_PRTOBJ(Player);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
-	ADD_PRTOBJ(TestBullet);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
-	ADD_PRTOBJ(Weapon_LoverBoy);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
-	ADD_PRTOBJ(Weapon_Chaingun);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
-	ADD_PRTOBJ(Weapon_Dispenser);
-	ADD_PRTOBJ(GrenadeBullet);
 
 	ADD_PRTOBJ(TriangularPillar);
 	ADD_PRTOBJ(Block);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;

@@ -205,7 +205,6 @@ HRESULT CMainApp::Ready_Component_For_Static()
 
 	ADD_TEXTURE(LevelLoadingMenu, "../Bin/Resources/Textures/UI/Loading/lvlloading%d.png", 4);
 
-	
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Sky"),
 		CTexture::Create(m_pGraphic_Device, TEXT("../Bin/Resources/Textures/SkyBox/Sky_%d.dds"), 1, CTexture::TYPE_CUBE))))
 		return E_FAIL;
@@ -214,8 +213,24 @@ HRESULT CMainApp::Ready_Component_For_Static()
 		CShader::Create(m_pGraphic_Device, L"../bin/ShaderFiles/Shader_TextureEffect.hlsl"))))))
 		return E_FAIL;
 
+#pragma region PLAYER
+	ADD_TEXTURE(MyCube, "../Bin/Resources/Textures/Snow/Snow.png", 1);
+	ADD_TEXTURE(GrenadeBullet, "../Bin/Resources/Textures/Bullet/Grenade/GrenadeBullet.png", 1);
+	ADD_TEXTURE(Weapon_LoverBoy, "../Bin/Resources/Textures/Weapon/LoverBoy/LoverBoy%d.PNG", 15);
+	ADD_TEXTURE(LeftHand, "../Bin/Resources/Textures/Weapon/LeftHand/LeftHand%d.PNG", 2);
+	ADD_TEXTURE(Weapon_Chaingun, "../Bin/Resources/Textures/Weapon/ChainGun/ChainGun%d.PNG", 16);
+	ADD_TEXTURE(Weapon_Dispenser, "../Bin/Resources/Textures/Weapon/Dispenser/Dispenser%d.PNG", 60);
+
+#pragma endregion
+
 	return S_OK;
 }
+
+#include "Player.h"
+#include "Weapon_LoverBoy.h"
+#include "Weapon_Chaingun.h"
+#include "Weapon_Dispenser.h"
+#include "GrenadeBullet.h"
 
 HRESULT CMainApp::Ready_Protype_Object_For_Static()
 {
@@ -233,6 +248,13 @@ HRESULT CMainApp::Ready_Protype_Object_For_Static()
 	ADD_PRTOBJ(Trigger);
 	ADD_PRTOBJ(Sky);
 
+#pragma region PLAYER
+	ADD_PRTOBJ(Player);
+	ADD_PRTOBJ(Weapon_LoverBoy);
+	ADD_PRTOBJ(Weapon_Chaingun);
+	ADD_PRTOBJ(Weapon_Dispenser);
+	ADD_PRTOBJ(GrenadeBullet);
+#pragma endregion
 	return S_OK;
 }
 

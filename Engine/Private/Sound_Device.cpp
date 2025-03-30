@@ -126,10 +126,6 @@ CSound_Event* CSound_Device::Create_Event_Instance(const string& eventPath)
 
 CSound_Core* CSound_Device::Create_Core_Instance(const string& path, _bool is3D, _bool loop, _bool stream)
 {
-	//auto it = m_CoreSounds.find(path);
-	//if (it != m_CoreSounds.end())
-	//	return it->second;
-
 	FMOD::Sound* sound = nullptr;
 	FMOD_MODE mode = FMOD_DEFAULT;
 
@@ -145,8 +141,6 @@ CSound_Core* CSound_Device::Create_Core_Instance(const string& path, _bool is3D,
 	if (m_pCoreSystem->createSound(path.c_str(), mode, nullptr, &sound) || !sound)
 		return nullptr;
 
-	//auto coreSound = std::make_shared<CoreSound>(sound);
-	//m_CoreSounds.emplace(path, coreSound);
 	return CSound_Core::Create(m_pCoreSystem, sound);
 }
 

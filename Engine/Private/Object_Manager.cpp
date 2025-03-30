@@ -112,7 +112,10 @@ void CObject_Manager::Clear(_uint iLevelIndex)
 
 CGameObject* CObject_Manager::Find_Object(_uint iLevelIndex, const _wstring& strLayerTag, _uint iVectorIndex)
 {
-	return Find_Layer(iLevelIndex, strLayerTag)->Find_Object(iVectorIndex);
+	auto pLayer = Find_Layer(iLevelIndex, strLayerTag);
+	if (!pLayer)
+		return nullptr;
+	return pLayer->Find_Object(iVectorIndex);
 }
 
 list<CGameObject*>* CObject_Manager::Find_Objects(_uint iLevelIndex, const _wstring& strLayerTag)

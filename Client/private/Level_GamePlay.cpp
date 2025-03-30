@@ -162,10 +162,6 @@ HRESULT CLevel_GamePlay::Ready_Layer_Camera(const _wstring& strLayerTag)
 {
 	CAMERA_MANAGER->Mouse_Fix_Mode_Switch();
 
-	//if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_CameraManager"),
-	//	LEVEL_GAMEPLAY, strLayerTag, m_pData->Find_Data(TEXT("Dynamic_Camera")))))
-	//	return E_FAIL;
-
 	return S_OK;
 }
 
@@ -256,18 +252,31 @@ HRESULT CLevel_GamePlay::Ready_Layer_Effect(const _wstring& strLayerTag)
 }
 
 #include "Player.h"
-
 HRESULT CLevel_GamePlay::Ready_Layer_Pawn(const _wstring& strLayerTag)
 {
+	//이 레벨의 플레이어 생성위치
+	_float3 vInitPosition = { 1400.f, 150.f, 200.f };
+
+	// 플레이어가 있는지 체크하고 있으면 위치만 변경해줌.
+	auto pPlayer = GET_PLAYER;
+	if (pPlayer)
+	{
+		static_cast<CTransform*>(pPlayer->Find_Component(TEXT("Com_Transform")))
+			->Set_State(CTransform::STATE_POSITION, vInitPosition);
+		return S_OK;
+	}
+
+	//없으면 새로 생성해서 넣어줌
 	CPlayer::DESC PlayerDesc{};
-	PlayerDesc.vInitPos = _float3{ 1400.f, 150.f, 200.f };
+	PlayerDesc.vInitPos = vInitPosition;
 	PlayerDesc.vScale = { 20.f, 30.f, 20.f };
 	PlayerDesc.fRotationPerSec = RADIAN(180.f);
 	PlayerDesc.fSpeedPerSec = 150.f;
-	PlayerDesc.eLevelID = LEVEL_GAMEPLAY;
+	PlayerDesc.eLevelID = LEVEL_STATIC;
 
-	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Player"),
-		LEVEL_GAMEPLAY, strLayerTag, &PlayerDesc)))
+	// 최초 게임 입장할때 어디에서 입장하던 스태틱에 생성해준다.
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_Player"),
+		LEVEL_STATIC, strLayerTag, &PlayerDesc)))
 		return E_FAIL;
 
 	return S_OK;

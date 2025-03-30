@@ -24,19 +24,19 @@ public:
 	void Play(_float Volume);
 	void Stop();
 	void Set_Volume(_float Volume);
-	// 소리가 나는 월드 포지션, 움직이지 않는 물체의 경우 fTimedelta를 0으로 두어주세요
-	void Set3DPosition(const _float3& pos, _float fTimedelta = 0.f);
-	// 소리의 감쇠곡선을 결정할 죄소,최대 거리
-	void Set3DMinMaxDistance(_float fMin, _float fMax);
+	// 사운드 포지션 업데이트
+	void Update3DPosition();
+	//트랜스폼과 소리의 감쇠곡선을 결정할 죄소,최대 거리
+	void Set3DState(class CTransform* pTransform, _float fMin, _float fMax);
 	_bool IsPlaying() const;
 	void SetPaused(_bool paused);
 private:
+	class CTransform* m_pTransform = { nullptr };
 	FMOD::System* m_pCoreSystem = { nullptr };
 	FMOD::Sound* m_pSound = { nullptr };
 	FMOD::Channel* m_pChannel = { nullptr };
 	FMOD::ChannelGroup* m_pChannelGroup = { nullptr };
 	_float3		m_vSoundPos{};
-	_float3		m_vSoundVel{};
 
 private:
 	static _float3		m_vCurve[6];

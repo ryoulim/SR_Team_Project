@@ -1,5 +1,6 @@
 #include "Sound_Core.h"
 #include "fmod.hpp"
+#include "Transform.h"
 
 _float3 CSound_Core::m_vCurve[6]{};
 const _float CSound_Core::m_fCurveRatios[6] = { 0.0f, 0.1f, 0.25f, 0.5f, 0.8f, 1.0f };  // 0~1 거리 비율
@@ -24,7 +25,7 @@ void CSound_Core::Play(_float Volume)
         sizeof(m_vCurve) / sizeof(FMOD_VECTOR));
 
     m_pChannel->setVolume(Volume);
-    m_pChannel->set3DAttributes(reinterpret_cast<FMOD_VECTOR*>(&m_vSoundPos), reinterpret_cast<FMOD_VECTOR*>(&m_vSoundVel));
+    m_pChannel->set3DAttributes(reinterpret_cast<FMOD_VECTOR*>(&m_vSoundPos), {});
 
     SetPaused(false);
 }
@@ -44,17 +45,25 @@ void CSound_Core::Set_Volume(_float Volume)
         m_pChannel->setVolume(Volume);
 }
 
-void CSound_Core::Set3DPosition(const _float3& pos, _float fTimedelta)
+void CSound_Core::Update3DPosition()
 {
-    m_vSoundVel = (pos - m_vSoundPos) * fTimedelta; 
-    m_vSoundPos = pos;
+    const _float3& vCurPos = *m_pTransform->Get_State(CTransform::STATE_POSITION);
+
+    _float3 vSoundVel = vCurPos - m_vSoundPos;
+    m_vSoundPos = vCurPos;
     if (m_pChannel)
-        m_pChannel->set3DAttributes(reinterpret_cast<FMOD_VECTOR*>(&m_vSoundPos), reinterpret_cast<FMOD_VECTOR*>(&m_vSoundVel));
+        m_pChannel->set3DAttributes(reinterpret_cast<FMOD_VECTOR*>(&m_vSoundPos), reinterpret_cast<FMOD_VECTOR*>(&vSoundVel));
 
 }
 
-void CSound_Core::Set3DMinMaxDistance(_float fMin, _float fMax)
+void CSound_Core::Set3DState(CTransform* pTransfrom, _float fMin, _float fMax)
 {
+    m_pTransform = pTransfrom;
+    Safe_AddRef(m_pTransform);
+
+    const _float3& vCurPos = *m_pTransform->Get_State(CTransform::STATE_POSITION);
+    m_pChannel->set3DAttributes(reinterpret_cast<FMOD_VECTOR*>(&m_vSoundPos), {});
+
     for (_uint i = 0; i < 6; ++i)
     {
         m_vCurve[i].x = fMin + (fMax - fMin) * m_fCurveRatios[i];  // 거리 리매핑
@@ -87,4 +96,6 @@ void CSound_Core::Free()
 {
     __super::Free();
     Stop();
+
+    Safe_Release(m_pTransform);
 }

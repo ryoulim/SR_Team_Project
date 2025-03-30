@@ -39,7 +39,7 @@ HRESULT CWeapon_LoverBoy::Initialize(void* pArg)
 
 	//m_pTestSound = m_pGameInstance->Create_Sound_Event("event:/Test_SFX");
 	m_pCoreSoundTest = m_pGameInstance->Create_Core_Sound("../bin/Resources/Sound/Music/bobs.ogg");
-	m_pCoreSoundTest->Set3DMinMaxDistance(10.f, 500.f);
+	m_pCoreSoundTest->Set3DState(m_pPlayerTransform, 10.f, 500.f);
 	return S_OK;
 }
 
@@ -219,7 +219,7 @@ void CWeapon_LoverBoy::Left_Hand_Render()
 HRESULT CWeapon_LoverBoy::Ready_Components(void* pArg)
 {
 	/* For.Com_Texture */
-	if (FAILED(__super::Add_Component(LEVEL_GAMEPLAY, _wstring(TEXT("Prototype_Component_Texture_LeftHand")),
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, _wstring(TEXT("Prototype_Component_Texture_LeftHand")),
 		TEXT("Com_Left_Texture"), reinterpret_cast<CComponent**>(&m_LeftHand.pTextureCom))))
 		return E_FAIL;
 

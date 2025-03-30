@@ -167,7 +167,7 @@ void CWeapon::Key_Input()
 			//m_pTestSound->Set3DAttributes(*m_pPlayerTransform->Get_State(CTransform::STATE_POSITION));
 			//m_pTestSound->SetVolume(0.7f);
 			//m_pTestSound->Play();
-			m_pCoreSoundTest->Set3DPosition(*m_pPlayerTransform->Get_State(CTransform::STATE_POSITION));
+			m_pCoreSoundTest->Update3DPosition();
 			m_pCoreSoundTest->Play(0.7f);
 			Set_State(CWeapon::ST_W_ATK);
 			Create_Bullet();
@@ -190,7 +190,7 @@ void CWeapon::Key_Input()
 HRESULT CWeapon::Ready_Components(void* pArg)
 {
 	/* For.Com_Texture */
-	if (FAILED(__super::Add_Component(LEVEL_GAMEPLAY, _wstring(TEXT("Prototype_Component_Texture_")) + m_szTextureID,
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, _wstring(TEXT("Prototype_Component_Texture_")) + m_szTextureID,
 		TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
 		return E_FAIL;
 

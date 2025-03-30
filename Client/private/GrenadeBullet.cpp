@@ -22,7 +22,7 @@ HRESULT CGrenadeBullet::Initialize_Prototype()
 HRESULT CGrenadeBullet::Initialize(void* pArg)
 {
 	DESC* pDesc = static_cast<DESC*>(pArg);
-	m_eLevelID = LEVEL_GAMEPLAY;
+	m_eLevelID = LEVEL_STATIC;
 	m_szTextureID = pDesc->szTextureTag;
 	m_szBufferType = TEXT("Rect");
 	m_bAnimation = pDesc->bAnimation;
