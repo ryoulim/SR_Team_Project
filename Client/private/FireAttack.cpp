@@ -20,8 +20,9 @@ HRESULT CFireAttack::Initialize(void* pArg)
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
 
-	//m_fFrame = GetRandomFloat(0.f, m_fAnimationMaxFrame);
-
+	//만약 보스가 1마리만 남으면 구분이 사라지게
+	if (m_pGameInstance->Find_Objects(LEVEL_BOSS, L"Layer_Boss")->size() < 2)
+		m_iNum = 0;
 
 	return S_OK;
 }

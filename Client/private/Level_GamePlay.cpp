@@ -78,30 +78,6 @@ void CLevel_GamePlay::Update(_float fTimeDelta)
 	CFXMgr::Get_Instance()->SpawnMultipleExplosions2(fTimeDelta, LEVEL_GAMEPLAY);
 	CFXMgr::Get_Instance()->SpawnMultipleExplosions3(fTimeDelta, LEVEL_GAMEPLAY);
 
-	//방목용
-	if (KEY_DOWN(DIK_M))
-	{
-		//SpawnTtakkeun_i(_float3{ 1400.f, 100.f, 1500.f }, true); 
-		//SpawnWenteko(_float3{ 900.f, 40.f, 600.f }, true);
-		//SpawnShotgunner(_float3{ 900.f, 20.f, 600.f }, true);
-		//SpawnNukemutant(_float3{ 900.f, 30.f, 600.f }, true);
-		//SpawnMechsect(_float3{ 900.f, 10.f, 600.f }, true);
-		//SpawnGreater(_float3{ 900.f, 20.f, 600.f }, true);
-		SpawnDeacon(_float3{ 1400.f, 80.f, 1500.f }, true);
-		//SpawnArchangel(_float3{ 900.f, 80.f, 600.f }, true);
-	}
-	if (KEY_DOWN(DIK_Z))
-	{
-		SpawnCultist(_float3{ 1200.f, 50.f, 1500.f }, false);
-		SpawnShotgunner(_float3{ 1250.f, 50.f, 1500.f }, false);
-		SpawnNukemutant(_float3{ 1300.f, 50.f, 1500.f }, false);
-		SpawnGreater(_float3{ 1350.f, 50.f, 1500.f }, false);
-		SpawnArchangel(_float3{ 1400.f, 50.f, 1500.f }, false);
-		SpawnDeacon(_float3{ 1450.f, 50.f, 1500.f }, false);
-		SpawnMechsect(_float3{ 1500.f, 80.f, 1500.f }, false);
-	}
-		//SpawnWenteko(_float3{ 1400.f, 80.f, 1500.f }, true);
-
 	Check_Collision();
 
 	if (KEY_DOWN(DIK_F11))
@@ -110,18 +86,24 @@ void CLevel_GamePlay::Update(_float fTimeDelta)
 			CLevel_Loading::Create(m_pGraphic_Device, LEVEL_RACE))))
 			return;
 	}
-	//디버깅 모드
+
 	if (KEY_DOWN(DIK_F4))
 	{
-		auto MosterList = m_pGameInstance->Find_Objects(LEVEL_GAMEPLAY , L"Layer_Monster");
-		for (auto Monster : *MosterList)
+		auto MosterList = m_pGameInstance->Find_Objects(LEVEL_GAMEPLAY, L"Layer_Monster");
+		if (MosterList)
 		{
-			static_cast<CMonster*>(Monster)->ToggleDebugMode();
+			for (auto Monster : *MosterList)
+			{
+				static_cast<CMonster*>(Monster)->ToggleDebugMode();
+			}
 		}
 		auto BossList = m_pGameInstance->Find_Objects(LEVEL_GAMEPLAY, L"Layer_Boss");
-		for (auto Boss : *BossList)
+		if (BossList)
 		{
-			static_cast<CMonster*>(Boss)->ToggleDebugMode();
+			for (auto Boss : *BossList)
+			{
+				static_cast<CMonster*>(Boss)->ToggleDebugMode();
+			}
 		}
 	}
 }
@@ -302,19 +284,15 @@ HRESULT CLevel_GamePlay::Ready_Layer_Monster(const _wstring& strLayerTag)
 		return E_FAIL;	
 
 
-	SpawnTtakkeun_i(_float3{ 1200.f, 100.f, 1500.f }, true, 0);
-	SpawnTtakkeun_i(_float3{ 1600.f, 100.f, 1500.f }, true, 1);
-
-	//전시용
-	//SpawnTtakkeun_i(_float3{ 100.f, 66.f, -250.f }, false);
-	//SpawnWenteko(_float3{ 100.f, 40.f, -100.f }, false);
-	SpawnShotgunner(_float3{ 180.f, 20.f, -120.f }, false);
-	SpawnNukemutant(_float3{ 250.f, 30.f, -120.f }, false);
-	SpawnMechsect(_float3{ 330.f, 10.f, -120.f }, false);
-	SpawnGreater(_float3{ 410.f, 20.f, -120.f }, false);
-	SpawnDeacon(_float3{ 220.f, 50.f, -250.f }, false);
-	SpawnCultist(_float3{ 320.f, 30.f, -250.f }, false);
-	SpawnArchangel(_float3{ 420.f, 30.f, -250.f }, false);
+	//전시용 (게임플레이 이니셜)
+	//SpawnWenteko(_float3{ 100.f, 40.f, -100.f }, false, LEVEL_GAMEPLAY);
+	SpawnShotgunner(_float3{ 180.f, 20.f, -120.f }, false, LEVEL_GAMEPLAY);
+	SpawnNukemutant(_float3{ 250.f, 30.f, -120.f }, false, LEVEL_GAMEPLAY);
+	SpawnMechsect(_float3{ 330.f, 10.f, -120.f }, false, LEVEL_GAMEPLAY);
+	SpawnGreater(_float3{ 410.f, 20.f, -120.f }, false, LEVEL_GAMEPLAY);
+	SpawnDeacon(_float3{ 220.f, 50.f, -250.f }, false, LEVEL_GAMEPLAY);
+	SpawnCultist(_float3{ 320.f, 30.f, -250.f }, false, LEVEL_GAMEPLAY);
+	SpawnArchangel(_float3{ 420.f, 30.f, -250.f }, false, LEVEL_GAMEPLAY);
 
 	return S_OK;
 }
@@ -394,20 +372,8 @@ void CLevel_GamePlay::Check_Collision()
 	m_pGameInstance->Intersect(CG_MONSTER, CG_BLOCK);
 }
 
-void CLevel_GamePlay::SpawnTtakkeun_i(_float3 _Position, bool m_bActive, _int _iNum)
-{
-	CMonster::DESC Ttakkeun_iDesc2{};
-	Ttakkeun_iDesc2.vPosition = _Position;
-	Ttakkeun_iDesc2.fSpeedPerSec = 60.f;
-	Ttakkeun_iDesc2.fRotationPerSec = RADIAN(180.f);
-	Ttakkeun_iDesc2.vActive = m_bActive;
-	Ttakkeun_iDesc2.vReturnPos = _Position;
-	Ttakkeun_iDesc2.iNums = _iNum;
-	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Ttakkeun_i"),
-		LEVEL_GAMEPLAY, L"Layer_Boss", &Ttakkeun_iDesc2)))
-		return;
-}
-void CLevel_GamePlay::SpawnWenteko(_float3 _Position, bool m_bActive)
+
+void CLevel_GamePlay::SpawnWenteko(_float3 _Position, bool m_bActive, LEVEL _eLevel)
 {
 	//웬테코
 	CMonster::DESC Wenteko_iDesc{};
@@ -416,11 +382,12 @@ void CLevel_GamePlay::SpawnWenteko(_float3 _Position, bool m_bActive)
 	Wenteko_iDesc.fRotationPerSec = RADIAN(180.f);
 	Wenteko_iDesc.vActive = m_bActive;
 	Wenteko_iDesc.vReturnPos = _Position;
-	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Wenteko"),
-		LEVEL_GAMEPLAY, L"Layer_Monster", &Wenteko_iDesc)))
+	Wenteko_iDesc.eLevel = _eLevel;
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_Wenteko"),
+		_eLevel, L"Layer_Monster", &Wenteko_iDesc)))
 		return;
 }
-void CLevel_GamePlay::SpawnShotgunner(_float3 _Position, bool m_bActive)
+void CLevel_GamePlay::SpawnShotgunner(_float3 _Position, bool m_bActive, LEVEL _eLevel)
 {
 	//샷거너
 	CMonster::DESC Shotgunner_iDesc{};
@@ -429,11 +396,12 @@ void CLevel_GamePlay::SpawnShotgunner(_float3 _Position, bool m_bActive)
 	Shotgunner_iDesc.fRotationPerSec = RADIAN(180.f);
 	Shotgunner_iDesc.vActive = m_bActive;
 	Shotgunner_iDesc.vReturnPos = _Position;
-	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Shotgunner"),
-		LEVEL_GAMEPLAY, L"Layer_Monster", &Shotgunner_iDesc)))
+	Shotgunner_iDesc.eLevel = _eLevel;
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_Shotgunner"),
+		_eLevel, L"Layer_Monster", &Shotgunner_iDesc)))
 		return;
 }
-void CLevel_GamePlay::SpawnNukemutant(_float3 _Position, bool m_bActive)
+void CLevel_GamePlay::SpawnNukemutant(_float3 _Position, bool m_bActive, LEVEL _eLevel)
 {
 	CMonster::DESC Nukemutant_iDesc{};
 	Nukemutant_iDesc.vPosition = _Position;
@@ -441,11 +409,12 @@ void CLevel_GamePlay::SpawnNukemutant(_float3 _Position, bool m_bActive)
 	Nukemutant_iDesc.fRotationPerSec = RADIAN(180.f);
 	Nukemutant_iDesc.vActive = m_bActive;
 	Nukemutant_iDesc.vReturnPos = _Position;
-	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Nukemutant"),
-		LEVEL_GAMEPLAY, L"Layer_Monster", &Nukemutant_iDesc)))
+	Nukemutant_iDesc.eLevel = _eLevel;
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_Nukemutant"),
+		_eLevel, L"Layer_Monster", &Nukemutant_iDesc)))
 		return;
 }
-void CLevel_GamePlay::SpawnMechsect(_float3 _Position, bool m_bActive)
+void CLevel_GamePlay::SpawnMechsect(_float3 _Position, bool m_bActive, LEVEL _eLevel)
 {
 	CMonster::DESC Mechsect_iDesc{};
 	Mechsect_iDesc.vPosition = _Position;
@@ -453,11 +422,12 @@ void CLevel_GamePlay::SpawnMechsect(_float3 _Position, bool m_bActive)
 	Mechsect_iDesc.fRotationPerSec = RADIAN(180.f);
 	Mechsect_iDesc.vActive = m_bActive;
 	Mechsect_iDesc.vReturnPos = _Position;
-	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Mechsect"),
-		LEVEL_GAMEPLAY, L"Layer_Monster", &Mechsect_iDesc)))
+	Mechsect_iDesc.eLevel = _eLevel;
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_Mechsect"),
+		_eLevel, L"Layer_Monster", &Mechsect_iDesc)))
 		return;
 }
-void CLevel_GamePlay::SpawnGreater(_float3 _Position, bool m_bActive)
+void CLevel_GamePlay::SpawnGreater(_float3 _Position, bool m_bActive, LEVEL _eLevel)
 {
 	CMonster::DESC Greater_iDesc{};
 	Greater_iDesc.vPosition = _Position;
@@ -465,11 +435,12 @@ void CLevel_GamePlay::SpawnGreater(_float3 _Position, bool m_bActive)
 	Greater_iDesc.fRotationPerSec = RADIAN(180.f);
 	Greater_iDesc.vActive = m_bActive;
 	Greater_iDesc.vReturnPos = _Position;
-	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Greater"),
-		LEVEL_GAMEPLAY, L"Layer_Monster", &Greater_iDesc)))
+	Greater_iDesc.eLevel = _eLevel;
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_Greater"),
+		_eLevel, L"Layer_Monster", &Greater_iDesc)))
 		return;
 }
-void CLevel_GamePlay::SpawnDeacon(_float3 _Position, bool m_bActive)
+void CLevel_GamePlay::SpawnDeacon(_float3 _Position, bool m_bActive, LEVEL _eLevel)
 {
 	CMonster::DESC Deacon_iDesc{};
 	Deacon_iDesc.vPosition = _Position;
@@ -477,11 +448,12 @@ void CLevel_GamePlay::SpawnDeacon(_float3 _Position, bool m_bActive)
 	Deacon_iDesc.fRotationPerSec = RADIAN(180.f);
 	Deacon_iDesc.vActive = m_bActive;
 	Deacon_iDesc.vReturnPos = _Position;
-	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Deacon"),
-		LEVEL_GAMEPLAY, L"Layer_Monster", &Deacon_iDesc)))
-		return ;
+	Deacon_iDesc.eLevel = _eLevel;
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_Deacon"),
+		_eLevel, L"Layer_Monster", &Deacon_iDesc)))
+		return;
 }
-void CLevel_GamePlay::SpawnCultist(_float3 _Position, bool m_bActive)
+void CLevel_GamePlay::SpawnCultist(_float3 _Position, bool m_bActive, LEVEL _eLevel)
 {
 	CMonster::DESC Cultist_iDesc{};
 	Cultist_iDesc.vPosition = _Position;
@@ -489,11 +461,12 @@ void CLevel_GamePlay::SpawnCultist(_float3 _Position, bool m_bActive)
 	Cultist_iDesc.fRotationPerSec = RADIAN(180.f);
 	Cultist_iDesc.vActive = m_bActive;
 	Cultist_iDesc.vReturnPos = _Position;
-	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Cultist"),
-		LEVEL_GAMEPLAY, L"Layer_Monster", &Cultist_iDesc)))
+	Cultist_iDesc.eLevel = _eLevel;
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_Cultist"),
+		_eLevel, L"Layer_Monster", &Cultist_iDesc)))
 		return;
 }
-void CLevel_GamePlay::SpawnArchangel(_float3 _Position, bool m_bActive)
+void CLevel_GamePlay::SpawnArchangel(_float3 _Position, bool m_bActive, LEVEL _eLevel)
 {
 	CMonster::DESC Archangel_iDesc{};
 	Archangel_iDesc.vPosition = _Position;
@@ -501,8 +474,9 @@ void CLevel_GamePlay::SpawnArchangel(_float3 _Position, bool m_bActive)
 	Archangel_iDesc.fRotationPerSec = RADIAN(180.f);
 	Archangel_iDesc.vActive = m_bActive;
 	Archangel_iDesc.vReturnPos = _Position;
-	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Archangel"),
-		LEVEL_GAMEPLAY, L"Layer_Monster", &Archangel_iDesc)))
+	Archangel_iDesc.eLevel = _eLevel;
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_Archangel"),
+		_eLevel, L"Layer_Monster", &Archangel_iDesc)))
 		return;
 }
 

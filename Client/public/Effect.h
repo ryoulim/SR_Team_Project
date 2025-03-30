@@ -42,6 +42,8 @@ public: //렌더링
 	virtual HRESULT Render();
 	virtual HRESULT Release_RenderState();
 
+	void FrameUpdate(_float timeDelta, _float _MaxFrame, _float fSpeed, _bool isLoop);
+
 protected:
 	virtual HRESULT Ready_Components(void* pArg);
 
@@ -61,6 +63,10 @@ public:
 	virtual CGameObject* Clone(void* pArg) PURE;
 	virtual void Free();
 
+protected: // 애니메이션
+	_float	m_fAnimationFrame = 0;
+	_float	m_fAnimationMaxFrame = 0;
+	_float	m_fAnimationSpeed = 0;
 };
 
 END

@@ -35,6 +35,7 @@ public:
 	virtual void Late_Update(_float fTimeDelta) override;
 	virtual HRESULT Render() override;
 
+	void FrameUpdate(_float timeDelta, _float _MaxFrame, _float fSpeed, _bool isLoop);
 	virtual void On_Collision(_uint MyColliderID, _uint OtherColliderID) override;
 
 protected:
@@ -55,6 +56,11 @@ protected:
 public:
 	virtual CGameObject* Clone(void* pArg) PURE;
 	virtual void Free();
+
+protected: // 애니메이션
+	_float	m_fAnimationFrame = 0;
+	_float	m_fAnimationMaxFrame = 0;
+	_float	m_fAnimationSpeed = 0;
 };
 
 END

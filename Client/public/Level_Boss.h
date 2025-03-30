@@ -32,9 +32,7 @@ private:
 
 	virtual HRESULT Load_Map(_uint iLevelIdx, const _wstring& FileName);
 
-
-private:
-	void SpawnTtakkeun_i(const _float3& _Position, _bool m_bActive, _int _iNum);
+	void SpawnTtakkeun_i(const _float3& _Position, _bool m_bActive, _int _iNum, LEVEL _eLevel);
 
 public:
 	static CLevel_Boss* Create(LPDIRECT3DDEVICE9 pGraphic_Device, class CLevelData* pLevelData);
