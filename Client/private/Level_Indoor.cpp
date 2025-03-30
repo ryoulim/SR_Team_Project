@@ -28,6 +28,7 @@ HRESULT CLevel_Indoor::Initialize(CLevelData* pLevelData)
 
 void CLevel_Indoor::Update(_float fTimeDelta)
 {
+	Check_Collision();
 }
 
 HRESULT CLevel_Indoor::Render()
@@ -100,9 +101,6 @@ HRESULT CLevel_Indoor::Load_Map(_uint iLevelIdx, const _wstring& FileName)
 			strKey = Compute_PrototypeName(strKey);
 
 			_wstring Layertag = TEXT("Layer_") + strKey;
-
-
-			CGravity::Add_StandableObjLayerTag(CG_BLOCK);
 
  			if (FAILED(m_pGameInstance->Add_GameObject(iLevelIdx, Prototype, iLevelIdx, Layertag, &tDesc)))
 			{
@@ -261,20 +259,7 @@ HRESULT CLevel_Indoor::Load_Map(_uint iLevelIdx, const _wstring& FileName)
 
 HRESULT CLevel_Indoor::Ready_Layer_Camera(const _wstring& strLayerTag)
 {
-	CDynamic_Camera::DESC tDesc = {};
-
-	tDesc.fFov = 60.f;
-	tDesc.fFar = 2000.f;
-	tDesc.fNear = 0.1f;
-	tDesc.fSpeedPerSec = 150.f;
-	tDesc.fRotationPerSec = D3DXToRadian(180.f);
-	tDesc.vAt = _float3(0.f, 0.f, 0.f);
-	tDesc.vEye = _float3(0.f, 50.f, -40.f);
-	tDesc.fMouseSensor = 0.05f;
-
-	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_Dynamic_Camera"),
-		LEVEL_BOSS, strLayerTag, &tDesc)))
-		return E_FAIL;
+	CAMERA_MANAGER->Mouse_Fix_Mode_Switch();
 
 	return S_OK;
 }
@@ -308,6 +293,17 @@ HRESULT CLevel_Indoor::Ready_Layer_Pawn(const _wstring& strLayerTag)
 
 	return S_OK;
 }
+
+void CLevel_Indoor::Check_Collision()
+{
+	m_pGameInstance->Intersect(CG_PAWN, CG_BLOCK);
+	m_pGameInstance->Intersect(CG_PBULLET, CG_MONSTER);
+	m_pGameInstance->Intersect(CG_PBULLET, CG_BLOCK);
+	m_pGameInstance->Intersect(CG_MBULLET, CG_BLOCK);
+	m_pGameInstance->Intersect(CG_PAWN, CG_TRIGGER);
+	m_pGameInstance->Intersect(CG_MONSTER, CG_BLOCK);
+}
+
 
 CLevel_Indoor* CLevel_Indoor::Create(LPDIRECT3DDEVICE9 pGraphic_Device,CLevelData* pLevelData)
 {

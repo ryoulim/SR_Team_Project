@@ -127,7 +127,7 @@ HRESULT CMainApp::Initialize()
 		return E_FAIL;
 
 	/* 최초 보여줄 레벨을 할당하자. */
-	if(FAILED(Open_Level(LEVEL_LOGO)))
+	if(FAILED(Open_Level(LEVEL_INDOOR)))
 		return E_FAIL;
 	
 	/*FPS 출력용*/

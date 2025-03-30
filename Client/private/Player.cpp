@@ -167,7 +167,7 @@ void CPlayer::Add_Weapons()
 			PROTOTYPE::TYPE_GAMEOBJECT, m_eLevelID,
 			TEXT("Prototype_GameObject_Weapon_Dispenser"), &WeaponDesc)));
 
-	CUI_Manager::Get_Instance()->Change_Weapon(m_Weapons[m_iCurWeaponIndex]->Get_Info());
+	//CUI_Manager::Get_Instance()->Change_Weapon(m_Weapons[m_iCurWeaponIndex]->Get_Info());
 }
 
 void CPlayer::Key_Input(_float fTimeDelta)
