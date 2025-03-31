@@ -96,7 +96,7 @@
 #include "Trigger.h"
 
 /* 맵툴에서 넘어오는 텍스쳐 갯수, 건들지 말아주세요 감사합니다 */
-#define NUMMAPTEX 135
+#define NUMMAPTEX 136
 
 
 CLoader::CLoader(LPDIRECT3DDEVICE9 pGraphic_Device)
