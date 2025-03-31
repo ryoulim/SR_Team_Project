@@ -58,6 +58,7 @@ void CArchangel::Priority_Update(_float fTimeDelta)
 {
 	Set_Animation();
 	__super::Priority_Update(fTimeDelta);
+	Resize_Texture(0.35f);
 }
 
 EVENT CArchangel::Update(_float fTimeDelta)

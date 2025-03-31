@@ -64,6 +64,7 @@ protected: // 길찾기 및 디텍티브
 	virtual bool IsPlayerDetected();
 	virtual void Render_DebugFOV();
 	const char*	 GetMonsterStateName(CMonster::MODE eState);
+	virtual _bool Raycast_Player();
 
 protected: //상태변환
 	virtual void MonsterTick(_float fTimeDelta);
@@ -222,6 +223,8 @@ protected: // 일반 몬스터 행동 용 변수
 	_bool			m_isReadyToAttack = { false };
 	_float			m_fRaycastTicker = {};
 	_float			m_fSpawnNormalBullet = {};
+	_float			m_fSpawnCooldown = {};
+
 };
 
 END

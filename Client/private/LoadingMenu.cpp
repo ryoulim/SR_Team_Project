@@ -145,10 +145,6 @@ HRESULT CLoadingMenu::Render()
 	if (FAILED(m_pVIBufferCom->Render()))
 		return E_FAIL;
 
-	_uint temp{};
-
-	temp = _uint(m_fLoadingGauge / 0.2f);
-
 	if (m_fLoadingGauge > 0.2f)
 		CUI_Manager::Get_Instance()->Render_Text("Press bar to skip Loading Level !!!", CFont::MEDIUMBLUE, CFont::LEFT, -600.f, -325.f + 26.f * (int(m_fLoadingGauge / 0.2f) - 1));
 	if (m_fLoadingGauge > 0.4f)

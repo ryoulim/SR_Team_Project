@@ -129,7 +129,7 @@ EVENT CSphere::Update(_float timeDelta)
 			//페이드 아웃 효과 (시간이 지날수록 색이 어두워짐)
 			i->_Color.a -= 0.3f * timeDelta;
 			if (i->_Color.a < 0.0f) i->_Color.a = 0.0f;
-
+			
 
 			i->_Age += timeDelta;
 
@@ -203,11 +203,11 @@ HRESULT CSphere::SetUp_RenderState()
 }
 HRESULT CSphere::Render()
 {
-	if (!m_Particles.empty())
+ 	if (!m_Particles.empty())
 	{
 		//렌더 상태를 지정한다.
 		SetUp_RenderState();
-
+		
 		m_pGraphic_Device->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_ONE);
 		m_pGraphic_Device->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_ONE);
 
