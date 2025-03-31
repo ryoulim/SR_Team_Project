@@ -5,6 +5,7 @@
 #include "Level_RaceSecond.h"
 #include "Level_RaceThird.h"
 #include "Level_Indoor.h"
+#include "Level_OutDoor.h"
 #include "Level_Logo.h"
 #include "Level_Boss.h"
 #include "Loader.h"
@@ -102,6 +103,9 @@ void CLevel_Loading::Update(_float fTimeDelta)
 				pLevel = CLevel_Boss::Create(m_pGraphic_Device, m_pLoader->Get_LevelData());
 				break;
 
+			case LEVEL_OUTDOOR:
+				pLevel = CLevel_OutDoor::Create(m_pGraphic_Device, m_pLoader->Get_LevelData());
+				break;
 			}
 
 			if (nullptr == pLevel)

@@ -60,6 +60,7 @@ private:
 	HRESULT Loading_For_RaceThird();
 	HRESULT Loading_For_Boss();
 	HRESULT Loading_For_Indoor();
+	HRESULT Loading_For_Outdoor();
 	HRESULT Add_Data(const _wstring& strFilePath);
 	HRESULT Load_For_Terrain(const _wstring& strFileTag);
 public:

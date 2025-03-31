@@ -774,6 +774,9 @@
     <ClInclude Include="..\public\Level_RaceThird.h">
       <Filter>01.Levels\04. Race\Third</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\Level_OutDoor.h">
+      <Filter>01.Levels\03. Outdoor</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -1151,6 +1154,9 @@
     </ClCompile>
     <ClCompile Include="..\private\Level_RaceThird.cpp">
       <Filter>01.Levels\04. Race\Third</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Level_OutDoor.cpp">
+      <Filter>01.Levels\03. Outdoor</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -211,6 +211,7 @@
     <ClInclude Include="..\public\LevelLoadingMenu.h" />
     <ClInclude Include="..\public\Level_Boss.h" />
     <ClInclude Include="..\public\Level_Indoor.h" />
+    <ClInclude Include="..\public\Level_OutDoor.h" />
     <ClInclude Include="..\public\Level_RaceFirst.h" />
     <ClInclude Include="..\public\Level_RaceSecond.h" />
     <ClInclude Include="..\public\Level_RaceThird.h" />
@@ -340,6 +341,7 @@
     <ClCompile Include="..\private\LevelLoadingMenu.cpp" />
     <ClCompile Include="..\private\Level_Boss.cpp" />
     <ClCompile Include="..\private\Level_Indoor.cpp" />
+    <ClCompile Include="..\private\Level_OutDoor.cpp" />
     <ClCompile Include="..\private\Level_RaceFirst.cpp" />
     <ClCompile Include="..\private\Level_RaceSecond.cpp" />
     <ClCompile Include="..\private\Level_RaceThird.cpp" />
