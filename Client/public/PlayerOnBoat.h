@@ -32,10 +32,15 @@ private:
 	class CCameraManager* m_pCameraManager = { nullptr };
 	CTransform* m_pCameraTransform = { nullptr };
 
+	_float		m_fStartPosX = {};
+	_float		m_fTime = {};
+
 private:
 	void			Key_Input(_float fTimeDelta);
 	void			Init_Camera_Link();
 	void			Update_Camera_Link();
+	_float			LerpToHole(_float StartPos, _float TargetPos, _float fTimeDelta);
+
 
 public:
 	static CPlayerOnBoat* Create(LPDIRECT3DDEVICE9 pGraphic_Device);

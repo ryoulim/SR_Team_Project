@@ -777,6 +777,12 @@
     <ClInclude Include="..\public\Level_RaceThird.h">
       <Filter>01.Levels\04. Race\Third</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\Forest.h">
+      <Filter>02.GameObjects\Statue\Forest</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Rock.h">
+      <Filter>02.GameObjects\Statue\Forest\Rock</Filter>
+    </ClInclude>
     <ClInclude Include="..\public\Interactive_Block.h">
       <Filter>02.GameObjects\Map\Interactive_Block</Filter>
     </ClInclude>
@@ -1160,6 +1166,12 @@
     </ClCompile>
     <ClCompile Include="..\private\Interactive_Block.cpp">
       <Filter>02.GameObjects\Map\Interactive_Block</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Forest.cpp">
+      <Filter>02.GameObjects\Statue\Forest</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Rock.cpp">
+      <Filter>02.GameObjects\Statue\Forest\Rock</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -226,10 +226,10 @@ HRESULT CLevel_RaceFirst::Ready_Layer_Pawn(const _wstring& strLayerTag)
 		pPlayer->Set_Dead();
 
 	CPlayerOnBoat::DESC PlayerOnBoatDesc = {};
-	PlayerOnBoatDesc.vInitPos = { 450.f, 17.f, 0.f };
+	PlayerOnBoatDesc.vInitPos = { 450.f, 17.f, 8000.f };
 	PlayerOnBoatDesc.vScale = { 35.f, 30.f, 20.f };
 	PlayerOnBoatDesc.fRotationPerSec = RADIAN(180.f);
-	PlayerOnBoatDesc.fSpeedPerSec = 2000.f;
+	PlayerOnBoatDesc.fSpeedPerSec = 300.f;
 	PlayerOnBoatDesc.fMouseSensor = 0.1f;
 	PlayerOnBoatDesc.eLevelID = CurLevel;
 

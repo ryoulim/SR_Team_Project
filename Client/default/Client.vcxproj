@@ -199,6 +199,7 @@
     <ClInclude Include="..\public\Font_BigSilver.h" />
     <ClInclude Include="..\public\Font_MediumBlue.h" />
     <ClInclude Include="..\public\Font_TinyBlue.h" />
+    <ClInclude Include="..\public\Forest.h" />
     <ClInclude Include="..\public\FPS_Camera.h" />
     <ClInclude Include="..\public\FXMgr.h" />
     <ClInclude Include="..\public\Greater.h" />
@@ -238,6 +239,7 @@
     <ClInclude Include="..\public\RaceLandscape.h" />
     <ClInclude Include="..\public\RaceTerrain.h" />
     <ClInclude Include="..\public\Rain.h" />
+    <ClInclude Include="..\public\Rock.h" />
     <ClInclude Include="..\public\ScreenDust.h" />
     <ClInclude Include="..\public\Shotgunner.h" />
     <ClInclude Include="..\public\Sky.h" />
@@ -329,6 +331,7 @@
     <ClCompile Include="..\private\Font_BigSilver.cpp" />
     <ClCompile Include="..\private\Font_MediumBlue.cpp" />
     <ClCompile Include="..\private\Font_TinyBlue.cpp" />
+    <ClCompile Include="..\private\Forest.cpp" />
     <ClCompile Include="..\private\FPS_Camera.cpp" />
     <ClCompile Include="..\private\FXMgr.cpp" />
     <ClCompile Include="..\private\Greater.cpp" />
@@ -368,6 +371,7 @@
     <ClCompile Include="..\private\RaceLandscape.cpp" />
     <ClCompile Include="..\private\RaceTerrain.cpp" />
     <ClCompile Include="..\private\Rain.cpp" />
+    <ClCompile Include="..\private\Rock.cpp" />
     <ClCompile Include="..\private\ScreenDust.cpp" />
     <ClCompile Include="..\private\Shotgunner.cpp" />
     <ClCompile Include="..\private\Signboard.cpp" />
