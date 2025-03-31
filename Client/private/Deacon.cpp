@@ -22,7 +22,6 @@ HRESULT CDeacon::Initialize_Prototype()
 
 HRESULT CDeacon::Initialize(void* pArg)
 {
-
 	//위치, 크기초기화, 컴포넌트 부착
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
@@ -71,6 +70,10 @@ EVENT CDeacon::Update(_float fTimeDelta)
 void CDeacon::Late_Update(_float fTimeDelta)
 {
 	__super::Late_Update(fTimeDelta);
+	if (m_eState == MODE::MODE_BATTLE)
+		m_bRotateAnimation = false;
+	else
+		m_bRotateAnimation = true;
 }
 
 HRESULT CDeacon::Render()
@@ -126,20 +129,6 @@ void CDeacon::On_Collision(_uint MyColliderID, _uint OtherColliderID)
 		m_iHP += -50;
 		CFXMgr::Get_Instance()->SpawnBlood(vImpactPos, LEVEL_GAMEPLAY);
 	}
-}
-
-_bool CDeacon::Raycast_Player() // 시간 좀 주기 딜레이 // 부모로 옮기기
-{
-	_float3 TargetPos = *static_cast<CTransform*>(m_pTargetPlayer->Find_Component(L"Com_Transform"))->Get_State(CTransform::STATE_POSITION);
-
-	_float3 vMyPos = *m_pTransformCom->Get_State(CTransform::STATE_POSITION);
-
-	_float3 vDir = TargetPos - vMyPos;
-	_uint colID = {};
-
-	m_pGameInstance->Raycast(vMyPos, vDir, FLT_MAX, { CG_PAWN, CG_BLOCK }, colID);
-
-	return CI_PLAYER(colID);
 }
 
 void CDeacon::MonsterTick(_float dt)
@@ -365,10 +354,15 @@ void CDeacon::AttackPattern(_float dt)
 		MonsterNormalBullet_iDesc.fRotationPerSec = RADIAN(180.f);
 		MonsterNormalBullet_iDesc.vScale = { 10.f, 10.f, 0.f };
 		MonsterNormalBullet_iDesc.vPosition = *m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+		MonsterNormalBullet_iDesc.vPosition.x += m_iLeftRight * 20.f;
+		MonsterNormalBullet_iDesc.vPosition.y += 10.f;
+
 
 		if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_MonsterNormalBullet"),
 			LEVEL_GAMEPLAY, L"Layer_MonsterBullet", &MonsterNormalBullet_iDesc)))
 			return;
+
+		m_iLeftRight = m_iLeftRight * -1;
 
 		m_fSpawnNormalBullet = 0.f;
 	}

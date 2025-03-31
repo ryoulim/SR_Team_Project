@@ -144,6 +144,10 @@ void CMonsterNormalBullet::On_Collision(_uint MyColliderID, _uint OtherColliderI
 		//CFXMgr::Get_Instance()->SpawnExplosion2(CCollider::Get_Last_Collision_Pos(), m_eLevelID);
 		//m_pCamera->Shake_Camera(0.1f, 0.1f, 2.f, 1.f);
 	}
+	if (CI_PLAYER(OtherColliderID))
+	{
+		m_bDead = TRUE;
+	}
 }
 
 HRESULT CMonsterNormalBullet::Render()
@@ -177,7 +181,7 @@ void CMonsterNormalBullet::SetTargetDir()
 {
 	_float3 vMyPos = *m_pTransformCom->Get_State(CTransform::STATE_POSITION);
 	m_vTargetPos = *static_cast<CTransform*>(m_pTargetPlayer->Find_Component(L"Com_Transform"))->Get_State(CTransform::STATE_POSITION);
-	m_vTargetPos.y = 0.f;
+	m_vTargetPos.y = 30.f;
 
 	// 약간의 랜덤 오차를 추가
 	m_vTargetPos.x += GetRandomFloat(0.f, 20.f);

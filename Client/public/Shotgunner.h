@@ -13,8 +13,6 @@ public:
 	{
 		//몬스터 고유 특성
 	}DESC;
-
-
 	enum MONSTER_DEGREE { D0, D45, D90, D135, D180, D_END };
 	// 일반 몹에 다 주고싶은데 일반몹용 부모를 또 만들어야하는지 고민중 
 
@@ -31,6 +29,18 @@ public:
 	virtual void Late_Update(_float fTimeDelta) override;
 	virtual HRESULT Render() override;
 
+	/* 몬스터 행동 */
+private: //해당객체의 몬스터 패턴
+	virtual void	MonsterTick(_float dt);
+	virtual void	AttackPattern(_float dt);
+	virtual void	ChasePlayer(_float dt, _float fChaseDist);
+	virtual void	DoBattle(_float dt);
+	virtual void	DoIdle(_float dt);
+	void			DoReady(_float dt);
+	void			DoDetect(_float dt);
+	_bool			IsMonsterAbleToAttack();
+
+	/* 애니메이션 */
 private:
 	virtual HRESULT Ready_Components(void* pArg);
 	virtual HRESULT Ready_Textures();

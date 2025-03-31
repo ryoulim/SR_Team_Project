@@ -33,7 +33,6 @@ private:
 
 public:
 	virtual void On_Collision(_uint MyColliderID, _uint OtherColliderID) override;
-	_bool		Raycast_Player();
 
 
 /* 몬스터 행동 */
@@ -61,7 +60,7 @@ private:
 	enum FLY_DIR { DOWN = 0, LEFT = 1, RIGHT = 2, UP = 3, DIR_END = 4 };
 	FLY_DIR			m_eCurFlyingDirection = { UP };
 	FLY_DIR			m_ePrevFlyingDirection = { UP };
-	
+	_int			m_iLeftRight = { 1 };
 
 public:
 	static CDeacon* Create(LPDIRECT3DDEVICE9 pGraphic_Device);

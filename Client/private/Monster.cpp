@@ -43,7 +43,7 @@ HRESULT CMonster::Initialize(void* pArg)
 	/* 텍스처, 트랜스폼, 렉트버퍼, 콜라이더 컴포넌트 준비(위치초기화) */
 	if (FAILED(Ready_Components(pArg)))
 		return E_FAIL;
-
+	m_fSpawnCooldown = 0.2f; // 임시로 넣음, 자식으로 내릴 예정 (까먹고 계속 있으면 지워도 됨)
 	return S_OK;
 }
 
@@ -433,6 +433,21 @@ const char* CMonster::GetMonsterStateName(MODE eState)
 	default:                     return "UNKNOWN";
 	}
 }
+
+_bool CMonster::Raycast_Player()
+{
+	_float3 TargetPos = *static_cast<CTransform*>(m_pTargetPlayer->Find_Component(L"Com_Transform"))->Get_State(CTransform::STATE_POSITION);
+
+	_float3 vMyPos = *m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+
+	_float3 vDir = TargetPos - vMyPos;
+	_uint colID = {};
+
+	m_pGameInstance->Raycast(vMyPos, vDir, FLT_MAX, { CG_PAWN, CG_BLOCK }, colID);
+
+	return CI_PLAYER(colID);
+}
+
 
 void CMonster::MonsterTick(_float fTimeDelta)
 {

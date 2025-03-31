@@ -107,7 +107,7 @@ float4 PS_ColorPickingChange(float2 texCoord : TEXCOORD0) : COLOR {
     if (color.a < 0.1) { 
         return color;
     }
-
+    
     float3 originalColor = color.rgb;
 
     float diff = distance(originalColor, origColor);
