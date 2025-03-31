@@ -5,6 +5,7 @@
 #include "Statue.h"
 #include "Dynamic_Camera.h"
 #include "Player.h"
+#include "Trigger.h"
 
 #define CurLevel LEVEL_INDOOR
 
@@ -334,6 +335,22 @@ HRESULT CLevel_Indoor::Ready_Layer_Pawn(const _wstring& strLayerTag)
 	// 최초 게임 입장할때 어디에서 입장하던 스태틱에 생성해준다.
 	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_Player"),
 		LEVEL_STATIC, strLayerTag, &PlayerDesc)))
+		return E_FAIL;
+
+	return S_OK;
+}
+
+HRESULT CLevel_Indoor::Ready_Layer_Trigger(const _wstring& strLayerTag)
+{
+	CTrigger::DESC tDesc = {};
+
+	tDesc.fRotationPerSec = 0;
+	tDesc.fSpeedPerSec = 0;
+	tDesc.vAngle = { 0.f, 0.f, 0.f };
+	tDesc.vInitPos = { 1760.f, 30.f, 1730.f };
+	tDesc.vScale = { 200.f, 100.f, 100.f };
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_Trigger"),
+		LEVEL_GAMEPLAY, strLayerTag, &tDesc)))
 		return E_FAIL;
 
 	return S_OK;
