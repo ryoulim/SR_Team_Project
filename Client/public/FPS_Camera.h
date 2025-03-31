@@ -10,6 +10,7 @@ BEGIN(Client)
 
 class CFPS_Camera final : public CCamera
 {
+public:
 	typedef struct tagFPS_CameraDesc : public CCamera::DESC
 	{
 		_float			fMouseSensor;

@@ -304,6 +304,7 @@ HRESULT CLevel_Indoor::Ready_Layer_UI(const _wstring& strLayerTag)
 
 HRESULT CLevel_Indoor::Ready_Layer_Camera(const _wstring& strLayerTag)
 {
+	CAMERA_MANAGER->Switch(CCameraManager::FPS);
 	CAMERA_MANAGER->Mouse_Fix_Mode_Switch();
 
 	return S_OK;

@@ -129,7 +129,8 @@ HRESULT CPlayer::Render()
 
 void CPlayer::On_Collision(_uint MyColliderID, _uint OtherColliderID)
 {
-	m_pCollider->Get_Last_Collision_Pos();
+	if (OtherColliderID == CI_BLOCK_INVISIBLE)
+		return;
 
 	_float3 vPos = *m_pTransformCom->Get_State(CTransform::STATE_POSITION);
 	_float3 vPos2 = *m_pCameraTransform->Get_State(CTransform::STATE_POSITION);

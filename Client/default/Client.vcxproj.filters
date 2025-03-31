@@ -385,6 +385,9 @@
     <Filter Include="02.GameObjects\Map\Trigger">
       <UniqueIdentifier>{3fb89945-b064-48a0-997b-ad2f1de23d5e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\Map\Interactive_Block">
+      <UniqueIdentifier>{6838db21-fb4b-48a5-8164-830aba5e86eb}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -774,6 +777,9 @@
     <ClInclude Include="..\public\Level_RaceThird.h">
       <Filter>01.Levels\04. Race\Third</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\Interactive_Block.h">
+      <Filter>02.GameObjects\Map\Interactive_Block</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -1151,6 +1157,9 @@
     </ClCompile>
     <ClCompile Include="..\private\Level_RaceThird.cpp">
       <Filter>01.Levels\04. Race\Third</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Interactive_Block.cpp">
+      <Filter>02.GameObjects\Map\Interactive_Block</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

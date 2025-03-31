@@ -12,6 +12,7 @@ CLevel_RaceFirst::CLevel_RaceFirst(LPDIRECT3DDEVICE9 pGraphic_Device)
 {
 }
 
+#include "CameraManager.h"
 HRESULT CLevel_RaceFirst::Initialize(CLevelData* pLevelData)
 {
 	if (FAILED(__super::Initialize(pLevelData)))
@@ -27,6 +28,10 @@ HRESULT CLevel_RaceFirst::Initialize(CLevelData* pLevelData)
 		return E_FAIL;
 
 	m_pPlayer = m_pGameInstance->Find_Object(LEVEL_STATIC, TEXT("Layer_Pawn"));
+
+
+	CAMERA_MANAGER->Switch(CCameraManager::TPS);
+	CAMERA_MANAGER->Mouse_Fix_Mode_Switch();
 
 	return S_OK;
 }

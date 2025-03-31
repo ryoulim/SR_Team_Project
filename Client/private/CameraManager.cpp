@@ -16,22 +16,18 @@ CCameraManager::CCameraManager()
 
 HRESULT CCameraManager::Initialize()
 {	
-	CDynamic_Camera::DESC DynamicCameraDesc{};
-	DynamicCameraDesc.fFar = 2000.f;
-	DynamicCameraDesc.fNear = 0.1f;
-	DynamicCameraDesc.fMouseSensor = 0.1f;
-	DynamicCameraDesc.fFov = 60.f;
-	DynamicCameraDesc.vAt = { 0.f,0.f,1.f };
-	DynamicCameraDesc.vEye = { 0.f,0.f,0.f };
-	DynamicCameraDesc.fSpeedPerSec = 300.f;
-	DynamicCameraDesc.fRotationPerSec = 0.f;
+	CFPS_Camera::DESC FPSCameraDesc{};
+	FPSCameraDesc.fFar = 2000.f;
+	FPSCameraDesc.fNear = 0.1f;
+	FPSCameraDesc.fMouseSensor = 0.1f;
+	FPSCameraDesc.fFov = 60.f;
+	FPSCameraDesc.vAt = { 0.f,0.f,1.f };
+	FPSCameraDesc.vEye = { 0.f,0.f,0.f };
+	FPSCameraDesc.fSpeedPerSec = 300.f;
+	FPSCameraDesc.fRotationPerSec = 0.f;
 	
 	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_FPS_Camera"),
-		LEVEL_STATIC, TEXT("Layer_Camera"), &DynamicCameraDesc)))
-		return E_FAIL;
-
-	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_Dynamic_Camera"),
-		LEVEL_STATIC, TEXT("Layer_Camera"), &DynamicCameraDesc)))
+		LEVEL_STATIC, TEXT("Layer_Camera"), &FPSCameraDesc)))
 		return E_FAIL;
 	
 	CCamera::DESC TPSCameraDesc{};
@@ -43,6 +39,20 @@ HRESULT CCameraManager::Initialize()
 	
 	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_TPS_Camera"),
 		LEVEL_STATIC, TEXT("Layer_Camera"), &TPSCameraDesc)))
+		return E_FAIL;
+
+	CDynamic_Camera::DESC DynamicCameraDesc{};
+	DynamicCameraDesc.fFar = 2000.f;
+	DynamicCameraDesc.fNear = 0.1f;
+	DynamicCameraDesc.fMouseSensor = 0.1f;
+	DynamicCameraDesc.fFov = 60.f;
+	DynamicCameraDesc.vAt = { 0.f,0.f,1.f };
+	DynamicCameraDesc.vEye = { 0.f,0.f,0.f };
+	DynamicCameraDesc.fSpeedPerSec = 300.f;
+	DynamicCameraDesc.fRotationPerSec = 0.f;
+
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_Dynamic_Camera"),
+		LEVEL_STATIC, TEXT("Layer_Camera"), &DynamicCameraDesc)))
 		return E_FAIL;
 
 	CUI_Camera::DESC UICameraDesc{};
