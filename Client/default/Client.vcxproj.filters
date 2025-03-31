@@ -307,9 +307,6 @@
     <Filter Include="02.GameObjects\Map\BossBridge">
       <UniqueIdentifier>{1c4ad648-28fa-4982-8bc2-f061d7f96695}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\Trigger">
-      <UniqueIdentifier>{3fb89945-b064-48a0-997b-ad2f1de23d5e}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02.GameObjects\Particle\_BossMobSkill\JumpAttack">
       <UniqueIdentifier>{7fdd175d-aa74-493e-a0d1-fce9abb340a6}</UniqueIdentifier>
     </Filter>
@@ -384,6 +381,9 @@
     </Filter>
     <Filter Include="02.GameObjects\Effect\Sprite">
       <UniqueIdentifier>{b3565773-83e2-4e30-8f32-cab1a75b2fc7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Map\Trigger">
+      <UniqueIdentifier>{3fb89945-b064-48a0-997b-ad2f1de23d5e}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -739,7 +739,7 @@
       <Filter>02.GameObjects\Weapon\Bullet\MonsterBullet</Filter>
     </ClInclude>
     <ClInclude Include="..\public\Trigger.h">
-      <Filter>02.GameObjects\Trigger</Filter>
+      <Filter>02.GameObjects\Map\Trigger</Filter>
     </ClInclude>
     <ClInclude Include="..\public\StreetLampHead.h">
       <Filter>02.GameObjects\Statue\StreetLamp\Head</Filter>
@@ -1126,7 +1126,7 @@
       <Filter>02.GameObjects\Particle\_BossMobSkill\JumpAttack</Filter>
     </ClCompile>
     <ClCompile Include="..\private\Trigger.cpp">
-      <Filter>02.GameObjects\Trigger</Filter>
+      <Filter>02.GameObjects\Map\Trigger</Filter>
     </ClCompile>
     <ClCompile Include="..\private\RaceCylinder.cpp">
       <Filter>02.GameObjects\Statue\RaceCylinder</Filter>

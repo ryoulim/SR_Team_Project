@@ -1,4 +1,4 @@
-#include "..\Public\Camera.h"
+#include "Camera.h"
 #include "GameInstance.h"
 
 CCamera::CCamera(LPDIRECT3DDEVICE9 pGraphicDevice)

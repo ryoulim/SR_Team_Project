@@ -2,39 +2,68 @@
 // 부모 클래스 이름 : GameObject
 
 #include "CameraManager.h"
-#include "Camera.h"
+
 #include "Dynamic_Camera.h"
 #include "FPS_Camera.h"
+#include "TPS_Camera.h"
+#include "UI_Camera.h"
 
-CCameraManager::CCameraManager(LPDIRECT3DDEVICE9 pGraphic_Device)
-	: CGameObject{ pGraphic_Device }
+CCameraManager::CCameraManager()
+	:m_pGameInstance(CGameInstance::Get_Instance())
 {
+	Safe_AddRef(m_pGameInstance);
 }
 
-CCameraManager::CCameraManager(const CCameraManager& Prototype)
-	: CGameObject(Prototype)
-{
-}
-
-HRESULT CCameraManager::Initialize_Prototype()
-{
-	return S_OK;
-}
-
-HRESULT CCameraManager::Initialize(void* pArg)
-{
-	m_Cameras.push_back(static_cast<CCamera*>(m_pGameInstance->Clone_Prototype(
-		PROTOTYPE::TYPE_GAMEOBJECT, LEVEL_STATIC, TEXT("Prototype_GameObject_FPS_Camera"), pArg)));
-	m_Cameras.push_back(static_cast<CCamera*>(m_pGameInstance->Clone_Prototype(
-		PROTOTYPE::TYPE_GAMEOBJECT, LEVEL_STATIC, TEXT("Prototype_GameObject_Dynamic_Camera"), pArg)));
+HRESULT CCameraManager::Initialize()
+{	
+	CDynamic_Camera::DESC DynamicCameraDesc{};
+	DynamicCameraDesc.fFar = 2000.f;
+	DynamicCameraDesc.fNear = 0.1f;
+	DynamicCameraDesc.fMouseSensor = 0.1f;
+	DynamicCameraDesc.fFov = 60.f;
+	DynamicCameraDesc.vAt = { 0.f,0.f,1.f };
+	DynamicCameraDesc.vEye = { 0.f,0.f,0.f };
+	DynamicCameraDesc.fSpeedPerSec = 300.f;
+	DynamicCameraDesc.fRotationPerSec = 0.f;
 	
-	//if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_FPS_Camera"),
-	//LEVEL_GAMEPLAY, TEXT("Layer_Camera"), pArg)))
-	//return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_FPS_Camera"),
+		LEVEL_STATIC, TEXT("Layer_Camera"), &DynamicCameraDesc)))
+		return E_FAIL;
 
-	//if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_Dynamic_Camera"),
-	//LEVEL_GAMEPLAY, TEXT("Layer_Camera"), pArg)))
-	//return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_Dynamic_Camera"),
+		LEVEL_STATIC, TEXT("Layer_Camera"), &DynamicCameraDesc)))
+		return E_FAIL;
+	
+	CCamera::DESC TPSCameraDesc{};
+	TPSCameraDesc.vEye = _float3(0.f, 0.f, -20.f);
+	TPSCameraDesc.vAt = _float3();
+	TPSCameraDesc.fFov = 60.f;
+	TPSCameraDesc.fNear = 0.1f;
+	TPSCameraDesc.fFar = 2000.f;
+	
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_TPS_Camera"),
+		LEVEL_STATIC, TEXT("Layer_Camera"), &TPSCameraDesc)))
+		return E_FAIL;
+
+	CUI_Camera::DESC UICameraDesc{};
+	UICameraDesc.fFar = 1000.f;
+	UICameraDesc.fNear = 0.f;
+	UICameraDesc.fFov = 0;
+	UICameraDesc.vAt = { 0.f,0.f,1.f };
+	UICameraDesc.vEye = { 0.f,0.f,0.f };
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_UI_Camera"),
+		LEVEL_STATIC, TEXT("Layer_Camera"), &UICameraDesc)))
+		return E_FAIL;
+
+	auto Camera_List = m_pGameInstance->Find_Objects(LEVEL_STATIC, TEXT("Layer_Camera"));
+
+	for (auto Camera : *Camera_List)
+	{
+		m_Cameras.push_back(static_cast<CCamera*>(Camera));
+		Safe_AddRef(Camera);
+	}
+
+	m_Cameras[UI]->Set_Active(TRUE);
 
 	return S_OK;
 }
@@ -75,13 +104,16 @@ void CCameraManager::Zoom(_float fFOV, _float Time)
 	static_cast<CFPS_Camera*>(m_Cameras[m_eID])->Zoom(fFOV, Time);
 }
 
-
-void CCameraManager::Switch(_bool isFPSMode)
+void CCameraManager::Switch(CCameraManager::ID _ID)
 {
-	if (isFPSMode)
-		m_eID = FPS;
-	else
-		m_eID = DYNAMIC;
+	if (_ID >= UI)
+		return;
+
+	//UI 카메라 전까지 돌기
+	for (_uint i = FPS; i < UI; ++i)
+		m_Cameras[i]->Set_Active(FALSE);
+
+	m_Cameras[_ID]->Set_Active(TRUE);
 }
 
 void CCameraManager::Mouse_Fix_Mode_Switch()
@@ -90,26 +122,13 @@ void CCameraManager::Mouse_Fix_Mode_Switch()
 	static_cast<CFPS_Camera*>(m_Cameras[FPS])->Mode_Switch();
 }
 
-CCameraManager* CCameraManager::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
+CCameraManager* CCameraManager::Create()
 {
-	CCameraManager* pInstance = new CCameraManager(pGraphic_Device);
+	CCameraManager* pInstance = new CCameraManager();
 
-	if (FAILED(pInstance->Initialize_Prototype()))
+	if (FAILED(pInstance->Initialize()))
 	{
 		MSG_BOX("Failed to Created : CCameraManager");
-		Safe_Release(pInstance);
-	}
-
-	return pInstance;
-}
-
-CGameObject* CCameraManager::Clone(void* pArg)
-{
-	CCameraManager* pInstance = new CCameraManager(*this);
-
-	if (FAILED(pInstance->Initialize(pArg)))
-	{
-		MSG_BOX("Failed to Clone : CCameraManager");
 		Safe_Release(pInstance);
 	}
 
@@ -119,7 +138,8 @@ CGameObject* CCameraManager::Clone(void* pArg)
 void CCameraManager::Free()
 {
 	__super::Free();
-
+	
+	Safe_Release(m_pGameInstance);
 	for (auto& Camera : m_Cameras)
 		Safe_Release(Camera);
 

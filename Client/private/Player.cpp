@@ -54,7 +54,11 @@ void CPlayer::Priority_Update(_float fTimeDelta)
 	if (KEY_DOWN(DIK_F1))
 	{
 		m_bFpsMode = !m_bFpsMode;
-		m_pCameraManager->Switch(m_bFpsMode);
+
+		if (m_bFpsMode)
+			m_pCameraManager->Switch(CCameraManager::FPS);
+		else
+			m_pCameraManager->Switch(CCameraManager::DYNAMIC);
 	}
 
 	m_Weapons[m_iCurWeaponIndex]->Priority_Update(fTimeDelta);

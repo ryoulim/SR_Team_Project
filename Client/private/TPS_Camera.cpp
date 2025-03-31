@@ -28,6 +28,9 @@ HRESULT CTPS_Camera::Initialize(void* pArg)
 
 void CTPS_Camera::Priority_Update(_float fTimeDelta)
 {
+	if (!m_bActive)
+		return;
+
 	if (KEY_PRESSING(DIK_A))
 	{
 		m_pTransformCom->Go_Left(fTimeDelta);
@@ -55,7 +58,7 @@ void CTPS_Camera::Priority_Update(_float fTimeDelta)
 
 EVENT CTPS_Camera::Update(_float fTimeDelta)
 {
-	return EVENT();
+	return EVN_NONE;
 }
 
 void CTPS_Camera::Late_Update(_float fTimeDelta)

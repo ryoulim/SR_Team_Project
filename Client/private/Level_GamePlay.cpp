@@ -142,6 +142,7 @@ HRESULT CLevel_GamePlay::Ready_Layer_Terrain(const _wstring& strLayerTag)
 
 HRESULT CLevel_GamePlay::Ready_Layer_Camera(const _wstring& strLayerTag)
 {
+	CAMERA_MANAGER->Switch(CCameraManager::FPS);
 	CAMERA_MANAGER->Mouse_Fix_Mode_Switch();
 
 	return S_OK;

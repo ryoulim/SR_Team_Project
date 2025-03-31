@@ -91,8 +91,7 @@
 #include "LevelLoadingMenu.h"
 
 #include "Sky.h"
-#include "FPS_Camera.h"
-#include "TPS_Camera.h"
+
 #include "Trigger.h"
 
 /* 맵툴에서 넘어오는 텍스쳐 갯수, 건들지 말아주세요 감사합니다 */
@@ -253,12 +252,7 @@ HRESULT CLoader::Loding_For_Static()
 
 #pragma endregion
 
-	ADD_PRTOBJ(CameraManager);
-	ADD_PRTOBJ(Dynamic_Camera);
-	ADD_PRTOBJ(FPS_Camera);
-	ADD_PRTOBJ(TPS_Camera);
 	ADD_PRTOBJ(Trigger);
-
 	ADD_PRTOBJ(Sky);
 	ADD_PRTOBJ(Aim);
 	ADD_PRTOBJ(Ammo);
@@ -636,35 +630,11 @@ HRESULT CLoader::Loding_For_Static()
 
 #pragma region 매니저 생성
 
-	m_pGameInstance->Add_Manager(TEXT("FX_Manager"), CFXMgr::Create());
-
-#pragma endregion
-
-	CDynamic_Camera::DESC DynamicCameraDesc{};
-	DynamicCameraDesc.fFar = 2000.f;
-	DynamicCameraDesc.fNear = 0.1f;
-	DynamicCameraDesc.fMouseSensor = 0.1f;
-	DynamicCameraDesc.fFov = 60.f;
-	DynamicCameraDesc.vAt = { 0.f,0.f,1.f };
-	DynamicCameraDesc.vEye = { 0.f,0.f,0.f };
-	DynamicCameraDesc.fSpeedPerSec = 300.f;
-	DynamicCameraDesc.fRotationPerSec = 0.f;
-
-	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_CameraManager"),
-		LEVEL_STATIC, TEXT("Layer_Camera"), &DynamicCameraDesc)))
+	if (FAILED(m_pGameInstance->Add_Manager(
+		TEXT("FX_Manager"), CFXMgr::Create())))
 		return E_FAIL;
 
-	// //내일 카메라 매니저에 넣어야함
-	//CCamera::DESC desc = {};
-	//desc.vEye = _float3(0.f, 0.f, -20.f);
-	//desc.vAt = _float3();
-	//desc.fFov = 60.f;
-	//desc.fNear = 0.1f;
-	//desc.fFar = 2000.f;
-
-	//if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_TPS_Camera"),
-	//	LEVEL_STATIC, TEXT("Layer_Camera"), &desc)))
-	//	return E_FAIL;
+#pragma endregion
 
 	m_eNextLevelID = Tmp;
 	return S_OK;

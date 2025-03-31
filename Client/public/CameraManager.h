@@ -2,28 +2,34 @@
 // 부모 클래스 이름 : GameObject
 
 #pragma once
-#include "GameObject.h"
 #include "Client_Defines.h"
 #include "GameInstance.h"
+#include "Camera.h"
+
+#define CAMERA_MANAGER static_cast<CCameraManager*>(m_pGameInstance->Find_Manager(TEXT("Camera_Manager")))
+
+BEGIN(Engine)
+class CGameObject;
+END
 
 BEGIN(Client)
 
-class CCameraManager final : public CGameObject
+class CCameraManager final : public CBase
 {
 public:
-	enum CAMERAID { FPS, DYNAMIC };
+	enum ID { FPS, TPS, DYNAMIC, UI };
 private:
-	CCameraManager(LPDIRECT3DDEVICE9 pGraphic_Device);
-	CCameraManager(const CCameraManager& Prototype);
+	CCameraManager();
 	virtual ~CCameraManager() = default;
 
 public:
-	virtual HRESULT Initialize_Prototype() override;
-	virtual HRESULT Initialize(void* pArg) override;
-	virtual void Priority_Update(_float fTimeDelta) override;
-	virtual EVENT Update(_float fTimeDelta) override;
-	virtual void Late_Update(_float fTimeDelta) override;
-	virtual HRESULT Render() override;
+	HRESULT Initialize();
+	void Priority_Update(_float fTimeDelta);
+	EVENT Update(_float fTimeDelta);
+	void Late_Update(_float fTimeDelta);
+	HRESULT Render();
+
+public:
 	/// <summary>
 	/// 카메라 흔들어 제껴
 	/// </summary>
@@ -34,19 +40,18 @@ public:
 	virtual void Shake_Camera(_float fIntensity = 1.f, _float fDuration = 1.f, _float fShakeFreqPos = 100.f, _float fShakeFreqRot = 40.f);
 	void StartRecoil(_float fIntensity = 1.f, _float fDuration = 1.f);
 	void Zoom(_float fFOV, _float Time);
-	void Switch(_bool isFPSMode);
 	void Mouse_Fix_Mode_Switch();
 
-	CGameObject* Get_Camera(CAMERAID m_ID) {
-		return m_Cameras[m_ID];
+	CGameObject* Get_Camera(CCameraManager::ID _ID) {
+		return static_cast<CGameObject*>(m_Cameras[_ID]);
 	}
-
+	void Switch(CCameraManager::ID _ID);
 private:
-	CAMERAID m_eID{ FPS };
-	vector<CGameObject*> m_Cameras;
+	CGameInstance* m_pGameInstance{ nullptr };
+	CCameraManager::ID m_eID{ FPS };
+	vector<CCamera*> m_Cameras;
 public:
-	static CCameraManager* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
-	virtual CGameObject* Clone(void* pArg) override;
+	static CCameraManager* Create();
 	virtual void Free();
 };
 

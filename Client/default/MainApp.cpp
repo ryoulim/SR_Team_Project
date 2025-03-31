@@ -4,6 +4,9 @@
 #include "Level_Logo.h"
 #include "Level_Loading.h"
 
+#include "FPS_Camera.h"
+#include "TPS_Camera.h"
+#include "Dynamic_Camera.h"
 #include "UI_Camera.h"
 
 #include "Font_MediumBlue.h"
@@ -184,6 +187,9 @@ HRESULT CMainApp::Ready_Component_For_Static()
 
 HRESULT CMainApp::Ready_Protype_Object_For_Static()
 {
+	ADD_PRTOBJ(Dynamic_Camera);
+	ADD_PRTOBJ(FPS_Camera);
+	ADD_PRTOBJ(TPS_Camera);
 	ADD_PRTOBJ(UI_Camera);
 	ADD_PRTOBJ(LevelLoadingMenu); // 치워도 안돼
 
@@ -198,14 +204,8 @@ HRESULT CMainApp::Ready_Protype_Object_For_Static()
 
 HRESULT CMainApp::Ready_Object_For_Static()
 {
-	CUI_Camera::DESC UICameraDesc{};
-	UICameraDesc.fFar = 1000.f;
-	UICameraDesc.fNear = 0.f;
-	UICameraDesc.fFov = 0;
-	UICameraDesc.vAt = { 0.f,0.f,1.f };
-	UICameraDesc.vEye = { 0.f,0.f,0.f };
-	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_UI_Camera"),
-		LEVEL_STATIC, TEXT("Layer_Camera"), &UICameraDesc)))
+	if (FAILED(m_pGameInstance->Add_Manager(
+		TEXT("Camera_Manager"), CCameraManager::Create())))
 		return E_FAIL;
 
 	return S_OK;
