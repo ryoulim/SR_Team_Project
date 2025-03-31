@@ -7,6 +7,8 @@
 #include "PlayerOnBoat.h"
 #include "CameraManager.h"
 
+#define CurLevel LEVEL_RACESECOND
+
 CLevel_RaceSecond::CLevel_RaceSecond(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CLevel { pGraphic_Device }
 {
@@ -31,13 +33,10 @@ HRESULT CLevel_RaceSecond::Initialize(CLevelData* pLevelData)
 
 void CLevel_RaceSecond::Update(_float fTimeDelta)
 {
-	if (KEY_DOWN(DIK_O) || 
-		static_cast<CTransform*>(m_pPlayer->Find_Component(TEXT("Com_Transform")))
-		->Get_State(CTransform::STATE_POSITION)->z > 13000.f)
+	if (KEY_DOWN(DIK_P) || m_iNextLevel)
 	{
-		if (FAILED(m_pGameInstance->Change_Level(LEVEL_LOADING,
-			CLevel_Loading::Create(m_pGraphic_Device, LEVEL_RACETHIRD))))
-			return;
+		m_pGameInstance->Change_Level(LEVEL_LOADING,
+			CLevel_Loading::Create(m_pGraphic_Device, (LEVEL)m_iNextLevel));
 	}
 }
 
@@ -148,11 +147,12 @@ HRESULT CLevel_RaceSecond::Ready_Layer_Pawn(const _wstring& strLayerTag)
 	_float3 vInitPosition = { 450.f, 17.f, -3000.f };
 
 	// 플레이어가 있는지 체크하고 있으면 위치만 변경해줌.
-	m_pPlayer = m_pGameInstance->Find_Object(LEVEL_STATIC, TEXT("Layer_Pawn"));
-	if (m_pPlayer)
+	auto pPlayer = static_cast<CPawn*>(GET_PLAYER);
+	if (pPlayer)
 	{
-		static_cast<CTransform*>(m_pPlayer->Find_Component(TEXT("Com_Transform")))
+		static_cast<CTransform*>(pPlayer->Find_Component(TEXT("Com_Transform")))
 			->Set_State(CTransform::STATE_POSITION, vInitPosition);
+		pPlayer->Set_LevelID(CurLevel);
 		return S_OK;
 	}
 

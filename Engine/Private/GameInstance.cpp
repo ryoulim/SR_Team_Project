@@ -129,6 +129,10 @@ HRESULT CGameInstance::Change_Level(_uint iLevelIndex, CLevel* pNewLevel)
 {
 	return m_pLevel_Manager->Change_Level(iLevelIndex, pNewLevel);
 }
+void CGameInstance::Change_Level(_uint iLevelIndex)
+{
+	m_pLevel_Manager->Change_Level(iLevelIndex);
+}
 #pragma endregion
 
 #pragma region PROTOTYPE_MANAGER

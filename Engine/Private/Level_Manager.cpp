@@ -39,6 +39,11 @@ HRESULT CLevel_Manager::Render()
     return S_OK;
 }
 
+void CLevel_Manager::Change_Level(_uint iLevelIndex)
+{
+    m_pCurrentLevel->Change_Level(iLevelIndex);
+}
+
 CLevel_Manager* CLevel_Manager::Create()
 {
 	return new CLevel_Manager();

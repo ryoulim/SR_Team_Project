@@ -5,14 +5,15 @@
 #include "Statue.h"
 #include "Map.h"
 #include "PlayerOnBoat.h"
-#include "Camera.h"
+#include "CameraManager.h"
+
+#define CurLevel LEVEL_RACEFIRST
 
 CLevel_RaceFirst::CLevel_RaceFirst(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CLevel { pGraphic_Device }
 {
 }
 
-#include "CameraManager.h"
 HRESULT CLevel_RaceFirst::Initialize(CLevelData* pLevelData)
 {
 	if (FAILED(__super::Initialize(pLevelData)))
@@ -30,21 +31,15 @@ HRESULT CLevel_RaceFirst::Initialize(CLevelData* pLevelData)
 	if (FAILED(Ready_Layer_Pawn(TEXT("Layer_Pawn"))))
 		return E_FAIL;
 
-	m_pPlayer = m_pGameInstance->Find_Object(LEVEL_STATIC, TEXT("Layer_Pawn"));
-
-
 	return S_OK;
 }
 
 void CLevel_RaceFirst::Update(_float fTimeDelta)
 {
-	if (KEY_DOWN(DIK_P) ||
-		static_cast<CTransform*>(m_pPlayer->Find_Component(TEXT("Com_Transform")))
-		->Get_State(CTransform::STATE_POSITION)->z > 13000.f)
+	if (KEY_DOWN(DIK_P) || m_iNextLevel)
 	{
-		if (FAILED(m_pGameInstance->Change_Level(LEVEL_LOADING,
-			CLevel_Loading::Create(m_pGraphic_Device, LEVEL_RACESECOND))))
-			return;
+		m_pGameInstance->Change_Level(LEVEL_LOADING,
+			CLevel_Loading::Create(m_pGraphic_Device, (LEVEL)m_iNextLevel));
 	}
 }
 
@@ -225,13 +220,18 @@ HRESULT CLevel_RaceFirst::Ready_Layer_Statue2(const _wstring& strLayerTag)
 
 HRESULT CLevel_RaceFirst::Ready_Layer_Pawn(const _wstring& strLayerTag)
 {
+	// 만약 플레이어가 있다면? 플레이어를 죽여라
+	auto pPlayer = static_cast<CPawn*>(GET_PLAYER);
+	if (pPlayer)
+		pPlayer->Set_Dead();
+
 	CPlayerOnBoat::DESC PlayerOnBoatDesc = {};
 	PlayerOnBoatDesc.vInitPos = { 450.f, 17.f, 0.f };
 	PlayerOnBoatDesc.vScale = { 35.f, 30.f, 20.f };
 	PlayerOnBoatDesc.fRotationPerSec = RADIAN(180.f);
 	PlayerOnBoatDesc.fSpeedPerSec = 2000.f;
 	PlayerOnBoatDesc.fMouseSensor = 0.1f;
-	PlayerOnBoatDesc.eLevelID = LEVEL_STATIC;
+	PlayerOnBoatDesc.eLevelID = CurLevel;
 
 	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_PlayerOnBoat"),
 		LEVEL_STATIC, strLayerTag, &PlayerOnBoatDesc)))

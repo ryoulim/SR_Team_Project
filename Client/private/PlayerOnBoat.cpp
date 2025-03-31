@@ -36,6 +36,12 @@ void CPlayerOnBoat::Priority_Update(_float fTimeDelta)
 
 EVENT CPlayerOnBoat::Update(_float fTimeDelta)
 {
+	if (m_bDead)
+		return EVN_DEAD;
+
+	if (m_bDead)
+		return EVN_DEAD;
+
 	if (m_pTransformCom->Get_State(CTransform::STATE_POSITION)->z > 9500.f
 		|| m_pTransformCom->Get_State(CTransform::STATE_POSITION)->z < 100.f)
 	{
@@ -52,6 +58,9 @@ void CPlayerOnBoat::Late_Update(_float fTimeDelta)
 {
 	Update_Camera_Link();
 
+	if (m_pTransformCom->Get_State(CTransform::STATE_POSITION)->z > 13000.f)
+		Change_Level();
+
 	m_pGameInstance->Add_RenderGroup(CRenderer::RG_NONBLEND, this);
 
 	__super::Late_Update(fTimeDelta);
@@ -66,6 +75,12 @@ HRESULT CPlayerOnBoat::Render()
 	return __super::Render();
 
 	m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
+}
+
+void CPlayerOnBoat::On_Collision(_uint MyColliderID, _uint OtherColliderID)
+{
+	if (OtherColliderID == CI_TRIGGER)
+		Change_Level();
 }
 
 void CPlayerOnBoat::Key_Input(_float fTimeDelta)

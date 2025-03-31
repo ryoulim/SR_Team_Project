@@ -5,6 +5,8 @@
 #include "Statue.h"
 #include "Dynamic_Camera.h"
 #include "Player.h"
+#include "Trigger.h"
+#include "Level_Loading.h"
 
 #define CurLevel LEVEL_INDOOR
 
@@ -31,7 +33,8 @@ HRESULT CLevel_Indoor::Initialize(CLevelData* pLevelData)
 
 	CUI_Manager::Get_Instance()->Initialize_Player();
 
-	
+	if (FAILED(Ready_Layer_Trigger(TEXT("Layer_Trigger"))))
+		return E_FAIL;
 
 	return S_OK;
 }
@@ -39,6 +42,12 @@ HRESULT CLevel_Indoor::Initialize(CLevelData* pLevelData)
 void CLevel_Indoor::Update(_float fTimeDelta)
 {
 	Check_Collision();
+
+	if (m_iNextLevel)
+	{
+		m_pGameInstance->Change_Level(LEVEL_LOADING,
+			CLevel_Loading::Create(m_pGraphic_Device, (LEVEL)m_iNextLevel));
+	}
 }
 
 HRESULT CLevel_Indoor::Render()
@@ -267,6 +276,21 @@ HRESULT CLevel_Indoor::Load_Map(_uint iLevelIdx, const _wstring& FileName)
 	return S_OK;
 }
 
+HRESULT CLevel_Indoor::Ready_Layer_Trigger(const _wstring& strLayerTag)
+{
+	CTrigger::DESC tDesc = {};
+	tDesc.fRotationPerSec = 0;
+	tDesc.fSpeedPerSec = 0;
+	tDesc.vAngle = { 0.f, 0.f, 0.f };
+	tDesc.vInitPos = { 1760.f, 30.f, 1730.f };
+	tDesc.vScale = { 200.f, 100.f, 50.f };
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_Trigger"),
+		LEVEL_INDOOR, strLayerTag, &tDesc)))
+		return E_FAIL;
+
+	return S_OK;
+}
+
 HRESULT CLevel_Indoor::Ready_Layer_UI(const _wstring& strLayerTag)
 {
 	CUI::DESC Desc{};
@@ -330,7 +354,7 @@ HRESULT CLevel_Indoor::Ready_Layer_Pawn(const _wstring& strLayerTag)
 	PlayerDesc.vScale = { 20.f, 30.f, 20.f };
 	PlayerDesc.fRotationPerSec = RADIAN(180.f);
 	PlayerDesc.fSpeedPerSec = 150.f;
-	PlayerDesc.eLevelID = LEVEL_STATIC;
+	PlayerDesc.eLevelID = CurLevel;
 
 	// 최초 게임 입장할때 어디에서 입장하던 스태틱에 생성해준다.
 	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_Player"),

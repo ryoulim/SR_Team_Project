@@ -35,8 +35,10 @@ public:
 	void Set_Active(_bool isActive) {
 		m_bActive = isActive;
 	}
+	void Set_Dead() { m_bDead = TRUE; }
 protected:
 	virtual HRESULT Ready_Components(void* pArg);
+	void Change_Level();
 
 protected:
 	LEVEL m_eLevelID = { LEVEL_END };
@@ -47,6 +49,7 @@ protected:
 	CTransform* m_pTransformCom = { nullptr };
 	CCollider* m_pCollider = { nullptr };
 	_bool	m_bActive{ TRUE };
+	_bool	m_bDead{ FALSE };
 
 public:
 	virtual CGameObject* Clone(void* pArg) PURE;

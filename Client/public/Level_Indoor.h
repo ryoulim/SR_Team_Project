@@ -19,6 +19,7 @@ public:
 private:
 	virtual HRESULT Load_Map(_uint iLevelIdx, const _wstring& FileName);
 
+	HRESULT Ready_Layer_Trigger(const _wstring& strLayerTag);
 	HRESULT Ready_Layer_UI(const _wstring& strLayerTag);
 	HRESULT Ready_Layer_Camera(const _wstring& strLayerTag);
 	HRESULT Ready_Layer_Pawn(const _wstring& strLayerTag);

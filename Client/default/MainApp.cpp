@@ -156,6 +156,8 @@ void CMainApp::Update(_float fTimeDelta)
 		CAMERA_MANAGER->Switch(CCameraManager::TPS);
 	if (KEY_DOWN(DIK_F3))
 		CAMERA_MANAGER->Switch(CCameraManager::DYNAMIC);
+	/*if (KEY_DOWN(DIK_TAB))
+		CAMERA_MANAGER->Set_Mouse_Fix();*/
 #pragma endregion
 
 }

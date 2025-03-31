@@ -22,9 +22,6 @@ private:
 	HRESULT Ready_Layer_Statue(const _wstring& strLayerTag);
 	HRESULT Ready_Layer_Pawn(const _wstring& strLayerTag);
 
-private:
-	class CGameObject* m_pPlayer = { nullptr };
-
 public:
 	static CLevel_RaceSecond* Create(LPDIRECT3DDEVICE9 pGraphic_Device, class CLevelData* pLevelData);
 	virtual void Free()override;

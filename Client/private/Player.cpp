@@ -57,14 +57,17 @@ void CPlayer::Priority_Update(_float fTimeDelta)
 
 EVENT CPlayer::Update(_float fTimeDelta)
 {
-//#ifdef _CONSOL
-//	_float3 vPosition = *m_pTransformCom->Get_State(CTransform::STATE_POSITION);
-//
-//	printf("플레이어 X : %f\n", vPosition.x);
-//	printf("플레이어 Y : %f\n", vPosition.y);
-//	printf("플레이어 Z : %f\n", vPosition.z);
-//
-//#endif
+#ifdef _CONSOL
+	_float3 vPosition = *m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+
+	printf("플레이어 X : %f\n", vPosition.x);
+	printf("플레이어 Y : %f\n", vPosition.y);
+	printf("플레이어 Z : %f\n", vPosition.z);
+
+#endif
+
+	if (m_bDead)
+		return EVN_DEAD;
 
 	if (!m_bActive)
 		return EVN_NONE;
@@ -121,6 +124,9 @@ void CPlayer::On_Collision(_uint MyColliderID, _uint OtherColliderID)
 {
 	if (OtherColliderID == CI_BLOCK_INVISIBLE)
 		return;
+
+	if (OtherColliderID == CI_TRIGGER)
+		Change_Level();
 
 	_float3 vPos = *m_pTransformCom->Get_State(CTransform::STATE_POSITION);
 	_float3 vPos2 = *m_pCameraTransform->Get_State(CTransform::STATE_POSITION);

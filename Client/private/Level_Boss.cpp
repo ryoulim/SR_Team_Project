@@ -173,15 +173,10 @@ HRESULT CLevel_Boss::Ready_Layer_Pawn(const _wstring& strLayerTag)
 	//이 레벨의 플레이어 생성위치
 	_float3 vInitPosition = { 1400.f, 150.f, 200.f };
 
-	// 플레이어가 있는지 체크하고 있으면 위치만 변경해줌.
-	auto pPlayer = GET_PLAYER;
+	// 만약 플레이어가 있다면? 플레이어를 죽여라
+	auto pPlayer = static_cast<CPawn*>(GET_PLAYER);
 	if (pPlayer)
-	{
-		static_cast<CTransform*>(pPlayer->Find_Component(TEXT("Com_Transform")))
-			->Set_State(CTransform::STATE_POSITION, vInitPosition);
-		static_cast<CPawn*>(pPlayer)->Set_LevelID(CurLevel);
-		return S_OK;
-	}
+		pPlayer->Set_Dead();
 
 	//없으면 새로 생성해서 넣어줌
 	CPlayer::DESC PlayerDesc{};
@@ -197,7 +192,6 @@ HRESULT CLevel_Boss::Ready_Layer_Pawn(const _wstring& strLayerTag)
 		return E_FAIL;
 
 	return S_OK;
-
 }
 
 #include "Ttakkeun_i.h"

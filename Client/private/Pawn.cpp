@@ -95,6 +95,33 @@ HRESULT CPawn::Ready_Components(void* pArg)
 
 	return S_OK;
 }
+#include "Level_Loading.h"
+
+void CPawn::Change_Level()
+{
+	LEVEL eNextLevelID{};
+
+	switch (m_eLevelID)
+	{
+	case LEVEL_INDOOR:
+		eNextLevelID = LEVEL_RACEFIRST;
+		break;
+	case LEVEL_RACEFIRST:
+		eNextLevelID = LEVEL_RACESECOND;
+		break;
+	case LEVEL_RACESECOND:
+		eNextLevelID = LEVEL_RACETHIRD;
+		break;
+	case LEVEL_RACETHIRD:
+		eNextLevelID = LEVEL_GAMEPLAY;
+		break;
+	default:
+		break;
+	}
+
+	m_pGameInstance->Change_Level(eNextLevelID);
+}
+
 void CPawn::Free()
 {
 	__super::Free();

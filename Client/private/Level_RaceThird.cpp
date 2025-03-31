@@ -5,6 +5,9 @@
 #include "Map.h"
 #include "PlayerOnBoat.h"
 #include "CameraManager.h"
+#include "Level_Loading.h"
+
+#define CurLevel LEVEL_RACETHIRD
 
 CLevel_RaceThird::CLevel_RaceThird(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CLevel { pGraphic_Device }
@@ -30,6 +33,11 @@ HRESULT CLevel_RaceThird::Initialize(CLevelData* pLevelData)
 
 void CLevel_RaceThird::Update(_float fTimeDelta)
 {
+	if (KEY_DOWN(DIK_P) || m_iNextLevel)
+	{
+		m_pGameInstance->Change_Level(LEVEL_LOADING,
+			CLevel_Loading::Create(m_pGraphic_Device, (LEVEL)m_iNextLevel));
+	}
 }
 
 HRESULT CLevel_RaceThird::Render()
@@ -130,11 +138,12 @@ HRESULT CLevel_RaceThird::Ready_Layer_Pawn(const _wstring& strLayerTag)
 	_float3 vInitPosition = { 450.f, 17.f, -3000.f };
 
 	// 플레이어가 있는지 체크하고 있으면 위치만 변경해줌.
-	auto pPlayer = m_pGameInstance->Find_Object(LEVEL_STATIC, TEXT("Layer_Pawn"));
+	auto pPlayer = static_cast<CPawn*>(GET_PLAYER);
 	if (pPlayer)
 	{
 		static_cast<CTransform*>(pPlayer->Find_Component(TEXT("Com_Transform")))
 			->Set_State(CTransform::STATE_POSITION, vInitPosition);
+		pPlayer->Set_LevelID(CurLevel);
 		return S_OK;
 	}
 

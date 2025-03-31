@@ -7,7 +7,7 @@
 
 //#define _CONSOL
 //#define _IMGUI
-#define START_LEVEL LEVEL_RACEFIRST
+#define START_LEVEL LEVEL_INDOOR
 
 #ifdef _IMGUI
 #include "imgui.h"

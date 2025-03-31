@@ -29,7 +29,7 @@ HRESULT CTrigger::Initialize(void* pArg)
 		DESC* pDesc = static_cast<DESC*>(pArg);
 
 		if (nullptr == m_pGameInstance->Find_Objects(LEVEL_GAMEPLAY, pDesc->LayerTag))
-			return E_FAIL;
+			return S_SKIP;
 		m_pTargets = *m_pGameInstance->Find_Objects(LEVEL_GAMEPLAY, pDesc->LayerTag);
 		for (auto pGameObject : m_pTargets)
 			Safe_AddRef(pGameObject);

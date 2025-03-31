@@ -248,7 +248,8 @@ HRESULT CLoader::Loding_For_Static()
 	ADD_TEXTURE(LeftHand, "../Bin/Resources/Textures/Weapon/LeftHand/LeftHand%d.PNG", 2);
 	ADD_TEXTURE(Weapon_Chaingun, "../Bin/Resources/Textures/Weapon/ChainGun/ChainGun%d.PNG", 16);
 	ADD_TEXTURE(Weapon_Dispenser, "../Bin/Resources/Textures/Weapon/Dispenser/Dispenser%d.PNG", 60);
-	ADD_TEXTURE(PlayerOnBoat, "../Bin/Resources/Textures/Player/PlayerOnBoat/Tile15947.PNG", 1);
+	ADD_PRTOBJ(PlayerOnBoat);
+
 #pragma endregion
 
 	ADD_PRTOBJ(Trigger);
@@ -264,7 +265,6 @@ HRESULT CLoader::Loding_For_Static()
 	ADD_PRTOBJ(Weapon_Chaingun);
 	ADD_PRTOBJ(Weapon_Dispenser);
 	ADD_PRTOBJ(GrenadeBullet);
-	ADD_PRTOBJ(PlayerOnBoat);
 #pragma endregion
 
 #pragma region 몬스터 텍스처
@@ -740,6 +740,7 @@ HRESULT CLoader::Loading_For_GamePlay()
 HRESULT CLoader::Loading_For_RaceFirst()/**/
 {
 	lstrcpy(m_szLoadingText, TEXT("텍스쳐을(를) 로딩중입니다."));
+	ADD_TEXTURE(PlayerOnBoat, "../Bin/Resources/Textures/Player/PlayerOnBoat/Tile15947.PNG", 1);
 	ADD_TEXTURE(RaceTerrain, "../Bin/Resources/Textures/Map/RaceTerrain/RaceTerrain%d.PNG", 2);
 	ADD_TEXTURE(RaceLandscape, "../Bin/Resources/Textures/Object/RaceLandscape/Tile15415.PNG", 1);
 	ADD_TEXTURE(BuildingH, "../Bin/Resources/Textures/Object/BuildingH/BuildingH%d.PNG", 4);
