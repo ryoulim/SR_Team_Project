@@ -53,7 +53,7 @@ EVENT CBossBridge::Update(_float fTimeDelta)
 		if(!m_bDoOnce)
 		{
 			//소용돌이(중앙)
-			CFXMgr::Get_Instance()->SpawnSpher(_float3{ 1430.f, 0.f, 1480.f }, LEVEL_GAMEPLAY);
+			FX_MGR->SpawnSpher(_float3{ 1430.f, 0.f, 1480.f }, LEVEL_GAMEPLAY);
 			m_bDoOnce = true;
 		}
 	}

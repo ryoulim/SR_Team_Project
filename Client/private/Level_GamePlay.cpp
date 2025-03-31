@@ -217,7 +217,7 @@ HRESULT CLevel_GamePlay::Ready_Layer_Particle(const _wstring& strLayerTag)
 	auto FX_Manager = FX_MGR;
 
 	//빗방울
-	CFXMgr::Get_Instance()->SpawnRain(LEVEL_GAMEPLAY);
+	FX_Manager->SpawnRain(LEVEL_GAMEPLAY);
 	//불지르기
 	FX_Manager->SpawnFire(_float3{ 800.f, 0.f, -200.f }, LEVEL_GAMEPLAY);
 
