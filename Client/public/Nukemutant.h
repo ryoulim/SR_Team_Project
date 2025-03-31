@@ -28,14 +28,14 @@ public:
 	virtual HRESULT Render() override;
 	/* 몬스터 행동 */
 private: //해당객체의 몬스터 패턴
-	virtual void	MonsterTick(_float dt);
-	virtual void	AttackPattern(_float dt);
-	virtual void	ChasePlayer(_float dt, _float fChaseDist);
-	virtual void	DoBattle(_float dt);
-	virtual void	DoIdle(_float dt);
-	void			DoReady(_float dt);
-	void			DoDetect(_float dt);
-	_bool			IsMonsterAbleToAttack();
+	//virtual void	MonsterTick(_float dt);
+	//virtual void	AttackPattern(_float dt);
+	//virtual void	ChasePlayer(_float dt, _float fChaseDist);
+	//virtual void	DoBattle(_float dt);
+	//virtual void	DoIdle(_float dt);
+	//void			DoReady(_float dt);
+	//void			DoDetect(_float dt);
+	//_bool			IsMonsterAbleToAttack();
 private:
 	virtual HRESULT Ready_Components(void* pArg);
 	virtual HRESULT Ready_Textures();
@@ -50,7 +50,7 @@ private:
 
 
 public:
-	virtual void On_Collision(_uint MyColliderID, _uint OtherColliderID) override;
+	//virtual void On_Collision(_uint MyColliderID, _uint OtherColliderID) override;
 
 public:
 	static CNukemutant* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
