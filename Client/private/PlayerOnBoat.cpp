@@ -40,7 +40,7 @@ EVENT CPlayerOnBoat::Update(_float fTimeDelta)
 		return EVN_DEAD;
 
 
-	if (m_pTransformCom->Get_State(CTransform::STATE_POSITION)->z > 9500.f
+	if (m_pTransformCom->Get_State(CTransform::STATE_POSITION)->z > 10000.f
 		|| m_pTransformCom->Get_State(CTransform::STATE_POSITION)->z < 100.f)
 	{
 		m_pTransformCom->Go_Straight(fTimeDelta  * 5.f);
@@ -74,7 +74,8 @@ EVENT CPlayerOnBoat::Update(_float fTimeDelta)
 	else
 	{
 		Key_Input(fTimeDelta);
-
+		m_pTransformCom->Go_Straight(fTimeDelta);
+	}
 	return __super::Update(fTimeDelta);
 }
 
@@ -119,14 +120,14 @@ void CPlayerOnBoat::On_Collision(_uint MyColliderID, _uint OtherColliderID)
 
 void CPlayerOnBoat::Key_Input(_float fTimeDelta)
 {
-	if (KEY_PRESSING(DIK_W))
+	/*if (KEY_PRESSING(DIK_W))
 	{
 		m_pTransformCom->Go_Straight(fTimeDelta);
 	}
 	if (KEY_PRESSING(DIK_S))
 	{
 		m_pTransformCom->Go_Backward(fTimeDelta);
-	}
+	}*/
 	if (KEY_PRESSING(DIK_A))
 	{
 		m_pTransformCom->Go_Left(fTimeDelta);

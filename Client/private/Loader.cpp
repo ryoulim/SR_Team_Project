@@ -827,7 +827,7 @@ HRESULT CLoader::Loading_For_RaceThird()
 	ADD_TEXTURE(RaceTerrain, "../Bin/Resources/Textures/Map/RaceTerrain/RaceTerrain%d.PNG", 2);
 	ADD_TEXTURE(RaceGate, "../Bin/Resources/Textures/Object/RaceGate/RaceGate%d.PNG", 3);
 	ADD_TEXTURE(RaceCylinder, "../Bin/Resources/Textures/Object/RaceCylinder/RaceCylinder%d.PNG", 3);
-	ADD_TEXTURE(Rock, "../Bin/Resources/Textures/Object/Rock/tile7949.PNG", 1);
+	ADD_TEXTURE(Rock, "../Bin/Resources/Textures/Object/Rock/tile6374.PNG", 1);
 	ADD_TEXTURE(Forest, "../Bin/Resources/Textures/Object/Forest/Forest1.PNG", 1);
 
 	lstrcpy(m_szLoadingText, TEXT("모델을(를) 로딩중입니다."));
