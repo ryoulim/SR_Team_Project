@@ -58,7 +58,6 @@ void CArchangel::Priority_Update(_float fTimeDelta)
 {
 	Set_Animation();
 	__super::Priority_Update(fTimeDelta);
-	Resize_Texture(0.35f);
 }
 
 EVENT CArchangel::Update(_float fTimeDelta)
@@ -77,6 +76,9 @@ EVENT CArchangel::Update(_float fTimeDelta)
 void CArchangel::Late_Update(_float fTimeDelta)
 {
 	__super::Late_Update(fTimeDelta);
+	Resize_Texture(0.8f);
+	if (m_eState == MODE::MODE_BATTLE)
+		m_iDegree = 0;
 }
 
 HRESULT CArchangel::Render()

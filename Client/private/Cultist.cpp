@@ -52,7 +52,7 @@ HRESULT CCultist::Initialize(void* pArg)
 	m_fAnimationMaxFrame = 4.f;
 	m_fAnimationSpeed = 5.f;
 	m_iState = STATE_MOVE;
-	m_fSpawnCooldown = 0.2f;
+	m_fBulletCooldown = 0.2f;
 	m_fCooldownTime = 0.5f;
 	return S_OK;
 }
@@ -79,7 +79,9 @@ EVENT CCultist::Update(_float fTimeDelta)
 void CCultist::Late_Update(_float fTimeDelta)
 {
 	__super::Late_Update(fTimeDelta);
-	Resize_Texture(0.35f);
+	Resize_Texture(0.4f);
+	if (m_eState == MODE::MODE_BATTLE)
+		m_iDegree = 0;
 }
 
 HRESULT CCultist::Render()
@@ -117,7 +119,7 @@ void CCultist::On_Collision(_uint MyColliderID, _uint OtherColliderID)
 		//몬스터 사망
 		if (0 >= m_iHP)
 		{
-			CFXMgr::Get_Instance()->SpawnCustomExplosion(vImpactPos, LEVEL_GAMEPLAY, _float3{ 130.f, 160.f, 1.f }, TEXT("PC_Explosion"), 14);
+			FX_MGR->SpawnCustomExplosion(vImpactPos, LEVEL_GAMEPLAY, _float3{ 130.f, 160.f, 1.f }, TEXT("PC_Explosion"), 14);
 			m_bDead = true;
 
 			return;
@@ -125,7 +127,7 @@ void CCultist::On_Collision(_uint MyColliderID, _uint OtherColliderID)
 
 		// 이펙트 생성
 		m_iHP += -50;
-		CFXMgr::Get_Instance()->SpawnBlood(vImpactPos, LEVEL_GAMEPLAY);
+		FX_MGR->SpawnBlood(vImpactPos, LEVEL_GAMEPLAY);
 	}
 }
 
@@ -262,7 +264,7 @@ void CCultist::DoDetect(_float dt)
 _bool CCultist::IsMonsterAbleToAttack()
 {
 	// 여기 레이캐스팅으로 플레이어와 몬스터 사이 장애물 유무 체크
-	if (m_fCurDistance > 200.f)
+	if (m_fCurDistance > m_fAttackDistance)
 		return false;
 	//if (m_fRaycastTicker > 0.5f)
 	{
@@ -347,18 +349,28 @@ void CCultist::AttackPattern(_float dt)
 		m_bCoolingDown = true;
 		m_fAttackTimer = 0.f;
 	}
-	if (m_fSpawnNormalBullet >= m_fSpawnCooldown)
+	if (m_fSpawnNormalBullet >= m_fBulletCooldown)
 	{
 		_float3 TargetPos = *static_cast<CTransform*>(m_pTargetPlayer->Find_Component(L"Com_Transform"))->Get_State(CTransform::STATE_POSITION);
 
 		m_pTransformCom->LookAt(TargetPos);
 		// 0.2초마다 발사
 		CMonsterNormalBullet::DESC MonsterNormalBullet_iDesc{};
-		MonsterNormalBullet_iDesc.fSpeedPerSec = 60.f;
+		MonsterNormalBullet_iDesc.fSpeedPerSec = 100.f;
 		MonsterNormalBullet_iDesc.fRotationPerSec = RADIAN(180.f);
-		MonsterNormalBullet_iDesc.vScale = { 10.f, 10.f, 0.f };
+		MonsterNormalBullet_iDesc.vScale = { 1.f, 3.f, 0.f };
 		MonsterNormalBullet_iDesc.vPosition = *m_pTransformCom->Get_State(CTransform::STATE_POSITION);
-		MonsterNormalBullet_iDesc.vPosition.y += 10.f;
+		_float3 vRight = *m_pTransformCom->Get_State(CTransform::STATE_RIGHT);
+		vRight.Normalize();
+		// 총구 위치를 몬스터의 위치와 look 벡터를 사용하여 계산
+		MonsterNormalBullet_iDesc.vPosition += vRight * 11.f;
+		MonsterNormalBullet_iDesc.vPosition.y += 12.f;
+
+
+		//MonsterNormalBullet_iDesc.vPosition.y += 12.f;
+		//MonsterNormalBullet_iDesc.vPosition.x -= 12.f;
+
+
 
 		if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_MonsterNormalBullet"),
 			LEVEL_GAMEPLAY, L"Layer_MonsterBullet", &MonsterNormalBullet_iDesc)))

@@ -47,7 +47,7 @@ private:
 	enum STATE_MAXFRAME { MAX_MOVERUN = 4, MAX_REVIVE = 7, MAX_ATTACK = 5, MAX_DEAD = 6 };
 	MONSTER_STATE	m_eCurMonsterState = { MONSTER_STATE::STATE_MOVE };
 	MONSTER_STATE	m_ePrevMonsterState = { MONSTER_STATE::STATE_MOVE };
-
+	_uint			m_iAttackAnimVariation = 0;
 
 public:
 	virtual void On_Collision(_uint MyColliderID, _uint OtherColliderID) override;

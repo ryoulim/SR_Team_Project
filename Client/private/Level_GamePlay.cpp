@@ -280,18 +280,18 @@ HRESULT CLevel_GamePlay::Ready_Layer_Monster(const _wstring& strLayerTag)
 		return E_FAIL;	
 
 	//따끈이
-	SpawnTtakkeun_i(_float3{ 1200.f, 100.f, 1500.f }, true, 0, LEVEL_GAMEPLAY);
-	SpawnTtakkeun_i(_float3{ 1600.f, 100.f, 1500.f }, true, 1, LEVEL_GAMEPLAY);
+	//SpawnTtakkeun_i(_float3{ 1200.f, 100.f, 1500.f }, true, 0, LEVEL_GAMEPLAY);
+	//SpawnTtakkeun_i(_float3{ 1600.f, 100.f, 1500.f }, true, 1, LEVEL_GAMEPLAY);
 
 	//전시용 (게임플레이 이니셜)
 	//SpawnWenteko(_float3{ 100.f, 40.f, -100.f }, false, LEVEL_GAMEPLAY);
-	//SpawnDeacon(_float3{ 1300.f, 50.f, 700.f }, true, LEVEL_GAMEPLAY);
-	SpawnShotgunner(_float3{ 1300.f, 35.f, 700.f }, true, LEVEL_GAMEPLAY);
-	SpawnNukemutant(_float3{ 250.f, 30.f, -120.f }, false, LEVEL_GAMEPLAY);
-	SpawnMechsect(_float3{ 330.f, 10.f, -120.f }, false, LEVEL_GAMEPLAY);
-	SpawnGreater(_float3{ 1300.f, 35.f, 700.f }, true, LEVEL_GAMEPLAY);
-	SpawnCultist(_float3{ 1300.f, 35.f, 700.f }, true, LEVEL_GAMEPLAY);
-	SpawnArchangel(_float3{ 420.f, 30.f, -250.f }, false, LEVEL_GAMEPLAY);
+	SpawnDeacon(_float3{ 1200.f, 100.f, 1500.f }, true, LEVEL_GAMEPLAY);
+	SpawnShotgunner(_float3{ 1200.f, 100.f, 1500.f }, true, LEVEL_GAMEPLAY);
+	SpawnGreater(_float3{  1200.f, 100.f, 1500.f  }, true, LEVEL_GAMEPLAY);
+	SpawnCultist(_float3{  1200.f, 100.f, 1500.f  }, true, LEVEL_GAMEPLAY);
+	//SpawnNukemutant(_float3{ 250.f, 30.f, -120.f }, false, LEVEL_GAMEPLAY);
+	//SpawnMechsect(_float3{ 330.f, 10.f, -120.f }, false, LEVEL_GAMEPLAY);
+	//SpawnArchangel(_float3{ 420.f, 30.f, -250.f }, false, LEVEL_GAMEPLAY);
 
 	return S_OK;
 }
@@ -377,6 +377,8 @@ HRESULT CLevel_GamePlay::Ready_Layer_Trigger(const _wstring& strLayerTag)
 void CLevel_GamePlay::Check_Collision()
 {
 	m_pGameInstance->Intersect(CG_PAWN, CG_BLOCK);
+	//m_pGameInstance->Intersect(CG_MBULLET, CG_PAWN);
+	m_pGameInstance->Intersect(CG_PAWN, CG_MBULLET); 
 	m_pGameInstance->Intersect(CG_PBULLET, CG_MONSTER);
 	m_pGameInstance->Intersect(CG_PBULLET, CG_BLOCK);
 	m_pGameInstance->Intersect(CG_MBULLET, CG_BLOCK);
@@ -409,6 +411,8 @@ void CLevel_GamePlay::SpawnWenteko(_float3 _Position, bool m_bActive, LEVEL _eLe
 	Wenteko_iDesc.vActive = m_bActive;
 	Wenteko_iDesc.vReturnPos = _Position;
 	Wenteko_iDesc.eLevel = _eLevel;
+	Wenteko_iDesc.fAttackDistance = 400.f;
+	Wenteko_iDesc.fDetectiveDistance = 500.f;
 	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_Wenteko"),
 		_eLevel, L"Layer_Monster", &Wenteko_iDesc)))
 		return;
@@ -423,6 +427,8 @@ void CLevel_GamePlay::SpawnShotgunner(_float3 _Position, bool m_bActive, LEVEL _
 	Shotgunner_iDesc.vActive = m_bActive;
 	Shotgunner_iDesc.vReturnPos = _Position;
 	Shotgunner_iDesc.eLevel = _eLevel;
+	Shotgunner_iDesc.fAttackDistance = 300.f;
+	Shotgunner_iDesc.fDetectiveDistance = 500.f;
 	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_Shotgunner"),
 		_eLevel, L"Layer_Monster", &Shotgunner_iDesc)))
 		return;
@@ -436,6 +442,8 @@ void CLevel_GamePlay::SpawnNukemutant(_float3 _Position, bool m_bActive, LEVEL _
 	Nukemutant_iDesc.vActive = m_bActive;
 	Nukemutant_iDesc.vReturnPos = _Position;
 	Nukemutant_iDesc.eLevel = _eLevel;
+	Nukemutant_iDesc.fAttackDistance = 400.f;
+	Nukemutant_iDesc.fDetectiveDistance = 500.f;
 	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_Nukemutant"),
 		_eLevel, L"Layer_Monster", &Nukemutant_iDesc)))
 		return;
@@ -449,6 +457,8 @@ void CLevel_GamePlay::SpawnMechsect(_float3 _Position, bool m_bActive, LEVEL _eL
 	Mechsect_iDesc.vActive = m_bActive;
 	Mechsect_iDesc.vReturnPos = _Position;
 	Mechsect_iDesc.eLevel = _eLevel;
+	Mechsect_iDesc.fAttackDistance = 200.f;
+	Mechsect_iDesc.fDetectiveDistance = 500.f;
 	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_Mechsect"),
 		_eLevel, L"Layer_Monster", &Mechsect_iDesc)))
 		return;
@@ -462,6 +472,8 @@ void CLevel_GamePlay::SpawnGreater(_float3 _Position, bool m_bActive, LEVEL _eLe
 	Greater_iDesc.vActive = m_bActive;
 	Greater_iDesc.vReturnPos = _Position;
 	Greater_iDesc.eLevel = _eLevel;
+	Greater_iDesc.fAttackDistance = 400.f;
+	Greater_iDesc.fDetectiveDistance = 500.f;
 	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_Greater"),
 		_eLevel, L"Layer_Monster", &Greater_iDesc)))
 		return;
@@ -475,6 +487,8 @@ void CLevel_GamePlay::SpawnDeacon(_float3 _Position, bool m_bActive, LEVEL _eLev
 	Deacon_iDesc.vActive = m_bActive;
 	Deacon_iDesc.vReturnPos = _Position;
 	Deacon_iDesc.eLevel = _eLevel;
+	Deacon_iDesc.fAttackDistance = 400.f;
+	Deacon_iDesc.fDetectiveDistance = 600.f;
 	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_Deacon"),
 		_eLevel, L"Layer_Monster", &Deacon_iDesc)))
 		return;
@@ -488,6 +502,8 @@ void CLevel_GamePlay::SpawnCultist(_float3 _Position, bool m_bActive, LEVEL _eLe
 	Cultist_iDesc.vActive = m_bActive;
 	Cultist_iDesc.vReturnPos = _Position;
 	Cultist_iDesc.eLevel = _eLevel;
+	Cultist_iDesc.fAttackDistance = 400.f;
+	Cultist_iDesc.fDetectiveDistance = 500.f;
 	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_Cultist"),
 		_eLevel, L"Layer_Monster", &Cultist_iDesc)))
 		return;
@@ -501,6 +517,8 @@ void CLevel_GamePlay::SpawnArchangel(_float3 _Position, bool m_bActive, LEVEL _e
 	Archangel_iDesc.vActive = m_bActive;
 	Archangel_iDesc.vReturnPos = _Position;
 	Archangel_iDesc.eLevel = _eLevel;
+	Archangel_iDesc.fAttackDistance = 400.f;
+	Archangel_iDesc.fDetectiveDistance = 500.f;
 	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_Archangel"),
 		_eLevel, L"Layer_Monster", &Archangel_iDesc)))
 		return;

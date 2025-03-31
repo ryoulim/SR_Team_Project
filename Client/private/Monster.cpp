@@ -43,7 +43,7 @@ HRESULT CMonster::Initialize(void* pArg)
 	/* 텍스처, 트랜스폼, 렉트버퍼, 콜라이더 컴포넌트 준비(위치초기화) */
 	if (FAILED(Ready_Components(pArg)))
 		return E_FAIL;
-	m_fSpawnCooldown = 0.2f; // 임시로 넣음, 자식으로 내릴 예정 (까먹고 계속 있으면 지워도 됨)
+	m_fBulletCooldown = 0.2f; // 임시로 넣음, 자식으로 내릴 예정 (까먹고 계속 있으면 지워도 됨)
 	return S_OK;
 }
 
@@ -61,7 +61,7 @@ EVENT CMonster::Update(_float fTimeDelta)
 	if (m_bActive)
 	{
 		//m_pGravityCom->Update(fTimeDelta);
-		MonsterTick(fTimeDelta);
+ 		MonsterTick(fTimeDelta);
 	}
 
 	return EVN_NONE;
@@ -76,6 +76,9 @@ void CMonster::Late_Update(_float fTimeDelta)
 	
 	//콜라이더 업데이트
   	m_pCollider->Update_Collider();
+
+	//그래비티 업데이트
+	m_pGravityCom->Update(fTimeDelta);
 
 	//몬스터 각도업데이트
 	Compute_ViewAngle();
@@ -195,6 +198,8 @@ HRESULT CMonster::Ready_Components(void* pArg)
 		m_vReturnPos = pDesc->vReturnPos;
 		m_iNum = pDesc->iNums;
 		m_eLevelID = pDesc->eLevel;
+		m_fDetectiveDistance = pDesc->fDetectiveDistance;
+		m_fAttackDistance = pDesc->fAttackDistance;
 	}
 
 	/* 콜라이드 컴포넌트 */

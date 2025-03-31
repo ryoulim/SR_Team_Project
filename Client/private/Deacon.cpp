@@ -90,11 +90,27 @@ EVENT CDeacon::Update(_float fTimeDelta)
 
 void CDeacon::Late_Update(_float fTimeDelta)
 {
-	__super::Late_Update(fTimeDelta);
+	/* 중력 업데이트 없어서 그냥 오버라이딩 함 */
+
+	//플레이어 감지 업데이트
+	PlayerDistance();
+	CalculateVectorToPlayer();
+	IsPlayerDetected();
+
+	//콜라이더 업데이트
+	m_pCollider->Update_Collider();
+
+	//몬스터 각도업데이트
+	Compute_ViewAngle();
+	Set_TextureType();
+
+	//렌더그룹 업데이트
+	if (FAILED(m_pGameInstance->Add_RenderGroup(CRenderer::RG_NONBLEND, this)))
+		return;
+
+	Resize_Texture(0.4f);
 	if (m_eState == MODE::MODE_BATTLE)
-		m_bRotateAnimation = false;
-	else
-		m_bRotateAnimation = true;
+		m_iDegree = 0;
 }
 
 HRESULT CDeacon::Render()
@@ -283,7 +299,7 @@ void CDeacon::DoDetect(_float dt)
 _bool CDeacon::IsMonsterAbleToAttack()
 {
 	// 여기 레이캐스팅으로 플레이어와 몬스터 사이 장애물 유무 체크
-	if (m_fCurDistance > 200.f)
+	if (m_fCurDistance > m_fAttackDistance)
 		return false;
 	//if (m_fRaycastTicker > 0.5f)
 	{
@@ -371,9 +387,9 @@ void CDeacon::AttackPattern(_float dt)
 	{
 		// 0.2초마다 발사
 		CMonsterNormalBullet::DESC MonsterNormalBullet_iDesc{};
-		MonsterNormalBullet_iDesc.fSpeedPerSec = 60.f;
+		MonsterNormalBullet_iDesc.fSpeedPerSec = 80.f;
 		MonsterNormalBullet_iDesc.fRotationPerSec = RADIAN(180.f);
-		MonsterNormalBullet_iDesc.vScale = { 10.f, 10.f, 0.f };
+		MonsterNormalBullet_iDesc.vScale = { 7.f, 7.f, 0.f };
 		MonsterNormalBullet_iDesc.vPosition = *m_pTransformCom->Get_State(CTransform::STATE_POSITION);
 		MonsterNormalBullet_iDesc.vPosition.x += m_iLeftRight * 20.f;
 		MonsterNormalBullet_iDesc.vPosition.y += 10.f;

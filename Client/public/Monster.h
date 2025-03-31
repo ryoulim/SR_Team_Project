@@ -33,6 +33,8 @@ public:
 		_float3		vReturnPos;
 		_int		iNums = 0;
 		bool		vActive = false;
+		_float		fDetectiveDistance;
+		_float		fAttackDistance;
 	}DESC;
 
 protected:
@@ -180,6 +182,7 @@ protected: //디텍티브
 	_float			m_fDetectiveDistance= 0;
 	_float			m_fIdleTime			= 0;
 	_float			m_fMaxIdleTime		= 0;
+	_float			m_fAttackDistance	= 0;
 
 
 protected: // 랜덤 난수 생성변수
@@ -223,8 +226,8 @@ protected: // 일반 몬스터 행동 용 변수
 	_bool			m_isReadyToAttack = { false };
 	_float			m_fRaycastTicker = {};
 	_float			m_fSpawnNormalBullet = {};
-	_float			m_fSpawnCooldown = {};
-
+	_float			m_fBulletCooldown = {};
+	_float			m_fAttackTime = {};
 };
 
 END

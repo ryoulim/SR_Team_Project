@@ -43,7 +43,7 @@ HRESULT CMonsterNormalBullet::Initialize(void* pArg)
 	Missile_iDesc.vPosition = { 0.f, 0.f, 0.f };
 	Missile_iDesc.szTextureTag = TEXT("PC_Small_Smoke");
 	Missile_iDesc.iParticleNums = 1000;
-	Missile_iDesc.fSize = 0.01f;
+	Missile_iDesc.fSize = 0.07f;
 	Missile_iDesc.fMaxFrame = 20.f;
 	Missile_iDesc.fLifeTime = GetRandomFloat(1.f, 3.f);
 
@@ -78,6 +78,7 @@ HRESULT CMonsterNormalBullet::Ready_Components(void* pArg)
 	{
 		//값 가져올 것 있으면 여기서 ↓
 		DESC* pDesc = static_cast<DESC*>(pArg);
+
 		m_pTransformCom->Set_State(CTransform::STATE_POSITION, pDesc->vPosition);
 		m_pTransformCom->Scaling(pDesc->vScale);
 	}
@@ -96,19 +97,28 @@ HRESULT CMonsterNormalBullet::Ready_Components(void* pArg)
 		TEXT("Com_Collider"), reinterpret_cast<CComponent**>(&m_pCollider), &ColliderDesc)))
 		return E_FAIL;
 
-
 	return S_OK;
 }
 
 void CMonsterNormalBullet::Priority_Update(_float fTimeDelta)
 {
 	__super::Priority_Update(fTimeDelta);
+	_float3 vMyPos = *m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+	if ((vMyPos - m_vTargetPos).Length() <= 10.f)
+		m_bDead = true;
 }
 
 EVENT CMonsterNormalBullet::Update(_float fTimeDelta)
 {
 	if (m_bDead)
+	{
+		if (m_pMissile)
+		{
+			static_cast<CMonsterMissile*>(m_pMissile)->SetDead();
+			m_pMissile = nullptr;
+		}
 		return EVN_DEAD;
+	}
 
 	if (m_pMissile)
 		static_cast<CMonsterMissile*>(m_pMissile)->SetPosition(*m_pTransformCom->Get_State(CTransform::STATE_POSITION));
@@ -137,7 +147,7 @@ void CMonsterNormalBullet::On_Collision(_uint MyColliderID, _uint OtherColliderI
 		m_pMissile = nullptr;
 	}
 
-	m_bDead = TRUE;
+	m_bDead = true;
 
 	if (OtherColliderID == CI_BLOCK_COMMON)
 	{
@@ -146,7 +156,7 @@ void CMonsterNormalBullet::On_Collision(_uint MyColliderID, _uint OtherColliderI
 	}
 	if (CI_PLAYER(OtherColliderID))
 	{
-		m_bDead = TRUE;
+		m_bDead = true;
 	}
 }
 
@@ -182,9 +192,13 @@ void CMonsterNormalBullet::SetTargetDir()
 	_float3 vMyPos = *m_pTransformCom->Get_State(CTransform::STATE_POSITION);
 	m_vTargetPos = *static_cast<CTransform*>(m_pTargetPlayer->Find_Component(L"Com_Transform"))->Get_State(CTransform::STATE_POSITION);
 	m_vTargetPos.y = 30.f;
+	_float3 vDir = vMyPos - m_vTargetPos;
+	vDir.Normalize();
+	m_vTargetPos -= vDir * 400.f;
 
 	// 약간의 랜덤 오차를 추가
 	m_vTargetPos.x += GetRandomFloat(0.f, 20.f);
+	m_vTargetPos.y += GetRandomFloat(0.f, 20.f);
 	m_vTargetPos.z += GetRandomFloat(0.f, 20.f);
 }
 

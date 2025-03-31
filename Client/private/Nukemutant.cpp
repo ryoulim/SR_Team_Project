@@ -3,6 +3,7 @@
 
 #include "Nukemutant.h"
 #include "FXMgr.h"
+#include "MonsterNormalBullet.h"
 
 CNukemutant::CNukemutant(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CMonster{ pGraphic_Device }
@@ -52,8 +53,8 @@ HRESULT CNukemutant::Initialize(void* pArg)
 	m_fAnimationMaxFrame = 4.f;
 	m_fAnimationSpeed = 5.f;
 	m_iState = STATE_MOVE;
-	m_fSpawnCooldown = 0.2f;
-	m_fCooldownTime = 0.5f;
+	m_fBulletCooldown = 1.f;
+	m_fCooldownTime = 2.f;
 	return S_OK;
 }
 
@@ -79,6 +80,9 @@ EVENT CNukemutant::Update(_float fTimeDelta)
 void CNukemutant::Late_Update(_float fTimeDelta)
 {
 	__super::Late_Update(fTimeDelta);
+	Resize_Texture(0.5f);
+	if (m_eState == MODE::MODE_BATTLE)
+		m_iDegree = 0;
 }
 
 HRESULT CNukemutant::Render()
@@ -89,7 +93,7 @@ HRESULT CNukemutant::Render()
 }
 
 
-void CGreater::On_Collision(_uint MyColliderID, _uint OtherColliderID)
+void CNukemutant::On_Collision(_uint MyColliderID, _uint OtherColliderID)
 {
 	if (CI_BLOCK(OtherColliderID))
 	{
@@ -116,7 +120,7 @@ void CGreater::On_Collision(_uint MyColliderID, _uint OtherColliderID)
 		//몬스터 사망
 		if (0 >= m_iHP)
 		{
-			CFXMgr::Get_Instance()->SpawnCustomExplosion(vImpactPos, LEVEL_GAMEPLAY, _float3{ 130.f, 160.f, 1.f }, TEXT("PC_Explosion"), 14);
+			FX_MGR->SpawnCustomExplosion(vImpactPos, LEVEL_GAMEPLAY, _float3{ 130.f, 160.f, 1.f }, TEXT("PC_Explosion"), 14);
 			m_bDead = true;
 
 			return;
@@ -124,11 +128,11 @@ void CGreater::On_Collision(_uint MyColliderID, _uint OtherColliderID)
 
 		// 이펙트 생성
 		m_iHP += -50;
-		CFXMgr::Get_Instance()->SpawnBlood(vImpactPos, LEVEL_GAMEPLAY);
+		FX_MGR->SpawnBlood(vImpactPos, LEVEL_GAMEPLAY);
 	}
 }
 
-void CGreater::MonsterTick(_float dt)
+void CNukemutant::MonsterTick(_float dt)
 {
 	//상태변화
 	switch (m_eState)
@@ -137,7 +141,7 @@ void CGreater::MonsterTick(_float dt)
 		if (IsPlayerDetected())	// 감지 거리 기준 계산
 		{
 			//플레이어 발견 시 행동
-			cout << "Shotgunner 플레이어 감지!!" << endl;
+			cout << "Nukemutant 플레이어 감지!!" << endl;
 			m_eState = MODE::MODE_DETECTIVE;
 		}
 		break;
@@ -194,8 +198,8 @@ void CGreater::MonsterTick(_float dt)
 	if (elapsed >= 1000)
 	{
 		// 1초 이상 지났다면 출력
-		cout << "[샷거너]\t플레이어와의 거리 : " << m_fCurDistance << endl;
-		cout << "[샷거너]\t상태 : ";
+		cout << "[뮤턴트]\t플레이어와의 거리 : " << m_fCurDistance << endl;
+		cout << "[뮤턴트]\t상태 : ";
 		switch (m_eState)
 		{
 		case Client::CMonster::MODE_IDLE:
@@ -250,7 +254,7 @@ void CGreater::MonsterTick(_float dt)
 	}
 }
 
-void CGreater::DoDetect(_float dt)
+void CNukemutant::DoDetect(_float dt)
 {
 	// 감지 가능 거리 이내일 때 / 감지 상태 중 추격 가능 거리일 때
 	ChasePlayer(dt, 50.f);
@@ -258,10 +262,10 @@ void CGreater::DoDetect(_float dt)
 }
 
 
-_bool CGreater::IsMonsterAbleToAttack()
+_bool CNukemutant::IsMonsterAbleToAttack()
 {
 	// 여기 레이캐스팅으로 플레이어와 몬스터 사이 장애물 유무 체크
-	if (m_fCurDistance > 200.f)
+	if (m_fCurDistance > m_fAttackDistance)
 		return false;
 	//if (m_fRaycastTicker > 0.5f)
 	{
@@ -273,20 +277,21 @@ _bool CGreater::IsMonsterAbleToAttack()
 	}
 }
 
-void CGreater::DoReady(_float dt)
+void CNukemutant::DoReady(_float dt)
 {
 	m_fCooldownDuration += dt;
 	if (m_fCooldownDuration >= m_fCooldownTime)
 		m_isReadyToAttack = true;
 	m_fAnimationFrame = 0.f;
+	m_eCurMonsterState = STATE_STAY;
 }
 
-void CGreater::DoBattle(_float dt)
+void CNukemutant::DoBattle(_float dt)
 {
 	AttackPattern(dt);
 }
 
-void CGreater::DoIdle(_float dt)
+void CNukemutant::DoIdle(_float dt)
 {
 	switch (m_eIdlePhase)
 	{
@@ -331,7 +336,7 @@ void CGreater::DoIdle(_float dt)
 	}
 }
 
-void CGreater::AttackPattern(_float dt)
+void CNukemutant::AttackPattern(_float dt)
 {
 	// 실제 공격 패턴 작성하는 곳
 	// 잡몹이라 일반공격정도만
@@ -345,8 +350,9 @@ void CGreater::AttackPattern(_float dt)
 	{
 		m_bCoolingDown = true;
 		m_fAttackTimer = 0.f;
+		m_iAttackAnimVariation == 5 ? m_iAttackAnimVariation = 0 : m_iAttackAnimVariation = 5; // 공격 애니메이션 변화
 	}
-	if (m_fSpawnNormalBullet >= m_fSpawnCooldown)
+	if (m_fSpawnNormalBullet >= m_fBulletCooldown)
 	{
 		_float3 TargetPos = *static_cast<CTransform*>(m_pTargetPlayer->Find_Component(L"Com_Transform"))->Get_State(CTransform::STATE_POSITION);
 		m_pTransformCom->LookAt(TargetPos);
@@ -366,7 +372,7 @@ void CGreater::AttackPattern(_float dt)
 	}
 }
 
-void CGreater::ChasePlayer(_float dt, _float fChaseDist)
+void CNukemutant::ChasePlayer(_float dt, _float fChaseDist)
 {
 	//타겟을 350거리까지 추격한다.
 	_float3 TargetPos = *static_cast<CTransform*>(m_pTargetPlayer->Find_Component(L"Com_Transform"))->Get_State(CTransform::STATE_POSITION);
@@ -435,18 +441,6 @@ HRESULT CNukemutant::Ready_Textures()
 		_wstring(TEXT("Com_Texture")) + L"_Nukemutant_Dead", reinterpret_cast<CComponent**>(&(m_pTextureMap[STATE_DEAD][0])))))
 		return E_FAIL;
 
-	/* MOVE */
-	//for (_uint i = 0; i < D_END; i++)
-	//{
-	//	_wstring sPrototypeTag = L"Prototype_Component_Texture_Nukemutant_Move_";
-	//	_uint num = static_cast<_uint>(i * m_fDivOffset);
-	//	_tchar buf[32];
-	//	_itow_s((int)num, buf, 10);
-	//	sPrototypeTag += buf;
-	//	if (FAILED(__super::Add_Component(m_eLevelID, sPrototypeTag,
-	//		_wstring(TEXT("Com_Texture")) + L"_Nukemutant_Move_" + buf, reinterpret_cast<CComponent**>(&(m_pTextureMap[STATE_MOVE][i])))))
-	//		return E_FAIL;
-	//}
 	return S_OK;
 }
 
@@ -464,7 +458,8 @@ HRESULT CNukemutant::Set_Animation()
 			m_fAnimationSpeed = 10.f;
 			break;
 		case Client::CNukemutant::STATE_ATTACK:
-			m_fAnimationMaxFrame = _float(MAX_ATTACK);
+			m_fAnimationMaxFrame = _float(MAX_ATTACK) + _float(m_iAttackAnimVariation);
+			m_fAnimationFrame = _float(m_iAttackAnimVariation);
 			m_fAnimationSpeed = 10.f;
 			break;
 		case Client::CNukemutant::STATE_STAY:
