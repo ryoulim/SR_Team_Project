@@ -29,6 +29,7 @@ public:
 
 private:
 	_bool m_bTrigger{};
+	_bool m_bDoOnce = false;
 	_float m_fTimeaAcc{};
 	_float m_fFallTime = {};
 private:

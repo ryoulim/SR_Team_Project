@@ -88,12 +88,12 @@ void CSphere::resetParticle(Attribute* attribute)
 	attribute->_Velocity.z += GetRandomFloat(-5.0f, 50.0f);
 
 	//페이드 아웃을 위한 색상 조절
-	attribute->_Color = WHITE;
+	attribute->_Color = D3DCOLOR_XRGB(GetRandomInt(200, 255), GetRandomInt(0,155), GetRandomInt(0, 50));
 	attribute->_ColorFade = WHITE; // 사라지는 색상
 
 	//수명 설정 (2~5초 동안 지속)
-	attribute->_Age = GetRandomFloat(-1.f, 3.f);
-	attribute->_LifeTime = GetRandomFloat(1.0f, 3.0f);
+	attribute->_Age = GetRandomFloat(0.f, 1.f);
+	attribute->_LifeTime = GetRandomFloat(0.5f, 1.f);
 }
 
 EVENT CSphere::Update(_float timeDelta)
@@ -102,7 +102,7 @@ EVENT CSphere::Update(_float timeDelta)
 	SphereElapsed += timeDelta; // 프레임마다 증가
 
 	//목표 중심이 천천히 왕복하도록 설정 (부드럽게 움직이게)
-	m_vCenter.x = 100.0f + sin(SphereElapsed * 2.f) * 50.0f;
+	m_vCenter.x = 100.0f + sin(SphereElapsed * 4.f) * 50.0f;
 	m_vCenter.z = 50.0f + sin(SphereElapsed * 4.f) * 100.0f;
 
 
@@ -211,8 +211,8 @@ HRESULT CSphere::Render()
 		m_pGraphic_Device->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_ONE);
 		m_pGraphic_Device->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_ONE);
 
-		m_pTextureCom->Bind_Resource(0);
-		//m_pGraphic_Device->SetTexture(0, nullptr);
+		//m_pTextureCom->Bind_Resource(0);
+		m_pGraphic_Device->SetTexture(0, nullptr);
 
 		m_pGraphic_Device->SetFVF(Particle::FVF);
 		m_pGraphic_Device->SetStreamSource(0, m_pVB, 0, sizeof(Particle));
