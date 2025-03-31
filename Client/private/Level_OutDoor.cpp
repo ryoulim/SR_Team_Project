@@ -38,7 +38,7 @@ HRESULT CLevel_OutDoor::Initialize(CLevelData* pLevelData)
 
 void CLevel_OutDoor::Update(_float fTimeDelta)
 {
-
+	Check_Collision();
 }
 
 HRESULT CLevel_OutDoor::Render()
@@ -64,7 +64,7 @@ HRESULT CLevel_OutDoor::Load_Map(_uint iLevelIdx, const _wstring& FileName)
 	/* 텍스쿠드 변경해서 적용시켜 줄 때 각 오브젝트를 갖고오는 변수 ( 점점추가될 예정 )*/
 	/* 배열로 선언할까 싶기도 했는데, 레벨마다 쓸 녀석과 안 쓸 녀석이 나뉘어질 거같기때문에,, */
 	_int iNumTile{}, iNumBlock{}, iNumTriPil{}, iNumAniRect{}, iNumAniBlock{},
-		iNumInviBlock{}, iNumAlphaRect{}, iNumAlphaBlock{};
+		iNumInviBlock{}, iNumAlphaRect{}, iNumAlphaBlock{}, iNumWater{};
 	/* 불러오기용 변수 */
 	_int iNumVertexX = {}, iNumVertexZ = {}, iLoadLength = {};
 	_uint iNumBackGround = {}, iNumModel = {};
@@ -97,8 +97,8 @@ HRESULT CLevel_OutDoor::Load_Map(_uint iLevelIdx, const _wstring& FileName)
 			CMap::DESC tDesc = {};
 			tDesc.fSpeedPerSec = fSpeedPerSec;
 			tDesc.fRotationPerSec = fRotationPerSec;
-			tDesc.vInitPos = vPosition * INDOORSCALE;
-			tDesc.vScale = vScale * INDOORSCALE;
+			tDesc.vInitPos = vPosition * OUTDOORSCALE;
+			tDesc.vScale = vScale * OUTDOORSCALE;
 			tDesc.vAngle = vAngle;
 			tDesc.fTextureIdx = fTextureIdx;
 			tDesc.bCollision = bCollision;
@@ -207,6 +207,18 @@ HRESULT CLevel_OutDoor::Load_Map(_uint iLevelIdx, const _wstring& FileName)
 			else if (Prototype == TEXT("Prototype_GameObject_AlphaBlock"))
 			{
 				CGameObject* pGameObject = m_pGameInstance->Find_Object(iLevelIdx, Layertag, iNumAlphaBlock++);
+				if (nullptr != pGameObject)
+				{
+					if (FAILED(__super::Load_VertexBuffer(pGameObject, hFile, &dwByte)))
+					{
+						MSG_BOX("버텍스 버퍼 로딩실패");
+						return E_FAIL;
+					}
+				}
+			}
+			else if (Prototype == TEXT("Prototype_GameObject_Water"))
+			{
+				CGameObject* pGameObject = m_pGameInstance->Find_Object(iLevelIdx, Layertag, iNumWater++);
 				if (nullptr != pGameObject)
 				{
 					if (FAILED(__super::Load_VertexBuffer(pGameObject, hFile, &dwByte)))
@@ -341,6 +353,10 @@ HRESULT CLevel_OutDoor::Ready_Layer_Pawn(const _wstring& strLayerTag)
 
 void CLevel_OutDoor::Check_Collision()
 {
+	m_pGameInstance->Intersect(CG_PAWN, CG_BLOCK);
+	m_pGameInstance->Intersect(CG_PBULLET, CG_MONSTER);
+	m_pGameInstance->Intersect(CG_PBULLET, CG_BLOCK);
+	m_pGameInstance->Intersect(CG_MBULLET, CG_BLOCK);
 }
 
 CLevel_OutDoor* CLevel_OutDoor::Create(LPDIRECT3DDEVICE9 pGraphic_Device, CLevelData* pLevelData)

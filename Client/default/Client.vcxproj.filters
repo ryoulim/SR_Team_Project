@@ -385,6 +385,9 @@
     <Filter Include="01.Levels\04. Race\Third">
       <UniqueIdentifier>{ddbf0416-6761-4365-babd-545fed9fd109}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\Map\Water">
+      <UniqueIdentifier>{f77f54b1-1a1d-4f3e-bdfe-494ddfc8483e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -777,6 +780,9 @@
     <ClInclude Include="..\public\Level_OutDoor.h">
       <Filter>01.Levels\03. Outdoor</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\Water.h">
+      <Filter>02.GameObjects\Map\Water</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -1157,6 +1163,9 @@
     </ClCompile>
     <ClCompile Include="..\private\Level_OutDoor.cpp">
       <Filter>01.Levels\03. Outdoor</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Water.cpp">
+      <Filter>02.GameObjects\Map\Water</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

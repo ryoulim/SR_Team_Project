@@ -72,6 +72,7 @@
 #include "AlphaBlock.h"
 #include "AlphaRect.h"
 #include "BossBridge.h"
+#include "Water.h"
 
 //전시용 플랫폼
 #include "Flatform.h"
@@ -96,7 +97,7 @@
 #include "Trigger.h"
 
 /* 맵툴에서 넘어오는 텍스쳐 갯수, 건들지 말아주세요 감사합니다 */
-#define NUMMAPTEX 141
+#define NUMMAPTEX 142
 
 
 CLoader::CLoader(LPDIRECT3DDEVICE9 pGraphic_Device)
@@ -1452,6 +1453,7 @@ HRESULT CLoader::Loading_For_Outdoor()
 	ADD_TEXTURE(Test, "../Bin/Resources/Textures/TileTest/tile%d.PNG", NUMMAPTEX);
 	ADD_TEXTURE(BackGround, "../Bin/Resources/Textures/Default%d.jpg", 2);
 	ADD_TEXTURE(Terrain, "../Bin/Resources/Textures/Check_Tile.PNG", 1);
+	ADD_TEXTURE(Water, "../Bin/Resources/Textures/Map/Water/Water%d.png", 16);
 
 	ADD_TEXTURE(MyCube, "../Bin/Resources/Textures/Snow/Snow.png", 1);
 	ADD_TEXTURE(Portrait, "../Bin/Resources/Textures/UI/Portrait/portrait%d.PNG", 25);
@@ -1490,6 +1492,7 @@ HRESULT CLoader::Loading_For_Outdoor()
 	ADD_PRTOBJ(AlphaBlock);
 	ADD_PRTOBJ(InvisibleBlock);
 	ADD_PRTOBJ(TriangularPillar);
+	ADD_PRTOBJ(Water);
 
 	lstrcpy(m_szLoadingText, TEXT("사운드을(를) 로딩중입니다."));
 
