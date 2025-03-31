@@ -17,6 +17,7 @@ public:
 	virtual HRESULT Render();
 	
 private:
+	HRESULT Ready_Layer_Camera();
 	HRESULT Ready_Layer_Terrain(const _wstring& strLayerTag);
 	HRESULT Ready_Layer_Statue(const _wstring& strLayerTag);
 	HRESULT Ready_Layer_Statue2(const _wstring& strLayerTag);

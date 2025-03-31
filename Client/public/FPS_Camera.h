@@ -33,16 +33,10 @@ public:
 	void StartShake(_float fIntensity, _float fDuration, _float fShakeFreqPos, _float fShakeFreqRot);
 	void StartRecoil(_float fIntensity, _float fDuration);
 	void Zoom(_float fFOV,_float Time);
-	void Mode_Switch()
-	{
-		m_bMouseFixMod = !m_bMouseFixMod;
-		ShowCursor(!m_bMouseFixMod);
-	}
 
 private:
 	_float3 m_vInitLook{};
 	_float3 m_vInitPos{};
-	_float m_bMouseFixMod{FALSE};
 	_float m_fMouseSensor{};
 
 	_float m_fShakeTime = 0.f;

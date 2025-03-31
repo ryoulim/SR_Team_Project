@@ -102,7 +102,8 @@ HRESULT CLevel_Boss::Ready_Layer_Terrain(const _wstring& strLayerTag)
 
 HRESULT CLevel_Boss::Ready_Layer_Camera(const _wstring& strLayerTag)
 {
-	CAMERA_MANAGER->Mouse_Fix_Mode_Switch();
+	CAMERA_MANAGER->Switch(CCameraManager::FPS);
+	CAMERA_MANAGER->Set_Mouse_Fix(TRUE);
 
 	return S_OK;
 }

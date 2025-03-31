@@ -40,7 +40,7 @@ public:
 	virtual void Shake_Camera(_float fIntensity = 1.f, _float fDuration = 1.f, _float fShakeFreqPos = 100.f, _float fShakeFreqRot = 40.f);
 	void StartRecoil(_float fIntensity = 1.f, _float fDuration = 1.f);
 	void Zoom(_float fFOV, _float Time);
-	void Mouse_Fix_Mode_Switch();
+	void Set_Mouse_Fix(_bool isFixMode);
 
 	CGameObject* Get_Camera(CCameraManager::ID _ID) {
 		return static_cast<CGameObject*>(m_Cameras[_ID]);

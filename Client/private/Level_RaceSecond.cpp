@@ -5,7 +5,7 @@
 #include "Statue.h"
 #include "Map.h"
 #include "PlayerOnBoat.h"
-#include "Camera.h"
+#include "CameraManager.h"
 
 CLevel_RaceSecond::CLevel_RaceSecond(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CLevel { pGraphic_Device }
@@ -44,6 +44,15 @@ void CLevel_RaceSecond::Update(_float fTimeDelta)
 HRESULT CLevel_RaceSecond::Render()
 {
 	SetWindowText(g_hWnd, TEXT("레이싱 second레벨입니다."));
+
+	return S_OK;
+}
+
+HRESULT CLevel_RaceSecond::Ready_Layer_Camera()
+{
+	auto CameraManager = CAMERA_MANAGER;
+	CameraManager->Switch(CCameraManager::TPS);
+	CameraManager->Set_Mouse_Fix(TRUE);
 
 	return S_OK;
 }

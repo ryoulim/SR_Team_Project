@@ -29,11 +29,11 @@ public:
 
 private:
 	class CCameraManager* m_pCameraManager = { nullptr };
-	
 	CTransform* m_pCameraTransform = { nullptr };
 
 private:
 	void			Key_Input(_float fTimeDelta);
+	void			Init_Camera_Link();
 	void			Update_Camera_Link();
 
 public:

@@ -38,7 +38,7 @@ void CDynamic_Camera::Priority_Update(_float fTimeDelta)
 	if (!m_bActive)
 		return;
 	Key_Input(fTimeDelta);
-	if (m_bBouseFixMod)
+	if (m_bMouseFixMod)
 	{
 		Mouse_Move();
 		Mouse_Fix();
@@ -97,11 +97,6 @@ void CDynamic_Camera::Key_Input(_float fTimeDelta)
 	{
 		m_pTransformCom->Set_State(CTransform::STATE_POSITION, m_vInitPos);
 		m_pTransformCom->LookAt(m_vInitLook);
-	}
-
-	if (KEY_DOWN(DIK_TAB))
-	{
-		m_bBouseFixMod = !m_bBouseFixMod;
 	}
 }
 

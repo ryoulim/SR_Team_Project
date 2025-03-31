@@ -7,6 +7,7 @@
 #include "FPS_Camera.h"
 #include "TPS_Camera.h"
 #include "UI_Camera.h"
+#include "Pawn.h"
 
 CCameraManager::CCameraManager()
 	:m_pGameInstance(CGameInstance::Get_Instance())
@@ -124,12 +125,22 @@ void CCameraManager::Switch(CCameraManager::ID _ID)
 		m_Cameras[i]->Set_Active(FALSE);
 
 	m_Cameras[_ID]->Set_Active(TRUE);
+	m_Cameras[_ID]->Set_Mouse_Fix(TRUE);
+
+	auto Player = static_cast<CPawn*>(GET_PLAYER);
+	
+	if (Player)
+	{
+		if (_ID == DYNAMIC)
+			Player->Set_Active(FALSE);
+		else
+			Player->Set_Active(TRUE);
+	}
 }
 
-void CCameraManager::Mouse_Fix_Mode_Switch()
+void CCameraManager::Set_Mouse_Fix(_bool isFixMode)
 {
-	// 일단 FPS만 해
-	static_cast<CFPS_Camera*>(m_Cameras[FPS])->Mode_Switch();
+	m_Cameras[m_eID]->Set_Mouse_Fix(isFixMode);
 }
 
 CCameraManager* CCameraManager::Create()

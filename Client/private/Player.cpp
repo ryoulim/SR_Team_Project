@@ -51,16 +51,6 @@ HRESULT CPlayer::Initialize(void* pArg)
 
 void CPlayer::Priority_Update(_float fTimeDelta)
 {
-	if (KEY_DOWN(DIK_F1))
-	{
-		m_bFpsMode = !m_bFpsMode;
-
-		if (m_bFpsMode)
-			m_pCameraManager->Switch(CCameraManager::FPS);
-		else
-			m_pCameraManager->Switch(CCameraManager::DYNAMIC);
-	}
-
 	m_Weapons[m_iCurWeaponIndex]->Priority_Update(fTimeDelta);
 	__super::Priority_Update(fTimeDelta);
 }
@@ -76,7 +66,7 @@ EVENT CPlayer::Update(_float fTimeDelta)
 //
 //#endif
 
-	if (!m_bFpsMode)
+	if (!m_bActive)
 		return EVN_NONE;
 
 	m_pGameInstance->Set_Listener_Position(m_pTransformCom, *m_pTransformCom->Get_State(CTransform::STATE_POSITION) - m_vPrePosition);
@@ -88,7 +78,7 @@ EVENT CPlayer::Update(_float fTimeDelta)
 	else
 	{
 		m_fDashTimer -= fTimeDelta;
-		if (m_bFpsMode)
+		if (m_bActive)
 		{
 			Key_Input(fTimeDelta);
 		}
@@ -105,7 +95,7 @@ void CPlayer::Late_Update(_float fTimeDelta)
 
 	m_pGameInstance->Add_RenderGroup(CRenderer::RG_NONBLEND, this);
 
-	if (!m_bFpsMode)
+	if (!m_bActive)
 		return;
 
 	m_Weapons[m_iCurWeaponIndex]->Late_Update(fTimeDelta);
@@ -121,7 +111,7 @@ void CPlayer::Late_Update(_float fTimeDelta)
 
 HRESULT CPlayer::Render()
 {
-	if(m_bFpsMode)
+	if(m_bActive)
 		return m_Weapons[m_iCurWeaponIndex]->Render();
 	else
 		return __super::Render();
@@ -143,6 +133,23 @@ void CPlayer::On_Collision(_uint MyColliderID, _uint OtherColliderID)
 
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, vPos);
 	m_pCameraTransform->Set_State(CTransform::STATE_POSITION, vPos2);
+}
+
+HRESULT CPlayer::Ready_Components(void* pArg)
+{
+	if (FAILED(__super::Ready_Components(pArg)))
+		return E_FAIL;
+
+	/* For.Com_Gravity */
+	CGravity::DESC GravityDesc{};
+	GravityDesc.pTransformCom = m_pTransformCom;
+	GravityDesc.fTimeIncreasePerSec = 8.2f;
+	GravityDesc.fMaxFallSpeedPerSec = 840.f;
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Gravity"),
+		TEXT("Com_Gravity"), reinterpret_cast<CComponent**>(&m_pGravityCom), &GravityDesc)))
+		return E_FAIL;
+
+	return S_OK;
 }
 
 void CPlayer::Add_Weapons()
@@ -267,7 +274,6 @@ void CPlayer::Init_Camera_Link()
 	// FPS 카메라의 트랜스폼 정보를 받아둠
 	m_pCameraTransform = static_cast<CTransform*>(FPS_Camera->Find_Component(TEXT("Com_Transform")));
 	Safe_AddRef(m_pCameraTransform);
-
 }
 
 void CPlayer::Update_Camera_Link()
@@ -342,6 +348,7 @@ void CPlayer::Free()
 		Safe_Release(Weapon);
 	m_Weapons.clear();
 
+	Safe_Release(m_pGravityCom);
 	Safe_Release(m_pCameraManager);
 	Safe_Release(m_pCameraTransform);
 }

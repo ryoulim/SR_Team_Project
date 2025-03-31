@@ -30,7 +30,6 @@ private:
 	_float3				m_vInitPos{};
 	_float3				m_vInitLook{};
 	_float				m_fMouseSensor{};
-	_bool				m_bBouseFixMod{TRUE};
 
 private:
 	virtual void		Update_Projection_Matrix() override;

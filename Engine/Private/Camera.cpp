@@ -61,6 +61,18 @@ HRESULT CCamera::Render()
 	return S_OK;
 }
 
+void CCamera::Set_Mouse_Fix(_bool isMouseFix)
+{
+    if (m_bMouseFixMod == isMouseFix)
+        return;
+
+    m_bMouseFixMod = isMouseFix;
+    if (m_bMouseFixMod)
+        ShowCursor(FALSE);
+    else
+        ShowCursor(TRUE);
+}
+
 HRESULT CCamera::Bind_Resource()
 {
 	m_pGraphic_Device->SetTransform(D3DTS_VIEW, &m_pTransformCom->Get_WorldMatrix_Inverse(m_ViewMatrix));

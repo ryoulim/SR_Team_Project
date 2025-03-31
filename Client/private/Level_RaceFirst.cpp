@@ -18,6 +18,9 @@ HRESULT CLevel_RaceFirst::Initialize(CLevelData* pLevelData)
 	if (FAILED(__super::Initialize(pLevelData)))
 		return E_FAIL;
 
+	if (FAILED(Ready_Layer_Camera()))
+		return E_FAIL;
+
 	if (FAILED(Ready_Layer_Statue(TEXT("Layer_RaceLandscape"))))
 		return E_FAIL;
 
@@ -29,9 +32,6 @@ HRESULT CLevel_RaceFirst::Initialize(CLevelData* pLevelData)
 
 	m_pPlayer = m_pGameInstance->Find_Object(LEVEL_STATIC, TEXT("Layer_Pawn"));
 
-
-	CAMERA_MANAGER->Switch(CCameraManager::TPS);
-	CAMERA_MANAGER->Mouse_Fix_Mode_Switch();
 
 	return S_OK;
 }
@@ -51,6 +51,15 @@ void CLevel_RaceFirst::Update(_float fTimeDelta)
 HRESULT CLevel_RaceFirst::Render()
 {
 	SetWindowText(g_hWnd, TEXT("레이싱 first레벨입니다."));
+
+	return S_OK;
+}
+
+HRESULT CLevel_RaceFirst::Ready_Layer_Camera()
+{
+	auto CameraManager = CAMERA_MANAGER;
+	CameraManager->Switch(CCameraManager::TPS);
+	CameraManager->Set_Mouse_Fix(TRUE);
 
 	return S_OK;
 }
