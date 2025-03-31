@@ -74,9 +74,10 @@ HRESULT CLevel_GamePlay::Initialize(class CLevelData* pLevelData)
 
 void CLevel_GamePlay::Update(_float fTimeDelta)
 {
-	FX_MGR->SpawnMultipleExplosions(fTimeDelta, LEVEL_GAMEPLAY);
-	FX_MGR->SpawnMultipleExplosions2(fTimeDelta, LEVEL_GAMEPLAY);
-	FX_MGR->SpawnMultipleExplosions3(fTimeDelta, LEVEL_GAMEPLAY);
+	auto FX_Manager = FX_MGR;
+	FX_Manager->SpawnMultipleExplosions(fTimeDelta, LEVEL_GAMEPLAY);
+	FX_Manager->SpawnMultipleExplosions2(fTimeDelta, LEVEL_GAMEPLAY);
+	FX_Manager->SpawnMultipleExplosions3(fTimeDelta, LEVEL_GAMEPLAY);
 
 	Check_Collision();
 
@@ -142,8 +143,9 @@ HRESULT CLevel_GamePlay::Ready_Layer_Terrain(const _wstring& strLayerTag)
 
 HRESULT CLevel_GamePlay::Ready_Layer_Camera(const _wstring& strLayerTag)
 {
-	CAMERA_MANAGER->Switch(CCameraManager::FPS);
-	CAMERA_MANAGER->Mouse_Fix_Mode_Switch();
+	auto Camera_Manager = CAMERA_MANAGER;
+	Camera_Manager->Switch(CCameraManager::FPS);
+	Camera_Manager->Mouse_Fix_Mode_Switch();
 
 	return S_OK;
 }
@@ -212,19 +214,21 @@ HRESULT CLevel_GamePlay::Ready_Layer_Particle(const _wstring& strLayerTag)
 		LEVEL_GAMEPLAY, strLayerTag, &FlatformDESC)))
 		return E_FAIL;
 
+	auto FX_Manager = FX_MGR;
+
 	//빗방울
-	FX_MGR->SpawnRain(LEVEL_GAMEPLAY);
+	FX_Manager->SpawnRain(LEVEL_GAMEPLAY);
 	
 	//소용돌이
-	FX_MGR->SpawnSpher(_float3{ 800.f, 0.f, -200.f }, LEVEL_GAMEPLAY);
+	FX_Manager->SpawnSpher(_float3{ 800.f, 0.f, -200.f }, LEVEL_GAMEPLAY);
 	
 	//토네이도(불기둥)
-	FX_MGR->SpawnTornado(_float3{ 630.f, 25.f, -320.f }, LEVEL_GAMEPLAY);
-	FX_MGR->SpawnTornado(_float3{ 760.f, 25.f, -100.f }, LEVEL_GAMEPLAY);
-	FX_MGR->SpawnTornado(_float3{ 850.f, 25.f, -230.f }, LEVEL_GAMEPLAY);
+	FX_Manager->SpawnTornado(_float3{ 630.f, 25.f, -320.f }, LEVEL_GAMEPLAY);
+	FX_Manager->SpawnTornado(_float3{ 760.f, 25.f, -100.f }, LEVEL_GAMEPLAY);
+	FX_Manager->SpawnTornado(_float3{ 850.f, 25.f, -230.f }, LEVEL_GAMEPLAY);
 	
 	//불지르기
-	FX_MGR->SpawnFire(_float3{ 800.f, 0.f, -200.f }, LEVEL_GAMEPLAY);
+	FX_Manager->SpawnFire(_float3{ 800.f, 0.f, -200.f }, LEVEL_GAMEPLAY);
 
 	return S_OK;
 }
