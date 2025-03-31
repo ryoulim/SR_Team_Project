@@ -132,8 +132,8 @@
       <AdditionalDependencies>d3d9.lib;d3dx9.lib;dInput8.lib;dxguid.lib;fmodL_vc.lib;fmodstudioL_vc.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>CD $(SolutionDir)
-CALL $(SolutionDir)\UpdateLib.bat</Command>
+      <Command>
+      </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -189,6 +189,7 @@ CALL $(SolutionDir)\UpdateLib.bat</Command>
     <ClInclude Include="..\public\Level.h" />
     <ClInclude Include="..\Public\LevelData.h" />
     <ClInclude Include="..\public\Level_Manager.h" />
+    <ClInclude Include="..\public\Management.h" />
     <ClInclude Include="..\Public\Matrix.h" />
     <ClInclude Include="..\public\ObjectPool.h" />
     <ClInclude Include="..\public\Object_Manager.h" />
@@ -248,6 +249,7 @@ CALL $(SolutionDir)\UpdateLib.bat</Command>
     <ClCompile Include="..\private\Level.cpp" />
     <ClCompile Include="..\Private\LevelData.cpp" />
     <ClCompile Include="..\Private\Level_Manager.cpp" />
+    <ClCompile Include="..\private\Management.cpp" />
     <ClCompile Include="..\Private\Matrix.cpp" />
     <ClCompile Include="..\private\ObjectPool.cpp" />
     <ClCompile Include="..\private\Object_Manager.cpp" />

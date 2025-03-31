@@ -35,6 +35,8 @@ HRESULT CDynamic_Camera::Initialize(void* pArg)
 
 void CDynamic_Camera::Priority_Update(_float fTimeDelta)
 {
+	if (!m_bActive)
+		return;
 	Key_Input(fTimeDelta);
 	if (m_bBouseFixMod)
 	{
@@ -44,18 +46,17 @@ void CDynamic_Camera::Priority_Update(_float fTimeDelta)
 	Bind_Resource();
 }
 
-#include "Mycube.h"
 EVENT CDynamic_Camera::Update(_float fTimeDelta)
 {
-	return __super::Update(fTimeDelta);
+	return EVN_NONE;
 }
 
 void CDynamic_Camera::Late_Update(_float fTimeDelta)
 {
-	m_pGameInstance->Add_RenderGroup(CRenderer::RG_PRIORITY, this);
+	//m_pGameInstance->Add_RenderGroup(CRenderer::RG_PRIORITY, this);
 }
 
-HRESULT CDynamic_Camera::Render() // 기본오브젝트 랜더 셋팅
+HRESULT CDynamic_Camera::Render() // 기본오브젝트 랜더 셋팅 // 수정 - 알아하쇼
 {
 	if(FAILED(m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE)))
 		return E_FAIL;

@@ -16,6 +16,27 @@ CMechsect::CMechsect(const CMechsect& Prototype)
 
 HRESULT CMechsect::Initialize_Prototype()
 {
+	//프로토타입의 기본정의
+	m_szTextureID = TEXT("Mechsect_Walk");
+	m_szBufferType = TEXT("Rect");
+
+	//속성
+	m_iHP = 50;
+	m_iMaxHP = 50;
+	m_iAttackPower = 2;
+	m_iDefense = 1;
+	m_fSpeed = 20.f;
+	m_vScale = { 45.f, 20.f, 1.f };
+	m_eState = MODE::MODE_IDLE;
+
+	m_fDetectiveDistance = 300.f;
+
+	//부속성
+	m_strDialogue = "Mechs..Mec...";
+	m_strSound = "SoundFilePath";
+
+	m_vDropItems.push_back("MechsectDropItem");
+
 	return S_OK;
 }
 
@@ -182,7 +203,7 @@ void CMechsect::On_Collision(_uint MyColliderID, _uint OtherColliderID)
 	//몬스터 사망
 	if (0 >= m_iHP)
 	{
-		CFXMgr::Get_Instance()->SpawnCustomExplosion(vImpactPos, LEVEL_GAMEPLAY, _float3{ 70.f, 80.f, 1.f }, TEXT("Effect_Explorer"), 24);
+		FX_MGR->SpawnCustomExplosion(vImpactPos, LEVEL_GAMEPLAY, _float3{ 70.f, 80.f, 1.f }, TEXT("Effect_Explorer"), 24);
 		m_bDead = true;
 
 		return;
@@ -190,35 +211,12 @@ void CMechsect::On_Collision(_uint MyColliderID, _uint OtherColliderID)
 
 	// 이펙트 생성
 	m_iHP += -50;
-	CFXMgr::Get_Instance()->SpawnBlood(vImpactPos, LEVEL_GAMEPLAY);
+	FX_MGR->SpawnBlood(vImpactPos, LEVEL_GAMEPLAY);
 }
 
 CMechsect* CMechsect::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 {
-	//프로토타입의 기본정의
 	CMechsect* pInstance = new CMechsect(pGraphic_Device);
-
-	//기본 정보
-	pInstance->m_eLevelID		= LEVEL_GAMEPLAY;
-	pInstance->m_szTextureID	= TEXT("Mechsect_Walk");
-	pInstance->m_szBufferType	= TEXT("Rect");
-
-	//속성
-	pInstance->m_iHP			= 50;
-	pInstance->m_iMaxHP			= 50;
-	pInstance->m_iAttackPower	= 2;
-	pInstance->m_iDefense		= 1;
-	pInstance->m_fSpeed			= 20.f;
-	pInstance->m_vScale			= { 45.f, 20.f, 1.f };
-	pInstance->m_eState		= MODE::MODE_IDLE;
-	pInstance->m_fDetectiveDistance = 300.f;
-
-	//부속성
-	pInstance->m_strDialogue	= "Mechs..Mec...";
-	pInstance->m_strSound		= "SoundFilePath";
-
-	pInstance->m_vDropItems.push_back("MechsectDropItem");
-
 
 	if (FAILED(pInstance->Initialize_Prototype()))
 	{

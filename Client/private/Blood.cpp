@@ -102,8 +102,7 @@ EVENT CBlood::Update(_float timeDelta)
 
 	if (m_Particles.empty())
 	{
-		m_pGameInstance->Deactive_Object(TEXT("ObjectPool_Effect_PS_Blood"), this); // 옵젝 비활성화
-		return EVN_OFF; // 매니저에서 빼라
+		return EVN_DEAD; // 매니저에서 빼라
 	}
 
 	for (auto i = m_Particles.begin(); i != m_Particles.end();)

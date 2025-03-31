@@ -69,8 +69,7 @@ EVENT CEmptyBullet::Update(_float timeDelta)
 {
 	if (m_Particles.empty())
 	{
-		m_pGameInstance->Deactive_Object(TEXT("ObjectPool_PC_EmptyBullet"), this);
-		return EVN_OFF;
+		return EVN_DEAD;
 	}
 
 	for (auto i = m_Particles.begin(); i != m_Particles.end();)

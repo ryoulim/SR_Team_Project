@@ -102,8 +102,8 @@ void CWeapon_LoverBoy::Set_State(STATE State)
 		m_fTextureNum = 0.f;
 		break;
 	case ST_W_ATK:
-		CFXMgr::Get_Instance()->SpawnGunFire(_float3{ 750.f, 450.f, 0.1f }, LEVEL_STATIC);
-		CFXMgr::Get_Instance()->SpawnBulletTracer(_float3{ 700.f, 400.f, 0.2f }, LEVEL_STATIC);
+		FX_MGR->SpawnGunFire(_float3{ 750.f, 450.f, 0.1f }, LEVEL_STATIC);
+		FX_MGR->SpawnBulletTracer(_float3{ 700.f, 400.f, 0.2f }, LEVEL_STATIC);
 		m_pTransformCom->Set_State(CTransform::STATE_POSITION, { 320.f,-105.f,0.1f });
 		m_fFrameSpeed = 50.f;
 		m_eState = ST_W_ATK;

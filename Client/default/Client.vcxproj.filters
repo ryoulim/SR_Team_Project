@@ -115,9 +115,6 @@
     <Filter Include="02.GameObjects\Particle\Smoke">
       <UniqueIdentifier>{85f8522c-054a-4781-bfc6-a727b69453d8}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\Effect\Sprite">
-      <UniqueIdentifier>{b3565773-83e2-4e30-8f32-cab1a75b2fc7}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02.GameObjects\Particle\Tornado">
       <UniqueIdentifier>{3cff84a0-00a8-4421-9aa5-494530f71777}</UniqueIdentifier>
     </Filter>
@@ -159,15 +156,6 @@
     </Filter>
     <Filter Include="02.GameObjects\Particle\EmtyBullet">
       <UniqueIdentifier>{f0e372d5-eb30-435c-9f67-b6cb449f4d50}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Weapon">
-      <UniqueIdentifier>{1900a8f1-bff3-459a-95e2-ec863394fc4b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Weapon\Chaingun">
-      <UniqueIdentifier>{0ada8d69-d5db-4a48-817d-d7da67427bde}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Weapon\LoverBoy">
-      <UniqueIdentifier>{938caa6e-991d-4371-8c1a-c40eec5364c9}</UniqueIdentifier>
     </Filter>
     <Filter Include="02.GameObjects\Map\BackGround">
       <UniqueIdentifier>{cacde4f5-7fc7-406d-9ed5-7a738becec0f}</UniqueIdentifier>
@@ -235,15 +223,6 @@
     <Filter Include="02.GameObjects\Monster\Wenteko">
       <UniqueIdentifier>{d0d89bb1-04c7-44e4-acff-9f81f6918e75}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\Weapon\Bullet">
-      <UniqueIdentifier>{c524e1eb-809f-4b51-8e3c-f61d479c62da}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Weapon\Bullet\TestBullet">
-      <UniqueIdentifier>{550edbb4-3757-490f-81e5-8aa4b514eba1}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Weapon\Dispenser">
-      <UniqueIdentifier>{d3270a12-1da4-4bff-8f8c-218809b8f72b}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02.GameObjects\Particle\Blood">
       <UniqueIdentifier>{ce8a429a-458d-4ad7-940a-1efe846fda03}</UniqueIdentifier>
     </Filter>
@@ -280,17 +259,11 @@
     <Filter Include="02.GameObjects\Camera\TPSCamera">
       <UniqueIdentifier>{61f18ba6-ab02-41a7-940c-1548937d2c40}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\Weapon\Bullet\GrenadeBullet">
-      <UniqueIdentifier>{47b0ffd8-4d8c-4380-9653-781fcca31fa8}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02.GameObjects\Particle\_BossMobSkill">
       <UniqueIdentifier>{4b9d5646-014e-4fba-8a94-9dc4dc172dab}</UniqueIdentifier>
     </Filter>
     <Filter Include="02.GameObjects\Particle\_BossMobSkill\FireAttack">
       <UniqueIdentifier>{e9a31001-6a3a-443b-85d2-84aee3ab7729}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Sky">
-      <UniqueIdentifier>{fb8359a3-f88c-4a22-b9c2-02ed4a1506ae}</UniqueIdentifier>
     </Filter>
     <Filter Include="02.GameObjects\Map\InvisibleBlock">
       <UniqueIdentifier>{f5c3a730-75a7-45ab-92af-11a9799408f1}</UniqueIdentifier>
@@ -306,9 +279,6 @@
     </Filter>
     <Filter Include="02.GameObjects\Map\AlphaBlock">
       <UniqueIdentifier>{2d3f0690-093a-42cd-9b42-1ba56b35a182}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Weapon\Bullet\MonsterBullet">
-      <UniqueIdentifier>{1bd0cbf5-9a36-4776-b30d-fe67d9d6090b}</UniqueIdentifier>
     </Filter>
     <Filter Include="02.GameObjects\Particle\_BossMobSkill\FlyAttack">
       <UniqueIdentifier>{1e364046-6bff-481a-8049-3efda6bb3683}</UniqueIdentifier>
@@ -337,20 +307,11 @@
     <Filter Include="02.GameObjects\Map\BossBridge">
       <UniqueIdentifier>{1c4ad648-28fa-4982-8bc2-f061d7f96695}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\Trigger">
-      <UniqueIdentifier>{3fb89945-b064-48a0-997b-ad2f1de23d5e}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02.GameObjects\Particle\_BossMobSkill\JumpAttack">
       <UniqueIdentifier>{7fdd175d-aa74-493e-a0d1-fce9abb340a6}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\Weapon\Bullet\MonsterGuidBullet">
-      <UniqueIdentifier>{a38e0d7f-b59a-4b46-833b-930cd65c1a76}</UniqueIdentifier>
-    </Filter>
     <Filter Include="97. ShaderFIles">
       <UniqueIdentifier>{3970e915-f723-49bb-a664-32766fb16030}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Weapon\Bullet\MonsterNormalBullet">
-      <UniqueIdentifier>{9838155a-0a57-4175-a485-3881d56f1f12}</UniqueIdentifier>
     </Filter>
     <Filter Include="01.Levels\00. Loading">
       <UniqueIdentifier>{cd6f1077-a658-4259-ad08-ca7b827e1e50}</UniqueIdentifier>
@@ -384,6 +345,45 @@
     </Filter>
     <Filter Include="01.Levels\04. Race\Third">
       <UniqueIdentifier>{ddbf0416-6761-4365-babd-545fed9fd109}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Map\Sky">
+      <UniqueIdentifier>{fb8359a3-f88c-4a22-b9c2-02ed4a1506ae}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Weapon">
+      <UniqueIdentifier>{1900a8f1-bff3-459a-95e2-ec863394fc4b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Weapon\Chaingun">
+      <UniqueIdentifier>{0ada8d69-d5db-4a48-817d-d7da67427bde}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Weapon\LoverBoy">
+      <UniqueIdentifier>{938caa6e-991d-4371-8c1a-c40eec5364c9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Weapon\Bullet">
+      <UniqueIdentifier>{c524e1eb-809f-4b51-8e3c-f61d479c62da}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Weapon\Bullet\TestBullet">
+      <UniqueIdentifier>{550edbb4-3757-490f-81e5-8aa4b514eba1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Weapon\Bullet\GrenadeBullet">
+      <UniqueIdentifier>{47b0ffd8-4d8c-4380-9653-781fcca31fa8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Weapon\Bullet\MonsterBullet">
+      <UniqueIdentifier>{1bd0cbf5-9a36-4776-b30d-fe67d9d6090b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Weapon\Bullet\MonsterGuidBullet">
+      <UniqueIdentifier>{a38e0d7f-b59a-4b46-833b-930cd65c1a76}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Weapon\Bullet\MonsterNormalBullet">
+      <UniqueIdentifier>{9838155a-0a57-4175-a485-3881d56f1f12}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Weapon\Dispenser">
+      <UniqueIdentifier>{d3270a12-1da4-4bff-8f8c-218809b8f72b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Effect\Sprite">
+      <UniqueIdentifier>{b3565773-83e2-4e30-8f32-cab1a75b2fc7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Map\Trigger">
+      <UniqueIdentifier>{3fb89945-b064-48a0-997b-ad2f1de23d5e}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -730,7 +730,7 @@
       <Filter>02.GameObjects\Map\BossBridge</Filter>
     </ClInclude>
     <ClInclude Include="..\public\Sky.h">
-      <Filter>02.GameObjects\Sky</Filter>
+      <Filter>02.GameObjects\Map\Sky</Filter>
     </ClInclude>
     <ClInclude Include="..\public\RaceGate.h">
       <Filter>02.GameObjects\Statue\RaceGate</Filter>
@@ -739,7 +739,7 @@
       <Filter>02.GameObjects\Weapon\Bullet\MonsterBullet</Filter>
     </ClInclude>
     <ClInclude Include="..\public\Trigger.h">
-      <Filter>02.GameObjects\Trigger</Filter>
+      <Filter>02.GameObjects\Map\Trigger</Filter>
     </ClInclude>
     <ClInclude Include="..\public\StreetLampHead.h">
       <Filter>02.GameObjects\Statue\StreetLamp\Head</Filter>
@@ -1099,7 +1099,7 @@
       <Filter>02.GameObjects\Statue\RaceGate</Filter>
     </ClCompile>
     <ClCompile Include="..\private\Sky.cpp">
-      <Filter>02.GameObjects\Sky</Filter>
+      <Filter>02.GameObjects\Map\Sky</Filter>
     </ClCompile>
     <ClCompile Include="..\private\Lava.cpp">
       <Filter>02.GameObjects\Map\AnimeRect\Lava</Filter>
@@ -1126,7 +1126,7 @@
       <Filter>02.GameObjects\Particle\_BossMobSkill\JumpAttack</Filter>
     </ClCompile>
     <ClCompile Include="..\private\Trigger.cpp">
-      <Filter>02.GameObjects\Trigger</Filter>
+      <Filter>02.GameObjects\Map\Trigger</Filter>
     </ClCompile>
     <ClCompile Include="..\private\RaceCylinder.cpp">
       <Filter>02.GameObjects\Statue\RaceCylinder</Filter>

@@ -39,19 +39,12 @@ public:
 #pragma region OBJECT_MANAGER
 	HRESULT Add_GameObject(_uint iPrototypeLevelIndex, const _wstring& strPrototypeTag, _uint iLevelIndex, const _wstring& strLayerTag, void* pArg = nullptr);
 	HRESULT Add_GameObjectReturn(_uint iPrototypeLevelIndex, const _wstring& strPrototypeTag, _uint iLevelIndex, const _wstring& strLayerTag, CGameObject** ppOut, void* pArg);
+	HRESULT Push_GameObject(class CGameObject* pObject, _uint iLevelIndex, const _wstring& strLayerTag);
+
 	// 매개변수에 맞는 오브젝트를 찾아서 반환해준다.
 	class CGameObject* Find_Object(_uint iLevelIndex, const _wstring& strLayerTag, _uint iVectorIndex = 0);
 	// 매개변수에 맞는 레이어의 오브젝트 리스트를 찾아서 반환해준다.
 	list<CGameObject*>* Find_Objects(_uint iLevelIndex, const _wstring& strLayerTag);
-
-	// 오브젝트 풀 생성
-	HRESULT Create_Object_Pool(_uint iPrototypeLevelIndex, const _wstring& strPrototypeTag, const _wstring& strObjectTag, _uint iPoolSize, void* pArg = nullptr);
-	// 오브젝트 풀 삭제
-	HRESULT Release_Object_Pool(const _wstring& strObjectTag);
-	// 오브젝트 풀에서 객체 하나를 오브젝트 리스트에 넣는다.(Reset 함수 호출)
-	_uint Active_Object(const _wstring& strObjectTag, _uint iLevelIndex, const _wstring& strLayerTag, void* pArg = nullptr);
-	// 오브젝트 리스트에서 해당객체를 빼서 오브젝트 풀에 반환한다.
-	_uint Deactive_Object(const _wstring& strObjectTag, class CGameObject* pObject);
 	//절두체 업데이트
 	void Update_Frustum(const _float4x4& viewProj);
 	// 스크린상에 있는지 검사
@@ -117,11 +110,18 @@ public:
 	void Set_Master_Volume(_float volume);
 #pragma endregion
 
+#pragma region MANAGEMENT
+	HRESULT Add_Manager(const _wstring& strManagertag, CBase* pManager);
+	CBase* Find_Manager(const _wstring& strManagertag) const;
+#pragma endregion
 
 #pragma region UTILITY
 	_float RandomFloat(_float min, _float max)
 	{
-		return min + (_float(rand()) / RAND_MAX) * (max - min);
+		if (min > max)
+			swap(min, max);
+		uniform_real_distribution<float> dist(min, max);
+		return dist(m_Gen);
 	}
 #pragma endregion
 
@@ -137,6 +137,9 @@ private:
 	class CcsvReader*			m_pCsv_Reader = { nullptr };
 	class CCollider_Manager*	m_pCollider_Manager = { nullptr };
 	class CSound_Device*		m_pSound_Device = { nullptr };
+	class CManagement*			m_pManagement = { nullptr };
+
+	mt19937 m_Gen{ std::random_device{}() };
 
 public:
 	void Release_Engine();

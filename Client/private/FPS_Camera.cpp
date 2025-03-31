@@ -36,6 +36,9 @@ HRESULT CFPS_Camera::Initialize(void* pArg)
 
 void CFPS_Camera::Priority_Update(_float fTimeDelta)
 {
+	if (!m_bActive)
+		return;
+
 	if (KEY_DOWN(DIK_TAB))
 	{
 		m_bMouseFixMod = !m_bMouseFixMod;
@@ -73,10 +76,10 @@ EVENT CFPS_Camera::Update(_float fTimeDelta)
 
 void CFPS_Camera::Late_Update(_float fTimeDelta)
 {
-	m_pGameInstance->Add_RenderGroup(CRenderer::RG_PRIORITY, this);
+	//m_pGameInstance->Add_RenderGroup(CRenderer::RG_PRIORITY, this);
 }
 
-HRESULT CFPS_Camera::Render()
+HRESULT CFPS_Camera::Render() // 안할거야 알아하쇼
 {
 	if (FAILED(m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE)))
 		return E_FAIL;

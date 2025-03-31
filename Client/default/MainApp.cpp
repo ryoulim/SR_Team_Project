@@ -4,6 +4,9 @@
 #include "Level_Logo.h"
 #include "Level_Loading.h"
 
+#include "FPS_Camera.h"
+#include "TPS_Camera.h"
+#include "Dynamic_Camera.h"
 #include "UI_Camera.h"
 
 #include "Font_MediumBlue.h"
@@ -96,8 +99,6 @@ HRESULT CMainApp::Initialize()
 	Desc.INumColliderGroups = CG_END;
 	//Desc.strBankFilePath = "../bin/BankFiles/";
 
-	CFXMgr::Get_Instance()->Initialize();
-
 	if (FAILED(m_pGameInstance->Initialize_Engine(Desc, &m_pGraphic_Device)))
 		return E_FAIL;
 
@@ -125,7 +126,7 @@ HRESULT CMainApp::Initialize()
 	/* 최초 보여줄 레벨을 할당하자. */
  	if(FAILED(Open_Level(LEVEL_LOGO)))
 		return E_FAIL;
-	
+
 	/*FPS 출력용*/
 	if (FAILED(Ready_Debug_Mode()))
 		return E_FAIL;
@@ -144,7 +145,6 @@ HRESULT CMainApp::Initialize()
 void CMainApp::Update(_float fTimeDelta)
 {
 	m_pGameInstance->Update_Engine(fTimeDelta);
-	CFXMgr::Get_Instance()->Update(fTimeDelta);
 
 	if(KEY_DOWN(DIK_ESCAPE))
 		PostQuitMessage(0);
@@ -161,7 +161,7 @@ HRESULT CMainApp::Ready_Component_For_Static()
 {
 	ADD_MODEL(Rect);
 	ADD_PRTCOM(Transform);
-	ADD_TEXTURE(LevelLoadingMenu, "../Bin/Resources/Textures/UI/Loading/lvlloading%d.png", 4);  // 치워도돼
+	ADD_TEXTURE(LevelLoadingMenu, "../Bin/Resources/Textures/UI/Loading/lvlloading%d.png", 4);
 
 	ADD_TEXTURE(Font_MediumBlue, "../Bin/Resources/Textures/UI/Font/Font_MediumBlue/font%d.PNG", 94);
 	ADD_TEXTURE(Font_BigOrange, "../Bin/Resources/Textures/UI/Font/Font_BigOrange/font%d.PNG", 46);
@@ -174,7 +174,7 @@ HRESULT CMainApp::Ready_Component_For_Static()
 
 	ADD_TEXTURE(FadeUI, "../Bin/Resources/Textures/UI/black.PNG", 1);
 
-	ADD_PRTCOM_EX(Shader, L"../bin/ShaderFiles/Shader_TextureEffect.hlsl"); // 치우면안돼
+	ADD_PRTCOM_EX(Shader, L"../bin/ShaderFiles/Shader_TextureEffect.hlsl");
 
 	return S_OK;
 }
@@ -187,6 +187,9 @@ HRESULT CMainApp::Ready_Component_For_Static()
 
 HRESULT CMainApp::Ready_Protype_Object_For_Static()
 {
+	ADD_PRTOBJ(Dynamic_Camera);
+	ADD_PRTOBJ(FPS_Camera);
+	ADD_PRTOBJ(TPS_Camera);
 	ADD_PRTOBJ(UI_Camera);
 	ADD_PRTOBJ(LevelLoadingMenu); // 치워도 안돼
 
@@ -201,14 +204,8 @@ HRESULT CMainApp::Ready_Protype_Object_For_Static()
 
 HRESULT CMainApp::Ready_Object_For_Static()
 {
-	CUI_Camera::DESC UICameraDesc{};
-	UICameraDesc.fFar = 1000.f;
-	UICameraDesc.fNear = 0.f;
-	UICameraDesc.fFov = 0;
-	UICameraDesc.vAt = { 0.f,0.f,1.f };
-	UICameraDesc.vEye = { 0.f,0.f,0.f };
-	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_UI_Camera"),
-		LEVEL_STATIC, TEXT("Layer_Camera"), &UICameraDesc)))
+	if (FAILED(m_pGameInstance->Add_Manager(
+		TEXT("Camera_Manager"), CCameraManager::Create())))
 		return E_FAIL;
 
 	return S_OK;
@@ -275,7 +272,6 @@ void CMainApp::Free()
 	Free_Imgui();
 #endif
 
-	CFXMgr::Destroy_Instance();
 	CUI_Manager::Destroy_Instance();
 	Safe_Release(m_pGraphic_Device);
 

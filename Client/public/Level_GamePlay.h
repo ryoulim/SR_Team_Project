@@ -34,6 +34,8 @@ private:
 
 	void Check_Collision();
 
+	void SpawnTtakkeun_i(const _float3& _Position, _bool m_bActive, _int _iNum, LEVEL _eLevel);
+
 
 public: //몬스터소환(게임플레이)
 	void SpawnWenteko(_float3 _Position, bool m_bActive, LEVEL _eLevel);

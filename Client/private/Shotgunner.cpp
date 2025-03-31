@@ -17,6 +17,27 @@ CShotgunner::CShotgunner(const CShotgunner& Prototype)
 
 HRESULT CShotgunner::Initialize_Prototype()
 {
+	//프로토타입의 기본정의
+	m_szTextureID = TEXT("Shotgunner_Walk");
+	m_szBufferType = TEXT("Rect");
+
+	//속성
+	m_iHP = 80;
+	m_iMaxHP = 80;
+	m_iAttackPower = 6;
+	m_iDefense = 0;
+	m_fSpeed = 4.f;
+	m_vScale = { 27.f, 46.f, 1.f };
+	m_eState = MODE::MODE_IDLE;
+
+	m_fDetectiveDistance = 300.f;
+
+	//부속성
+	m_strDialogue = "Gun..Gun...";
+	m_strSound = "SoundFilePath";
+
+	m_vDropItems.push_back("ShotgunnerDropItem");
+
 	return S_OK;
 }
 
@@ -483,30 +504,7 @@ HRESULT CShotgunner::Animate_Monster(_float fTimeDelta)
 
 CShotgunner* CShotgunner::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 {
-	//프로토타입의 기본정의
 	CShotgunner* pInstance = new CShotgunner(pGraphic_Device);
-
-	//기본 정보
-	pInstance->m_eLevelID		= LEVEL_GAMEPLAY;
-	pInstance->m_szTextureID	= TEXT("Shotgunner_Walk");
-	pInstance->m_szBufferType	= TEXT("Rect");
-
-	//속성
-	pInstance->m_iHP			= 80;
-	pInstance->m_iMaxHP			= 80;
-	pInstance->m_iAttackPower	= 6;
-	pInstance->m_iDefense		= 0;
-	pInstance->m_fSpeed			= 4.f;
-	pInstance->m_vScale			= { 27.f, 46.f, 1.f };
-	pInstance->m_eState		= MODE::MODE_IDLE;
-	pInstance->m_fDetectiveDistance = 300.f;
-
-	//부속성
-	pInstance->m_strDialogue	= "Gun..Gun...";
-	pInstance->m_strSound		= "SoundFilePath";
-
-	pInstance->m_vDropItems.push_back("ShotgunnerDropItem");
-
 
 	if (FAILED(pInstance->Initialize_Prototype()))
 	{

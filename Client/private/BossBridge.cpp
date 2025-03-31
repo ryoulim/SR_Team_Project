@@ -4,6 +4,7 @@
 #include "BossBridge.h"
 #include "GameInstance.h"
 #include "CameraManager.h"
+#include "FXMgr.h"
 
 CBossBridge::CBossBridge(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CMap{ pGraphic_Device }
@@ -48,6 +49,13 @@ EVENT CBossBridge::Update(_float fTimeDelta)
 		
 		m_pTransformCom->Go_Down(fTimeDelta);
 		m_pColliderCom->Update_Collider();
+
+		if(!m_bDoOnce)
+		{
+			//소용돌이(중앙)
+			FX_MGR->SpawnSpher(_float3{ 1430.f, 0.f, 1480.f }, LEVEL_GAMEPLAY);
+			m_bDoOnce = true;
+		}
 	}
 
 	return __super::Update(fTimeDelta);

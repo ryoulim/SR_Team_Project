@@ -19,6 +19,27 @@ CTtakkeun_i::CTtakkeun_i(const CTtakkeun_i& Prototype)
 
 HRESULT CTtakkeun_i::Initialize_Prototype()
 {
+	//프로토타입의 기본정의
+	m_szTextureID = TEXT("Ttakkeun_i_Walk");
+	m_szBufferType = TEXT("Rect");
+
+	//속성
+	m_iHP = 500;
+	m_iMaxHP = 500;
+	m_iAttackPower = 10;
+	m_iDefense = 3;
+	m_fSpeed = 100.f;
+	m_vScale = { 150.f, 147.f, 1.f };
+	m_eState = MODE::MODE_IDLE;
+
+	m_fDetectiveDistance = 400.f;
+
+	//부속성
+	m_strDialogue = "Boss..Boss...";
+	m_strSound = "SoundFilePath";
+
+	m_vDropItems.push_back("BossDropItem");
+
 	return S_OK;
 }
 
@@ -28,9 +49,6 @@ HRESULT CTtakkeun_i::Initialize(void* pArg)
 	m_pCamera = CAMERA_MANAGER;
 	Safe_AddRef(m_pCamera);
 
-	//위치, 크기초기화, 컴포넌트 부착
-	if (FAILED(__super::Initialize(pArg)))
-		return E_FAIL;
 
 	m_fDivOffset = 22.5f;
 	// 보스랑 잡몹 텍스쳐 갯수가 달라서 별도 지정
@@ -38,11 +56,13 @@ HRESULT CTtakkeun_i::Initialize(void* pArg)
 	m_iState = (_uint)(MONSTER_STATE::STATE_WALK);
 	m_fAnimationMaxFrame = (_float)(STATE_MAXFRAME::MAX_WALK);
 	m_fAnimationSpeed = 17.f;
-	//_float3 vOrigSize = {};
-	//m_pTextureMap[m_iState][m_iDegree]->Get_TextureSize(static_cast<_uint>(m_fAnimationFrame), &m_vScale);
-	//m_pTransformCom->Scaling(m_vScale);
 	m_eCurFlyingDirection = UP;
 	m_ePrevFlyingDirection = UP;
+
+
+	//위치, 크기초기화, 컴포넌트 부착
+	if (FAILED(__super::Initialize(pArg)))
+		return E_FAIL;
 
 	m_pGravityCom->Set_Height(110.f);
 
@@ -72,13 +92,13 @@ EVENT CTtakkeun_i::Update(_float fTimeDelta)
 
 		if (m_fCallTimer >= 0.2f)
 		{
-			CFXMgr::Get_Instance()->SpawnCustomExplosion(vPos, LEVEL_GAMEPLAY, _float3{ 60.f, 100.f, 1.f }, TEXT("Effect_Explorer"), 24);
+			FX_MGR->SpawnCustomExplosion(vPos, LEVEL_GAMEPLAY, _float3{ 60.f, 100.f, 1.f }, TEXT("Effect_Explorer"), 24);
 			m_fCallTimer = 0.f;
 		}
 		if (m_fTotalTime >= 3.f)
 		{
 			_float3 vImpactPos = *m_pTransformCom->Get_State(CTransform::STATE_POSITION);
-			CFXMgr::Get_Instance()->SpawnCustomExplosion(vImpactPos, LEVEL_GAMEPLAY, _float3{ 200.f, 250.f, 1.f }, TEXT("Effect_Explor"), 32);
+			FX_MGR->SpawnCustomExplosion(vImpactPos, LEVEL_GAMEPLAY, _float3{ 200.f, 250.f, 1.f }, TEXT("Effect_Explor"), 32);
 			m_bDie = true;
 		}
 	}
@@ -163,7 +183,7 @@ HRESULT CTtakkeun_i::Ready_Textures()
 		_tchar buf[32];
 		_itow_s((int)num, buf, 10);
 		sPrototypeTag += buf;
-   		if (FAILED(__super::Add_Component(LEVEL_STATIC, sPrototypeTag,
+   		if (FAILED(__super::Add_Component(m_eLevelID, sPrototypeTag,
 	 		_wstring(TEXT("Com_Texture")) + L"_Boss_Walk_" + buf, reinterpret_cast<CComponent**>(&(m_pTextureMap[STATE_WALK][i])))))
        		return E_FAIL;
 	}
@@ -176,7 +196,7 @@ HRESULT CTtakkeun_i::Ready_Textures()
 		_tchar buf[32];
 		_itow_s((int)num, buf, 10);
 		sPrototypeTag += buf;
-		if (FAILED(__super::Add_Component(LEVEL_STATIC, sPrototypeTag,
+		if (FAILED(__super::Add_Component(m_eLevelID, sPrototypeTag,
 			_wstring(TEXT("Com_Texture")) + L"_Boss_Fly_" + buf, reinterpret_cast<CComponent**>(&(m_pTextureMap[STATE_FLY][i])))))
 			return E_FAIL;
 	}
@@ -189,7 +209,7 @@ HRESULT CTtakkeun_i::Ready_Textures()
 		_tchar buf[32];
 		_itow_s((int)num, buf, 10);
 		sPrototypeTag += buf;
-		if (FAILED(__super::Add_Component(LEVEL_STATIC, sPrototypeTag,
+		if (FAILED(__super::Add_Component(m_eLevelID, sPrototypeTag,
 			_wstring(TEXT("Com_Texture")) + L"_Boss_Fly_Attack_" + buf, reinterpret_cast<CComponent**>(&(m_pTextureMap[STATE_FLY_ATTACK][i])))))
 			return E_FAIL;
 	}
@@ -202,7 +222,7 @@ HRESULT CTtakkeun_i::Ready_Textures()
 		_tchar buf[32];
 		_itow_s((int)num, buf, 10);
 		sPrototypeTag += buf;
-		if (FAILED(__super::Add_Component(LEVEL_STATIC, sPrototypeTag,
+		if (FAILED(__super::Add_Component(m_eLevelID, sPrototypeTag,
 			_wstring(TEXT("Com_Texture")) + L"_Boss_Jump_" + buf, reinterpret_cast<CComponent**>(&(m_pTextureMap[STATE_JUMP][i])))))
 			return E_FAIL;
 	}
@@ -215,7 +235,7 @@ HRESULT CTtakkeun_i::Ready_Textures()
 		_tchar buf[32];
 		_itow_s((int)num, buf, 10);
 		sPrototypeTag += buf;
-		if (FAILED(__super::Add_Component(LEVEL_STATIC, sPrototypeTag,
+		if (FAILED(__super::Add_Component(m_eLevelID, sPrototypeTag,
 			_wstring(TEXT("Com_Texture")) + L"_Boss_Bomb_" + buf, reinterpret_cast<CComponent**>(&(m_pTextureMap[STATE_BOMB][i])))))
 			return E_FAIL;
 	}
@@ -228,7 +248,7 @@ HRESULT CTtakkeun_i::Ready_Textures()
 		_tchar buf[32];
 		_itow_s((int)num, buf, 10);
 		sPrototypeTag += buf;
-		if (FAILED(__super::Add_Component(LEVEL_STATIC, sPrototypeTag,
+		if (FAILED(__super::Add_Component(m_eLevelID, sPrototypeTag,
 			_wstring(TEXT("Com_Texture")) + L"_Boss_Missile_" + buf, reinterpret_cast<CComponent**>(&(m_pTextureMap[STATE_MISSILE][i])))))
 			return E_FAIL;
 	}
@@ -402,7 +422,7 @@ void CTtakkeun_i::DoIdle(_float dt)
 	}
 	case EIdlePhase::IDLE_WAIT:
 		m_fIdleWaitElapsed += dt;
-		m_eCurMonsterState = STATE_STAY;
+		//m_eCurMonsterState = STATE_STAY;
 
 		if (m_fIdleWaitElapsed >= m_fIdleWaitTime)
 		{
@@ -480,27 +500,27 @@ void CTtakkeun_i::BasicAttackSet(_float dt)
 	switch (m_iRandom)
 	{
 	case 0: 
-		/* 1. 화염방사 */
+		/* 0. 화염방사 */
 		FireAttack(dt);	
 		break;
 	case 1:
-		/* 2. 날아오르라 주작이여 */
+		/* 1. 날아오르라 주작이여 */
 		FlyAttack(dt);
 		break;
 	case 2:
-		/* 3. 바운스 볼 */
+		/* 2. 바운스 볼 */
 		BounceBall(dt);
 		break;
 	case 3:
-		/* 4. 내리찍기 */
+		/* 3. 내리찍기 */
 		JumpAttack(dt);
 		break;
 	case 4:
-		/* 5. 공작 미사일발사 */
+		/* 4. 공작 미사일발사 */
 		MissileAttack(dt);
 		break;
 	case 5:
-		/* 6. 몬스터 소환 */
+		/* 5. 몬스터 소환 */
 		SpawnAttack(dt);
 		break;
 	}
@@ -619,7 +639,7 @@ void CTtakkeun_i::FireAttack(_float dt)
 
 	m_pTransformCom->ChaseCustom(vPlayerPos, dt, 100.f, 150.f);
 	/* 2. 화염을 발사한다! */
-	CFXMgr::Get_Instance()->FireAttack(vMyPos, LEVEL_GAMEPLAY, m_iNum);
+	FX_MGR->FireAttack(vMyPos, LEVEL_GAMEPLAY, m_iNum);
 
 }
 
@@ -718,7 +738,7 @@ void CTtakkeun_i::JumpAttack(_float dt)
 		{
 			//이펙트 생성 && 카메라 쉐이킹
 			vPos.y = 30.f;
-			CFXMgr::Get_Instance()->JumpAttack(vPos, LEVEL_GAMEPLAY);
+			FX_MGR->JumpAttack(vPos, LEVEL_GAMEPLAY);
 			m_pCamera->Shake_Camera();
 
 			//몬스터가 착지한 후 점프리셋
@@ -881,7 +901,7 @@ void CTtakkeun_i::SpawnMissile(_float dt)
 		MonsterBullet_iDesc.vPosition = *m_pTransformCom->Get_State(CTransform::STATE_POSITION);
 
 		if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_MonsterBullet"),
-			LEVEL_GAMEPLAY, L"Layer_MonsterBullet", &MonsterBullet_iDesc)))
+			m_eLevelID, L"Layer_MonsterBullet", &MonsterBullet_iDesc)))
 			return;
 
 
@@ -924,7 +944,7 @@ void CTtakkeun_i::SpawnGuidMissile()
 		MonsterGuidBullet_iDesc.vPosition.z -= vLook.z * 10.f;
 
 		if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_PC_MonsterGuidBullet"),
-			LEVEL_GAMEPLAY, L"Layer_MonsterBullet", &MonsterGuidBullet_iDesc)))
+			m_eLevelID, L"Layer_MonsterBullet", &MonsterGuidBullet_iDesc)))
 			return;
 	}
 }
@@ -959,8 +979,8 @@ void CTtakkeun_i::SpawnBounce()
 		BulletDesc.fTimeLimit = 2.f;
 		BulletDesc.bAnimation = true;
 
-		if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_GrenadeBullet"),
-			LEVEL_GAMEPLAY, TEXT("Layer_Bullet"), &BulletDesc)))
+		if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_GrenadeBullet"),
+			m_eLevelID, TEXT("Layer_Bullet"), &BulletDesc)))
 			return;
 	}
 }
@@ -973,8 +993,8 @@ void CTtakkeun_i::SpawnDeacon(_float3 vPos)
 	Deacon_iDesc.fRotationPerSec = RADIAN(180.f);
 	Deacon_iDesc.vActive = true;
 	Deacon_iDesc.vReturnPos = vPos;
-	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Deacon"),
-		LEVEL_GAMEPLAY, L"Layer_Monster", &Deacon_iDesc)))
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_Deacon"),
+		m_eLevelID, L"Layer_Monster", &Deacon_iDesc)))
 		return;
 }
 
@@ -990,7 +1010,7 @@ void CTtakkeun_i::SpawnDeaconEffect(_float3 vPos)
 	ExplosionDesc.szTextureTag = TEXT("DeaconSpawn");
 
 	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_PC_Sprite"),
-		LEVEL_GAMEPLAY, L"Layer_Effect", &ExplosionDesc)))
+		m_eLevelID, L"Layer_Effect", &ExplosionDesc)))
 		return;
 }
 
@@ -1034,7 +1054,7 @@ void CTtakkeun_i::FlyEffect()
 	CGameObject* pObject = nullptr;
 	CGameObject** ppOut = &pObject;
 	if (FAILED(m_pGameInstance->Add_GameObjectReturn(LEVEL_STATIC, TEXT("Prototype_GameObject_PC_FlyEffect"),
-		LEVEL_GAMEPLAY, L"Layer_Particle", ppOut, &FlyEffect_iDesc)))
+		m_eLevelID, L"Layer_Particle", ppOut, &FlyEffect_iDesc)))
 		return;
 
 	m_pBossEffect = *ppOut;
@@ -1115,37 +1135,14 @@ void CTtakkeun_i::On_Collision(_uint MyColliderID, _uint OtherColliderID)
 
 		// 이펙트 생성
 		m_iHP += -10;
-		CFXMgr::Get_Instance()->SpawnBlood(vImpactPos, LEVEL_GAMEPLAY);
+		FX_MGR->SpawnBlood(vImpactPos, LEVEL_GAMEPLAY);
 	}
 	
 }
 
 CTtakkeun_i* CTtakkeun_i::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 {
-	//프로토타입의 기본정의
 	CTtakkeun_i* pInstance = new CTtakkeun_i(pGraphic_Device);
-
-	//기본 정보
-	pInstance->m_eLevelID		= LEVEL_GAMEPLAY;
-	pInstance->m_szTextureID	= TEXT("Ttakkeun_i_Walk");
-	pInstance->m_szBufferType	= TEXT("Rect");
-
-	//속성
-	pInstance->m_iHP			= 500;
-	pInstance->m_iMaxHP			= 500;
-	pInstance->m_iAttackPower	= 10;
-	pInstance->m_iDefense		= 3;
-	pInstance->m_fSpeed			= 100.f;
-	pInstance->m_vScale			= { 150.f, 147.f, 1.f };
-	pInstance->m_eState			= MODE::MODE_IDLE;
-	pInstance->m_fDetectiveDistance = 400.f;
-
-	//부속성
-	pInstance->m_strDialogue	= "Boss..Boss...";
-	pInstance->m_strSound		= "SoundFilePath";
-
-	pInstance->m_vDropItems.push_back("BossDropItem");
-
 
 	if (FAILED(pInstance->Initialize_Prototype()))
 	{

@@ -17,6 +17,27 @@ CDeacon::CDeacon(const CDeacon& Prototype)
 
 HRESULT CDeacon::Initialize_Prototype()
 {
+	//프로토타입의 기본정의
+	m_szTextureID = TEXT("Deacon_Walk");
+	m_szBufferType = TEXT("Rect");
+
+	//속성
+	m_iHP = 30;
+	m_iMaxHP = 30;
+	m_iAttackPower = 5;
+	m_iDefense = 1;
+	m_fSpeed = 13.f;
+	m_vScale = { 52.f, 75.f, 1.f };
+	m_eState = MODE::MODE_IDLE;
+
+	m_fDetectiveDistance = 500.f;
+
+	//부속성
+	m_strDialogue = "Deacon..Deacon...";
+	m_strSound = "SoundFilePath";
+
+	m_vDropItems.push_back("DeaconDropItem");
+
 	return S_OK;
 }
 
@@ -119,7 +140,7 @@ void CDeacon::On_Collision(_uint MyColliderID, _uint OtherColliderID)
 		//몬스터 사망
 		if (0 >= m_iHP)
 		{
-			CFXMgr::Get_Instance()->SpawnCustomExplosion(vImpactPos, LEVEL_GAMEPLAY, _float3{ 130.f, 160.f, 1.f }, TEXT("PC_Explosion"), 14);
+			FX_MGR->SpawnCustomExplosion(vImpactPos, LEVEL_GAMEPLAY, _float3{ 130.f, 160.f, 1.f }, TEXT("PC_Explosion"), 14);
 			m_bDead = true;
 
 			return;
@@ -127,7 +148,7 @@ void CDeacon::On_Collision(_uint MyColliderID, _uint OtherColliderID)
 
 		// 이펙트 생성
 		m_iHP += -50;
-		CFXMgr::Get_Instance()->SpawnBlood(vImpactPos, LEVEL_GAMEPLAY);
+		FX_MGR->SpawnBlood(vImpactPos, LEVEL_GAMEPLAY);
 	}
 }
 
@@ -503,28 +524,6 @@ CDeacon* CDeacon::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 {
 	//프로토타입의 기본정의
 	CDeacon* pInstance = new CDeacon(pGraphic_Device);
-
-	//기본 정보
-	pInstance->m_eLevelID		= LEVEL_GAMEPLAY;
-	pInstance->m_szTextureID	= TEXT("Deacon_Walk");
-	pInstance->m_szBufferType	= TEXT("Rect");
-
-	//속성
-	pInstance->m_iHP			= 30;
-	pInstance->m_iMaxHP			= 30;
-	pInstance->m_iAttackPower	= 5;
-	pInstance->m_iDefense		= 1;
-	pInstance->m_fSpeed			= 13.f;
-	pInstance->m_vScale			= { 52.f, 75.f, 1.f };
-	pInstance->m_eState		= MODE::MODE_IDLE;
-	pInstance->m_fDetectiveDistance = 500.f;
-
-	//부속성
-	pInstance->m_strDialogue	= "Deacon..Deacon...";
-	pInstance->m_strSound		= "SoundFilePath";
-
-	pInstance->m_vDropItems.push_back("DeaconDropItem");
-
 
 	if (FAILED(pInstance->Initialize_Prototype()))
 	{

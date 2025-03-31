@@ -167,8 +167,8 @@ void CWeapon::Key_Input()
 			//m_pTestSound->Set3DAttributes(*m_pPlayerTransform->Get_State(CTransform::STATE_POSITION));
 			//m_pTestSound->SetVolume(0.7f);
 			//m_pTestSound->Play();
-			m_pCoreSoundTest->Update3DPosition();
-			m_pCoreSoundTest->Play(0.7f);
+			//m_pCoreSoundTest->Update3DPosition();
+			//m_pCoreSoundTest->Play(0.7f);
 			Set_State(CWeapon::ST_W_ATK);
 			Create_Bullet();
 			m_tAmmoInfo.iReloadedAmmo--;

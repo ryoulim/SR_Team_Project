@@ -251,10 +251,10 @@ void CWeapon_Chaingun::Weak_Attack(_float fTimeDelta)
 	if (m_fMotionTimer - m_fLastActionTime >= BULLETINTER)
 	{
 		m_fLastActionTime = m_fMotionTimer;
-		//CFXMgr::Get_Instance()->SpawnFireMachineGun(_float3{ 750.f, 450.f, 0.1f }, LEVEL_GAMEPLAY);
-		//CFXMgr::Get_Instance()->SpawnGunFireMachineGun(_float3{ 750.f, 450.f, 0.2f }, LEVEL_GAMEPLAY);
+		//FX_MGR->SpawnFireMachineGun(_float3{ 750.f, 450.f, 0.1f }, LEVEL_GAMEPLAY);
+		//FX_MGR->SpawnGunFireMachineGun(_float3{ 750.f, 450.f, 0.2f }, LEVEL_GAMEPLAY);
 		m_tAmmoInfo.iCurAmmo--;
-		CFXMgr::Get_Instance()->SpawnEmptyBullet(_float3(0.f, 0.f, 0.f), LEVEL_GAMEPLAY);
+		FX_MGR->SpawnEmptyBullet(_float3(0.f, 0.f, 0.f), LEVEL_GAMEPLAY);
 		Create_Bullet();
 	}
 

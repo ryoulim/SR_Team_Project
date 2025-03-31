@@ -16,6 +16,25 @@ CWenteko::CWenteko(const CWenteko& Prototype)
 
 HRESULT CWenteko::Initialize_Prototype()
 {
+	//프로토타입의 기본정의
+	m_szTextureID = TEXT("Wenteko_Walk");
+	m_szBufferType = TEXT("Rect");
+
+	//속성
+	m_iHP = 100;
+	m_iMaxHP = 100;
+	m_iAttackPower = 5;
+	m_iDefense = 1;
+	m_fSpeed = 8.f;
+	m_vScale = { 50.f, 70.f, 1.f };
+	m_eState = MODE::MODE_IDLE;
+
+	//부속성
+	m_strDialogue = "Wente..Wente...";
+	m_strSound = "SoundFilePath";
+
+	m_vDropItems.push_back("WentenkoDrop");
+
 	return S_OK;
 }
 
@@ -66,7 +85,7 @@ void CWenteko::On_Collision(_uint MyColliderID, _uint OtherColliderID)
 	//몬스터 사망
 	if (0 >= m_iHP)
 	{
-		CFXMgr::Get_Instance()->SpawnCustomExplosion(vImpactPos, LEVEL_GAMEPLAY, _float3{ 70.f, 110.f, 1.f }, TEXT("Effect_Explor"), 32);
+		FX_MGR->SpawnCustomExplosion(vImpactPos, LEVEL_GAMEPLAY, _float3{ 70.f, 110.f, 1.f }, TEXT("Effect_Explor"), 32);
 		m_bDead = true;
 
 		return;
@@ -74,7 +93,7 @@ void CWenteko::On_Collision(_uint MyColliderID, _uint OtherColliderID)
 
 	// 이펙트 생성
 	m_iHP += -10;
-	CFXMgr::Get_Instance()->SpawnBlood(vImpactPos, LEVEL_GAMEPLAY);
+	FX_MGR->SpawnBlood(vImpactPos, LEVEL_GAMEPLAY);
 }
 
 HRESULT CWenteko::Ready_Components(void* pArg)
@@ -87,29 +106,7 @@ HRESULT CWenteko::Ready_Components(void* pArg)
 
 CWenteko* CWenteko::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 {
-	//프로토타입의 기본정의
 	CWenteko* pInstance = new CWenteko(pGraphic_Device);
-
-	//기본 정보
-	pInstance->m_eLevelID		= LEVEL_GAMEPLAY;
-	pInstance->m_szTextureID	= TEXT("Wenteko_Walk");
-	pInstance->m_szBufferType	= TEXT("Rect");
-
-	//속성
-	pInstance->m_iHP			= 100;
-	pInstance->m_iMaxHP			= 100;
-	pInstance->m_iAttackPower	= 5;
-	pInstance->m_iDefense		= 1;
-	pInstance->m_fSpeed			= 8.f;
-	pInstance->m_vScale			= { 50.f, 70.f, 1.f };
-	pInstance->m_eState		= MODE::MODE_IDLE;
-
-	//부속성
-	pInstance->m_strDialogue	= "Wente..Wente...";
-	pInstance->m_strSound		= "SoundFilePath";
-
-	pInstance->m_vDropItems.push_back("WentenkoDrop");
-
 
 	if (FAILED(pInstance->Initialize_Prototype()))
 	{

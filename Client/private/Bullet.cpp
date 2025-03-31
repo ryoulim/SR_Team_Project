@@ -96,7 +96,10 @@ void CBullet::On_Collision(_uint MyColliderID, _uint OtherColliderID)
 	m_bDead = TRUE;
 
 	if(OtherColliderID == CI_MON_BODY)
-		CFXMgr::Get_Instance()->SpawnExplosion(CCollider::Get_Last_Collision_Pos(), m_eLevelID);
+		FX_MGR->SpawnExplosion(CCollider::Get_Last_Collision_Pos(), m_eLevelID);
+
+
+	;
 }
 
 HRESULT CBullet::Ready_Components(void* pArg)
