@@ -49,10 +49,11 @@ HRESULT CShotgunner::Initialize(void* pArg)
 	m_fAnimationMaxFrame = 3.f;
 	m_fAnimationSpeed = 5.f;
 	m_iState = STATE_MOVE;
-	m_fCooldownTime = 2.f;
-	m_fBulletCooldown = 0.4f;
-	m_fAttackTime = 0.35f;
-	return S_OK;
+	m_fCooldownTime = 0.8f;     // 공격 쉬는 텀
+	m_fBulletCooldown = 0.4f;	// 총알 발사 쿨
+	m_fAttackTime = 0.35f;		// 공격 시간
+	return S_OK;				// m_fAttackTime동안 총알 발사하되 총알은 m_fBulletCooldown만큼의 간격으로 쏘고
+								// m_fAttackTime이 끝나면 m_fCooldownTime만큼 쉬고 다시 공격함
 }
 
 void CShotgunner::Priority_Update(_float fTimeDelta)
@@ -285,7 +286,7 @@ void CShotgunner::DoReady(_float dt)
 	}
 	m_fAnimationFrame = 0.f;
 	_float3 TargetPos = *static_cast<CTransform*>(m_pTargetPlayer->Find_Component(L"Com_Transform"))->Get_State(CTransform::STATE_POSITION);
-	m_fSpawnNormalBullet = 0.f;
+	//m_fSpawnNormalBullet = 0.f;
 	m_pTransformCom->LookAt(TargetPos);
 }
 
@@ -367,6 +368,10 @@ void CShotgunner::AttackPattern(_float dt)
 		// 총알 크기임
 		MonsterNormalBullet_iDesc.vPosition = *m_pTransformCom->Get_State(CTransform::STATE_POSITION);
 		MonsterNormalBullet_iDesc.vPosition.y += 15.f;
+		_float3 vRight = *m_pTransformCom->Get_State(CTransform::STATE_RIGHT);
+		vRight.Normalize();
+		// 총구 위치를 몬스터의 위치와 look 벡터를 사용하여 계산
+		MonsterNormalBullet_iDesc.vPosition = MonsterNormalBullet_iDesc.vPosition + vRight * 11.f;
 		// 총알 생성 위치 조정임
 
 		for (size_t i = 0; i < 4; i++)

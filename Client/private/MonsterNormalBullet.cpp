@@ -197,9 +197,9 @@ void CMonsterNormalBullet::SetTargetDir()
 	m_vTargetPos -= vDir * 400.f;
 
 	// 약간의 랜덤 오차를 추가
-	m_vTargetPos.x += GetRandomFloat(0.f, 20.f);
-	m_vTargetPos.y += GetRandomFloat(0.f, 20.f);
-	m_vTargetPos.z += GetRandomFloat(0.f, 20.f);
+	m_vTargetPos.x += GetRandomFloat(0.f, 25.f);
+	m_vTargetPos.y += GetRandomFloat(0.f, 25.f);
+	m_vTargetPos.z += GetRandomFloat(0.f, 25.f);
 }
 
 CMonsterNormalBullet* CMonsterNormalBullet::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
