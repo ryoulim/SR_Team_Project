@@ -385,6 +385,12 @@
     <Filter Include="01.Levels\04. Race\Third">
       <UniqueIdentifier>{ddbf0416-6761-4365-babd-545fed9fd109}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\Statue\Forest">
+      <UniqueIdentifier>{4fcbcfbf-0ee3-44c8-be6b-ded9614ccbf3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Statue\Forest\Rock">
+      <UniqueIdentifier>{afce3b03-65b9-46c5-be82-8bc2355e18e0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -777,6 +783,12 @@
     <ClInclude Include="..\public\Level_RaceThird.h">
       <Filter>01.Levels\04. Race\Third</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\Forest.h">
+      <Filter>02.GameObjects\Statue\Forest</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Rock.h">
+      <Filter>02.GameObjects\Statue\Forest\Rock</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -1157,6 +1169,12 @@
     </ClCompile>
     <ClCompile Include="..\private\Level_RaceThird.cpp">
       <Filter>01.Levels\04. Race\Third</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Forest.cpp">
+      <Filter>02.GameObjects\Statue\Forest</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Rock.cpp">
+      <Filter>02.GameObjects\Statue\Forest\Rock</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

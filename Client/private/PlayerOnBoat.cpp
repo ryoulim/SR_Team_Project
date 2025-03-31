@@ -34,20 +34,58 @@ HRESULT CPlayerOnBoat::Initialize(void* pArg)
 
 void CPlayerOnBoat::Priority_Update(_float fTimeDelta)
 {
-	if (m_pTransformCom->Get_State(CTransform::STATE_POSITION)->z > 9500.f
+	if (m_pTransformCom->Get_State(CTransform::STATE_POSITION)->z > 10000.f
 		|| m_pTransformCom->Get_State(CTransform::STATE_POSITION)->z < 100.f)
 	{
-		m_pTransformCom->Go_Straight(fTimeDelta);
+		m_pTransformCom->Go_Straight(fTimeDelta  * 5.f);
+
+		//누적시켰던 시간 값 초기화
+		if (m_fTime != 0.f)
+			m_fTime = 0.f;
+
+		//초기화
+		if (m_fStartPosX != 0.f)
+			m_fStartPosX = 0.f;
 	}
 
-	else
-		Key_Input(fTimeDelta);
+	else if (m_pTransformCom->Get_State(CTransform::STATE_POSITION)->z > 9000.f)
+	{
+		//선형보간을 위한 시작지점 x값 저장, 시작지점 z값은 9000.f로 고정되므로 저장할 필요 없음
+		if (m_fStartPosX == 0.f)
+		{
+			m_fStartPosX = m_pTransformCom->Get_State(CTransform::STATE_POSITION)->x;
+		}
+		
+		//시간을 누적해서 전달
+		m_fTime += fTimeDelta * 0.7f;
 
+		m_pTransformCom->Set_State(CTransform::STATE_POSITION,
+			{ LerpToHole(m_fStartPosX, 450.f, m_fTime),
+			17.f,
+			LerpToHole(9000.f, 10000.f, m_fTime) });
+	}
+	
+	else
+	{
+		Key_Input(fTimeDelta);
+		m_pTransformCom->Go_Straight(fTimeDelta);
+	}
+	
 	__super::Priority_Update(fTimeDelta);
 }
 
 EVENT CPlayerOnBoat::Update(_float fTimeDelta)
 {
+	if (m_pTransformCom->Get_State(CTransform::STATE_POSITION)->x > 600.f)
+	{
+		
+	}
+
+	if (m_pTransformCom->Get_State(CTransform::STATE_POSITION)->x < 300.f)
+	{
+
+	}
+
 	Update_Camera_Link();
 
 	return __super::Update(fTimeDelta);
@@ -73,17 +111,6 @@ HRESULT CPlayerOnBoat::Render()
 
 void CPlayerOnBoat::Key_Input(_float fTimeDelta)
 {
-	if (KEY_PRESSING(DIK_UP))
-	{
-		//m_pGravityCom->Go_Straight_On_Terrain(fTimeDelta);
-		m_pTransformCom->Go_Straight(fTimeDelta);
-		//const _float3* vPosition = m_pTransformCom->Get_State(CTransform::STATE_POSITION);
-	}
-	if (KEY_PRESSING(DIK_DOWN))
-	{
-		//m_pGravityCom->Go_Backward_On_Terrain(fTimeDelta);
-		m_pTransformCom->Go_Backward(fTimeDelta);
-	}
 	if (KEY_PRESSING(DIK_LEFT))
 	{
 		//m_pGravityCom->Go_Left_On_Terrain(fTimeDelta);
@@ -104,6 +131,11 @@ void CPlayerOnBoat::Update_Camera_Link()
 	//카메라의 위치를 (플레이어 위치 + @)
 	m_pCameraTransform->Set_State(CTransform::STATE_POSITION, *m_pTransformCom->Get_State(CTransform::STATE_POSITION) 
 		+ _float3(0.f, 20.f, -80.f));// -20 50
+}
+
+_float CPlayerOnBoat::LerpToHole(_float StartPos, _float TargetPos, _float fTimeDelta)
+{
+	return (TargetPos - StartPos) * fTimeDelta + StartPos;
 }
 
 CPlayerOnBoat* CPlayerOnBoat::Create(LPDIRECT3DDEVICE9 pGraphic_Device)

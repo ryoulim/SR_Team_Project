@@ -1,14 +1,13 @@
-#pragma once
 #include "Statue.h"
 
 BEGIN(Client)
 
-class CRaceLandscape final : public CStatue
+class CForest final : public CStatue
 {
 private:
-	CRaceLandscape(LPDIRECT3DDEVICE9 pGraphic_Device);
-	CRaceLandscape(const CRaceLandscape& Prototype);
-	virtual ~CRaceLandscape() = default;
+	CForest(LPDIRECT3DDEVICE9 pGraphic_Device);
+	CForest(const CForest& Prototype);
+	virtual ~CForest() = default;
 
 public:
 	virtual HRESULT Initialize_Prototype() override;
@@ -19,13 +18,11 @@ public:
 	virtual HRESULT Render() override;
 
 public:
-	void Surface_Plane();
-
-public:
-	static CRaceLandscape* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
+	static CForest* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
 	virtual CGameObject* Clone(void* pArg) override;
 	virtual void Free();
 };
 
 END
+
 

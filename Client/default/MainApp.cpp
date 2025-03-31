@@ -278,7 +278,7 @@ HRESULT CMainApp::Ready_Object_For_Static()
 	desc.vAt = _float3();
 	desc.fFov = 60.f;
 	desc.fNear = 0.1f;
-	desc.fFar = 2000.f;
+	desc.fFar = 5000.f;
 
 	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_TPS_Camera"),
 		LEVEL_STATIC, TEXT("Layer_Camera"), &desc)))
