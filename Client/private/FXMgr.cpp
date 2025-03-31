@@ -471,12 +471,12 @@ void CFXMgr::SpawnSpher(_float3 _vPosition, LEVEL eLevel)
 	SphereDesc.vPosition.y += 0.f;
 	SphereDesc.fMaxFrame = 1;
 	SphereDesc.szTextureTag = TEXT("PC_Generic");
-	SphereDesc.iParticleNums = 2500;
+	SphereDesc.iParticleNums = 500;
 	SphereDesc.fSize = 0.15f;
 	SphereDesc.fLifeTime = GetRandomFloat(0.5f, 1.f);
 	SphereDesc.fLifeTime = GetRandomFloat(0.5f, 1.f);
-	SphereDesc.fMin = 50.f;
-	SphereDesc.fMax = 70.f;
+	SphereDesc.fMin = 820.f;
+	SphereDesc.fMax = 850.f;
 
 	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_PC_Sphere"),
 		eLevel, L"Layer_Particle", &SphereDesc)))
@@ -487,11 +487,11 @@ void CFXMgr::SpawnSpher(_float3 _vPosition, LEVEL eLevel)
 	SphereDesc2.vPosition.y += 0.f;
 	SphereDesc2.fMaxFrame = 1;
 	SphereDesc2.szTextureTag = TEXT("PC_Generic");
-	SphereDesc2.iParticleNums = 1500;
+	SphereDesc2.iParticleNums = 500;
 	SphereDesc2.fSize = 0.3f;
 	SphereDesc2.fLifeTime = GetRandomFloat(0.5f, 1.f);
-	SphereDesc2.fMin = 50.f;
-	SphereDesc2.fMax = 70.f;
+	SphereDesc2.fMin = 840.f;
+	SphereDesc2.fMax = 850.f;
 
 	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_PC_Sphere"),
 		LEVEL_GAMEPLAY, L"Layer_Particle", &SphereDesc2)))

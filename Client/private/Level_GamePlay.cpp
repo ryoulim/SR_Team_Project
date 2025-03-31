@@ -217,16 +217,7 @@ HRESULT CLevel_GamePlay::Ready_Layer_Particle(const _wstring& strLayerTag)
 	auto FX_Manager = FX_MGR;
 
 	//빗방울
-	FX_Manager->SpawnRain(LEVEL_GAMEPLAY);
-	
-	//소용돌이
-	FX_Manager->SpawnSpher(_float3{ 800.f, 0.f, -200.f }, LEVEL_GAMEPLAY);
-	
-	//토네이도(불기둥)
-	FX_Manager->SpawnTornado(_float3{ 630.f, 25.f, -320.f }, LEVEL_GAMEPLAY);
-	FX_Manager->SpawnTornado(_float3{ 760.f, 25.f, -100.f }, LEVEL_GAMEPLAY);
-	FX_Manager->SpawnTornado(_float3{ 850.f, 25.f, -230.f }, LEVEL_GAMEPLAY);
-	
+	CFXMgr::Get_Instance()->SpawnRain(LEVEL_GAMEPLAY);
 	//불지르기
 	FX_Manager->SpawnFire(_float3{ 800.f, 0.f, -200.f }, LEVEL_GAMEPLAY);
 
@@ -288,6 +279,9 @@ HRESULT CLevel_GamePlay::Ready_Layer_Monster(const _wstring& strLayerTag)
 		LEVEL_GAMEPLAY, TEXT("Layer_Flatform"), &FlatformDESC)))
 		return E_FAIL;	
 
+	//따끈이
+	SpawnTtakkeun_i(_float3{ 1200.f, 100.f, 1500.f }, true, 0, LEVEL_GAMEPLAY);
+	SpawnTtakkeun_i(_float3{ 1600.f, 100.f, 1500.f }, true, 1, LEVEL_GAMEPLAY);
 
 	//전시용 (게임플레이 이니셜)
 	//SpawnWenteko(_float3{ 100.f, 40.f, -100.f }, false, LEVEL_GAMEPLAY);
@@ -390,6 +384,20 @@ void CLevel_GamePlay::Check_Collision()
 	m_pGameInstance->Intersect(CG_MONSTER, CG_BLOCK);
 }
 
+void CLevel_GamePlay::SpawnTtakkeun_i(const _float3& _Position, _bool m_bActive, _int _iNum, LEVEL _eLevel)
+{
+	CMonster::DESC Ttakkeun_iDesc2{};
+	Ttakkeun_iDesc2.vPosition = _Position;
+	Ttakkeun_iDesc2.fSpeedPerSec = 60.f;
+	Ttakkeun_iDesc2.fRotationPerSec = RADIAN(180.f);
+	Ttakkeun_iDesc2.vActive = m_bActive;
+	Ttakkeun_iDesc2.vReturnPos = _Position;
+	Ttakkeun_iDesc2.iNums = _iNum;
+	Ttakkeun_iDesc2.eLevel = _eLevel;
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Ttakkeun_i"),
+		_eLevel, L"Layer_Boss", &Ttakkeun_iDesc2)))
+		return;
+}
 
 void CLevel_GamePlay::SpawnWenteko(_float3 _Position, bool m_bActive, LEVEL _eLevel)
 {
