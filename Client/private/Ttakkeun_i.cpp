@@ -24,7 +24,7 @@ HRESULT CTtakkeun_i::Initialize_Prototype()
 	m_szBufferType = TEXT("Rect");
 
 	//속성
-	m_iHP = 500;
+	m_iHP = 800;
 	m_iMaxHP = 500;
 	m_iAttackPower = 10;
 	m_iDefense = 3;
@@ -49,20 +49,21 @@ HRESULT CTtakkeun_i::Initialize(void* pArg)
 	m_pCamera = CAMERA_MANAGER;
 	Safe_AddRef(m_pCamera);
 
-
+	/* 애니메이션 변수 초기화 */
 	m_fDivOffset = 22.5f;
-	// 보스랑 잡몹 텍스쳐 갯수가 달라서 별도 지정
-	//애니메이션(수정예정)
 	m_iState = (_uint)(MONSTER_STATE::STATE_WALK);
 	m_fAnimationMaxFrame = (_float)(STATE_MAXFRAME::MAX_WALK);
 	m_fAnimationSpeed = 17.f;
 	m_eCurFlyingDirection = UP;
 	m_ePrevFlyingDirection = UP;
 
-
 	//위치, 크기초기화, 컴포넌트 부착
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
+
+	/* 만약 우끈이면 랜덤을 거꾸로 */
+	if (m_iNum == 1)
+		m_iRandom = 5;
 
 	m_pGravityCom->Set_Height(110.f);
 
@@ -139,7 +140,7 @@ void CTtakkeun_i::Late_Update(_float fTimeDelta)
 		return;
 	Set_TextureType();
 	Resize_Texture(0.35f);
-	//__super::Late_Update(fTimeDelta);
+
 #ifdef _DEBUG
 	auto now = steady_clock::now();
 	auto elapsed = duration_cast<milliseconds>(now - g_LastLogTime).count();
@@ -482,7 +483,30 @@ void CTtakkeun_i::AttackPattern(_float dt)
 
 		if (m_fCooldownTime >= m_fCooldownDuration)
 		{
-			m_iRandom = GetRandomInt(0, 5);
+			/* [ 첫번째 한바퀴는 패턴을 순서대로 순회한다 ] */
+			if (!m_bDoPatternLeft && m_iNum == 0)
+			{
+				++m_iRandom;
+				if (m_iRandom == 6)
+				{
+					m_iRandom = GetRandomInt(0, 5);
+					m_bDoPatternLeft = true;
+				}
+			}
+			if (!m_bDoPatternRight && m_iNum == 1)
+			{
+				--m_iRandom;
+				if (m_iRandom == -1)
+				{
+					m_iRandom = GetRandomInt(0, 5);
+					m_bDoPatternRight = true;
+				}
+			}
+			else
+			{
+				m_iRandom = GetRandomInt(0, 5);
+			}
+
 			m_bCoolingDown = false;
 			m_fCooldownTime = 0.f;
 		}
@@ -497,7 +521,6 @@ void CTtakkeun_i::BasicAttackSet(_float dt)
 {
 	/* [ 따끈이의 공격패턴 ] */
 	
-	//m_iRandom = 5;
 	switch (m_iRandom)
 	{
 	case 0: 
@@ -563,7 +586,6 @@ void CTtakkeun_i::MissileAttack(_float dt)
 		SpawnGuidMissile();
 		m_bDoOnce = true;
 	}
-
 }
 
 void CTtakkeun_i::SpawnAttack(_float dt)
@@ -844,7 +866,7 @@ void CTtakkeun_i::FlyAttack(_float dt)
 		//3번 발사 시 패턴 종료
 		if (3 <= m_iMissileCount)
 		{
-			m_iRandom = GetRandomInt(0, 1);
+			StartCooldown(dt, 0.5f, 1.f);
 			m_eCurMonsterState = STATE_FLY;
 			m_eCurFlyingDirection = UP;
 			m_eState = MODE::MODE_RETURN;
@@ -1133,10 +1155,11 @@ void CTtakkeun_i::On_Collision(_uint MyColliderID, _uint OtherColliderID)
 			return;
 		}
 
-		// 이펙트 생성
-		m_iHP += -10;
+		//이펙트 생성
 		FX_MGR->SpawnBlood(vImpactPos, LEVEL_GAMEPLAY);
 	}
+
+	__super::On_Collision(MyColliderID, OtherColliderID);
 	
 }
 

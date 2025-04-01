@@ -281,7 +281,7 @@ HRESULT CLevel_GamePlay::Ready_Layer_Monster(const _wstring& strLayerTag)
 
 	//따끈이
 	SpawnTtakkeun_i(_float3{ 1200.f, 100.f, 1500.f }, true, 0, LEVEL_GAMEPLAY);
-	//SpawnTtakkeun_i(_float3{ 1600.f, 100.f, 1500.f }, true, 1, LEVEL_GAMEPLAY);
+	SpawnTtakkeun_i(_float3{ 1600.f, 100.f, 1500.f }, true, 1, LEVEL_GAMEPLAY);
 
 	//전시용 (게임플레이 이니셜)
 	//SpawnWenteko(_float3{ 100.f, 40.f, -100.f }, false, LEVEL_GAMEPLAY);

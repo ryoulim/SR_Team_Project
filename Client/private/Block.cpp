@@ -47,6 +47,10 @@ HRESULT CBlock::Render()
     return __super::Render();
 }
 
+void CBlock::On_Collision(_uint MyColliderID, _uint OtherColliderID)
+{
+}
+
 HRESULT CBlock::Ready_Components(void* pArg)
 {
     __super::Ready_Components(pArg);

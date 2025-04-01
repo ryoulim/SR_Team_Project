@@ -648,3 +648,38 @@ _float3 CMonster::CalculateEffectPos()
 	return vImpactPos;
 }
 
+void CMonster::On_Collision(_uint MyColliderID, _uint OtherColliderID)
+{
+	/* [ 플레이어의 무기에 따라 몬스터의 HP 만 까이도록 수정하자 ] */
+
+	/* ↓ 이곳은 HP 만 관여하고 각종 이펙트나 해야할 처리는 오버라이딩해서 하시오 ↓  */
+
+
+	/* 권총 */
+	if (OtherColliderID == CI_LOVERBOY)
+	{
+		m_iHP -= 20;
+	}
+
+	/* 기관총 */
+	if (OtherColliderID == CI_CHAINGUN)
+	{
+		// 1초당 9발 == 27 데미지
+		m_iHP -= 10;
+	}
+
+	/* 샷건 */
+	if (OtherColliderID == CI_DISPENSOR_SHELL)
+	{
+		// 10방을 쏘지만 거리와 산탄이 있음
+		m_iHP -= 5;
+	}
+
+	/* 탱탱볼 */
+	if (OtherColliderID == CI_DISPENSOR_GRENADE)
+	{
+		// 1방이 쌔야함
+		m_iHP -= 50;
+	}
+}
+

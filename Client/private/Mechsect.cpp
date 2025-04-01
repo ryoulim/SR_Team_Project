@@ -210,8 +210,9 @@ void CMechsect::On_Collision(_uint MyColliderID, _uint OtherColliderID)
 	}
 
 	// ÀÌÆåÆ® »ý¼º
-	m_iHP += -50;
 	FX_MGR->SpawnBlood(vImpactPos, LEVEL_GAMEPLAY);
+
+	__super::On_Collision(MyColliderID, OtherColliderID);
 }
 
 CMechsect* CMechsect::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
