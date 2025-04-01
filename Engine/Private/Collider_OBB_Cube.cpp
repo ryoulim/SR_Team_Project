@@ -20,7 +20,7 @@ HRESULT CCollider_OBB_Cube::Initialize_Prototype()
     return __super::Initialize_Prototype(OBB_CUBE);
 }
 
-#ifdef _BUFFERRENDER
+#ifdef _COLLIDERRENDER
 
 #include "VIBuffer_Cube.h"
 #include "Transform.h"
@@ -39,7 +39,6 @@ HRESULT CCollider_OBB_Cube::Initialize(void* pArg)
     m_pRenderTransform->Scaling(pDesc->vScale);
     m_pRenderTransform->Move(pDesc->vOffSet);
 
-    //m_pBuffer->Initialize(nullptr);
     return S_OK;
 }
 
@@ -50,6 +49,7 @@ void CCollider_OBB_Cube::Render()
     // 텍스처 제거
     m_pGraphic_Device->SetTexture(0, nullptr);
     m_pRenderTransform->Bind_Resource();
+    m_pRenderBuffer->Bind_Buffers();
     m_pRenderBuffer->Render();
 
 }
@@ -323,7 +323,7 @@ void CCollider_OBB_Cube::Free()
 {
     __super::Free();
 
-#ifdef _BUFFERRENDER
+#ifdef _COLLIDERRENDER
     Safe_Release(m_pRenderTransform);
     Safe_Release(m_pRenderBuffer);
 #endif

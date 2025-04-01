@@ -1,6 +1,6 @@
 ﻿#pragma once
 #include "Component.h"
-//#define _BUFFERRENDER
+#define _COLLIDERRENDER
 
 BEGIN(Engine)
 

@@ -1,4 +1,4 @@
-#include "TriangularPillar.h"
+ï»¿#include "TriangularPillar.h"
 #include "FXMgr.h"
 
 CTriangularPillar::CTriangularPillar(LPDIRECT3DDEVICE9 pGraphic_Device)
@@ -44,7 +44,6 @@ void CTriangularPillar::Late_Update(_float fTimeDelta)
 
 HRESULT CTriangularPillar::Render()
 {
-    m_pColliderCom->Render();
     return __super::Render();
 }
 
@@ -65,18 +64,23 @@ HRESULT CTriangularPillar::Ready_Components(void* pArg)
     vOBBScale.y = vTriScale.y;
     vOBBScale.z = (vTriScale.x * vTriScale.z) / vOBBScale.x;
 
-    // ³ªÁß¿¡ »ï°¢±âµÕ ¼¼¿ö¼­ ±ò¸é ´Ù½Ã ¿¬»êÇØ¾ßÇÔ
+    auto vUp = *m_pTransformCom->Get_State(CTransform::STATE_UP);
+
+    _float angle_rad = atan2f(pDesc->vScale.z, pDesc->vScale.x);
+
+    //ë‚˜ì¤‘ì— ì‚¼ê°ê¸°ë‘¥ ì„¸ì›Œì„œ ê¹”ë©´ ë‹¤ì‹œ ì—°ì‚°í•´ì•¼í•¨
     ColliderDesc.vOffSet = { 0.f, 0.f, -vOBBScale.z*0.5f };
-    ColliderDesc.vOffSet.TransformCoord(_float4x4{ {0.f,1.f,0.f}, pDesc->vAngle.y + RADIAN(45.f) });
+    ColliderDesc.vOffSet.TransformCoord(_float4x4{ vUp, pDesc->vAngle.y + angle_rad});
+
+    //ì´ ê°ì²´ì˜ Upë°©í–¥ì„ ê¸°ì¤€ìœ¼ë¡œ ëŒìž
+    m_pTransformCom->Turn_Immediately(vUp, angle_rad);
 
     /* For.Com_Collider */
-    m_pTransformCom->Turn_Immediately({ 0.f,1.f,0.f }, RADIAN(45.f));
-
     if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Collider_OBB_Cube"),
         TEXT("Com_Collider"), reinterpret_cast<CComponent**>(&m_pColliderCom), &ColliderDesc)))
         return E_FAIL;
 
-    m_pTransformCom->Turn_Immediately({ 0.f,1.f,0.f }, RADIAN(-45.f));
+    m_pTransformCom->Turn_Immediately(vUp, -angle_rad);
 
     return S_OK;
 }

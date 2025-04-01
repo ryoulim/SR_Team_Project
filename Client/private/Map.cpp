@@ -61,6 +61,11 @@ HRESULT CMap::Render()
 	if (FAILED(m_pVIBufferCom->Render()))
 		return E_FAIL;
 
+#ifdef _COLLIDERRENDER
+	if (m_pColliderCom)
+		m_pColliderCom->Render();
+#endif
+
 	return S_OK;
 }
 

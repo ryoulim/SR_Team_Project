@@ -3,8 +3,6 @@
 
 BEGIN(Engine)
 
-#define _BUFFERRENDER
-
 class ENGINE_DLL CCollider_OBB_Cube final : public CCollider
 {
 public:
@@ -39,7 +37,7 @@ private:
 	INFO m_tInfo{};
 	_float m_fMaxLength{};
 
-#ifdef _BUFFERRENDER
+#ifdef _COLLIDERRENDER
 	// 렌더링 가시화용
 	virtual HRESULT Initialize(void* pArg) override;
 	virtual void Render() override;
