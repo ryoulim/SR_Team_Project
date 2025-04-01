@@ -5,9 +5,16 @@
 #include "Pawn.h"
 
 BEGIN(Client)
+class CPBState;
+END
+
+BEGIN(Client)
 
 class CPlayerOnBoat final : public CPawn
 {
+public:
+	enum STATE { DECEL, NORMAL, LERP, ACCEL, NON };
+
 public:
 	typedef struct tagPlayerOnBoatDesc : public CPawn::DESC
 	{
@@ -28,20 +35,27 @@ public:
 	virtual HRESULT Render() override;
 
 	virtual void On_Collision(_uint MyColliderID, _uint OtherColliderID) override;
+
+	//상태패턴
+	void			Set_State(STATE eState);
+	void			Go_Straight(_float fTimeDelta);
+	void			Key_Input(_float fTimeDelta);
+	_float			Compute_StartPosX();
+	_float			Compute_CurPosZ();
+	void			Move_Lerp(_float fStartPosX, _float fTime);
+
 private:
 	class CCameraManager* m_pCameraManager = { nullptr };
 	CTransform* m_pCameraTransform = { nullptr };
-
-	_float		m_fStartPosX = {};
-	_float		m_fTime = {};
+	STATE m_ePreState = { NON };
+	STATE m_eCurState = { NORMAL };
+	CPBState* m_pCurState = { nullptr };
+	CPBState* m_pState[NON] = { nullptr };
 
 private:
-	void			Key_Input(_float fTimeDelta);
 	void			Init_Camera_Link();
 	void			Update_Camera_Link();
-	_float			LerpToHole(_float StartPos, _float TargetPos, _float fTimeDelta);
-
-
+	
 public:
 	static CPlayerOnBoat* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
 	virtual CGameObject* Clone(void* pArg) override;

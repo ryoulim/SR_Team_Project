@@ -1,6 +1,11 @@
 #include "PlayerOnBoat.h"
 #include "CameraManager.h"
 
+#include "PBState_Accel.h"
+#include "PBState_Normal.h"
+#include "PBState_Decel.h"
+#include "PBState_Lerp.h"
+
 CPlayerOnBoat::CPlayerOnBoat(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CPawn { pGraphic_Device }
 {
@@ -26,6 +31,13 @@ HRESULT CPlayerOnBoat::Initialize(void* pArg)
 
 	Init_Camera_Link();
 
+	m_pState[DECEL] = new CPBState_Decel();
+	m_pState[NORMAL] = new CPBState_Normal();
+	m_pState[LERP] = new CPBState_Lerp();
+	m_pState[ACCEL] = new CPBState_Accel();
+
+	m_pCurState = m_pState[NORMAL];
+
 	return S_OK;
 }
 
@@ -36,60 +48,24 @@ void CPlayerOnBoat::Priority_Update(_float fTimeDelta)
 
 EVENT CPlayerOnBoat::Update(_float fTimeDelta)
 {
-	//if (m_bDead)
-	//	return EVN_DEAD;
+	if (m_bDead)
+		return EVN_DEAD;
 
-	if (m_pTransformCom->Get_State(CTransform::STATE_POSITION)->z > 10000.f
-		|| m_pTransformCom->Get_State(CTransform::STATE_POSITION)->z < 100.f)
+	//이전 상태와 현재 상태가 다르다면 Enter 실행
+	if (m_eCurState != m_ePreState)
 	{
-		m_pTransformCom->Go_Straight(fTimeDelta  * 5.f);
-
-		//누적시켰던 시간 값 초기화
-		if (m_fTime != 0.f)
-			m_fTime = 0.f;
-
-		//초기화
-		if (m_fStartPosX != 0.f)
-			m_fStartPosX = 0.f;
+		m_pCurState->Enter(this, fTimeDelta);
+		m_ePreState = m_eCurState;
 	}
 
-	else if (m_pTransformCom->Get_State(CTransform::STATE_POSITION)->z > 9000.f)
-	{
-		//선형보간을 위한 시작지점 x값 저장, 시작지점 z값은 9000.f로 고정되므로 저장할 필요 없음
-		if (m_fStartPosX == 0.f)
-		{
-			m_fStartPosX = m_pTransformCom->Get_State(CTransform::STATE_POSITION)->x;
-		}
-		
-		//시간을 누적해서 전달
-		m_fTime += fTimeDelta * 0.7f;
+	//Exectue는 무조건 실행
+	m_pCurState->Execute(this, fTimeDelta);
 
-		m_pTransformCom->Set_State(CTransform::STATE_POSITION,
-			{ LerpToHole(m_fStartPosX, 450.f, m_fTime),
-			17.f,
-			LerpToHole(9000.f, 10000.f, m_fTime) });
-	}
-	
-	else
-	{
-		Key_Input(fTimeDelta);
-		m_pTransformCom->Go_Straight(fTimeDelta);
-	}
 	return __super::Update(fTimeDelta);
 }
 
 void CPlayerOnBoat::Late_Update(_float fTimeDelta)
 {
-	if (m_pTransformCom->Get_State(CTransform::STATE_POSITION)->x > 600.f)
-	{
-		
-	}
-
-	if (m_pTransformCom->Get_State(CTransform::STATE_POSITION)->x < 300.f)
-	{
-
-	}
-
 	Update_Camera_Link();
 
 	if (m_pTransformCom->Get_State(CTransform::STATE_POSITION)->z > 13000.f)
@@ -119,22 +95,43 @@ void CPlayerOnBoat::On_Collision(_uint MyColliderID, _uint OtherColliderID)
 
 void CPlayerOnBoat::Key_Input(_float fTimeDelta)
 {
-	/*if (KEY_PRESSING(DIK_W))
-	{
-		m_pTransformCom->Go_Straight(fTimeDelta);
-	}
-	if (KEY_PRESSING(DIK_S))
-	{
-		m_pTransformCom->Go_Backward(fTimeDelta);
-	}*/
 	if (KEY_PRESSING(DIK_A))
 	{
-		m_pTransformCom->Go_Left(fTimeDelta);
+		m_pTransformCom->Go_LeftOnRace(fTimeDelta);
 	}
 	if (KEY_PRESSING(DIK_D))
 	{
-		m_pTransformCom->Go_Right(fTimeDelta);
+		m_pTransformCom->Go_RightOnRace(fTimeDelta);
 	}
+}
+
+_float CPlayerOnBoat::Compute_StartPosX()
+{
+	return m_pTransformCom->Get_State(CTransform::STATE_POSITION)->x;
+}
+
+_float CPlayerOnBoat::Compute_CurPosZ()
+{
+	return m_pTransformCom->Get_State(CTransform::STATE_POSITION)->z;
+}
+
+void CPlayerOnBoat::Move_Lerp(_float fStartPosX, _float fTime)
+{
+	_float3 vStartPos = { fStartPosX, 17.f, 9000.f };
+	_float3 vEndPos = { 450.f, 17.f, 9800.f };
+
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION, m_pTransformCom->Lerp(vStartPos, vEndPos, fTime));
+}
+
+void CPlayerOnBoat::Set_State(STATE eState)
+{
+	m_pCurState = m_pState[eState];
+	m_eCurState = eState;
+}
+
+void CPlayerOnBoat::Go_Straight(_float fTimeDelta)
+{
+	m_pTransformCom->Go_Straight(fTimeDelta);
 }
 
 void CPlayerOnBoat::Init_Camera_Link()
@@ -157,11 +154,6 @@ void CPlayerOnBoat::Update_Camera_Link()
 	m_pCameraTransform->Set_State(CTransform::STATE_POSITION,
 		*m_pTransformCom->Get_State(CTransform::STATE_POSITION) 
 		+ _float3(0.f, 20.f, -80.f));// -20 50
-}
-
-_float CPlayerOnBoat::LerpToHole(_float StartPos, _float TargetPos, _float fTimeDelta)
-{
-	return (TargetPos - StartPos) * fTimeDelta + StartPos;
 }
 
 CPlayerOnBoat* CPlayerOnBoat::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
@@ -196,4 +188,7 @@ void CPlayerOnBoat::Free()
 
 	Safe_Release(m_pCameraManager);
 	Safe_Release(m_pCameraTransform);
+
+	for (size_t i = DECEL; i < NON; ++i)
+		Safe_Release(m_pState[i]);
 }

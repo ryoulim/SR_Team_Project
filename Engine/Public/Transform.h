@@ -67,7 +67,9 @@ public:
 	void Go_Straight(_float fTimeDelta);
 	void Go_Backward(_float fTimeDelta);
 	void Go_Left(_float fTimeDelta);
+	void Go_LeftOnRace(_float fTimeDelta);
 	void Go_Right(_float fTimeDelta);
+	void Go_RightOnRace(_float fTimeDelta);
 	void Go_Up(_float fTimeDelta);
 	bool Go_UpCustom(_float fTimeDelta, _float fSpeed, _float fMaxHight);
 	void Go_DownCustom(_float fTimeDelta, _float fSpeed);
