@@ -497,7 +497,7 @@ void CTtakkeun_i::BasicAttackSet(_float dt)
 {
 	/* [ 따끈이의 공격패턴 ] */
 	
-	m_iRandom = 5;
+	//m_iRandom = 5;
 	switch (m_iRandom)
 	{
 	case 0: 
