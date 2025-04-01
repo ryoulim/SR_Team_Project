@@ -53,32 +53,38 @@ HRESULT CTriangularPillar::Ready_Components(void* pArg)
 
     DESC* pDesc = static_cast<DESC*>(pArg);
 
+    // 콜라이더 설정 구조체
     CCollider::DESC ColliderDesc{};
     ColliderDesc.pTransform = m_pTransformCom;
     ColliderDesc.pOwner = this;
     ColliderDesc.iColliderGroupID = CG_BLOCK;
     ColliderDesc.iColliderID = CI_BLOCK_COMMON;
 
+    // 1. 실제 적용된 스케일을 기준으로 OBB 크기 계산
     _float3 vTriScale = m_pTransformCom->Compute_Scaled();
     _float3& vOBBScale = ColliderDesc.vScale;
-    vOBBScale.x = sqrt(SQUARE(vTriScale.x) + SQUARE(vTriScale.z));
-    vOBBScale.y = vTriScale.y;
-    vOBBScale.z = (vTriScale.x * vTriScale.z) / vOBBScale.x;
+    vOBBScale.x = sqrt(SQUARE(vTriScale.x) + SQUARE(vTriScale.z));     // 빗면 길이
+    vOBBScale.y = vTriScale.y;                                          // 높이
+    vOBBScale.z = (vTriScale.x * vTriScale.z) / vOBBScale.x;            // 얇은 면 깊이
 
-    //이 객체의 Up방향을 기준으로 돌자
-    auto vUp = *m_pTransformCom->Get_State(CTransform::STATE_UP);
-    // 끼인각 구하기
-    _float angle_rad = atan2f(pDesc->vScale.z, pDesc->vScale.x);
+    // 1. 회전된 메시의 현재 Z-방향
+    _float3 vStart = -m_pTransformCom->Get_State(CTransform::STATE_LOOK)->Normalize();
+    _float3 vUp = m_pTransformCom->Get_State(CTransform::STATE_UP)->Normalize();
 
+    // 4. vUp 축을 기준으로 회전
+    _float angle_rad = atan2f(vTriScale.z, vTriScale.x);
+    _float4x4 matRot = _float4x4{ vUp, angle_rad };
+    vStart.TransformNormal(matRot);
 
-    ColliderDesc.vOffSet = { 0.f, 0.f, -vOBBScale.z*0.5f };
-    ColliderDesc.vOffSet.TransformNormal(_float4x4{ vUp, pDesc->vAngle.y + angle_rad});
+    ColliderDesc.vOffSet = vStart * (vOBBScale.z * 0.5f);
 
     m_pTransformCom->Turn_Immediately(vUp, angle_rad);
-    /* For.Com_Collider */
+
     if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Collider_OBB_Cube"),
         TEXT("Com_Collider"), reinterpret_cast<CComponent**>(&m_pColliderCom), &ColliderDesc)))
         return E_FAIL;
+
+    // 9. 회전 복구
     m_pTransformCom->Turn_Immediately(vUp, -angle_rad);
 
     return S_OK;
