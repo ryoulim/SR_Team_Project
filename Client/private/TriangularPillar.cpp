@@ -70,8 +70,9 @@ HRESULT CTriangularPillar::Ready_Components(void* pArg)
     // 끼인각 구하기
     _float angle_rad = atan2f(pDesc->vScale.z, pDesc->vScale.x);
 
+
     ColliderDesc.vOffSet = { 0.f, 0.f, -vOBBScale.z*0.5f };
-    ColliderDesc.vOffSet.TransformCoord(_float4x4{ vUp, pDesc->vAngle.y + angle_rad});
+    ColliderDesc.vOffSet.TransformNormal(_float4x4{ vUp, pDesc->vAngle.y + angle_rad});
 
     m_pTransformCom->Turn_Immediately(vUp, angle_rad);
     /* For.Com_Collider */

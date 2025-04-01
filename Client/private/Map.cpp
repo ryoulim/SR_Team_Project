@@ -62,7 +62,11 @@ HRESULT CMap::Render()
 		return E_FAIL;
 
 #ifdef _COLLIDERRENDER
-	if (m_pColliderCom)
+
+	static bool bRenderMode{ FALSE };
+	if (KEY_DOWN(DIK_F9))
+		bRenderMode = !bRenderMode;
+	if (m_pColliderCom && bRenderMode)
 		m_pColliderCom->Render();
 #endif
 
