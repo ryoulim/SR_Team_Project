@@ -11,6 +11,9 @@
 #define Y_UPPER_CORRECTION 20.f
 #define Y_LOWER_CORRECTION 30.f
 
+// 바닥 감지시 오차 보정
+#define FLOOR_CORRECTION 2.f
+
 vector<_uint>		CGravity::m_StandableColliderGroupID = {};
 
 // 높이맵 기반 터레인의 흔적
@@ -183,7 +186,7 @@ void CGravity::Raycast_StandAble_Obj()
 	for (auto& ID : m_StandableColliderGroupID)
 	{
 		fResult = m_pGameInstance->Raycast_Downward(
-			*m_pTransformCom->Get_State(CTransform::STATE_POSITION) - _float3{ 0.f, m_fHalfHeight,0.f },
+			*m_pTransformCom->Get_State(CTransform::STATE_POSITION) - _float3{ 0.f, m_fHalfHeight - FLOOR_CORRECTION ,0.f },
 			ID);
 		if (fResult > MIN_HEIGHT)
 		{	

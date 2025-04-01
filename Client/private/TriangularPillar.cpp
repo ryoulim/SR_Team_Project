@@ -57,6 +57,7 @@ HRESULT CTriangularPillar::Ready_Components(void* pArg)
     ColliderDesc.pTransform = m_pTransformCom;
     ColliderDesc.pOwner = this;
     ColliderDesc.iColliderGroupID = CG_BLOCK;
+    ColliderDesc.iColliderID = CI_BLOCK_COMMON;
 
     _float3 vTriScale = m_pTransformCom->Compute_Scaled();
     _float3& vOBBScale = ColliderDesc.vScale;
@@ -64,22 +65,19 @@ HRESULT CTriangularPillar::Ready_Components(void* pArg)
     vOBBScale.y = vTriScale.y;
     vOBBScale.z = (vTriScale.x * vTriScale.z) / vOBBScale.x;
 
+    //이 객체의 Up방향을 기준으로 돌자
     auto vUp = *m_pTransformCom->Get_State(CTransform::STATE_UP);
-
+    // 끼인각 구하기
     _float angle_rad = atan2f(pDesc->vScale.z, pDesc->vScale.x);
 
-    //나중에 삼각기둥 세워서 깔면 다시 연산해야함
     ColliderDesc.vOffSet = { 0.f, 0.f, -vOBBScale.z*0.5f };
     ColliderDesc.vOffSet.TransformCoord(_float4x4{ vUp, pDesc->vAngle.y + angle_rad});
 
-    //이 객체의 Up방향을 기준으로 돌자
     m_pTransformCom->Turn_Immediately(vUp, angle_rad);
-
     /* For.Com_Collider */
     if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Collider_OBB_Cube"),
         TEXT("Com_Collider"), reinterpret_cast<CComponent**>(&m_pColliderCom), &ColliderDesc)))
         return E_FAIL;
-
     m_pTransformCom->Turn_Immediately(vUp, -angle_rad);
 
     return S_OK;
