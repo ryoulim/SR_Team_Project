@@ -249,8 +249,8 @@ HRESULT CLevel_OutDoor::Load_Map(_uint iLevelIdx, const _wstring& FileName)
 			CStatue::DESC tDesc = {};
 			tDesc.fSpeedPerSec = fSpeedPerSec;
 			tDesc.fRotationPerSec = fRotationPerSec;
-			tDesc.vInitPos = vPosition * INDOORSCALE;
-			tDesc.vScale = vScale * INDOORSCALE;
+			tDesc.vInitPos = vPosition * OUTDOORSCALE;
+			tDesc.vScale = vScale * OUTDOORSCALE;
 			tDesc.vAngle = vAngle;
 			tDesc.bCollision = bCollision;
 			tDesc.eLevelID = static_cast<LEVEL>(iLevelIdx);
