@@ -325,8 +325,8 @@ HRESULT CLevel_OutDoor::Ready_Layer_Camera(const _wstring& strLayerTag)
 HRESULT CLevel_OutDoor::Ready_Layer_Pawn(const _wstring& strLayerTag)
 {
 	//이 레벨의 플레이어 생성위치
-	_float3 vInitPosition = { 1400.f, 150.f, 500.f };
-
+	_float3 vInitPosition = { 1000.f, 800.f, 1000.f };
+	
 	// 플레이어가 있는지 체크하고 있으면 위치만 변경해줌.
 	auto pPlayer = GET_PLAYER;
 	if (pPlayer)
