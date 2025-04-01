@@ -23,6 +23,7 @@ public:
 		_float	fSize;
 		_float	fMin = 0;
 		_float	fMax = 0;
+		_float	fNum = 0;
 		_int	iNum = 0;
 		_int	iParticleNums;
 		_bool	isLoop = true;
@@ -43,6 +44,7 @@ public:	//이니셜라이즈
 	virtual HRESULT Initialize_Prototype()override;
 	virtual HRESULT Initialize(void* pArg)override;
 
+	void FrameUpdateAge(float timeDelta, float& fAnimation, float& age);
 	void FrameUpdate(_float timeDelta, _float _MaxFrame, _float fSpeed, _bool isLoop);
 
 
@@ -103,11 +105,13 @@ protected: //멤버변수
 	//최대 파티클 수
 	_int					m_iMaxParticle = 10000;
 	_int					m_iNum = 0;
+	_float					m_fNum = 0;
 
 	//파티클 크기, 초당 개수
 	_float					m_fSize;
 	_float					m_fEmitRate;
 	_float					m_fLifeTime = 0.f;
+	_float					m_fAccTime = 0.f;
 	
 	LPDIRECT3DVERTEXBUFFER9 m_pVB = nullptr;
 

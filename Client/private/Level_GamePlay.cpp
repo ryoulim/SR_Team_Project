@@ -7,6 +7,7 @@
 #include "Monster.h"
 #include "FXMgr.h"
 #include "UI_Manager.h"
+#include "BossBridge.h"
 
 #include "Trigger.h"
 #include "Map.h"
@@ -81,6 +82,14 @@ void CLevel_GamePlay::Update(_float fTimeDelta)
 
 	Check_Collision();
 
+	/* [ 만약 트리거가 발동되면 컷신을 시작하라 ] */
+	if (static_cast<CBossBridge*>(m_pTrigger)->GetTrigger())
+	{
+		//1. 카메라 매니저의 스위치를 호출해보자.
+		
+	}
+
+
 	if (KEY_DOWN(DIK_F11))
 	{
 		if (FAILED(m_pGameInstance->Change_Level(LEVEL_LOADING,
@@ -145,6 +154,9 @@ HRESULT CLevel_GamePlay::Ready_Layer_Camera(const _wstring& strLayerTag)
 {
 	CAMERA_MANAGER->Switch(CCameraManager::FPS);
 	CAMERA_MANAGER->Set_Mouse_Fix(TRUE);
+
+	m_pCameraManager = CAMERA_MANAGER;
+	Safe_AddRef(m_pCameraManager);
 
 	return S_OK;
 }
@@ -268,8 +280,8 @@ HRESULT CLevel_GamePlay::Ready_Layer_Monster(const _wstring& strLayerTag)
 		return E_FAIL;	
 
 	//따끈이
-	SpawnTtakkeun_i(_float3{ 1200.f, 100.f, 1500.f }, true, 0, LEVEL_GAMEPLAY);
-	SpawnTtakkeun_i(_float3{ 1600.f, 100.f, 1500.f }, true, 1, LEVEL_GAMEPLAY);
+	//SpawnTtakkeun_i(_float3{ 1200.f, 100.f, 1500.f }, true, 0, LEVEL_GAMEPLAY);
+	//SpawnTtakkeun_i(_float3{ 1600.f, 100.f, 1500.f }, true, 1, LEVEL_GAMEPLAY);
 
 	//전시용 (게임플레이 이니셜)
 	//SpawnWenteko(_float3{ 100.f, 40.f, -100.f }, false, LEVEL_GAMEPLAY);
@@ -355,9 +367,14 @@ HRESULT CLevel_GamePlay::Ready_Layer_Trigger(const _wstring& strLayerTag)
 	tDesc.vAngle = { 0.f, 0.f, 0.f };
 	tDesc.vInitPos = {1400.f, 70.f, 950.f};
 	tDesc.vScale = {200.f, 100.f, 100.f};
-	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_Trigger"),
-		LEVEL_GAMEPLAY, strLayerTag, &tDesc)))
+
+	CGameObject* pObject = nullptr;
+	CGameObject** ppOut = &pObject;
+	if (FAILED(m_pGameInstance->Add_GameObjectReturn(LEVEL_STATIC, TEXT("Prototype_GameObject_Trigger"),
+		LEVEL_GAMEPLAY, strLayerTag, ppOut, &tDesc)))
 		return E_FAIL;
+
+	m_pTrigger = *ppOut;
 
 	return S_OK;
 }
@@ -761,6 +778,7 @@ void CLevel_GamePlay::Free()
 	__super::Free();
 
 	//CUI_Manager::Get_Instance()->Clear_GamePlayUI();
+	Safe_Release(m_pCameraManager);
 
 	while (m_iIndex >= 0)
 	{

@@ -19,6 +19,7 @@ HRESULT CMonsterMissile::Initialize(void* pArg)
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
 
+
 	return S_OK;
 }
 
@@ -58,6 +59,11 @@ HRESULT CMonsterMissile::Ready_Components(void* pArg)
 		TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
 		return E_FAIL;
 
+	//셰이더 장착
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Shader_Particle"),
+		TEXT("Com_Shader"), reinterpret_cast<CComponent**>(&m_pShaderCom))))
+		return E_FAIL;
+
 	return S_OK;
 }
 
@@ -75,7 +81,8 @@ void CMonsterMissile::resetParticle(Attribute* attribute)
 	attribute->_Age = 0.f;
 	attribute->_Color = WHITE;
 	attribute->_ColorFade = WHITE;
-	attribute->_LifeTime = GetRandomFloat(0.1f, 1.f);
+	attribute->_LifeTime = GetRandomFloat(0.1f, 10.f);
+
 }
 
 EVENT CMonsterMissile::Update(_float timeDelta)
@@ -86,6 +93,9 @@ EVENT CMonsterMissile::Update(_float timeDelta)
 		//생존한 파티클만 갱신한다.
 		if (i->_isAlive)
 		{
+			/* [ 파티클 개인의 애니메이션 적용 ] */
+			FrameUpdateAge(timeDelta, i->_Animation, i->_Age);
+
 			i->_Velocity += i->_Accelerator * timeDelta;
 			i->_Position += i->_Velocity * timeDelta;
 
@@ -97,23 +107,14 @@ EVENT CMonsterMissile::Update(_float timeDelta)
 			}
 		}
 	}
-	FrameUpdate(timeDelta);
 
 	if (m_bDead)
 	{
+		int a = 0;
 		return EVN_DEAD;
 	}
 
 	return EVN_NONE;
-}
-
-
-void CMonsterMissile::FrameUpdate(float timeDelta)
-{
-	m_fFrame += 30.f * timeDelta;
-
-	if (m_fAnimationMaxFrame < m_fFrame)
-		m_fFrame = 0;
 }
 
 HRESULT CMonsterMissile::Render()
@@ -122,10 +123,6 @@ HRESULT CMonsterMissile::Render()
 	{
 		//렌더 상태를 지정한다.
 		SetUp_RenderState();
-
-		//m_pTextureCom->Bind_Resource(0);
-		//m_pTextureCom->Bind_Resource((_uint)m_fFrame);
-		m_pGraphic_Device->SetTexture(0, nullptr);
 
 		m_pGraphic_Device->SetFVF(Particle::FVF);
 		m_pGraphic_Device->SetStreamSource(0, m_pVB, 0, sizeof(Particle));
@@ -146,9 +143,27 @@ HRESULT CMonsterMissile::Render()
 		DWORD numParticlesInBatch = 0;
 
 		//모든 파티클이 렌더될 때 까지
+		m_pShaderCom->Begin(CShader::SMOKE);
 		list<Attribute>::iterator i;
 		for (i = m_Particles.begin(); i != m_Particles.end(); i++)
 		{
+			/* [ 파티클 개인의 애니메이션 적용 ] */
+			m_pTextureCom->Bind_Resource((_uint)i->_Animation);
+
+			D3DXVECTOR4 texelSize(1.0f / 64.f, 1.0f / 64.f, 0.0f, 0.0f);
+			m_pTextureCom->Bind_Shader_To_Texture(m_pShaderCom, "g_Texture", (_uint)i->_Animation);
+			m_pShaderCom->SetVector("g_vTexelSize", &texelSize);
+
+			//블러 세기
+			float fBlurAmount = 1.f;
+			m_pShaderCom->SetFloat("g_fBlurAmount", fBlurAmount);
+
+			//나이에 따른 투명도
+			float age = i->_Age;
+			float maxAge = i->_LifeTime;
+			float fLifeRatio = 1.0f - (age / maxAge);
+			m_pShaderCom->SetFloat("g_fLifeRatio", fLifeRatio);
+
 			if (i->_isAlive)
 			{
 				//한 단계의 세그먼트에서 생존한 파티클을 다음 버텍스 버퍼 세그먼트로 복사한다.
@@ -201,6 +216,7 @@ HRESULT CMonsterMissile::Render()
 	//렌더정리
 	Release_RenderState();
 
+	m_pShaderCom->End();
 	return S_OK;
 
 }
@@ -261,4 +277,5 @@ void CMonsterMissile::Free()
 	__super::Free();
 
 	Safe_Release(m_pTextureCom);
+	Safe_Release(m_pShaderCom);
 }

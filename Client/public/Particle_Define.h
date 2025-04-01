@@ -21,6 +21,7 @@ struct Attribute
 	float		_LifeTime = 1.0f;   // 수명
 	float		_Age = 0.0f;        // 나이
 	float		_Size = 5.0f;		// 사이즈
+	float		_Animation = 0.f;	// 파티클별 애니메이션
 	bool		_isAlive = false;   // 기본적으로 죽은 상태
 
 	D3DXCOLOR _Color = D3DXCOLOR(1.0f, 0.0f, 0.0f, 1.0f);

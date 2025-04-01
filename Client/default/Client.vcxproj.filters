@@ -283,6 +283,9 @@
     <Filter Include="02.GameObjects\Particle\_BossMobSkill\FlyAttack">
       <UniqueIdentifier>{1e364046-6bff-481a-8049-3efda6bb3683}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\Weapon\Bullet\MonsterBullet">
+      <UniqueIdentifier>{1bd0cbf5-9a36-4776-b30d-fe67d9d6090b}</UniqueIdentifier>
+    </Filter>
     <Filter Include="02.GameObjects\Particle\_BossMobSkill\FlyEffect">
       <UniqueIdentifier>{aaa7ff1c-ea40-474f-b424-9f379b6ca4f9}</UniqueIdentifier>
     </Filter>
@@ -417,6 +420,9 @@
     </Filter>
     <Filter Include="02.GameObjects\Statue\Rock">
       <UniqueIdentifier>{8ad2e845-927a-47d5-bacb-8404302cefed}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Particle\_BossMobSkill\MonsterMissile">
+      <UniqueIdentifier>{1e364046-6bff-481a-8049-3efda6bb3683}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -787,7 +793,7 @@
       <Filter>02.GameObjects\Particle\_BossMobSkill\FlyEffect</Filter>
     </ClInclude>
     <ClInclude Include="..\public\MonsterMissile.h">
-      <Filter>02.GameObjects\Particle\_BossMobSkill\FlyAttack</Filter>
+      <Filter>02.GameObjects\Particle\_BossMobSkill\MonsterMissile</Filter>
     </ClInclude>
     <ClInclude Include="..\public\MonsterGuidBullet.h">
       <Filter>02.GameObjects\Weapon\Bullet\MonsterGuidBullet</Filter>
@@ -1181,7 +1187,7 @@
       <Filter>02.GameObjects\Weapon\Bullet\MonsterBullet</Filter>
     </ClCompile>
     <ClCompile Include="..\private\MonsterMissile.cpp">
-      <Filter>02.GameObjects\Particle\_BossMobSkill\FlyAttack</Filter>
+      <Filter>02.GameObjects\Particle\_BossMobSkill\MonsterMissile</Filter>
     </ClCompile>
     <ClCompile Include="..\private\FlyEffect.cpp">
       <Filter>02.GameObjects\Particle\_BossMobSkill\FlyEffect</Filter>
@@ -1252,5 +1258,10 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="..\bin\ShaderFiles\Shader_Particle.hlsl">
+      <Filter>97. ShaderFIles</Filter>
+    </FxCompile>
   </ItemGroup>
 </Project>

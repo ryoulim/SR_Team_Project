@@ -405,7 +405,6 @@ HRESULT CLoader::Loding_For_Static()
 #pragma region 파티클 준비물(스테틱)
 	
 	/* [ 스프라이트 ] */
-
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_GameObject_PC_MonsterGuidBullet"),
 		CMonsterGuidBullet::Create(m_pGraphic_Device))))
 		return E_FAIL;
@@ -426,7 +425,6 @@ HRESULT CLoader::Loding_For_Static()
 		return E_FAIL;
 
 	/* [ 파티클 ] */
-
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_GameObject_PC_JumpAttack"),
 		CJumpAttack::Create(m_pGraphic_Device, L"PARTICLE_JumpAttack"))))
 		return E_FAIL;
@@ -465,6 +463,9 @@ HRESULT CLoader::Loding_For_Static()
 		return E_FAIL;
 
 	/* [ 텍스쳐 ] */
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_PS_Trash"),
+		CTexture::Create(m_pGraphic_Device, TEXT("../Bin/Resources/Textures/Particle/PS_Trash%d.PNG"), 16))))
+		return E_FAIL;
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_MonsterBounce"),
 		CTexture::Create(m_pGraphic_Device, TEXT("../Bin/Resources/Textures/Bullet/MonsterBounce/MonsterBounce%d.PNG"), 4))))
 		return E_FAIL;

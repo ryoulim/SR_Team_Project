@@ -116,8 +116,6 @@ HRESULT CMonster::Render()
 	if (FAILED(m_pTextureMap[m_iState][m_iDegree]->Bind_Resource(static_cast<_uint>(m_fAnimationFrame))))
 		return E_FAIL;
 
-	
-
 	if (!m_bCW || m_iDegree == 0 || m_iDegree == 180.f / m_fDivOffset) {
 		if (m_pGraphic_Device->SetTransform(D3DTS_WORLD, &m_pTransformCom->Billboard()))
 			return E_FAIL; 
