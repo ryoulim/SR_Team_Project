@@ -29,7 +29,6 @@ public:
 	virtual HRESULT Render() override;
 
 
-	void FrameUpdate(float timeDelta);
 	float GetRandomColor(float lowBound, float highBound);
 	void SetPosition(_float3 Position);
 	void SetDead() { m_bDead = true; }

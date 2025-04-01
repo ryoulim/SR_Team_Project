@@ -25,6 +25,9 @@ public:
 	virtual EVENT Update(_float fTimeDelta) override;
 	virtual void Late_Update(_float fTimeDelta) override;
 	virtual HRESULT Render() override;
+	HRESULT SetUp_RenderState();
+	HRESULT Release_RenderState();
+
 
 
 	virtual void On_Collision(_uint MyColliderID, _uint OtherColliderID);
@@ -57,6 +60,7 @@ protected:
 	_float3 m_vInitDir;
 	_float3 m_vCurrentDir;
 	float m_fPreChaseTime = 0.f;
+	float m_fAccTime = 0.0f;
 
 	class CCameraManager* m_pCamera = nullptr;
 };

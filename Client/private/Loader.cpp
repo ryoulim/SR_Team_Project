@@ -74,6 +74,7 @@
 #include "AlphaBlock.h"
 #include "AlphaRect.h"
 #include "BossBridge.h"
+#include "Water.h"
 
 //전시용 플랫폼
 #include "Flatform.h"
@@ -97,7 +98,7 @@
 #include "Trigger.h"
 
 /* 맵툴에서 넘어오는 텍스쳐 갯수, 건들지 말아주세요 감사합니다 */
-#define NUMMAPTEX 141
+#define NUMMAPTEX 144
 
 
 CLoader::CLoader(LPDIRECT3DDEVICE9 pGraphic_Device)
@@ -173,6 +174,10 @@ HRESULT CLoader::Loading()
 	case LEVEL_INDOOR:
 		hr = Loading_For_Indoor();
 		break;
+
+	case LEVEL_OUTDOOR:
+		hr = Loading_For_Outdoor();
+		break;
 	}
 
 	LeaveCriticalSection(&m_CriticalSection);
@@ -244,6 +249,7 @@ HRESULT CLoader::Loding_For_Static()
 	ADD_TEXTURE(Portrait, "../Bin/Resources/Textures/UI/Portrait/portrait%d.PNG", 25);	// 치워도돼
 
 #pragma region PLAYER
+	ADD_TEXTURE(PlayerOnBoat, "../Bin/Resources/Textures/Player/PlayerOnBoat/Tile15947.PNG", 1);
 	ADD_TEXTURE(MyCube, "../Bin/Resources/Textures/Snow/Snow.png", 1);
 	ADD_TEXTURE(GrenadeBullet, "../Bin/Resources/Textures/Bullet/Grenade/GrenadeBullet.png", 1);
 	ADD_TEXTURE(Weapon_LoverBoy, "../Bin/Resources/Textures/Weapon/LoverBoy/LoverBoy%d.PNG", 15);
@@ -399,7 +405,6 @@ HRESULT CLoader::Loding_For_Static()
 #pragma region 파티클 준비물(스테틱)
 	
 	/* [ 스프라이트 ] */
-
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_GameObject_PC_MonsterGuidBullet"),
 		CMonsterGuidBullet::Create(m_pGraphic_Device))))
 		return E_FAIL;
@@ -420,7 +425,6 @@ HRESULT CLoader::Loding_For_Static()
 		return E_FAIL;
 
 	/* [ 파티클 ] */
-
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_GameObject_PC_JumpAttack"),
 		CJumpAttack::Create(m_pGraphic_Device, L"PARTICLE_JumpAttack"))))
 		return E_FAIL;
@@ -459,6 +463,9 @@ HRESULT CLoader::Loding_For_Static()
 		return E_FAIL;
 
 	/* [ 텍스쳐 ] */
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_PS_Trash"),
+		CTexture::Create(m_pGraphic_Device, TEXT("../Bin/Resources/Textures/Particle/PS_Trash%d.PNG"), 16))))
+		return E_FAIL;
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_MonsterBounce"),
 		CTexture::Create(m_pGraphic_Device, TEXT("../Bin/Resources/Textures/Bullet/MonsterBounce/MonsterBounce%d.PNG"), 4))))
 		return E_FAIL;
@@ -745,7 +752,6 @@ HRESULT CLoader::Loading_For_GamePlay()
 HRESULT CLoader::Loading_For_RaceFirst()/**/
 {
 	lstrcpy(m_szLoadingText, TEXT("텍스쳐을(를) 로딩중입니다."));
-	ADD_TEXTURE(PlayerOnBoat, "../Bin/Resources/Textures/Player/PlayerOnBoat/Tile15947.PNG", 1);
 	ADD_TEXTURE(RaceTerrain, "../Bin/Resources/Textures/Map/RaceTerrain/RaceTerrain%d.PNG", 2);
 	ADD_TEXTURE(RaceLandscape, "../Bin/Resources/Textures/Object/RaceLandscape/Tile15415.PNG", 1);
 	ADD_TEXTURE(BuildingH, "../Bin/Resources/Textures/Object/BuildingH/BuildingH%d.PNG", 4);
@@ -1051,7 +1057,6 @@ HRESULT CLoader::Loading_For_Indoor()
 	ADD_TEXTURE(BuildingW, "../Bin/Resources/Textures/Object/BuildingW/BuildingW.PNG", 1);
 	ADD_TEXTURE(BuildingV, "../Bin/Resources/Textures/Object/BuildingV/BuildingV.PNG", 1);
 	ADD_TEXTURE(BuildingU, "../Bin/Resources/Textures/Object/BuildingU/BuildingU.PNG", 1);
-	ADD_TEXTURE(RaceGate, "../Bin/Resources/Textures/Object/RaceGate/RaceGate%d.PNG", 3);
 
 	lstrcpy(m_szLoadingText, TEXT("모델을(를) 로딩중입니다."));
 	Load_For_Terrain(TEXT("NormalMapData.txt"));
@@ -1075,6 +1080,64 @@ HRESULT CLoader::Loading_For_Indoor()
 	ADD_PRTOBJ(AlphaBlock);
 	ADD_PRTOBJ(InvisibleBlock);
 	ADD_PRTOBJ(TriangularPillar);
+
+	lstrcpy(m_szLoadingText, TEXT("사운드을(를) 로딩중입니다."));
+
+	lstrcpy(m_szLoadingText, TEXT("데이터를 읽어들이는 중입니다."));
+
+	lstrcpy(m_szLoadingText, TEXT("로딩이 완료되었습니다."));
+	m_isFinished = true;
+
+	return S_OK;
+}
+
+HRESULT CLoader::Loading_For_Outdoor()
+{
+	lstrcpy(m_szLoadingText, TEXT("텍스쳐을(를) 로딩중입니다."));
+
+	ADD_TEXTURE(Test, "../Bin/Resources/Textures/TileTest/tile%d.PNG", NUMMAPTEX);
+	ADD_TEXTURE(BackGround, "../Bin/Resources/Textures/Default%d.jpg", 2);
+	ADD_TEXTURE(Terrain, "../Bin/Resources/Textures/Check_Tile.PNG", 1);
+	ADD_TEXTURE(Water, "../Bin/Resources/Textures/Map/Water/Water%d.png", 16);
+
+	ADD_TEXTURE(MyCube, "../Bin/Resources/Textures/Snow/Snow.png", 1);
+	ADD_TEXTURE(Portrait, "../Bin/Resources/Textures/UI/Portrait/portrait%d.PNG", 25);
+	ADD_TEXTURE(Box, "../Bin/Resources/Textures/Object/Box/tile6628.png", 1);
+	ADD_TEXTURE(Cabinet, "../Bin/Resources/Textures/Object/Cabinet/Cabinet%d.png", 3);
+	ADD_TEXTURE(Trapezoid, "../Bin/Resources/Textures/Object/Trapezoid/Trapezoid%d.png", 2);
+	ADD_TEXTURE(Stall, "../Bin/Resources/Textures/Object/Stall/Stall%d.png", 2);
+	ADD_TEXTURE(Signboard, "../Bin/Resources/Textures/Object/Signboard/Signboard%d.png", 5);
+	ADD_TEXTURE(MyComputer, "../Bin/Resources/Textures/Object/Computer/Computer%d.png", 3);
+	ADD_TEXTURE(Canopy, "../Bin/Resources/Textures/Object/Canopy/Canopy%d.png", 2);
+
+	ADD_TEXTURE(BuildingH, "../Bin/Resources/Textures/Object/BuildingH/BuildingH%d.PNG", 4);
+	ADD_TEXTURE(BuildingW, "../Bin/Resources/Textures/Object/BuildingW/BuildingW.PNG", 1);
+	ADD_TEXTURE(BuildingV, "../Bin/Resources/Textures/Object/BuildingV/BuildingV.PNG", 1);
+	ADD_TEXTURE(BuildingU, "../Bin/Resources/Textures/Object/BuildingU/BuildingU.PNG", 1);
+
+	lstrcpy(m_szLoadingText, TEXT("모델을(를) 로딩중입니다."));
+	Load_For_Terrain(TEXT("OutDoorMapData.txt"));
+
+	lstrcpy(m_szLoadingText, TEXT("원형객체을(를) 로딩중입니다."));
+	ADD_PRTOBJ(Terrain);
+
+	ADD_PRTOBJ(Portrait);
+	ADD_PRTOBJ(Trapezoid);
+	ADD_PRTOBJ(Stall);
+	ADD_PRTOBJ(Cabinet);
+	ADD_PRTOBJ(Signboard);
+	ADD_PRTOBJ(MyComputer);
+	ADD_PRTOBJ(Canopy);
+
+	ADD_PRTOBJ(Block);
+	ADD_PRTOBJ(BackGround);
+	ADD_PRTOBJ(AnimeRect);
+	ADD_PRTOBJ(AnimeBlock);
+	ADD_PRTOBJ(AlphaRect);
+	ADD_PRTOBJ(AlphaBlock);
+	ADD_PRTOBJ(InvisibleBlock);
+	ADD_PRTOBJ(TriangularPillar);
+	ADD_PRTOBJ(Water);
 
 	lstrcpy(m_szLoadingText, TEXT("사운드을(를) 로딩중입니다."));
 

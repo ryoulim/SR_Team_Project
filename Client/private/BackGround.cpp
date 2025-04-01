@@ -84,6 +84,9 @@ HRESULT CBackGround::Ready_Components(void* pArg)
 			ColliderDesc.pTransform = m_pTransformCom;
 			ColliderDesc.vScale = static_cast<DESC*>(pArg)->vScale;
 			ColliderDesc.vOffSet = {};
+			ColliderDesc.pOwner = this;
+			ColliderDesc.iColliderGroupID = CG_BLOCK;
+			ColliderDesc.iColliderID = CI_BLOCK_COMMON;
 
 			/* For.Com_Collider */
 			if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Collider_Rect"),

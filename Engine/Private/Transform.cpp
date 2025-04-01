@@ -175,12 +175,38 @@ void CTransform::Go_Left(_float fTimeDelta)
 	Set_State(STATE_POSITION, vPosition);
 }
 
+void CTransform::Go_LeftOnRace(_float fTimeDelta)
+{
+	_float3		vPosition = *Get_State(STATE_POSITION);
+	_float3		vRight = *Get_State(STATE_RIGHT);
+
+	vPosition -= vRight.Normalize() * m_fSpeedPerSec * fTimeDelta;
+
+	if (vPosition.x < 315.f)
+		return;
+
+	Set_State(STATE_POSITION, vPosition);
+}
+
 void CTransform::Go_Right(_float fTimeDelta)
 {
 	_float3		vPosition = *Get_State(STATE_POSITION);
 	_float3		vRight = *Get_State(STATE_RIGHT);
 
 	vPosition += vRight.Normalize() * m_fSpeedPerSec * fTimeDelta;
+
+	Set_State(STATE_POSITION, vPosition);
+}
+
+void CTransform::Go_RightOnRace(_float fTimeDelta)
+{
+	_float3		vPosition = *Get_State(STATE_POSITION);
+	_float3		vRight = *Get_State(STATE_RIGHT);
+
+	vPosition += vRight.Normalize() * m_fSpeedPerSec * fTimeDelta;
+
+	if (vPosition.x > 585.f)
+		return;
 
 	Set_State(STATE_POSITION, vPosition);
 }

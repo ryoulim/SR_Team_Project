@@ -1,4 +1,4 @@
-#include "TriangularPillar.h"
+ï»¿#include "TriangularPillar.h"
 #include "FXMgr.h"
 
 CTriangularPillar::CTriangularPillar(LPDIRECT3DDEVICE9 pGraphic_Device)
@@ -53,29 +53,39 @@ HRESULT CTriangularPillar::Ready_Components(void* pArg)
 
     DESC* pDesc = static_cast<DESC*>(pArg);
 
+    // ì½œë¼ì´ë” ì„¤ì • êµ¬ì¡°ì²´
     CCollider::DESC ColliderDesc{};
     ColliderDesc.pTransform = m_pTransformCom;
     ColliderDesc.pOwner = this;
     ColliderDesc.iColliderGroupID = CG_BLOCK;
+    ColliderDesc.iColliderID = CI_BLOCK_COMMON;
 
+    // 1. ì‹¤ì œ ì ìš©ëœ ìŠ¤ì¼€ì¼ì„ ê¸°ì¤€ìœ¼ë¡œ OBB í¬ê¸° ê³„ì‚°
     _float3 vTriScale = m_pTransformCom->Compute_Scaled();
     _float3& vOBBScale = ColliderDesc.vScale;
-    vOBBScale.x = sqrt(SQUARE(vTriScale.x) + SQUARE(vTriScale.z));
-    vOBBScale.y = vTriScale.y;
-    vOBBScale.z = (vTriScale.x * vTriScale.z) / vOBBScale.x;
+    vOBBScale.x = sqrt(SQUARE(vTriScale.x) + SQUARE(vTriScale.z));     // ë¹—ë©´ ê¸¸ì´
+    vOBBScale.y = vTriScale.y;                                          // ë†’ì´
+    vOBBScale.z = (vTriScale.x * vTriScale.z) / vOBBScale.x;            // ì–‡ì€ ë©´ ê¹Šì´
 
-    // ³ªÁß¿¡ »ï°¢±âµÕ ¼¼¿ö¼­ ±ò¸é ´Ù½Ã ¿¬»êÇØ¾ßÇÔ ¤» ¼ö°í
-    ColliderDesc.vOffSet = { 0.f, 0.f, -vOBBScale.z*0.5f };
-    ColliderDesc.vOffSet.TransformCoord(_float4x4{ {0.f,1.f,0.f}, pDesc->vAngle.y + RADIAN(45.f) });
+    // 1. íšŒì „ëœ ë©”ì‹œì˜ í˜„ìž¬ Z-ë°©í–¥
+    _float3 vStart = -m_pTransformCom->Get_State(CTransform::STATE_LOOK)->Normalize();
+    _float3 vUp = m_pTransformCom->Get_State(CTransform::STATE_UP)->Normalize();
 
-    /* For.Com_Collider */
-    m_pTransformCom->Turn_Immediately({ 0.f,1.f,0.f }, RADIAN(45.f));
+    // 4. vUp ì¶•ì„ ê¸°ì¤€ìœ¼ë¡œ íšŒì „
+    _float angle_rad = atan2f(vTriScale.z, vTriScale.x);
+    _float4x4 matRot = _float4x4{ vUp, angle_rad };
+    vStart.TransformNormal(matRot);
+
+    ColliderDesc.vOffSet = vStart * (vOBBScale.z * 0.5f);
+
+    m_pTransformCom->Turn_Immediately(vUp, angle_rad);
 
     if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Collider_OBB_Cube"),
         TEXT("Com_Collider"), reinterpret_cast<CComponent**>(&m_pColliderCom), &ColliderDesc)))
         return E_FAIL;
 
-    m_pTransformCom->Turn_Immediately({ 0.f,1.f,0.f }, RADIAN(-45.f));
+    // 9. íšŒì „ ë³µêµ¬
+    m_pTransformCom->Turn_Immediately(vUp, -angle_rad);
 
     return S_OK;
 }

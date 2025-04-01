@@ -497,6 +497,7 @@ void CTtakkeun_i::BasicAttackSet(_float dt)
 {
 	/* [ 따끈이의 공격패턴 ] */
 	
+	//m_iRandom = 5;
 	switch (m_iRandom)
 	{
 	case 0: 
@@ -1002,7 +1003,7 @@ void CTtakkeun_i::SpawnDeaconEffect(_float3 vPos)
 {
 	CSprite::DESC ExplosionDesc{};
 	ExplosionDesc.vInitPos = vPos;
-	ExplosionDesc.vScale = { 120.f,120.f,1.f };
+	ExplosionDesc.vScale = { 200.f,200.f,1.f };
 	ExplosionDesc.bLoop = false;
 	ExplosionDesc.fMaxFrame = 8;
 	ExplosionDesc.fRotationPerSec = RADIAN(180.f);
@@ -1046,10 +1047,9 @@ void CTtakkeun_i::FlyEffect()
 	CPSystem::DESC FlyEffect_iDesc{};
 	FlyEffect_iDesc.vPosition = { 0.f, 0.f, 0.f };
 	FlyEffect_iDesc.szTextureTag = TEXT("PC_Small_Smoke");
-	FlyEffect_iDesc.iParticleNums = 100;
-	FlyEffect_iDesc.fSize = 1.f;
+	FlyEffect_iDesc.iParticleNums = 200;
+	FlyEffect_iDesc.fSize = 7.f;
 	FlyEffect_iDesc.fMaxFrame = 20.f;
-	FlyEffect_iDesc.fLifeTime = GetRandomFloat(1.f, 3.f);
 
 	CGameObject* pObject = nullptr;
 	CGameObject** ppOut = &pObject;

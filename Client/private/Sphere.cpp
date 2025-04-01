@@ -58,6 +58,11 @@ HRESULT CSphere::Ready_Components(void* pArg)
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, _wstring(TEXT("Prototype_Component_Texture_")) + pDesc->szTextureTag,
 		TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
 		return E_FAIL;
+	
+	//셰이더 장착
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Shader_Particle"),
+		TEXT("Com_Shader"), reinterpret_cast<CComponent**>(&m_pShaderCom))))
+		return E_FAIL;
 
 	return S_OK;
 }
@@ -93,7 +98,7 @@ void CSphere::resetParticle(Attribute* attribute)
 
 	//수명 설정 (2~5초 동안 지속)
 	attribute->_Age = GetRandomFloat(0.f, 1.f);
-	attribute->_LifeTime = GetRandomFloat(0.5f, 1.f);
+	attribute->_LifeTime = GetRandomFloat(0.2f, 5.f);
 }
 
 EVENT CSphere::Update(_float timeDelta)
@@ -189,10 +194,9 @@ HRESULT CSphere::SetUp_RenderState()
 	m_pGraphic_Device->SetSamplerState(0, D3DSAMP_MAGFILTER, D3DTEXF_POINT);
 	m_pGraphic_Device->SetSamplerState(0, D3DSAMP_MIPFILTER, D3DTEXF_POINT);
 
-
-	m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
-	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAREF, 128);
-	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER);
+	m_pGraphic_Device->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
+	m_pGraphic_Device->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
+	m_pGraphic_Device->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
 #pragma endregion
 
 
@@ -202,17 +206,17 @@ HRESULT CSphere::SetUp_RenderState()
 	return S_OK;
 }
 HRESULT CSphere::Render()
-{
- 	if (!m_Particles.empty())
-	{
-		//렌더 상태를 지정한다.
-		SetUp_RenderState();
-		
-		m_pGraphic_Device->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_ONE);
-		m_pGraphic_Device->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_ONE);
+{	
+	//렌더 상태를 지정한다.
+	SetUp_RenderState();
 
-		//m_pTextureCom->Bind_Resource(0);
-		m_pGraphic_Device->SetTexture(0, nullptr);
+	m_pGraphic_Device->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_ONE);
+	m_pGraphic_Device->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_ONE);
+
+	if (!m_Particles.empty())
+	{
+		m_pTextureCom->Bind_Resource(0);
+		//m_pGraphic_Device->SetTexture(0, nullptr);
 
 		m_pGraphic_Device->SetFVF(Particle::FVF);
 		m_pGraphic_Device->SetStreamSource(0, m_pVB, 0, sizeof(Particle));
@@ -301,10 +305,9 @@ HRESULT CSphere::Release_RenderState()
 	m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
 
 	// 블렌드 모드를 기본값으로 변경 (SRCALPHA → 기본값은 SRC)
+	m_pGraphic_Device->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
 	m_pGraphic_Device->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_ONE);
 	m_pGraphic_Device->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_ZERO);
-
-	m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
 
 	m_pGraphic_Device->SetSamplerState(0, D3DSAMP_MINFILTER, D3DTEXF_LINEAR);
 	m_pGraphic_Device->SetSamplerState(0, D3DSAMP_MAGFILTER, D3DTEXF_LINEAR);
@@ -351,4 +354,6 @@ CGameObject* CSphere::Clone(void* pArg)
 void CSphere::Free()
 {
 	__super::Free();
+	
+	Safe_Release(m_pShaderCom);
 }

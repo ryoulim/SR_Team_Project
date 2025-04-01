@@ -41,6 +41,17 @@ HRESULT CShader::SetFloat(D3DXHANDLE hParameter, _float fValue)
 	return m_pEffect->SetFloat(hParameter, fValue);
 }
 
+HRESULT CShader::SetVector(D3DXHANDLE hParameter, D3DXVECTOR4* fVector)
+{
+	return m_pEffect->SetVector(hParameter, fVector);
+}
+
+HRESULT CShader::GetTexture(D3DXHANDLE hParameter, LPDIRECT3DBASETEXTURE9* fVector)
+{
+	m_pEffect->GetTexture(hParameter, fVector);
+	return E_NOTIMPL;
+}
+
 HRESULT CShader::SetFloatArray(D3DXHANDLE hParameter, const _float* fValueArray, _uint iNum)
 {
 	return m_pEffect->SetFloatArray(hParameter, fValueArray, iNum);

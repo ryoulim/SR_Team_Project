@@ -112,6 +112,10 @@ HRESULT CTexture::Bind_Shader_To_Texture(CShader* pShader, D3DXHANDLE hTexParame
 {
 	return pShader->Bind_Texture(hTexParameter, m_Textures[iIndex]);
 }
+HRESULT CTexture::Bind_Shader_To_Reset(CShader* pShader, D3DXHANDLE hTexParameter)
+{
+	return pShader->Bind_Texture(hTexParameter, nullptr);
+}
 
 CTexture* CTexture::Create(LPDIRECT3DDEVICE9 pGraphic_Device, const _tchar* pTextureFilePath, _uint iNumTextures, TYPE eType)
 {

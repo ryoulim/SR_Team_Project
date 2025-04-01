@@ -33,7 +33,7 @@ HRESULT CLevel_RaceThird::Initialize(CLevelData* pLevelData)
 
 void CLevel_RaceThird::Update(_float fTimeDelta)
 {
-	if (KEY_DOWN(DIK_P) || m_iNextLevel)
+	if (m_iNextLevel)
 	{
 		m_pGameInstance->Change_Level(LEVEL_LOADING,
 			CLevel_Loading::Create(m_pGraphic_Device, (LEVEL)m_iNextLevel));
@@ -78,7 +78,7 @@ HRESULT CLevel_RaceThird::Ready_Layer_Statue(const _wstring& strLayerTag)
 	CStatue::DESC desc = {};
 
 	desc.vAngle		= _float3(D3DXToRadian(0.f), D3DXToRadian(0.f), D3DXToRadian(0.f));
-	desc.vInitPos	= _float3(300.f, 15.f, 5000.f);
+	desc.vInitPos	= _float3(250.f, 15.f, 5000.f);
 	desc.vScale		= _float3(72.f, 30.f, 10000.f);
 	desc.eLevelID = LEVEL_RACETHIRD;
 	
@@ -87,7 +87,7 @@ HRESULT CLevel_RaceThird::Ready_Layer_Statue(const _wstring& strLayerTag)
 		return E_FAIL;
 
 	desc.vAngle		= _float3(D3DXToRadian(0.f), D3DXToRadian(0.f), D3DXToRadian(0.f));
-	desc.vInitPos	= _float3(600.f, 15.f, 5000.f);
+	desc.vInitPos	= _float3(650.f, 15.f, 5000.f);
 	desc.vScale		= _float3(72.f, 30.f, 10000.f);
 
 	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_RACETHIRD, TEXT("Prototype_GameObject_Rock"),

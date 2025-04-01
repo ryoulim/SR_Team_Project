@@ -27,6 +27,8 @@ HRESULT CPawn::Initialize(void* pArg)
 
 void CPawn::Priority_Update(_float fTimeDelta)
 {
+	if (KEY_DOWN(DIK_P))
+		Change_Level();
 }
 
 EVENT CPawn::Update(_float fTimeDelta)

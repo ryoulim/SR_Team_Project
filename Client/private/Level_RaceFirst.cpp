@@ -36,7 +36,7 @@ HRESULT CLevel_RaceFirst::Initialize(CLevelData* pLevelData)
 
 void CLevel_RaceFirst::Update(_float fTimeDelta)
 {
-	if (KEY_DOWN(DIK_P) || m_iNextLevel)
+	if (m_iNextLevel)
 	{
 		m_pGameInstance->Change_Level(LEVEL_LOADING,
 			CLevel_Loading::Create(m_pGraphic_Device, (LEVEL)m_iNextLevel));
@@ -223,13 +223,13 @@ HRESULT CLevel_RaceFirst::Ready_Layer_Pawn(const _wstring& strLayerTag)
 	// 만약 플레이어가 있다면? 플레이어를 죽여라
 	auto pPlayer = static_cast<CPawn*>(GET_PLAYER);
 	if (pPlayer)
-		pPlayer->Set_Dead();
+		m_pGameInstance->Release_Layer(LEVEL_STATIC,strLayerTag);
 
 	CPlayerOnBoat::DESC PlayerOnBoatDesc = {};
 	PlayerOnBoatDesc.vInitPos = { 450.f, 17.f, 8000.f };
 	PlayerOnBoatDesc.vScale = { 35.f, 30.f, 20.f };
 	PlayerOnBoatDesc.fRotationPerSec = RADIAN(180.f);
-	PlayerOnBoatDesc.fSpeedPerSec = 300.f;
+	PlayerOnBoatDesc.fSpeedPerSec = 3000.f;
 	PlayerOnBoatDesc.fMouseSensor = 0.1f;
 	PlayerOnBoatDesc.eLevelID = CurLevel;
 

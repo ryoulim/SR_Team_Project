@@ -63,6 +63,11 @@ HRESULT CFireAttack::Ready_Components(void* pArg)
 		TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
 		return E_FAIL;
 
+	//ºŒ¿Ã¥ı ¿Â¬¯
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Shader_Particle"),
+		TEXT("Com_Shader"), reinterpret_cast<CComponent**>(&m_pShaderCom))))
+		return E_FAIL;
+
 	return S_OK;
 }
 
@@ -300,4 +305,5 @@ void CFireAttack::Free()
 	__super::Free();
 
 	Safe_Release(m_pTextureCom);
+	Safe_Release(m_pShaderCom);
 }

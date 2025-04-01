@@ -83,6 +83,7 @@ HRESULT CPSystem::Initialize(void* pArg)
 		m_fMax = pDesc->fMax;
 		m_bIsLoop = pDesc->isLoop;
 		m_iNum = pDesc->iNum;
+		m_fNum = pDesc->fNum;
 	
 		for (int i = 0; i < pDesc->iParticleNums; i++)
 		{
@@ -91,6 +92,15 @@ HRESULT CPSystem::Initialize(void* pArg)
 	}
 
 	return S_OK;
+}
+
+void CPSystem::FrameUpdateAge(float timeDelta, float& fAnimation, float& age)
+{
+	if (fAnimation < m_fAnimationMaxFrame)
+		fAnimation = age * m_fNum;
+
+	if (fAnimation > m_fAnimationMaxFrame)
+		fAnimation = m_fAnimationMaxFrame - 1;
 }
 
 void CPSystem::FrameUpdate(_float timeDelta, _float _MaxFrame, _float fSpeed, _bool isLoop)
@@ -168,7 +178,6 @@ HRESULT CPSystem::SetUp_RenderState()
 	m_pGraphic_Device->SetRenderState(D3DRS_POINTSCALE_C, FtoDW(0.05f));
 
 
-
 #pragma region 텍스처의 알파(온/오프)
 	m_pGraphic_Device->SetTextureStageState(0, D3DTSS_ALPHAARG1, D3DTA_TEXTURE);
 	m_pGraphic_Device->SetTextureStageState(0, D3DTSS_ALPHAOP, D3DTOP_SELECTARG1);
@@ -176,8 +185,6 @@ HRESULT CPSystem::SetUp_RenderState()
 	m_pGraphic_Device->SetRenderState(D3DRS_ALPHABLENDENABLE, true);
 	m_pGraphic_Device->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
 	m_pGraphic_Device->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
-
-	// 알파 테스트를 끈다 (칼같이 자르는 걸 방지)
 	m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, false);
 #pragma endregion
 

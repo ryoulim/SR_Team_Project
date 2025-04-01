@@ -20,7 +20,7 @@ HRESULT CCollider_OBB_Cube::Initialize_Prototype()
     return __super::Initialize_Prototype(OBB_CUBE);
 }
 
-#ifdef _BUFFERRENDER
+#ifdef _COLLIDERRENDER
 
 #include "VIBuffer_Cube.h"
 #include "Transform.h"
@@ -28,7 +28,6 @@ HRESULT CCollider_OBB_Cube::Initialize_Prototype()
 HRESULT CCollider_OBB_Cube::Initialize(void* pArg)
 {
     __super::Initialize(pArg);
-    
 
     DESC* pDesc = static_cast<DESC*>(pArg);
 
@@ -39,46 +38,30 @@ HRESULT CCollider_OBB_Cube::Initialize(void* pArg)
     m_pRenderTransform->Scaling(pDesc->vScale);
     m_pRenderTransform->Move(pDesc->vOffSet);
 
-    //m_pBuffer->Initialize(nullptr);
     return S_OK;
 }
 
 void CCollider_OBB_Cube::Render()
 {
+ //   m_pGraphic_Device->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);  // 와이어프레임
+
+    // 텍스처 제거
+    m_pGraphic_Device->SetTexture(0, nullptr);
     m_pRenderTransform->Bind_Resource();
+    m_pRenderBuffer->Bind_Buffers();
     m_pRenderBuffer->Render();
+
 }
 #endif
 
 void CCollider_OBB_Cube::Update_Collider()
 {
+    // 위치 + 오프셋
     m_tInfo.vPosition = *m_pTransform->Get_State(CTransform::STATE_POSITION) + m_vOffSet;
 
-    _float3 right = m_pTransform->Get_State(CTransform::STATE_RIGHT)->Normalize();
-    _float3 up = m_pTransform->Get_State(CTransform::STATE_UP)->Normalize();
-    _float3 look = m_pTransform->Get_State(CTransform::STATE_LOOK)->Normalize();
-
-    m_tInfo.vAxis[AXIS_X] = right;
-    m_tInfo.vAxis[AXIS_Y] = up;
-    m_tInfo.vAxis[AXIS_Z] = look;
-
-    _float3 upDir = { 0.f, 1.f, 0.f };
-
-    _float dotRight = fabsf(right.Dot(upDir));
-    _float dotUp = fabsf(up.Dot(upDir));
-    _float dotLook = fabsf(look.Dot(upDir));
-
-    // Y에 가장 가까운 축의 인덱스를 구함
-    _uint bestY = AXIS_Y;
-
-    if (dotRight >= dotUp && dotRight >= dotLook)
-        bestY = AXIS_X;
-    else if (dotLook >= dotUp && dotLook >= dotRight)
-        bestY = AXIS_Z;
-
-    // bestY가 Y가 아니라면 스왑
-    if (bestY != AXIS_Y)
-        std::swap(m_tInfo.vAxis[AXIS_Y], m_tInfo.vAxis[bestY]);
+    m_tInfo.vAxis[AXIS_X] = m_pTransform->Get_State(CTransform::STATE_RIGHT)->Normalize();
+    m_tInfo.vAxis[AXIS_Y] = m_pTransform->Get_State(CTransform::STATE_UP)->Normalize();
+    m_tInfo.vAxis[AXIS_Z] = m_pTransform->Get_State(CTransform::STATE_LOOK)->Normalize();
 }
 
 void CCollider_OBB_Cube::Update_Scale(const _float3& vScale)
@@ -160,7 +143,7 @@ _bool CCollider_OBB_Cube::RayCast_Downward(const _float3& rayOrigin)
     const _float3* obbAxes = m_tInfo.vAxis;
     const _float3& obbHalfSize = m_tInfo.vHalfScale;
 
-    // OBB 기준 로컬 좌표로 변환
+    // 1. OBB 기준 로컬 좌표로 변환
     _float3 localOrigin = rayOrigin - obbCenter;
 
     _float3 localPos = {
@@ -169,19 +152,36 @@ _bool CCollider_OBB_Cube::RayCast_Downward(const _float3& rayOrigin)
         localOrigin.Dot(obbAxes[2])
     };
 
-    // 1. XZ 범위 안에 있는지 확인 (로컬 기준)
+    // 2. XZ 영역 안에 있어야 함 (로컬 기준)
     if (fabs(localPos.x) > obbHalfSize.x) return FALSE;
     if (fabs(localPos.z) > obbHalfSize.z) return FALSE;
 
-    // 2. Ray가 OBB 윗면보다 위에서 시작하는지 확인
+    // 3. 로컬 Y 축 기준으로 위에서 내려오는지 판단
     if (localPos.y < obbHalfSize.y)
-        return FALSE;
+        return FALSE;  // 이미 내부에 있거나 아랫면보다 아래
 
-    // 3. 교차 지점 = 윗면 Y 위치 (local Y = +half)
-    float t = localPos.y - obbHalfSize.y;
-    _float3 hitLocal = localPos + _float3{ 0.f, -t, 0.f };
+    // 4. OBB 윗면에 해당하는 축 방향 계산
+    // 월드 up 방향과 가장 가까운 축 찾기
+    _float3 worldUp = _float3(0.f, 1.f, 0.f);
+    _float maxDot = -1.f;
+    _uint upAxis = 0;
 
-    // 4. 로컬 → 월드 변환
+    for (_uint i = 0; i < 3; ++i)
+    {
+        _float dot = obbAxes[i].Dot(worldUp);
+        if (fabsf(dot) > maxDot)
+        {
+            maxDot = fabsf(dot);
+            upAxis = i;
+        }
+    }
+
+    // 5. hit 위치 계산 (로컬 Y = +half)
+    float t = localPos[upAxis] - obbHalfSize[upAxis];
+    _float3 hitLocal = localPos;
+    hitLocal[upAxis] -= t;
+
+    // 6. 로컬 → 월드 좌표로 변환
     _float3 hitWorld =
         obbCenter +
         obbAxes[0] * hitLocal.x +
@@ -189,7 +189,7 @@ _bool CCollider_OBB_Cube::RayCast_Downward(const _float3& rayOrigin)
         obbAxes[2] * hitLocal.z;
 
     m_vLast_Collision_Pos = hitWorld;
-    m_vLast_Collision_Depth = +obbAxes[1]; // 윗면 충돌
+    m_vLast_Collision_Depth = obbAxes[upAxis] * 1.f;
 
     return TRUE;
 }
@@ -318,7 +318,7 @@ void CCollider_OBB_Cube::Free()
 {
     __super::Free();
 
-#ifdef _BUFFERRENDER
+#ifdef _COLLIDERRENDER
     Safe_Release(m_pRenderTransform);
     Safe_Release(m_pRenderBuffer);
 #endif
