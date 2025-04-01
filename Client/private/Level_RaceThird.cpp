@@ -33,7 +33,7 @@ HRESULT CLevel_RaceThird::Initialize(CLevelData* pLevelData)
 
 void CLevel_RaceThird::Update(_float fTimeDelta)
 {
-	if (KEY_DOWN(DIK_P) || m_iNextLevel)
+	if (m_iNextLevel)
 	{
 		m_pGameInstance->Change_Level(LEVEL_LOADING,
 			CLevel_Loading::Create(m_pGraphic_Device, (LEVEL)m_iNextLevel));

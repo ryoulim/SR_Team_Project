@@ -27,6 +27,8 @@ HRESULT CPawn::Initialize(void* pArg)
 
 void CPawn::Priority_Update(_float fTimeDelta)
 {
+	if (KEY_DOWN(DIK_P))
+		Change_Level();
 }
 
 EVENT CPawn::Update(_float fTimeDelta)
@@ -58,7 +60,7 @@ HRESULT CPawn::Render()
 HRESULT CPawn::Ready_Components(void* pArg)
 {
 	/* For.Com_Texture */
-	if (FAILED(__super::Add_Component(m_eLevelID, _wstring(TEXT("Prototype_Component_Texture_")) + m_szTextureID,
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, _wstring(TEXT("Prototype_Component_Texture_")) + m_szTextureID,
 		TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
 		return E_FAIL;
 

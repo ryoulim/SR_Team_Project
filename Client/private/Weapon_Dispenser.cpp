@@ -276,8 +276,8 @@ void CWeapon_Dispenser::Create_Bullet()
 		BulletDesc.fInitJumpPower = 30.f;
 		BulletDesc.fTimeLimit = 10.f;
 
-		if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_GrenadeBullet"),
-			LEVEL_GAMEPLAY, TEXT("Layer_Bullet"), &BulletDesc)))
+		if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_GrenadeBullet"),
+			LEVEL_STATIC, TEXT("Layer_Bullet"), &BulletDesc)))
 			return;
 	}
 	// ¼¦°Ç

@@ -35,12 +35,12 @@ HRESULT CLevel_GamePlay::Initialize(class CLevelData* pLevelData)
 	if (FAILED(Ready_Layer_UI(TEXT("Layer_UI"))))
 		return E_FAIL;
 
-	CUI_Manager::Get_Instance()->Initialize_GamePlayUI(LEVEL_GAMEPLAY);
+	CUI_Manager::Get_Instance()->Initialize_GamePlayUI(CurLevel);
 
 	if (FAILED(Ready_Layer_Pawn(TEXT("Layer_Pawn"))))
 		return E_FAIL;
 
-	CUI_Manager::Get_Instance()->Initialize_Player(/*CurLevel */ );
+	CUI_Manager::Get_Instance()->Initialize_Player();
 
 	if (FAILED(Ready_Layer_Monster(TEXT("Layer_Monster"))))
 		return E_FAIL;
