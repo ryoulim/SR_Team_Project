@@ -93,18 +93,35 @@ HRESULT CPawn::Ready_Components(void* pArg)
 		TEXT("Com_Collider"), reinterpret_cast<CComponent**>(&m_pCollider), &ColliderDesc)))
 		return E_FAIL;
 
-	/* For.Com_Gravity */
-
-	CGravity::DESC GravityDesc{};
-	GravityDesc.pTransformCom = m_pTransformCom;
-	GravityDesc.fTimeIncreasePerSec = 8.2f;
-	GravityDesc.fMaxFallSpeedPerSec = 840.f;
-	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Gravity"),
-		TEXT("Com_Gravity"), reinterpret_cast<CComponent**>(&m_pGravityCom), &GravityDesc)))
-		return E_FAIL;
-
 	return S_OK;
 }
+#include "Level_Loading.h"
+
+void CPawn::Change_Level()
+{
+	LEVEL eNextLevelID{};
+
+	switch (m_eLevelID)
+	{
+	case LEVEL_INDOOR:
+		eNextLevelID = LEVEL_RACEFIRST;
+		break;
+	case LEVEL_RACEFIRST:
+		eNextLevelID = LEVEL_RACESECOND;
+		break;
+	case LEVEL_RACESECOND:
+		eNextLevelID = LEVEL_RACETHIRD;
+		break;
+	case LEVEL_RACETHIRD:
+		eNextLevelID = LEVEL_GAMEPLAY;
+		break;
+	default:
+		break;
+	}
+
+	m_pGameInstance->Change_Level(eNextLevelID);
+}
+
 void CPawn::Free()
 {
 	__super::Free();
@@ -112,6 +129,5 @@ void CPawn::Free()
 	Safe_Release(m_pVIBufferCom);
 	Safe_Release(m_pTextureCom);
 	Safe_Release(m_pTransformCom);
-	Safe_Release(m_pGravityCom);
 	Safe_Release(m_pCollider);
 }

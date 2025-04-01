@@ -143,9 +143,8 @@ HRESULT CLevel_GamePlay::Ready_Layer_Terrain(const _wstring& strLayerTag)
 
 HRESULT CLevel_GamePlay::Ready_Layer_Camera(const _wstring& strLayerTag)
 {
-	auto Camera_Manager = CAMERA_MANAGER;
-	Camera_Manager->Switch(CCameraManager::FPS);
-	Camera_Manager->Mouse_Fix_Mode_Switch();
+	CAMERA_MANAGER->Switch(CCameraManager::FPS);
+	CAMERA_MANAGER->Set_Mouse_Fix(TRUE);
 
 	return S_OK;
 }
@@ -235,15 +234,10 @@ HRESULT CLevel_GamePlay::Ready_Layer_Pawn(const _wstring& strLayerTag)
 	//이 레벨의 플레이어 생성위치
 	_float3 vInitPosition = { 1400.f, 150.f, 200.f };
 
-	// 플레이어가 있는지 체크하고 있으면 위치만 변경해줌.
-	auto pPlayer = GET_PLAYER;
+	// 만약 플레이어가 있다면? 플레이어를 죽여라
+	auto pPlayer = static_cast<CPawn*>(GET_PLAYER);
 	if (pPlayer)
-	{
-		static_cast<CTransform*>(pPlayer->Find_Component(TEXT("Com_Transform")))
-			->Set_State(CTransform::STATE_POSITION, vInitPosition);
-		static_cast<CPawn*>(pPlayer)->Set_LevelID(CurLevel);
-		return S_OK;
-	}
+		pPlayer->Set_Dead();
 
 	//없으면 새로 생성해서 넣어줌
 	CPlayer::DESC PlayerDesc{};
@@ -251,7 +245,7 @@ HRESULT CLevel_GamePlay::Ready_Layer_Pawn(const _wstring& strLayerTag)
 	PlayerDesc.vScale = { 20.f, 30.f, 20.f };
 	PlayerDesc.fRotationPerSec = RADIAN(180.f);
 	PlayerDesc.fSpeedPerSec = 150.f;
-	PlayerDesc.eLevelID = LEVEL_STATIC;
+	PlayerDesc.eLevelID = CurLevel;
 
 	// 최초 게임 입장할때 어디에서 입장하던 스태틱에 생성해준다.
 	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_Player"),

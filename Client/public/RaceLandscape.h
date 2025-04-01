@@ -5,13 +5,6 @@ BEGIN(Client)
 
 class CRaceLandscape final : public CStatue
 {
-public:
-	typedef struct RACELANDSCAPEDESC
-	{
-		_float3 vPosition;
-		_float	fAngle;
-	}DESC;
-
 private:
 	CRaceLandscape(LPDIRECT3DDEVICE9 pGraphic_Device);
 	CRaceLandscape(const CRaceLandscape& Prototype);

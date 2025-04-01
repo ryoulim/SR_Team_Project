@@ -34,6 +34,7 @@ public:
 	void Set_Active(_bool Active) {
 		m_bActive = Active;
 	}
+	void Set_Mouse_Fix(_bool isMouseFix);
 protected:
 	_float4x4				m_ViewMatrix;
 	_float4x4				m_ProjMatrix;
@@ -41,6 +42,8 @@ protected:
 	_float					m_fAspect = {};
 	_float					m_fNear = {};
 	_float					m_fFar = {};
+	_bool					m_bMouseFixMod{ FALSE };
+
 
 	class CTransform* m_pTransformCom = { nullptr };
 

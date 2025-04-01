@@ -39,12 +39,6 @@ void CFPS_Camera::Priority_Update(_float fTimeDelta)
 	if (!m_bActive)
 		return;
 
-	if (KEY_DOWN(DIK_TAB))
-	{
-		m_bMouseFixMod = !m_bMouseFixMod;
-		ShowCursor(!m_bMouseFixMod);
-	}
-
 	if (m_bMouseFixMod)
 	{
 		Mouse_Move();

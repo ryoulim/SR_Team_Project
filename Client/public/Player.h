@@ -30,9 +30,9 @@ public:
 	virtual void On_Collision(_uint MyColliderID, _uint OtherColliderID) override;
 
 private:
+	CGravity*					m_pGravityCom = { nullptr };
 	class CCameraManager*		m_pCameraManager {};
 	CTransform*					m_pCameraTransform{};
-	_bool						m_bFpsMode{TRUE};
 	_bool						m_bDash{};
 	INFO						m_tInfo{};
 
@@ -46,6 +46,8 @@ private:
 	_float						m_fDashTimer{};
 
 private:
+	virtual HRESULT Ready_Components(void* pArg);
+
 	void			Add_Weapons();
 	void			Key_Input(_float fTimeDelta);
 	void			Init_Camera_Link();

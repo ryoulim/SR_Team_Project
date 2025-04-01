@@ -31,28 +31,6 @@ void CTPS_Camera::Priority_Update(_float fTimeDelta)
 	if (!m_bActive)
 		return;
 
-	if (KEY_PRESSING(DIK_A))
-	{
-		m_pTransformCom->Go_Left(fTimeDelta);
-	}
-	if (KEY_PRESSING(DIK_D))
-	{
-		m_pTransformCom->Go_Right(fTimeDelta);
-	}
-	if (KEY_PRESSING(DIK_W))
-	{
-		m_pTransformCom->Go_Straight(fTimeDelta);
-	}
-	if (KEY_PRESSING(DIK_S))
-	{
-		m_pTransformCom->Go_Backward(fTimeDelta);
-	}
-
-	if (KEY_PRESSING(DIK_UP))
-	{
-		m_pTransformCom->Go_Up(fTimeDelta);
-	}
-
 	Bind_Resource();
 }
 

@@ -18,6 +18,8 @@
 #include "BuildingW.h"
 #include "BuildingV.h"
 #include "BuildingU.h"
+#include "Forest.h"
+#include "Rock.h"
 #include "Explosion.h"
 
 //테스트용
@@ -95,7 +97,7 @@
 #include "Trigger.h"
 
 /* 맵툴에서 넘어오는 텍스쳐 갯수, 건들지 말아주세요 감사합니다 */
-#define NUMMAPTEX 136
+#define NUMMAPTEX 141
 
 
 CLoader::CLoader(LPDIRECT3DDEVICE9 pGraphic_Device)
@@ -248,7 +250,8 @@ HRESULT CLoader::Loding_For_Static()
 	ADD_TEXTURE(LeftHand, "../Bin/Resources/Textures/Weapon/LeftHand/LeftHand%d.PNG", 2);
 	ADD_TEXTURE(Weapon_Chaingun, "../Bin/Resources/Textures/Weapon/ChainGun/ChainGun%d.PNG", 16);
 	ADD_TEXTURE(Weapon_Dispenser, "../Bin/Resources/Textures/Weapon/Dispenser/Dispenser%d.PNG", 60);
-	ADD_TEXTURE(PlayerOnBoat, "../Bin/Resources/Textures/Player/PlayerOnBoat/Tile15947.PNG", 1);
+	ADD_PRTOBJ(PlayerOnBoat);
+
 #pragma endregion
 
 	ADD_PRTOBJ(Trigger);
@@ -264,7 +267,6 @@ HRESULT CLoader::Loding_For_Static()
 	ADD_PRTOBJ(Weapon_Chaingun);
 	ADD_PRTOBJ(Weapon_Dispenser);
 	ADD_PRTOBJ(GrenadeBullet);
-	ADD_PRTOBJ(PlayerOnBoat);
 #pragma endregion
 
 #pragma region 몬스터 텍스처
@@ -740,6 +742,7 @@ HRESULT CLoader::Loading_For_GamePlay()
 HRESULT CLoader::Loading_For_RaceFirst()/**/
 {
 	lstrcpy(m_szLoadingText, TEXT("텍스쳐을(를) 로딩중입니다."));
+	ADD_TEXTURE(PlayerOnBoat, "../Bin/Resources/Textures/Player/PlayerOnBoat/Tile15947.PNG", 1);
 	ADD_TEXTURE(RaceTerrain, "../Bin/Resources/Textures/Map/RaceTerrain/RaceTerrain%d.PNG", 2);
 	ADD_TEXTURE(RaceLandscape, "../Bin/Resources/Textures/Object/RaceLandscape/Tile15415.PNG", 1);
 	ADD_TEXTURE(BuildingH, "../Bin/Resources/Textures/Object/BuildingH/BuildingH%d.PNG", 4);
@@ -794,7 +797,7 @@ HRESULT CLoader::Loading_For_RaceSecond()
 	ADD_TEXTURE(RaceLandscape, "../Bin/Resources/Textures/Object/RaceLandscape/Tile15415.PNG", 1);
 	ADD_TEXTURE(RaceGate, "../Bin/Resources/Textures/Object/RaceGate/RaceGate%d.PNG", 3);
 	ADD_TEXTURE(RaceCylinder, "../Bin/Resources/Textures/Object/RaceCylinder/RaceCylinder%d.PNG", 3);
-	ADD_TEXTURE(BuildingW, "../Bin/Resources/Textures/Object/BuildingW/BuildingW.PNG", 1);
+	ADD_TEXTURE(Forest, "../Bin/Resources/Textures/Object/Forest/Forest.PNG", 1);
 
 	lstrcpy(m_szLoadingText, TEXT("모델을(를) 로딩중입니다."));
 	ADD_MODEL_EX(RaceTerrain, 10, 1000);
@@ -806,9 +809,8 @@ HRESULT CLoader::Loading_For_RaceSecond()
 	ADD_PRTOBJ(RaceGate);
 	ADD_PRTOBJ(RaceLandscape);
 	ADD_PRTOBJ(RaceCylinder);
-	ADD_PRTOBJ(BuildingW);
+	ADD_PRTOBJ(Forest);
 	
-
 	lstrcpy(m_szLoadingText, TEXT("데이터를 읽어들이는 중입니다."));
 	Add_Data(TEXT("GamePlayLevelData.csv"));
 
@@ -823,23 +825,22 @@ HRESULT CLoader::Loading_For_RaceThird()
 {
 	lstrcpy(m_szLoadingText, TEXT("텍스쳐을(를) 로딩중입니다."));
 	ADD_TEXTURE(RaceTerrain, "../Bin/Resources/Textures/Map/RaceTerrain/RaceTerrain%d.PNG", 2);
-	ADD_TEXTURE(RaceLandscape, "../Bin/Resources/Textures/Object/RaceLandscape/Tile15415.PNG", 1);
 	ADD_TEXTURE(RaceGate, "../Bin/Resources/Textures/Object/RaceGate/RaceGate%d.PNG", 3);
 	ADD_TEXTURE(RaceCylinder, "../Bin/Resources/Textures/Object/RaceCylinder/RaceCylinder%d.PNG", 3);
-	ADD_TEXTURE(BuildingW, "../Bin/Resources/Textures/Object/BuildingW/BuildingW.PNG", 1);
+	ADD_TEXTURE(Rock, "../Bin/Resources/Textures/Object/Rock/tile6374.PNG", 1);
+	ADD_TEXTURE(Forest, "../Bin/Resources/Textures/Object/Forest/Forest1.PNG", 1);
 
 	lstrcpy(m_szLoadingText, TEXT("모델을(를) 로딩중입니다."));
 	ADD_MODEL_EX(RaceTerrain, 10, 1000);
-
+	
 	lstrcpy(m_szLoadingText, TEXT("사운드을(를) 로딩중입니다."));
 
 	lstrcpy(m_szLoadingText, TEXT("원형객체을(를) 로딩중입니다."));
 	ADD_PRTOBJ(RaceTerrain);
 	ADD_PRTOBJ(RaceGate);
-	ADD_PRTOBJ(RaceLandscape);
 	ADD_PRTOBJ(RaceCylinder);
-	ADD_PRTOBJ(BuildingW);
-	
+	ADD_PRTOBJ(Rock);
+	ADD_PRTOBJ(Forest);
 
 	lstrcpy(m_szLoadingText, TEXT("데이터를 읽어들이는 중입니다."));
 	Add_Data(TEXT("GamePlayLevelData.csv"));

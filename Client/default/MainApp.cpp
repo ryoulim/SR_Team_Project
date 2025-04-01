@@ -4,6 +4,7 @@
 #include "Level_Logo.h"
 #include "Level_Loading.h"
 
+#include "CameraManager.h"
 #include "FPS_Camera.h"
 #include "TPS_Camera.h"
 #include "Dynamic_Camera.h"
@@ -19,7 +20,6 @@
 #include "FXMgr.h"
 
 #include "DebugMode.h"
-#include "CameraManager.h"
 
 #include "Sky.h"
 #include "PlayerOnBoat.h"
@@ -148,6 +148,18 @@ void CMainApp::Update(_float fTimeDelta)
 
 	if(KEY_DOWN(DIK_ESCAPE))
 		PostQuitMessage(0);
+
+#pragma region 카메라 전환
+	if (KEY_DOWN(DIK_F1))
+		CAMERA_MANAGER->Switch(CCameraManager::FPS);
+	if (KEY_DOWN(DIK_F2))
+		CAMERA_MANAGER->Switch(CCameraManager::TPS);
+	if (KEY_DOWN(DIK_F3))
+		CAMERA_MANAGER->Switch(CCameraManager::DYNAMIC);
+	/*if (KEY_DOWN(DIK_TAB))
+		CAMERA_MANAGER->Set_Mouse_Fix();*/
+#pragma endregion
+
 }
 
 HRESULT CMainApp::Render()
