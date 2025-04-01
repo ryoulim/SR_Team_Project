@@ -44,6 +44,7 @@ void CTriangularPillar::Late_Update(_float fTimeDelta)
 
 HRESULT CTriangularPillar::Render()
 {
+    m_pColliderCom->Render();
     return __super::Render();
 }
 
@@ -64,7 +65,7 @@ HRESULT CTriangularPillar::Ready_Components(void* pArg)
     vOBBScale.y = vTriScale.y;
     vOBBScale.z = (vTriScale.x * vTriScale.z) / vOBBScale.x;
 
-    // 나중에 삼각기둥 세워서 깔면 다시 연산해야함 ㅋ 수고
+    // 나중에 삼각기둥 세워서 깔면 다시 연산해야함
     ColliderDesc.vOffSet = { 0.f, 0.f, -vOBBScale.z*0.5f };
     ColliderDesc.vOffSet.TransformCoord(_float4x4{ {0.f,1.f,0.f}, pDesc->vAngle.y + RADIAN(45.f) });
 

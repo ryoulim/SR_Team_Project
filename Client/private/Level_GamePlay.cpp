@@ -231,23 +231,17 @@ HRESULT CLevel_GamePlay::Ready_Layer_Effect(const _wstring& strLayerTag)
 #include "Player.h"
 HRESULT CLevel_GamePlay::Ready_Layer_Pawn(const _wstring& strLayerTag)
 {
-	//이 레벨의 플레이어 생성위치
-	_float3 vInitPosition = { 1400.f, 150.f, 200.f };
-
-	// 만약 플레이어가 있다면? 플레이어를 죽여라
 	auto pPlayer = static_cast<CPawn*>(GET_PLAYER);
 	if (pPlayer)
-		pPlayer->Set_Dead();
+		m_pGameInstance->Release_Layer(LEVEL_STATIC, strLayerTag);
 
-	//없으면 새로 생성해서 넣어줌
 	CPlayer::DESC PlayerDesc{};
-	PlayerDesc.vInitPos = vInitPosition;
+	PlayerDesc.vInitPos = { 1400.f, 150.f, 200.f };
 	PlayerDesc.vScale = { 20.f, 30.f, 20.f };
 	PlayerDesc.fRotationPerSec = RADIAN(180.f);
 	PlayerDesc.fSpeedPerSec = 150.f;
 	PlayerDesc.eLevelID = CurLevel;
 
-	// 최초 게임 입장할때 어디에서 입장하던 스태틱에 생성해준다.
 	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_Player"),
 		LEVEL_STATIC, strLayerTag, &PlayerDesc)))
 		return E_FAIL;

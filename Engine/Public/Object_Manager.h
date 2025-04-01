@@ -18,6 +18,7 @@ public:
 	HRESULT Add_GameObject(_uint iPrototypeLevelIndex, const _wstring& strPrototypeTag, _uint iLevelIndex, const _wstring& strLayerTag, void* pArg);
 	HRESULT Add_GameObjectReturn(_uint iPrototypeLevelIndex, const _wstring& strPrototypeTag, _uint iLevelIndex, const _wstring& strLayerTag, CGameObject** ppOut, void* pArg);
 	HRESULT Push_GameObject(class CGameObject* pObject, _uint iLevelIndex, const _wstring& strLayerTag);
+	HRESULT	Release_Layer(_uint iLevelIndex, const _wstring& strLayerTag);
 	void Priority_Update(_float fTimeDelta);
 	void Update(_float fTimeDelta);
 	void Late_Update(_float fTimeDelta);

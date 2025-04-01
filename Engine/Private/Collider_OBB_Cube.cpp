@@ -45,8 +45,13 @@ HRESULT CCollider_OBB_Cube::Initialize(void* pArg)
 
 void CCollider_OBB_Cube::Render()
 {
+ //   m_pGraphic_Device->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);  // 와이어프레임
+
+    // 텍스처 제거
+    m_pGraphic_Device->SetTexture(0, nullptr);
     m_pRenderTransform->Bind_Resource();
     m_pRenderBuffer->Render();
+
 }
 #endif
 

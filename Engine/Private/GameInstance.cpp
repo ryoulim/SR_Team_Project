@@ -111,9 +111,6 @@ void CGameInstance::Clear(_uint iLevelIndex)
 	m_pObject_Manager->Clear(iLevelIndex);
 	/* 특정 레벨의 원형객을 삭제한다. */
 	m_pPrototype_Manager->Clear(iLevelIndex);
-
-	//오브젝트가 죽으면 Delete 부르니까 괜찮을듯?
-	//m_pCollider_Manager->Clear 
 }
 
 FORCEINLINE
@@ -165,6 +162,12 @@ HRESULT CGameInstance::Add_GameObjectReturn(_uint iPrototypeLevelIndex, const _w
 }
 
 FORCEINLINE
+HRESULT CGameInstance::Release_Layer(_uint iLevelIndex, const _wstring& strLayerTag)
+{
+	return m_pObject_Manager->Release_Layer(iLevelIndex,strLayerTag);
+}
+
+FORCEINLINE
 HRESULT CGameInstance::Push_GameObject(CGameObject* pObject, _uint iLevelIndex, const _wstring& strLayerTag)
 {
 	return m_pObject_Manager->Push_GameObject(pObject, iLevelIndex, strLayerTag);
@@ -207,6 +210,11 @@ FORCEINLINE
 void CGameInstance::Delete_Collider(const CGameObject* pOwner)
 {
 	m_pCollider_Manager->Delete_Collider(pOwner);
+}
+
+void CGameInstance::Clear_Collider()
+{
+	m_pCollider_Manager->Clear();
 }
 
 FORCEINLINE

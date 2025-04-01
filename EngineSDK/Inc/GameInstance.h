@@ -40,6 +40,7 @@ public:
 #pragma region OBJECT_MANAGER
 	HRESULT Add_GameObject(_uint iPrototypeLevelIndex, const _wstring& strPrototypeTag, _uint iLevelIndex, const _wstring& strLayerTag, void* pArg = nullptr);
 	HRESULT Add_GameObjectReturn(_uint iPrototypeLevelIndex, const _wstring& strPrototypeTag, _uint iLevelIndex, const _wstring& strLayerTag, CGameObject** ppOut, void* pArg);
+	HRESULT	Release_Layer(_uint iLevelIndex, const _wstring& strLayerTag);
 	HRESULT Push_GameObject(class CGameObject* pObject, _uint iLevelIndex, const _wstring& strLayerTag);
 
 	// 매개변수에 맞는 오브젝트를 찾아서 반환해준다.
@@ -56,6 +57,7 @@ public:
 	HRESULT Add_Collider(class CCollider* pCollider, _uint iColliderGroupID);
 	// 오브젝트 키를 받아서 그거에 해당하는 콜라이더를 싹다 지워버림
 	void Delete_Collider(const class CGameObject* pOwner);
+	void Clear_Collider();
 	// A그룹과 B그룹의 충돌을 검사한다.
 	void Intersect(_uint iColliderGroupID1, _uint iColliderGroupID2);
 	/// <summary>

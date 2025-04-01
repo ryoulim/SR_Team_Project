@@ -71,6 +71,9 @@ void CLevel_Loading::Update(_float fTimeDelta)
 		if (true == m_pLoader->isFinished())
 		{
 			CLevel* pLevel = { nullptr };
+			/* 클리어 함수에 콜라이더의 클리어를 넣으니까 이 멍청한 콜라이더 매니저가 
+			pLevel에서 만든 콜라이더까지 싹다 지워버리는 불상사가 생겨서 따로 뺴둠*/
+			m_pGameInstance->Clear_Collider();
 
 			switch (m_eNextLevelID)
 			{

@@ -173,10 +173,9 @@ HRESULT CLevel_Boss::Ready_Layer_Pawn(const _wstring& strLayerTag)
 	//이 레벨의 플레이어 생성위치
 	_float3 vInitPosition = { 1400.f, 150.f, 200.f };
 
-	// 만약 플레이어가 있다면? 플레이어를 죽여라
 	auto pPlayer = static_cast<CPawn*>(GET_PLAYER);
 	if (pPlayer)
-		pPlayer->Set_Dead();
+		m_pGameInstance->Release_Layer(LEVEL_STATIC, strLayerTag);
 
 	//없으면 새로 생성해서 넣어줌
 	CPlayer::DESC PlayerDesc{};
@@ -287,7 +286,7 @@ HRESULT CLevel_Boss::Ready_Layer_Trigger(const _wstring& strLayerTag)
 	tDesc.vInitPos = { 1400.f, 70.f, 950.f };
 	tDesc.vScale = { 200.f, 100.f, 100.f };
 	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_Trigger"),
-		LEVEL_GAMEPLAY, strLayerTag, &tDesc)))
+		LEVEL_BOSS, strLayerTag, &tDesc)))
 		return E_FAIL;
 
 	return S_OK;

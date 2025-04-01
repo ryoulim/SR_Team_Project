@@ -44,6 +44,8 @@ void CBlock::Late_Update(_float fTimeDelta)
 
 HRESULT CBlock::Render()
 {
+    if(m_pColliderCom)
+        m_pColliderCom->Render();
     return __super::Render();
 }
 

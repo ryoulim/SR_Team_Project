@@ -3,6 +3,8 @@
 
 BEGIN(Engine)
 
+#define _BUFFERRENDER
+
 class ENGINE_DLL CCollider_OBB_Cube final : public CCollider
 {
 public:

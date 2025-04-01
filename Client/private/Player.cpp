@@ -65,9 +65,8 @@ EVENT CPlayer::Update(_float fTimeDelta)
 	printf("플레이어 Z : %f\n", vPosition.z);
 
 #endif
-
-	if (m_bDead)
-		return EVN_DEAD;
+	//if (m_bDead)
+	//	return EVN_DEAD;
 
 	if (!m_bActive)
 		return EVN_NONE;

@@ -36,9 +36,8 @@ void CPlayerOnBoat::Priority_Update(_float fTimeDelta)
 
 EVENT CPlayerOnBoat::Update(_float fTimeDelta)
 {
-	if (m_bDead)
-		return EVN_DEAD;
-
+	//if (m_bDead)
+	//	return EVN_DEAD;
 
 	if (m_pTransformCom->Get_State(CTransform::STATE_POSITION)->z > 10000.f
 		|| m_pTransformCom->Get_State(CTransform::STATE_POSITION)->z < 100.f)

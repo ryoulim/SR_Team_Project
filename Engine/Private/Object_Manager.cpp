@@ -88,6 +88,22 @@ HRESULT CObject_Manager::Push_GameObject(CGameObject* pObject, _uint iLevelIndex
 	return S_OK;
 }
 
+HRESULT CObject_Manager::Release_Layer(_uint iLevelIndex, const _wstring& strLayerTag)
+{
+	auto	iter = m_pLayers[iLevelIndex].find(strLayerTag);
+	if (iter == m_pLayers[iLevelIndex].end())
+		return E_FAIL;
+
+	auto Layer = Find_Layer(iLevelIndex, strLayerTag);
+	if (Layer == nullptr)
+		return E_FAIL;
+
+	Safe_Release(Layer);
+	m_pLayers->erase(iter);
+
+	return S_OK;
+}
+
 void CObject_Manager::Priority_Update(_float fTimeDelta)
 {
 	for (size_t i = 0; i < m_iNumLevels; i++)
