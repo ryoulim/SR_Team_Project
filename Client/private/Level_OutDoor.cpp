@@ -316,7 +316,8 @@ HRESULT CLevel_OutDoor::Ready_Layer_UI(const _wstring& strLayerTag)
 
 HRESULT CLevel_OutDoor::Ready_Layer_Camera(const _wstring& strLayerTag)
 {
-	CAMERA_MANAGER->Mouse_Fix_Mode_Switch();
+	CAMERA_MANAGER->Switch(CCameraManager::FPS);
+	CAMERA_MANAGER->Set_Mouse_Fix(TRUE);
 
 	return S_OK;
 }
@@ -341,7 +342,7 @@ HRESULT CLevel_OutDoor::Ready_Layer_Pawn(const _wstring& strLayerTag)
 	PlayerDesc.vScale = { 20.f, 30.f, 20.f };
 	PlayerDesc.fRotationPerSec = RADIAN(180.f);
 	PlayerDesc.fSpeedPerSec = 150.f;
-	PlayerDesc.eLevelID = LEVEL_STATIC;
+	PlayerDesc.eLevelID = CurLevel;
 
 	// 최초 게임 입장할때 어디에서 입장하던 스태틱에 생성해준다.
 	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_Player"),
