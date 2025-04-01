@@ -27,7 +27,7 @@ HRESULT CShotgunner::Initialize_Prototype()
 	m_iAttackPower = 6;
 	m_iDefense = 0;
 	m_fSpeed = 4.f;
-	m_vScale = { 27.f, 46.f, 1.f };
+	m_vScale = { 34.5f, 66.2f, 1.f };
 	m_eState = MODE::MODE_IDLE;
 
 	//부속성
@@ -64,23 +64,16 @@ void CShotgunner::Priority_Update(_float fTimeDelta)
 
 EVENT CShotgunner::Update(_float fTimeDelta)
 {
-	if (KEY_DOWN(DIK_RBRACKET))
-	{
-		int i = m_eCurMonsterState;
-		i++;
-		m_eCurMonsterState = MONSTER_STATE(i);
-		if (m_eCurMonsterState == STATE_END)
-			m_eCurMonsterState = MONSTER_STATE(0);
-	}
 	return __super::Update(fTimeDelta);
 }
 
 void CShotgunner::Late_Update(_float fTimeDelta)
 {
 	__super::Late_Update(fTimeDelta);
-	Resize_Texture(0.4f);
-	if (m_eState == MODE::MODE_BATTLE)
+
+	if (false == m_bRotateAnimation)
 		m_iDegree = 0;
+	Resize_Texture(0.4f);
 }
 
 HRESULT CShotgunner::Render()
@@ -107,25 +100,32 @@ void CShotgunner::On_Collision(_uint MyColliderID, _uint OtherColliderID)
 	}
 	else if (CI_WEAPON(OtherColliderID))
 	{
-		//그 즉시 배틀모드 진입
+		// 탐색 시작
 		if (!m_bFoundPlayer)
 			m_eState = MODE::MODE_DETECTIVE;
 
 		//위치탐색
 		_float3 vImpactPos = CalculateEffectPos();
 
-		//몬스터 사망
-		if (0 >= m_iHP)
-		{
-			FX_MGR->SpawnCustomExplosion(vImpactPos, LEVEL_GAMEPLAY, _float3{ 130.f, 160.f, 1.f }, TEXT("PC_Explosion"), 14);
-			m_bDead = true;
-
-			return;
-		}
-
 		// 이펙트 생성
 		m_iHP += -50;
 		FX_MGR->SpawnBlood(vImpactPos, LEVEL_GAMEPLAY);
+
+		//몬스터 사망
+		if (0 >= m_iHP)
+		{
+			//이펙트 혹시몰라서 그냥 주석만 해둠
+			//FX_MGR->SpawnCustomExplosion(vImpactPos, LEVEL_GAMEPLAY, _float3{ 130.f, 160.f, 1.f }, TEXT("PC_Explosion"), 14);
+			m_bDead = true;
+			m_eState = MODE_DEAD;
+			_float3 TargetPos = *static_cast<CTransform*>(m_pTargetPlayer->Find_Component(L"Com_Transform"))->Get_State(CTransform::STATE_POSITION);
+			m_pTransformCom->LookAt(TargetPos);
+
+			// 뒤로 넉백
+			m_bKnockBack = true;
+
+			return;
+		}
 	}
 }
 
@@ -149,7 +149,7 @@ void CShotgunner::MonsterTick(_float dt)
 		m_fRaycastTicker += dt;
 		if (m_fRaycastTicker > 0.5f)
 		{
-			if (IsMonsterAbleToAttack())	// RayPicking으로 플레이어와 몬스터 사이 장애물 X <- 공격 가능 상태가 됨
+			if (IsMonsterAbleToAttack())	// RayPicking으로 플레이어와 몬스터 사이 장애물 체크
 			{
 				m_bFoundPlayer = true;
 				m_eState = MODE::MODE_READY;
@@ -159,8 +159,15 @@ void CShotgunner::MonsterTick(_float dt)
 
 	case MODE::MODE_READY:
 		//공격 할 준비  ( 장전 등의 딜레이 필요 )
-		if (!IsMonsterAbleToAttack())
-			m_eState = MODE::MODE_DETECTIVE;
+		m_fRaycastTicker += dt;
+		if (m_fRaycastTicker > 0.5f)
+		{
+			if (!IsMonsterAbleToAttack())
+			{
+				m_eState = MODE::MODE_DETECTIVE;
+				break;
+			}
+		}
 		// 준비 끝나면
 		if (m_isReadyToAttack)
 			m_eState = MODE::MODE_BATTLE;
@@ -186,16 +193,16 @@ void CShotgunner::MonsterTick(_float dt)
 				m_bCoolingDown = false;
 			}
 		}
-
 		break;
-
+	case MODE::MODE_DEAD:
+		break;
 	case MODE::MODE_RETURN:
 		m_bFoundPlayer = false;
 		//본래위치로 돌아가고 IDLE로 상태가 변한다.
 		break;
 	}
 
-#ifdef _DEBUG
+#ifdef _CONSOL
 	auto now = steady_clock::now();
 	auto elapsed = duration_cast<milliseconds>(now - g_LastLogTime).count();
 
@@ -252,6 +259,11 @@ void CShotgunner::MonsterTick(_float dt)
 		DoBattle(dt);
 		break;
 
+	case MODE::MODE_DEAD:
+		m_eCurMonsterState = STATE_DEAD;
+		DoDead(dt);
+		break;
+
 	case MODE::MODE_RETURN:
 		DoReturn(dt);
 		break;
@@ -264,7 +276,6 @@ void CShotgunner::DoDetect(_float dt)
 	ChasePlayer(dt, 50.f);
 	m_eCurMonsterState = STATE_MOVE;
 }
-
 
 _bool CShotgunner::IsMonsterAbleToAttack()
 {
@@ -281,18 +292,26 @@ void CShotgunner::DoReady(_float dt)
 	if (m_fCooldownDuration >= m_fCooldownTime)
 	{
 		m_isReadyToAttack = true;
-		m_fSpawnNormalBullet = 0.4f;
+		m_fBulletCooldownElapsed = 0.4f;
 		m_fCooldownDuration = 0.f;
 	}
 	m_fAnimationFrame = 0.f;
 	_float3 TargetPos = *static_cast<CTransform*>(m_pTargetPlayer->Find_Component(L"Com_Transform"))->Get_State(CTransform::STATE_POSITION);
-	//m_fSpawnNormalBullet = 0.f;
 	m_pTransformCom->LookAt(TargetPos);
 }
 
 void CShotgunner::DoBattle(_float dt)
 {
-	AttackPattern(dt);
+	_float fChaseDistance = 500.f;
+	if (m_fCurDistance > fChaseDistance)
+	{
+		m_eState = MODE::MODE_RETURN;
+		return;
+	}
+	else
+	{
+		AttackPattern(dt);
+	}
 }
 
 void CShotgunner::DoIdle(_float dt)
@@ -348,20 +367,20 @@ void CShotgunner::AttackPattern(_float dt)
 	// Wenteko 넣을 시 얘도 있음
 	m_eCurMonsterState = STATE_ATTACK;
 
-	m_fSpawnNormalBullet += dt;
+	m_fBulletCooldownElapsed += dt;
 	m_fAttackTimer += dt;
 	if (m_fAttackTimer >= m_fAttackTime)
 	{
 		m_bCoolingDown = true;
 		m_fAttackTimer = 0.f;
 	}
-	if (m_fSpawnNormalBullet >= m_fBulletCooldown)
+	if (m_fBulletCooldownElapsed >= m_fBulletCooldown)
 	{
 		_float3 TargetPos = *static_cast<CTransform*>(m_pTargetPlayer->Find_Component(L"Com_Transform"))->Get_State(CTransform::STATE_POSITION);
 		m_pTransformCom->LookAt(TargetPos);
 
 		CMonsterNormalBullet::DESC MonsterNormalBullet_iDesc{};
-		MonsterNormalBullet_iDesc.fSpeedPerSec = 80.f;
+		MonsterNormalBullet_iDesc.fSpeedPerSec = 1000.f;
 		// 총알 속도임
 		MonsterNormalBullet_iDesc.fRotationPerSec = RADIAN(180.f);
 		MonsterNormalBullet_iDesc.vScale = { 2.f, 2.f, 0.f };
@@ -377,16 +396,13 @@ void CShotgunner::AttackPattern(_float dt)
 		for (size_t i = 0; i < 4; i++)
 		{// 샷건이라 4발 동시에 날릴거임 ㅋㅋ
 			if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_MonsterNormalBullet"),
-				LEVEL_GAMEPLAY, L"Layer_MonsterBullet", &MonsterNormalBullet_iDesc)))
+				m_eLevelID, L"Layer_MonsterBullet", &MonsterNormalBullet_iDesc)))
 				return;
 		}
-		m_fSpawnNormalBullet = 0.f;
+		m_fBulletCooldownElapsed = 0.f;
 	}
 
 	/* 샷건은 한번 쏠 때 마다 휴식 */
-	//m_bCoolingDown = true;
-	//m_fAttackTimer = 0.f;
-	//m_fAnimationFrame = 1.f;
 }
 
 void CShotgunner::ChasePlayer(_float dt, _float fChaseDist)
@@ -511,8 +527,10 @@ HRESULT CShotgunner::Animate_Monster(_float fTimeDelta)
 	case Client::CShotgunner::STATE_DEAD:
 		m_fAnimationFrame += fTimeDelta * m_fAnimationSpeed;
 		if (m_fAnimationFrame >= m_fAnimationMaxFrame)
+		{
 			m_fAnimationFrame = m_fAnimationMaxFrame - 1.f;
-		m_bRotateAnimation = false;
+			m_fAnimationSpeed = 0.f;
+		}
 		break;
 	}
 	return S_OK;

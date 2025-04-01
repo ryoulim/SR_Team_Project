@@ -76,31 +76,48 @@ HRESULT CWenteko::Render()
 
 void CWenteko::On_Collision(_uint MyColliderID, _uint OtherColliderID)
 {
-	//그 즉시 배틀모드 진입
-	m_eState = MODE::MODE_BATTLE;
-
-	//위치탐색
-	_float3 vImpactPos = CalculateEffectPos();
-
-	//몬스터 사망
-	if (0 >= m_iHP)
+	if (CI_BLOCK(OtherColliderID))
 	{
-		FX_MGR->SpawnCustomExplosion(vImpactPos, LEVEL_GAMEPLAY, _float3{ 70.f, 110.f, 1.f }, TEXT("Effect_Explor"), 32);
-		m_bDead = true;
+		m_pCollider->Get_Last_Collision_Pos();
 
-		return;
+		_float3 vPos = *m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+
+		_float3 Depth = m_pCollider->Get_Last_Collision_Depth();
+		if (Depth.y != 0)
+			int a = 1;
+		vPos += Depth;
+
+		m_pTransformCom->Set_State(CTransform::STATE_POSITION, vPos);
 	}
+	else if (CI_WEAPON(OtherColliderID))
+	{
+		//그 즉시 배틀모드 진입
+		if (!m_bFoundPlayer)
+			m_eState = MODE::MODE_DETECTIVE;
 
-	// 이펙트 생성
-	m_iHP += -10;
-	FX_MGR->SpawnBlood(vImpactPos, LEVEL_GAMEPLAY);
+		//위치탐색
+		_float3 vImpactPos = CalculateEffectPos();
+
+		//몬스터 사망
+		if (0 >= m_iHP)
+		{
+			FX_MGR->SpawnCustomExplosion(vImpactPos, LEVEL_GAMEPLAY, _float3{ 130.f, 160.f, 1.f }, TEXT("PC_Explosion"), 14);
+			m_bDead = true;
+
+			return;
+		}
+
+		// 이펙트 생성
+		m_iHP += -50;
+		FX_MGR->SpawnBlood(vImpactPos, LEVEL_GAMEPLAY);
+	}
 }
 
 HRESULT CWenteko::Ready_Components(void* pArg)
 {
+	Ready_Textures();
 	if (FAILED(__super::Ready_Components(pArg)))
 		return E_FAIL;
-
 	return S_OK;
 }
 

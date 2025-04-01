@@ -101,8 +101,8 @@ void CMechsect::On_Collision(_uint MyColliderID, _uint OtherColliderID)
 	else if (CI_WEAPON(OtherColliderID))
 	{
 		//그 즉시 배틀모드 진입
-		if (m_eState != MODE::MODE_RETURN)
-			m_eState = MODE::MODE_BATTLE;
+		if (!m_bFoundPlayer)
+			m_eState = MODE::MODE_DETECTIVE;
 
 		//위치탐색
 		_float3 vImpactPos = CalculateEffectPos();
@@ -181,7 +181,7 @@ void CMechsect::MonsterTick(_float dt)
 		break;
 	}
 
-#ifdef _DEBUG
+#ifdef _CONSOL
 	auto now = steady_clock::now();
 	auto elapsed = duration_cast<milliseconds>(now - g_LastLogTime).count();
 
@@ -333,20 +333,20 @@ void CMechsect::AttackPattern(_float dt)
 	// Wenteko 넣을 시 얘도 있음
 	m_eCurMonsterState = STATE_JUMP;
 
-	m_fSpawnNormalBullet += dt;
+	m_fBulletCooldownElapsed += dt;
 	m_fAttackTimer += dt;
 	if (m_fAttackTimer >= 2.f)
 	{
 		m_bCoolingDown = true;
 		m_fAttackTimer = 0.f;
 	}
-	if (m_fSpawnNormalBullet >= m_fBulletCooldown)
+	if (m_fBulletCooldownElapsed >= m_fBulletCooldown)
 	{
 		_float3 TargetPos = *static_cast<CTransform*>(m_pTargetPlayer->Find_Component(L"Com_Transform"))->Get_State(CTransform::STATE_POSITION);
 		m_pTransformCom->LookAt(TargetPos);
 		// 0.2초마다 발사
 		CMonsterNormalBullet::DESC MonsterNormalBullet_iDesc{};
-		MonsterNormalBullet_iDesc.fSpeedPerSec = 60.f;
+		MonsterNormalBullet_iDesc.fSpeedPerSec = 1000.f;
 		MonsterNormalBullet_iDesc.fRotationPerSec = RADIAN(180.f);
 		MonsterNormalBullet_iDesc.vScale = { 10.f, 10.f, 0.f };
 		MonsterNormalBullet_iDesc.vPosition = *m_pTransformCom->Get_State(CTransform::STATE_POSITION);
@@ -356,7 +356,7 @@ void CMechsect::AttackPattern(_float dt)
 			LEVEL_GAMEPLAY, L"Layer_MonsterBullet", &MonsterNormalBullet_iDesc)))
 			return;
 
-		m_fSpawnNormalBullet = 0.f;
+		m_fBulletCooldownElapsed = 0.f;
 	}
 }
 
@@ -383,10 +383,10 @@ void CMechsect::ChasePlayer(_float dt, _float fChaseDist)
 
 HRESULT CMechsect::Ready_Components(void* pArg)
 {
+	Ready_Textures();
 	if (FAILED(__super::Ready_Components(pArg)))
 		return E_FAIL;
 
-	Ready_Textures();
 
 	return S_OK;
 }

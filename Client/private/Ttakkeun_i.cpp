@@ -140,7 +140,7 @@ void CTtakkeun_i::Late_Update(_float fTimeDelta)
 	Set_TextureType();
 	Resize_Texture(0.35f);
 	//__super::Late_Update(fTimeDelta);
-#ifdef _DEBUG
+#ifdef _CONSOL
 	auto now = steady_clock::now();
 	auto elapsed = duration_cast<milliseconds>(now - g_LastLogTime).count();
 	

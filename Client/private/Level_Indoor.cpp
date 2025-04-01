@@ -7,6 +7,7 @@
 #include "Player.h"
 #include "Trigger.h"
 #include "Level_Loading.h"
+#include "Monster.h"
 
 #define CurLevel LEVEL_INDOOR
 
@@ -35,6 +36,10 @@ HRESULT CLevel_Indoor::Initialize(CLevelData* pLevelData)
 
 	if (FAILED(Ready_Layer_Trigger(TEXT("Layer_Trigger"))))
 		return E_FAIL;
+
+	// 테스트 해봤어요 
+	//if (FAILED(Ready_Layer_Monster(TEXT("Layer_Monster"))))
+	//	return E_FAIL;
 
 	return S_OK;
 }
@@ -360,6 +365,51 @@ HRESULT CLevel_Indoor::Ready_Layer_Pawn(const _wstring& strLayerTag)
 	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_Player"),
 		LEVEL_STATIC, strLayerTag, &PlayerDesc)))
 		return E_FAIL;
+
+	return S_OK;
+}
+
+HRESULT CLevel_Indoor::Ready_Layer_Monster(const _wstring& strLayerTag)
+{
+	CMonster::DESC Cultist_iDesc{};
+	Cultist_iDesc.vPosition = _float3{513.f, 30.f, 325.f};
+	Cultist_iDesc.fSpeedPerSec = 60.f;
+	Cultist_iDesc.fRotationPerSec = RADIAN(180.f);
+	Cultist_iDesc.vActive = true;
+	Cultist_iDesc.vReturnPos = _float3{ 513.f, 30.f, 325.f };
+	Cultist_iDesc.eLevel = LEVEL_INDOOR;
+	Cultist_iDesc.fAttackDistance = 400.f;
+	Cultist_iDesc.fDetectiveDistance = 500.f;
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_Cultist"),
+		LEVEL_INDOOR, L"Layer_Monster", &Cultist_iDesc)))
+		return E_FAIL;
+	/******************************************/
+	CMonster::DESC Shotgunner_iDesc{};
+	Shotgunner_iDesc.vPosition = _float3{ 344.f, 30.f, 308.f };
+	Shotgunner_iDesc.fSpeedPerSec = 60.f;
+	Shotgunner_iDesc.fRotationPerSec = RADIAN(180.f);
+	Shotgunner_iDesc.vActive = true;
+	Shotgunner_iDesc.vReturnPos = _float3{ 344.f, 30.f, 308.f };
+	Shotgunner_iDesc.eLevel = LEVEL_INDOOR;
+	Shotgunner_iDesc.fAttackDistance = 300.f;
+	Shotgunner_iDesc.fDetectiveDistance = 500.f;
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_Shotgunner"),
+		LEVEL_INDOOR, L"Layer_Monster", &Shotgunner_iDesc)))
+		return E_FAIL;
+	/******************************************/
+	CMonster::DESC Greater_iDesc{};
+	Greater_iDesc.vPosition = _float3{ 826.f, 30.f, 604.f};
+	Greater_iDesc.fSpeedPerSec = 60.f;
+	Greater_iDesc.fRotationPerSec = RADIAN(180.f);
+	Greater_iDesc.vActive = true;
+	Greater_iDesc.vReturnPos = _float3{ 826.f, 30.f, 604.f };
+	Greater_iDesc.eLevel = LEVEL_INDOOR;
+	Greater_iDesc.fAttackDistance = 400.f;
+	Greater_iDesc.fDetectiveDistance = 500.f;
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_Greater"),
+		LEVEL_INDOOR, L"Layer_Monster", &Greater_iDesc)))
+		return E_FAIL;
+
 
 	return S_OK;
 }

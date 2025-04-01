@@ -21,7 +21,7 @@ using namespace std::chrono;
 class CMonster abstract : public CGameObject
 {
 public:
-	enum MODE{	MODE_IDLE, MODE_READY, MODE_BATTLE, MODE_DETECTIVE, MODE_RETURN, MODE_END  };
+	enum MODE{	MODE_IDLE, MODE_READY, MODE_BATTLE, MODE_DETECTIVE, MODE_RETURN, MODE_DEAD, MODE_END  };
 	enum EIdlePhase { IDLE_MOVE, IDLE_WAIT, IDLE_TURN };
 
 
@@ -75,6 +75,8 @@ protected: //액션
 	virtual void DoIdle(_float dt);
 	virtual void DoBattle(_float dt);
 	virtual void DoReturn(_float dt);
+	virtual void DoReady(_float dt);
+	virtual void DoDead(_float dt);
 	virtual void SetRandomDirection();
 
 protected: //몬스터 기본패턴
@@ -225,9 +227,11 @@ protected: // 일반 몬스터 행동 용 변수
 	_bool			m_bFoundPlayer = { false };
 	_bool			m_isReadyToAttack = { false };
 	_float			m_fRaycastTicker = {};
-	_float			m_fSpawnNormalBullet = {};
+	_float			m_fBulletCooldownElapsed = {};
 	_float			m_fBulletCooldown = {};
 	_float			m_fAttackTime = {};
+	_bool			m_bKnockBack = false;
+
 };
 
 END

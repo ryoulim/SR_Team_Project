@@ -34,7 +34,6 @@ private:
 public:
 	virtual void On_Collision(_uint MyColliderID, _uint OtherColliderID) override;
 
-
 /* 몬스터 행동 */
 private: //해당객체의 몬스터 패턴
 	virtual void	MonsterTick(_float dt);
@@ -42,8 +41,8 @@ private: //해당객체의 몬스터 패턴
 	virtual void	ChasePlayer(_float dt, _float fChaseDist);
 	virtual void	DoBattle(_float dt);
 	virtual void	DoIdle(_float dt);
-	void			DoReady(_float dt);
-	void			DoDetect(_float dt);
+	virtual void	DoReady(_float dt);
+	virtual void	DoDetect(_float dt);
 	_bool			IsMonsterAbleToAttack();
 /* 애니메이션 */
 private:

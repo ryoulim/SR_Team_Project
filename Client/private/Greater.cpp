@@ -27,7 +27,7 @@ HRESULT CGreater::Initialize_Prototype()
 	m_iAttackPower = 15;
 	m_iDefense = 2;
 	m_fSpeed = 12.f;
-	m_vScale = { 20.f, 50.f, 1.f };
+	m_vScale = { 28.f, 68.2f, 1.f };
 	m_eState = MODE::MODE_IDLE;
 
 	m_fDetectiveDistance = 500.f;
@@ -55,6 +55,7 @@ HRESULT CGreater::Initialize(void* pArg)
 	m_iState = STATE_MOVE;
 	m_fBulletCooldown = 0.2f;
 	m_fCooldownTime = 0.5f;
+	m_fAttackTime = 1.f;
 
 	return S_OK;
 }
@@ -81,9 +82,10 @@ EVENT CGreater::Update(_float fTimeDelta)
 void CGreater::Late_Update(_float fTimeDelta)
 {
 	__super::Late_Update(fTimeDelta);
-	Resize_Texture(0.4f);
-	if (m_eState == MODE::MODE_BATTLE)
+
+	if (false == m_bRotateAnimation)
 		m_iDegree = 0;
+	Resize_Texture(0.4f);
 }
 
 HRESULT CGreater::Render()
@@ -111,25 +113,32 @@ void CGreater::On_Collision(_uint MyColliderID, _uint OtherColliderID)
 	}
 	else if (CI_WEAPON(OtherColliderID))
 	{
-		//그 즉시 배틀모드 진입
-		if (m_eState != MODE::MODE_RETURN)
-			m_eState = MODE::MODE_BATTLE;
+		// 탐색 시작
+		if (!m_bFoundPlayer)
+			m_eState = MODE::MODE_DETECTIVE;
 
 		//위치탐색
 		_float3 vImpactPos = CalculateEffectPos();
 
-		//몬스터 사망
-		if (0 >= m_iHP)
-		{
-			FX_MGR->SpawnCustomExplosion(vImpactPos, LEVEL_GAMEPLAY, _float3{ 130.f, 160.f, 1.f }, TEXT("PC_Explosion"), 14);
-			m_bDead = true;
-
-			return;
-		}
-
 		// 이펙트 생성
 		m_iHP += -50;
 		FX_MGR->SpawnBlood(vImpactPos, LEVEL_GAMEPLAY);
+
+		//몬스터 사망
+		if (0 >= m_iHP)
+		{
+			//이펙트 혹시몰라서 그냥 주석만 해둠
+			//FX_MGR->SpawnCustomExplosion(vImpactPos, LEVEL_GAMEPLAY, _float3{ 130.f, 160.f, 1.f }, TEXT("PC_Explosion"), 14);
+			m_bDead = true;
+			m_eState = MODE_DEAD;
+			_float3 TargetPos = *static_cast<CTransform*>(m_pTargetPlayer->Find_Component(L"Com_Transform"))->Get_State(CTransform::STATE_POSITION);
+			m_pTransformCom->LookAt(TargetPos);
+
+			// 뒤로 넉백
+			m_bKnockBack = true;
+
+			return;
+		}
 	}
 }
 
@@ -141,6 +150,7 @@ void CGreater::MonsterTick(_float dt)
 	case MODE::MODE_IDLE:
 		if (IsPlayerDetected())	// 감지 거리 기준 계산
 		{
+			m_bFoundPlayer = true;
 			//플레이어 발견 시 행동
 			cout << "Shotgunner 플레이어 감지!!" << endl;
 			m_eState = MODE::MODE_DETECTIVE;
@@ -152,13 +162,25 @@ void CGreater::MonsterTick(_float dt)
 		m_fRaycastTicker += dt;
 		if (m_fRaycastTicker > 0.5f)
 		{
-			if (IsMonsterAbleToAttack())	// RayPicking으로 플레이어와 몬스터 사이 장애물 X <- 공격 가능 상태가 됨
+			if (IsMonsterAbleToAttack())	// RayPicking으로 플레이어와 몬스터 사이 장애물 체크
+			{
+				m_bFoundPlayer = true;
 				m_eState = MODE::MODE_READY;
+			}
 		}
 		break;
 
 	case MODE::MODE_READY:
 		//공격 할 준비  ( 장전 등의 딜레이 필요 )
+		m_fRaycastTicker += dt;
+		if (m_fRaycastTicker > 0.5f)
+		{
+			if (!IsMonsterAbleToAttack())
+			{
+				m_eState = MODE::MODE_DETECTIVE;
+				break;
+			}
+		}
 		// 준비 끝나면
 		if (m_isReadyToAttack)
 			m_eState = MODE::MODE_BATTLE;
@@ -184,23 +206,25 @@ void CGreater::MonsterTick(_float dt)
 				m_bCoolingDown = false;
 			}
 		}
-
 		break;
 
+	case MODE::MODE_DEAD:
+		break;
 	case MODE::MODE_RETURN:
+		m_bFoundPlayer = false;
 		//본래위치로 돌아가고 IDLE로 상태가 변한다.
 		break;
 	}
 
-#ifdef _DEBUG
+#ifdef _CONSOL
 	auto now = steady_clock::now();
 	auto elapsed = duration_cast<milliseconds>(now - g_LastLogTime).count();
 
 	if (elapsed >= 1000)
 	{
 		// 1초 이상 지났다면 출력
-		cout << "[샷거너]\t플레이어와의 거리 : " << m_fCurDistance << endl;
-		cout << "[샷거너]\t상태 : ";
+		cout << "[그레이터]\t플레이어와의 거리 : " << m_fCurDistance << endl;
+		cout << "[그레이터]\t상태 : ";
 		switch (m_eState)
 		{
 		case Client::CMonster::MODE_IDLE:
@@ -249,6 +273,10 @@ void CGreater::MonsterTick(_float dt)
 		DoBattle(dt);
 		break;
 
+	case MODE::MODE_DEAD:
+		m_eCurMonsterState = STATE_DEAD;
+		DoDead(dt);
+		break;
 	case MODE::MODE_RETURN:
 		DoReturn(dt);
 		break;
@@ -266,29 +294,36 @@ void CGreater::DoDetect(_float dt)
 _bool CGreater::IsMonsterAbleToAttack()
 {
 	// 여기 레이캐스팅으로 플레이어와 몬스터 사이 장애물 유무 체크
+	m_fRaycastTicker = 0.f;
 	if (m_fCurDistance > m_fAttackDistance)
 		return false;
-	//if (m_fRaycastTicker > 0.5f)
-	{
-		m_fRaycastTicker = 0.f;
-		if (true == Raycast_Player())
-			return true;
-		else
-			return false;
-	}
+	return Raycast_Player();
 }
 
 void CGreater::DoReady(_float dt)
 {
 	m_fCooldownDuration += dt;
 	if (m_fCooldownDuration >= m_fCooldownTime)
+	{
 		m_isReadyToAttack = true;
+		m_fBulletCooldownElapsed = 0.4f;
+		m_fCooldownDuration = 0.f;
+	}
 	m_fAnimationFrame = 0.f;
+	_float3 TargetPos = *static_cast<CTransform*>(m_pTargetPlayer->Find_Component(L"Com_Transform"))->Get_State(CTransform::STATE_POSITION);
+	m_pTransformCom->LookAt(TargetPos);
 }
 
 void CGreater::DoBattle(_float dt)
 {
-	AttackPattern(dt);
+	_float fChaseDistance = 500.f;
+	if (m_fCurDistance > fChaseDistance)
+	{
+		m_eState = MODE::MODE_RETURN;
+		return;
+	}
+	else
+		AttackPattern(dt);
 }
 
 void CGreater::DoIdle(_float dt)
@@ -344,34 +379,33 @@ void CGreater::AttackPattern(_float dt)
 	// Wenteko 넣을 시 얘도 있음
 	m_eCurMonsterState = STATE_ATTACK;
 
-	m_fSpawnNormalBullet += dt;
+	m_fBulletCooldownElapsed += dt;
 	m_fAttackTimer += dt;
-	if (m_fAttackTimer >= 2.f)
+	if (m_fAttackTimer >= m_fAttackTime)
 	{
 		m_bCoolingDown = true;
 		m_fAttackTimer = 0.f;
 	}
-	if (m_fSpawnNormalBullet >= m_fBulletCooldown)
+	if (m_fBulletCooldownElapsed >= m_fBulletCooldown)
 	{
 		_float3 TargetPos = *static_cast<CTransform*>(m_pTargetPlayer->Find_Component(L"Com_Transform"))->Get_State(CTransform::STATE_POSITION);
 		m_pTransformCom->LookAt(TargetPos);
-		// 0.2초마다 발사
 		CMonsterNormalBullet::DESC MonsterNormalBullet_iDesc{};
-		MonsterNormalBullet_iDesc.fSpeedPerSec = 100.f;
+		MonsterNormalBullet_iDesc.fSpeedPerSec = 900.f;
 		MonsterNormalBullet_iDesc.fRotationPerSec = RADIAN(180.f);
 		MonsterNormalBullet_iDesc.vScale = { 1.f, 3.f, 0.f };
 		MonsterNormalBullet_iDesc.vPosition = *m_pTransformCom->Get_State(CTransform::STATE_POSITION);
-		MonsterNormalBullet_iDesc.vPosition.y += 12.f;
 		_float3 vRight = *m_pTransformCom->Get_State(CTransform::STATE_RIGHT);
 		vRight.Normalize();
 		// 총구 위치를 몬스터의 위치와 look 벡터를 사용하여 계산
-		MonsterNormalBullet_iDesc.vPosition = MonsterNormalBullet_iDesc.vPosition + vRight * 11.f;
+		MonsterNormalBullet_iDesc.vPosition = MonsterNormalBullet_iDesc.vPosition + vRight * 6.f;
+		MonsterNormalBullet_iDesc.vPosition.y += 14.5f;
 
 		if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_MonsterNormalBullet"),
 			LEVEL_GAMEPLAY, L"Layer_MonsterBullet", &MonsterNormalBullet_iDesc)))
 			return;
 
-		m_fSpawnNormalBullet = 0.f;
+		m_fBulletCooldownElapsed = 0.f;
 	}
 }
 
@@ -424,7 +458,7 @@ HRESULT CGreater::Set_Animation()
 			break;
 		case Client::CGreater::STATE_ATTACK:
 			m_fAnimationMaxFrame = _float(MAX_ATTACK);
-			m_fAnimationSpeed = 10.f;
+			m_fAnimationSpeed = 14.f;
 			break;
 		case Client::CGreater::STATE_STAY:
 			m_fAnimationMaxFrame = 1.f;
@@ -472,8 +506,10 @@ HRESULT CGreater::Animate_Monster(_float fTimeDelta)
 	case Client::CGreater::STATE_DEAD:
 		m_fAnimationFrame += fTimeDelta * m_fAnimationSpeed;
 		if (m_fAnimationFrame >= m_fAnimationMaxFrame)
+		{
 			m_fAnimationFrame = m_fAnimationMaxFrame - 1.f;
-		m_bRotateAnimation = false;
+			m_fAnimationSpeed = 0.f;
+		}
 		break;
 	}
 	return S_OK;

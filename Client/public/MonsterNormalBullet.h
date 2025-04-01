@@ -9,7 +9,9 @@ class CMonsterNormalBullet final : public CBullet
 public:
 	typedef struct tagGrenadeBulletDesc : public CBullet::DESC
 	{
-
+		const TCHAR* szTextureID = TEXT("PC_Generic");
+		_bool bAnimation = false;
+		_bool bGravity = false;
 	}DESC;
 
 private:
@@ -38,7 +40,12 @@ public:
 protected:
 	CGameObject* m_pTargetPlayer = nullptr;
 	CGameObject* m_pMissile = nullptr;
-	_float3					m_vTargetPos;
+	CGravity*	 m_pGravityCom = { nullptr };
+	_bool		 m_bGravity = false;
+	_bool		 m_bAnimation = false;
+	_float3	 	 m_vTargetPos;
+	_float		 m_fSpeed = 50.f;
+	_float		 m_fLifetime = 0.f;
 
 	class CCameraManager* m_pCamera = nullptr;
 };

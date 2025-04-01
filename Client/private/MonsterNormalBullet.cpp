@@ -59,11 +59,6 @@ HRESULT CMonsterNormalBullet::Initialize(void* pArg)
 
 HRESULT CMonsterNormalBullet::Ready_Components(void* pArg)
 {
-	/* For.Com_Texture */
-	if (FAILED(__super::Add_Component(m_eLevelID, _wstring(TEXT("Prototype_Component_Texture_")) + m_szTextureID,
-		TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
-		return E_FAIL;
-
 	/* For.Com_VIBuffer */
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, _wstring(TEXT("Prototype_Component_VIBuffer_")) + m_szBufferType,
 		TEXT("Com_VIBuffer"), reinterpret_cast<CComponent**>(&m_pVIBufferCom))))
@@ -81,7 +76,16 @@ HRESULT CMonsterNormalBullet::Ready_Components(void* pArg)
 
 		m_pTransformCom->Set_State(CTransform::STATE_POSITION, pDesc->vPosition);
 		m_pTransformCom->Scaling(pDesc->vScale);
+		m_bGravity = pDesc->bGravity;
+		m_szTextureID = pDesc->szTextureID;
+		m_bAnimation = pDesc->bAnimation;
+		m_fSpeed = pDesc->fSpeedPerSec;
 	}
+
+	/* For.Com_Texture */
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, _wstring(TEXT("Prototype_Component_Texture_")) + m_szTextureID,
+		TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
+		return E_FAIL;
 
 	/* 콜라이드 컴포넌트 */
 	DESC* pDesc = static_cast<DESC*>(pArg);
@@ -97,6 +101,18 @@ HRESULT CMonsterNormalBullet::Ready_Components(void* pArg)
 		TEXT("Com_Collider"), reinterpret_cast<CComponent**>(&m_pCollider), &ColliderDesc)))
 		return E_FAIL;
 
+	if (m_bGravity)
+	{
+		/* For.Com_Gravity */
+		CGravity::DESC GravityDesc{};
+		GravityDesc.pTransformCom = m_pTransformCom;
+		GravityDesc.fTimeIncreasePerSec = 2.2f;
+		GravityDesc.fMaxFallSpeedPerSec = 400.f;
+		if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Gravity"),
+			TEXT("Com_Gravity"), reinterpret_cast<CComponent**>(&m_pGravityCom), &GravityDesc)))
+			return E_FAIL;
+	}
+
 	return S_OK;
 }
 
@@ -104,7 +120,8 @@ void CMonsterNormalBullet::Priority_Update(_float fTimeDelta)
 {
 	__super::Priority_Update(fTimeDelta);
 	_float3 vMyPos = *m_pTransformCom->Get_State(CTransform::STATE_POSITION);
-	if ((vMyPos - m_vTargetPos).Length() <= 10.f)
+	m_fLifetime += fTimeDelta;
+	if (m_fLifetime >= 2.5f)
 		m_bDead = true;
 }
 
@@ -119,22 +136,28 @@ EVENT CMonsterNormalBullet::Update(_float fTimeDelta)
 		}
 		return EVN_DEAD;
 	}
-
 	if (m_pMissile)
 		static_cast<CMonsterMissile*>(m_pMissile)->SetPosition(*m_pTransformCom->Get_State(CTransform::STATE_POSITION));
 
+
 	//플레이어로 향해 날라가라
-	m_pTransformCom->ChaseCustom(m_vTargetPos, fTimeDelta, 1.f, 1000.f);
+	m_pTransformCom->ChaseCustom(m_vTargetPos, fTimeDelta, 1.f, m_fSpeed);
 
 	return __super::Update(fTimeDelta);
 }
 
 void CMonsterNormalBullet::Late_Update(_float fTimeDelta)
 {
+	if (m_bGravity)
+		m_pGravityCom->Update(fTimeDelta);
+
 	//렌더그룹 업데이트
 	if (FAILED(m_pGameInstance->Add_RenderGroup(CRenderer::RG_NONBLEND, this)))
 		return;
 
+
+	if (m_bAnimation)
+		FrameUpdate(fTimeDelta, 8.f, 15.f, true);
 	__super::Late_Update(fTimeDelta);
 }
 
@@ -146,44 +169,47 @@ void CMonsterNormalBullet::On_Collision(_uint MyColliderID, _uint OtherColliderI
 		static_cast<CMonsterMissile*>(m_pMissile)->SetDead();
 		m_pMissile = nullptr;
 	}
-
-	m_bDead = true;
-
-	if (OtherColliderID == CI_BLOCK_COMMON)
-	{
-		//FX_MGR->SpawnExplosion2(CCollider::Get_Last_Collision_Pos(), m_eLevelID);
-		//m_pCamera->Shake_Camera(0.1f, 0.1f, 2.f, 1.f);
-	}
-	if (CI_PLAYER(OtherColliderID))
-	{
-		m_bDead = true;
-	}
+	m_bDead = true; // 뭐가 됐든 없어지는게 맞는 것 같음
+	//if (CI_PLAYER(OtherColliderID))
+	//{
+	//	m_bDead = true;
+	//}
 }
 
 HRESULT CMonsterNormalBullet::Render()
 {
-	m_pGraphic_Device->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
-	m_pGraphic_Device->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
-	m_pGraphic_Device->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_ONE);
-	m_pGraphic_Device->SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
+	if (m_bAnimation) // flesh
+	{
+		m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
+		m_pGraphic_Device->SetRenderState(D3DRS_ALPHAREF, 200);
+		m_pGraphic_Device->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER);
+		__super::Render();
+		m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
+	}
+	else
+	{
+		m_pGraphic_Device->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
+		m_pGraphic_Device->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
+		m_pGraphic_Device->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_ONE);
+		m_pGraphic_Device->SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
 
-	if (FAILED(m_pTransformCom->Bind_Resource()))
-		return E_FAIL;
+		if (FAILED(m_pTransformCom->Bind_Resource()))
+			return E_FAIL;
 
-	if (FAILED(m_pTextureCom->Bind_Resource(static_cast<_uint>(m_fTextureNum))))
-		return E_FAIL;
-	//m_pGraphic_Device->SetTexture(0, nullptr);
+		if (FAILED(m_pTextureCom->Bind_Resource(static_cast<_uint>(m_fAnimationFrame))))
+			return E_FAIL;
+		//m_pGraphic_Device->SetTexture(0, nullptr);
 
-	if (FAILED(m_pVIBufferCom->Bind_Buffers()))
-		return E_FAIL;
+		if (FAILED(m_pVIBufferCom->Bind_Buffers()))
+			return E_FAIL;
 
-	m_pGraphic_Device->SetTransform(D3DTS_WORLD, &m_pTransformCom->Billboard());
-	if (FAILED(m_pVIBufferCom->Render()))
-		return E_FAIL;
+		m_pGraphic_Device->SetTransform(D3DTS_WORLD, &m_pTransformCom->Billboard());
+		if (FAILED(m_pVIBufferCom->Render()))
+			return E_FAIL;
 
-	m_pGraphic_Device->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
-	m_pGraphic_Device->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);
-
+		m_pGraphic_Device->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
+		m_pGraphic_Device->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);
+	}
 	return S_OK;
 }
 
@@ -191,15 +217,21 @@ void CMonsterNormalBullet::SetTargetDir()
 {
 	_float3 vMyPos = *m_pTransformCom->Get_State(CTransform::STATE_POSITION);
 	m_vTargetPos = *static_cast<CTransform*>(m_pTargetPlayer->Find_Component(L"Com_Transform"))->Get_State(CTransform::STATE_POSITION);
-	m_vTargetPos.y = 30.f;
+	//m_vTargetPos.y = 30.f;
 	_float3 vDir = vMyPos - m_vTargetPos;
 	vDir.Normalize();
 	m_vTargetPos -= vDir * 400.f;
 
 	// 약간의 랜덤 오차를 추가
-	m_vTargetPos.x += GetRandomFloat(0.f, 25.f);
-	m_vTargetPos.y += GetRandomFloat(0.f, 25.f);
-	m_vTargetPos.z += GetRandomFloat(0.f, 25.f);
+
+	if (m_bGravity)
+		m_vTargetPos.y += 50.f;
+	else
+	{
+		m_vTargetPos.x += GetRandomFloat(0.f, 25.f);
+		m_vTargetPos.y += GetRandomFloat(0.f, 25.f);
+		m_vTargetPos.z += GetRandomFloat(0.f, 25.f);
+	}
 }
 
 CMonsterNormalBullet* CMonsterNormalBullet::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
@@ -234,4 +266,5 @@ void CMonsterNormalBullet::Free()
 
 	Safe_Release(m_pTargetPlayer);
 	Safe_Release(m_pCamera);
+	Safe_Release(m_pGravityCom);
 }

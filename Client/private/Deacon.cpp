@@ -27,7 +27,7 @@ HRESULT CDeacon::Initialize_Prototype()
 	m_iAttackPower = 5;
 	m_iDefense = 1;
 	m_fSpeed = 13.f;
-	m_vScale = { 52.f, 75.f, 1.f };
+	m_vScale = { 32.f, 39.6f, 1.f };
 	m_eState = MODE::MODE_IDLE;
 
 	m_fDetectiveDistance = 500.f;
@@ -58,33 +58,15 @@ HRESULT CDeacon::Initialize(void* pArg)
 
 void CDeacon::Priority_Update(_float fTimeDelta)
 {
+	if (m_eCurMonsterState == STATE_DEAD)
+		int a = 0;
+
 	Set_Animation();
 	__super::Priority_Update(fTimeDelta);
 }
 
 EVENT CDeacon::Update(_float fTimeDelta)
 {
-	if (m_bDead) // 사망 체크
-	{
-		m_fDeadBodyCounter += fTimeDelta;
-		if (m_fDeadBodyCounter > 5.f)
-			return EVN_DEAD;
-	}
-
-	if (KEY_DOWN(DIK_RBRACKET)) // 모션 변경 확인용
-	{
-		int i = m_eCurMonsterState;
-		i++;
-		m_eCurMonsterState = MONSTER_STATE(i);
-		if (m_eCurMonsterState == STATE_END)
-			m_eCurMonsterState = MONSTER_STATE(0);
-	}
-
-	if (m_bActive)
-	{
-		MonsterTick(fTimeDelta);
-	}
-
 	return __super::Update(fTimeDelta);
 }
 
@@ -92,25 +74,31 @@ void CDeacon::Late_Update(_float fTimeDelta)
 {
 	/* 중력 업데이트 없어서 그냥 오버라이딩 함 */
 
-	//플레이어 감지 업데이트
-	PlayerDistance();
-	CalculateVectorToPlayer();
-	IsPlayerDetected();
+	if (!m_bDead)
+	{
+		//플레이어 감지 업데이트
+		PlayerDistance();
+		CalculateVectorToPlayer();
+		IsPlayerDetected();
 
+		//몬스터 각도업데이트
+		Compute_ViewAngle();
+		Set_TextureType();
+	}
+	else
+	{
+		m_pGravityCom->Update(fTimeDelta);
+	}
 	//콜라이더 업데이트
 	m_pCollider->Update_Collider();
-
-	//몬스터 각도업데이트
-	Compute_ViewAngle();
-	Set_TextureType();
-
+	
 	//렌더그룹 업데이트
 	if (FAILED(m_pGameInstance->Add_RenderGroup(CRenderer::RG_NONBLEND, this)))
 		return;
 
-	Resize_Texture(0.4f);
-	if (m_eState == MODE::MODE_BATTLE)
+	if (false == m_bRotateAnimation)
 		m_iDegree = 0;
+	Resize_Texture(0.4f);
 }
 
 HRESULT CDeacon::Render()
@@ -146,25 +134,31 @@ void CDeacon::On_Collision(_uint MyColliderID, _uint OtherColliderID)
 	}
 	else if (CI_WEAPON(OtherColliderID))
 	{
-		//그 즉시 배틀모드 진입
-		if (m_eState != MODE::MODE_RETURN)
-			m_eState = MODE::MODE_BATTLE;
+		// 탐색 시작
+		if (!m_bFoundPlayer) 
+			m_eState = MODE::MODE_DETECTIVE;
 
 		//위치탐색
 		_float3 vImpactPos = CalculateEffectPos();
 
-		//몬스터 사망
-		if (0 >= m_iHP)
-		{
-			FX_MGR->SpawnCustomExplosion(vImpactPos, LEVEL_GAMEPLAY, _float3{ 130.f, 160.f, 1.f }, TEXT("PC_Explosion"), 14);
-			m_bDead = true;
-
-			return;
-		}
-
 		// 이펙트 생성
 		m_iHP += -50;
 		FX_MGR->SpawnBlood(vImpactPos, LEVEL_GAMEPLAY);
+
+		//몬스터 사망
+		if (0 >= m_iHP)
+		{
+			//FX_MGR->SpawnCustomExplosion(vImpactPos, LEVEL_GAMEPLAY, _float3{ 130.f, 160.f, 1.f }, TEXT("PC_Explosion"), 14);
+			m_bDead = true;
+			m_eState = MODE_DEAD;
+			_float3 TargetPos = *static_cast<CTransform*>(m_pTargetPlayer->Find_Component(L"Com_Transform"))->Get_State(CTransform::STATE_POSITION);
+			m_pTransformCom->LookAt(TargetPos);
+
+			// 뒤로 넉백
+			m_bKnockBack = true;
+			
+			return;
+		}
 	}
 }
 
@@ -177,6 +171,7 @@ void CDeacon::MonsterTick(_float dt)
 		if (IsPlayerDetected())	// 감지 거리 기준 계산
 		{
 			//플레이어 발견 시 행동
+			m_bFoundPlayer = true;
 			cout << "Deacon 플레이어 감지!!" << endl;
 			m_eState = MODE::MODE_DETECTIVE;
 		}
@@ -187,13 +182,25 @@ void CDeacon::MonsterTick(_float dt)
 		m_fRaycastTicker += dt;
 		if (m_fRaycastTicker > 0.5f)
 		{
-			if (IsMonsterAbleToAttack())	// RayPicking으로 플레이어와 몬스터 사이 장애물 X <- 공격 가능 상태가 됨
+			if (IsMonsterAbleToAttack())	// RayPicking으로 플레이어와 몬스터 사이 장애물 체크
+			{
+				m_bFoundPlayer = true;
 				m_eState = MODE::MODE_READY;
+			}
 		}
 		break;
 
 	case MODE::MODE_READY:
 		//공격 할 준비  ( 장전 등의 딜레이 필요 )
+		m_fRaycastTicker += dt;
+		if (m_fRaycastTicker > 0.5f)
+		{
+			if (!IsMonsterAbleToAttack())
+			{
+				m_eState = MODE::MODE_DETECTIVE;
+				break;
+			}
+		}
 		// 준비 끝나면
 		if (m_isReadyToAttack)
 			m_eState = MODE::MODE_BATTLE;
@@ -205,6 +212,7 @@ void CDeacon::MonsterTick(_float dt)
 		{
 			m_fCooldownDuration = 0.f;
 			m_eState = MODE::MODE_READY;
+			m_isReadyToAttack = false;
 			m_bCoolingDown = false;
 		}
 		m_fRaycastTicker += dt;
@@ -214,17 +222,19 @@ void CDeacon::MonsterTick(_float dt)
 			{
 				m_fCooldownDuration = 0.f;
 				m_eState = MODE::MODE_DETECTIVE;
+				m_isReadyToAttack = false;
+				m_bCoolingDown = false;
 			}
 		}
-
 		break;
-
+	case MODE::MODE_DEAD:
+		break;
 	case MODE::MODE_RETURN:
 		//본래위치로 돌아가고 IDLE로 상태가 변한다.
 		break;
 	}
 
-#ifdef _DEBUG
+#ifdef _CONSOL
 	auto now = steady_clock::now();
 	auto elapsed = duration_cast<milliseconds>(now - g_LastLogTime).count();
 
@@ -282,6 +292,11 @@ void CDeacon::MonsterTick(_float dt)
 		DoBattle(dt);
 		break;
 
+	case MODE::MODE_DEAD:
+		m_eCurMonsterState = STATE_DEAD;
+		DoDead(dt);
+		break;
+
 	case MODE::MODE_RETURN:
 		DoReturn(dt);
 		break;
@@ -294,6 +309,17 @@ void CDeacon::DoDetect(_float dt)
 	ChasePlayer(dt, 50.f);
 	m_eCurMonsterState = STATE_FLY;
 }
+
+//void CDeacon::DoDead(_float dt)
+//{
+//	if (m_bKnockBack)
+//	{
+//		m_pGravityCom->Jump(10.f);
+//		m_bKnockBack = false;
+//	}
+//	if (!m_bKnockBack && m_pGravityCom->isJump())
+//		m_pTransformCom->Go_Backward(dt * 3.f);
+//}
 
 
 _bool CDeacon::IsMonsterAbleToAttack()
@@ -377,17 +403,17 @@ void CDeacon::AttackPattern(_float dt)
 	// Wenteko 넣을 시 얘도 있음
 	m_eCurMonsterState = STATE_ATTACK;
 
-	m_fSpawnNormalBullet += dt;
+	m_fBulletCooldownElapsed += dt;
 	m_fAttackTimer += dt;
 	if (m_fAttackTimer >= 1.f)
 	{
 		m_bCoolingDown = true;
 	}
-	if (m_fSpawnNormalBullet >= 0.2f)
+	if (m_fBulletCooldownElapsed >= 0.2f)
 	{
 		// 0.2초마다 발사
 		CMonsterNormalBullet::DESC MonsterNormalBullet_iDesc{};
-		MonsterNormalBullet_iDesc.fSpeedPerSec = 80.f;
+		MonsterNormalBullet_iDesc.fSpeedPerSec = 800.f;
 		MonsterNormalBullet_iDesc.fRotationPerSec = RADIAN(180.f);
 		MonsterNormalBullet_iDesc.vScale = { 7.f, 7.f, 0.f };
 		MonsterNormalBullet_iDesc.vPosition = *m_pTransformCom->Get_State(CTransform::STATE_POSITION);
@@ -401,7 +427,7 @@ void CDeacon::AttackPattern(_float dt)
 
 		m_iLeftRight = m_iLeftRight * -1;
 
-		m_fSpawnNormalBullet = 0.f;
+		m_fBulletCooldownElapsed = 0.f;
 	}
 }
 
@@ -483,7 +509,7 @@ HRESULT CDeacon::Set_Animation()
 			break;
 		case Client::CDeacon::STATE_DEAD:
 			m_fAnimationMaxFrame = _float(MAX_DEAD);
-			m_fAnimationSpeed = 8.f;
+			m_fAnimationSpeed = 9.f;
 			m_bRotateAnimation = false;
 			break;
 		}
@@ -523,12 +549,11 @@ HRESULT CDeacon::Animate_Monster(_float fTimeDelta)
 			m_fAnimationFrame = 0.f;
 		break;
 	case Client::CDeacon::STATE_DEAD:
-		if (!m_bDead)
-			m_fAnimationFrame += fTimeDelta * m_fAnimationSpeed;
+		m_fAnimationFrame += fTimeDelta * m_fAnimationSpeed;
 		if (m_fAnimationFrame >= m_fAnimationMaxFrame)
 		{
-			m_bDead = true;
-			m_fAnimationFrame = 0.f;
+			m_fAnimationFrame = m_fAnimationMaxFrame -1.f;
+			m_fAnimationSpeed = 0.f;
 		}
 		break;
 	}

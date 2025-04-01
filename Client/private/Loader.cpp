@@ -494,7 +494,7 @@ HRESULT CLoader::Loding_For_Static()
 		return E_FAIL; 
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_PC_Generic"),
 		CTexture::Create(m_pGraphic_Device, TEXT("../Bin/Resources/Textures/Particle/PC_Generic.png"), 1))))
-		return E_FAIL; 
+		return E_FAIL;
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Effect_GunFire"),
 		CTexture::Create(m_pGraphic_Device, TEXT("../Bin/Resources/Textures/Particle/Effect_GunFire2%d.png"), 3))))
 		return E_FAIL; 
@@ -527,7 +527,10 @@ HRESULT CLoader::Loding_For_Static()
 		return E_FAIL; 
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_MonsterFlatform"),
 		CTexture::Create(m_pGraphic_Device, TEXT("../Bin/Resources/Textures/Monster/Flatform/Flatform.PNG"), 1))))
-		return E_FAIL; 
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_FleshBullet"),
+		CTexture::Create(m_pGraphic_Device, TEXT("../Bin/Resources/Textures/Bullet/FleshBullet/%d.png"), 8))))
+		return E_FAIL;
 #pragma endregion
 
 #pragma region 매니저 생성

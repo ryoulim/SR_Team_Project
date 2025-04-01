@@ -55,15 +55,17 @@ void CMonster::Priority_Update(_float fTimeDelta)
 
 EVENT CMonster::Update(_float fTimeDelta)
 {
-	if (m_bDead)
-		return EVN_DEAD;
+	if (m_bDead) // »ç¸Á Ã¼Å©
+	{
+		m_fDeadBodyCounter += fTimeDelta;
+		if (m_fDeadBodyCounter > 5.f)
+			return EVN_DEAD;
+	}
 
 	if (m_bActive)
 	{
-		//m_pGravityCom->Update(fTimeDelta);
- 		MonsterTick(fTimeDelta);
+		MonsterTick(fTimeDelta);
 	}
-
 	return EVN_NONE;
 }
 
@@ -110,16 +112,11 @@ HRESULT CMonster::Render()
 	if (m_bDebug)
 		Render_DebugFOV();
 
-
 	if (!m_bRotateAnimation)
 		m_iDegree = 0;
 
-	//m_pTextureMap[m_iState][m_iDegree]->Get_TextureSize(static_cast<_uint>(m_fAnimationFrame), &m_vScale);
-	//m_pTransformCom->Scaling(m_vScale * 0.32f);
 	if (FAILED(m_pTextureMap[m_iState][m_iDegree]->Bind_Resource(static_cast<_uint>(m_fAnimationFrame))))
 		return E_FAIL;
-
-	
 
 	if (!m_bCW || m_iDegree == 0 || m_iDegree == 180.f / m_fDivOffset) {
 		if (m_pGraphic_Device->SetTransform(D3DTS_WORLD, &m_pTransformCom->Billboard()))
@@ -129,7 +126,6 @@ HRESULT CMonster::Render()
 		if (m_pGraphic_Device->SetTransform(D3DTS_WORLD, &m_pTransformCom->Billboard_Inverse()))
 			return E_FAIL;
 	}
-
 
 	if (FAILED(m_pVIBufferCom->Bind_Buffers()))
 		return E_FAIL;
@@ -147,9 +143,6 @@ HRESULT CMonster::Release_RenderState()
 	m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
 	m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
 
-	m_pGraphic_Device->SetSamplerState(0, D3DSAMP_MINFILTER, D3DTEXF_LINEAR);
-	m_pGraphic_Device->SetSamplerState(0, D3DSAMP_MAGFILTER, D3DTEXF_LINEAR);
-	m_pGraphic_Device->SetSamplerState(0, D3DSAMP_MIPFILTER, D3DTEXF_LINEAR);
 
 	return S_OK;
 }
@@ -215,7 +208,7 @@ HRESULT CMonster::Ready_Components(void* pArg)
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Collider_Capsule"),
 		TEXT("Com_Collider"), reinterpret_cast<CComponent**>(&m_pCollider), &ColliderDesc)))
 		return E_FAIL;
-
+	
 	if (m_bActive)
 	{
 		CGravity::DESC GravityDesc{};
@@ -587,6 +580,31 @@ void CMonster::DoReturn(_float dt)
 
 		m_pTransformCom->Set_State(CTransform::STATE_POSITION, (vMyPos + vMove));
 	}
+}
+
+void CMonster::DoReady(_float dt)
+{
+	m_fCooldownDuration += dt;
+	if (m_fCooldownDuration >= m_fCooldownTime)
+	{
+		m_isReadyToAttack = true;
+		m_fBulletCooldownElapsed = 0.4f;
+		m_fCooldownDuration = 0.f;
+	}
+	m_fAnimationFrame = 0.f;
+	_float3 TargetPos = *static_cast<CTransform*>(m_pTargetPlayer->Find_Component(L"Com_Transform"))->Get_State(CTransform::STATE_POSITION);
+	m_pTransformCom->LookAt(TargetPos);
+}
+
+void CMonster::DoDead(_float dt)
+{
+	if (m_bKnockBack)
+	{
+		m_pGravityCom->Jump(10.f);
+		m_bKnockBack = false;
+	}
+	if (!m_bKnockBack && m_pGravityCom->isJump())
+		m_pTransformCom->Go_Backward(dt * 3.f);
 }
 
 void CMonster::SetRandomDirection()
