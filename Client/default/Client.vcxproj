@@ -213,6 +213,7 @@
     <ClInclude Include="..\public\LevelLoadingMenu.h" />
     <ClInclude Include="..\public\Level_Boss.h" />
     <ClInclude Include="..\public\Level_Indoor.h" />
+    <ClInclude Include="..\public\Level_OutDoor.h" />
     <ClInclude Include="..\public\Level_RaceFirst.h" />
     <ClInclude Include="..\public\Level_RaceSecond.h" />
     <ClInclude Include="..\public\Level_RaceThird.h" />
@@ -270,6 +271,7 @@
     <ClInclude Include="..\public\UI.h" />
     <ClInclude Include="..\public\UI_Camera.h" />
     <ClInclude Include="..\public\UI_Manager.h" />
+    <ClInclude Include="..\public\Water.h" />
     <ClInclude Include="..\public\Weapon.h" />
     <ClInclude Include="..\public\Weapon_Chaingun.h" />
     <ClInclude Include="..\public\Weapon_Dispenser.h" />
@@ -345,6 +347,7 @@
     <ClCompile Include="..\private\LevelLoadingMenu.cpp" />
     <ClCompile Include="..\private\Level_Boss.cpp" />
     <ClCompile Include="..\private\Level_Indoor.cpp" />
+    <ClCompile Include="..\private\Level_OutDoor.cpp" />
     <ClCompile Include="..\private\Level_RaceFirst.cpp" />
     <ClCompile Include="..\private\Level_RaceSecond.cpp" />
     <ClCompile Include="..\private\Level_RaceThird.cpp" />
@@ -399,6 +402,7 @@
     <ClCompile Include="..\private\UI.cpp" />
     <ClCompile Include="..\private\UI_Camera.cpp" />
     <ClCompile Include="..\private\UI_Manager.cpp" />
+    <ClCompile Include="..\private\Water.cpp" />
     <ClCompile Include="..\private\Weapon.cpp" />
     <ClCompile Include="..\private\Weapon_Chaingun.cpp" />
     <ClCompile Include="..\private\Weapon_Dispenser.cpp" />

@@ -346,6 +346,9 @@
     <Filter Include="01.Levels\04. Race\Third">
       <UniqueIdentifier>{ddbf0416-6761-4365-babd-545fed9fd109}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\Map\Water">
+      <UniqueIdentifier>{f77f54b1-1a1d-4f3e-bdfe-494ddfc8483e}</UniqueIdentifier>
+    </Filter>
     <Filter Include="02.GameObjects\Map\Sky">
       <UniqueIdentifier>{fb8359a3-f88c-4a22-b9c2-02ed4a1506ae}</UniqueIdentifier>
     </Filter>
@@ -777,6 +780,12 @@
     <ClInclude Include="..\public\Level_RaceThird.h">
       <Filter>01.Levels\04. Race\Third</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\Level_OutDoor.h">
+      <Filter>01.Levels\03. Outdoor</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Water.h">
+      <Filter>02.GameObjects\Map\Water</Filter>
+    </ClInclude>
     <ClInclude Include="..\public\Forest.h">
       <Filter>02.GameObjects\Statue\Forest</Filter>
     </ClInclude>
@@ -1163,15 +1172,6 @@
     </ClCompile>
     <ClCompile Include="..\private\Level_RaceThird.cpp">
       <Filter>01.Levels\04. Race\Third</Filter>
-    </ClCompile>
-    <ClCompile Include="..\private\Interactive_Block.cpp">
-      <Filter>02.GameObjects\Map\Interactive_Block</Filter>
-    </ClCompile>
-    <ClCompile Include="..\private\Forest.cpp">
-      <Filter>02.GameObjects\Statue\Forest</Filter>
-    </ClCompile>
-    <ClCompile Include="..\private\Rock.cpp">
-      <Filter>02.GameObjects\Statue\Forest\Rock</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

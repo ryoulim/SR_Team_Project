@@ -6,6 +6,7 @@
 
 #define BOSSSCALE 22.f
 #define INDOORSCALE 14.f
+#define OUTDOORSCALE 10.f
 
 BEGIN(Engine)
 class CTexture;
