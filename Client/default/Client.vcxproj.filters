@@ -1231,8 +1231,23 @@
     <ClCompile Include="..\private\Forest.cpp">
       <Filter>02.GameObjects\Statue\Forest</Filter>
     </ClCompile>
+    <ClCompile Include="..\private\PBState_Accel.cpp">
+      <Filter>02.GameObjects\Pawn\PlayerOnBoat\State\Accel</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\PBState.cpp">
+      <Filter>02.GameObjects\Pawn\PlayerOnBoat\State</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\PBState_Decel.cpp">
+      <Filter>02.GameObjects\Pawn\PlayerOnBoat\State\Decel</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\PBState_Lerp.cpp">
+      <Filter>02.GameObjects\Pawn\PlayerOnBoat\State\Lerp</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\PBState_Normal.cpp">
+      <Filter>02.GameObjects\Pawn\PlayerOnBoat\State\Normal</Filter>
+    </ClCompile>
     <ClCompile Include="..\private\Rock.cpp">
-      <Filter>02.GameObjects\Statue\Forest\Rock</Filter>
+      <Filter>02.GameObjects\Statue\Rock</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

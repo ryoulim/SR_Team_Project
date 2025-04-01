@@ -48,9 +48,6 @@ void CPlayerOnBoat::Priority_Update(_float fTimeDelta)
 
 EVENT CPlayerOnBoat::Update(_float fTimeDelta)
 {
-	if (m_bDead)
-		return EVN_DEAD;
-
 	//이전 상태와 현재 상태가 다르다면 Enter 실행
 	if (m_eCurState != m_ePreState)
 	{
