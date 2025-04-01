@@ -54,6 +54,7 @@ public: //ÃÑ¾Ë
 public: //Åä³×ÀÌµµ
 	void SpawnTornado(_float3 _vPosition, LEVEL eLevel);
 	void SpawnSpher(_float3 _vPosition, LEVEL eLevel);
+	void SpawnSpherSmall(_float3 _vPosition, LEVEL eLevel);
 	void SpawnField(_float3 _vPosition, LEVEL eLevel);
 
 public: //ÅºÇÇ

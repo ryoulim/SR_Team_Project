@@ -97,7 +97,6 @@ HRESULT CBossBridge::Ready_Components(void* pArg)
 
 inline void CBossBridge::On_Trigger() {
 	m_bTrigger = TRUE;
-	CAMERA_MANAGER->Shake_Camera(0.2f, 5.f);
 }
 
 CBossBridge* CBossBridge::Create(LPDIRECT3DDEVICE9 pGraphic_Device)

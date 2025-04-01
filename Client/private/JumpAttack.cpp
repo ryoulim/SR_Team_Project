@@ -20,8 +20,6 @@ HRESULT CJumpAttack::Initialize(void* pArg)
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
 
-	m_fFrame = GetRandomFloat(0.f, m_fAnimationMaxFrame);
-
 
 	return S_OK;
 }
@@ -69,16 +67,6 @@ void CJumpAttack::resetParticle(Attribute* attribute)
 {
 	attribute->_isAlive = true;
 
-#pragma region 폭죽로직
-	//attribute->_Position = m_vPosition;
-	//_float3 min = { -1.0f, -1.0f, -1.0f };
-	//_float3 max = { 1.0f, 1.0f, 1.0f };
-	//GetRandomVector(&attribute->_Velocity, &min, &max);
-	//D3DXVec3Normalize(&attribute->_Velocity, &attribute->_Velocity);
-	//attribute->_Velocity *= 15.f;
-#pragma endregion
-
-
 	//분수형 폭팔 로직
 	attribute->_Position = m_vPosition;
 	_float3 min = { -10.0f,  0.0f, -10.0f };
@@ -95,9 +83,6 @@ void CJumpAttack::resetParticle(Attribute* attribute)
 	attribute->_ColorFade = WHITE;						// 디졸브색상
 	attribute->_LifeTime = 2.f;							// 라이프타임
 
-	//파티클 개별 사이즈는 그래픽 카드에서 지원안함 gg
-	attribute->_Size = GetRandomFloat(m_fSize - 3.f, m_fSize + 3.f);
-
 }
 
 EVENT CJumpAttack::Update(_float timeDelta)
@@ -108,6 +93,7 @@ EVENT CJumpAttack::Update(_float timeDelta)
 		//생존한 파티클만 갱신한다.
 		if (i->_isAlive)
 		{
+			i->_Animation = GetRandomFloat(0.f, m_fAnimationMaxFrame);
 			// 속도 업데이트 (중력 적용)
 			i->_Velocity += i->_Accelerator * timeDelta;
 			i->_Position += i->_Velocity * timeDelta;
@@ -123,8 +109,6 @@ EVENT CJumpAttack::Update(_float timeDelta)
 		}
 	}
 
-	FrameUpdate(timeDelta);
-
 	removeDeadParticle();
 	if (m_Particles.empty())
 	{
@@ -134,25 +118,12 @@ EVENT CJumpAttack::Update(_float timeDelta)
 	return EVN_NONE;
 }
 
-
-void CJumpAttack::FrameUpdate(float timeDelta)
-{
-	m_fFrame += 8.f * timeDelta;
-
-	if (m_fAnimationMaxFrame < m_fFrame)
-		m_fFrame = 0;
-}
-
 HRESULT CJumpAttack::Render()
 {
 	if (!m_Particles.empty())
 	{
 		//렌더 상태를 지정한다.
 		SetUp_RenderState();
-
-		//m_pTextureCom->Bind_Resource(0);
-		//m_pTextureCom->Bind_Resource((_uint)m_fFrame);
-		m_pGraphic_Device->SetTexture(0, nullptr);
 
 		m_pGraphic_Device->SetFVF(Particle::FVF);
 		m_pGraphic_Device->SetStreamSource(0, m_pVB, 0, sizeof(Particle));
@@ -178,6 +149,8 @@ HRESULT CJumpAttack::Render()
 		{
 			if (i->_isAlive)
 			{
+				m_pTextureCom->Bind_Resource((_uint)i->_Animation);
+
 				//한 단계의 세그먼트에서 생존한 파티클을 다음 버텍스 버퍼 세그먼트로 복사한다.
 				v->_Position = i->_Position;
 				v->_Color = (D3DCOLOR)i->_Color;

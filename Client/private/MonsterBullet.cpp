@@ -43,9 +43,9 @@ HRESULT CMonsterBullet::Initialize(void* pArg)
 	Missile_iDesc.vPosition = { 0.f, 0.f, 0.f };
 	Missile_iDesc.szTextureTag = TEXT("PC_Small_Smoke");
 	Missile_iDesc.iParticleNums = 1000;
-	Missile_iDesc.fSize = 5.f;
+	Missile_iDesc.fSize = 10.f;
 	Missile_iDesc.fMaxFrame = 20.f;
-	Missile_iDesc.fLifeTime = GetRandomFloat(1.f, 3.f);
+	Missile_iDesc.fNum = 60.f;
 
 	CGameObject* pObject = nullptr;
 	CGameObject** ppOut = &pObject;
@@ -72,6 +72,11 @@ HRESULT CMonsterBullet::Ready_Components(void* pArg)
 	/* For.Com_Transform */
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Transform"),
 		TEXT("Com_Transform"), reinterpret_cast<CComponent**>(&m_pTransformCom), pArg)))
+		return E_FAIL;
+
+	//¼ÎÀÌ´õ ÀåÂø
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Shader_Particle"),
+		TEXT("Com_Shader"), reinterpret_cast<CComponent**>(&m_pShaderCom))))
 		return E_FAIL;
 
 	if (pArg != nullptr)
@@ -122,7 +127,7 @@ EVENT CMonsterBullet::Update(_float fTimeDelta)
 void CMonsterBullet::Late_Update(_float fTimeDelta)
 {
 	//·»´õ±×·ì ¾÷µ¥ÀÌÆ®
-	if (FAILED(m_pGameInstance->Add_RenderGroup(CRenderer::RG_NONBLEND, this)))
+	if (FAILED(m_pGameInstance->Add_RenderGroup(CRenderer::RG_BLEND, this)))
 		return;
 
 	__super::Late_Update(fTimeDelta);
@@ -142,14 +147,14 @@ void CMonsterBullet::On_Collision(_uint MyColliderID, _uint OtherColliderID)
 	if (OtherColliderID == CI_BLOCK_COMMON)
 	{
 		CFXMgr::Get_Instance()->SpawnExplosion2(CCollider::Get_Last_Collision_Pos(), m_eLevelID);
-		m_pCamera->Shake_Camera();
+		m_pCamera->Shake_Camera(0.5f,0.5f);
 	}
 }
 
 HRESULT CMonsterBullet::Render()
 {
 	m_pGraphic_Device->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
-	m_pGraphic_Device->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
+	m_pGraphic_Device->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_ONE);
 	m_pGraphic_Device->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_ONE);
 	m_pGraphic_Device->SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
 
@@ -170,6 +175,7 @@ HRESULT CMonsterBullet::Render()
 	m_pGraphic_Device->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
 	m_pGraphic_Device->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);
 
+	
 	return S_OK;
 }
 
@@ -215,5 +221,6 @@ void CMonsterBullet::Free()
 	__super::Free();
 
 	Safe_Release(m_pTargetPlayer);
+	Safe_Release(m_pShaderCom);
 	Safe_Release(m_pCamera);
 }

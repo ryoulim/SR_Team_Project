@@ -8,6 +8,7 @@ BEGIN(Engine)
 class CTexture;
 class CVIBuffer_Rect;
 class CTransform;
+class CShader;
 END
 
 BEGIN(Client)
@@ -45,6 +46,7 @@ protected:
 	LEVEL m_eLevelID = { LEVEL_END };
 	const _tchar* m_szTextureID = { nullptr };
 	const _tchar* m_szBufferType = { nullptr };
+	CShader* m_pShaderCom = { nullptr };
 	CTexture* m_pTextureCom = { nullptr };
 	CVIBuffer* m_pVIBufferCom = { nullptr };
 	CTransform* m_pTransformCom = { nullptr };

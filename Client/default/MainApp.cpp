@@ -175,6 +175,10 @@ HRESULT CMainApp::Ready_Component_For_Static()
 	ADD_TEXTURE(FadeUI, "../Bin/Resources/Textures/UI/black.PNG", 1);
 
 	ADD_PRTCOM_EX(Shader, L"../bin/ShaderFiles/Shader_TextureEffect.hlsl");
+	
+	if (((FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, _wstring(L"Prototype_Component_Shader_Particle"),
+		CShader::Create(m_pGraphic_Device, L"../bin/ShaderFiles/Shader_Particle.hlsl"))))))
+		return E_FAIL;
 
 	return S_OK;
 }

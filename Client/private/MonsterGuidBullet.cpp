@@ -46,15 +46,16 @@ HRESULT CMonsterGuidBullet::Initialize(void* pArg)
 	Missile_iDesc.vPosition = { 0.f, 0.f, 0.f };
 	Missile_iDesc.szTextureTag = TEXT("PC_Small_Smoke");
 	Missile_iDesc.iParticleNums = 1000;
-	Missile_iDesc.fSize = 2.f;
+	Missile_iDesc.fSize = 12.f;
 	Missile_iDesc.fMaxFrame = 20.f;
-
+	Missile_iDesc.fNum = 40.f;
+	
 	CGameObject* pObject = nullptr;
 	CGameObject** ppOut = &pObject;
 	if (FAILED(m_pGameInstance->Add_GameObjectReturn(LEVEL_STATIC, TEXT("Prototype_GameObject_PC_MonsterMissile"),
 		LEVEL_GAMEPLAY, L"Layer_Monster", ppOut, &Missile_iDesc)))
 		return E_FAIL;
-
+	
 	m_pMissile = *ppOut;
 	return S_OK;
 }
@@ -74,6 +75,11 @@ HRESULT CMonsterGuidBullet::Ready_Components(void* pArg)
 	/* For.Com_Transform */
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Transform"),
 		TEXT("Com_Transform"), reinterpret_cast<CComponent**>(&m_pTransformCom), pArg)))
+		return E_FAIL;
+
+	//¼ÎÀÌ´õ ÀåÂø
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Shader_Particle"),
+		TEXT("Com_Shader"), reinterpret_cast<CComponent**>(&m_pShaderCom))))
 		return E_FAIL;
 
 	if (pArg != nullptr)
@@ -143,8 +149,11 @@ EVENT CMonsterGuidBullet::Update(_float fTimeDelta)
 
 void CMonsterGuidBullet::Late_Update(_float fTimeDelta)
 {
+	_float3	vTemp = *m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+	CGameObject::Compute_ViewZ(&vTemp);
+
 	//·»´õ±×·ì ¾÷µ¥ÀÌÆ®
-	if (FAILED(m_pGameInstance->Add_RenderGroup(CRenderer::RG_NONBLEND, this)))
+	if (FAILED(m_pGameInstance->Add_RenderGroup(CRenderer::RG_BLEND, this)))
 		return;
 
 	__super::Late_Update(fTimeDelta);
@@ -174,27 +183,67 @@ void CMonsterGuidBullet::On_Collision(_uint MyColliderID, _uint OtherColliderID)
 
 HRESULT CMonsterGuidBullet::Render()
 {
-	m_pGraphic_Device->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
-	m_pGraphic_Device->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
-	m_pGraphic_Device->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_ONE);
-	m_pGraphic_Device->SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
+	SetUp_RenderState();
 
-	if (FAILED(m_pTransformCom->Bind_Resource()))
+	//ÅØ½ºÃ³ ¼ÎÀÌ´õ·Î ³Ñ±â±â
+	m_pTextureCom->Bind_Shader_To_Texture(m_pShaderCom, "g_Texture", 0);
+
+	//¸ÞÆ®¸¯½º ¼ÎÀÌ´õ·Î ³Ñ±â±â
+	_float4x4 maxView, maxProj;
+	m_pGraphic_Device->GetTransform(D3DTS_VIEW, &maxView);
+	m_pGraphic_Device->GetTransform(D3DTS_PROJECTION, &maxProj);
+
+	_float4x4 matBillboard = m_pTransformCom->Billboard();
+	if (FAILED(m_pShaderCom->Bind_Matrix("g_WorldMatrix", &matBillboard)))
+		return E_FAIL;
+	if (FAILED(m_pShaderCom->Bind_Matrix("g_ViewMatrix", &maxView)))
+		return E_FAIL;
+	if (FAILED(m_pShaderCom->Bind_Matrix("g_ProjMatrix", &maxProj)))
 		return E_FAIL;
 
-	if (FAILED(m_pTextureCom->Bind_Resource(static_cast<_uint>(m_fTextureNum))))
-		return E_FAIL;
-	//m_pGraphic_Device->SetTexture(0, nullptr);
+	m_fAccTime += 1.0f / 60.0f;
+	m_pShaderCom->SetFloat("g_fTime", m_fAccTime);
+	m_pShaderCom->SetFloat("g_fEmissivePower", 2.5f);
+
+	//¼ÎÀÌ´õ ½ÃÀÛ
+	m_pShaderCom->Begin(CShader::BOSSMISSILE);
 
 	if (FAILED(m_pVIBufferCom->Bind_Buffers()))
 		return E_FAIL;
 
-	m_pGraphic_Device->SetTransform(D3DTS_WORLD, &m_pTransformCom->Billboard());
+
+	/* ------------------------------------------------------------------------- */
+
 	if (FAILED(m_pVIBufferCom->Render()))
 		return E_FAIL;
 
+	/* ------------------------------------------------------------------------- */
+
+	m_pShaderCom->End();
+
+
+	Release_RenderState();
+
+	return S_OK;
+}
+
+HRESULT CMonsterGuidBullet::SetUp_RenderState()
+{
+	m_pGraphic_Device->SetTextureStageState(0, D3DTSS_ALPHAARG1, D3DTA_TEXTURE);
+	m_pGraphic_Device->SetTextureStageState(0, D3DTSS_ALPHAOP, D3DTOP_SELECTARG1);
+	m_pGraphic_Device->SetRenderState(D3DRS_ALPHABLENDENABLE, true);
+	m_pGraphic_Device->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_ONE);
+	m_pGraphic_Device->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_ONE);
+	m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, false);
+	return S_OK;
+}
+
+HRESULT CMonsterGuidBullet::Release_RenderState()
+{
 	m_pGraphic_Device->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
 	m_pGraphic_Device->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);
+	m_pGraphic_Device->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_ONE);
+	m_pGraphic_Device->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_ZERO);
 
 	return S_OK;
 }
@@ -247,5 +296,6 @@ void CMonsterGuidBullet::Free()
 	__super::Free();
 
 	Safe_Release(m_pTargetPlayer);
+	Safe_Release(m_pShaderCom);
 	Safe_Release(m_pCamera);
 }

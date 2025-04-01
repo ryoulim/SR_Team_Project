@@ -58,6 +58,11 @@ HRESULT CFlyEffect::Ready_Components(void* pArg)
 		TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
 		return E_FAIL;
 
+	//셰이더 장착
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Shader_Particle"),
+		TEXT("Com_Shader"), reinterpret_cast<CComponent**>(&m_pShaderCom))))
+		return E_FAIL;
+
 	return S_OK;
 }
 
@@ -86,7 +91,8 @@ void CFlyEffect::resetParticle(Attribute* attribute)
 	attribute->_Age = 0.f;
 	attribute->_Color = WHITE;
 	attribute->_ColorFade = WHITE;
-	attribute->_LifeTime = GetRandomFloat(0.5f, 1.5f);
+	attribute->_LifeTime = GetRandomFloat(0.f, 1.5f);
+	attribute->_Animation = GetRandomFloat(0.f, 15.f);
 }
 
 EVENT CFlyEffect::Update(_float timeDelta)
@@ -94,6 +100,9 @@ EVENT CFlyEffect::Update(_float timeDelta)
 	list<Attribute>::iterator i;
 	for (i = m_Particles.begin(); i != m_Particles.end(); i++)
 	{
+		/* [ 파티클 개인의 애니메이션 적용 ] */
+		FrameUpdateAge(timeDelta, i->_Animation, i->_Age);
+
 		//생존한 파티클만 갱신한다.
 		if (i->_isAlive)
 		{
@@ -108,7 +117,6 @@ EVENT CFlyEffect::Update(_float timeDelta)
 			}
 		}
 	}
-	FrameUpdate(timeDelta);
 
 	if (m_bDead)
 	{
@@ -118,15 +126,6 @@ EVENT CFlyEffect::Update(_float timeDelta)
 	return EVN_NONE;
 }
 
-
-void CFlyEffect::FrameUpdate(float timeDelta)
-{
-	m_fFrame += 30.f * timeDelta;
-
-	if (m_fAnimationMaxFrame < m_fFrame)
-		m_fFrame = 0;
-}
-
 HRESULT CFlyEffect::Render()
 {
 	if (!m_Particles.empty())
@@ -134,9 +133,7 @@ HRESULT CFlyEffect::Render()
 		//렌더 상태를 지정한다.
 		SetUp_RenderState();
 
-		//m_pTextureCom->Bind_Resource(0);
 		//m_pTextureCom->Bind_Resource((_uint)m_fFrame);
-		m_pGraphic_Device->SetTexture(0, nullptr);
 
 		m_pGraphic_Device->SetFVF(Particle::FVF);
 		m_pGraphic_Device->SetStreamSource(0, m_pVB, 0, sizeof(Particle));
@@ -157,9 +154,23 @@ HRESULT CFlyEffect::Render()
 		DWORD numParticlesInBatch = 0;
 
 		//모든 파티클이 렌더될 때 까지
+		m_pShaderCom->Begin(CShader::SMOKE);
 		list<Attribute>::iterator i;
 		for (i = m_Particles.begin(); i != m_Particles.end(); i++)
 		{
+			/* [ 파티클 개인의 애니메이션 적용 ] */
+			m_pTextureCom->Bind_Shader_To_Texture(m_pShaderCom, "g_Texture", (_uint)i->_Animation);
+			
+			//블러 세기
+			float fBlurAmount = 0.5f;
+			m_pShaderCom->SetFloat("g_fBlurAmount", fBlurAmount);
+
+			//나이에 따른 투명도
+			float age = i->_Age;
+			float maxAge = i->_LifeTime;
+			float fLifeRatio = 1.0f - (age / maxAge);
+			m_pShaderCom->SetFloat("g_fLifeRatio", fLifeRatio);
+
 			if (i->_isAlive)
 			{
 				//한 단계의 세그먼트에서 생존한 파티클을 다음 버텍스 버퍼 세그먼트로 복사한다.
@@ -212,6 +223,7 @@ HRESULT CFlyEffect::Render()
 	//렌더정리
 	Release_RenderState();
 
+	m_pShaderCom->End();
 	return S_OK;
 
 }
@@ -225,7 +237,7 @@ CFlyEffect* CFlyEffect::Create(LPDIRECT3DDEVICE9 pGraphicDev, wstring _strObjNam
 	pInstance->m_vbSize = 2048;				//  GPU가 한번에 그릴 수 있는 파티클 개수, CPU가 GPU로 파티클 정점 버퍼에 담을 수 있는 개수
 	pInstance->m_fSize = 0.2f;				//  파티클의 크기
 	pInstance->m_vbOffset = 0;				//  세그먼트의 배치사이즈를 옮길때 쓰는 오프셋(0고정)
-	pInstance->m_vbBatchSize = 1;			//  세그먼트 배치사이즈 크기(한번에 옮길 수 있는 정점들의 개수)
+	pInstance->m_vbBatchSize = 100;			//  세그먼트 배치사이즈 크기(한번에 옮길 수 있는 정점들의 개수)
 	pInstance->m_vMin = _float3{ 0.f,0.f,0.f };				//  바운딩박스의 최소크기
 	pInstance->m_vMax = _float3{ 1.f,1.f,1.f };				//  바운딩박스의 최대크기
 
@@ -272,4 +284,5 @@ void CFlyEffect::Free()
 	__super::Free();
 
 	Safe_Release(m_pTextureCom);
+	Safe_Release(m_pShaderCom);
 }

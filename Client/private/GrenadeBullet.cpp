@@ -50,7 +50,7 @@ EVENT CGrenadeBullet::Update(_float fTimeDelta)
 	if (m_fTimeAcc > m_fTimeLimit ||
 		m_bDead)
 	{
-		CFXMgr::Get_Instance()->SpawnExplosion(CCollider::Get_Last_Collision_Pos(), m_eLevelID);
+		CFXMgr::Get_Instance()->SpawnCustomExplosion(CCollider::Get_Last_Collision_Pos(), m_eLevelID, { 30.f,50.f,1.f }, TEXT("Effect_Explor"), 32);
 		return EVN_DEAD;
 	}
 
