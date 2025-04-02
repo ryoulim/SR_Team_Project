@@ -35,6 +35,12 @@ namespace Client
 		CI_MONSTER_BULLET,
 		CI_MBULLET_END,
 
+		CI_BOSS_FIRE,																				// 보스 공격용
+		CI_BOSS_BULLET,
+		CI_BOSS_JUMP,
+		CI_BOSS_GUIDBULLET,
+		CI_BOSS_TANGTANG,
+
 		CI_TRIGGER                                                                                  // 트리거 ( 조건문 안들어가게 하기 위해서 만든 이넘 )
 	};
 

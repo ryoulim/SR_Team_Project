@@ -6,7 +6,7 @@ BEGIN(Engine)
 class CGameObject;
 END
 
-class CJumpAttack : public CPSystem
+class CBulletSmoke : public CPSystem
 {
 public:
 	typedef struct tagFireworkDesc : public CPSystem::DESC
@@ -14,12 +14,13 @@ public:
 	}DESC;
 
 public:
-	CJumpAttack(LPDIRECT3DDEVICE9 pGraphicDev, wstring _strObjName);
-	CJumpAttack(const CPSystem& Prototype);
-	virtual ~CJumpAttack() = default;
+	CBulletSmoke(LPDIRECT3DDEVICE9 pGraphicDev, wstring _strObjName);
+	CBulletSmoke(const CPSystem& Prototype);
+	virtual ~CBulletSmoke() = default;
 
 
 	HRESULT Initialize(void* pArg) override;
+	virtual HRESULT Reset(void* pArg) override;
 	HRESULT Ready_Particle() override;
 	HRESULT Ready_Components(void* pArg);
 	virtual void resetParticle(Attribute* attribute);
@@ -30,11 +31,9 @@ public:
 	float GetRandomColor(float lowBound, float highBound);
 
 public:
-	static CJumpAttack* Create(LPDIRECT3DDEVICE9 pGraphicDev, wstring _strObjName);
+	static CBulletSmoke* Create(LPDIRECT3DDEVICE9 pGraphicDev, wstring _strObjName);
 	virtual CGameObject* Clone(void* pArg) override;
 	virtual void Free();
 
-private:
-	float		m_fFrame = 0;
 };
 

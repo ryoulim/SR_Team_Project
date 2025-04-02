@@ -424,6 +424,12 @@
     <Filter Include="02.GameObjects\Map\Ladder">
       <UniqueIdentifier>{3fbe9f71-04fb-4e05-80a3-56b1a15641a3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\Particle\BulletSmoke">
+      <UniqueIdentifier>{0c4a7055-ecba-4c91-bd29-3f3a47aaa39c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Effect\BulletMark">
+      <UniqueIdentifier>{26a13a7f-6446-44f8-9085-93ee889f8665}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -850,6 +856,12 @@
     <ClInclude Include="..\public\Ladder.h">
       <Filter>02.GameObjects\Map\Ladder</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\BulletSmoke.h">
+      <Filter>02.GameObjects\Particle\BulletSmoke</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\BulletMark.h">
+      <Filter>02.GameObjects\Effect\BulletMark</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -1260,6 +1272,12 @@
     </ClCompile>
     <ClCompile Include="..\private\Ladder.cpp">
       <Filter>02.GameObjects\Map\Ladder</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\BulletSmoke.cpp">
+      <Filter>02.GameObjects\Particle\BulletSmoke</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\BulletMark.cpp">
+      <Filter>02.GameObjects\Effect\BulletMark</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

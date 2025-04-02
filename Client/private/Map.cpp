@@ -79,15 +79,20 @@ void CMap::On_Collision(_uint MyColliderID, _uint OtherColliderID)
 	if (OtherColliderID == CI_LOVERBOY ||
 		OtherColliderID == CI_CHAINGUN ||
 		OtherColliderID == CI_DISPENSOR_SHELL)
-		FX_MGR->SpawnBlood(CCollider::Get_Last_Collision_Pos(), m_eLevelID);
+	{
+		/* [ 충돌한 면의 노말 벡터 ] */
+		_float3 vLook = CCollider::Get_Last_Collision_Depth().Normalize();
+
+		if (m_fTextureIdx == 93)
+			FX_MGR->SpawnBulletMark(CCollider::Get_Last_Collision_Pos(), m_eLevelID, vLook, 0);
+	}
 
 
-	/*if (m_fTextureIdx == 1010)
-		FX_MGR->SpawnBlood();
-	if (m_fTextureIdx == 1001)
-		FX_MGR->SpawnBulletTracer();
-	if (m_fTextureIdx == 1001)
-		FX_MGR->SpawnBlood();*/
+
+
+
+
+
 }
 
 HRESULT CMap::Ready_Components(void* pArg)

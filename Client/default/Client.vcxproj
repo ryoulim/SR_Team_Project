@@ -186,6 +186,8 @@
     <ClInclude Include="..\public\BuildingW.h" />
     <ClInclude Include="..\public\Bullet.h" />
     <ClInclude Include="..\public\BulletImpactSpark.h" />
+    <ClInclude Include="..\public\BulletMark.h" />
+    <ClInclude Include="..\public\BulletSmoke.h" />
     <ClInclude Include="..\public\Button.h" />
     <ClInclude Include="..\public\Button_Main.h" />
     <ClInclude Include="..\public\Cabinet.h" />
@@ -327,6 +329,8 @@
     <ClCompile Include="..\private\BuildingW.cpp" />
     <ClCompile Include="..\private\Bullet.cpp" />
     <ClCompile Include="..\private\BulletImpactSpark.cpp" />
+    <ClCompile Include="..\private\BulletMark.cpp" />
+    <ClCompile Include="..\private\BulletSmoke.cpp" />
     <ClCompile Include="..\private\Button.cpp" />
     <ClCompile Include="..\private\Button_Main.cpp" />
     <ClCompile Include="..\private\Cabinet.cpp" />

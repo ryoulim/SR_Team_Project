@@ -1,18 +1,18 @@
-#include "BulletImpactSpark.h"
+#include "BulletSmoke.h"
 #include "GameInstance.h"
 
 
-CBulletImpactSpark::CBulletImpactSpark(LPDIRECT3DDEVICE9 pGraphicDev, wstring _strObjName)
+CBulletSmoke::CBulletSmoke(LPDIRECT3DDEVICE9 pGraphicDev, wstring _strObjName)
 	:CPSystem(pGraphicDev, _strObjName)
 {
 }
 
-CBulletImpactSpark::CBulletImpactSpark(const CPSystem& Prototype)
+CBulletSmoke::CBulletSmoke(const CPSystem& Prototype)
 	: CPSystem(Prototype)
 {
 }
 
-HRESULT CBulletImpactSpark::Initialize(void* pArg)
+HRESULT CBulletSmoke::Initialize(void* pArg)
 {
 	if (FAILED(Ready_Components(pArg)))
 		return E_FAIL;
@@ -20,13 +20,10 @@ HRESULT CBulletImpactSpark::Initialize(void* pArg)
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
 
-	m_fFrame = GetRandomFloat(0.f, m_fAnimationMaxFrame);
-
-
 	return S_OK;
 }
 
-HRESULT CBulletImpactSpark::Reset(void* pArg)
+HRESULT CBulletSmoke::Reset(void* pArg)
 {
 	DESC* pDesc = static_cast<DESC*>(pArg);
 	m_pTransForm->Set_State(CTransform::STATE_POSITION, pDesc->vPosition);
@@ -36,7 +33,7 @@ HRESULT CBulletImpactSpark::Reset(void* pArg)
 	return S_OK;
 }
 
-HRESULT CBulletImpactSpark::Ready_Particle()
+HRESULT CBulletSmoke::Ready_Particle()
 {
 
 	m_dwFVF = Particle::FVF;
@@ -56,7 +53,7 @@ HRESULT CBulletImpactSpark::Ready_Particle()
 	return S_OK;
 }
 
-HRESULT CBulletImpactSpark::Ready_Components(void* pArg)
+HRESULT CBulletSmoke::Ready_Components(void* pArg)
 {
 	DESC* pDesc = static_cast<DESC*>(pArg);
 
@@ -75,31 +72,30 @@ HRESULT CBulletImpactSpark::Ready_Components(void* pArg)
 	return S_OK;
 }
 
-void CBulletImpactSpark::resetParticle(Attribute* attribute)
+void CBulletSmoke::resetParticle(Attribute* attribute)
 {
 	attribute->_isAlive = true;
 
-	//분수형 폭팔 로직
+	//연기올라가는 로직
 	attribute->_Position = m_vPosition;
-	_float3 min = { -10.0f,  0.0f, -10.0f };
-	_float3 max = { 10.0f,  1.0f,  10.0f };
+	_float3 min = {-2.f, 0.f, -2.f};
+	_float3 max = { 3.f, 1.5f, 3.f };
 	GetRandomVector(&attribute->_Velocity, &min, &max);
-	attribute->_Velocity.y = GetRandomFloat(5.0f, 15.0f);
-	D3DXVec3Normalize(&attribute->_Velocity, &attribute->_Velocity);
-	attribute->_Velocity *= 400.f; // 전체 속도 조정
-	attribute->_Accelerator = { 0.0f, -1550.f, 0.0f };
 
-	//attribute->_Accelerator = _float3(0.f, 0.f, 0.f);	// 가속도
+	attribute->_Velocity.y = GetRandomFloat(0.1f, 5.f);
+	D3DXVec3Normalize(&attribute->_Velocity, &attribute->_Velocity);
+	attribute->_Velocity *= 100.f;
+
+
+	attribute->_Accelerator = { 0.0f, GetRandomFloat(10.f, 50.f), 0.0f };		// 가속도
 	attribute->_Age = 0.f;								// 나이
 	attribute->_Color = WHITE;							// 색상
 	attribute->_ColorFade = WHITE;						// 디졸브색상
 	attribute->_LifeTime = 0.2f;							// 라이프타임
 
-	attribute->_Animation = GetRandomFloat(0.f, m_fAnimationMaxFrame);
-
 }
 
-EVENT CBulletImpactSpark::Update(_float timeDelta)
+EVENT CBulletSmoke::Update(_float timeDelta)
 {
 	if (m_Particles.empty())
 	{
@@ -109,7 +105,7 @@ EVENT CBulletImpactSpark::Update(_float timeDelta)
 	for (auto i = m_Particles.begin(); i != m_Particles.end();)
 	{
 		/* [ 파티클 개인의 애니메이션 적용 ] */
-		i->_Animation = GetRandomFloat(0.f, m_fAnimationMaxFrame);
+		FrameUpdateAge(timeDelta, i->_Animation, i->_Age);
 
 		//생존한 파티클만 갱신한다.
 		if (i->_isAlive)
@@ -118,9 +114,10 @@ EVENT CBulletImpactSpark::Update(_float timeDelta)
 			i->_Velocity += i->_Accelerator * timeDelta;
 			i->_Position += i->_Velocity * timeDelta;
 
-			//i->_Position += i->_Velocity * timeDelta;
-			i->_Age += timeDelta;
+			i->_Velocity.x += GetRandomFloat(-0.1f, 0.1f) * timeDelta;
+			i->_Velocity.z += GetRandomFloat(-0.1f, 0.1f) * timeDelta;
 
+			i->_Age += timeDelta;
 			if (i->_Age > i->_LifeTime)
 			{
 				i->_isAlive = false;
@@ -131,20 +128,11 @@ EVENT CBulletImpactSpark::Update(_float timeDelta)
 		}
 		i++;
 	}
-
 	return EVN_NONE;
 }
 
 
-void CBulletImpactSpark::FrameUpdate(float timeDelta)
-{
-	m_fFrame += 8.f * timeDelta;
-
-	if (m_fAnimationMaxFrame < m_fFrame)
-		m_fFrame = 0;
-}
-
-HRESULT CBulletImpactSpark::Render()
+HRESULT CBulletSmoke::Render()
 {
 	if (!m_Particles.empty())
 	{
@@ -233,9 +221,9 @@ HRESULT CBulletImpactSpark::Render()
 }
 
 
-CBulletImpactSpark* CBulletImpactSpark::Create(LPDIRECT3DDEVICE9 pGraphicDev, wstring _strObjName)
+CBulletSmoke* CBulletSmoke::Create(LPDIRECT3DDEVICE9 pGraphicDev, wstring _strObjName)
 {
-	CBulletImpactSpark* pInstance = new CBulletImpactSpark(pGraphicDev, _strObjName);
+	CBulletSmoke* pInstance = new CBulletSmoke(pGraphicDev, _strObjName);
 
 	//스노우 파티클 정보
 	//pInstance->m_vPosition = _Origin;
@@ -249,7 +237,7 @@ CBulletImpactSpark* CBulletImpactSpark::Create(LPDIRECT3DDEVICE9 pGraphicDev, ws
 	return pInstance;
 }
 
-float CBulletImpactSpark::GetRandomColor(float lowBound, float highBound)
+float CBulletSmoke::GetRandomColor(float lowBound, float highBound)
 {
 	if (lowBound >= highBound)
 		return lowBound;
@@ -259,14 +247,14 @@ float CBulletImpactSpark::GetRandomColor(float lowBound, float highBound)
 	return (f * (highBound - lowBound)) + lowBound;
 }
 
-CGameObject* CBulletImpactSpark::Clone(void* pArg)
+CGameObject* CBulletSmoke::Clone(void* pArg)
 {
-	CBulletImpactSpark* pInstance = new CBulletImpactSpark(*this);
+	CBulletSmoke* pInstance = new CBulletSmoke(*this);
 	pInstance->m_isClone = true;
 
 	if (FAILED(pInstance->Initialize(pArg)))
 	{
-		MSG_BOX("Failed to Created : CBulletImpactSpark");
+		MSG_BOX("Failed to Created : CBulletSmoke");
 		Safe_Release(pInstance);
 	}
 
@@ -279,7 +267,7 @@ CGameObject* CBulletImpactSpark::Clone(void* pArg)
 	return pInstance;
 }
 
-void CBulletImpactSpark::Free()
+void CBulletSmoke::Free()
 {
 	__super::Free();
 

@@ -430,6 +430,40 @@ void CTransform::Turn_Immediately(const _float3& vAxis, _float fRadian)
 	Set_State(STATE_LOOK, vLook.TransformNormal(RotationMatrix));
 }
 
+void CTransform::Turn_BulletMark(const _float3& vTargetLook)
+{
+	_float3	vScaled = Compute_Scaled();
+	_float3 vLook = vTargetLook.Normalize();
+
+	// 월드 업 벡터 (Y축 위 방향)
+	_float3 vWorldUp = { 0.f, 1.f, 0.f };
+
+	// Look과 World Up이 거의 평행한 경우를 피하기 위한 처리
+	if (fabs(vLook.Dot(vWorldUp)) > 0.99f)
+	{
+		vWorldUp = { 0.f, 0.f, 1.f }; // 다른 축으로 보정
+	}
+
+	_float3 vRight = vWorldUp.Cross(vLook).Normalize();
+	_float3 vUp = vLook.Cross(vRight).Normalize();
+
+	// 세 방향 벡터를 바로 설정
+	Set_State(STATE_RIGHT, vRight * vScaled.x);
+	Set_State(STATE_UP, vUp * vScaled.y);
+	Set_State(STATE_LOOK, vLook * vScaled.z);
+}
+
+void CTransform::Move_Forward_ByLook(_float fDistance)
+{
+	_float3 vLook = *Get_State(STATE_LOOK);
+	_float3 vPosition = *Get_State(STATE_POSITION);
+
+	// 방향은 정규화한 다음 거리만큼 이동
+	vPosition += vLook.Normalize() * fDistance;
+
+	Set_State(STATE_POSITION, vPosition);
+}
+
 void CTransform::Rotation(const _float3& vAxis, _float fRadian)
 {
 	_float3		vScaled = Compute_Scaled();

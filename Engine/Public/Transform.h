@@ -84,6 +84,8 @@ public:
 	void Turn(const _float3& vAxis, _float fTimeDelta);
 	void TurnCustom(const _float3& vAxis, _float _Rotation, _float fTimeDelta);
 	void Turn_Immediately(const _float3& vAxis, _float fRadian);
+	void Turn_BulletMark(const _float3& vTargetLook);
+	void Move_Forward_ByLook(_float fDistance);
 	void Rotation(const _float3& vAxis, _float fRadian);
 	void Rotation_Reset();
 
