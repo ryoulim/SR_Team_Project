@@ -32,7 +32,7 @@ HRESULT CMonsterNormalBullet::Initialize(void* pArg)
 	m_szTextureID = TEXT("PC_Generic");
 	m_szBufferType = TEXT("Rect");
 
-	if (FAILED(Ready_Components(pArg)))
+	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
 
 	/* [ Å¸°Ù ¼³Á¤ ] */

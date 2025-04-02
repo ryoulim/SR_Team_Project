@@ -1016,6 +1016,8 @@ void CTtakkeun_i::SpawnDeacon(_float3 vPos)
 	Deacon_iDesc.fRotationPerSec = RADIAN(180.f);
 	Deacon_iDesc.vActive = true;
 	Deacon_iDesc.vReturnPos = vPos;
+	Deacon_iDesc.fAttackDistance = 600.f;
+	Deacon_iDesc.fDetectiveDistance = 800.f;
 	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_Deacon"),
 		m_eLevelID, L"Layer_Monster", &Deacon_iDesc)))
 		return;

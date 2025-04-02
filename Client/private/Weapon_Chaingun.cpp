@@ -35,7 +35,7 @@ HRESULT CWeapon_Chaingun::Initialize(void* pArg)
 
 	///////
 	m_tAmmoInfo.eType = CHAINGUN;
-	m_tAmmoInfo.iCurAmmo = 99;
+	m_tAmmoInfo.iCurAmmo = 999;
 	m_tAmmoInfo.iMaxAmmo = 6;
 	m_tAmmoInfo.iReloadedAmmo = 6;
 	///////
