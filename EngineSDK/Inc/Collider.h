@@ -1,6 +1,6 @@
 ﻿#pragma once
 #include "Component.h"
-//#define _COLLIDERRENDER
+#define _COLLIDERRENDER
 
 BEGIN(Engine)
 
@@ -38,8 +38,14 @@ public:
 	virtual void Update_Collider() PURE;
 	// 콜라이더의 크기 (구(반지름)와 라인(길이)은 x값만 씁니다)
 	virtual void Update_Scale(const _float3& vScale) PURE;
+	void Update_OffSet(const _float3& vOffSet) {
+		m_vOffSet = vOffSet;
+		Update_Collider();
+	}
+#ifdef _COLLIDERRENDER
 	// 콜라이더 가시화(임시)
 	virtual void Render() {};
+#endif
 	// 다른 콜라이더와의 충돌을 감지합니다.
 	_bool Check_Intersect(const CCollider* pOther);
 

@@ -60,6 +60,7 @@ public:
 	HRESULT			Bind_Resource();
 	const _float4x4& Billboard_Inverse() const;
 	const _float4x4& Billboard() const;
+	const _float4x4& Billboard_Y() const;
 	_float4x4* Billboard(_float4x4* _Out_ pOut) const;
 	_float3 Compute_Scaled() const;
 	void Scaling(_float Ratio);
