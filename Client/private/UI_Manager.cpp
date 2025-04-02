@@ -107,9 +107,7 @@ HRESULT CUI_Manager::Initialize_GamePlayUI(LEVEL eLevelID)
 		//Safe_AddRef(m_GameUIs[i]);
 	}
 
-	/* 플레이어 합치고 다시 키기 */
-	//static_cast<CPortrait*>(m_GameUIs[GUI_PORTRAIT])->Set_Info(m_pPlayerInfo);
-	//static_cast<CArmor*>(m_GameUIs[GUI_ARMOR])->Set_Info(m_pPlayerInfo);
+
 
 	return S_OK;
 }
@@ -144,12 +142,13 @@ HRESULT CUI_Manager::Change_Weapon(const CWeapon::AMMOINFO* pAmmoInfo)
 	return S_OK;
 }
 
-HRESULT CUI_Manager::Init_UI_To_Player()
+HRESULT CUI_Manager::Init_UI_To_Player(const CPlayer::INFO* pPlayerInfo)
 {
-
+	/* 플레이어 합치고 다시 키기 */
+	static_cast<CPortrait*>(m_GameUIs[GUI_PORTRAIT])->Set_Info(pPlayerInfo);
+	static_cast<CArmor*>(m_GameUIs[GUI_ARMOR])->Set_Info(pPlayerInfo);
 	return S_OK;
 }
-
 
 HRESULT CUI_Manager::Initialize_Font()
 {

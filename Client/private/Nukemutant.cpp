@@ -52,9 +52,10 @@ HRESULT CNukemutant::Initialize(void* pArg)
 	m_fAnimationMaxFrame = 4.f;
 	m_fAnimationSpeed = 5.f;
 	m_iState = STATE_MOVE;
+
 	m_fBulletCooldown = 1.f;
 	m_fCooldownTime = 2.f;
-	m_fAttackTime = 0.2f;
+	m_fAttackTime = 0.5f;
 	return S_OK;
 }
 
@@ -248,7 +249,7 @@ void CNukemutant::DoReady(_float dt)
 	if (m_fCooldownDuration >= m_fCooldownTime)
 	{
 		m_isReadyToAttack = true;
-		m_fBulletCooldownElapsed = 0.4f;
+		m_fBulletCooldownElapsed = m_fBulletCooldown;
 		m_fCooldownDuration = 0.f;
 	}
 	m_fAnimationFrame = 0.f;

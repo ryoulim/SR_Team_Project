@@ -75,7 +75,6 @@ void CMonster::Late_Update(_float fTimeDelta)
 	//플레이어 감지 업데이트
 	PlayerDistance();
 	CalculateVectorToPlayer();
-	IsPlayerDetected();
 	
 	//콜라이더 업데이트
   	m_pCollider->Update_Collider();

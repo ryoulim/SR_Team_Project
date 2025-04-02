@@ -8,6 +8,7 @@
 #include "Trigger.h"
 #include "Level_Loading.h"
 #include "Monster.h"
+#include "UI_Manager.h"
 
 #define CurLevel LEVEL_INDOOR
 

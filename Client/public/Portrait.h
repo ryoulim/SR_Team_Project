@@ -4,6 +4,7 @@
 #pragma once
 #include "UI.h"
 #include "Font_MediumBlue.h"
+#include "Player.h"
 
 BEGIN(Client)
 
@@ -46,18 +47,16 @@ public:
 private:
 	void	Change_Face(_float fTimeDelta);
 
-public:
-	//_int	Get_HP() { return m_pPlayerInfo->iHP; }
-	//void	Set_Info(_const CPlayer::INFO* pInfo) { m_pPlayerInfo = pInfo; }
-
 private:
 	_float			m_fAnimTick = {};
 	PORTRAITSTATUS	m_eFace = { PORTRAIT_IDLE };
 	HPSTATUS		m_eHPStatus = { HP100 };
 	_uint			m_uiHP = {};
-	//_const CPlayer::INFO* = m_pPlayerInfo = { nullptr };
-	
+	const CPlayer::INFO* m_pPlayerInfo = { nullptr };
 
+public:
+	void	Set_Info(const CPlayer::INFO* pInfo) { m_pPlayerInfo = pInfo; }
+	
 public:
 	static CPortrait* Create(LPDIRECT3DDEVICE9 pGraphicDevice);
 	virtual CGameObject* Clone(void* pArg) override;

@@ -5,12 +5,15 @@
 #include "Base.h"
 #include "GameInstance.h"
 #include "Client_Defines.h"
+
 #include "Font.h"
 #include "FadeUI.h"
+
 #include "Ammo.h"
 #include "Aim.h"
 #include "Armor.h"
 #include "Portrait.h"
+//#include "Player.h"
 
 BEGIN(Engine)
 class CGameInstance;
@@ -69,7 +72,7 @@ public:
 	HRESULT Initialize_Player();
 	HRESULT Clear_GamePlayUI();
 	HRESULT Change_Weapon(const CWeapon::AMMOINFO* pAmmoInfo);
-	HRESULT Init_UI_To_Player();
+	HRESULT Init_UI_To_Player(const CPlayer::INFO* pPlayerInfo);
 
 private:
 	HRESULT	Initialize_Font();
@@ -79,14 +82,13 @@ private:
 	class CFont*						m_Fonts[CFont::FONT_END] = {nullptr,};
 	array<class CGameObject*, GUI_END>	m_GameUIs = { nullptr };
 	class CPlayer*						m_pPlayer = { nullptr };
-	//const CPlayer::INFO*				m_pPlayerInfo = { nullptr }; // 플레이어 받고 다시 키기 
 
 public:
 	virtual void Free();
 };
 
 
-#pragma region UI_MANAGER 용 매크로 
+#pragma region 폰트 매크로
 // Render_Text MediumBlueLeft
 // 파란 글씨 (아이템 획득 dialog용도 좌측 상단 고정)
 #define RENDER_ITEMDIALOG(message, fposY)  CUI_Manager::Get_Instance()->Render_Text(message, CFont::MEDIUMBLUE, CFont::LEFT, -(g_iWinSizeX / 2.f) + 20.f, fposY)
@@ -112,17 +114,8 @@ CUI_Manager::Get_Instance()->Render_Text(message, CFont::BIGORANGE, CFont::CENTE
 #define RENDER_TEXT_BOL_DARK(message, fX, fY, fSize) \
 CUI_Manager::Get_Instance()->Set_ButtonBrightness(0.6f, CFont::BIGORANGE);\
 CUI_Manager::Get_Instance()->Render_Text(message, CFont::BIGORANGE, CFont::LEFT, fX, fY, fSize)
-
-
-// HP를 UI가 Get해오도록 전달
-#define UPDATE_HP() CUI_Manager::Get_Instance()->Update_GameUI(CUI_Manager::GUI_PORTRAIT)
-// Armor를 UI가 Get해오도록 전달
-#define UPDATE_ARMOR() CUI_Manager::Get_Instance()->Update_GameUI(CUI_Manager::GUI_ARMOR);
-// Ammo를..
-#define UPDATE_AMMO(Type) CUI_Manager::Get_Instance()->Update_GameUI(CUI_Manager::GUI_AMMO, Type);
-
-
 #pragma endregion
+
 
 
 END

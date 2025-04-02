@@ -8,7 +8,7 @@
 
 // 무기들 인클루드
 //#include "Weapon_LoverBoy.h"
-#include <UI_Manager.h>
+#include "UI_Manager.h"
 
 #define DASH_TIME 0.25f
 #define JUST_DASH_TIME 0.15f
@@ -45,6 +45,8 @@ HRESULT CPlayer::Initialize(void* pArg)
 	Init_Camera_Link();
 
 	Add_Weapons();
+
+	CUI_Manager::Get_Instance()->Init_UI_To_Player(&m_tInfo);
 
 	return S_OK;
 }

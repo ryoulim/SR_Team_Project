@@ -6,6 +6,7 @@
 #include "Dynamic_Camera.h"
 #include "Player.h"
 #include "Trigger.h"
+#include "UI_Manager.h"
 
 #define CurLevel LEVEL_OUTDOOR
 
