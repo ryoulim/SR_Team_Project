@@ -46,6 +46,7 @@ protected:
 	_float3	 	 m_vTargetPos;
 	_float		 m_fSpeed = 50.f;
 	_float		 m_fLifetime = 0.f;
+	_float		 m_fTargetDistance = {};
 
 	class CCameraManager* m_pCamera = nullptr;
 };

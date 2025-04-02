@@ -35,7 +35,7 @@ private: //해당객체의 몬스터 패턴
 	virtual void	DoIdle(_float dt);
 	void			DoReady(_float dt);
 	void			DoDetect(_float dt);
-	_bool			IsMonsterAbleToAttack();
+
 private:
 	virtual HRESULT Ready_Components(void* pArg);
 	virtual HRESULT Ready_Textures();
@@ -47,7 +47,9 @@ private:
 	enum STATE_MAXFRAME { MAX_MOVERUN = 4, MAX_JUMP = 4, MAX_DEAD = 7 };
 	MONSTER_STATE	m_eCurMonsterState = { MONSTER_STATE::STATE_MOVE };
 	MONSTER_STATE	m_ePrevMonsterState = { MONSTER_STATE::STATE_MOVE };
-
+	_bool			m_bJump = false;
+	_bool			m_bJumpEnd = false;
+	_float			m_fJumpFinished = {};
 
 public:
 	virtual void On_Collision(_uint MyColliderID, _uint OtherColliderID) override;

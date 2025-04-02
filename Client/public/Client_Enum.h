@@ -12,7 +12,7 @@ namespace Client
 		CI_PLAYER_END,
 
 		CI_MONBODY_START,																			// 몬스터 몸통
-		CI_MON_BODY,
+		CI_MON_BODY, CI_MONSTER_MECHSECT, CI_MONSTER_WENTEKO,
 		CI_MONBODY_END,
 
 		CI_MONHEAD_START,																			// 몬스터 머리(약점)
@@ -32,8 +32,14 @@ namespace Client
 		CI_INTERACTIVE_END,
 
 		CI_MBULLET_START,																			// 몬스터 투사체
-		CI_MONSTER_BULLET,
+		CI_MONSTER_BULLET, CI_MONSTER_SHOTGUNNER, CI_MONSTER_CULTIST, CI_MONSTER_GREATER, CI_MONSTER_DEACON, CI_MONSTER_NUKEMUTANT, CI_MONSTER_ARCHANGEL,
 		CI_MBULLET_END,
+
+		CI_BOSS_FIRE,
+		CI_BOSS_BULLET,
+		CI_BOSS_JUMP,
+		CI_BOSS_GUIDBULLET,
+		CI_BOSS_TANGTANG,
 
 		CI_TRIGGER                                                                                  // 트리거 ( 조건문 안들어가게 하기 위해서 만든 이넘 )
 	};

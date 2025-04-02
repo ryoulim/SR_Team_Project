@@ -95,115 +95,36 @@ void CCultist::On_Collision(_uint MyColliderID, _uint OtherColliderID)
 
 void CCultist::MonsterTick(_float dt)
 {
-	//상태변화 // 함수로 나누면 좋을 것 같은데
+	//상태변화
 	switch (m_eState)
 	{
 	case MODE::MODE_IDLE:
-		if (IsPlayerDetected())	// 감지 거리 기준 계산
-		{
-			m_bFoundPlayer = true;
-			//플레이어 발견 시 행동
-			cout << "cultist 플레이어 감지!!" << endl;
-			m_eState = MODE::MODE_DETECTIVE;
-		}
+		State_Change_IDLE(dt);
 		break;
 
 	case MODE::MODE_DETECTIVE:
-		//플레이어 공격 가능할 때 까지 탐색
-		m_fRaycastTicker += dt;
-		if (m_fRaycastTicker > 0.5f)
-		{
-			if (IsMonsterAbleToAttack())	// RayPicking으로 플레이어와 몬스터 사이 장애물 체크
-			{
-				m_bFoundPlayer = true;
-				m_eState = MODE::MODE_READY;
-			}
-		}
+		State_Change_DETECTIVE(dt);
 		break;
 
 	case MODE::MODE_READY:
-		//공격 할 준비  ( 장전 등의 딜레이 필요 )
-		m_fRaycastTicker += dt;
-		if (m_fRaycastTicker > 0.5f)
-		{
-			if (!IsMonsterAbleToAttack())
-			{
-				m_eState = MODE::MODE_DETECTIVE;
-				break;
-			}
-		}
-		// 준비 끝나면
-		if (m_isReadyToAttack)
-			m_eState = MODE::MODE_BATTLE;
+		State_Change_READY(dt);
 		break;
 
 	case MODE::MODE_BATTLE:
-		//실제 공격 시 행동
-		if (m_bCoolingDown)
-		{
-			m_fCooldownDuration = 0.f;
-			m_eState = MODE::MODE_READY;
-			m_isReadyToAttack = false;
-			m_bCoolingDown = false;
-		}
-		m_fRaycastTicker += dt;
-		if (m_fRaycastTicker > 0.5f)
-		{
-			if (false == IsMonsterAbleToAttack())
-			{
-				m_fCooldownDuration = 0.f;
-				m_eState = MODE::MODE_DETECTIVE;
-				m_isReadyToAttack = false;
-				m_bCoolingDown = false;
-			}
-		}
+		State_Change_BATTLE(dt);
 		break;
 
 	case MODE::MODE_DEAD:
 		break;
-	case MODE::MODE_RETURN:
-		m_bFoundPlayer = false;
-		//본래위치로 돌아가고 IDLE로 상태가 변한다.
-		break;
 
+	case MODE::MODE_RETURN:
+		//본래위치로 돌아가고 IDLE로 상태가 변한다.
+		m_bFoundPlayer = false;
+		break;
 	}
 
 #ifdef _CONSOL
-	auto now = steady_clock::now();
-	auto elapsed = duration_cast<milliseconds>(now - g_LastLogTime).count();
-
-	if (elapsed >= 1000)
-	{
-		// 1초 이상 지났다면 출력
-		cout << "[컬티스트]\t플레이어와의 거리 : " << m_fCurDistance << endl;
-		cout << "[컬티스트]\t상태 : ";
-		switch (m_eState)
-		{
-		case Client::CMonster::MODE_IDLE:
-			cout << "IDLE";
-			break;
-		case Client::CMonster::MODE_READY:
-			cout << "READY";
-			break;
-		case Client::CMonster::MODE_BATTLE:
-			cout << "BATTLE";
-			break;
-		case Client::CMonster::MODE_DETECTIVE:
-			cout << "DETECTIVE";
-			break;
-		case Client::CMonster::MODE_RETURN:
-			cout << "RETURN";
-			break;
-		case Client::CMonster::MODE_END:
-			cout << "UNKNOWN";
-			break;
-		default:
-			cout << "UNKNOWN";
-			break;
-		}
-		cout << endl;
-		g_LastLogTime = now;
-	}
+	Debug_Output();
 #endif
 
 	// 상태행동(액션)
@@ -235,7 +156,6 @@ void CCultist::MonsterTick(_float dt)
 		break;
 	}
 }
-
 void CCultist::DoDetect(_float dt)
 {
 	// 감지 가능 거리 이내일 때 / 감지 상태 중 추격 가능 거리일 때
@@ -344,6 +264,7 @@ void CCultist::AttackPattern(_float dt)
 		_float3 TargetPos = *static_cast<CTransform*>(m_pTargetPlayer->Find_Component(L"Com_Transform"))->Get_State(CTransform::STATE_POSITION);
 		m_pTransformCom->LookAt(TargetPos);
 		CMonsterNormalBullet::DESC MonsterNormalBullet_iDesc{};
+		MonsterNormalBullet_iDesc.iColliderID = CI_MONSTER_CULTIST;
 		MonsterNormalBullet_iDesc.fSpeedPerSec = 1000.f;
 		MonsterNormalBullet_iDesc.fRotationPerSec = RADIAN(180.f);
 		MonsterNormalBullet_iDesc.vScale = { 1.f, 3.f, 0.f };

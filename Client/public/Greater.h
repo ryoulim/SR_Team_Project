@@ -34,7 +34,6 @@ private:
 	virtual void	DoIdle(_float dt);
 	void			DoReady(_float dt);
 	void			DoDetect(_float dt);
-	_bool			IsMonsterAbleToAttack();
 
 	/* 애니메이션 */
 private:

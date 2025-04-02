@@ -20,6 +20,7 @@ public:
 	{
 		_float3 vPosition;
 		_float3 vScale;
+		_uint iColliderID;
 	}DESC;
 
 protected:
