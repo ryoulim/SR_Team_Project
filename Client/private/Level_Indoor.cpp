@@ -371,7 +371,7 @@ HRESULT CLevel_Indoor::Ready_Layer_Pawn(const _wstring& strLayerTag)
 
 HRESULT CLevel_Indoor::Ready_Layer_Monster(const _wstring& strLayerTag)
 {
-	_float3 Pos = { 513.f, 40.f, 325.f };
+	_float3 Pos = { 513.f, 150.f, 325.f };
 
 	CMonster::DESC Cultist_iDesc{};
 	Cultist_iDesc.vPosition = Pos;
@@ -386,7 +386,7 @@ HRESULT CLevel_Indoor::Ready_Layer_Monster(const _wstring& strLayerTag)
 		LEVEL_INDOOR, L"Layer_Monster", &Cultist_iDesc)))
 		return E_FAIL;
 	/******************************************/
-	Pos = _float3{ 344.f, 40.f, 308.f };
+	Pos = _float3{ 344.f, 150.f, 308.f };
 	CMonster::DESC Shotgunner_iDesc{};
 	Shotgunner_iDesc.vPosition = Pos;
 	Shotgunner_iDesc.fSpeedPerSec = 60.f;
@@ -400,7 +400,7 @@ HRESULT CLevel_Indoor::Ready_Layer_Monster(const _wstring& strLayerTag)
 		LEVEL_INDOOR, L"Layer_Monster", &Shotgunner_iDesc)))
 		return E_FAIL;
 	/******************************************/
-	Pos = _float3{ 826.f, 40.f, 604.f };
+	Pos = _float3{ 826.f, 150.f, 604.f };
 
 	CMonster::DESC Greater_iDesc{};
 	Greater_iDesc.vPosition = Pos;
