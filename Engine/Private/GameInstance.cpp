@@ -224,6 +224,12 @@ void CGameInstance::Intersect(_uint iColliderGroupID1, _uint iColliderGroupID2)
 }
 
 FORCEINLINE
+_bool CGameInstance::RaycastBetweenPoints(const _float3& Point1, const _float3& Point2, _uint ColliderGroupID)
+{
+	return m_pCollider_Manager->RaycastBetweenPoints(Point1, Point2, ColliderGroupID);
+}
+
+FORCEINLINE
 class CGameObject* CGameInstance::Raycast(const _float3& rayOrigin, const _float3& rayDir, _float rayLength, const initializer_list<_uint>& ColliderGroupIDs, _uint& _Out_ ColliderID)
 {
 	return m_pCollider_Manager->Raycast(rayOrigin, rayDir, rayLength, ColliderGroupIDs, ColliderID);

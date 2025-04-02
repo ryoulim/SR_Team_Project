@@ -60,6 +60,8 @@ public:
 	void Clear_Collider();
 	// A그룹과 B그룹의 충돌을 검사한다.
 	void Intersect(_uint iColliderGroupID1, _uint iColliderGroupID2);
+	// 여기와 여기사이에 뭐 있음?
+	_bool RaycastBetweenPoints(const _float3& Point1, const _float3& Point2, _uint ColliderGroupID);
 	/// <summary>
 	/// 개빡치는 레이캐스트
 	/// </summary>

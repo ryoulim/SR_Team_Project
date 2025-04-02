@@ -73,6 +73,25 @@ void CCollider_Manager::Intersect(_uint iColliderGroupID1, _uint iColliderGroupI
 
 }
 
+_bool CCollider_Manager::RaycastBetweenPoints(const _float3& Point1, const _float3& Point2, _uint ColliderGroupID)
+{
+    _float3 vRayDir = Point2 - Point1;
+    _float fRayLength = vRayDir.Length();
+    vRayDir.Normalize();
+
+    for (auto& pCollider : m_pColliders[ColliderGroupID])
+    {
+        // 범위 밖에 있음
+        auto Diff = (pCollider->Get_Pos() - Point1).Length();
+        if (Diff > fRayLength + pCollider->Get_MaxLength())
+            continue;
+
+        if (pCollider->RayCasting(Point1, vRayDir))
+            return TRUE;
+    }
+    return FALSE;
+}
+
 CGameObject* CCollider_Manager::Raycast(const _float3& rayOrigin, const _float3& rayDir, _float rayLength, const initializer_list<_uint>& ColliderGroupIDs, _uint& _Out_ ColliderID)
 {
     CGameObject* pCurObj{nullptr};
@@ -86,6 +105,11 @@ CGameObject* CCollider_Manager::Raycast(const _float3& rayOrigin, const _float3&
 
         for (auto& pCollider : m_pColliders[ID])
         {
+            // 범위 밖에 있음
+            auto Length = (pCollider->Get_Pos() - rayOrigin).Length();
+            if (Length > rayLength + pCollider->Get_MaxLength())
+                continue;
+
             if (pCollider->RayCasting(rayOrigin, rayDir))
             {
                 fCurLength = (CCollider::m_vLast_Collision_Pos - rayOrigin).Length();

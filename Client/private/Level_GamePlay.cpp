@@ -258,7 +258,7 @@ HRESULT CLevel_GamePlay::Ready_Layer_Pawn(const _wstring& strLayerTag)
 
 	CPlayer::DESC PlayerDesc{};
 	PlayerDesc.vInitPos = { 1400.f, 150.f, 200.f };
-	PlayerDesc.vScale = { 20.f, 30.f, 20.f };
+	PlayerDesc.vScale = { 30.f, 40.f, 30.f };
 	PlayerDesc.fRotationPerSec = RADIAN(180.f);
 	PlayerDesc.fSpeedPerSec = 150.f;
 	PlayerDesc.eLevelID = CurLevel;
@@ -398,6 +398,7 @@ void CLevel_GamePlay::Check_Collision()
 	m_pGameInstance->Intersect(CG_MBULLET, CG_BLOCK);
 	m_pGameInstance->Intersect(CG_PAWN, CG_TRIGGER);
 	m_pGameInstance->Intersect(CG_MONSTER, CG_BLOCK);
+	m_pGameInstance->Intersect(CG_PAWN, CG_INTERACTIVE);
 }
 
 void CLevel_GamePlay::SpawnTtakkeun_i(const _float3& _Position, _bool m_bActive, _int _iNum, LEVEL _eLevel)

@@ -123,11 +123,15 @@ HRESULT CPlayer::Render()
 
 void CPlayer::On_Collision(_uint MyColliderID, _uint OtherColliderID)
 {
-	if (OtherColliderID == CI_BLOCK_INVISIBLE)
-		return;
-
-	if (OtherColliderID == CI_TRIGGER)
+	switch (OtherColliderID)
+	{
+	case CI_TRIGGER:
 		Change_Level();
+		break;
+	case CI_INTERACTIVE_LAVA:
+		m_tInfo.iHP--;
+		break;
+	}
 
 	_float3 vPos = *m_pTransformCom->Get_State(CTransform::STATE_POSITION);
 	_float3 vPos2 = *m_pCameraTransform->Get_State(CTransform::STATE_POSITION);
@@ -140,6 +144,8 @@ void CPlayer::On_Collision(_uint MyColliderID, _uint OtherColliderID)
 
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, vPos);
 	m_pCameraTransform->Set_State(CTransform::STATE_POSITION, vPos2);
+
+	m_pGraphic_Device->SetTransform(D3DTS_VIEW, &m_pCameraTransform->Get_WorldMatrix_Inverse());
 }
 
 HRESULT CPlayer::Ready_Components(void* pArg)

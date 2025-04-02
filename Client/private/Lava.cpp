@@ -53,6 +53,29 @@ HRESULT CLava::Render()
 	return __super::Render();
 }
 
+HRESULT CLava::Ready_Components(void* pArg)
+{
+	__super::Ready_Components(pArg);
+
+	DESC* pDesc = static_cast<DESC*>(pArg);
+
+	CCollider::DESC ColliderDesc{};
+	ColliderDesc.pTransform = m_pTransformCom;
+	ColliderDesc.vScale = m_pTransformCom->Compute_Scaled();
+	ColliderDesc.pOwner = this;
+	ColliderDesc.iColliderGroupID = CG_INTERACTIVE;
+	ColliderDesc.iColliderID = CI_INTERACTIVE_LAVA;
+	ColliderDesc.vOffSet.y  = -ColliderDesc.vScale.z * 0.5f;
+
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Collider_AABB_Cube"),
+		TEXT("Com_Collider"), reinterpret_cast<CComponent**>(&m_pColliderCom), &ColliderDesc)))
+		return E_FAIL;
+
+	static_cast<CCollider_AABB_Cube*>(m_pColliderCom)->Update_Rotation(pDesc->vAngle);
+
+	return S_OK;
+}
+
 CLava* CLava::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 {
 	CLava* pInstance = new CLava(pGraphic_Device);
