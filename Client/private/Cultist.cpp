@@ -90,49 +90,7 @@ HRESULT CCultist::Render()
 
 void CCultist::On_Collision(_uint MyColliderID, _uint OtherColliderID)
 {
-	if (CI_BLOCK(OtherColliderID))
-	{
-		m_pCollider->Get_Last_Collision_Pos();
-
-		_float3 vPos = *m_pTransformCom->Get_State(CTransform::STATE_POSITION);
-
-		_float3 Depth = m_pCollider->Get_Last_Collision_Depth();
-		if (Depth.y != 0)
-			int a = 1;
-		vPos += Depth;
-
-		m_pTransformCom->Set_State(CTransform::STATE_POSITION, vPos);
-	}
-	else if (CI_WEAPON(OtherColliderID))
-	{
-		// Å½»ö ½ÃÀÛ
-		if (!m_bFoundPlayer)
-			m_eState = MODE::MODE_DETECTIVE;
-
-		//À§Ä¡Å½»ö
-		_float3 vImpactPos = CalculateEffectPos();
-
-		// ÀÌÆåÆ® »ý¼º
-		FX_MGR->SpawnBlood(vImpactPos, LEVEL_GAMEPLAY);
-
-		//¸ó½ºÅÍ »ç¸Á
-		if (0 >= m_iHP)
-		{
-			//ÀÌÆåÆ® È¤½Ã¸ô¶ó¼­ ±×³É ÁÖ¼®¸¸ ÇØµÒ
-			//FX_MGR->SpawnCustomExplosion(vImpactPos, LEVEL_GAMEPLAY, _float3{ 130.f, 160.f, 1.f }, TEXT("PC_Explosion"), 14);
-			m_bDead = true;
-			m_eState = MODE_DEAD;
-			_float3 TargetPos = *static_cast<CTransform*>(m_pTargetPlayer->Find_Component(L"Com_Transform"))->Get_State(CTransform::STATE_POSITION);
-			m_pTransformCom->LookAt(TargetPos);
-
-			// µÚ·Î ³Ë¹é
-			m_bKnockBack = true;
-
-			return;
-		}
-	}
-
-	__super::On_Collision(MyColliderID, OtherColliderID);
+	__super::On_Collision_NormalMonster(MyColliderID, OtherColliderID);
 }
 
 void CCultist::MonsterTick(_float dt)
@@ -504,7 +462,7 @@ HRESULT CCultist::Set_Animation()
 			break;
 		case Client::CCultist::STATE_DEAD:
 			m_fAnimationMaxFrame = _float(MAX_DEAD);
-			m_fAnimationSpeed = 8.f;
+			m_fAnimationSpeed = 13.f;
 			m_bRotateAnimation = false;
 			break;
 		}

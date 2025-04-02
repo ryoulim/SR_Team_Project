@@ -50,6 +50,7 @@ HRESULT CMonster::Initialize(void* pArg)
 void CMonster::Priority_Update(_float fTimeDelta)
 {
 	//프레임 업데이트
+	Set_Animation();
 	Animate_Monster(fTimeDelta);
 }
 
@@ -268,11 +269,69 @@ void CMonster::Resize_Texture(_float fSizePercent)
 	m_pTransformCom->Scaling(m_vScale * fSizePercent);
 }
 
+void CMonster::On_Collision_NormalMonster(_uint MyColliderID, _uint OtherColliderID)
+{
+	CMonster::On_Collision(MyColliderID, OtherColliderID);
+
+	// 일반 몬스터 On_Collision 함수가 전부 통일될 것 같아서 별도로 만듦.
+	if (CI_BLOCK(OtherColliderID))
+	{
+		Collision_With_Block();
+	}
+	else if (CI_WEAPON(OtherColliderID))
+	{
+		Collision_With_Weapon();
+	}
+}
+
+void CMonster::Collision_With_Weapon()
+{
+	if (!m_bFoundPlayer)
+	{
+		m_bFoundPlayer = true;
+		m_eState = MODE::MODE_DETECTIVE;
+	}
+
+	//위치탐색
+	_float3 vImpactPos = CalculateEffectPos();
+
+	// 이펙트 생성
+	FX_MGR->SpawnBlood(vImpactPos, LEVEL_GAMEPLAY);
+
+	//몬스터 사망
+	if (0 >= m_iHP)
+	{
+		//FX_MGR->SpawnCustomExplosion(vImpactPos, LEVEL_GAMEPLAY, _float3{ 130.f, 160.f, 1.f }, TEXT("PC_Explosion"), 14);
+		m_bDead = true;
+		m_eState = MODE_DEAD;
+		_float3 TargetPos = *static_cast<CTransform*>(m_pTargetPlayer->Find_Component(L"Com_Transform"))->Get_State(CTransform::STATE_POSITION);
+		m_pTransformCom->LookAt(TargetPos);
+
+		// 뒤로 넉백
+		if (m_fAnimationFrame >= m_fAnimationMaxFrame - 1.f)
+			m_bKnockBack = true;
+
+		return;
+	}
+}
+
+void CMonster::Collision_With_Block()
+{
+	m_pCollider->Get_Last_Collision_Pos();
+
+	_float3 vPos = *m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+
+	_float3 Depth = m_pCollider->Get_Last_Collision_Depth();
+	if (Depth.y != 0)
+		int a = 1;
+	vPos += Depth;
+
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION, vPos);
+}
+
 
 HRESULT CMonster::Set_TextureType()
 {
-
-
 	_float degree = m_fPlayersViewAngle / m_fDivOffset;
 	_float div = 0.f;
 	_float mod = modff(degree, &div);
@@ -355,13 +414,15 @@ void CMonster::CalculateVectorToPlayer()
 	
 }
 
-bool CMonster::IsPlayerDetected()
+bool CMonster::IsPlayerDetected() // 이 함수 수정 좀만 해도 될까용 
 {
 	// 거리 체크 (현재거리가 감지거리보다 작을 때)
 	if (m_fCurDistance < m_fDetectiveDistance)
 	{
 		_float3 vLook = *m_pTransformCom->Get_State(CTransform::STATE_LOOK);
 		vLook.Normalize();
+		m_vToPlayer.y = 0.f;
+		vLook.y = 0.f;
 
 		float fDot = D3DXVec3Dot(&m_vToPlayer, &vLook);  // 3. 각도 비교
 

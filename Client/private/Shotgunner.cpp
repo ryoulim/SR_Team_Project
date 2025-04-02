@@ -46,6 +46,7 @@ HRESULT CShotgunner::Initialize(void* pArg)
 		return E_FAIL;
 	m_fDivOffset = 45.f;
 	//애니메이션(수정예정)
+	m_pGravityCom->Set_Height(66.2f);
 	m_fAnimationMaxFrame = 3.f;
 	m_fAnimationSpeed = 5.f;
 	m_iState = STATE_MOVE;
@@ -58,7 +59,7 @@ HRESULT CShotgunner::Initialize(void* pArg)
 
 void CShotgunner::Priority_Update(_float fTimeDelta)
 {
-	Set_Animation();
+	//Set_Animation();
 	__super::Priority_Update(fTimeDelta);
 }
 
@@ -85,52 +86,7 @@ HRESULT CShotgunner::Render()
 
 void CShotgunner::On_Collision(_uint MyColliderID, _uint OtherColliderID)
 {
-	if (CI_BLOCK(OtherColliderID))
-	{
-		m_pCollider->Get_Last_Collision_Pos();
-
-		_float3 vPos = *m_pTransformCom->Get_State(CTransform::STATE_POSITION);
-
-		_float3 Depth = m_pCollider->Get_Last_Collision_Depth();
-		if (Depth.y != 0)
-			int a = 1;
-		vPos += Depth;
-
-		m_pTransformCom->Set_State(CTransform::STATE_POSITION, vPos);
-	}
-	else if (CI_WEAPON(OtherColliderID))
-	{
-		// 탐색 시작
-		if (!m_bFoundPlayer)
-			m_eState = MODE::MODE_DETECTIVE;
-
-		//위치탐색
-		_float3 vImpactPos = CalculateEffectPos();
-
-		// 이펙트 생성
-		m_iHP += -50;
-		FX_MGR->SpawnBlood(vImpactPos, LEVEL_GAMEPLAY);
-
-		//몬스터 사망
-		if (0 >= m_iHP)
-		{
-			//이펙트 혹시몰라서 그냥 주석만 해둠
-			//FX_MGR->SpawnCustomExplosion(vImpactPos, LEVEL_GAMEPLAY, _float3{ 130.f, 160.f, 1.f }, TEXT("PC_Explosion"), 14);
-			m_bDead = true;
-			m_eState = MODE_DEAD;
-			_float3 TargetPos = *static_cast<CTransform*>(m_pTargetPlayer->Find_Component(L"Com_Transform"))->Get_State(CTransform::STATE_POSITION);
-			m_pTransformCom->LookAt(TargetPos);
-
-			// 뒤로 넉백
-			m_bKnockBack = true;
-
-			return;
-		}
-
-		FX_MGR->SpawnBlood(vImpactPos, LEVEL_GAMEPLAY);
-
-		__super::On_Collision(MyColliderID, OtherColliderID);
-	}
+	__super::On_Collision_NormalMonster(MyColliderID, OtherColliderID);
 }
 
 void CShotgunner::MonsterTick(_float dt)
@@ -498,7 +454,7 @@ HRESULT CShotgunner::Set_Animation()
 			break;
 		case Client::CShotgunner::STATE_DEAD:
 			m_fAnimationMaxFrame = _float(MAX_DEAD);
-			m_fAnimationSpeed = 8.f;
+			m_fAnimationSpeed = 13.f;
 			m_bRotateAnimation = false;
 			break;
 		}

@@ -31,7 +31,7 @@ HRESULT CDeacon::Initialize_Prototype()
 	m_eState = MODE::MODE_IDLE;
 
 	m_fDetectiveDistance = 500.f;
-
+	m_fAttackDistance = 400.f;
 	//부속성
 	m_strDialogue = "Deacon..Deacon...";
 	m_strSound = "SoundFilePath";
@@ -52,7 +52,9 @@ HRESULT CDeacon::Initialize(void* pArg)
 	m_fAnimationMaxFrame = 0.f;
 	m_fAnimationSpeed = 5.f;
 	m_iState = STATE_FLY;
-	m_fCooldownTime = 0.f;
+	m_fCooldownTime = 0.5f;     // 공격 쉬는 텀
+	m_fBulletCooldown = 0.2f;	// 총알 발사 쿨
+	m_fAttackTime = 0.5f;		// 공격 시간
 	return S_OK;
 }
 
@@ -119,48 +121,7 @@ HRESULT CDeacon::Ready_Components(void* pArg)
 
 void CDeacon::On_Collision(_uint MyColliderID, _uint OtherColliderID)
 {
-	if (CI_BLOCK(OtherColliderID))
-	{
-		m_pCollider->Get_Last_Collision_Pos();
-
-		_float3 vPos = *m_pTransformCom->Get_State(CTransform::STATE_POSITION);
-
-		_float3 Depth = m_pCollider->Get_Last_Collision_Depth();
-		if (Depth.y != 0)
-			int a = 1;
-		vPos += Depth;
-
-		m_pTransformCom->Set_State(CTransform::STATE_POSITION, vPos);
-	}
-	else if (CI_WEAPON(OtherColliderID))
-	{
-		// 탐색 시작
-		if (!m_bFoundPlayer) 
-			m_eState = MODE::MODE_DETECTIVE;
-
-		//위치탐색
-		_float3 vImpactPos = CalculateEffectPos();
-
-		// 이펙트 생성
-		FX_MGR->SpawnBlood(vImpactPos, LEVEL_GAMEPLAY);
-
-		//몬스터 사망
-		if (0 >= m_iHP)
-		{
-			//FX_MGR->SpawnCustomExplosion(vImpactPos, LEVEL_GAMEPLAY, _float3{ 130.f, 160.f, 1.f }, TEXT("PC_Explosion"), 14);
-			m_bDead = true;
-			m_eState = MODE_DEAD;
-			_float3 TargetPos = *static_cast<CTransform*>(m_pTargetPlayer->Find_Component(L"Com_Transform"))->Get_State(CTransform::STATE_POSITION);
-			m_pTransformCom->LookAt(TargetPos);
-
-			// 뒤로 넉백
-			m_bKnockBack = true;
-			
-			return;
-		}
-	}
-
-	__super::On_Collision(MyColliderID, OtherColliderID);
+	__super::On_Collision_NormalMonster(MyColliderID, OtherColliderID);
 }
 
 void CDeacon::MonsterTick(_float dt)
@@ -340,9 +301,21 @@ _bool CDeacon::IsMonsterAbleToAttack()
 
 void CDeacon::DoReady(_float dt)
 {
+	//m_fCooldownDuration += dt;
+	//if (m_fCooldownDuration >= m_fCooldownTime)
+	//	m_isReadyToAttack = true;
+
 	m_fCooldownDuration += dt;
 	if (m_fCooldownDuration >= m_fCooldownTime)
+	{
 		m_isReadyToAttack = true;
+		m_fBulletCooldownElapsed = 0.4f;
+		m_fCooldownDuration = 0.f;
+	}
+	m_eCurMonsterState = STATE_STAY;
+	m_fAnimationFrame = 0.f;
+	_float3 TargetPos = *static_cast<CTransform*>(m_pTargetPlayer->Find_Component(L"Com_Transform"))->Get_State(CTransform::STATE_POSITION);
+	m_pTransformCom->LookAt(TargetPos);
 
 }
 
@@ -406,21 +379,27 @@ void CDeacon::AttackPattern(_float dt)
 
 	m_fBulletCooldownElapsed += dt;
 	m_fAttackTimer += dt;
-	if (m_fAttackTimer >= 1.f)
+	if (m_fAttackTimer >= m_fAttackTime)
 	{
 		m_bCoolingDown = true;
+		m_fAttackTimer = 0.f;
 	}
-	if (m_fBulletCooldownElapsed >= 0.2f)
+	if (m_fBulletCooldownElapsed >= m_fBulletCooldown)
 	{
+		_float3 TargetPos = *static_cast<CTransform*>(m_pTargetPlayer->Find_Component(L"Com_Transform"))->Get_State(CTransform::STATE_POSITION);
+		m_pTransformCom->LookAt(TargetPos);
+
 		// 0.2초마다 발사
 		CMonsterNormalBullet::DESC MonsterNormalBullet_iDesc{};
 		MonsterNormalBullet_iDesc.fSpeedPerSec = 800.f;
 		MonsterNormalBullet_iDesc.fRotationPerSec = RADIAN(180.f);
-		MonsterNormalBullet_iDesc.vScale = { 7.f, 7.f, 0.f };
+		MonsterNormalBullet_iDesc.vScale = { 5.f, 5.f, 0.f };
 		MonsterNormalBullet_iDesc.vPosition = *m_pTransformCom->Get_State(CTransform::STATE_POSITION);
-		MonsterNormalBullet_iDesc.vPosition.x += m_iLeftRight * 20.f;
 		MonsterNormalBullet_iDesc.vPosition.y += 10.f;
 
+		_float3 vRight = *m_pTransformCom->Get_State(CTransform::STATE_RIGHT);
+		vRight.Normalize();
+		MonsterNormalBullet_iDesc.vPosition += vRight * 15.f * m_iLeftRight;
 
 		if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_MonsterNormalBullet"),
 			LEVEL_GAMEPLAY, L"Layer_MonsterBullet", &MonsterNormalBullet_iDesc)))

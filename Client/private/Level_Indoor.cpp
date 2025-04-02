@@ -38,8 +38,8 @@ HRESULT CLevel_Indoor::Initialize(CLevelData* pLevelData)
 		return E_FAIL;
 
 	// 테스트 해봤어요 
-	//if (FAILED(Ready_Layer_Monster(TEXT("Layer_Monster"))))
-	//	return E_FAIL;
+	if (FAILED(Ready_Layer_Monster(TEXT("Layer_Monster"))))
+		return E_FAIL;
 
 	return S_OK;
 }
@@ -371,12 +371,14 @@ HRESULT CLevel_Indoor::Ready_Layer_Pawn(const _wstring& strLayerTag)
 
 HRESULT CLevel_Indoor::Ready_Layer_Monster(const _wstring& strLayerTag)
 {
+	_float3 Pos = { 513.f, 40.f, 325.f };
+
 	CMonster::DESC Cultist_iDesc{};
-	Cultist_iDesc.vPosition = _float3{513.f, 30.f, 325.f};
+	Cultist_iDesc.vPosition = Pos;
 	Cultist_iDesc.fSpeedPerSec = 60.f;
 	Cultist_iDesc.fRotationPerSec = RADIAN(180.f);
 	Cultist_iDesc.vActive = true;
-	Cultist_iDesc.vReturnPos = _float3{ 513.f, 30.f, 325.f };
+	Cultist_iDesc.vReturnPos = Pos;
 	Cultist_iDesc.eLevel = LEVEL_INDOOR;
 	Cultist_iDesc.fAttackDistance = 400.f;
 	Cultist_iDesc.fDetectiveDistance = 500.f;
@@ -384,12 +386,13 @@ HRESULT CLevel_Indoor::Ready_Layer_Monster(const _wstring& strLayerTag)
 		LEVEL_INDOOR, L"Layer_Monster", &Cultist_iDesc)))
 		return E_FAIL;
 	/******************************************/
+	Pos = _float3{ 344.f, 40.f, 308.f };
 	CMonster::DESC Shotgunner_iDesc{};
-	Shotgunner_iDesc.vPosition = _float3{ 344.f, 30.f, 308.f };
+	Shotgunner_iDesc.vPosition = Pos;
 	Shotgunner_iDesc.fSpeedPerSec = 60.f;
 	Shotgunner_iDesc.fRotationPerSec = RADIAN(180.f);
 	Shotgunner_iDesc.vActive = true;
-	Shotgunner_iDesc.vReturnPos = _float3{ 344.f, 30.f, 308.f };
+	Shotgunner_iDesc.vReturnPos = Pos;
 	Shotgunner_iDesc.eLevel = LEVEL_INDOOR;
 	Shotgunner_iDesc.fAttackDistance = 300.f;
 	Shotgunner_iDesc.fDetectiveDistance = 500.f;
@@ -397,12 +400,14 @@ HRESULT CLevel_Indoor::Ready_Layer_Monster(const _wstring& strLayerTag)
 		LEVEL_INDOOR, L"Layer_Monster", &Shotgunner_iDesc)))
 		return E_FAIL;
 	/******************************************/
+	Pos = _float3{ 826.f, 40.f, 604.f };
+
 	CMonster::DESC Greater_iDesc{};
-	Greater_iDesc.vPosition = _float3{ 826.f, 30.f, 604.f};
+	Greater_iDesc.vPosition = Pos;
 	Greater_iDesc.fSpeedPerSec = 60.f;
 	Greater_iDesc.fRotationPerSec = RADIAN(180.f);
 	Greater_iDesc.vActive = true;
-	Greater_iDesc.vReturnPos = _float3{ 826.f, 30.f, 604.f };
+	Greater_iDesc.vReturnPos = Pos;
 	Greater_iDesc.eLevel = LEVEL_INDOOR;
 	Greater_iDesc.fAttackDistance = 400.f;
 	Greater_iDesc.fDetectiveDistance = 500.f;

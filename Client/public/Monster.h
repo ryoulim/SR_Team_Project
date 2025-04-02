@@ -231,6 +231,12 @@ protected: // 일반 몬스터 행동 용 변수
 	_float			m_fBulletCooldown = {};
 	_float			m_fAttackTime = {};
 	_bool			m_bKnockBack = false;
+	_bool			m_bTackle = false;
+
+protected:
+	void	On_Collision_NormalMonster(_uint MyColliderID, _uint OtherColliderID);
+	void	Collision_With_Weapon();
+	void	Collision_With_Block();
 
 };
 

@@ -84,6 +84,7 @@ HRESULT CMechsect::Render()
 
 void CMechsect::On_Collision(_uint MyColliderID, _uint OtherColliderID)
 {
+	__super::On_Collision(MyColliderID, OtherColliderID);
 	if (CI_BLOCK(OtherColliderID))
 	{
 		m_pCollider->Get_Last_Collision_Pos();

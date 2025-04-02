@@ -43,7 +43,6 @@ HRESULT CNukemutant::Initialize_Prototype()
 
 HRESULT CNukemutant::Initialize(void* pArg)
 {
-
 	//위치, 크기초기화, 컴포넌트 부착
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
@@ -53,9 +52,9 @@ HRESULT CNukemutant::Initialize(void* pArg)
 	m_fAnimationMaxFrame = 4.f;
 	m_fAnimationSpeed = 5.f;
 	m_iState = STATE_MOVE;
-	m_fBulletCooldown = 0.1f;
-	m_fCooldownTime = 0.7f;
-	m_fAttackTime = 1.f;
+	m_fBulletCooldown = 1.f;
+	m_fCooldownTime = 2.f;
+	m_fAttackTime = 0.2f;
 	return S_OK;
 }
 
@@ -88,41 +87,7 @@ HRESULT CNukemutant::Render()
 
 void CNukemutant::On_Collision(_uint MyColliderID, _uint OtherColliderID)
 {
-	if (CI_BLOCK(OtherColliderID))
-	{
-		m_pCollider->Get_Last_Collision_Pos();
-
-		_float3 vPos = *m_pTransformCom->Get_State(CTransform::STATE_POSITION);
-
-		_float3 Depth = m_pCollider->Get_Last_Collision_Depth();
-		if (Depth.y != 0)
-			int a = 1;
-		vPos += Depth;
-
-		m_pTransformCom->Set_State(CTransform::STATE_POSITION, vPos);
-	}
-	else if (CI_WEAPON(OtherColliderID))
-	{
-		//그 즉시 배틀모드 진입
-		if (!m_bFoundPlayer)
-			m_eState = MODE::MODE_DETECTIVE;
-
-		//위치탐색
-		_float3 vImpactPos = CalculateEffectPos();
-
-		//몬스터 사망
-		if (0 >= m_iHP)
-		{
-			FX_MGR->SpawnCustomExplosion(vImpactPos, LEVEL_GAMEPLAY, _float3{ 130.f, 160.f, 1.f }, TEXT("PC_Explosion"), 14);
-			m_bDead = true;
-
-			return;
-		}
-
-		// 이펙트 생성
-		m_iHP += -50;
-		FX_MGR->SpawnBlood(vImpactPos, LEVEL_GAMEPLAY);
-	}
+	__super::On_Collision_NormalMonster(MyColliderID, OtherColliderID);
 }
 
 void CNukemutant::MonsterTick(_float dt)

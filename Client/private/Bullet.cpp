@@ -99,7 +99,6 @@ void CBullet::On_Collision(_uint MyColliderID, _uint OtherColliderID)
 		FX_MGR->SpawnExplosion(CCollider::Get_Last_Collision_Pos(), m_eLevelID);
 
 
-	;
 }
 
 HRESULT CBullet::Ready_Components(void* pArg)
