@@ -80,6 +80,8 @@ private:
 
 private: //단발성 변수
 	_bool			m_bDoOnce = false;
+	_bool			m_bDoPatternLeft = false;
+	_bool			m_bDoPatternRight = false;
 
 private: //공중패턴
 	_bool			m_bFlyAttack = false;

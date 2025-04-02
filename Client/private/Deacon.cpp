@@ -142,7 +142,6 @@ void CDeacon::On_Collision(_uint MyColliderID, _uint OtherColliderID)
 		_float3 vImpactPos = CalculateEffectPos();
 
 		// ¿Ã∆Â∆Æ ª˝º∫
-		m_iHP += -50;
 		FX_MGR->SpawnBlood(vImpactPos, LEVEL_GAMEPLAY);
 
 		//∏ÛΩ∫≈Õ ªÁ∏¡
@@ -160,6 +159,8 @@ void CDeacon::On_Collision(_uint MyColliderID, _uint OtherColliderID)
 			return;
 		}
 	}
+
+	__super::On_Collision(MyColliderID, OtherColliderID);
 }
 
 void CDeacon::MonsterTick(_float dt)

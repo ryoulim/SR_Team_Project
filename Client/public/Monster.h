@@ -85,7 +85,7 @@ protected: //몬스터 기본패턴
 
 protected: // 충돌함수
 	virtual _float3		CalculateEffectPos();
-	virtual void		On_Collision(_uint MyColliderID, _uint OtherColliderID) override {};
+	virtual void		On_Collision(_uint MyColliderID, _uint OtherColliderID) override;
 
 public: // 디버깅
 	void	ToggleDebugMode() { m_bDebug = !m_bDebug; }
