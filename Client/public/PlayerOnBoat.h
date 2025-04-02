@@ -43,14 +43,17 @@ public:
 	_float			Compute_StartPosX();
 	_float			Compute_CurPosZ();
 	void			Move_Lerp(_float fStartPosX, _float fTime);
+	void			StoreSlidingSpeed(_float fSpeed);
+	_float			GetSlidingSpeed();
 
 private:
-	class CCameraManager* m_pCameraManager = { nullptr };
-	CTransform* m_pCameraTransform = { nullptr };
-	STATE m_ePreState = { NON };
-	STATE m_eCurState = { NORMAL };
-	CPBState* m_pCurState = { nullptr };
-	CPBState* m_pState[NON] = { nullptr };
+	class CCameraManager*	m_pCameraManager = { nullptr };
+	CTransform*				m_pCameraTransform = { nullptr };
+	STATE					m_ePreState = { NON };
+	STATE					m_eCurState = { NORMAL };
+	CPBState*				m_pCurState = { nullptr };
+	CPBState*				m_pState[NON] = { nullptr };
+	_float					m_fSlidingSpeed = {};
 
 private:
 	void			Init_Camera_Link();

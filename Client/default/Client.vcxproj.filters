@@ -34,9 +34,6 @@
     <Filter Include="02.GameObjects\Effect">
       <UniqueIdentifier>{8a9aaaa4-6267-428d-b1c8-d878c6c1a50a}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\Pawn">
-      <UniqueIdentifier>{c35da08a-421c-4a11-ba53-b81fa4888a6e}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02.GameObjects\Item">
       <UniqueIdentifier>{ad5b920c-bc1b-4ece-bc65-fdfb9440ecab}</UniqueIdentifier>
     </Filter>
@@ -90,9 +87,6 @@
     </Filter>
     <Filter Include="02.GameObjects\__DebugMode">
       <UniqueIdentifier>{b4ef907c-f7c8-4b01-a74d-47b229dc7d06}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Pawn\Player">
-      <UniqueIdentifier>{7824ea17-ff1a-481c-ab6e-d2abce003704}</UniqueIdentifier>
     </Filter>
     <Filter Include="02.GameObjects\Particle">
       <UniqueIdentifier>{3845da3f-5600-47ea-9730-6da610be76f0}</UniqueIdentifier>
@@ -232,9 +226,6 @@
     <Filter Include="02.GameObjects\Monster\_Debug">
       <UniqueIdentifier>{57b6a1b0-b026-46b5-8de8-642b17c2932c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\Pawn\PlayerOnBoat">
-      <UniqueIdentifier>{7efd6090-538e-41fe-a189-bea97aeafa1a}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02.GameObjects\Statue\BuildingH">
       <UniqueIdentifier>{f997c486-91f6-451b-86ed-1163c494293d}</UniqueIdentifier>
     </Filter>
@@ -252,9 +243,6 @@
     </Filter>
     <Filter Include="02.GameObjects\Statue\BuildingU">
       <UniqueIdentifier>{7384122a-f587-4088-8d84-249653a83ad1}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Statue\RacePortal">
-      <UniqueIdentifier>{ee86fe52-38f1-4aff-9c84-c41cb5d653af}</UniqueIdentifier>
     </Filter>
     <Filter Include="02.GameObjects\Camera\TPSCamera">
       <UniqueIdentifier>{61f18ba6-ab02-41a7-940c-1548937d2c40}</UniqueIdentifier>
@@ -399,6 +387,15 @@
     </Filter>
     <Filter Include="02.GameObjects\Statue\Rock">
       <UniqueIdentifier>{5c28e436-6909-4a49-b7f7-3d6e2349fa5c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Pawn">
+      <UniqueIdentifier>{c35da08a-421c-4a11-ba53-b81fa4888a6e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Pawn\Player">
+      <UniqueIdentifier>{7824ea17-ff1a-481c-ab6e-d2abce003704}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Pawn\PlayerOnBoat">
+      <UniqueIdentifier>{7efd6090-538e-41fe-a189-bea97aeafa1a}</UniqueIdentifier>
     </Filter>
     <Filter Include="02.GameObjects\Pawn\PlayerOnBoat\State">
       <UniqueIdentifier>{d271f4e8-7a83-4fd9-b606-963f509fc12a}</UniqueIdentifier>

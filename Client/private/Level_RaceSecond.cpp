@@ -77,11 +77,11 @@ HRESULT CLevel_RaceSecond::Ready_Layer_Statue(const _wstring& strLayerTag)
 	CStatue::DESC desc = {};
 
 	desc.vAngle = _float3(D3DXToRadian(0.f), D3DXToRadian(80.f), D3DXToRadian(0.f));
-	desc.vInitPos = _float3(800.f, 300.f, 700.f);
+	desc.vInitPos = _float3(800.f, 300.f, -3000.f);
 	desc.vScale = _float3(600.f, 600.f, 600.f);
 	desc.eLevelID = LEVEL_RACESECOND;
 
-	for (_uint i = 0; i < 20; i++)
+	for (_uint i = 0; i < 25; i++)
 	{
 		if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_RACESECOND, TEXT("Prototype_GameObject_Forest"),
 			LEVEL_RACESECOND, strLayerTag, &desc)))
@@ -91,11 +91,11 @@ HRESULT CLevel_RaceSecond::Ready_Layer_Statue(const _wstring& strLayerTag)
 	}
 
 	desc.vAngle = _float3(D3DXToRadian(0.f), D3DXToRadian(-80.f), D3DXToRadian(0.f));
-	desc.vInitPos = _float3(100.f, 300.f, 700.f);
+	desc.vInitPos = _float3(100.f, 300.f, -3000.f);
 	desc.vScale = _float3(600.f, 600.f, 600.f);
 	desc.eLevelID = LEVEL_RACESECOND;
 
-	for (_uint i = 0; i < 20; i++)
+	for (_uint i = 0; i < 25; i++)
 	{
 		if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_RACESECOND, TEXT("Prototype_GameObject_Forest"),
 			LEVEL_RACESECOND, strLayerTag, &desc)))
@@ -106,7 +106,7 @@ HRESULT CLevel_RaceSecond::Ready_Layer_Statue(const _wstring& strLayerTag)
 
 
 	desc.vAngle		= _float3(D3DXToRadian(0.f), D3DXToRadian(0.f), D3DXToRadian(0.f));
-	desc.vInitPos	= _float3(250.f, 36.f, 0.f);
+	desc.vInitPos	= _float3(250.f, 36.f, -3000.f);
 	desc.vScale		= _float3(72.f, 120.f, 72.f);
 	desc.eLevelID = LEVEL_RACESECOND;
 	
@@ -131,8 +131,8 @@ HRESULT CLevel_RaceSecond::Ready_Layer_Statue(const _wstring& strLayerTag)
 		return E_FAIL;
 
 	desc.vAngle = _float3(D3DXToRadian(0.f), D3DXToRadian(0.f), D3DXToRadian(0.f));
-	desc.vInitPos = _float3(450.f, 30.f, -2500.f);
-	desc.vScale = _float3(30.f, 30.f, 5000.f);
+	desc.vInitPos = _float3(450.f, 30.f, -8000.f);
+	desc.vScale = _float3(30.f, 30.f, 10000.f);
 
 	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_RACESECOND, TEXT("Prototype_GameObject_RaceCylinder"),
 		LEVEL_RACESECOND, strLayerTag, &desc)))
@@ -152,7 +152,7 @@ HRESULT CLevel_RaceSecond::Ready_Layer_Statue(const _wstring& strLayerTag)
 HRESULT CLevel_RaceSecond::Ready_Layer_Pawn(const _wstring& strLayerTag)
 {
 	//이 레벨의 플레이어 생성위치
-	_float3 vInitPosition = { 450.f, 17.f, -3000.f };
+	_float3 vInitPosition = { 450.f, 17.f, -10000.f };
 
 	// 플레이어가 있는지 체크하고 있으면 위치만 변경해줌.
 	auto pPlayer = static_cast<CPawn*>(GET_PLAYER);

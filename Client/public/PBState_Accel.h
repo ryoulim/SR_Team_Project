@@ -21,6 +21,9 @@ public:
 	void Exit(CPlayerOnBoat* pPlayerOnBoat) override;
 
 private:
+	_float m_fAccelSpeed = {};
+
+private:
 	virtual void Free();
 };
 

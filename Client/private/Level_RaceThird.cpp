@@ -78,8 +78,8 @@ HRESULT CLevel_RaceThird::Ready_Layer_Statue(const _wstring& strLayerTag)
 	CStatue::DESC desc = {};
 
 	desc.vAngle		= _float3(D3DXToRadian(0.f), D3DXToRadian(0.f), D3DXToRadian(0.f));
-	desc.vInitPos	= _float3(250.f, 15.f, 5000.f);
-	desc.vScale		= _float3(72.f, 30.f, 10000.f);
+	desc.vInitPos	= _float3(250.f, 15.f, 3000.f);
+	desc.vScale		= _float3(72.f, 30.f, 16000.f);
 	desc.eLevelID = LEVEL_RACETHIRD;
 	
 	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_RACETHIRD, TEXT("Prototype_GameObject_Rock"),
@@ -87,18 +87,18 @@ HRESULT CLevel_RaceThird::Ready_Layer_Statue(const _wstring& strLayerTag)
 		return E_FAIL;
 
 	desc.vAngle		= _float3(D3DXToRadian(0.f), D3DXToRadian(0.f), D3DXToRadian(0.f));
-	desc.vInitPos	= _float3(650.f, 15.f, 5000.f);
-	desc.vScale		= _float3(72.f, 30.f, 10000.f);
+	desc.vInitPos	= _float3(650.f, 15.f, 3000.f);
+	desc.vScale		= _float3(72.f, 30.f, 16000.f);
 
 	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_RACETHIRD, TEXT("Prototype_GameObject_Rock"),
 		LEVEL_RACETHIRD, strLayerTag, &desc)))
 		return E_FAIL;
 
 	desc.vAngle = _float3(D3DXToRadian(0.f), D3DXToRadian(90.f), D3DXToRadian(0.f));
-	desc.vInitPos = _float3(600.f, 265.f, 0.f);
+	desc.vInitPos = _float3(600.f, 265.f, -3000.f);
 	desc.vScale = _float3(600.f, 500.f, 600.f);
 
-	for (_uint i = 0; i < 25; i++)
+	for (_uint i = 0; i < 35; i++)
 	{
 		if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_RACETHIRD, TEXT("Prototype_GameObject_Forest"),
 			LEVEL_RACETHIRD, strLayerTag, &desc)))
@@ -109,10 +109,10 @@ HRESULT CLevel_RaceThird::Ready_Layer_Statue(const _wstring& strLayerTag)
 	}
 
 	desc.vAngle = _float3(D3DXToRadian(0.f), D3DXToRadian(-90.f), D3DXToRadian(0.f));
-	desc.vInitPos = _float3(300.f, 265.f, 0.f);
+	desc.vInitPos = _float3(300.f, 265.f, -3000.f);
 	desc.vScale = _float3(600.f, 500.f, 600.f);
 
-	for (_uint i = 0; i < 25; i++)
+	for (_uint i = 0; i < 35; i++)
 	{
 		if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_RACETHIRD, TEXT("Prototype_GameObject_Forest"),
 			LEVEL_RACETHIRD, strLayerTag, &desc)))
@@ -132,8 +132,8 @@ HRESULT CLevel_RaceThird::Ready_Layer_Statue(const _wstring& strLayerTag)
 
 
 	desc.vAngle = _float3(D3DXToRadian(0.f), D3DXToRadian(0.f), D3DXToRadian(0.f));
-	desc.vInitPos = _float3(450.f, 30.f, -2500.f);
-	desc.vScale = _float3(30.f, 30.f, 5000.f);
+	desc.vInitPos = _float3(450.f, 30.f, -8000.f);
+	desc.vScale = _float3(30.f, 30.f, 10000.f);
 
 	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_RACETHIRD, TEXT("Prototype_GameObject_RaceCylinder"),
 		LEVEL_RACETHIRD, strLayerTag, &desc)))
@@ -145,7 +145,7 @@ HRESULT CLevel_RaceThird::Ready_Layer_Statue(const _wstring& strLayerTag)
 HRESULT CLevel_RaceThird::Ready_Layer_Pawn(const _wstring& strLayerTag)
 {
 	//이 레벨의 플레이어 생성위치
-	_float3 vInitPosition = { 450.f, 17.f, -3000.f };
+	_float3 vInitPosition = { 450.f, 17.f, -10000.f };
 
 	// 플레이어가 있는지 체크하고 있으면 위치만 변경해줌.
 	auto pPlayer = static_cast<CPawn*>(GET_PLAYER);
