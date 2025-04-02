@@ -45,16 +45,16 @@ HRESULT CVIBuffer_RaceCylinder::Initialize_Prototype()
 	pVertices[7].vTexcoord = _float2(9.f, 0.f);
 	pVertices[8].vTexcoord = _float2(0.f, 0.f);
 	pVertices[9].vTexcoord = _float2(1.f, 0.f);
-	pVertices[10].vTexcoord = _float2(2.f, 10.f);
-	pVertices[11].vTexcoord = _float2(3.f, 10.f);
-	pVertices[12].vTexcoord = _float2(4.f, 10.f);
-	pVertices[13].vTexcoord = _float2(5.f, 10.f);
-	pVertices[14].vTexcoord = _float2(6.f, 10.f);
-	pVertices[15].vTexcoord = _float2(7.f, 10.f);
-	pVertices[16].vTexcoord = _float2(8.f, 10.f);
-	pVertices[17].vTexcoord = _float2(9.f, 10.f);
-	pVertices[18].vTexcoord = _float2(0.f, 10.f);
-	pVertices[19].vTexcoord = _float2(1.f, 10.f);
+	pVertices[10].vTexcoord = _float2(2.f, 15.f);
+	pVertices[11].vTexcoord = _float2(3.f, 15.f);
+	pVertices[12].vTexcoord = _float2(4.f, 15.f);
+	pVertices[13].vTexcoord = _float2(5.f, 15.f);
+	pVertices[14].vTexcoord = _float2(6.f, 15.f);
+	pVertices[15].vTexcoord = _float2(7.f, 15.f);
+	pVertices[16].vTexcoord = _float2(8.f, 15.f);
+	pVertices[17].vTexcoord = _float2(9.f, 15.f);
+	pVertices[18].vTexcoord = _float2(0.f, 15.f);
+	pVertices[19].vTexcoord = _float2(1.f, 15.f);
 
 	pVertices[20].vPosition = _float3(-100.f, 1.f, -0.5f);
 	pVertices[20].vTexcoord = _float2(0.f, 0.f);

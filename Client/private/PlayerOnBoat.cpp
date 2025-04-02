@@ -123,6 +123,16 @@ void CPlayerOnBoat::Move_Lerp(_float fStartPosX, _float fTime)
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, m_pTransformCom->Lerp(vStartPos, vEndPos, fTime));
 }
 
+void CPlayerOnBoat::StoreSlidingSpeed(_float fSpeed)
+{
+	m_fSlidingSpeed = fSpeed;
+}
+
+_float CPlayerOnBoat::GetSlidingSpeed()
+{
+	return m_fSlidingSpeed;
+}
+
 void CPlayerOnBoat::Set_State(STATE eState)
 {
 	m_pCurState = m_pState[eState];

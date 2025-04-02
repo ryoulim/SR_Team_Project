@@ -242,7 +242,7 @@ HRESULT CLoader::Loding_For_Static()
 	ADD_TEXTURE(Armor, "../Bin/Resources/Textures/UI/Armor/armor%d.PNG", 3);			// 치워도돼
 	ADD_TEXTURE(Ammo, "../Bin/Resources/Textures/UI/Ammo/ammo%d.PNG", 8);				// 치워도돼
 	ADD_TEXTURE(Portrait, "../Bin/Resources/Textures/UI/Portrait/portrait%d.PNG", 25);	// 치워도돼
-
+	
 #pragma region PLAYER
 	ADD_TEXTURE(MyCube, "../Bin/Resources/Textures/Snow/Snow.png", 1);
 	ADD_TEXTURE(GrenadeBullet, "../Bin/Resources/Textures/Bullet/Grenade/GrenadeBullet.png", 1);
@@ -761,7 +761,7 @@ HRESULT CLoader::Loading_For_RaceFirst()/**/
 		return E_FAIL;
 
 	lstrcpy(m_szLoadingText, TEXT("모델을(를) 로딩중입니다."));
-	ADD_MODEL_EX(RaceTerrain, 10, 1000);
+	ADD_MODEL_EX(RaceTerrain, 10, 1500);
 	ADD_MODEL(Rect);
 
 	lstrcpy(m_szLoadingText, TEXT("사운드을(를) 로딩중입니다."));

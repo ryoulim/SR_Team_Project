@@ -14,7 +14,7 @@ void CPBState_Lerp::Execute(CPlayerOnBoat* pPlayerOnBoat, _float fTimeDelta)
 {
 	m_fPosZ = pPlayerOnBoat->Compute_CurPosZ();
 
-	m_fTime += fTimeDelta * 1.2f;
+	m_fTime += fTimeDelta * 1.4f;
 
 	pPlayerOnBoat->Move_Lerp(m_fStartPosX, m_fTime);
 
