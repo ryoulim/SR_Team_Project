@@ -13,13 +13,18 @@ END
 
 BEGIN(Client)
 
-class CItem abstract : public CGameObject
+class CItem : public CGameObject
 {
 public:
 	typedef struct tagItemDesc : public CTransform::DESC
 	{
+		const _tchar* szTextureID;
+		const _tchar* szBufferType;
 		_float3 vInitPos;
 		_float3 vScale;
+		LEVEL	eLevelID;
+		_float	fTextureNum;
+		COLLIDER_ID eColID;
 	}DESC;
 
 protected:
@@ -35,6 +40,8 @@ public:
 	virtual void Late_Update(_float fTimeDelta) override;
 	virtual HRESULT Render() override;
 
+	virtual void On_Collision(_uint MyColliderID, _uint OtherColliderID) override;
+
 protected:
 	virtual HRESULT Ready_Components(void* pArg);
 
@@ -46,9 +53,13 @@ protected:
 	CVIBuffer* m_pVIBufferCom = { nullptr };
 	CTransform* m_pTransformCom = { nullptr };
 	CCollider* m_pCollider = { nullptr };
+	bool m_bDead = { false };
+	COLLIDER_ID m_eColID = { COLLIDER_ID::CI_END };
+	_float m_fDirection = { 1.f };
 
 public:
-	virtual CGameObject* Clone(void* pArg) PURE;
+	static CItem* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
+	virtual CGameObject* Clone(void* pArg);
 	virtual void Free();
 };
 

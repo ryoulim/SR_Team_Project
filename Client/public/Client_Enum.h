@@ -4,7 +4,7 @@
 namespace Client
 {
 	enum LEVEL { LEVEL_STATIC, LEVEL_LOADING, LEVEL_LOGO, LEVEL_GAMEPLAY, LEVEL_RACEFIRST, LEVEL_RACESECOND, LEVEL_RACETHIRD, LEVEL_BOSS, LEVEL_INDOOR, LEVEL_OUTDOOR, LEVEL_END };
-	enum COLLIDER_GROUP { CG_PAWN, CG_MONSTER, CG_BLOCK, CG_PBULLET, CG_MBULLET, CG_TRIGGER, CG_END };
+	enum COLLIDER_GROUP { CG_PAWN, CG_MONSTER, CG_BLOCK, CG_PBULLET, CG_MBULLET, CG_TRIGGER, CG_ITEM, CG_END };
 
 	enum COLLIDER_ID {
 		CI_PLAYER_START,																			// 플레이어
@@ -31,7 +31,14 @@ namespace Client
 		CI_MONSTER_BULLET,
 		CI_MBULLET_END,
 
-		CI_TRIGGER                                                                                  // 트리거 ( 조건문 안들어가게 하기 위해서 만든 이넘 )
+		CI_TRIGGER,                                                                                 // 트리거 ( 조건문 안들어가게 하기 위해서 만든 이넘 )
+
+		CI_ITEM_AMMO_CHAINGUN,																		// 아이템
+		CI_ITEM_AMMO_DISPENSER_SCATTER,
+		CI_ITEM_AMMO_DISPENSER_CANNON,
+		CI_ITEM_AMMO_LOVERBOY,
+
+		CI_END
 	};
 
 #define CI_PLAYER( ID )		(CI_PLAYER_START < ID && CI_PLAYER_END > ID )

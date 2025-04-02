@@ -8,6 +8,7 @@
 #include "FXMgr.h"
 #include "UI_Manager.h"
 #include "BossBridge.h"
+#include "Item.h"
 
 #include "Trigger.h"
 #include "Map.h"
@@ -43,8 +44,8 @@ HRESULT CLevel_GamePlay::Initialize(class CLevelData* pLevelData)
 
 	CUI_Manager::Get_Instance()->Initialize_Player();
 
-	if (FAILED(Ready_Layer_Monster(TEXT("Layer_Monster"))))
-		return E_FAIL;
+	/*if (FAILED(Ready_Layer_Monster(TEXT("Layer_Monster"))))
+		return E_FAIL;*/
 
 	if (FAILED(Ready_Layer_Statue(TEXT("Layer_Statue"))))
 		return E_FAIL;
@@ -55,8 +56,8 @@ HRESULT CLevel_GamePlay::Initialize(class CLevelData* pLevelData)
 	if (FAILED(Ready_Layer_Particle(TEXT("Layer_Particle"))))
 		return E_FAIL;
 
-	//if (FAILED(Ready_Layer_Item(TEXT("Layer_Item"))))
-	//	return E_FAIL;
+	if (FAILED(Ready_Layer_Item(TEXT("Layer_Item"))))
+		return E_FAIL;
 
 	//if(FAILED(Ready_Light()))
 	//	return E_FAIL;
@@ -212,11 +213,67 @@ HRESULT CLevel_GamePlay::Ready_Layer_Statue(const _wstring& strLayerTag)
 
 HRESULT CLevel_GamePlay::Ready_Layer_Item(const _wstring& strLayerTag)
 {
-	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Item_Ammo"),
-		LEVEL_GAMEPLAY, strLayerTag, m_pData->Find_Data(TEXT("Item_Ammo")))))
+	CItem::DESC ItemDesc{};
+	ItemDesc.vInitPos = { 1200.f, 50.f, 1500.f };
+	ItemDesc.vScale = { 10.f, 10.f, 10.f };
+	ItemDesc.fRotationPerSec = RADIAN(0.f);
+	ItemDesc.fSpeedPerSec = 5.f;
+	ItemDesc.eLevelID = CurLevel;
+	ItemDesc.szBufferType = TEXT("Cube");
+	ItemDesc.szTextureID = TEXT("Item_Ammo");
+	ItemDesc.fTextureNum = 0.f;
+	ItemDesc.eColID = COLLIDER_ID::CI_ITEM_AMMO_CHAINGUN;
+	
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Item_Ammo_Chaingun"),
+		LEVEL_GAMEPLAY, strLayerTag, &ItemDesc)))
 		return E_FAIL;
 
-	return E_NOTIMPL;
+
+	ItemDesc.vInitPos = { 1300.f, 50.f, 1500.f };
+	ItemDesc.vScale = { 10.f, 10.f, 10.f };
+	ItemDesc.fRotationPerSec = RADIAN(0.f);
+	ItemDesc.fSpeedPerSec = 5.f;
+	ItemDesc.eLevelID = CurLevel;
+	ItemDesc.szBufferType = TEXT("Cube");
+	ItemDesc.szTextureID = TEXT("Item_Ammo");
+	ItemDesc.fTextureNum = 1.f;
+	ItemDesc.eColID = COLLIDER_ID::CI_ITEM_AMMO_DISPENSER_SCATTER;
+
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Item_Ammo_Dispenser_Scatter"),
+		LEVEL_GAMEPLAY, strLayerTag, &ItemDesc)))
+		return E_FAIL;
+
+
+	ItemDesc.vInitPos = { 1400.f, 50.f, 1500.f };
+	ItemDesc.vScale = { 10.f, 10.f, 10.f };
+	ItemDesc.fRotationPerSec = RADIAN(0.f);
+	ItemDesc.fSpeedPerSec = 5.f;
+	ItemDesc.eLevelID = CurLevel;
+	ItemDesc.szBufferType = TEXT("Cube");
+	ItemDesc.szTextureID = TEXT("Item_Ammo");
+	ItemDesc.fTextureNum = 2.f;
+	ItemDesc.eColID = COLLIDER_ID::CI_ITEM_AMMO_DISPENSER_CANNON;
+
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Item_Ammo_Dispenser_Cannon"),
+		LEVEL_GAMEPLAY, strLayerTag, &ItemDesc)))
+		return E_FAIL;
+
+
+	ItemDesc.vInitPos = { 1500.f, 50.f, 1500.f };
+	ItemDesc.vScale = { 10.f, 10.f, 10.f };
+	ItemDesc.fRotationPerSec = RADIAN(0.f);
+	ItemDesc.fSpeedPerSec = 5.f;
+	ItemDesc.eLevelID = CurLevel;
+	ItemDesc.szBufferType = TEXT("Cube");
+	ItemDesc.szTextureID = TEXT("Item_Ammo");
+	ItemDesc.fTextureNum = 3.f;
+	ItemDesc.eColID = COLLIDER_ID::CI_ITEM_AMMO_LOVERBOY;
+
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Item_Ammo_LoverBoy"),
+		LEVEL_GAMEPLAY, strLayerTag, &ItemDesc)))
+		return E_FAIL;
+
+	return S_OK;
 }
 
 HRESULT CLevel_GamePlay::Ready_Layer_Particle(const _wstring& strLayerTag)
@@ -258,6 +315,7 @@ HRESULT CLevel_GamePlay::Ready_Layer_Pawn(const _wstring& strLayerTag)
 
 	CPlayer::DESC PlayerDesc{};
 	PlayerDesc.vInitPos = { 1400.f, 150.f, 200.f };
+	PlayerDesc.vInitPos = { 1400.f, 150.f, 1200.f };
 	PlayerDesc.vScale = { 20.f, 30.f, 20.f };
 	PlayerDesc.fRotationPerSec = RADIAN(180.f);
 	PlayerDesc.fSpeedPerSec = 150.f;
@@ -398,6 +456,7 @@ void CLevel_GamePlay::Check_Collision()
 	m_pGameInstance->Intersect(CG_MBULLET, CG_BLOCK);
 	m_pGameInstance->Intersect(CG_PAWN, CG_TRIGGER);
 	m_pGameInstance->Intersect(CG_MONSTER, CG_BLOCK);
+	m_pGameInstance->Intersect(CG_PAWN, CG_ITEM);
 }
 
 void CLevel_GamePlay::SpawnTtakkeun_i(const _float3& _Position, _bool m_bActive, _int _iNum, LEVEL _eLevel)

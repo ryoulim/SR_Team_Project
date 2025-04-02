@@ -123,11 +123,44 @@ HRESULT CPlayer::Render()
 
 void CPlayer::On_Collision(_uint MyColliderID, _uint OtherColliderID)
 {
-	if (OtherColliderID == CI_BLOCK_INVISIBLE)
+	switch (OtherColliderID)
+	{
+	case CI_BLOCK_INVISIBLE:
 		return;
+		break;
 
-	if (OtherColliderID == CI_TRIGGER)
+	case CI_TRIGGER:
 		Change_Level();
+		break;
+
+	case CI_ITEM_AMMO_CHAINGUN:
+		m_Weapons[1]->Replenish_Ammo(5);
+		break;
+		
+	case CI_ITEM_AMMO_DISPENSER_SCATTER:
+		m_Weapons[2]->Replenish_Ammo(5);
+		break;
+
+	case CI_ITEM_AMMO_DISPENSER_CANNON:
+		m_Weapons[2]->Replenish_Ammo(5);
+		break;
+
+	case CI_ITEM_AMMO_LOVERBOY:
+		m_Weapons[0]->Replenish_Ammo(5);
+		break;
+
+	default:
+		break;
+	}
+
+	//if (OtherColliderID == CI_BLOCK_INVISIBLE)
+	//	
+
+	//if (OtherColliderID == CI_TRIGGER)
+	//	
+
+	//if (OtherColliderID == CI_ITEM)
+		
 
 	_float3 vPos = *m_pTransformCom->Get_State(CTransform::STATE_POSITION);
 	_float3 vPos2 = *m_pCameraTransform->Get_State(CTransform::STATE_POSITION);

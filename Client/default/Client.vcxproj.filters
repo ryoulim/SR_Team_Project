@@ -142,12 +142,6 @@
     <Filter Include="02.GameObjects\UI\Button">
       <UniqueIdentifier>{4a9434f2-285b-4625-b208-c24b1d822db7}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\Item\Item_Ammo">
-      <UniqueIdentifier>{d1aca46f-c220-419d-9122-7d021650f192}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Item\Item_Medkit">
-      <UniqueIdentifier>{c4d0bab2-7f74-4cea-a8bd-ecf3b8c3154e}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02.GameObjects\Particle\EmtyBullet">
       <UniqueIdentifier>{f0e372d5-eb30-435c-9f67-b6cb449f4d50}</UniqueIdentifier>
     </Filter>
@@ -183,9 +177,6 @@
     </Filter>
     <Filter Include="02.GameObjects\Map\Race">
       <UniqueIdentifier>{c6e4dfd4-97b2-4b0a-80f3-abd67204c7e4}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Item\Item_CardKey">
-      <UniqueIdentifier>{2d398edf-25e0-4a77-b816-89344c9bb9d5}</UniqueIdentifier>
     </Filter>
     <Filter Include="02.GameObjects\Statue\RaceLandscape">
       <UniqueIdentifier>{e970d7e2-082c-4f92-b341-18de7fa88d32}</UniqueIdentifier>
@@ -584,9 +575,6 @@
     </ClInclude>
     <ClInclude Include="..\public\CameraManager.h">
       <Filter>02.GameObjects\Camera\Manager</Filter>
-    </ClInclude>
-    <ClInclude Include="..\public\Item_Ammo.h">
-      <Filter>02.GameObjects\Item\Item_Ammo</Filter>
     </ClInclude>
     <ClInclude Include="..\public\Signboard.h">
       <Filter>02.GameObjects\Statue\Signboard</Filter>
@@ -1005,9 +993,6 @@
     </ClCompile>
     <ClCompile Include="..\private\CameraManager.cpp">
       <Filter>02.GameObjects\Camera\Manager</Filter>
-    </ClCompile>
-    <ClCompile Include="..\private\Item_Ammo.cpp">
-      <Filter>02.GameObjects\Item\Item_Ammo</Filter>
     </ClCompile>
     <ClCompile Include="..\private\Signboard.cpp">
       <Filter>02.GameObjects\Statue\Signboard</Filter>
