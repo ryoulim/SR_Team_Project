@@ -4,6 +4,7 @@
 #include "Weapon_Dispenser.h"
 #include "UI_Manager.h"
 #include "GrenadeBullet.h"
+#include "FXMgr.h"
 
 #define INITPOS {350.f,-150.f,0.1f}
 #define GRENADEMODE 30
@@ -263,6 +264,7 @@ void CWeapon_Dispenser::Create_Bullet()
 	// ÆøÅº»Ñ¸®±â
 	if (m_bGrenadeMode)
 	{
+		FX_MGR->SpawnShotGunFire(_float3{ 750.f, 450.f, 0.1f }, LEVEL_GAMEPLAY);
 		_float3 vLook = m_pPlayerTransform->Get_State(CTransform::STATE_LOOK)->Normalize();
 		_float3 vRight = m_pPlayerTransform->Get_State(CTransform::STATE_RIGHT)->Normalize();
 
@@ -283,6 +285,9 @@ void CWeapon_Dispenser::Create_Bullet()
 	// ¼¦°Ç
 	else
 	{
+		FX_MGR->SpawnShotGunFire(_float3{ 750.f, 450.f, 0.1f }, LEVEL_GAMEPLAY);
+		FX_MGR->SpawnShotGunTracer(_float3{ 700.f, 400.f, 0.9f }, LEVEL_GAMEPLAY);
+
 		_float3 pPos = *m_pCameraTransform->Get_State(CTransform::STATE_POSITION);
 		_float3 pLook = *m_pCameraTransform->Get_State(CTransform::STATE_LOOK);
 		_uint iColliderID{};

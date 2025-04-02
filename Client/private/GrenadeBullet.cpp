@@ -2,6 +2,7 @@
 // 부모 클래스 이름 : Bullet
 
 #include "GrenadeBullet.h"
+#include "MonsterMissile.h"
 #include "FXMgr.h"
 
 CGrenadeBullet::CGrenadeBullet(LPDIRECT3DDEVICE9 pGraphic_Device)
@@ -36,6 +37,25 @@ HRESULT CGrenadeBullet::Initialize(void* pArg)
 	m_fTimeLimit = pDesc->fTimeLimit;
 	m_fJumpPower = pDesc->fInitJumpPower;
 
+	/* 이 총알을 만약 플레이어가 쏜거라면 파티클을 붙여라 */
+	if (m_IsPlayerBullet == CG_PBULLET)
+	{
+		CPSystem::DESC Missile_iDesc{};
+		Missile_iDesc.vPosition = { 0.f, 0.f, 0.f };
+		Missile_iDesc.szTextureTag = TEXT("PC_Small_Smoke");
+		Missile_iDesc.iParticleNums = 500;
+		Missile_iDesc.fSize = 5.f;
+		Missile_iDesc.fMaxFrame = 20.f;
+		Missile_iDesc.fNum = 60.f;
+
+		CGameObject* pObject = nullptr;
+		CGameObject** ppOut = &pObject;
+		if (FAILED(m_pGameInstance->Add_GameObjectReturn(LEVEL_STATIC, TEXT("Prototype_GameObject_PC_MonsterMissile"),
+			LEVEL_GAMEPLAY, L"Layer_Monster", ppOut, &Missile_iDesc)))
+			return E_FAIL;
+
+		m_pBullet = *ppOut;
+	}
 	return S_OK;
 }
 
@@ -50,9 +70,20 @@ EVENT CGrenadeBullet::Update(_float fTimeDelta)
 	if (m_fTimeAcc > m_fTimeLimit ||
 		m_bDead)
 	{
+		/* 이 총알이 죽었으면 파티클을 삭제하라 */
+		if (m_pBullet)
+		{
+			static_cast<CMonsterMissile*>(m_pBullet)->SetDead();
+			m_pBullet = nullptr;
+		}
+
 		FX_MGR->SpawnExplosion(CCollider::Get_Last_Collision_Pos(), m_eLevelID);
 		return EVN_DEAD;
 	}
+
+	/* 이 파티클이 유효하면 BULLET 을 따라가라 */
+	if (m_pBullet)
+		static_cast<CMonsterMissile*>(m_pBullet)->SetPosition(*m_pTransformCom->Get_State(CTransform::STATE_POSITION));
 
 	m_pTransformCom->Go_Straight(fTimeDelta);
 
@@ -158,6 +189,8 @@ HRESULT CGrenadeBullet::Ready_Components(void* pArg)
 		ColliderDesc.pOwner = this;
 		ColliderDesc.iColliderGroupID = pDesc->ColliderGroup;
 		ColliderDesc.iColliderID = CI_DISPENSOR_GRENADE;
+
+		m_IsPlayerBullet = pDesc->ColliderGroup;
 
 		/* For.Com_Collider */
 		if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Collider_Sphere"),

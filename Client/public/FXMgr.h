@@ -43,8 +43,10 @@ public: //ºÒ
 	
 public: //ÃÑ¾Ë
 	void SpawnGunFire(_float3 _ScreenPos, LEVEL eLevel);
+	void SpawnShotGunFire(_float3 _ScreenPos, LEVEL eLevel);
 	void SpawnBulletTracer(_float3 _ScreenPos, LEVEL eLevel);
 	void SpawnBulletTracerMachineGun(_float3 _ScreenPos, LEVEL eLevel);
+	void SpawnShotGunTracer(_float3 _ScreenPos, LEVEL eLevel);
 	void SpawnGunFireMachineGun(_float3 _ScreenPos, LEVEL eLevel);
 	void SpawnFireMachineGun(_float3 _ScreenPos, LEVEL eLevel);
 
