@@ -75,6 +75,8 @@ protected:
 
 	CTransform* m_pPlayerTransform{ nullptr };
 	CCameraManager* m_pCameraManager{ nullptr };
+	CTransform* m_pCameraTransform{ nullptr };
+
 	CSound_Event* m_pTestSound{ nullptr };
 	CSound_Core* m_pCoreSoundTest{ nullptr };
 

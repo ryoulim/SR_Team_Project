@@ -49,6 +49,7 @@ EVENT CDynamic_Camera::Update(_float fTimeDelta)
 {
 	if (!m_bActive)
 		return EVN_NONE;
+	Update_View_Matrix();
 	Bind_Resource();
 	return EVN_NONE;
 }

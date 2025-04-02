@@ -28,6 +28,8 @@ HRESULT CWeapon::Initialize(void* pArg)
 
 	m_pCameraManager = CAMERA_MANAGER;
 	Safe_AddRef(m_pCameraManager);
+	m_pCameraTransform = static_cast<CTransform*>(m_pCameraManager->Get_Camera(CCameraManager::FPS)->Find_Component(TEXT("Com_Transform")));
+	Safe_AddRef(m_pCameraTransform);
 
 	m_fDepth = 6.f;
 	Set_State(ST_OPENING);
@@ -142,10 +144,10 @@ void CWeapon::Create_Bullet()
 	//m_pCameraManager->StartRecoil(10.f, 0.5f);
 	//m_pCameraManager->Shake_Camera(0.1f, 0.2f);
 
-	_float4x4 matCamWorld; 
-	m_pGraphic_Device->GetTransform(D3DTS_VIEW, &matCamWorld); matCamWorld.MakeInverseMat(matCamWorld);
-	_float3 pPos = *reinterpret_cast<_float3*>(&matCamWorld.m[3][0]);
-	_float3 pLook = *reinterpret_cast<_float3*>(&matCamWorld.m[2][0]);
+
+	// 여기 카메라의 흔들리메 영향받지 않도록 오프셋과 분리작업 필요
+	_float3 pPos = *m_pCameraTransform->Get_State(CTransform::STATE_POSITION);
+	_float3 pLook = *m_pCameraTransform->Get_State(CTransform::STATE_LOOK);
 	_uint iColliderID{};
 
 	auto pPickedObj = m_pGameInstance->Raycast(pPos, pLook.Normalize(), m_fRayLength, {CG_BLOCK,CG_MONSTER,CG_MBULLET}, iColliderID);
@@ -252,4 +254,5 @@ void CWeapon::Free()
 
 	Safe_Release(m_pPlayerTransform);
 	Safe_Release(m_pCameraManager);
+	Safe_Release(m_pCameraTransform);
 }

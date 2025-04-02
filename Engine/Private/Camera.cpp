@@ -75,13 +75,18 @@ void CCamera::Set_Mouse_Fix(_bool isMouseFix)
 
 HRESULT CCamera::Bind_Resource()
 {
-	m_pGraphic_Device->SetTransform(D3DTS_VIEW, &m_pTransformCom->Get_WorldMatrix_Inverse(m_ViewMatrix));
+    m_pGraphic_Device->SetTransform(D3DTS_VIEW, &m_ViewMatrix);
 
 	m_pGraphic_Device->SetTransform(D3DTS_PROJECTION, &m_ProjMatrix);
 
    // m_pGameInstance->Update_Frustum(m_ViewMatrix * m_ProjMatrix); 나중에 절두체 컬링 생각
 
 	return S_OK;
+}
+
+void CCamera::Update_View_Matrix()
+{
+    m_pTransformCom->Get_WorldMatrix_Inverse(m_ViewMatrix);
 }
 
 void CCamera::Free()

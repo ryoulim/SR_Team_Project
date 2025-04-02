@@ -52,6 +52,7 @@ protected:
 
 protected:
 	HRESULT Bind_Resource();
+	virtual void Update_View_Matrix();
 
 private:
 	virtual void Update_Projection_Matrix() PURE;

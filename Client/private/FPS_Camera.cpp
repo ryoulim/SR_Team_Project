@@ -65,6 +65,7 @@ EVENT CFPS_Camera::Update(_float fTimeDelta)
 {
 	if (!m_bActive)
 		return EVN_NONE;
+	Update_View_Matrix();
 	Bind_Resource();
 	return EVN_NONE;
 }
@@ -136,6 +137,17 @@ void CFPS_Camera::Zoom(_float fFOV, _float Time)
 	m_fZoomTimeLimit = Time;
 }
 
+void CFPS_Camera::Update_View_Matrix()
+{
+	m_pTransformCom->Move(m_vCurrentShakePos);
+	m_pTransformCom->Quaternion_Turn(RADIAN(m_vCurrentShakeRot)); // 회전 적용 (Yaw, Pitch, Roll)}
+
+	__super::Update_View_Matrix();
+
+	m_pTransformCom->Move(-m_vCurrentShakePos);
+	m_pTransformCom->Quaternion_Turn(RADIAN(-m_vCurrentShakeRot)); // _float3로 회전 제거
+}
+
 void CFPS_Camera::Update_Projection_Matrix()
 {
 	m_ProjMatrix.MakePerspectiveProjMat(m_fFov, m_fAspect, m_fNear, m_fFar);
@@ -156,9 +168,6 @@ HRESULT CFPS_Camera::Ready_Components(void* pArg)
 // 쉐이크 갱신 함수
 void CFPS_Camera::Update_Camera_Shake(_float fTimedelta)
 {
-	m_pTransformCom->Move(-m_vCurrentShakePos);
-	m_pTransformCom->Quaternion_Turn(RADIAN(- m_vCurrentShakeRot)); // _float3로 회전 제거
-
 	m_fShakeTime += fTimedelta;
 
 	if (m_fShakeTime >= m_fShakeDuration)
@@ -192,9 +201,6 @@ void CFPS_Camera::Update_Camera_Shake(_float fTimedelta)
 	// 5. 적용
 	m_vCurrentShakePos = offsetPos;
 	m_vCurrentShakeRot = offsetRot;
-
-	m_pTransformCom->Move(m_vCurrentShakePos);
-	m_pTransformCom->Quaternion_Turn(RADIAN(m_vCurrentShakeRot)); // 회전 적용 (Yaw, Pitch, Roll)}
 }
 
 void CFPS_Camera::Update_Weapon_Recoil(_float fTimedelta)
