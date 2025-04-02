@@ -43,11 +43,6 @@ HRESULT CPlayerOnBoat::Initialize(void* pArg)
 
 void CPlayerOnBoat::Priority_Update(_float fTimeDelta)
 {
-	__super::Priority_Update(fTimeDelta);
-}
-
-EVENT CPlayerOnBoat::Update(_float fTimeDelta)
-{
 	//이전 상태와 현재 상태가 다르다면 Enter 실행
 	if (m_eCurState != m_ePreState)
 	{
@@ -58,13 +53,18 @@ EVENT CPlayerOnBoat::Update(_float fTimeDelta)
 	//Exectue는 무조건 실행
 	m_pCurState->Execute(this, fTimeDelta);
 
+	Update_Camera_Link();
+
+	__super::Priority_Update(fTimeDelta);
+}
+
+EVENT CPlayerOnBoat::Update(_float fTimeDelta)
+{
 	return __super::Update(fTimeDelta);
 }
 
 void CPlayerOnBoat::Late_Update(_float fTimeDelta)
 {
-	Update_Camera_Link();
-
 	if (m_pTransformCom->Get_State(CTransform::STATE_POSITION)->z > 13000.f)
 		Change_Level();
 

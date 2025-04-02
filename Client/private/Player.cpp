@@ -51,6 +51,25 @@ HRESULT CPlayer::Initialize(void* pArg)
 
 void CPlayer::Priority_Update(_float fTimeDelta)
 {
+	if (!m_bActive)
+		return;
+
+	m_pGameInstance->Set_Listener_Position(m_pTransformCom, *m_pTransformCom->Get_State(CTransform::STATE_POSITION) - m_vPrePosition);
+
+	if (m_bDash)
+	{
+		Update_Dash(fTimeDelta);
+	}
+	else
+	{
+		m_fDashTimer -= fTimeDelta;
+		if (m_bActive)
+		{
+			Key_Input(fTimeDelta);
+		}
+	}
+	Update_Camera_Link();
+
 	m_Weapons[m_iCurWeaponIndex]->Priority_Update(fTimeDelta);
 	__super::Priority_Update(fTimeDelta);
 }
@@ -71,21 +90,6 @@ EVENT CPlayer::Update(_float fTimeDelta)
 	if (!m_bActive)
 		return EVN_NONE;
 
-	m_pGameInstance->Set_Listener_Position(m_pTransformCom, *m_pTransformCom->Get_State(CTransform::STATE_POSITION) - m_vPrePosition);
-
-	if (m_bDash)
-	{
-		Update_Dash(fTimeDelta);
-	}
-	else
-	{
-		m_fDashTimer -= fTimeDelta;
-		if (m_bActive)
-		{
-			Key_Input(fTimeDelta);
-		}
-	}
-
 	m_Weapons[m_iCurWeaponIndex]->Update(fTimeDelta);
 
 	return __super::Update(fTimeDelta);
@@ -101,8 +105,6 @@ void CPlayer::Late_Update(_float fTimeDelta)
 		return;
 
 	m_Weapons[m_iCurWeaponIndex]->Late_Update(fTimeDelta);
-
-	Update_Camera_Link();
 
 	m_pCollider->Update_Collider();
 

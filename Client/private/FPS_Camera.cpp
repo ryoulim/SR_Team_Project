@@ -59,12 +59,13 @@ void CFPS_Camera::Priority_Update(_float fTimeDelta)
 	{
 		Update_Zoom(fTimeDelta);
 	}
-
-	Bind_Resource();
 }
 
 EVENT CFPS_Camera::Update(_float fTimeDelta)
 {
+	if (!m_bActive)
+		return EVN_NONE;
+	Bind_Resource();
 	return EVN_NONE;
 }
 

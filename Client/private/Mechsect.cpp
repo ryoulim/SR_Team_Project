@@ -82,7 +82,6 @@ HRESULT CMechsect::Render()
 	//특별히 더 렌더링 할게 있는 경우 ↓
 }
 
-
 void CMechsect::On_Collision(_uint MyColliderID, _uint OtherColliderID)
 {
 	if (CI_BLOCK(OtherColliderID))
@@ -119,6 +118,7 @@ void CMechsect::On_Collision(_uint MyColliderID, _uint OtherColliderID)
 		// 이펙트 생성
 		m_iHP += -50;
 		FX_MGR->SpawnBlood(vImpactPos, LEVEL_GAMEPLAY);
+		__super::On_Collision(MyColliderID, OtherColliderID);
 	}
 }
 
@@ -491,30 +491,6 @@ HRESULT CMechsect::Animate_Monster(_float fTimeDelta)
 		break;
 	}
 	return S_OK;
-}
-
-
-void CMechsect::On_Collision(_uint MyColliderID, _uint OtherColliderID)
-{
-	//그 즉시 배틀모드 진입
-	m_eState = MODE::MODE_BATTLE;
-
-	//위치탐색
-	_float3 vImpactPos = CalculateEffectPos();
-
-	//몬스터 사망
-	if (0 >= m_iHP)
-	{
-		FX_MGR->SpawnCustomExplosion(vImpactPos, LEVEL_GAMEPLAY, _float3{ 70.f, 80.f, 1.f }, TEXT("Effect_Explorer"), 24);
-		m_bDead = true;
-
-		return;
-	}
-
-	// 이펙트 생성
-	FX_MGR->SpawnBlood(vImpactPos, LEVEL_GAMEPLAY);
-
-	__super::On_Collision(MyColliderID, OtherColliderID);
 }
 
 CMechsect* CMechsect::Create(LPDIRECT3DDEVICE9 pGraphic_Device)

@@ -12,7 +12,7 @@
 #define Y_LOWER_CORRECTION 30.f
 
 // 바닥 감지시 오차 보정
-#define FLOOR_CORRECTION 2.f
+#define FLOOR_CORRECTION 5.f
 
 vector<_uint>		CGravity::m_StandableColliderGroupID = {};
 

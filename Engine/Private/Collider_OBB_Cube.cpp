@@ -143,49 +143,64 @@ _bool CCollider_OBB_Cube::RayCast_Downward(const _float3& rayOrigin)
     const _float3* obbAxes = m_tInfo.vAxis;
     const _float3& obbHalfSize = m_tInfo.vHalfScale;
 
-    _float3 localOrigin = rayOrigin - obbCenter;
+    const _float3 rayDir = _float3(0.f, -1.f, 0.f);
+    _float minT = FLT_MAX;
+    _bool bHit = FALSE;
 
-    _float3 localPos = {
-        localOrigin.Dot(obbAxes[0]),
-        localOrigin.Dot(obbAxes[1]),
-        localOrigin.Dot(obbAxes[2])
-    };
+    _float3 bestHitPos, bestNormal;
 
-    if (fabs(localPos.x) > obbHalfSize.x) return FALSE;
-    if (fabs(localPos.z) > obbHalfSize.z) return FALSE;
-
-    // 플레이어 위치가 박스 위에 있는지 검사
-    _float maxDot = -FLT_MAX;
-    _uint upAxis = 0;
-    for (_uint i = 0; i < 3; ++i)
+    // OBB 3축에 대해 각 ± 방향(= 총 6면) 검사
+    for (int i = 0; i < 3; ++i)
     {
-        _float dot = obbAxes[i].Dot(_float3(0.f, 1.f, 0.f));
-        if (dot > maxDot) // ❗ 방향 유지!
+        const _float3& axis = obbAxes[i];
+        const _float half = obbHalfSize[i];
+
+        for (int sign = -1; sign <= 1; sign += 2)
         {
-            maxDot = dot;
-            upAxis = i;
+            _float3 normal = axis * (_float)sign;
+            _float3 planePos = obbCenter + normal * half;
+
+            _float denom = normal.Dot(rayDir);
+            if (fabs(denom) < 1e-6f) continue; // 평면과 평행
+
+            _float t = (planePos - rayOrigin).Dot(normal) / denom;
+            if (t < 0.f || t > minT) continue; // ray보다 뒤에 있거나, 이전보다 멀면 무시
+
+            _float3 hitPoint = rayOrigin + rayDir * t;
+
+            // hitPoint가 OBB 안쪽인지 검사
+            _float3 toHit = hitPoint - obbCenter;
+            _bool inside = TRUE;
+
+            for (int j = 0; j < 3; ++j)
+            {
+                _float dist = toHit.Dot(obbAxes[j]);
+                if (fabs(dist) > obbHalfSize[j] + 0.001f) // 살짝 여유
+                {
+                    inside = FALSE;
+                    break;
+                }
+            }
+
+            if (inside)
+            {
+                bHit = TRUE;
+                minT = t;
+                bestHitPos = hitPoint;
+                bestNormal = normal;
+            }
         }
     }
 
-    // 평면보다 아래에 있으면 무시
-    if (localPos[upAxis] < obbHalfSize[upAxis])
-        return FALSE;
+    if (bHit)
+    {
+        m_vLast_Collision_Pos = bestHitPos;
+        m_vLast_Collision_Depth = bestNormal; // 법선은 면 방향 그대로
+    }
 
-    // 히트 좌표 = 평면 위로 고정
-    _float3 hitLocal = localPos;
-    hitLocal[upAxis] = obbHalfSize[upAxis];
-
-    _float3 hitWorld =
-        obbCenter +
-        obbAxes[0] * hitLocal.x +
-        obbAxes[1] * hitLocal.y +
-        obbAxes[2] * hitLocal.z;
-
-    m_vLast_Collision_Pos = hitWorld;
-    m_vLast_Collision_Depth = obbAxes[upAxis]; // 항상 +방향
-
-    return TRUE;
+    return bHit;
 }
+
 _bool CCollider_OBB_Cube::Intersect_With_AABB_Cube(const CCollider* pOther)
 {
 	return _bool();

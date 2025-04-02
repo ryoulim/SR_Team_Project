@@ -30,12 +30,13 @@ void CTPS_Camera::Priority_Update(_float fTimeDelta)
 {
 	if (!m_bActive)
 		return;
-
-	Bind_Resource();
 }
 
 EVENT CTPS_Camera::Update(_float fTimeDelta)
 {
+	if (!m_bActive)
+		return EVN_NONE;
+	Bind_Resource();
 	return EVN_NONE;
 }
 
