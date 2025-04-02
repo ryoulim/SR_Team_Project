@@ -1,17 +1,17 @@
-// 내 클래스 이름 : Ladder
-// 부모 클래스 이름 : Map
+// 내 클래스 이름 : Picture
+// 부모 클래스 이름 : Interactive_Block
 
 #pragma once
 #include "Interactive_Block.h"
 
 BEGIN(Client)
 
-class CLadder final : public CInteractive_Block
+class CPicture final : public CInteractive_Block
 {
 private:
-	CLadder(LPDIRECT3DDEVICE9 pGraphic_Device);
-	CLadder(const CLadder& Prototype);
-	virtual ~CLadder() = default;
+	CPicture(LPDIRECT3DDEVICE9 pGraphic_Device);
+	CPicture(const CPicture& Prototype);
+	virtual ~CPicture() = default;
 
 public:
 	virtual HRESULT Initialize_Prototype() override;
@@ -21,8 +21,12 @@ public:
 	virtual void Late_Update(_float fTimeDelta) override;
 	virtual HRESULT Render() override;
 
+	virtual void On_Collision(_uint MyColliderID, _uint OtherColliderID);
+
+private:
+	_bool			m_bBroken{ FALSE };
 public:
-	static CLadder* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
+	static CPicture* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
 	virtual CGameObject* Clone(void* pArg) override;
 	virtual void Free();
 };

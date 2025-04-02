@@ -122,28 +122,68 @@ _bool CCollider_AABB_Cube::RayCast_Downward(const _float3& rayOrigin)
 
 void CCollider_AABB_Cube::Update_Rotation(const _float3& radEuler)
 {
+	//_float3 half = m_vHalfScale;
+
+	//const _float RAD90 = PI * 0.5f;
+	//const _float RAD180 = PI;
+	//const _float RAD270 = PI * 1.5f;
+
+	//const _float epsilon = FLT_EPSILON * 10.f;
+
+	//// X축 회전: Y-Z 스왑
+	//if (fabs(radEuler.x - RAD90) < epsilon || fabsf(radEuler.x - RAD270) < epsilon)
+	//	swap(half.y, half.z);
+
+	//// Y축 회전: X-Z 스왑
+	//if (fabs(radEuler.y - RAD90) < epsilon || fabsf(radEuler.y - RAD270) < epsilon)
+	//	swap(half.x, half.z);
+
+	//// Z축 회전: X-Y 스왑
+	//if (fabs(radEuler.z - RAD90) < epsilon || fabsf(radEuler.z - RAD270) < epsilon)
+	//	swap(half.x, half.y);
+
+	//m_tInfo.vMinPos = m_tInfo.vCenter - half;
+	//m_tInfo.vMaxPos = m_tInfo.vCenter + half;
+
+	D3DXMATRIX rot;
+	D3DXMatrixRotationYawPitchRoll(&rot, radEuler.y, radEuler.x, radEuler.z);
+
+	_float3 center = m_tInfo.vCenter;
 	_float3 half = m_vHalfScale;
 
-	const _float RAD90 = PI * 0.5f;
-	const _float RAD180 = PI;
-	const _float RAD270 = PI * 1.5f;
+	// 8개 꼭짓점 오프셋
+	_float3 corners[8] = {
+		{ -half.x, -half.y, -half.z },
+		{  half.x, -half.y, -half.z },
+		{ -half.x,  half.y, -half.z },
+		{  half.x,  half.y, -half.z },
+		{ -half.x, -half.y,  half.z },
+		{  half.x, -half.y,  half.z },
+		{ -half.x,  half.y,  half.z },
+		{  half.x,  half.y,  half.z },
+	};
 
-	const _float epsilon = FLT_EPSILON * 10.f;
+	_float3 min = { FLT_MAX, FLT_MAX, FLT_MAX };
+	_float3 max = { -FLT_MAX, -FLT_MAX, -FLT_MAX };
 
-	// X축 회전: Y-Z 스왑
-	if (fabs(radEuler.x - RAD90) < epsilon || fabsf(radEuler.x - RAD270) < epsilon)
-		swap(half.y, half.z);
+	for (int i = 0; i < 8; ++i)
+	{
+		D3DXVECTOR3 rotated;
+		D3DXVec3TransformCoord(&rotated, &corners[i], &rot);
 
-	// Y축 회전: X-Z 스왑
-	if (fabs(radEuler.y - RAD90) < epsilon || fabsf(radEuler.y - RAD270) < epsilon)
-		swap(half.x, half.z);
+		D3DXVECTOR3 world = rotated + center;
 
-	// Z축 회전: X-Y 스왑
-	if (fabs(radEuler.z - RAD90) < epsilon || fabsf(radEuler.z - RAD270) < epsilon)
-		swap(half.x, half.y);
+		min.x = min(min.x, world.x);
+		min.y = min(min.y, world.y);
+		min.z = min(min.z, world.z);
 
-	m_tInfo.vMinPos = m_tInfo.vCenter - half;
-	m_tInfo.vMaxPos = m_tInfo.vCenter + half;
+		max.x = max(max.x, world.x);
+		max.y = max(max.y, world.y);
+		max.z = max(max.z, world.z);
+	}
+
+	m_tInfo.vMinPos = min;
+	m_tInfo.vMaxPos = max;
 }
 
 CCollider_AABB_Cube* CCollider_AABB_Cube::Create(LPDIRECT3DDEVICE9 pGraphic_Device)

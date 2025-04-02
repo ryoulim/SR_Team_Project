@@ -6,30 +6,17 @@
 
 BEGIN(Client)
 
-class CInteractive_Block final : public CMap
+class CInteractive_Block abstract : public CMap
 {
-public:
-	typedef struct tagInteractive_BlockDesc : public CMap::DESC
-	{
-
-	}DESC;
-
-private:
+protected:
 	CInteractive_Block(LPDIRECT3DDEVICE9 pGraphic_Device);
 	CInteractive_Block(const CInteractive_Block& Prototype);
 	virtual ~CInteractive_Block() = default;
 
-public:
-	virtual HRESULT Initialize_Prototype() override;
-	virtual HRESULT Initialize(void* pArg) override;
-	virtual void Priority_Update(_float fTimeDelta) override;
-	virtual EVENT Update(_float fTimeDelta) override;
-	virtual void Late_Update(_float fTimeDelta) override;
-	virtual HRESULT Render() override;
+private:
+	virtual HRESULT Ready_Components(void* pArg) override;
 
 public:
-	static CInteractive_Block* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
-	virtual CGameObject* Clone(void* pArg) override;
 	virtual void Free();
 };
 
