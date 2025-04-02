@@ -8,11 +8,11 @@
 //#define _CONSOL
 //#define _IMGUI
 #define START_LEVEL LEVEL_OUTDOOR
-
+	
 #ifdef _IMGUI
 #include "imgui.h"
 #include "imgui_impl_dx9.h"
-#include "imgui_impl_win32.h"
+#include "imgui_impl_win32.h"	
 #endif
 
 #include "Client_Enum.h"
