@@ -283,10 +283,8 @@ void CWeapon_Dispenser::Create_Bullet()
 	// ¼¦°Ç
 	else
 	{
-		_float4x4 matCamWorld;
-		m_pGraphic_Device->GetTransform(D3DTS_VIEW, &matCamWorld); matCamWorld.MakeInverseMat(matCamWorld);
-		_float3 pPos = *reinterpret_cast<_float3*>(&matCamWorld.m[3][0]);
-		_float3 vLook = reinterpret_cast<_float3*>(&matCamWorld.m[2][0])->Normalize();
+		_float3 pPos = *m_pCameraTransform->Get_State(CTransform::STATE_POSITION);
+		_float3 pLook = *m_pCameraTransform->Get_State(CTransform::STATE_LOOK);
 		_uint iColliderID{};
 
 		_float3 vOffset{};
@@ -297,7 +295,7 @@ void CWeapon_Dispenser::Create_Bullet()
 				m_pGameInstance->RandomFloat(-0.15f, 0.15f),
 				m_pGameInstance->RandomFloat(-0.15f, 0.15f)
 			};
-			auto pPickedObj = m_pGameInstance->Raycast(pPos, vLook + vOffset, m_fRayLength, { CG_BLOCK,CG_MONSTER }, iColliderID);
+			auto pPickedObj = m_pGameInstance->Raycast(pPos, pLook + vOffset, m_fRayLength, { CG_BLOCK,CG_MONSTER }, iColliderID);
 			if (pPickedObj)
 			{
 				pPickedObj->On_Collision(iColliderID, m_tShellInfo.eType);

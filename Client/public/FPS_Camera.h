@@ -58,6 +58,7 @@ private:
 	_float	m_fZoomTimer{};
 
 private:
+	virtual void		Update_View_Matrix() override;
 	virtual void		Update_Projection_Matrix() override;
 	virtual HRESULT		Ready_Components(void* pArg) override;
 
