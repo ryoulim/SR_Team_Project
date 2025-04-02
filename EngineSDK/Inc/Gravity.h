@@ -2,6 +2,7 @@
 #include "Component.h"
 
 //#define _GRV_TER
+#define GRV_MIN_HEIGHT		-30.f // ∏  √÷º“ ≥Ù¿Ã
 
 BEGIN(Engine)
 

@@ -128,24 +128,33 @@ void CPlayer::On_Collision(_uint MyColliderID, _uint OtherColliderID)
 	case CI_TRIGGER:
 		Change_Level();
 		break;
+
 	case CI_INTERACTIVE_LAVA:
 		m_tInfo.iHP--;
 		break;
-	}
-
-	_float3 vPos = *m_pTransformCom->Get_State(CTransform::STATE_POSITION);
-	_float3 vPos2 = *m_pCameraTransform->Get_State(CTransform::STATE_POSITION);
-
-	_float3 Depth = m_pCollider->Get_Last_Collision_Depth();
-	if (Depth.y != 0)
+		
+	case CI_INTERACTIVE_LADDER:
+	{
 		int a = 1;
- 	vPos += Depth;
-	vPos2 += Depth;
+	}
+		break;
 
-	m_pTransformCom->Set_State(CTransform::STATE_POSITION, vPos);
-	m_pCameraTransform->Set_State(CTransform::STATE_POSITION, vPos2);
+	case CI_BLOCK_COMMON:
+		_float3 vPos = *m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+		_float3 vPos2 = *m_pCameraTransform->Get_State(CTransform::STATE_POSITION);
 
-	m_pGraphic_Device->SetTransform(D3DTS_VIEW, &m_pCameraTransform->Get_WorldMatrix_Inverse());
+		_float3 Depth = m_pCollider->Get_Last_Collision_Depth();
+		if (Depth.y != 0)
+			int a = 1;
+		vPos += Depth;
+		vPos2 += Depth;
+
+		m_pTransformCom->Set_State(CTransform::STATE_POSITION, vPos);
+		m_pCameraTransform->Set_State(CTransform::STATE_POSITION, vPos2);
+
+		m_pGraphic_Device->SetTransform(D3DTS_VIEW, &m_pCameraTransform->Get_WorldMatrix_Inverse());
+		break;
+	}
 }
 
 HRESULT CPlayer::Ready_Components(void* pArg)

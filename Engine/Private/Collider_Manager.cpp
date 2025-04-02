@@ -1,6 +1,7 @@
 #include "Collider_Manager.h"
 #include "GameObject.h"
 #include "Collider.h"
+#include "Gravity.h"
 
 CCollider_Manager::CCollider_Manager()
 {
@@ -139,7 +140,7 @@ _float CCollider_Manager::Raycast_Downward(const _float3& rayOrigin, _uint iColl
         return FALSE;
 
     _float3 vResultNormal{};
-    _float fResult{-10.f},fvCurHeight{};
+    _float fResult{ GRV_MIN_HEIGHT },fvCurHeight{};
 
     for (auto& pCollider : m_pColliders[iColliderGroupID])
     {

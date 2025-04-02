@@ -390,15 +390,21 @@ HRESULT CLevel_GamePlay::Ready_Layer_Trigger(const _wstring& strLayerTag)
 
 void CLevel_GamePlay::Check_Collision()
 {
+	/*PAWN*/
 	m_pGameInstance->Intersect(CG_PAWN, CG_BLOCK);
-	//m_pGameInstance->Intersect(CG_MBULLET, CG_PAWN);
-	m_pGameInstance->Intersect(CG_PAWN, CG_MBULLET); 
+	m_pGameInstance->Intersect(CG_PAWN, CG_INTERACTIVE);
+	m_pGameInstance->Intersect(CG_PAWN, CG_TRIGGER);
+
+	/*PBULLET*/
 	m_pGameInstance->Intersect(CG_PBULLET, CG_MONSTER);
 	m_pGameInstance->Intersect(CG_PBULLET, CG_BLOCK);
+
+	/*MBULLET*/
+	m_pGameInstance->Intersect(CG_MBULLET, CG_PAWN);
 	m_pGameInstance->Intersect(CG_MBULLET, CG_BLOCK);
-	m_pGameInstance->Intersect(CG_PAWN, CG_TRIGGER);
+
+	/*MONSTER*/
 	m_pGameInstance->Intersect(CG_MONSTER, CG_BLOCK);
-	m_pGameInstance->Intersect(CG_PAWN, CG_INTERACTIVE);
 }
 
 void CLevel_GamePlay::SpawnTtakkeun_i(const _float3& _Position, _bool m_bActive, _int _iNum, LEVEL _eLevel)

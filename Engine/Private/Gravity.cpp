@@ -5,7 +5,6 @@
 
 // 현재 이 그래비티와 연결된 트랜스폼의 Y 포지션
 #define CUR_Y m_pTransformCom->m_WorldMatrix._42
-#define MIN_HEIGHT		-10.f // 맵 최소 높이
 
 // 기울기에 따른 Y축 보정
 #define Y_UPPER_CORRECTION 20.f
@@ -188,7 +187,7 @@ void CGravity::Raycast_StandAble_Obj()
 		fResult = m_pGameInstance->Raycast_Downward(
 			*m_pTransformCom->Get_State(CTransform::STATE_POSITION) - _float3{ 0.f, m_fHalfHeight - FLOOR_CORRECTION ,0.f },
 			ID);
-		if (fResult > MIN_HEIGHT)
+		if (fResult > GRV_MIN_HEIGHT)
 			m_vCurNormal = CCollider::Get_Last_Collision_Depth();	
 	}
 	m_fFloorY = fResult + m_fHalfHeight;
