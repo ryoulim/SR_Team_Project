@@ -83,7 +83,10 @@ HRESULT CArmor::Render()
 	_float fFontPosX = -(g_iWinSizeX / 2.f) + m_vSize.x * 4.9f;
 	_float fFontPosY = -(g_iWinSizeY / 2.f) + m_vSize.y / 2.f - 3.f;
 
-	RENDER_TEXT_BOL(m_uiArmor, fFontPosX, fFontPosY, 0.9f);
+	if (m_pPlayerInfo != nullptr)
+	{
+		RENDER_TEXT_BOL(m_pPlayerInfo->iArmor, fFontPosX, fFontPosY, 1.1f);
+	}
 
 	if (FAILED(m_pTextureCom->Get_TextureSize(static_cast<_uint>(m_fTextureNum), &m_vSize)))
 		return E_FAIL;

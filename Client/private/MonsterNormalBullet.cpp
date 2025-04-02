@@ -141,7 +141,10 @@ EVENT CMonsterNormalBullet::Update(_float fTimeDelta)
 
 
 	//플레이어로 향해 날라가라
-	m_pTransformCom->ChaseCustom(m_vTargetPos, fTimeDelta, 1.f, m_fSpeed);
+	if (m_bGravity)
+		m_pTransformCom->Go_Straight(fTimeDelta);
+	else
+		m_pTransformCom->ChaseCustom(m_vTargetPos, fTimeDelta, 1.f, m_fSpeed);
 
 	return __super::Update(fTimeDelta);
 }
@@ -225,7 +228,10 @@ void CMonsterNormalBullet::SetTargetDir()
 	// 약간의 랜덤 오차를 추가
 
 	if (m_bGravity)
+	{
 		m_vTargetPos.y += 50.f;
+		m_pTransformCom->LookAt(m_vTargetPos);
+	}
 	else
 	{
 		m_vTargetPos.x += GetRandomFloat(0.f, 25.f);

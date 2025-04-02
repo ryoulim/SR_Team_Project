@@ -3,7 +3,6 @@
 
 #pragma once
 #include "Pawn.h"
-#include "UI_Manager.h"
 
 BEGIN(Client)
 

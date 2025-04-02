@@ -3,6 +3,7 @@
 
 #pragma once
 #include "UI.h"
+#include "Player.h"
 
 BEGIN(Client)
 
@@ -24,15 +25,15 @@ public:
 	virtual void Late_Update(_float fTimeDelta) override;
 	virtual HRESULT Render() override;
 
-public:
-	//void	Set_Info(_const CPlayer::INFO* pInfo) { m_pPlayerInfo = pInfo; }
 
 private:
-	_uint*		m_pArmor = {};
-	_uint		m_uiArmor = {};
-	ARMORSTATUS m_eArmorType = { ARMOR0 };
-	//_const CPlayer::INFO* = m_pPlayerInfo = { nullptr };
+	_uint*					m_pArmor = {};
+	_uint					m_uiArmor = {};
+	ARMORSTATUS				m_eArmorType = { ARMOR0 };
+	const CPlayer::INFO*	m_pPlayerInfo = { nullptr };
 
+public:
+	void	Set_Info(const CPlayer::INFO* pInfo) { m_pPlayerInfo = pInfo; }
 
 public:
 	static CArmor* Create(LPDIRECT3DDEVICE9 pGraphic_Device);

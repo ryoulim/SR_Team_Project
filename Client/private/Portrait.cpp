@@ -23,7 +23,6 @@ HRESULT CPortrait::Initialize_Prototype()
 
 HRESULT CPortrait::Initialize(void* pArg)
 {
-
 	m_eLevelID = static_cast<DESC*>(pArg)->eLevelID;
 	m_szTextureID = TEXT("Portrait");
 	m_szBufferType = TEXT("Rect");
@@ -42,7 +41,7 @@ HRESULT CPortrait::Initialize(void* pArg)
 		m_pTransformCom->Scaling(m_vSize);
 	}
 
-	m_uiHP = 100;
+	//m_uiHP = 100;
 	return S_OK;
 }
 
@@ -102,16 +101,20 @@ void CPortrait::Priority_Update(_float fTimeDelta)
 
 EVENT CPortrait::Update(_float fTimeDelta)
 {
-	if (m_uiHP > 80)
-		m_eHPStatus = HP100;
-	else if (m_uiHP > 40)
-		m_eHPStatus = HP80;
-	else if (m_uiHP > 25)
-		m_eHPStatus = HP40;
-	else if (m_uiHP > 10)
-		m_eHPStatus = HP25;
-	else
-		m_eHPStatus = HP10;
+	if (m_pPlayerInfo != nullptr)
+	{
+		m_uiHP = m_pPlayerInfo->iHP;
+		if (m_pPlayerInfo->iHP > 80)
+			m_eHPStatus = HP100;
+		else if (m_uiHP > 40)
+			m_eHPStatus = HP80;
+		else if (m_uiHP > 25)
+			m_eHPStatus = HP40;
+		else if (m_uiHP > 10)
+			m_eHPStatus = HP25;
+		else
+			m_eHPStatus = HP10;
+	}
 	Change_Face(fTimeDelta);
 
 	return __super::Update(fTimeDelta);
@@ -134,9 +137,12 @@ HRESULT CPortrait::Render()
 		(float)(-(g_iWinSizeX / 2.f) + 20.f),
 		(float)(g_iWinSizeY / 2.f - 20.f));
 
-	RENDER_TEXT_BOL(m_uiHP, 
-		-(g_iWinSizeX / 2.f) + m_vSize.x-5.f,
-		-(g_iWinSizeY / 2.f) + m_vSize.y / 2.f - 3.f, 1.1f);
+	if (m_pPlayerInfo != nullptr)
+	{
+		RENDER_TEXT_BOL(m_pPlayerInfo->iHP,
+			-(g_iWinSizeX / 2.f) + m_vSize.x - 5.f,
+			-(g_iWinSizeY / 2.f) + m_vSize.y / 2.f - 3.f, 1.1f);
+	}
 	
 	
 	return __super::Render();

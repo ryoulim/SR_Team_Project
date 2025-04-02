@@ -81,7 +81,6 @@ void CDeacon::Late_Update(_float fTimeDelta)
 		//플레이어 감지 업데이트
 		PlayerDistance();
 		CalculateVectorToPlayer();
-		IsPlayerDetected();
 
 		//몬스터 각도업데이트
 		Compute_ViewAngle();
@@ -272,31 +271,14 @@ void CDeacon::DoDetect(_float dt)
 	m_eCurMonsterState = STATE_FLY;
 }
 
-//void CDeacon::DoDead(_float dt)
-//{
-//	if (m_bKnockBack)
-//	{
-//		m_pGravityCom->Jump(10.f);
-//		m_bKnockBack = false;
-//	}
-//	if (!m_bKnockBack && m_pGravityCom->isJump())
-//		m_pTransformCom->Go_Backward(dt * 3.f);
-//}
-
-
 _bool CDeacon::IsMonsterAbleToAttack()
 {
-	// 여기 레이캐스팅으로 플레이어와 몬스터 사이 장애물 유무 체크
+	m_fRaycastTicker = 0.f;
 	if (m_fCurDistance > m_fAttackDistance)
 		return false;
-	//if (m_fRaycastTicker > 0.5f)
-	{
-		m_fRaycastTicker = 0.f;
-		if (true == Raycast_Player())
-			return true;
-		else
-			return false;
-	}
+	return true;
+	// 여기 레이캐스팅으로 플레이어와 몬스터 사이 장애물 유무 체크 였던것
+	//return Raycast_Player();
 }
 
 void CDeacon::DoReady(_float dt)
@@ -399,7 +381,7 @@ void CDeacon::AttackPattern(_float dt)
 
 		_float3 vRight = *m_pTransformCom->Get_State(CTransform::STATE_RIGHT);
 		vRight.Normalize();
-		MonsterNormalBullet_iDesc.vPosition += vRight * 15.f * m_iLeftRight;
+		MonsterNormalBullet_iDesc.vPosition += vRight * 15.f * _float(m_iLeftRight);
 
 		if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_MonsterNormalBullet"),
 			LEVEL_GAMEPLAY, L"Layer_MonsterBullet", &MonsterNormalBullet_iDesc)))
