@@ -189,10 +189,7 @@ void CGravity::Raycast_StandAble_Obj()
 			*m_pTransformCom->Get_State(CTransform::STATE_POSITION) - _float3{ 0.f, m_fHalfHeight - FLOOR_CORRECTION ,0.f },
 			ID);
 		if (fResult > MIN_HEIGHT)
-		{	
 			m_vCurNormal = CCollider::Get_Last_Collision_Depth();	
-			//Force_Set_FloorY(fResult);
-		}	
 	}
 	m_fFloorY = fResult + m_fHalfHeight;
 }

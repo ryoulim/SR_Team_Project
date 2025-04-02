@@ -1,4 +1,4 @@
-#include "Transform.h"
+ï»¿#include "Transform.h"
 #include "Collider_OBB_Cube.h"
 
 #define AXIS_X 0
@@ -43,9 +43,9 @@ HRESULT CCollider_OBB_Cube::Initialize(void* pArg)
 
 void CCollider_OBB_Cube::Render()
 {
- //   m_pGraphic_Device->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);  // ¿ÍÀÌ¾îÇÁ·¹ÀÓ
+ //   m_pGraphic_Device->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);  // ì™€ì´ì–´í”„ë ˆìž„
 
-    // ÅØ½ºÃ³ Á¦°Å
+    // í…ìŠ¤ì²˜ ì œê±°
     m_pGraphic_Device->SetTexture(0, nullptr);
     m_pRenderTransform->Bind_Resource();
     m_pRenderBuffer->Bind_Buffers();
@@ -56,7 +56,7 @@ void CCollider_OBB_Cube::Render()
 
 void CCollider_OBB_Cube::Update_Collider()
 {
-    // À§Ä¡ + ¿ÀÇÁ¼Â
+    // ìœ„ì¹˜ + ì˜¤í”„ì…‹
     m_tInfo.vPosition = *m_pTransform->Get_State(CTransform::STATE_POSITION) + m_vOffSet;
 
     m_tInfo.vAxis[AXIS_X] = m_pTransform->Get_State(CTransform::STATE_RIGHT)->Normalize();
@@ -80,7 +80,7 @@ _bool CCollider_OBB_Cube::RayCasting(const _float3& rayOrigin, const _float3& ra
     const _float3* obbAxes = m_tInfo.vAxis;
     const _float3& obbHalfSize = m_tInfo.vHalfScale;
 
-    // Ray¸¦ OBBÀÇ ·ÎÄÃ °ø°£À¸·Î º¯È¯
+    // Rayë¥¼ OBBì˜ ë¡œì»¬ ê³µê°„ìœ¼ë¡œ ë³€í™˜
     _float3 localOrigin = rayOrigin - obbCenter;
     _float3 rayLocalOrigin = {
         localOrigin.Dot(obbAxes[0]),
@@ -94,7 +94,7 @@ _bool CCollider_OBB_Cube::RayCasting(const _float3& rayOrigin, const _float3& ra
         rayDir.Dot(obbAxes[2])
     };
 
-    // AABB ¹æ½Ä ±×´ë·Î Àû¿ë (OBBÀÇ ·ÎÄÃ °ø°£ ±âÁØ)
+    // AABB ë°©ì‹ ê·¸ëŒ€ë¡œ ì ìš© (OBBì˜ ë¡œì»¬ ê³µê°„ ê¸°ì¤€)
     _float3 invDir = {
         1.0f / rayLocalDir.x,
         1.0f / rayLocalDir.y,
@@ -117,7 +117,7 @@ _bool CCollider_OBB_Cube::RayCasting(const _float3& rayOrigin, const _float3& ra
     if (tNear > tFar || tFar < 0.0f)
         return FALSE;
 
-    // Ãæµ¹ ÁöÁ¡ (¿ùµå °ø°£À¸·Î ´Ù½Ã º¯È¯)
+    // ì¶©ëŒ ì§€ì  (ì›”ë“œ ê³µê°„ìœ¼ë¡œ ë‹¤ì‹œ ë³€í™˜)
     _float3 localHitPoint = rayLocalOrigin + rayLocalDir * tNear;
     _float3 worldHitPoint = obbCenter
         + obbAxes[0] * localHitPoint.x
@@ -126,7 +126,7 @@ _bool CCollider_OBB_Cube::RayCasting(const _float3& rayOrigin, const _float3& ra
 
     m_vLast_Collision_Pos = worldHitPoint;
 
-    // Ãæµ¹ ¸é ¹æÇâ (·ÎÄÃ Ãà ±âÁØÀ¸·Î °áÁ¤ ¡æ ´Ù½Ã ¿ùµåÃàÀ¸·Î º¯È¯)
+    // ì¶©ëŒ ë©´ ë°©í–¥ (ë¡œì»¬ ì¶• ê¸°ì¤€ìœ¼ë¡œ ê²°ì • â†’ ë‹¤ì‹œ ì›”ë“œì¶•ìœ¼ë¡œ ë³€í™˜)
     if (tNear == tMin.x) m_vLast_Collision_Depth = -obbAxes[0];
     else if (tNear == tMax.x) m_vLast_Collision_Depth = +obbAxes[0];
     else if (tNear == tMin.y) m_vLast_Collision_Depth = -obbAxes[1];
@@ -143,7 +143,6 @@ _bool CCollider_OBB_Cube::RayCast_Downward(const _float3& rayOrigin)
     const _float3* obbAxes = m_tInfo.vAxis;
     const _float3& obbHalfSize = m_tInfo.vHalfScale;
 
-    // 1. OBB ±âÁØ ·ÎÄÃ ÁÂÇ¥·Î º¯È¯
     _float3 localOrigin = rayOrigin - obbCenter;
 
     _float3 localPos = {
@@ -152,36 +151,30 @@ _bool CCollider_OBB_Cube::RayCast_Downward(const _float3& rayOrigin)
         localOrigin.Dot(obbAxes[2])
     };
 
-    // 2. XZ ¿µ¿ª ¾È¿¡ ÀÖ¾î¾ß ÇÔ (·ÎÄÃ ±âÁØ)
     if (fabs(localPos.x) > obbHalfSize.x) return FALSE;
     if (fabs(localPos.z) > obbHalfSize.z) return FALSE;
 
-    // 3. ·ÎÄÃ Y Ãà ±âÁØÀ¸·Î À§¿¡¼­ ³»·Á¿À´ÂÁö ÆÇ´Ü
-    if (localPos.y < obbHalfSize.y)
-        return FALSE;  // ÀÌ¹Ì ³»ºÎ¿¡ ÀÖ°Å³ª ¾Æ·§¸éº¸´Ù ¾Æ·¡
-
-    // 4. OBB À­¸é¿¡ ÇØ´çÇÏ´Â Ãà ¹æÇâ °è»ê
-    // ¿ùµå up ¹æÇâ°ú °¡Àå °¡±î¿î Ãà Ã£±â
-    _float3 worldUp = _float3(0.f, 1.f, 0.f);
-    _float maxDot = -1.f;
+    // í”Œë ˆì´ì–´ ìœ„ì¹˜ê°€ ë°•ìŠ¤ ìœ„ì— ìžˆëŠ”ì§€ ê²€ì‚¬
+    _float maxDot = -FLT_MAX;
     _uint upAxis = 0;
-
     for (_uint i = 0; i < 3; ++i)
     {
-        _float dot = obbAxes[i].Dot(worldUp);
-        if (fabsf(dot) > maxDot)
+        _float dot = obbAxes[i].Dot(_float3(0.f, 1.f, 0.f));
+        if (dot > maxDot) // â— ë°©í–¥ ìœ ì§€!
         {
-            maxDot = fabsf(dot);
+            maxDot = dot;
             upAxis = i;
         }
     }
 
-    // 5. hit À§Ä¡ °è»ê (·ÎÄÃ Y = +half)
-    float t = localPos[upAxis] - obbHalfSize[upAxis];
-    _float3 hitLocal = localPos;
-    hitLocal[upAxis] -= t;
+    // í‰ë©´ë³´ë‹¤ ì•„ëž˜ì— ìžˆìœ¼ë©´ ë¬´ì‹œ
+    if (localPos[upAxis] < obbHalfSize[upAxis])
+        return FALSE;
 
-    // 6. ·ÎÄÃ ¡æ ¿ùµå ÁÂÇ¥·Î º¯È¯
+    // ížˆíŠ¸ ì¢Œí‘œ = í‰ë©´ ìœ„ë¡œ ê³ ì •
+    _float3 hitLocal = localPos;
+    hitLocal[upAxis] = obbHalfSize[upAxis];
+
     _float3 hitWorld =
         obbCenter +
         obbAxes[0] * hitLocal.x +
@@ -189,11 +182,10 @@ _bool CCollider_OBB_Cube::RayCast_Downward(const _float3& rayOrigin)
         obbAxes[2] * hitLocal.z;
 
     m_vLast_Collision_Pos = hitWorld;
-    m_vLast_Collision_Depth = obbAxes[upAxis] * 1.f;
+    m_vLast_Collision_Depth = obbAxes[upAxis]; // í•­ìƒ +ë°©í–¥
 
     return TRUE;
 }
-
 _bool CCollider_OBB_Cube::Intersect_With_AABB_Cube(const CCollider* pOther)
 {
 	return _bool();
@@ -207,7 +199,7 @@ _bool CCollider_OBB_Cube::Intersect_With_OBB_Cube(const CCollider* pOther)
     _float3 vDot[3], vAbsDot[3];
     _float3 vDistance = pOtherInfo->vPosition - m_tInfo.vPosition;
 
-    // OBB1ÀÇ ·ÎÄÃ ÃàÀ» ±âÁØÀ¸·Î OBB2ÀÇ ÃàÀ» º¯È¯
+    // OBB1ì˜ ë¡œì»¬ ì¶•ì„ ê¸°ì¤€ìœ¼ë¡œ OBB2ì˜ ì¶•ì„ ë³€í™˜
     for (_uint i = 0; i < 3; i++)
     {
         for (_uint j = 0; j < 3; j++)
@@ -216,7 +208,7 @@ _bool CCollider_OBB_Cube::Intersect_With_OBB_Cube(const CCollider* pOther)
         }
     }
 
-    // Àý´ñ°ª Çà·Ä »ý¼º (¿ÀÂ÷ ¹æÁö)
+    // ì ˆëŒ“ê°’ í–‰ë ¬ ìƒì„± (ì˜¤ì°¨ ë°©ì§€)
     for (_uint i = 0; i < 3; i++)
     {
         for (_uint j = 0; j < 3; j++)
@@ -225,13 +217,13 @@ _bool CCollider_OBB_Cube::Intersect_With_OBB_Cube(const CCollider* pOther)
         }
     }
 
-    // º¯È¯µÈ Áß½É º¤ÅÍ¸¦ OBBÀÇ ·ÎÄÃ ÁÂÇ¥·Î º¯È¯
+    // ë³€í™˜ëœ ì¤‘ì‹¬ ë²¡í„°ë¥¼ OBBì˜ ë¡œì»¬ ì¢Œí‘œë¡œ ë³€í™˜
     _float3 localT;
     localT.x = vDistance.Dot(m_tInfo.vAxis[AXIS_X]);
     localT.y = vDistance.Dot(m_tInfo.vAxis[AXIS_Y]);
     localT.z = vDistance.Dot(m_tInfo.vAxis[AXIS_Z]);
 
-    // 15°³ÀÇ Ãæµ¹ °Ë»ç Ãà (6 + 9 = 15)
+    // 15ê°œì˜ ì¶©ëŒ ê²€ì‚¬ ì¶• (6 + 9 = 15)
     for (_uint i = 0; i < 3; i++)
     {
         ra = m_tInfo.vHalfScale[i];
@@ -252,7 +244,7 @@ _bool CCollider_OBB_Cube::Intersect_With_OBB_Cube(const CCollider* pOther)
             return FALSE;
     }
 
-    // 9°³ÀÇ ±³Â÷ Ãà °Ë»ç
+    // 9ê°œì˜ êµì°¨ ì¶• ê²€ì‚¬
     for (_uint i = 0; i < 3; i++)
     {
         for (_uint j = 0; j < 3; j++)
@@ -265,7 +257,7 @@ _bool CCollider_OBB_Cube::Intersect_With_OBB_Cube(const CCollider* pOther)
         }
     }
 
-    return TRUE; // ¸ðµç ºÐ¸®Ãà °Ë»ç¸¦ Åë°úÇÏ¸é Ãæµ¹!}
+    return TRUE; // ëª¨ë“  ë¶„ë¦¬ì¶• ê²€ì‚¬ë¥¼ í†µê³¼í•˜ë©´ ì¶©ëŒ!}
 }
 
 _bool CCollider_OBB_Cube::Intersect_With_Sphere(const CCollider* pOther)

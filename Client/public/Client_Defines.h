@@ -5,9 +5,9 @@
 #include <Windows.h>
 #include <process.h>
 
-//#define _CONSOL
+#define _CONSOL
 //#define _IMGUI
-#define START_LEVEL LEVEL_GAMEPLAY
+#define START_LEVEL LEVEL_OUTDOOR
 
 #ifdef _IMGUI
 #include "imgui.h"

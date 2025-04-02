@@ -94,6 +94,28 @@ const _float4x4& CTransform::Billboard() const
 	return m_Return;
 }
 
+const _float4x4& CTransform::Billboard_Y() const
+{
+	_float3	vScaled = Compute_Scaled();
+	_float3	vPosition = *Get_State(CTransform::STATE_POSITION);
+
+	_float4x4 matCamWorld;
+	m_pGraphic_Device->GetTransform(D3DTS_VIEW, &matCamWorld);
+	matCamWorld.MakeInverseMat(matCamWorld);
+	_float3 vCameraPos = { matCamWorld._41, matCamWorld._42, matCamWorld._43 };
+
+	_float3 vRight = reinterpret_cast<_float3*>(&matCamWorld.m[0][0])->Normalize() * vScaled.x;
+	_float3 vUp = reinterpret_cast<_float3*>(&matCamWorld.m[1][0])->Normalize() * vScaled.y;
+	_float3 vLook = reinterpret_cast<_float3*>(&matCamWorld.m[2][0])->Normalize() * vScaled.z;
+
+	memcpy(&m_Return._11, &vRight, sizeof _float3);
+	memcpy(&m_Return._21, &vUp, sizeof _float3);
+	memcpy(&m_Return._31, &vLook, sizeof _float3);
+	memcpy(&m_Return._41, &vPosition, sizeof _float3);
+
+	return m_Return;
+}
+
 _float4x4* CTransform::Billboard(_float4x4* _Out_ pOut) const
 {
 	_float3	vScaled = Compute_Scaled();
