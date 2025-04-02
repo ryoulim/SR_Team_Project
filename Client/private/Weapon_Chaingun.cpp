@@ -255,6 +255,7 @@ void CWeapon_Chaingun::Weak_Attack(_float fTimeDelta)
 		//FX_MGR->SpawnGunFireMachineGun(_float3{ 750.f, 450.f, 0.2f }, LEVEL_GAMEPLAY);
 		m_tAmmoInfo.iCurAmmo--;
 		FX_MGR->SpawnEmptyBullet(_float3(0.f, 0.f, 0.f), LEVEL_GAMEPLAY);
+		FX_MGR->SpawnBulletTracerMachineGun(_float3{ 700.f, 400.f, 0.99999f }, LEVEL_GAMEPLAY);
 		Create_Bullet();
 	}
 

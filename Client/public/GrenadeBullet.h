@@ -41,6 +41,9 @@ private:
 	_float m_fSpeedperSec{};
 	_bool  m_bAnimation = false;
 
+	COLLIDER_GROUP	m_IsPlayerBullet = CG_END;
+	CGameObject*	m_pBullet = nullptr;
+
 private:
 	virtual HRESULT Ready_Components(void* pArg) override;
 	virtual void Friction();
