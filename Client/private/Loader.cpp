@@ -75,6 +75,7 @@
 #include "AlphaRect.h"
 #include "BossBridge.h"
 #include "Water.h"
+#include "Ladder.h"
 
 //전시용 플랫폼
 #include "Flatform.h"
@@ -98,7 +99,7 @@
 #include "Trigger.h"
 
 /* 맵툴에서 넘어오는 텍스쳐 갯수, 건들지 말아주세요 감사합니다 */
-#define NUMMAPTEX 144
+#define NUMMAPTEX 145
 
 
 CLoader::CLoader(LPDIRECT3DDEVICE9 pGraphic_Device)
@@ -1138,6 +1139,7 @@ HRESULT CLoader::Loading_For_Outdoor()
 	ADD_PRTOBJ(InvisibleBlock);
 	ADD_PRTOBJ(TriangularPillar);
 	ADD_PRTOBJ(Water);
+	ADD_PRTOBJ(Ladder);
 
 	lstrcpy(m_szLoadingText, TEXT("사운드을(를) 로딩중입니다."));
 

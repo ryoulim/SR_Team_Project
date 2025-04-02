@@ -421,6 +421,9 @@
     <Filter Include="02.GameObjects\Particle\_BossMobSkill\MonsterMissile">
       <UniqueIdentifier>{1e364046-6bff-481a-8049-3efda6bb3683}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\Map\Ladder">
+      <UniqueIdentifier>{3fbe9f71-04fb-4e05-80a3-56b1a15641a3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -844,6 +847,9 @@
     <ClInclude Include="..\public\PBState_Accel.h">
       <Filter>02.GameObjects\Pawn\PlayerOnBoat\State\Accel</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\Ladder.h">
+      <Filter>02.GameObjects\Map\Ladder</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -1251,6 +1257,9 @@
     </ClCompile>
     <ClCompile Include="..\private\Rock.cpp">
       <Filter>02.GameObjects\Statue\Rock</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Ladder.cpp">
+      <Filter>02.GameObjects\Map\Ladder</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
