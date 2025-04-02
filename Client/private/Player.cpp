@@ -137,7 +137,7 @@ void CPlayer::On_Collision(_uint MyColliderID, _uint OtherColliderID)
 		
 	case CI_INTERACTIVE_LADDER:
 	{
-		int a = 1;
+		_float3 vNormal = m_pCollider->Get_Last_Collision_Depth();
 	}
 		break;
 
