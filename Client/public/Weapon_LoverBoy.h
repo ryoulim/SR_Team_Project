@@ -47,6 +47,11 @@ private:
 	} m_LeftHand;
 
 
+private:
+	// 석양이진다 용 몬스터 골라내는 맵
+	multimap<_float, CCollider*> m_TargetMonsters;
+	multimap<_float, CCollider*>::iterator m_CurTarget{ m_TargetMonsters.end() };
+
 public:
 	static CWeapon_LoverBoy* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
 	virtual CGameObject* Clone(void* pArg) override;

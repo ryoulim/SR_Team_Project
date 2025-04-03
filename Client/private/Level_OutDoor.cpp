@@ -340,14 +340,19 @@ HRESULT CLevel_OutDoor::Ready_Layer_Pawn(const _wstring& strLayerTag)
 	//이 레벨의 플레이어 생성위치
 	_float3 vInitPosition = { 300.f, 300.f, 200.f };
 
-	// 플레이어가 있는지 체크하고 있으면 위치만 변경해줌.
-	auto pPlayer = GET_PLAYER;
+	//// 플레이어가 있는지 체크하고 있으면 위치만 변경해줌.
+	//auto pPlayer = GET_PLAYER;
+	//if (pPlayer)
+	//{
+	//	static_cast<CTransform*>(pPlayer->Find_Component(TEXT("Com_Transform")))
+	//		->Set_State(CTransform::STATE_POSITION, vInitPosition);
+	//	static_cast<CPawn*>(pPlayer)->Set_LevelID(CurLevel);
+	//	return S_OK;
+	//}
+
+	auto pPlayer = static_cast<CPawn*>(GET_PLAYER);
 	if (pPlayer)
-	{
-		static_cast<CTransform*>(pPlayer->Find_Component(TEXT("Com_Transform")))
-			->Set_State(CTransform::STATE_POSITION, vInitPosition);
-		return S_OK;
-	}
+		m_pGameInstance->Release_Layer(LEVEL_STATIC, strLayerTag);
 
 	//없으면 새로 생성해서 넣어줌
 	CPlayer::DESC PlayerDesc{};
