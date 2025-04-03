@@ -95,8 +95,17 @@ HRESULT CCameraManager::Initialize()
 
 void CCameraManager::Shake_Camera(_float fIntensity, _float fDuration, _float fShakeFreqPos, _float fShakeFreqRot)
 {
-	// 일단 지금은 FPS만 흔들자
-	static_cast<CFPS_Camera*>(m_Cameras[m_eID])->StartShake(fIntensity, fDuration, fShakeFreqPos, fShakeFreqRot);
+	switch (m_eID)
+	{
+	case FPS:
+		static_cast<CFPS_Camera*>(m_Cameras[m_eID])->StartShake(fIntensity, fDuration, fShakeFreqPos, fShakeFreqRot);
+		break;
+	case CUTSCENE:
+		static_cast<CCutScene_Camera*>(m_Cameras[m_eID])->StartShake(fIntensity, fDuration, fShakeFreqPos, fShakeFreqRot);
+		break;
+	default:
+		break;
+	}
 }
 
 void CCameraManager::StartRecoil(_float fIntensity, _float fDuration)

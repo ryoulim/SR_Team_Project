@@ -144,7 +144,6 @@ void CWeapon::Idle()
 void CWeapon::Create_Bullet()
 {
 	//m_pCameraManager->StartRecoil(10.f, 0.5f);
-	//m_pCameraManager->Shake_Camera(0.1f, 0.2f);
 
 
 	// 여기 카메라의 흔들리메 영향받지 않도록 오프셋과 분리작업 필요

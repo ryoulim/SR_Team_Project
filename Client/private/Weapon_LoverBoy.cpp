@@ -38,8 +38,8 @@ HRESULT CWeapon_LoverBoy::Initialize(void* pArg)
 	///////
 
 	//m_pTestSound = m_pGameInstance->Create_Sound_Event("event:/Test_SFX");
-	m_pCoreSoundTest = m_pGameInstance->Create_Core_Sound("../bin/Resources/Sound/Music/bobs.ogg");
-	m_pCoreSoundTest->Set3DState(m_pPlayerTransform, 10.f, 500.f);
+	m_pCoreSoundTest = m_pGameInstance->Create_Core_Sound("../bin/Resources/Sound/Weapons/smg/smg_fire.ogg",false);
+	//m_pCoreSoundTest->Set3DState(m_pPlayerTransform, 10.f, 500.f);
 	return S_OK;
 }
 
@@ -161,19 +161,28 @@ void CWeapon_LoverBoy::Strong_Attack(_float fTimeDelta)
 	}
 	else if (m_fMotionTimer < 1.2f)
 	{
-		if (m_CurTarget == m_TargetMonsters.end())
-		{
-			m_fMotionTimer = 1.2f;
-			return;
-		}
 		if (m_fStartFrmae == m_fTextureNum)
 		{
+			if (m_CurTarget == m_TargetMonsters.end())
+			{
+				m_fMotionTimer = 1.2f;
+				return;
+			}
 			FX_MGR->SpawnGunFire(_float3{ 750.f, 450.f, 0.1f }, LEVEL_STATIC);
-			FX_MGR->SpawnBulletTracer(_float3{ 700.f, 400.f, 0.2f }, LEVEL_STATIC);
-			m_pCameraTransform->LookAt(m_CurTarget->second->Get_Pos());
+			//FX_MGR->SpawnBulletTracer(_float3{ 700.f, 400.f, 0.2f }, LEVEL_STATIC);
+			m_pCoreSoundTest->Play(0.7f);
 			m_tAmmoInfo.iReloadedAmmo--;
 			m_tAmmoInfo.iCurAmmo--;
-			Create_Bullet();
+
+			_float3 pPos = *m_pCameraTransform->Get_State(CTransform::STATE_POSITION);
+			_float3 pLook = m_CurTarget->second->Get_Pos() - pPos;
+			_uint iColliderID{};
+
+			auto pPickedObj = m_pGameInstance->Raycast(pPos, pLook.Normalize(), m_fRayLength, { CG_BLOCK,CG_MONSTER,CG_MBULLET }, iColliderID);
+			if (pPickedObj)
+			{
+				pPickedObj->On_Collision(iColliderID, m_tAmmoInfo.eType);
+			}
 			m_CurTarget++;
 		}
 		Update_Frame(fTimeDelta);

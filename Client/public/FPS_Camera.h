@@ -35,22 +35,30 @@ public:
 	void Zoom(_float fFOV,_float Time);
 
 private:
-	_float3 m_vInitLook{};
-	_float3 m_vInitPos{};
+	// 카메라 기본 설정
 	_float m_fMouseSensor{};
 
+	// 카메라 쉐이크 관련
+	_bool  m_bShake = FALSE;
 	_float m_fShakeTime = 0.f;
 	_float m_fShakeDuration = 0.f;
 	_float m_fShakeIntensity = 0.f;
-	_bool  m_bShake = FALSE;
-	_bool	m_bRecoil = FALSE;
-
-	_float3  m_vCurrentShakePos = { 0.f, 0.f, 0.f};
-	_float3  m_vCurrentShakeRot = { 0.f, 0.f, 0.f };
-
 	_float m_fShakeFreqPos = 100.f; // 위치 진동 속도
 	_float m_fShakeFreqRot = 40.f;  // 회전 진동 속도
+	_float3  m_vCurrentShakePos = { 0.f, 0.f, 0.f };
+	_float3  m_vCurrentShakeRot = { 0.f, 0.f, 0.f };
 
+	// 총기 반동 관련
+	_bool	m_bRecoil = FALSE;
+	//_float m_fShakeTime = 0.f;
+	//_float m_fShakeDuration = 0.f;
+	//_float m_fShakeIntensity = 0.f;
+	//_float3  m_vCurrentShakePos = { 0.f, 0.f, 0.f };
+	//_float3  m_vCurrentShakeRot = { 0.f, 0.f, 0.f };
+
+
+
+	//줌인 줌아웃 관련
 	_bool	m_bZoom{ FALSE };
 	_float	m_fOriginFov{};
 	_float	m_fTargetFov{};

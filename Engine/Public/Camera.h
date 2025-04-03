@@ -44,7 +44,6 @@ protected:
 	_float					m_fFar = {};
 	_bool					m_bMouseFixMod{ FALSE };
 
-
 	class CTransform* m_pTransformCom = { nullptr };
 
 protected:

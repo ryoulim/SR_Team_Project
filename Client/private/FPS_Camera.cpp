@@ -28,8 +28,6 @@ HRESULT CFPS_Camera::Initialize(void* pArg)
 
 	DESC* pDesc = static_cast<DESC*>(pArg);
 	m_fMouseSensor = pDesc->fMouseSensor;
-	m_vInitPos = pDesc->vEye;
-	m_vInitLook = pDesc->vAt;
 
 	return S_OK;
 }
@@ -164,7 +162,6 @@ HRESULT CFPS_Camera::Ready_Components(void* pArg)
 }
 
 
-// 2. 타겟 회전 오프셋 갱신
 // 쉐이크 갱신 함수
 void CFPS_Camera::Update_Camera_Shake(_float fTimedelta)
 {
@@ -205,7 +202,7 @@ void CFPS_Camera::Update_Camera_Shake(_float fTimedelta)
 
 void CFPS_Camera::Update_Weapon_Recoil(_float fTimedelta)
 {
-	m_pTransformCom->Move(-m_vCurrentShakePos);
+	//m_pTransformCom->Move(-m_vCurrentShakePos);
 	m_pTransformCom->Quaternion_Turn(RADIAN(-m_vCurrentShakeRot)); // Roll, Pitch, Yaw 역적용
 
 	m_fShakeTime += fTimedelta;
@@ -221,11 +218,11 @@ void CFPS_Camera::Update_Weapon_Recoil(_float fTimedelta)
 	_float recoilCurve = -powf(t - 1.f, 2.f) + 1.f;
 
 	// 5. 새 흔들림 값 계산
-	m_vCurrentShakePos = { 0.f, 0.f, 0.f }; // 위치 반동을 주고 싶다면 여기에
+	//m_vCurrentShakePos = { 0.f, 0.f, 0.f }; // 위치 반동을 주고 싶다면 여기에
 	m_vCurrentShakeRot = { 0.f, recoilCurve * m_fShakeIntensity, 0.f };
 
 	// 6. 새 흔들림 적용
-	m_pTransformCom->Move(m_vCurrentShakePos);
+	//m_pTransformCom->Move(m_vCurrentShakePos);
 	m_pTransformCom->Quaternion_Turn(RADIAN(m_vCurrentShakeRot));
 }
 
