@@ -56,12 +56,6 @@ private:
 	_float				m_fSizeX = {};
 	_float				m_fSizeY = {};
 
-	//_float4x4			m_ViewMatrix = {};
-	//_float4x4			m_ProjMatrix = {};
-
-	//_float4x4			m_OldViewMatrix = {};
-	//_float4x4			m_OldProjMatrix = {};
-
 };
 
 END

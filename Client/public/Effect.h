@@ -9,6 +9,7 @@ BEGIN(Engine)
 class CTexture;
 class CVIBuffer_Rect;
 class CTransform;
+class CShader;
 END
 
 BEGIN(Client)
@@ -58,6 +59,7 @@ protected:
 	CTexture* m_pTextureCom = { nullptr };
 	CVIBuffer* m_pVIBufferCom = { nullptr };
 	CTransform* m_pTransformCom = { nullptr };
+	CShader* m_pShaderCom = { nullptr };
 
 public:
 	virtual CGameObject* Clone(void* pArg) PURE;

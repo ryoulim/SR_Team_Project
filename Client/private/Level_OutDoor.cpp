@@ -7,6 +7,7 @@
 #include "Player.h"
 #include "Trigger.h"
 #include "UI_Manager.h"
+#include "FXMgr.h"
 
 #define CurLevel LEVEL_OUTDOOR
 
@@ -33,7 +34,7 @@ HRESULT CLevel_OutDoor::Initialize(CLevelData* pLevelData)
 
 	CUI_Manager::Get_Instance()->Initialize_Player();
 
-
+	FX_MGR->SpawnRain(LEVEL_OUTDOOR);
 	return S_OK;
 }
 

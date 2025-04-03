@@ -5,6 +5,12 @@
 
 class CRain : public CPSystem 
 {
+public:
+	typedef struct tagRainDesc
+	{
+		_float3 vMin;
+		_float3 vMax;
+	}DESC;
 public:	
 	CRain(LPDIRECT3DDEVICE9 pGraphicDev, wstring _strObjName);
 	CRain(const CPSystem& Prototype);
@@ -18,7 +24,7 @@ public:
 	virtual HRESULT Initialize(void* pArg)override;
 
 public:
-	static CRain* Create(LPDIRECT3DDEVICE9 pGraphicDev, wstring _strObjName, int numparticles, _float3 MinBox, _float3 MaxBox);
+	static CRain* Create(LPDIRECT3DDEVICE9 pGraphicDev, wstring _strObjName);
 	virtual CGameObject* Clone(void* pArg) override;
 	virtual void Free();
 

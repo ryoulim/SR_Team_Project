@@ -98,8 +98,8 @@ HRESULT CMonsterGuidBullet::Ready_Components(void* pArg)
 	ColliderDesc.vOffSet = {};
 	ColliderDesc.vScale = m_pTransformCom->Compute_Scaled();
 	ColliderDesc.pOwner = this;
-	ColliderDesc.iColliderGroupID = CG_MBULLET;
-	ColliderDesc.iColliderID = CI_MONSTER_BULLET;
+	ColliderDesc.iColliderGroupID = CG_BOSS;
+	ColliderDesc.iColliderID = CI_BOSS_GUIDBULLET;
 
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Collider_Sphere"),
 		TEXT("Com_Collider"), reinterpret_cast<CComponent**>(&m_pCollider), &ColliderDesc)))

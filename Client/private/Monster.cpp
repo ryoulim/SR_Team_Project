@@ -200,7 +200,6 @@ HRESULT CMonster::Ready_Components(void* pArg)
 		m_vReturnPos = pDesc->vReturnPos;
 		m_iNum = pDesc->iNums;
 		m_eLevelID = pDesc->eLevel;
-		m_fDetectiveDistance = pDesc->fDetectiveDistance;
 		m_fAttackDistance = pDesc->fAttackDistance;
 	}
 

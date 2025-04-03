@@ -27,10 +27,8 @@ public:
 	virtual void Late_Update(_float fTimeDelta) override;
 	virtual HRESULT Render() override;
 
-	_bool	GetTrigger() { return m_bTrigger; }
-
 private:
-	_bool m_bTrigger{};
+	_bool m_bTrigger = {};
 	_bool m_bDoOnce = false;
 	_float m_fTimeaAcc{};
 	_float m_fFallTime = {};

@@ -57,6 +57,7 @@
 #include "MonsterNormalBullet.h"
 #include "BulletSmoke.h"
 #include "BulletMark.h"
+#include "ScreenSprite.h"
 
 //UI 인클루드
 #include "Aim.h"
@@ -411,6 +412,9 @@ HRESULT CLoader::Loding_For_Static()
 #pragma region 파티클 준비물(스테틱)
 	
 	/* [ 스프라이트 ] */
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_GameObject_ScreenSprite"),
+		CScreenSprite::Create(m_pGraphic_Device))))
+		return E_FAIL;
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_GameObject_BulletMark"),
 		CBulletMark::Create(m_pGraphic_Device))))
 		return E_FAIL;
@@ -462,7 +466,7 @@ HRESULT CLoader::Loding_For_Static()
 		CTornado::Create(m_pGraphic_Device, L"PARTICLE_Tornado"))))
 		return E_FAIL;
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_GameObject_PC_Rain"),
-		CRain::Create(m_pGraphic_Device, L"PARTICLE_SNOW", 200, _float3(550.f, 0.f, -350.f), _float3(1050.f, 500.f, -50.f)))))
+		CRain::Create(m_pGraphic_Device, L"PARTICLE_RAIN"))))
 		return E_FAIL;
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_GameObject_PC_Firework"),
 		CFirework::Create(m_pGraphic_Device, L"PARTICLE_FIREWORK"))))
@@ -475,6 +479,12 @@ HRESULT CLoader::Loding_For_Static()
 		return E_FAIL;
 
 	/* [ 텍스쳐 ] */
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_ScreenHeal"),
+		CTexture::Create(m_pGraphic_Device, TEXT("../Bin/Resources/Textures/Particle/ScreenEffect/ScreenHeal.PNG"), 1))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_ScreenHit"),
+		CTexture::Create(m_pGraphic_Device, TEXT("../Bin/Resources/Textures/Particle/ScreenEffect/ScreenHit%d.PNG"), 2))))
+		return E_FAIL;
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_BulletMark"),
 		CTexture::Create(m_pGraphic_Device, TEXT("../Bin/Resources/Textures/Particle/BulletMark%d.PNG"), 7))))
 		return E_FAIL;

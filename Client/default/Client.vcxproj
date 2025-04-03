@@ -217,6 +217,7 @@
     <ClInclude Include="..\public\FPS_Camera.h" />
     <ClInclude Include="..\public\FXMgr.h" />
     <ClInclude Include="..\public\Greater.h" />
+    <ClInclude Include="..\public\HitBox.h" />
     <ClInclude Include="..\public\Interactive_Block.h" />
     <ClInclude Include="..\public\InvisibleBlock.h" />
     <ClInclude Include="..\public\GrenadeBullet.h" />
@@ -262,6 +263,7 @@
     <ClInclude Include="..\public\Rain.h" />
     <ClInclude Include="..\public\Rock.h" />
     <ClInclude Include="..\public\ScreenDust.h" />
+    <ClInclude Include="..\public\ScreenSprite.h" />
     <ClInclude Include="..\public\Shotgunner.h" />
     <ClInclude Include="..\public\Sky.h" />
     <ClInclude Include="..\public\Smoke.h" />
@@ -360,6 +362,7 @@
     <ClCompile Include="..\private\FXMgr.cpp" />
     <ClCompile Include="..\private\Greater.cpp" />
     <ClCompile Include="..\private\GrenadeBullet.cpp" />
+    <ClCompile Include="..\private\HitBox.cpp" />
     <ClCompile Include="..\private\Interactive_Block.cpp" />
     <ClCompile Include="..\private\InvisibleBlock.cpp" />
     <ClCompile Include="..\private\Item.cpp" />
@@ -404,6 +407,7 @@
     <ClCompile Include="..\private\Rain.cpp" />
     <ClCompile Include="..\private\Rock.cpp" />
     <ClCompile Include="..\private\ScreenDust.cpp" />
+    <ClCompile Include="..\private\ScreenSprite.cpp" />
     <ClCompile Include="..\private\Shotgunner.cpp" />
     <ClCompile Include="..\private\Signboard.cpp" />
     <ClCompile Include="..\private\Sky.cpp" />

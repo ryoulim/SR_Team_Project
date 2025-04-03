@@ -36,8 +36,8 @@ void CRain::resetParticle(Attribute* attribute)
 
 	
 	//눈송이는 아래쪽으로 떨어지며 약간 왼쪽을 향한다.
-	attribute->_Velocity.x = GetRandomFloat(0.0f, 1.0f) * -3.0f;
-	attribute->_Velocity.y = GetRandomFloat(1.0f, 5.0f) * -120.0f;
+	attribute->_Velocity.x = GetRandomFloat(0.0f, 5.f) * -3.0f;
+	attribute->_Velocity.y = GetRandomFloat(3.0f, 5.0f) * -320.0f;
 	attribute->_Velocity.z = 0.f;
 
 	//각종 파라미터값
@@ -162,28 +162,30 @@ HRESULT CRain::Initialize(void* pArg)
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
 
+	auto pDesc = static_cast<DESC*>(pArg);
+	m_vMin = pDesc->vMin;
+	m_vMax = pDesc->vMax;
+
 	return S_OK;
 }
 
-CRain* CRain::Create(LPDIRECT3DDEVICE9 pGraphicDev, wstring _strObjName, int numparticles, _float3 MinBox, _float3 MaxBox)
+CRain* CRain::Create(LPDIRECT3DDEVICE9 pGraphicDev, wstring _strObjName)
 {
 	CRain* pInstance = new CRain(pGraphicDev, _strObjName);
 
 	//스노우 파티클 정보
 	pInstance->m_vbSize = 2048;		//  GPU가 한번에 그릴 수 있는 파티클 개수, CPU가 GPU로 파티클 정점 버퍼에 담을 수 있는 개수
-	pInstance->m_fSize = 1.5f;		//  파티클의 크기
+	pInstance->m_fSize = 2.5f;		//  파티클의 크기
 	pInstance->m_vbOffset = 0;		//  세그먼트의 배치사이즈를 옮길때 쓰는 오프셋(0고정)
 	pInstance->m_vbBatchSize = 512;	//  세그먼트 배치사이즈 크기(한번에 옮길 수 있는 정점들의 개수)
-	pInstance->m_vMin = MinBox;		//  바운딩박스의 최소크기
-	pInstance->m_vMax = MaxBox;		//  바운딩박스의 최대크기
-
+	
 	if (FAILED(pInstance->Ready_Particle()))
 	{
 		Safe_Release(pInstance);
 		return nullptr;
 	}
 
-	for (int i = 0; i < numparticles; i++)
+	for (int i = 0; i < 2000; i++)
 	{
 		pInstance->addParticle();
 	}
