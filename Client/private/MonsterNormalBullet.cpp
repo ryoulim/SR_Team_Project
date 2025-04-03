@@ -35,8 +35,12 @@ HRESULT CMonsterNormalBullet::Initialize(void* pArg)
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
 
+//#define FLESHJUMPPOWER 20.f
 	/* [ 타겟 설정 ] */
 	SetTargetDir();
+
+	if (m_bGravity)
+		m_pGravityCom->Jump(0.05f * m_fTargetDistance);
 
 	//미사일 파티클
 	CPSystem::DESC Missile_iDesc{};
@@ -59,6 +63,8 @@ HRESULT CMonsterNormalBullet::Initialize(void* pArg)
 
 HRESULT CMonsterNormalBullet::Ready_Components(void* pArg)
 {
+	if (pArg == nullptr)
+		return E_FAIL;
 	/* For.Com_VIBuffer */
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, _wstring(TEXT("Prototype_Component_VIBuffer_")) + m_szBufferType,
 		TEXT("Com_VIBuffer"), reinterpret_cast<CComponent**>(&m_pVIBufferCom))))
@@ -69,18 +75,16 @@ HRESULT CMonsterNormalBullet::Ready_Components(void* pArg)
 		TEXT("Com_Transform"), reinterpret_cast<CComponent**>(&m_pTransformCom), pArg)))
 		return E_FAIL;
 
-	if (pArg != nullptr)
-	{
-		//값 가져올 것 있으면 여기서 ↓
-		DESC* pDesc = static_cast<DESC*>(pArg);
 
-		m_pTransformCom->Set_State(CTransform::STATE_POSITION, pDesc->vPosition);
-		m_pTransformCom->Scaling(pDesc->vScale);
-		m_bGravity = pDesc->bGravity;
-		m_szTextureID = pDesc->szTextureID;
-		m_bAnimation = pDesc->bAnimation;
-		m_fSpeed = pDesc->fSpeedPerSec;
-	}
+	//값 가져올 것 있으면 여기서 ↓
+	DESC* pDesc = static_cast<DESC*>(pArg);
+
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION, pDesc->vPosition);
+	m_pTransformCom->Scaling(pDesc->vScale);
+	m_bGravity = pDesc->bGravity;
+	m_szTextureID = pDesc->szTextureID;
+	m_bAnimation = pDesc->bAnimation;
+	m_fSpeed = pDesc->fSpeedPerSec;
 
 	/* For.Com_Texture */
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, _wstring(TEXT("Prototype_Component_Texture_")) + m_szTextureID,
@@ -88,14 +92,13 @@ HRESULT CMonsterNormalBullet::Ready_Components(void* pArg)
 		return E_FAIL;
 
 	/* 콜라이드 컴포넌트 */
-	DESC* pDesc = static_cast<DESC*>(pArg);
 	CCollider_Capsule::DESC ColliderDesc{};
 	ColliderDesc.pTransform = m_pTransformCom;
 	ColliderDesc.vOffSet = {};
 	ColliderDesc.vScale = m_pTransformCom->Compute_Scaled();
 	ColliderDesc.pOwner = this;
 	ColliderDesc.iColliderGroupID = CG_MBULLET;
-	ColliderDesc.iColliderID = CI_MONSTER_BULLET;
+	ColliderDesc.iColliderID = pDesc->iColliderID;
 
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Collider_Sphere"),
 		TEXT("Com_Collider"), reinterpret_cast<CComponent**>(&m_pCollider), &ColliderDesc)))
@@ -106,7 +109,8 @@ HRESULT CMonsterNormalBullet::Ready_Components(void* pArg)
 		/* For.Com_Gravity */
 		CGravity::DESC GravityDesc{};
 		GravityDesc.pTransformCom = m_pTransformCom;
-		GravityDesc.fTimeIncreasePerSec = 2.2f;
+
+		GravityDesc.fTimeIncreasePerSec = 3.6f;
 		GravityDesc.fMaxFallSpeedPerSec = 400.f;
 		if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Gravity"),
 			TEXT("Com_Gravity"), reinterpret_cast<CComponent**>(&m_pGravityCom), &GravityDesc)))
@@ -142,7 +146,9 @@ EVENT CMonsterNormalBullet::Update(_float fTimeDelta)
 
 	//플레이어로 향해 날라가라
 	if (m_bGravity)
+	{
 		m_pTransformCom->Go_Straight(fTimeDelta);
+	}
 	else
 		m_pTransformCom->ChaseCustom(m_vTargetPos, fTimeDelta, 1.f, m_fSpeed);
 
@@ -222,6 +228,7 @@ void CMonsterNormalBullet::SetTargetDir()
 	m_vTargetPos = *static_cast<CTransform*>(m_pTargetPlayer->Find_Component(L"Com_Transform"))->Get_State(CTransform::STATE_POSITION);
 	//m_vTargetPos.y = 30.f;
 	_float3 vDir = vMyPos - m_vTargetPos;
+	m_fTargetDistance = vDir.Length();
 	vDir.Normalize();
 	m_vTargetPos -= vDir * 400.f;
 
@@ -229,8 +236,9 @@ void CMonsterNormalBullet::SetTargetDir()
 
 	if (m_bGravity)
 	{
-		m_vTargetPos.y += 50.f;
+		//m_vTargetPos.y += 50.f;
 		m_pTransformCom->LookAt(m_vTargetPos);
+	
 	}
 	else
 	{

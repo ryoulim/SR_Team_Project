@@ -337,6 +337,119 @@ void CMonster::Collision_With_Block()
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, vPos);
 }
 
+_bool CMonster::IsMonsterAbleToAttack()
+{
+	// 여기 레이캐스팅으로 플레이어와 몬스터 사이 장애물 유무 체크
+	m_fRaycastTicker = 0.f;
+	if (m_fCurDistance > m_fAttackDistance)
+		return false;
+	//return Raycast_Player();
+	return true;
+}
+
+void CMonster::Debug_Output()
+{
+	auto now = steady_clock::now();
+	auto elapsed = duration_cast<milliseconds>(now - g_LastLogTime).count();
+
+	if (elapsed >= 1000)
+	{
+		// 1초 이상 지났다면 출력
+		cout << m_szTextureID <<" |\t플레이어와의 거리 : " << m_fCurDistance << endl;
+		cout << m_szTextureID <<" |\t상태 : ";
+		switch (m_eState)
+		{
+		case Client::CMonster::MODE_IDLE:
+			cout << "IDLE";
+			break;
+		case Client::CMonster::MODE_READY:
+			break;
+		case Client::CMonster::MODE_BATTLE:
+			cout << "BATTLE";
+			break;
+		case Client::CMonster::MODE_DETECTIVE:
+			cout << "DETECTIVE";
+			break;
+		case Client::CMonster::MODE_RETURN:
+			cout << "RETURN";
+			break;
+		case Client::CMonster::MODE_END:
+			cout << "UNKNOWN";
+			break;
+		default:
+			cout << "UNKNOWN";
+			break;
+		}
+		cout << endl;
+		g_LastLogTime = now;
+	}
+}
+
+void CMonster::State_Change_IDLE(_float dt)
+{
+	if (IsPlayerDetected())	// 감지 거리 기준 계산
+	{
+		m_bFoundPlayer = true;
+		//플레이어 발견 시 행동
+		cout << m_szTextureID << " 플레이어 감지!!" << endl;
+		if (IsMonsterAbleToAttack())
+			m_eState = MODE::MODE_DETECTIVE;
+	}
+}
+
+void CMonster::State_Change_DETECTIVE(_float dt)
+{
+	//플레이어 공격 가능할 때 까지 탐색
+	m_fRaycastTicker += dt;
+	if (m_fRaycastTicker > 0.5f)
+	{
+		if (IsMonsterAbleToAttack())	// RayPicking으로 플레이어와 몬스터 사이 장애물 체크
+		{
+			m_bFoundPlayer = true;
+			m_eState = MODE::MODE_READY;
+		}
+	}
+}
+
+void CMonster::State_Change_READY(_float dt)
+{
+	//공격 할 준비  ( 장전 등의 딜레이 필요 )
+	m_fRaycastTicker += dt;
+	if (m_fRaycastTicker > 0.5f)
+	{
+		if (!IsMonsterAbleToAttack())
+		{
+			m_eState = MODE::MODE_DETECTIVE;
+			return;
+		}
+	}
+	// 준비 끝나면
+	if (m_isReadyToAttack)
+		m_eState = MODE::MODE_BATTLE;
+}
+
+void CMonster::State_Change_BATTLE(_float dt)
+{
+	if (m_bCoolingDown)
+	{
+		m_fCooldownDuration = 0.f;
+		m_eState = MODE::MODE_READY;
+		m_isReadyToAttack = false;
+		m_bCoolingDown = false;
+	}
+	m_fRaycastTicker += dt;
+	if (m_fRaycastTicker > 0.5f)
+	{
+		if (false == IsMonsterAbleToAttack())
+		{
+			m_fCooldownDuration = 0.f;
+			m_eState = MODE::MODE_DETECTIVE;
+			m_isReadyToAttack = false;
+			m_bCoolingDown = false;
+		}
+	}
+}
+
 
 HRESULT CMonster::Set_TextureType()
 {

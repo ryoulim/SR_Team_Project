@@ -59,7 +59,7 @@ HRESULT CShotgunner::Initialize(void* pArg)
 
 void CShotgunner::Priority_Update(_float fTimeDelta)
 {
-	//Set_Animation();
+	Set_Animation();
 	__super::Priority_Update(fTimeDelta);
 }
 
@@ -71,8 +71,7 @@ EVENT CShotgunner::Update(_float fTimeDelta)
 void CShotgunner::Late_Update(_float fTimeDelta)
 {
 	__super::Late_Update(fTimeDelta);
-
-	if (false == m_bRotateAnimation)
+	if (m_bRotateAnimation == false)
 		m_iDegree = 0;
 	Resize_Texture(0.4f);
 }
@@ -95,109 +94,32 @@ void CShotgunner::MonsterTick(_float dt)
 	switch (m_eState)
 	{
 	case MODE::MODE_IDLE:
-		if (IsPlayerDetected())	// 감지 거리 기준 계산
-		{
-			m_bFoundPlayer = true;
-			//플레이어 발견 시 행동
-			cout << "Shotgunner 플레이어 감지!!" << endl;
-			m_eState = MODE::MODE_DETECTIVE;
-		}
+		State_Change_IDLE(dt);
 		break;
 
 	case MODE::MODE_DETECTIVE:
-		//플레이어 공격 가능할 때 까지 탐색
-		m_fRaycastTicker += dt;
-		if (m_fRaycastTicker > 0.5f)
-		{
-			if (IsMonsterAbleToAttack())	// RayPicking으로 플레이어와 몬스터 사이 장애물 체크
-			{
-				m_bFoundPlayer = true;
-				m_eState = MODE::MODE_READY;
-			}
-		}
+		State_Change_DETECTIVE(dt);
 		break;
 
 	case MODE::MODE_READY:
-		//공격 할 준비  ( 장전 등의 딜레이 필요 )
-		m_fRaycastTicker += dt;
-		if (m_fRaycastTicker > 0.5f)
-		{
-			if (!IsMonsterAbleToAttack())
-			{
-				m_eState = MODE::MODE_DETECTIVE;
-				break;
-			}
-		}
-		// 준비 끝나면
-		if (m_isReadyToAttack)
-			m_eState = MODE::MODE_BATTLE;
+		State_Change_READY(dt);
 		break;
 
 	case MODE::MODE_BATTLE:
-		//실제 공격 시 행동
-		if (m_bCoolingDown)
-		{
-			m_fCooldownDuration = 0.f;
-			m_eState = MODE::MODE_READY;
-			m_isReadyToAttack = false;
-			m_bCoolingDown = false;
-		}
-		m_fRaycastTicker += dt;
-		if (m_fRaycastTicker > 0.5f)
-		{
-			if (false == IsMonsterAbleToAttack())
-			{
-				m_fCooldownDuration = 0.f;
-				m_eState = MODE::MODE_DETECTIVE;
-				m_isReadyToAttack = false;
-				m_bCoolingDown = false;
-			}
-		}
+		State_Change_BATTLE(dt);
 		break;
+
 	case MODE::MODE_DEAD:
 		break;
+
 	case MODE::MODE_RETURN:
-		m_bFoundPlayer = false;
 		//본래위치로 돌아가고 IDLE로 상태가 변한다.
+		m_bFoundPlayer = false;
 		break;
 	}
 
 #ifdef _CONSOL
-	auto now = steady_clock::now();
-	auto elapsed = duration_cast<milliseconds>(now - g_LastLogTime).count();
-
-	if (elapsed >= 1000)
-	{
-		// 1초 이상 지났다면 출력
-		cout << "[샷거너]\t플레이어와의 거리 : " << m_fCurDistance << endl;
-		cout << "[샷거너]\t상태 : ";
-		switch (m_eState)
-		{
-		case Client::CMonster::MODE_IDLE:
-			cout << "IDLE";
-			break;
-		case Client::CMonster::MODE_READY:
-			cout << "READY";
-			break;
-		case Client::CMonster::MODE_BATTLE:
-			cout << "BATTLE";
-			break;
-		case Client::CMonster::MODE_DETECTIVE:
-			cout << "DETECTIVE";
-			break;
-		case Client::CMonster::MODE_RETURN:
-			cout << "RETURN";
-			break;
-		case Client::CMonster::MODE_END:
-			cout << "UNKNOWN";
-			break;
-		default:
-			cout << "UNKNOWN";
-			break;
-		}
-		cout << endl;
-		g_LastLogTime = now;
-	}
+	Debug_Output();
 #endif
 
 	// 상태행동(액션)
@@ -237,14 +159,6 @@ void CShotgunner::DoDetect(_float dt)
 	m_eCurMonsterState = STATE_MOVE;
 }
 
-_bool CShotgunner::IsMonsterAbleToAttack()
-{
-	// 여기 레이캐스팅으로 플레이어와 몬스터 사이 장애물 유무 체크
-	m_fRaycastTicker = 0.f;
-	if (m_fCurDistance > m_fAttackDistance)
-		return false;
-	return Raycast_Player();
-}
 
 void CShotgunner::DoReady(_float dt)
 {
@@ -340,6 +254,7 @@ void CShotgunner::AttackPattern(_float dt)
 		m_pTransformCom->LookAt(TargetPos);
 
 		CMonsterNormalBullet::DESC MonsterNormalBullet_iDesc{};
+		MonsterNormalBullet_iDesc.iColliderID = CI_MONSTER_SHOTGUNNER;
 		MonsterNormalBullet_iDesc.fSpeedPerSec = 1000.f;
 		// 총알 속도임
 		MonsterNormalBullet_iDesc.fRotationPerSec = RADIAN(180.f);

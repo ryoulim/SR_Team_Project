@@ -27,7 +27,8 @@ HRESULT CMechsect::Initialize_Prototype()
 	m_iAttackPower = 2;
 	m_iDefense = 1;
 	m_fSpeed = 20.f;
-	m_vScale = { 45.f, 20.f, 1.f };
+	m_vScale = { 43.2f, 24.8f, 1.f };
+	//108 62
 	m_eState = MODE::MODE_IDLE;
 
 	m_fDetectiveDistance = 300.f;
@@ -52,7 +53,9 @@ HRESULT CMechsect::Initialize(void* pArg)
 	m_fAnimationMaxFrame = 4.f;
 	m_fAnimationSpeed = 5.f;
 	m_iState = STATE_MOVE;
-
+	m_fCooldownTime = 1.f;     // 공격 쉬는 텀
+	m_fBulletCooldown = 0.4f;	// 총알 발사 쿨
+	m_fAttackTime = 0.35f;		// 공격 시간
 	return S_OK;
 }
 
@@ -70,9 +73,9 @@ EVENT CMechsect::Update(_float fTimeDelta)
 void CMechsect::Late_Update(_float fTimeDelta)
 {
 	__super::Late_Update(fTimeDelta);
-	Resize_Texture(0.4f);
-	if (m_eState == MODE::MODE_BATTLE)
+	if (m_bRotateAnimation == false)
 		m_iDegree = 0;
+	Resize_Texture(0.4f);
 }
 
 HRESULT CMechsect::Render()
@@ -84,44 +87,7 @@ HRESULT CMechsect::Render()
 
 void CMechsect::On_Collision(_uint MyColliderID, _uint OtherColliderID)
 {
-	__super::On_Collision(MyColliderID, OtherColliderID);
-	if (CI_BLOCK(OtherColliderID))
-	{
-		m_pCollider->Get_Last_Collision_Pos();
-
-		_float3 vPos = *m_pTransformCom->Get_State(CTransform::STATE_POSITION);
-
-		_float3 Depth = m_pCollider->Get_Last_Collision_Depth();
-		if (Depth.y != 0)
-			int a = 1;
-		vPos += Depth;
-
-		m_pTransformCom->Set_State(CTransform::STATE_POSITION, vPos);
-	}
-	else if (CI_WEAPON(OtherColliderID))
-	{
-		//그 즉시 배틀모드 진입
-		if (!m_bFoundPlayer)
-			m_eState = MODE::MODE_DETECTIVE;
-
-		//위치탐색
-		_float3 vImpactPos = CalculateEffectPos();
-
-		//몬스터 사망
-		if (0 >= m_iHP)
-		{
-			FX_MGR->SpawnCustomExplosion(vImpactPos, LEVEL_GAMEPLAY, _float3{ 130.f, 160.f, 1.f }, TEXT("PC_Explosion"), 14);
-			m_bDead = true;
-
-			return;
-		}
-
-		// 이펙트 생성
-		FX_MGR->SpawnBlood(vImpactPos, LEVEL_GAMEPLAY);
-		__super::On_Collision(MyColliderID, OtherColliderID);
-	}
-	__super::On_Collision(MyColliderID, OtherColliderID);
-
+	__super::On_Collision_NormalMonster(MyColliderID, OtherColliderID);
 }
 
 void CMechsect::MonsterTick(_float dt)
@@ -130,95 +96,32 @@ void CMechsect::MonsterTick(_float dt)
 	switch (m_eState)
 	{
 	case MODE::MODE_IDLE:
-		if (IsPlayerDetected())	// 감지 거리 기준 계산
-		{
-			//플레이어 발견 시 행동
-			cout << "Mechsect 플레이어 감지!!" << endl;
-			m_eState = MODE::MODE_DETECTIVE;
-		}
+		State_Change_IDLE(dt);
 		break;
 
 	case MODE::MODE_DETECTIVE:
-		//플레이어 공격 가능할 때 까지 탐색
-		m_fRaycastTicker += dt;
-		if (m_fRaycastTicker > 0.5f)
-		{
-			if (IsMonsterAbleToAttack())	// RayPicking으로 플레이어와 몬스터 사이 장애물 X <- 공격 가능 상태가 됨
-				m_eState = MODE::MODE_READY;
-		}
+		State_Change_DETECTIVE(dt);
 		break;
 
 	case MODE::MODE_READY:
-		//공격 할 준비  ( 장전 등의 딜레이 필요 )
-		// 준비 끝나면
-		if (m_isReadyToAttack)
-			m_eState = MODE::MODE_BATTLE;
+		State_Change_READY(dt);
 		break;
 
 	case MODE::MODE_BATTLE:
-		//실제 공격 시 행동
-		if (m_bCoolingDown)
-		{
-			m_fCooldownDuration = 0.f;
-			m_eState = MODE::MODE_READY;
-			m_isReadyToAttack = false;
-			m_bCoolingDown = false;
-		}
-		m_fRaycastTicker += dt;
-		if (m_fRaycastTicker > 0.5f)
-		{
-			if (false == IsMonsterAbleToAttack())
-			{
-				m_fCooldownDuration = 0.f;
-				m_eState = MODE::MODE_DETECTIVE;
-				m_isReadyToAttack = false;
-				m_bCoolingDown = false;
-			}
-		}
+		State_Change_BATTLE(dt);
+		break;
 
+	case MODE::MODE_DEAD:
 		break;
 
 	case MODE::MODE_RETURN:
 		//본래위치로 돌아가고 IDLE로 상태가 변한다.
+		m_bFoundPlayer = false;
 		break;
 	}
 
 #ifdef _CONSOL
-	auto now = steady_clock::now();
-	auto elapsed = duration_cast<milliseconds>(now - g_LastLogTime).count();
-
-	if (elapsed >= 1000)
-	{
-		// 1초 이상 지났다면 출력
-		cout << "[메카섹트]\t플레이어와의 거리 : " << m_fCurDistance << endl;
-		cout << "[메카섹트]\t상태 : ";
-		switch (m_eState)
-		{
-		case Client::CMonster::MODE_IDLE:
-			cout << "IDLE";
-			break;
-		case Client::CMonster::MODE_READY:
-			cout << "READY";
-			break;
-		case Client::CMonster::MODE_BATTLE:
-			cout << "BATTLE";
-			break;
-		case Client::CMonster::MODE_DETECTIVE:
-			cout << "DETECTIVE";
-			break;
-		case Client::CMonster::MODE_RETURN:
-			cout << "RETURN";
-			break;
-		case Client::CMonster::MODE_END:
-			cout << "UNKNOWN";
-			break;
-		default:
-			cout << "UNKNOWN";
-			break;
-		}
-		cout << endl;
-		g_LastLogTime = now;
-	}
+	Debug_Output();
 #endif
 
 	// 상태행동(액션)
@@ -240,6 +143,11 @@ void CMechsect::MonsterTick(_float dt)
 		DoBattle(dt);
 		break;
 
+	case MODE::MODE_DEAD:
+		m_eCurMonsterState = STATE_DEAD;
+		DoDead(dt);
+		break;
+
 	case MODE::MODE_RETURN:
 		DoReturn(dt);
 		break;
@@ -250,36 +158,37 @@ void CMechsect::DoDetect(_float dt)
 {
 	// 감지 가능 거리 이내일 때 / 감지 상태 중 추격 가능 거리일 때
 	ChasePlayer(dt, 50.f);
+	m_bJumpEnd = false;
 	m_eCurMonsterState = STATE_MOVE;
 }
 
 
-_bool CMechsect::IsMonsterAbleToAttack()
-{
-	// 여기 레이캐스팅으로 플레이어와 몬스터 사이 장애물 유무 체크
-	if (m_fCurDistance > m_fAttackDistance)
-		return false;
-	//if (m_fRaycastTicker > 0.5f)
-	{
-		m_fRaycastTicker = 0.f;
-		if (true == Raycast_Player())
-			return true;
-		else
-			return false;
-	}
-}
-
 void CMechsect::DoReady(_float dt)
 {
+	m_bJumpEnd = false;
 	m_fCooldownDuration += dt;
 	if (m_fCooldownDuration >= m_fCooldownTime)
+	{
 		m_isReadyToAttack = true;
+		m_fCooldownDuration = 0.f;
+	}
 	m_fAnimationFrame = 0.f;
+	_float3 TargetPos = *static_cast<CTransform*>(m_pTargetPlayer->Find_Component(L"Com_Transform"))->Get_State(CTransform::STATE_POSITION);
+	m_pTransformCom->LookAt(TargetPos);
 }
 
 void CMechsect::DoBattle(_float dt)
 {
-	AttackPattern(dt);
+	_float fChaseDistance = 500.f;
+	if (m_fCurDistance > fChaseDistance)
+	{
+		m_eState = MODE::MODE_RETURN;
+		return;
+	}
+	else
+	{
+		AttackPattern(dt);
+	}
 }
 
 void CMechsect::DoIdle(_float dt)
@@ -330,36 +239,51 @@ void CMechsect::DoIdle(_float dt)
 void CMechsect::AttackPattern(_float dt)
 {
 	// 실제 공격 패턴 작성하는 곳
-	// 잡몹이라 일반공격정도만
-	// Archangel 특수공격 있음
-	// Wenteko 넣을 시 얘도 있음
 	m_eCurMonsterState = STATE_JUMP;
 
-	m_fBulletCooldownElapsed += dt;
-	m_fAttackTimer += dt;
-	if (m_fAttackTimer >= 2.f)
+	if (!m_pGravityCom->isJump())
 	{
-		m_bCoolingDown = true;
-		m_fAttackTimer = 0.f;
+		m_pGravityCom->Jump(30.f);
 	}
-	if (m_fBulletCooldownElapsed >= m_fBulletCooldown)
+	if (m_fAnimationSpeed < 1.f)
 	{
-		_float3 TargetPos = *static_cast<CTransform*>(m_pTargetPlayer->Find_Component(L"Com_Transform"))->Get_State(CTransform::STATE_POSITION);
-		m_pTransformCom->LookAt(TargetPos);
-		// 0.2초마다 발사
-		CMonsterNormalBullet::DESC MonsterNormalBullet_iDesc{};
-		MonsterNormalBullet_iDesc.fSpeedPerSec = 1000.f;
-		MonsterNormalBullet_iDesc.fRotationPerSec = RADIAN(180.f);
-		MonsterNormalBullet_iDesc.vScale = { 10.f, 10.f, 0.f };
-		MonsterNormalBullet_iDesc.vPosition = *m_pTransformCom->Get_State(CTransform::STATE_POSITION);
-		MonsterNormalBullet_iDesc.vPosition.y += 10.f;
-
-		if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_MonsterNormalBullet"),
-			LEVEL_GAMEPLAY, L"Layer_MonsterBullet", &MonsterNormalBullet_iDesc)))
-			return;
-
-		m_fBulletCooldownElapsed = 0.f;
+		m_fAttackTimer += dt;
+		if (m_fAttackTimer >= 0.3f)
+		{
+			m_bCoolingDown = true;
+			m_fAttackTimer = 0.f;
+		}
 	}
+	else
+		m_pTransformCom->Go_Straight(dt);
+	//if (!m_bJump && m_fAnimationFrame >= 1.f)
+	//{
+	//	m_bJump = true;
+	//	m_pGravityCom->Jump(30.f);
+	//}
+
+	//if (m_bJump && !m_pGravityCom->isJump())
+	//{
+	//	m_bJumpEnd = true;
+	//}
+
+	//if (m_bJumpEnd)
+	//{
+	//	m_fJumpFinished += dt;
+	//	if (m_fJumpFinished >= 0.3f)
+	//	{
+	//		m_fJumpFinished = 0.f;
+	//		m_bJump = false;
+	//		m_bJumpEnd = false;
+	//		//m_eState = MODE_READY;
+	//		m_bCoolingDown = true;
+	//	}
+	//}
+	//else
+	//{
+	//	m_pTransformCom->Go_Straight(dt);
+	//}
+
 }
 
 void CMechsect::ChasePlayer(_float dt, _float fChaseDist)
@@ -385,10 +309,57 @@ void CMechsect::ChasePlayer(_float dt, _float fChaseDist)
 
 HRESULT CMechsect::Ready_Components(void* pArg)
 {
-	Ready_Textures();
-	if (FAILED(__super::Ready_Components(pArg)))
+	/* 렉트 버퍼 컴포넌트 */
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, _wstring(TEXT("Prototype_Component_VIBuffer_")) + m_szBufferType,
+		TEXT("Com_VIBuffer"), reinterpret_cast<CComponent**>(&m_pVIBufferCom))))
 		return E_FAIL;
 
+	/* 트랜스폼 컴포넌트 */
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Transform"),
+		TEXT("Com_Transform"), reinterpret_cast<CComponent**>(&m_pTransformCom), pArg)))
+		return E_FAIL;
+
+	/* 위치, 스케일 초기화 */
+	if (pArg != nullptr)
+	{
+		DESC* pDesc = static_cast<DESC*>(pArg);
+
+		m_pTransformCom->Set_State(CTransform::STATE_POSITION, pDesc->vPosition);
+		m_pTransformCom->Scaling(m_vScale);
+		m_bActive = pDesc->vActive;
+		m_vReturnPos = pDesc->vReturnPos;
+		m_iNum = pDesc->iNums;
+		m_eLevelID = pDesc->eLevel;
+		m_fDetectiveDistance = pDesc->fDetectiveDistance;
+		m_fAttackDistance = pDesc->fAttackDistance;
+	}
+
+	/* 콜라이드 컴포넌트 */
+	DESC* pDesc = static_cast<DESC*>(pArg);
+	CCollider_Capsule::DESC ColliderDesc{};
+	ColliderDesc.pTransform = m_pTransformCom;
+	ColliderDesc.vOffSet = {};
+	ColliderDesc.vScale = m_pTransformCom->Compute_Scaled();
+	ColliderDesc.pOwner = this;
+	ColliderDesc.iColliderGroupID = CG_MONSTER;
+	ColliderDesc.iColliderID = CI_MONSTER_MECHSECT;
+
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Collider_Capsule"),
+		TEXT("Com_Collider"), reinterpret_cast<CComponent**>(&m_pCollider), &ColliderDesc)))
+		return E_FAIL;
+
+	if (m_bActive)
+	{
+		CGravity::DESC GravityDesc{};
+		GravityDesc.pTransformCom = m_pTransformCom;
+		GravityDesc.fTimeIncreasePerSec = 8.2f;
+		GravityDesc.fMaxFallSpeedPerSec = 840.f;
+		if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Gravity"),
+			TEXT("Com_Gravity"), reinterpret_cast<CComponent**>(&m_pGravityCom), &GravityDesc)))
+			return E_FAIL;
+	}
+
+	Ready_Textures();
 
 	return S_OK;
 }
@@ -446,7 +417,7 @@ HRESULT CMechsect::Set_Animation()
 			break;
 		case Client::CMechsect::STATE_JUMP:
 			m_fAnimationMaxFrame = _float(MAX_MOVERUN);
-			m_fAnimationSpeed = 10.f;
+			m_fAnimationSpeed = 6.f;
 			break;
 		case Client::CMechsect::STATE_STAY:
 			m_fAnimationMaxFrame = 1.f;
@@ -481,8 +452,16 @@ HRESULT CMechsect::Animate_Monster(_float fTimeDelta)
 		break;
 	case Client::CMechsect::STATE_JUMP:
 		m_fAnimationFrame += fTimeDelta * m_fAnimationSpeed;
-		if (m_fAnimationFrame >= m_fAnimationMaxFrame)
-			m_fAnimationFrame = 0.f;
+		if (m_fAnimationFrame >= m_fAnimationMaxFrame - 2.f)
+		{
+			m_fAnimationFrame = m_fAnimationMaxFrame - 2.f;
+			m_fAnimationSpeed = 0.f;
+		}
+		if (!m_pGravityCom->isJump() && m_fAnimationSpeed < 1.f)
+		{
+			m_fAnimationFrame = m_fAnimationMaxFrame - 1.f; // 착지?
+			m_bJumpEnd = true;
+		}
 		m_bRotateAnimation = true;
 		break;
 	case Client::CMechsect::STATE_DEAD:

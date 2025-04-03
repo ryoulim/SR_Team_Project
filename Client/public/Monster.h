@@ -238,6 +238,14 @@ protected: // 일반 몬스터용 충돌 함수
 	void	Collision_With_Weapon();
 	void	Collision_With_Block();
 
+protected: // 일반 몬스터용 함수들
+	virtual _bool IsMonsterAbleToAttack();
+	virtual void Debug_Output();
+	virtual void State_Change_IDLE(_float dt);
+	virtual void State_Change_DETECTIVE(_float dt);
+	virtual void State_Change_READY(_float dt);
+	virtual void State_Change_BATTLE(_float dt);
+	//virtual void State_Change_(_float dt);
 };
 
 END
