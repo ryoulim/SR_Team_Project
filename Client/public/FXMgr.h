@@ -66,12 +66,21 @@ public: //피흘리기
 public: //총알자국
 	void SpawnBulletMark(_float3 _vPosition, LEVEL eLevel, _float3 _vLook, _int _iNum);
 
+public: //피격 이펙트
+	void SpawnHitEffect(LEVEL eLevel);
+	void SpawnHealEffect(LEVEL eLevel);
+
 public: //보스스킬
 	void FireAttack(_float3 _vPosition, LEVEL eLevel, _int _iNum);
 	void JumpAttack(_float3 _vPosition, LEVEL eLevel);
 
-public: 
+public: //플레이어대쉬
 	void PlayerDash(LEVEL eLevel);
+
+
+public: //중복방지를 위한 함수들
+	void SetbHit(_bool Hit) { m_IsHit = Hit; }
+	bool GetbHit() { return m_IsHit; }
 
 private:
 	class CGameInstance* m_pGameInstance;
@@ -79,6 +88,9 @@ private:
 public:
 	static CFXMgr* Create();
 	virtual void Free() override;
+
+private:
+	_bool m_IsHit = false;
 };
 
 END

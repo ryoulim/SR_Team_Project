@@ -7,7 +7,7 @@ float2 g_vTexelSize;
 
 bool g_bUseTexture;
 
-float g_fBlurAmount, g_fLifeRatio, g_fEmissivePower, g_fTime;
+float g_fBlurAmount, g_fLifeRatio, g_fEmissivePower, g_fTime, g_fOpacity;
 
 
 
@@ -175,6 +175,41 @@ PS_OUT PS_MAIN_DEBUG(PS_IN IN)
     return Out;
 }
 
+/* [ 픽셀셰이더 ] 피격용 */
+PS_OUT PS_MAIN_HIT(PS_IN IN)
+{
+    PS_OUT Out;
+    
+    float4 texColor = tex2D(EmissiveSampler, IN.vTexcoord);
+
+// 알파 보정
+    texColor.a = saturate(texColor.a * 1.5f);
+
+// 색상 강조 (약간만)
+    texColor.rgb *= 1.2f;
+
+// 외부에서 제어하는 오파시티와 곱합
+    texColor.a *= g_fOpacity;
+
+    Out.vColor = texColor;
+    
+    return Out;
+}
+
+/* [ 픽셀셰이더 ] 회복용 */
+PS_OUT PS_MAIN_HEAL(PS_IN IN)
+{
+    PS_OUT Out;
+    
+    float4 texColor = tex2D(EmissiveSampler, IN.vTexcoord);
+    
+    texColor.a *= g_fOpacity;
+
+    Out.vColor = texColor;
+    
+    return Out;
+}
+
 
 technique DefaultTechnique
 {
@@ -199,5 +234,17 @@ technique DefaultTechnique
     {
         VertexShader = compile vs_3_0 VS_MAIN();
         PixelShader = compile ps_3_0 PS_MAIN_FIREATTACK();
+    }
+
+    pass HITPass
+    {
+        VertexShader = compile vs_3_0 VS_MAIN();
+        PixelShader = compile ps_3_0 PS_MAIN_HIT();
+    }
+
+    pass HEALPass
+    {
+        VertexShader = compile vs_3_0 VS_MAIN();
+        PixelShader = compile ps_3_0 PS_MAIN_HIT();
     }
 }

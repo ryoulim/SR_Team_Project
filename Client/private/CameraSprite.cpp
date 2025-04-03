@@ -21,16 +21,9 @@ HRESULT CCameraSprite::Initialize(void* pArg)
 {
 	CCameraSprite::DESC* SpriteDESC = static_cast<DESC*>(pArg);
 	
-	//뷰 행렬 초기화
-	//D3DXMatrixIdentity(&m_ViewMatrix);
-
 	//뷰포트 크기
 	D3DVIEWPORT9            ViewportDesc{};
 	m_pGraphic_Device->GetViewport(&ViewportDesc);
-
-	//직교투영 행렬
-	//D3DXMatrixOrthoLH(&m_ProjMatrix, (_float)ViewportDesc.Width, (_float)ViewportDesc.Height, 0.f, 1.f);
-
 
 	//멤버변수 저장
 	m_eLevelID				= LEVEL_STATIC;
@@ -46,22 +39,25 @@ HRESULT CCameraSprite::Initialize(void* pArg)
 	m_fSizeX				= SpriteDESC->vScale.x;
 	m_fSizeY				= SpriteDESC->vScale.y;
 
-	//기본 설정
+	/* 컴포넌트를 붙이자 */
 	if (FAILED(Ready_Components(pArg)))
 		return E_FAIL;
 
+	/* 스크린에 붙이자 */
 	m_pTransformCom->Scaling(_float3(m_fSizeX, m_fSizeY, 1.f));
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION,
 		_float3(SpriteDESC->vInitPos.x - ViewportDesc.Width / 2,
 		-(SpriteDESC->vInitPos.y - ViewportDesc.Height / 2),
 		SpriteDESC->vInitPos.z));
 
-	//시작 프레임 랜덤셋팅 할까?
+	/* 시작 프레임 랜덤셋팅 */
 	if (SpriteDESC->bRandom)
 		m_fAnimationFrame = GetRandomFloat(0.f, m_fAnimationMaxFrame);
 	else
 		m_fAnimationFrame = 0;
 
+
+	/* 이 스크린의 뎁스를 정해주세요 */
 	if (m_eEffectType == eEffectType::FIRE)
 		m_fDepth = 0.001f;
 	if(m_eEffectType == eEffectType::GUNFIRE)
@@ -90,9 +86,6 @@ void CCameraSprite::Priority_Update(_float fTimeDelta)
 
 EVENT CCameraSprite::Update(_float fTimeDelta)
 {
-	//FrameUpdate(fTimeDelta, m_fAnimationMaxFrame, m_fAnimationSpeed, true);
-
-
 	FrameUpdate(fTimeDelta, m_fAnimationMaxFrame, m_fAnimationSpeed, false);
 	if (m_fAnimationMaxFrame <= m_fAnimationFrame)
 		return EVN_DEAD;
@@ -102,8 +95,6 @@ EVENT CCameraSprite::Update(_float fTimeDelta)
 
 void CCameraSprite::Late_Update(_float fTimeDelta)
 {
-	//if (!m_bActive)
-	//	return;
 	if (FAILED(m_pGameInstance->Add_RenderGroup(CRenderer::RG_UI, this)))
 		return;
 }

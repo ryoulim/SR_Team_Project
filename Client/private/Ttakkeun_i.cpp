@@ -25,7 +25,7 @@ HRESULT CTtakkeun_i::Initialize_Prototype()
 
 	//¼Ó¼º
 	m_iHP = 800;
-	m_iMaxHP = 500;
+	m_iMaxHP = 800;
 	m_iAttackPower = 10;
 	m_iDefense = 3;
 	m_fSpeed = 100.f;
@@ -110,7 +110,6 @@ EVENT CTtakkeun_i::Update(_float fTimeDelta)
 
 	if (m_bActive)
 	{
-		//m_pGravityCom->Update(fTimeDelta);
 		MonsterTick(fTimeDelta);
 	}
 
@@ -492,6 +491,7 @@ void CTtakkeun_i::AttackPattern(_float dt)
 					m_iRandom = GetRandomInt(0, 5);
 					m_bDoPatternLeft = true;
 				}
+				m_bCoolingDown = false;
 			}
 			if (!m_bDoPatternRight && m_iNum == 1)
 			{
@@ -501,6 +501,7 @@ void CTtakkeun_i::AttackPattern(_float dt)
 					m_iRandom = GetRandomInt(0, 5);
 					m_bDoPatternRight = true;
 				}
+				m_bCoolingDown = false;
 			}
 			else
 			{
@@ -1008,7 +1009,7 @@ void CTtakkeun_i::SpawnBounce()
 		BulletDesc.szTextureTag = TEXT("MonsterBounce");
 		BulletDesc.vLook = vDir;
 
-		BulletDesc.ColliderGroup = CG_MBULLET;
+		BulletDesc.ColliderGroup = CG_BOSS;
 		BulletDesc.fInitJumpPower = 30.f;
 		BulletDesc.fTimeLimit = 2.f;
 		BulletDesc.bAnimation = true;

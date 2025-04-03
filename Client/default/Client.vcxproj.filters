@@ -424,6 +424,12 @@
     <Filter Include="02.GameObjects\Effect\BulletMark">
       <UniqueIdentifier>{26a13a7f-6446-44f8-9085-93ee889f8665}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\Effect\ScreenSprite">
+      <UniqueIdentifier>{ce003058-5b65-4ba5-bc98-bbfe16d27d0c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Monster\_HitBox">
+      <UniqueIdentifier>{2e371c9f-6d28-4de7-9408-dd458014a1be}</UniqueIdentifier>
+    </Filter>
     <Filter Include="02.GameObjects\Camera\CutSceneCamera">
       <UniqueIdentifier>{b4b2de59-98e8-487d-a12b-26ac50baf856}</UniqueIdentifier>
     </Filter>
@@ -859,6 +865,12 @@
     <ClInclude Include="..\public\BulletMark.h">
       <Filter>02.GameObjects\Effect\BulletMark</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\ScreenSprite.h">
+      <Filter>02.GameObjects\Effect\ScreenSprite</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\HitBox.h">
+      <Filter>02.GameObjects\Monster\_HitBox</Filter>
+    </ClInclude>
     <ClInclude Include="..\public\CutScene_Camera.h">
       <Filter>02.GameObjects\Camera\CutSceneCamera</Filter>
     </ClInclude>
@@ -1278,6 +1290,12 @@
     </ClCompile>
     <ClCompile Include="..\private\BulletMark.cpp">
       <Filter>02.GameObjects\Effect\BulletMark</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\ScreenSprite.cpp">
+      <Filter>02.GameObjects\Effect\ScreenSprite</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\HitBox.cpp">
+      <Filter>02.GameObjects\Monster\_HitBox</Filter>
     </ClCompile>
     <ClCompile Include="..\private\CutScene_Camera.cpp">
       <Filter>02.GameObjects\Camera\CutSceneCamera</Filter>

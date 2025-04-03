@@ -49,7 +49,6 @@ public: //몬스터소환(게임플레이)
 
 private:
 	class CCameraManager* m_pCameraManager{};
-	CGameObject* m_pTrigger = nullptr;
 	_int m_iIndex{-1};
 	_bool testbool = { false };
 

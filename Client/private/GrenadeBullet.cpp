@@ -187,10 +187,19 @@ HRESULT CGrenadeBullet::Ready_Components(void* pArg)
 		ColliderDesc.pTransform = m_pTransformCom;
 		ColliderDesc.vScale = pDesc->vScale;
 		ColliderDesc.pOwner = this;
-		ColliderDesc.iColliderGroupID = pDesc->ColliderGroup;
-		ColliderDesc.iColliderID = CI_DISPENSOR_GRENADE;
 
-		m_IsPlayerBullet = pDesc->ColliderGroup;
+		if (pDesc->ColliderGroup == CG_BOSS)
+		{
+			ColliderDesc.iColliderGroupID = CG_BOSS;
+			ColliderDesc.iColliderID = CI_BOSS_TANGTANG;
+		}
+		else
+		{
+			ColliderDesc.iColliderGroupID = pDesc->ColliderGroup;
+			ColliderDesc.iColliderID = CI_DISPENSOR_GRENADE;
+
+			m_IsPlayerBullet = pDesc->ColliderGroup;
+		}
 
 		/* For.Com_Collider */
 		if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Collider_Sphere"),

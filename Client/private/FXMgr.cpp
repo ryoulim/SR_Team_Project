@@ -11,6 +11,8 @@
 #include "Firework.h"
 #include "EmptyBullet.h"
 #include "BulletMark.h"
+#include "ScreenSprite.h"
+#include "Rain.h"
 #include <iostream>
 
 //IMPLEMENT_SINGLETON(CFXMgr);
@@ -347,7 +349,7 @@ void CFXMgr::SpawnFire(_float3 _vPosition, LEVEL eLevel)
 		SpriteDesc.vScale = _float3{ 30.f, 30.f, 1.f };
 
 		if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_PC_Sprite"),
-			eLevel, L"Layer_Particle", &SpriteDesc)))
+			eLevel, L"Layer_Effect", &SpriteDesc)))
 			return;
 	}
 }
@@ -369,7 +371,7 @@ void CFXMgr::SpawnGunFire(_float3 _ScreenPos, LEVEL eLevel)
 	CGameObject* pObject = nullptr;
 	CGameObject** ppOut = &pObject;
 	if (FAILED(m_pGameInstance->Add_GameObjectReturn(LEVEL_STATIC, TEXT("Prototype_GameObject_PC_CameraSprite"),
-		eLevel, L"Layer_Particle", ppOut, &SpriteDesc)))
+		eLevel, L"Layer_Effect", ppOut, &SpriteDesc)))
 		return;
 
 }
@@ -391,7 +393,7 @@ void CFXMgr::SpawnShotGunFire(_float3 _ScreenPos, LEVEL eLevel)
 	CGameObject* pObject = nullptr;
 	CGameObject** ppOut = &pObject;
 	if (FAILED(m_pGameInstance->Add_GameObjectReturn(LEVEL_STATIC, TEXT("Prototype_GameObject_PC_CameraSprite"),
-		eLevel, L"Layer_Particle", ppOut, &SpriteDesc)))
+		eLevel, L"Layer_Effect", ppOut, &SpriteDesc)))
 		return;
 
 }
@@ -413,7 +415,7 @@ void CFXMgr::SpawnBulletTracer(_float3 _ScreenPos, LEVEL eLevel)
 	CGameObject* pObject = nullptr;
 	CGameObject** ppOut = &pObject;
 	if (FAILED(m_pGameInstance->Add_GameObjectReturn(LEVEL_STATIC, TEXT("Prototype_GameObject_PC_CameraSprite"),
-		eLevel, L"Layer_Particle", ppOut, &SpriteDesc)))
+		eLevel, L"Layer_Effect", ppOut, &SpriteDesc)))
 		return;
 
 	//m_vecSceenEffect.push_back(dynamic_cast<CCameraSprite*>(*ppOut));
@@ -435,7 +437,7 @@ void CFXMgr::SpawnBulletTracerMachineGun(_float3 _ScreenPos, LEVEL eLevel)
 	CGameObject* pObject = nullptr;
 	CGameObject** ppOut = &pObject;
 	if (FAILED(m_pGameInstance->Add_GameObjectReturn(LEVEL_STATIC, TEXT("Prototype_GameObject_PC_CameraSprite"),
-		eLevel, L"Layer_Particle", ppOut, &SpriteDesc)))
+		eLevel, L"Layer_Effect", ppOut, &SpriteDesc)))
 		return;
 }
 
@@ -456,7 +458,7 @@ void CFXMgr::SpawnShotGunTracer(_float3 _ScreenPos, LEVEL eLevel)
 	CGameObject* pObject = nullptr;
 	CGameObject** ppOut = &pObject;
 	if (FAILED(m_pGameInstance->Add_GameObjectReturn(LEVEL_STATIC, TEXT("Prototype_GameObject_PC_CameraSprite"),
-		eLevel, L"Layer_Particle", ppOut, &SpriteDesc)))
+		eLevel, L"Layer_Effect", ppOut, &SpriteDesc)))
 		return;
 }
 
@@ -479,7 +481,7 @@ void CFXMgr::SpawnGunFireMachineGun(_float3 _ScreenPos, LEVEL eLevel)
 	CGameObject* pObject = nullptr;
 	CGameObject** ppOut = &pObject;
 	if (FAILED(m_pGameInstance->Add_GameObjectReturn(LEVEL_STATIC, TEXT("Prototype_GameObject_PC_CameraSprite"),
-		eLevel, L"Layer_Particle", ppOut, &SpriteDesc)))
+		eLevel, L"Layer_Effect", ppOut, &SpriteDesc)))
 		return;
 
 	//m_vecSceenEffect.push_back(dynamic_cast<CCameraSprite*>(*ppOut));
@@ -502,7 +504,7 @@ void CFXMgr::SpawnFireMachineGun(_float3 _ScreenPos, LEVEL eLevel)
 	CGameObject* pObject = nullptr;
 	CGameObject** ppOut = &pObject;
 	if (FAILED(m_pGameInstance->Add_GameObjectReturn(LEVEL_STATIC, TEXT("Prototype_GameObject_PC_CameraSprite"),
-		eLevel, L"Layer_Particle", ppOut, &SpriteDesc)))
+		eLevel, L"Layer_Effect", ppOut, &SpriteDesc)))
 		return;
 
 	//m_vecSceenEffect.push_back(dynamic_cast<CCameraSprite*>(*ppOut));
@@ -521,7 +523,7 @@ void CFXMgr::SpawnTornado(_float3 _vPosition, LEVEL eLevel)
 	SpriteDesc.vScale = _float3{ 100.f, 100.f, 1.f };
 
 	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_PC_Sprite"),
-		eLevel, L"Layer_Particle", &SpriteDesc)))
+		eLevel, L"Layer_Effect", &SpriteDesc)))
 		return;
 
 	CPSystem::DESC TornadoDesc{};
@@ -758,7 +760,7 @@ void CFXMgr::SpawnBulletMark(_float3 _vPosition, LEVEL eLevel, _float3 _vLook , 
 	BulletMarkDesc.vScale = _float3{ 5.f, 5.f, 1.f };
 
 	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_BulletMark"),
-		eLevel, L"Layer_Particle", &BulletMarkDesc)))
+		eLevel, L"Layer_Effect", &BulletMarkDesc)))
 		return;
 
 	/* [ 연기 튀는 파티클 ] */
@@ -794,6 +796,48 @@ void CFXMgr::SpawnBulletMark(_float3 _vPosition, LEVEL eLevel, _float3 _vLook , 
 		return;
 
 	Iter->second->Active_Object(eLevel, TEXT("Layer_Particle"), &BulletImpactSparkDesc2);
+}
+
+void CFXMgr::SpawnHitEffect(LEVEL eLevel)
+{
+	/* [ 히트 스크린 스프라이트 ] */
+	CScreenSprite::DESC ScreenHitDesc{};
+	ScreenHitDesc.fMaxFrame = 30.f;
+	ScreenHitDesc.fAniSpeed = 10.f;
+	ScreenHitDesc.fRotationPerSec = RADIAN(180.f);
+	ScreenHitDesc.fSpeedPerSec = 100.f;
+	ScreenHitDesc.eEffectType = CScreenSprite::eEffectType::HIT;
+	ScreenHitDesc.szTextureTag = TEXT("ScreenHit");
+	//ScreenHitDesc.szTextureTag = TEXT("Check_Tile");
+
+
+	ScreenHitDesc.vScale = _float3{ FWINCX, FWINCY, 1.f };
+	ScreenHitDesc.vInitPos = { g_iWinSizeX * 0.5f, g_iWinSizeY * 0.5f,1.f };
+
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_ScreenSprite"),
+		eLevel, L"Layer_Effect", &ScreenHitDesc)))
+		return;
+}
+
+void CFXMgr::SpawnHealEffect(LEVEL eLevel)
+{
+	/* [ 히트 스크린 스프라이트 ] */
+	CScreenSprite::DESC ScreenHealDesc{};
+	ScreenHealDesc.fMaxFrame = 30.f;
+	ScreenHealDesc.fAniSpeed = 10.f;
+	ScreenHealDesc.fRotationPerSec = RADIAN(180.f);
+	ScreenHealDesc.fSpeedPerSec = 100.f;
+	ScreenHealDesc.eEffectType = CScreenSprite::eEffectType::HEAL;
+	ScreenHealDesc.szTextureTag = TEXT("ScreenHeal");
+	//ScreenHitDesc.szTextureTag = TEXT("Check_Tile");
+
+
+	ScreenHealDesc.vScale = _float3{ FWINCX, FWINCY, 1.f };
+	ScreenHealDesc.vInitPos = { g_iWinSizeX * 0.5f, g_iWinSizeY * 0.5f,1.f };
+
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_ScreenSprite"),
+		eLevel, L"Layer_Effect", &ScreenHealDesc)))
+		return;
 }
 
 void CFXMgr::FireAttack(_float3 _vPosition, LEVEL eLevel, _int _iNum)
@@ -870,9 +914,13 @@ void CFXMgr::PlayerDash(LEVEL eLevel)
 
 void CFXMgr::SpawnRain(LEVEL eLevel)
 {
+	CRain::DESC RainDesc{};
+	RainDesc.vMin = _float3(-100.f, -100.f, 0.f);
+	RainDesc.vMax = _float3(2500.f, 1000.f, 2000.f);
+
 	//빗방울
 	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_PC_Rain"),
-		eLevel, L"Layer_Particle")))
+		eLevel, L"Layer_Particle", &RainDesc)))
 		return;
 }
 

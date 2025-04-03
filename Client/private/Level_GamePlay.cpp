@@ -77,12 +77,18 @@ HRESULT CLevel_GamePlay::Initialize(class CLevelData* pLevelData)
 
 void CLevel_GamePlay::Update(_float fTimeDelta)
 {
-	auto FX_Manager = FX_MGR;
-	FX_Manager->SpawnMultipleExplosions(fTimeDelta, LEVEL_GAMEPLAY);
-	FX_Manager->SpawnMultipleExplosions2(fTimeDelta, LEVEL_GAMEPLAY);
-	FX_Manager->SpawnMultipleExplosions3(fTimeDelta, LEVEL_GAMEPLAY);
-
 	Check_Collision();
+
+	/* [ 실험실 ] */
+	if (KEY_DOWN(DIK_I))
+	{
+		FX_MGR->SpawnHitEffect(LEVEL_GAMEPLAY);
+	}
+	if (KEY_DOWN(DIK_O))
+	{
+		FX_MGR->SpawnHealEffect(LEVEL_GAMEPLAY);
+	}
+
 
 	if (KEY_DOWN(DIK_F11))
 	{
@@ -91,6 +97,7 @@ void CLevel_GamePlay::Update(_float fTimeDelta)
 			return;
 	}
 
+	/* [ 몬스터 시야각 디버깅 ] */
 	if (KEY_DOWN(DIK_F4))
 	{
 		auto MosterList = m_pGameInstance->Find_Objects(LEVEL_GAMEPLAY, L"Layer_Monster");
@@ -111,6 +118,7 @@ void CLevel_GamePlay::Update(_float fTimeDelta)
 		}
 	}
 
+	/* [ 몬스터 테스트 소환 ] */
 	if (KEY_DOWN(DIK_M))
 	{
 		//SpawnDeacon(_float3{ 1250.f, 100.f, 1500.f }, true, LEVEL_GAMEPLAY);
@@ -229,24 +237,24 @@ HRESULT CLevel_GamePlay::Ready_Layer_Item(const _wstring& strLayerTag)
 HRESULT CLevel_GamePlay::Ready_Layer_Particle(const _wstring& strLayerTag)
 {
 	//플렛폼 생성
-	CFlatform::DESC FlatformDESC;
-	FlatformDESC.vInitPos = _float3{ 800.f, 0.f, -200.f };
-	FlatformDESC.vScale = _float3{ 500.f, 300.f, 1.f };
-	FlatformDESC.bLoop = true;
-	FlatformDESC.fMaxFrame = 1.f;
-	FlatformDESC.fRotationPerSec = RADIAN(180.f);
-	FlatformDESC.fSpeedPerSec = 100.f;
-	FlatformDESC.szTextureTag = TEXT("MonsterFlatform");
-	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Flatform"),
-		LEVEL_GAMEPLAY, strLayerTag, &FlatformDESC)))
-		return E_FAIL;
-
-	auto FX_Manager = FX_MGR;
-
-	//빗방울
-	FX_Manager->SpawnRain(LEVEL_GAMEPLAY);
-	//불지르기
-	FX_Manager->SpawnFire(_float3{ 800.f, 0.f, -200.f }, LEVEL_GAMEPLAY);
+	//CFlatform::DESC FlatformDESC;
+	//FlatformDESC.vInitPos = _float3{ 800.f, 0.f, -200.f };
+	//FlatformDESC.vScale = _float3{ 500.f, 300.f, 1.f };
+	//FlatformDESC.bLoop = true;
+	//FlatformDESC.fMaxFrame = 1.f;
+	//FlatformDESC.fRotationPerSec = RADIAN(180.f);
+	//FlatformDESC.fSpeedPerSec = 100.f;
+	//FlatformDESC.szTextureTag = TEXT("MonsterFlatform");
+	//if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Flatform"),
+	//	LEVEL_GAMEPLAY, strLayerTag, &FlatformDESC)))
+	//	return E_FAIL;
+	//
+	//auto FX_Manager = FX_MGR;
+	//
+	////빗방울
+	//FX_Manager->SpawnRain(LEVEL_GAMEPLAY);
+	////불지르기
+	//FX_Manager->SpawnFire(_float3{ 800.f, 0.f, -200.f }, LEVEL_GAMEPLAY);
 
 	return S_OK;
 }
@@ -282,22 +290,22 @@ HRESULT CLevel_GamePlay::Ready_Layer_Pawn(const _wstring& strLayerTag)
 
 HRESULT CLevel_GamePlay::Ready_Layer_Monster(const _wstring& strLayerTag)
 {
-	//플렛폼 생성
-	CFlatform::DESC FlatformDESC;
-	FlatformDESC.vInitPos = _float3{ 250.f, 0.f, -200.f };
-	FlatformDESC.vScale = _float3{ 500.f, 300.f, 1.f };
-	FlatformDESC.bLoop = true;
-	FlatformDESC.fMaxFrame = 1.f;
-	FlatformDESC.fRotationPerSec = RADIAN(180.f);
-	FlatformDESC.fSpeedPerSec = 100.f;
-	FlatformDESC.szTextureTag = TEXT("MonsterFlatform");
-	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Flatform"),
-		LEVEL_GAMEPLAY, TEXT("Layer_Flatform"), &FlatformDESC)))
-		return E_FAIL;	
-
 	//따끈이
 	//SpawnTtakkeun_i(_float3{ 1200.f, 100.f, 1500.f }, true, 0, LEVEL_GAMEPLAY);
 	//SpawnTtakkeun_i(_float3{ 1600.f, 100.f, 1500.f }, true, 1, LEVEL_GAMEPLAY);
+
+	//플렛폼 생성
+	//CFlatform::DESC FlatformDESC;
+	//FlatformDESC.vInitPos = _float3{ 250.f, 0.f, -200.f };
+	//FlatformDESC.vScale = _float3{ 500.f, 300.f, 1.f };
+	//FlatformDESC.bLoop = true;
+	//FlatformDESC.fMaxFrame = 1.f;
+	//FlatformDESC.fRotationPerSec = RADIAN(180.f);
+	//FlatformDESC.fSpeedPerSec = 100.f;
+	//FlatformDESC.szTextureTag = TEXT("MonsterFlatform");
+	//if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Flatform"),
+	//	LEVEL_GAMEPLAY, TEXT("Layer_Flatform"), &FlatformDESC)))
+	//	return E_FAIL;	
 
 	//전시용 (게임플레이 이니셜)
 	//SpawnWenteko(_float3{ 100.f, 40.f, -100.f }, false, LEVEL_GAMEPLAY);
@@ -384,13 +392,9 @@ HRESULT CLevel_GamePlay::Ready_Layer_Trigger(const _wstring& strLayerTag)
 	tDesc.vInitPos = {1400.f, 70.f, 950.f};
 	tDesc.vScale = {200.f, 100.f, 100.f};
 
-	CGameObject* pObject = nullptr;
-	CGameObject** ppOut = &pObject;
-	if (FAILED(m_pGameInstance->Add_GameObjectReturn(LEVEL_STATIC, TEXT("Prototype_GameObject_Trigger"),
-		LEVEL_GAMEPLAY, strLayerTag, ppOut, &tDesc)))
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_Trigger"),
+		LEVEL_GAMEPLAY, strLayerTag, &tDesc)))
 		return E_FAIL;
-
-	m_pTrigger = *ppOut;
 
 	return S_OK;
 }
