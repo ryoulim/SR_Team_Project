@@ -49,6 +49,25 @@ EVENT CDynamic_Camera::Update(_float fTimeDelta)
 {
 	if (!m_bActive)
 		return EVN_NONE;
+
+#ifdef _CONSOL
+
+	if (KEY_DOWN(DIK_Z))
+	{
+		_float3 vPosition = *m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+		_float3 vLook = *m_pTransformCom->Get_State(CTransform::STATE_LOOK);
+
+		printf("pMoveVector->push_back({ %.2ff, %.2ff, %.2ff });\n", vPosition.x, vPosition.y, vPosition.z);
+		printf("pLookVector->push_back(_float3{ %.2ff, %.2ff, %.2ff }.Normalize());\n\n", vLook.x, vLook.y, vLook.z);
+	}
+	if (KEY_DOWN(DIK_X))
+	{
+		system("cls");
+	}
+
+#endif
+
+
 	Update_View_Matrix();
 	Bind_Resource();
 	return EVN_NONE;

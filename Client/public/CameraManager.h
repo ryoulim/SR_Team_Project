@@ -17,19 +17,14 @@ BEGIN(Client)
 class CCameraManager final : public CBase
 {
 public:
-	enum ID { FPS, TPS, DYNAMIC, UI };
+	enum ID { FPS, TPS, DYNAMIC, CUTSCENE, UI  };
 private:
 	CCameraManager();
 	virtual ~CCameraManager() = default;
 
 public:
 	HRESULT Initialize();
-	void Priority_Update(_float fTimeDelta);
-	EVENT Update(_float fTimeDelta);
-	void Late_Update(_float fTimeDelta);
-	HRESULT Render();
 
-public:
 	/// <summary>
 	/// Ä«¸Þ¶ó Èçµé¾î Á¦²¸
 	/// </summary>
@@ -41,6 +36,7 @@ public:
 	void StartRecoil(_float fIntensity = 1.f, _float fDuration = 1.f);
 	void Zoom(_float fFOV, _float Time);
 	void Set_Mouse_Fix(_bool isFixMode);
+	void Start_CutScene(vector<_float3>* pMovePoints, vector<_float3>* pLookPoints, _float fCameraSpeed, _bool* _Out_ pEndFlag);
 
 	CGameObject* Get_Camera(CCameraManager::ID _ID) {
 		return static_cast<CGameObject*>(m_Cameras[_ID]);

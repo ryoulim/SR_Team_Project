@@ -424,6 +424,9 @@
     <Filter Include="02.GameObjects\Effect\BulletMark">
       <UniqueIdentifier>{26a13a7f-6446-44f8-9085-93ee889f8665}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\Camera\CutSceneCamera">
+      <UniqueIdentifier>{b4b2de59-98e8-487d-a12b-26ac50baf856}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -856,6 +859,9 @@
     <ClInclude Include="..\public\BulletMark.h">
       <Filter>02.GameObjects\Effect\BulletMark</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\CutScene_Camera.h">
+      <Filter>02.GameObjects\Camera\CutSceneCamera</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -1272,6 +1278,9 @@
     </ClCompile>
     <ClCompile Include="..\private\BulletMark.cpp">
       <Filter>02.GameObjects\Effect\BulletMark</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\CutScene_Camera.cpp">
+      <Filter>02.GameObjects\Camera\CutSceneCamera</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

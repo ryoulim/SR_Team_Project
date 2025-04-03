@@ -30,6 +30,7 @@ HRESULT CBossBridge::Initialize(void* pArg)
 		return E_FAIL;
 
 	m_fFallTime = 15.f;
+	m_pCameraManager = CAMERA_MANAGER;
 
 	return S_OK;
 }
@@ -55,8 +56,27 @@ EVENT CBossBridge::Update(_float fTimeDelta)
 			//소용돌이(중앙)
 			FX_MGR->SpawnSpher(_float3{ 1430.f, 0.f, 1480.f }, LEVEL_GAMEPLAY);
 			m_bDoOnce = true;
+			BossMap_CutScene1();
 		}
 	}
+
+	if (m_bCutSceneEnd[0])
+	{
+		BossMap_CutScene2();
+		m_bCutSceneEnd[0] = FALSE;
+	}
+	else if (m_bCutSceneEnd[1])
+	{
+		m_pCameraManager->Switch(CCameraManager::FPS);
+		return EVN_DEAD;
+		m_bCutSceneEnd[1] = FALSE;
+	}
+	//else if (m_bCutSceneEnd[2])
+	//{
+	//	m_bCutSceneEnd[2] = FALSE;
+	//	m_pCameraManager->Switch(CCameraManager::FPS);
+	//	return EVN_DEAD;
+	//}
 
 	return __super::Update(fTimeDelta);
 }
@@ -97,6 +117,57 @@ HRESULT CBossBridge::Ready_Components(void* pArg)
 
 inline void CBossBridge::On_Trigger() {
 	m_bTrigger = TRUE;
+}
+
+void CBossBridge::BossMap_CutScene1()
+{
+	m_pCameraManager->Switch(CCameraManager::CUTSCENE);
+
+	vector<_float3>* pMoveVector = new vector<_float3>;
+	vector<_float3>* pLookVector = new vector<_float3>;
+
+	pMoveVector->push_back({ 1932.32f, 387.41f, 822.90f });
+	pLookVector->push_back(_float3{ -0.66f, -0.52f, -0.54f }.Normalize());
+
+	pMoveVector->push_back({ 1815.00f, 378.90f, 920.00f });
+	pLookVector->push_back(_float3{ -0.52f, -0.51f, -0.68f }.Normalize());
+
+	pMoveVector->push_back({ 1685.00f, 369.50f, 1005.00f });
+	pLookVector->push_back(_float3{ -0.34f, -0.50f, -0.79f }.Normalize());
+
+	pMoveVector->push_back({ 1548.00f, 361.50f, 1065.00f });
+	pLookVector->push_back(_float3{ -0.13f, -0.50f, -0.86f }.Normalize());
+
+	pMoveVector->push_back({ 1415.00f, 356.00f, 1056.00f });
+	pLookVector->push_back(_float3{ -0.0f, -0.51f, -0.86f }.Normalize());
+
+	CAMERA_MANAGER->Start_CutScene(pMoveVector, pLookVector, 0.7f, &m_bCutSceneEnd[0]);
+}
+
+void CBossBridge::BossMap_CutScene2()
+{
+	vector<_float3>* pMoveVector = new vector<_float3>;
+	vector<_float3>* pLookVector = new vector<_float3>;
+
+	pMoveVector->push_back({ 1383.72f, 421.83f, 127.78f });
+	pLookVector->push_back(_float3{ 0.03f, -0.57f, 0.82f }.Normalize());
+
+	pMoveVector->push_back({ 1385.00f, 104.51f, 379.28f });
+	pLookVector->push_back(_float3{ -0.00f, -0.25f, 0.97f }.Normalize());
+
+	pMoveVector->push_back({ 1387.41f, 59.42f, 808.39f });
+	pLookVector->push_back(_float3{ 0.02f, -0.01f, 1.00f }.Normalize());
+
+	pMoveVector->push_back({ 1388.69f, 61.80f, 1020.258f });
+	pLookVector->push_back(_float3{ 0.022f, 0.010f, 1.000f }.Normalize());
+
+	pMoveVector->push_back({ 1390.61f, 65.08f, 1088.06f });
+	pLookVector->push_back(_float3{ 0.025f, 0.035f, 1.000f }.Normalize());
+
+	pMoveVector->push_back({ 1390.61f, 65.08f, 1098.06f });
+	pLookVector->push_back(_float3{ 0.025f, 0.035f, 1.000f }.Normalize());
+
+	CAMERA_MANAGER->Start_CutScene(pMoveVector, pLookVector, 0.7f, &m_bCutSceneEnd[1]);
 }
 
 CBossBridge* CBossBridge::Create(LPDIRECT3DDEVICE9 pGraphic_Device)

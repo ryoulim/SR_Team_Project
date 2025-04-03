@@ -8,6 +8,7 @@
 #include "FPS_Camera.h"
 #include "TPS_Camera.h"
 #include "Dynamic_Camera.h"
+#include "CutScene_Camera.h"
 #include "UI_Camera.h"
 
 #include "Font_MediumBlue.h"
@@ -156,8 +157,11 @@ void CMainApp::Update(_float fTimeDelta)
 		CAMERA_MANAGER->Switch(CCameraManager::TPS);
 	if (KEY_DOWN(DIK_F3))
 		CAMERA_MANAGER->Switch(CCameraManager::DYNAMIC);
-	/*if (KEY_DOWN(DIK_TAB))
-		CAMERA_MANAGER->Set_Mouse_Fix();*/
+	if (KEY_DOWN(DIK_TAB))
+	{
+		CAMERA_MANAGER->Set_Mouse_Fix(m_bMouseToggle);
+		m_bMouseToggle = !m_bMouseToggle;
+	}
 #pragma endregion
 
 }
@@ -206,7 +210,9 @@ HRESULT CMainApp::Ready_Protype_Object_For_Static()
 	ADD_PRTOBJ(Dynamic_Camera);
 	ADD_PRTOBJ(FPS_Camera);
 	ADD_PRTOBJ(TPS_Camera);
+	ADD_PRTOBJ(CutScene_Camera);
 	ADD_PRTOBJ(UI_Camera);
+
 	ADD_PRTOBJ(LevelLoadingMenu); // 치워도 안돼
 
 	// UI Ready

@@ -150,7 +150,7 @@ void CTtakkeun_i::Late_Update(_float fTimeDelta)
 		// 1초 이상 지났다면 출력
 		//cout << "따끈이 상태 : " << GetMonsterStateName(m_eState) << '\n';
 		//cout << "플레이어와의 거리 : " << m_fCurDistance << endl;
-		cout << "따끈이 랜덤변수 : " << m_iRandom << endl;
+		//cout << "따끈이 랜덤변수 : " << m_iRandom << endl;
 		g_LastLogTime = now;
 	}
 #endif

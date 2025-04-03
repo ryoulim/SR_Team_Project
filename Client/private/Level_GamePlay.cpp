@@ -28,11 +28,12 @@ HRESULT CLevel_GamePlay::Initialize(class CLevelData* pLevelData)
 	//if (FAILED(m_pGameInstance->LoadBank("Test_Bank")))
 	//	return E_FAIL;
 
+	if (FAILED(Ready_Layer_Terrain(TEXT("Layer_Terrain"))))
+		return E_FAIL;
+
 	if (FAILED(Ready_Layer_Camera(TEXT("Layer_Camera"))))
 		return E_FAIL;
 
-	if (FAILED(Ready_Layer_Terrain(TEXT("Layer_Terrain"))))
-		return E_FAIL;
 
 	if (FAILED(Ready_Layer_UI(TEXT("Layer_UI"))))
 		return E_FAIL;
@@ -82,14 +83,6 @@ void CLevel_GamePlay::Update(_float fTimeDelta)
 	FX_Manager->SpawnMultipleExplosions3(fTimeDelta, LEVEL_GAMEPLAY);
 
 	Check_Collision();
-
-	/* [ 만약 트리거가 발동되면 컷신을 시작하라 ] */
-	if (static_cast<CBossBridge*>(m_pTrigger)->GetTrigger())
-	{
-		//1. 카메라 매니저의 스위치를 호출해보자.
-		
-	}
-
 
 	if (KEY_DOWN(DIK_F11))
 	{
@@ -162,10 +155,11 @@ HRESULT CLevel_GamePlay::Ready_Layer_Terrain(const _wstring& strLayerTag)
 
 HRESULT CLevel_GamePlay::Ready_Layer_Camera(const _wstring& strLayerTag)
 {
-	CAMERA_MANAGER->Switch(CCameraManager::FPS);
-	CAMERA_MANAGER->Set_Mouse_Fix(TRUE);
-
 	m_pCameraManager = CAMERA_MANAGER;
+
+	m_pCameraManager->Switch(CCameraManager::FPS);
+	m_pCameraManager->Set_Mouse_Fix(TRUE);
+
 	Safe_AddRef(m_pCameraManager);
 
 	return S_OK;
@@ -175,38 +169,6 @@ HRESULT CLevel_GamePlay::Ready_Layer_Camera(const _wstring& strLayerTag)
 
 HRESULT CLevel_GamePlay::Ready_Layer_Statue(const _wstring& strLayerTag)
 {
-	/*CMyCube::DESC CubeDesc{};
-
-	CubeDesc.vInitPos = { 150.f,50.f,150.f };
-	CubeDesc.vScale = { 50.f,100.f,50.f };
-	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_MyCube"),
-		LEVEL_GAMEPLAY, strLayerTag, &CubeDesc)))
-		return E_FAIL;*/
-
-	/*if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_MyComputer"),
-		LEVEL_GAMEPLAY, strLayerTag, m_pData->Find_Data(TEXT("MyComputer")))))
-		return E_FAIL;*/
-
-	//if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Signboard"),
-	//	LEVEL_GAMEPLAY, strLayerTag, m_pData->Find_Data(TEXT("Signboard")))))
-	//	return E_FAIL;
-
-	/*if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Cabinet"),
-		LEVEL_GAMEPLAY, strLayerTag, m_pData->Find_Data(TEXT("Cabinet")))))
-		return E_FAIL;*/
-
-	/*if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Trapezoid"),
-
-		LEVEL_GAMEPLAY, strLayerTag, m_pData->Find_Data(TEXT("Trapezoid")))))
-		return E_FAIL;*/
-
-	/*if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Stall"),
-		LEVEL_GAMEPLAY, strLayerTag, m_pData->Find_Data(TEXT("Stall")))))
-		return E_FAIL;*/
-
-	/*if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Canopy"),
-		LEVEL_GAMEPLAY, strLayerTag, m_pData->Find_Data(TEXT("Canopy")))))
-		return E_FAIL;*/
 
 	return S_OK;
 }

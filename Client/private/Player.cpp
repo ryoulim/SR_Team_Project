@@ -82,16 +82,16 @@ void CPlayer::Priority_Update(_float fTimeDelta)
 
 EVENT CPlayer::Update(_float fTimeDelta)
 {
-#ifdef _CONSOL
-	_float3 vPosition = *m_pTransformCom->Get_State(CTransform::STATE_POSITION);
-
-	printf("플레이어 X : %f\n", vPosition.x);
-	printf("플레이어 Y : %f\n", vPosition.y);
-	printf("플레이어 Z : %f\n", vPosition.z);
-
-#endif
 	if (!m_bActive)
 		return EVN_NONE;
+
+#ifdef _CONSOL
+	if (KEY_DOWN(DIK_LCONTROL))
+	{
+		_float3 vPosition = *m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+		printf("플레이어 좌표 : { %.2f, %.2f, %.2f }\n", vPosition.x, vPosition.y, vPosition.z);
+	}
+#endif
 
 	// 피격 후 무적시간 계산
 	if (m_bOnHit)

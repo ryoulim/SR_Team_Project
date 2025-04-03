@@ -7,6 +7,7 @@
 #include "FPS_Camera.h"
 #include "TPS_Camera.h"
 #include "UI_Camera.h"
+#include "CutScene_Camera.h"
 #include "Pawn.h"
 
 CCameraManager::CCameraManager()
@@ -56,6 +57,19 @@ HRESULT CCameraManager::Initialize()
 		LEVEL_STATIC, TEXT("Layer_Camera"), &DynamicCameraDesc)))
 		return E_FAIL;
 
+	CCutScene_Camera::DESC CutSceneCameraDesc{};
+	CutSceneCameraDesc.fFar = 2000.f;
+	CutSceneCameraDesc.fNear = 0.1f;
+	CutSceneCameraDesc.fFov = 60.f;
+	CutSceneCameraDesc.vAt = { 0.f,0.f,1.f };
+	CutSceneCameraDesc.vEye = { 0.f,0.f,0.f };
+	CutSceneCameraDesc.fSpeedPerSec = 300.f;
+	CutSceneCameraDesc.fRotationPerSec = 0.f;
+
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_CutScene_Camera"),
+		LEVEL_STATIC, TEXT("Layer_Camera"), &CutSceneCameraDesc)))
+		return E_FAIL;
+
 	CUI_Camera::DESC UICameraDesc{};
 	UICameraDesc.fFar = 1000.f;
 	UICameraDesc.fNear = 0.f;
@@ -76,26 +90,6 @@ HRESULT CCameraManager::Initialize()
 
 	m_Cameras[UI]->Set_Active(TRUE);
 
-	return S_OK;
-}
-
-void CCameraManager::Priority_Update(_float fTimeDelta)
-{
-	m_Cameras[m_eID]->Priority_Update(fTimeDelta);
-}
-
-EVENT CCameraManager::Update(_float fTimeDelta)
-{
-	return	m_Cameras[m_eID]->Update(fTimeDelta);
-}
-
-void CCameraManager::Late_Update(_float fTimeDelta)
-{
-	m_Cameras[m_eID]->Late_Update(fTimeDelta);
-}
-
-HRESULT CCameraManager::Render()
-{
 	return S_OK;
 }
 
@@ -126,12 +120,14 @@ void CCameraManager::Switch(CCameraManager::ID _ID)
 
 	m_Cameras[_ID]->Set_Active(TRUE);
 	m_Cameras[_ID]->Set_Mouse_Fix(TRUE);
+	m_eID = _ID;
 
 	auto Player = static_cast<CPawn*>(GET_PLAYER);
 	
 	if (Player)
 	{
-		if (_ID == DYNAMIC)
+		if (_ID == DYNAMIC ||
+			_ID == CUTSCENE)
 			Player->Set_Active(FALSE);
 		else
 			Player->Set_Active(TRUE);
@@ -141,6 +137,11 @@ void CCameraManager::Switch(CCameraManager::ID _ID)
 void CCameraManager::Set_Mouse_Fix(_bool isFixMode)
 {
 	m_Cameras[m_eID]->Set_Mouse_Fix(isFixMode);
+}
+
+void CCameraManager::Start_CutScene(vector<_float3>* pMovePoints, vector<_float3>* pLookPoints, _float fCameraSpeed, _bool* _Out_ pEndFlag)
+{
+	static_cast<CCutScene_Camera*>(m_Cameras[CUTSCENE])->Start_CutScene(pMovePoints, pLookPoints, fCameraSpeed, pEndFlag);
 }
 
 CCameraManager* CCameraManager::Create()

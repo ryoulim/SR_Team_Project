@@ -43,8 +43,8 @@ HRESULT CLevel_Indoor::Initialize(CLevelData* pLevelData)
 	if (FAILED(Ready_Layer_Monster(TEXT("Layer_Monster"))))
 		return E_FAIL;
 
-	if (FAILED(Ready_Layer_Item(TEXT("Layer_Item"))))
-		return E_FAIL;
+	//if (FAILED(Ready_Layer_Item(TEXT("Layer_Item"))))
+	//	return E_FAIL;
 
 	return S_OK;
 }

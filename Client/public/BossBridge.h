@@ -27,17 +27,22 @@ public:
 	virtual void Late_Update(_float fTimeDelta) override;
 	virtual HRESULT Render() override;
 
-	_bool	GetTrigger() { return m_bTrigger; }
-
 private:
 	_bool m_bTrigger{};
-	_bool m_bDoOnce = false;
+	_bool m_bDoOnce{};
+	_bool m_bCutSceneEnd[3] {};
+
 	_float m_fTimeaAcc{};
 	_float m_fFallTime = {};
+
+	class CCameraManager* m_pCameraManager{ nullptr };
+
 private:
 	virtual HRESULT Ready_Components(void* pArg) override;
 	virtual void On_Trigger() override;
 
+	void BossMap_CutScene1();
+	void BossMap_CutScene2();
 public:
 	static CBossBridge* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
 	virtual CGameObject* Clone(void* pArg) override;
