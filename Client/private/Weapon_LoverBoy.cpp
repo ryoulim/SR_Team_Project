@@ -120,6 +120,7 @@ void CWeapon_LoverBoy::Set_State(STATE State)
 		m_fEndFrame = 6.f;
 		m_pTransformCom->Set_State(CTransform::STATE_POSITION, { 320.f,-105.f,0.1f });
 		m_fFrameSpeed = 50.f;
+		Search_Target();
 		break;
 	case ST_RELOAD:
 		m_pTransformCom->Set_State(CTransform::STATE_POSITION, { 320.f,-105.f,0.1f });
@@ -203,6 +204,20 @@ void CWeapon_LoverBoy::Opening(_float fTimeDelta)
 		m_pTransformCom->Rotation_Reset();
 		Set_State(ST_IDLE);
 	}
+}
+
+void CWeapon_LoverBoy::Search_Target()
+{
+	auto MonsterList = m_pGameInstance->Get_Colliders(CG_MONSTER);
+
+	// 플레이어와의 시야각에 있으면서,
+	// 플레이어와의 거리가 m_fRayLength보다는 작고 가장 가까운 3개를 탐색
+	//검사에 통과한 이터레이터 리스트
+	//list<const list<CCollider>::iterator> IterList;
+	//for (auto Monster : *MonsterList)
+	//{
+	//	Diff = 
+	//}
 }
 
 void CWeapon_LoverBoy::Left_Hand_Render()

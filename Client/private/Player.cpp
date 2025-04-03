@@ -15,6 +15,9 @@
 #define DASH_SPEED 1500.f
 #define DASH_COOLTIME 0.7f
 
+// 무적시간
+#define INVINCIBILITY_FRAMES 0.3f
+
 CPlayer::CPlayer(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CPawn{ pGraphic_Device }
 {
@@ -62,13 +65,14 @@ void CPlayer::Priority_Update(_float fTimeDelta)
 	{
 		Update_Dash(fTimeDelta);
 	}
+	else if (m_bOnLadder)
+	{
+		Ladder(fTimeDelta);
+	}
 	else
 	{
 		m_fDashTimer -= fTimeDelta;
-		if (m_bActive)
-		{
-			Key_Input(fTimeDelta);
-		}
+		Key_Input(fTimeDelta);
 	}
 	Update_Camera_Link();
 
@@ -86,11 +90,19 @@ EVENT CPlayer::Update(_float fTimeDelta)
 	printf("플레이어 Z : %f\n", vPosition.z);
 
 #endif
-	//if (m_bDead)
-	//	return EVN_DEAD;
-
 	if (!m_bActive)
 		return EVN_NONE;
+
+	// 피격 후 무적시간 계산
+	if (m_bOnHit)
+	{
+		m_fOnHitTimer += fTimeDelta;
+		if (m_fOnHitTimer > DASH_COOLTIME)
+		{
+			m_bOnHit = FALSE;
+			m_fOnHitTimer = 0.f;
+		}
+	}
 
 	m_Weapons[m_iCurWeaponIndex]->Update(fTimeDelta);
 
@@ -108,9 +120,13 @@ void CPlayer::Late_Update(_float fTimeDelta)
 
 	m_Weapons[m_iCurWeaponIndex]->Late_Update(fTimeDelta);
 
+	
 	m_pCollider->Update_Collider();
 
-	m_pGravityCom->Update(fTimeDelta);
+	if (m_bOnLadder)
+		m_bOnLadder = FALSE;
+	else
+		m_pGravityCom->Update(fTimeDelta);
 
 	__super::Late_Update(fTimeDelta);	
 }
@@ -131,17 +147,8 @@ void CPlayer::On_Collision(_uint MyColliderID, _uint OtherColliderID)
 		Change_Level();
 		break;
 
-	case CI_INTERACTIVE_LAVA:
-		m_tInfo.iHP--;
-		break;
-		
-	case CI_INTERACTIVE_LADDER:
-	{
-		int a = 1;
-	}
-		break;
-
 	case CI_BLOCK_COMMON:
+	{
 		_float3 vPos = *m_pTransformCom->Get_State(CTransform::STATE_POSITION);
 		_float3 vPos2 = *m_pCameraTransform->Get_State(CTransform::STATE_POSITION);
 
@@ -155,6 +162,69 @@ void CPlayer::On_Collision(_uint MyColliderID, _uint OtherColliderID)
 		m_pCameraTransform->Set_State(CTransform::STATE_POSITION, vPos2);
 
 		m_pGraphic_Device->SetTransform(D3DTS_VIEW, &m_pCameraTransform->Get_WorldMatrix_Inverse());
+		break;
+	}
+
+		/* 인터렉션 */
+	case CI_INTERACTIVE_LAVA:
+		On_Hit(5);
+		break;
+
+	case CI_INTERACTIVE_LADDER:
+		m_bOnLadder = TRUE;
+		m_pGravityCom->Stop_Jump();
+		break;
+
+	case CI_INTERACTIVE_SECURITY:
+		// 카드키 UI를 활성화 시킨다.
+		// 만약 E키를 눌렀다면
+		// 1. 손이 올라옴
+		// 2. 이후에 문이 열림 << 근데 이거 두 개다 오브젝트쪽에서 하면 되는거 아니냐?
+		break;
+
+		/* 몬스터 투사체*/
+	case CI_MONSTER_SHOTGUNNER:
+		On_Hit(10);
+		break;
+	case CI_MONSTER_CULTIST:
+		On_Hit(10);
+		break;
+	case CI_MONSTER_GREATER:
+		On_Hit(10);
+		break;
+	case CI_MONSTER_DEACON:
+		On_Hit(10);
+		break;
+	case CI_MONSTER_NUKEMUTANT:
+		On_Hit(10);
+		break;
+	case CI_MONSTER_ARCHANGEL:
+		On_Hit(10);
+
+		/* 몬스터 몸박*/
+		break;
+	case CI_MONSTER_MECHSECT:
+		On_Hit(10);
+		break;
+	case CI_MONSTER_WENTEKO:
+		On_Hit(10);
+		break;
+
+		/*보스 스킬*/
+	case CI_BOSS_FIRE:
+		On_Hit(10);
+		break;
+	case CI_BOSS_BULLET:
+		On_Hit(10);
+		break; 
+	case CI_BOSS_JUMP:
+		On_Hit(10);
+		break;
+	case CI_BOSS_GUIDBULLET:
+		On_Hit(10);
+		break;
+	case CI_BOSS_TANGTANG:
+		On_Hit(10);
 		break;
 	}
 }
@@ -180,6 +250,7 @@ void CPlayer::Add_Weapons()
 {
 	CWeapon::DESC WeaponDesc{};
 	WeaponDesc.pPlayerTransform = m_pTransformCom;
+	WeaponDesc.eLevelID = m_eLevelID;
 
 	WeaponDesc.fSpeedPerSec = 600.f;
 	m_Weapons.push_back(
@@ -336,6 +407,33 @@ void CPlayer::Update_Dash(_float fTimeDelta)
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION,vPos);
 
 	m_vDashDirection *= 0.85f;
+}
+
+void CPlayer::Ladder(_float fTimeDelta)
+{
+	if (KEY_PRESSING(DIK_W))
+	{
+		m_pTransformCom->Go_Down(fTimeDelta);
+	}
+
+	if (KEY_PRESSING(DIK_S))
+	{
+		m_pTransformCom->Go_Up(fTimeDelta);
+	}
+}
+
+void CPlayer::On_Hit(_uint iDamage)
+{
+	if (m_bOnHit)
+		return;
+
+	iDamage -= m_tInfo.iArmor;
+	m_tInfo.iArmor -= iDamage;
+	if (m_tInfo.iArmor < 0)
+		m_tInfo.iArmor = 0;
+	m_tInfo.iHP -= iDamage;
+
+	m_bOnHit = TRUE;
 }
 
 CPlayer* CPlayer::Create(LPDIRECT3DDEVICE9 pGraphic_Device)

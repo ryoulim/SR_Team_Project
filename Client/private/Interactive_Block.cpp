@@ -13,66 +13,68 @@ CInteractive_Block::CInteractive_Block(const CInteractive_Block& Prototype)
 {
 }
 
-HRESULT CInteractive_Block::Initialize_Prototype()
+HRESULT CInteractive_Block::Ready_Components(void* pArg)
 {
-	return S_OK;
-}
+    __super::Ready_Components(pArg);
 
-HRESULT CInteractive_Block::Initialize(void* pArg)
-{
-	m_szTextureID = TEXT("Interactive_Block");
-	m_szBufferType = TEXT("Rect");
+    if (nullptr != pArg)
+    {
+        DESC* pDesc = static_cast<DESC*>(pArg);
 
-	if (FAILED(__super::Initialize(pArg)))
-		return E_FAIL;
+        if (pDesc->bCollision)
+        {
+            CCollider::DESC ColliderDesc{};
+            ColliderDesc.pTransform = m_pTransformCom;
+            ColliderDesc.vScale = m_pTransformCom->Compute_Scaled();
+            ColliderDesc.pOwner = this;
+            ColliderDesc.iColliderGroupID = CG_INTERACTIVE;
+            ColliderDesc.iColliderID = CI_INTERACTIVE_LADDER;
 
-	return S_OK;
-}
+            auto& vAngle = static_cast<DESC*>(pArg)->vAngle;
 
-void CInteractive_Block::Priority_Update(_float fTimeDelta)
-{
-	__super::Priority_Update(fTimeDelta);
-}
+            const _float rightAngles[] = {
+                0.f,
+                0.5f * PI,
+                1.0f * PI,
+                1.5f * PI
+            };
+            _bool isRightX = false, isRightY = false, isRightZ = false;
+            _bool isZeroX = fabsf(vAngle.x) < FLT_EPSILON;
+            _bool isZeroY = fabsf(vAngle.y) < FLT_EPSILON;
+            _bool isZeroZ = fabsf(vAngle.z) < FLT_EPSILON;
 
-EVENT CInteractive_Block::Update(_float fTimeDelta)
-{
-	return __super::Update(fTimeDelta);
-}
+            // 직각 각도인지 체크
+            for (_uint i = 0; i < 4; ++i)
+            {
+                if (fabsf(vAngle.x - rightAngles[i]) < FLT_EPSILON) isRightX = true;
+                if (fabsf(vAngle.y - rightAngles[i]) < FLT_EPSILON) isRightY = true;
+                if (fabsf(vAngle.z - rightAngles[i]) < FLT_EPSILON) isRightZ = true;
+            }
 
-void CInteractive_Block::Late_Update(_float fTimeDelta)
-{
-	__super::Late_Update(fTimeDelta);
-}
+            _bool isAllZero = isZeroX && isZeroY && isZeroZ;
+            _bool isAllRightAngle = isRightX && isRightY && isRightZ;
 
-HRESULT CInteractive_Block::Render()
-{
-	return __super::Render();
-}
+            if (isAllRightAngle)
+            {
+                if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Collider_AABB_Cube"),
+                    TEXT("Com_Collider"), reinterpret_cast<CComponent**>(&m_pColliderCom), &ColliderDesc)))
+                    return E_FAIL;
 
-CInteractive_Block* CInteractive_Block::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
-{
-	CInteractive_Block* pInstance = new CInteractive_Block(pGraphic_Device);
+                if (!isAllZero)
+                {
+                    static_cast<CCollider_AABB_Cube*>(m_pColliderCom)->Update_Rotation(vAngle);
+                }
+            }
+            else
+            {
+                if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Collider_OBB_Cube"),
+                    TEXT("Com_Collider"), reinterpret_cast<CComponent**>(&m_pColliderCom), &ColliderDesc)))
+                    return E_FAIL;
+            }
+        }
+    }
 
-	if (FAILED(pInstance->Initialize_Prototype()))
-	{
-		MSG_BOX("Failed to Created : CInteractive_Block");
-		Safe_Release(pInstance);
-	}
-
-	return pInstance;
-}
-
-CGameObject* CInteractive_Block::Clone(void* pArg)
-{
-	CInteractive_Block* pInstance = new CInteractive_Block(*this);
-
-	if (FAILED(pInstance->Initialize(pArg)))
-	{
-		MSG_BOX("Failed to Clone : CInteractive_Block");
-		Safe_Release(pInstance);
-	}
-
-	return pInstance;
+    return S_OK;
 }
 
 void CInteractive_Block::Free()

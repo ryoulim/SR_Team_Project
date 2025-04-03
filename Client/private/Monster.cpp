@@ -135,6 +135,15 @@ HRESULT CMonster::Render()
 		return E_FAIL;
 	Release_RenderState();
 
+#ifdef _COLLIDERRENDER
+
+	static bool bRenderMode{ FALSE };
+	if (KEY_DOWN(DIK_F8))
+		bRenderMode = !bRenderMode;
+	if (m_pCollider && bRenderMode)
+		m_pCollider->Render();
+#endif
+
 	return S_OK;
 }
 

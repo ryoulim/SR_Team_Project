@@ -43,7 +43,13 @@ private:
 	_float3						m_vPrePosition{};
 	_float3						m_vDashDirection{};
 	_float						m_fDashTimer{};
+	
+	// 사다리
+	_bool						m_bOnLadder{};
 
+	//히트 관련
+	_bool						m_bOnHit{};
+	_float						m_fOnHitTimer{};
 private:
 	virtual HRESULT Ready_Components(void* pArg);
 
@@ -52,6 +58,8 @@ private:
 	void			Init_Camera_Link();
 	void			Update_Camera_Link();
 	void			Update_Dash(_float fTimeDelta);
+	void			Ladder(_float fTimeDelta);
+	void			On_Hit(_uint iDamage);
 
 public:
 	static CPlayer* Create(LPDIRECT3DDEVICE9 pGraphic_Device);

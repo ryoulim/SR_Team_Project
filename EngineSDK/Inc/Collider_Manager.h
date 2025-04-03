@@ -29,6 +29,12 @@ public:
 	// 아래로의 레이 캐스트 (y 포지션 반환, 피킹된 평면의 노말이 필요할시 Get_Last_Ray_Normal 호출)
 	_float Raycast_Downward(const _float3& rayOrigin, _uint iColliderGroupID);
 
+	const list<class CCollider*>* Get_Colliders(_uint iIndex) {
+		if (iIndex >= m_iNumGroups)
+			return nullptr;
+		return &m_pColliders[iIndex];
+	}
+
 private:
 	_uint										m_iNumGroups = {};
 	list<class CCollider*>*						m_pColliders = { nullptr };
