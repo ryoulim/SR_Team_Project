@@ -6,7 +6,7 @@ BEGIN(Client)
 class CCameraSprite final : public CEffect
 {
 public:
-	enum eEffectType { GUNFIRE , BULLETTRACER, FIRE, DASH , NONE };
+	enum eEffectType { GUNFIRE , BULLETTRACER, FIRE, DASH , CHAINGUN, SHOTGUN , SHOTGUNFIRE , NONE };
 public:
 	typedef struct tagSpriteDesc : public CEffect::DESC
 	{

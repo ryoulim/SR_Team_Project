@@ -325,7 +325,28 @@ void CFXMgr::SpawnGunFire(_float3 _ScreenPos, LEVEL eLevel)
 		eLevel, L"Layer_Particle", ppOut, &SpriteDesc)))
 		return;
 
-	//m_vecSceenEffect.push_back(dynamic_cast<CCameraSprite*>(*ppOut));
+}
+
+void CFXMgr::SpawnShotGunFire(_float3 _ScreenPos, LEVEL eLevel)
+{
+	CCameraSprite::DESC SpriteDesc{};
+	SpriteDesc.bActive = false;
+	SpriteDesc.fMaxFrame = 4;
+	SpriteDesc.fRotationPerSec = RADIAN(180.f);
+	SpriteDesc.fSpeedPerSec = 100.f;
+	SpriteDesc.szTextureTag = TEXT("ShotGunFire");
+	SpriteDesc.vInitPos = _ScreenPos;
+	SpriteDesc.vScale = _float3{ 200.f, 200.f, 1.f };
+	SpriteDesc.fAniSpeed = 20.f;
+	SpriteDesc.bRandom = false;
+	SpriteDesc.eEffectType = CCameraSprite::eEffectType::SHOTGUNFIRE;
+
+	CGameObject* pObject = nullptr;
+	CGameObject** ppOut = &pObject;
+	if (FAILED(m_pGameInstance->Add_GameObjectReturn(LEVEL_STATIC, TEXT("Prototype_GameObject_PC_CameraSprite"),
+		eLevel, L"Layer_Particle", ppOut, &SpriteDesc)))
+		return;
+
 }
 void CFXMgr::SpawnBulletTracer(_float3 _ScreenPos, LEVEL eLevel)
 {
@@ -354,25 +375,45 @@ void CFXMgr::SpawnBulletTracerMachineGun(_float3 _ScreenPos, LEVEL eLevel)
 {
 	CCameraSprite::DESC SpriteDesc{};
 	SpriteDesc.bActive = false;
-	SpriteDesc.fMaxFrame = 1;
+	SpriteDesc.fMaxFrame = 4;
 	SpriteDesc.fRotationPerSec = RADIAN(180.f);
 	SpriteDesc.fSpeedPerSec = 100.f;
-	//SpriteDesc.szTextureTag = TEXT("Effect_RevolverTacer");
-	SpriteDesc.szTextureTag = TEXT("Check_Tile");
+	SpriteDesc.szTextureTag = TEXT("ChainGunTracer");
 	SpriteDesc.vInitPos = _ScreenPos;
 	SpriteDesc.vScale = _float3{ 200.f, 200.f, 1.f };
-	SpriteDesc.fAniSpeed = 30.f;
+	SpriteDesc.fAniSpeed = 20.f;
 	SpriteDesc.bRandom = false;
-	SpriteDesc.eEffectType = CCameraSprite::eEffectType::BULLETTRACER;
+	SpriteDesc.eEffectType = CCameraSprite::eEffectType::CHAINGUN;
 
 	CGameObject* pObject = nullptr;
 	CGameObject** ppOut = &pObject;
 	if (FAILED(m_pGameInstance->Add_GameObjectReturn(LEVEL_STATIC, TEXT("Prototype_GameObject_PC_CameraSprite"),
 		eLevel, L"Layer_Particle", ppOut, &SpriteDesc)))
 		return;
-
-	//m_vecSceenEffect.push_back(dynamic_cast<CCameraSprite*>(*ppOut));
 }
+
+void CFXMgr::SpawnShotGunTracer(_float3 _ScreenPos, LEVEL eLevel)
+{
+	CCameraSprite::DESC SpriteDesc{};
+	SpriteDesc.bActive = false;
+	SpriteDesc.fMaxFrame = 3;
+	SpriteDesc.fRotationPerSec = RADIAN(180.f);
+	SpriteDesc.fSpeedPerSec = 100.f;
+	SpriteDesc.szTextureTag = TEXT("ShotGunTracer");
+	SpriteDesc.vInitPos = _ScreenPos;
+	SpriteDesc.vScale = _float3{ 200.f, 200.f, 1.f };
+	SpriteDesc.fAniSpeed = 20.f;
+	SpriteDesc.bRandom = false;
+	SpriteDesc.eEffectType = CCameraSprite::eEffectType::CHAINGUN;
+
+	CGameObject* pObject = nullptr;
+	CGameObject** ppOut = &pObject;
+	if (FAILED(m_pGameInstance->Add_GameObjectReturn(LEVEL_STATIC, TEXT("Prototype_GameObject_PC_CameraSprite"),
+		eLevel, L"Layer_Particle", ppOut, &SpriteDesc)))
+		return;
+}
+
+
 void CFXMgr::SpawnGunFireMachineGun(_float3 _ScreenPos, LEVEL eLevel)
 {
 	CCameraSprite::DESC SpriteDesc{};
