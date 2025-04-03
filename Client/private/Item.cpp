@@ -38,21 +38,16 @@ EVENT CItem::Update(_float fTimeDelta)
 	if (m_bDead)
 		return EVN_DEAD;
 
-	m_pTransformCom->Go_Up(fTimeDelta * m_fDirection);
+	//ÇÔ¼ö µþ±ï
+	//HarmonicMoveY(_float fWaveHegiht, _float fStdheight, _float fTimeDelta);
+	m_pTransformCom->HarmonicMoveY(2.f, 30.f, fTimeDelta);
 
 	return EVN_NONE;
 }
 
 void CItem::Late_Update(_float fTimeDelta)
 {
-	m_pTransformCom->Billboard();
-
 	m_pCollider->Update_Collider();
-
-	if (m_pTransformCom->Get_State(CTransform::STATE_POSITION)->y < 45.f
-		|| m_pTransformCom->Get_State(CTransform::STATE_POSITION)->y > 55.f)
-		m_fDirection *= -1.f;
-	
 
 	if (FAILED(m_pGameInstance->Add_RenderGroup(CRenderer::RG_NONBLEND, this)))
 		return;
@@ -60,8 +55,10 @@ void CItem::Late_Update(_float fTimeDelta)
 
 HRESULT CItem::Render()
 {
-	if (FAILED(m_pTransformCom->Bind_Resource()))
-		return E_FAIL;
+	//if (FAILED(m_pTransformCom->Bind_Resource()))
+	//	return E_FAIL;
+
+	m_pGraphic_Device->SetTransform(D3DTS_WORLD, &m_pTransformCom->Billboard());
 
 	if (FAILED(m_pTextureCom->Bind_Resource(static_cast<_uint>(m_fTextureNum))))
 		return E_FAIL;

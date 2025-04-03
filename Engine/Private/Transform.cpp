@@ -501,6 +501,17 @@ void CTransform::Move(const _float3& vDirectionVector, _float fTimeDelta)
 	Set_State(CTransform::STATE_POSITION, vPos);
 }
 
+void CTransform::HarmonicMoveY(_float fWaveHegiht, _float fStdheight, _float fTimeDelta)
+{
+	_float vPosX = Get_State(CTransform::STATE_POSITION)->x;
+	_float vPosZ = Get_State(CTransform::STATE_POSITION)->z;
+
+	//시간 누적
+	m_fHarmonicTime += fTimeDelta;
+
+	Set_State(CTransform::STATE_POSITION, _float3(vPosX, fWaveHegiht * sinf(RADIAN(m_fSpeedPerSec * m_fHarmonicTime)) + fStdheight, vPosZ));
+}
+
 void CTransform::Quaternion_Turn(const _float3& vAngle)
 {
 	_float3			vRight = *Get_State(STATE_RIGHT);

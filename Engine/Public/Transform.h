@@ -91,6 +91,7 @@ public:
 
 	void Move(const _float3& vDirectionVector);
 	void Move(const _float3& vDirectionVector, _float fTimeDelta);
+	void HarmonicMoveY(_float fWaveHegiht, _float fStdheight, _float fTimeDelta);
 
 	void Quaternion_Turn(const _float3& vAngle);
 	void Quaternion_Rotation(const _float3& vAngle);
@@ -106,6 +107,7 @@ private:
 	_float					m_fSpeedPerSec = {};
 	_float					m_fRotationPerSec = {};
 	static _float4x4		m_Return;
+	_float					m_fHarmonicTime = {};
 
 private:
 	_float3 RotateVectorByQuaternion(const _float3& v, const D3DXQUATERNION& q);

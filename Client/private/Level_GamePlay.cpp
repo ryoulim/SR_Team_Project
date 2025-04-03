@@ -217,7 +217,7 @@ HRESULT CLevel_GamePlay::Ready_Layer_Item(const _wstring& strLayerTag)
 	ItemDesc.vInitPos = { 1200.f, 50.f, 1500.f };
 	ItemDesc.vScale = { 10.f, 10.f, 10.f };
 	ItemDesc.fRotationPerSec = RADIAN(0.f);
-	ItemDesc.fSpeedPerSec = 5.f;
+	ItemDesc.fSpeedPerSec = 300.f;
 	ItemDesc.eLevelID = CurLevel;
 	ItemDesc.szBufferType = TEXT("Cube");
 	ItemDesc.szTextureID = TEXT("Item_Ammo");
@@ -231,11 +231,6 @@ HRESULT CLevel_GamePlay::Ready_Layer_Item(const _wstring& strLayerTag)
 
 	ItemDesc.vInitPos = { 1300.f, 50.f, 1500.f };
 	ItemDesc.vScale = { 10.f, 10.f, 10.f };
-	ItemDesc.fRotationPerSec = RADIAN(0.f);
-	ItemDesc.fSpeedPerSec = 5.f;
-	ItemDesc.eLevelID = CurLevel;
-	ItemDesc.szBufferType = TEXT("Cube");
-	ItemDesc.szTextureID = TEXT("Item_Ammo");
 	ItemDesc.fTextureNum = 1.f;
 	ItemDesc.eColID = COLLIDER_ID::CI_ITEM_AMMO_DISPENSER_SCATTER;
 
@@ -246,11 +241,6 @@ HRESULT CLevel_GamePlay::Ready_Layer_Item(const _wstring& strLayerTag)
 
 	ItemDesc.vInitPos = { 1400.f, 50.f, 1500.f };
 	ItemDesc.vScale = { 10.f, 10.f, 10.f };
-	ItemDesc.fRotationPerSec = RADIAN(0.f);
-	ItemDesc.fSpeedPerSec = 5.f;
-	ItemDesc.eLevelID = CurLevel;
-	ItemDesc.szBufferType = TEXT("Cube");
-	ItemDesc.szTextureID = TEXT("Item_Ammo");
 	ItemDesc.fTextureNum = 2.f;
 	ItemDesc.eColID = COLLIDER_ID::CI_ITEM_AMMO_DISPENSER_CANNON;
 
@@ -262,10 +252,6 @@ HRESULT CLevel_GamePlay::Ready_Layer_Item(const _wstring& strLayerTag)
 	ItemDesc.vInitPos = { 1500.f, 50.f, 1500.f };
 	ItemDesc.vScale = { 10.f, 10.f, 10.f };
 	ItemDesc.fRotationPerSec = RADIAN(0.f);
-	ItemDesc.fSpeedPerSec = 5.f;
-	ItemDesc.eLevelID = CurLevel;
-	ItemDesc.szBufferType = TEXT("Cube");
-	ItemDesc.szTextureID = TEXT("Item_Ammo");
 	ItemDesc.fTextureNum = 3.f;
 	ItemDesc.eColID = COLLIDER_ID::CI_ITEM_AMMO_LOVERBOY;
 
