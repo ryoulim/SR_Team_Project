@@ -83,13 +83,46 @@ void CMap::On_Collision(_uint MyColliderID, _uint OtherColliderID)
 		/* [ 충돌한 면의 노말 벡터 ] */
 		_float3 vLook = CCollider::Get_Last_Collision_Depth().Normalize();
 
-		if (m_fTextureIdx == 93)
+
+		/* 콘크리트 총알 자국_0 */
+		if (m_fTextureIdx == 98 || m_fTextureIdx == 62)
+		{
+			FX_MGR->SpawnBulletMark(CCollider::Get_Last_Collision_Pos(), m_eLevelID, vLook, 0);
+		}
+		/* 유리 총알 자국 */
+		else if (m_fTextureIdx == 116)
+		{
+			FX_MGR->SpawnBulletMark(CCollider::Get_Last_Collision_Pos(), m_eLevelID, vLook, 1);
+		}
+		/* 콘크리트 총알 자국_1 */
+		else if (m_fTextureIdx == 93 || m_fTextureIdx == 99 || m_fTextureIdx == 127)
 		{
 			FX_MGR->SpawnBulletMark(CCollider::Get_Last_Collision_Pos(), m_eLevelID, vLook, 2);
 		}
+		/* 콘크리트 총알 자국_2 */
+		else if (m_fTextureIdx == 108 || m_fTextureIdx == 109)
+		{
+			FX_MGR->SpawnBulletMark(CCollider::Get_Last_Collision_Pos(), m_eLevelID, vLook, 3);
+		}
+		/* 나무 총알 자국 */
+		else if (m_fTextureIdx == 32 || m_fTextureIdx == 128 || m_fTextureIdx == 130 || m_fTextureIdx == 132 || m_fTextureIdx == 133)
+		{
+			FX_MGR->SpawnBulletMark(CCollider::Get_Last_Collision_Pos(), m_eLevelID, vLook, 4);
+		}
+		/* 콘크리트 총알 자국_3 */
+		else if (m_fTextureIdx == 0 || m_fTextureIdx == 18 || m_fTextureIdx == 118)
+		{
+			FX_MGR->SpawnBulletMark(CCollider::Get_Last_Collision_Pos(), m_eLevelID, vLook, 5);
+		}
+		/* 금속 총알 자국 */
+		else if (m_fTextureIdx == 20 || m_fTextureIdx == 137 || m_fTextureIdx == 2 || m_fTextureIdx == 23 || m_fTextureIdx == 25 ||
+			m_fTextureIdx == 110 || m_fTextureIdx == 114 || m_fTextureIdx == 115 || m_fTextureIdx == 120)
+		{
+			FX_MGR->SpawnBulletMark(CCollider::Get_Last_Collision_Pos(), m_eLevelID, vLook, 6);
+		}
 		else
 		{
-			FX_MGR->SpawnBlood(CCollider::Get_Last_Collision_Pos(), m_eLevelID);
+			FX_MGR->SpawnBulletMark(CCollider::Get_Last_Collision_Pos(), m_eLevelID, vLook, 0);
 		}
 
 	}

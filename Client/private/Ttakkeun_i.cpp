@@ -590,6 +590,17 @@ void CTtakkeun_i::MissileAttack(_float dt)
 
 void CTtakkeun_i::SpawnAttack(_float dt)
 {
+	/* [ 만약 스폰된 다콘이 6마리가 넘어가면 다른 패턴을 실행하라 ] */
+	auto IsMonster = CGameInstance::Get_Instance()->Find_Objects(LEVEL_GAMEPLAY, L"Layer_Monster");
+	if (IsMonster)
+	{
+		if (IsMonster->size() > 5)
+		{
+			m_iRandom = 3;
+			return;
+		}
+	}
+
 	/* [ 다콘 소환 패턴 ] */
 
 	/* 1. 다콘을 허공에서 소환한다. */
@@ -620,7 +631,7 @@ void CTtakkeun_i::SpawnAttack(_float dt)
 	//다콘 소환
 	if (!m_bDoOnce)
 	{
-		for (int i = 0; i < 8; i++)
+		for (int i = 0; i < 4; i++)
 		{
 			_float3 vRandomPos = *m_pTransformCom->Get_State(CTransform::STATE_POSITION);
 			vRandomPos.x += GetRandomFloat(-300.f, 300.f);

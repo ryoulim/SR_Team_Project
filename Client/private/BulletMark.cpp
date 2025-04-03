@@ -37,7 +37,7 @@ HRESULT CBulletMark::Initialize(void* pArg)
 
 	/* ·èº¤ÅÍ ¹æÇâÀ¸·Î È¸Àü */
 	m_pTransformCom->Turn_BulletMark(m_vLook);
-	//m_pTransformCom->Move_Forward_ByLook(0.5f);
+	m_pTransformCom->Move_Forward_ByLook(0.5f);
 
 	return S_OK;
 }
