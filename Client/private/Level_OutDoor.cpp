@@ -20,6 +20,10 @@ HRESULT CLevel_OutDoor::Initialize(CLevelData* pLevelData)
 	if (FAILED(Load_Map(LEVEL_OUTDOOR, TEXT("OutDoorMapData.txt"))))
 		return E_FAIL;
 
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_Sky"),
+		CurLevel, TEXT("Layer_Sky"))))
+		return E_FAIL;
+
 	if (FAILED(Ready_Layer_Camera(TEXT("Layer_Camera"))))
 		return E_FAIL;
 
@@ -36,10 +40,15 @@ HRESULT CLevel_OutDoor::Initialize(CLevelData* pLevelData)
 
 	return S_OK;
 }
-
+#include "Level_Loading.h"
 void CLevel_OutDoor::Update(_float fTimeDelta)
 {
 	Check_Collision();
+	if (m_iNextLevel)
+	{
+		m_pGameInstance->Change_Level(LEVEL_LOADING,
+			CLevel_Loading::Create(m_pGraphic_Device, (LEVEL)m_iNextLevel));
+	}
 }
 
 HRESULT CLevel_OutDoor::Render()
@@ -338,7 +347,7 @@ HRESULT CLevel_OutDoor::Ready_Layer_Camera(const _wstring& strLayerTag)
 HRESULT CLevel_OutDoor::Ready_Layer_Pawn(const _wstring& strLayerTag)
 {
 	//이 레벨의 플레이어 생성위치
-	_float3 vInitPosition = { 300.f, 300.f, 200.f };
+	_float3 vInitPosition = { 1938.f, 771.f, - 127.f};
 
 	//// 플레이어가 있는지 체크하고 있으면 위치만 변경해줌.
 	//auto pPlayer = GET_PLAYER;
