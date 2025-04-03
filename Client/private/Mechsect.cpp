@@ -61,7 +61,7 @@ HRESULT CMechsect::Initialize(void* pArg)
 
 void CMechsect::Priority_Update(_float fTimeDelta)
 {
-	Set_Animation();
+	//Set_Animation();
 	__super::Priority_Update(fTimeDelta);
 }
 
@@ -158,19 +158,53 @@ void CMechsect::DoDetect(_float dt)
 {
 	// 감지 가능 거리 이내일 때 / 감지 상태 중 추격 가능 거리일 때
 	ChasePlayer(dt, 50.f);
-	m_bJumpEnd = false;
+	//m_bJumpEnd = false;
 	m_eCurMonsterState = STATE_MOVE;
 }
 
+void CMechsect::JumpPattern(_float dt)
+{
+
+	switch (m_eJumpState)
+	{
+	case Client::CMechsect::JUMP_BEFORE:
+		m_fJumpFinished = 0.f;
+		m_fAnimationFrame = 0.f;
+		m_pGravityCom->Jump(20.f);
+		m_eJumpState = JUMP_ING;
+		break;
+
+	case Client::CMechsect::JUMP_ING:
+		m_fAnimationFrame += dt * m_fAnimationSpeed;
+		if (m_fAnimationFrame >= 2.f)
+			m_fAnimationFrame = 2.f;
+		m_pTransformCom->Go_Straight(dt * 5.f);
+		if (!m_pGravityCom->isJump())
+			m_eJumpState = JUMP_AFTER;
+		break;
+
+	case Client::CMechsect::JUMP_AFTER:
+		m_fAnimationFrame = 3.f;
+		m_fJumpFinished += dt;
+		if (m_fJumpFinished >= 0.2f)
+			m_bCoolingDown = true;
+		break;
+
+	default:
+		break;
+	}
+}
 
 void CMechsect::DoReady(_float dt)
 {
-	m_bJumpEnd = false;
+	//m_bJumpEnd = false;
 	m_fCooldownDuration += dt;
 	if (m_fCooldownDuration >= m_fCooldownTime)
 	{
 		m_isReadyToAttack = true;
 		m_fCooldownDuration = 0.f;
+		m_bJump = false;
+		m_eJumpState = JUMP_BEFORE;
 	}
 	m_fAnimationFrame = 0.f;
 	_float3 TargetPos = *static_cast<CTransform*>(m_pTargetPlayer->Find_Component(L"Com_Transform"))->Get_State(CTransform::STATE_POSITION);
@@ -241,48 +275,7 @@ void CMechsect::AttackPattern(_float dt)
 	// 실제 공격 패턴 작성하는 곳
 	m_eCurMonsterState = STATE_JUMP;
 
-	if (!m_pGravityCom->isJump())
-	{
-		m_pGravityCom->Jump(30.f);
-	}
-	if (m_fAnimationSpeed < 1.f)
-	{
-		m_fAttackTimer += dt;
-		if (m_fAttackTimer >= 0.3f)
-		{
-			m_bCoolingDown = true;
-			m_fAttackTimer = 0.f;
-		}
-	}
-	else
-		m_pTransformCom->Go_Straight(dt);
-	//if (!m_bJump && m_fAnimationFrame >= 1.f)
-	//{
-	//	m_bJump = true;
-	//	m_pGravityCom->Jump(30.f);
-	//}
-
-	//if (m_bJump && !m_pGravityCom->isJump())
-	//{
-	//	m_bJumpEnd = true;
-	//}
-
-	//if (m_bJumpEnd)
-	//{
-	//	m_fJumpFinished += dt;
-	//	if (m_fJumpFinished >= 0.3f)
-	//	{
-	//		m_fJumpFinished = 0.f;
-	//		m_bJump = false;
-	//		m_bJumpEnd = false;
-	//		//m_eState = MODE_READY;
-	//		m_bCoolingDown = true;
-	//	}
-	//}
-	//else
-	//{
-	//	m_pTransformCom->Go_Straight(dt);
-	//}
+	JumpPattern(dt);
 
 }
 
@@ -451,18 +444,20 @@ HRESULT CMechsect::Animate_Monster(_float fTimeDelta)
 		m_bRotateAnimation = true;
 		break;
 	case Client::CMechsect::STATE_JUMP:
-		m_fAnimationFrame += fTimeDelta * m_fAnimationSpeed;
-		if (m_fAnimationFrame >= m_fAnimationMaxFrame - 2.f)
-		{
-			m_fAnimationFrame = m_fAnimationMaxFrame - 2.f;
-			m_fAnimationSpeed = 0.f;
-		}
-		if (!m_pGravityCom->isJump() && m_fAnimationSpeed < 1.f)
-		{
-			m_fAnimationFrame = m_fAnimationMaxFrame - 1.f; // 착지?
-			m_bJumpEnd = true;
-		}
-		m_bRotateAnimation = true;
+	//	m_fAnimationFrame += fTimeDelta * m_fAnimationSpeed;
+	//	if (!m_pGravityCom->isJump())// && m_fAnimationSpeed < 1.f)
+	//	{
+	//		if(m_fAnimationFrame < 2.5f)
+	//			m_fAnimationFrame = 3.f;
+	//		//m_fAnimationFrame = m_fAnimationMaxFrame - 1.f; // 착지?
+	//		//m_bJumpEnd = true;
+	//	}
+	//	else if (m_fAnimationFrame >= 2.f)
+	//	{
+	//		m_fAnimationFrame = 2.f;
+	//		//m_fAnimationSpeed = 0.f;
+	//	}
+	//	m_bRotateAnimation = true;
 		break;
 	case Client::CMechsect::STATE_DEAD:
 		m_fAnimationFrame += fTimeDelta * m_fAnimationSpeed;

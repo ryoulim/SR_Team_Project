@@ -59,7 +59,6 @@ HRESULT CShotgunner::Initialize(void* pArg)
 
 void CShotgunner::Priority_Update(_float fTimeDelta)
 {
-	Set_Animation();
 	__super::Priority_Update(fTimeDelta);
 }
 
@@ -258,7 +257,7 @@ void CShotgunner::AttackPattern(_float dt)
 		MonsterNormalBullet_iDesc.fSpeedPerSec = 1000.f;
 		// ÃÑ¾Ë ¼ÓµµÀÓ
 		MonsterNormalBullet_iDesc.fRotationPerSec = RADIAN(180.f);
-		MonsterNormalBullet_iDesc.vScale = { 2.f, 2.f, 0.f };
+		MonsterNormalBullet_iDesc.vScale = { 2.f, 2.f, 1.f };
 		// ÃÑ¾Ë Å©±âÀÓ
 		MonsterNormalBullet_iDesc.vPosition = *m_pTransformCom->Get_State(CTransform::STATE_POSITION);
 		MonsterNormalBullet_iDesc.vPosition.y += 15.f;

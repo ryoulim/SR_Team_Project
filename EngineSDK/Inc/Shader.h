@@ -7,7 +7,7 @@ BEGIN(Engine)
 class ENGINE_DLL CShader final : public CComponent
 {
 public:
-	enum TYPE {COLOR, ALPHA, MASKING, SHADE};
+	enum TYPE {COLOR, ALPHA, MASKING, SHADE, SANDEVISTAN};
 	enum DH_TYPE {SMOKE, BOSSMISSILE, DEBUG, FIREATTECK};
 private:
 	CShader(LPDIRECT3DDEVICE9 pGraphic_Device);

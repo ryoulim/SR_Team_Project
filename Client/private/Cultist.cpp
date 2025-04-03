@@ -164,14 +164,14 @@ void CCultist::DoDetect(_float dt)
 }
 
 
-_bool CCultist::IsMonsterAbleToAttack()
-{
-	// 여기 레이캐스팅으로 플레이어와 몬스터 사이 장애물 유무 체크
-	m_fRaycastTicker = 0.f;
-	if (m_fCurDistance > m_fAttackDistance)
-		return false;
-	return Raycast_Player();
-}
+//_bool CCultist::IsMonsterAbleToAttack()
+//{
+//	// 여기 레이캐스팅으로 플레이어와 몬스터 사이 장애물 유무 체크
+//	m_fRaycastTicker = 0.f;
+//	if (m_fCurDistance > m_fAttackDistance)
+//		return false;
+//	return Raycast_Player();
+//}
 
 void CCultist::DoReady(_float dt)
 {
@@ -267,7 +267,7 @@ void CCultist::AttackPattern(_float dt)
 		MonsterNormalBullet_iDesc.iColliderID = CI_MONSTER_CULTIST;
 		MonsterNormalBullet_iDesc.fSpeedPerSec = 1000.f;
 		MonsterNormalBullet_iDesc.fRotationPerSec = RADIAN(180.f);
-		MonsterNormalBullet_iDesc.vScale = { 1.f, 3.f, 0.f };
+		MonsterNormalBullet_iDesc.vScale = { 1.f, 3.f, 1.f };
 		MonsterNormalBullet_iDesc.vPosition = *m_pTransformCom->Get_State(CTransform::STATE_POSITION);
 		_float3 vRight = *m_pTransformCom->Get_State(CTransform::STATE_RIGHT);
 		vRight.Normalize();

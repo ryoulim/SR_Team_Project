@@ -101,6 +101,9 @@ float4 PS_AlphaChange(float2 texCoord : TEXCOORD0) : COLOR {
     return color;
 }
 
+
+
+
 float4 PS_ColorPickingChange(float2 texCoord : TEXCOORD0) : COLOR {
     float4 color = tex2D(SamplerTex, texCoord);
 
@@ -218,6 +221,21 @@ float4 PS_ColorChange(float2 texCoord : TEXCOORD0) : COLOR
     return color;
 }
 
+float4 PS_Sandevistan(float2 texCoord : TEXCOORD0) : COLOR {
+    float4 color = tex2D(SamplerTex, texCoord);
+
+    if (color.a < 0.1) {
+        // 배경 부분은 알파 값을 변경하지 않음
+        return color;
+    }
+
+    color.rgb = AdjustHue(color.rgb, opacity);
+
+	color.a *= opacity; // alpha channel에 지정한 opacity 곱연산
+
+    return color;
+}
+
 
 technique Technique1 {
     pass P0 {
@@ -244,5 +262,10 @@ technique Technique1 {
         #endif
         PixelShader = compile ps_2_0 PS_ShadeChange();
 	}
-
+	pass P4 {
+        #ifdef MAKE_VS
+        VertexShader = compile vs_3_0 VS_MAIN();
+        #endif
+        PixelShader = compile ps_2_0 PS_Sandevistan();
+	}
 }

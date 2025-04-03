@@ -394,6 +394,15 @@ HRESULT CLoader::Loding_For_Static()
 	ADD_TEXTURE(Archangel_Fly_180, "../Bin/Resources/Textures/Monster/archangel/fly/180/%d.PNG", 4);  
 	ADD_TEXTURE(Archangel_Dead, "../Bin/Resources/Textures/Monster/archangel/death/%d.PNG", 12);  
 #pragma endregion
+#pragma region WENTEKO_TEXTURES
+	ADD_TEXTURE(Wenteko_Move_0, "../Bin/Resources/Textures/Monster/wenteko/move/0/%d.PNG", 4);
+	ADD_TEXTURE(Wenteko_Move_45, "../Bin/Resources/Textures/Monster/wenteko/move/45/%d.PNG", 4);
+	ADD_TEXTURE(Wenteko_Move_90, "../Bin/Resources/Textures/Monster/wenteko/move/90/%d.PNG", 4);
+	ADD_TEXTURE(Wenteko_Move_135, "../Bin/Resources/Textures/Monster/wenteko/move/135/%d.PNG", 4);
+	ADD_TEXTURE(Wenteko_Move_180, "../Bin/Resources/Textures/Monster/wenteko/move/180/%d.PNG", 4);
+
+#pragma endregion
+
 #pragma endregion
 
 #pragma region 몬스터 프로토타입

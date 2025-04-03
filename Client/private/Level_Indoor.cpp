@@ -392,7 +392,7 @@ HRESULT CLevel_Indoor::Ready_Layer_Monster(const _wstring& strLayerTag)
 		LEVEL_INDOOR, L"Layer_Monster", &Cultist_iDesc)))
 		return E_FAIL;
 	/******************************************/
-	Pos = _float3{ 344.f, 150.f, 308.f };
+	Pos = _float3{ 826.f, 150.f, 604.f };
 	CMonster::DESC Shotgunner_iDesc{};
 	Shotgunner_iDesc.vPosition = Pos;
 	Shotgunner_iDesc.fSpeedPerSec = 60.f;

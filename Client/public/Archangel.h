@@ -27,6 +27,18 @@ public:
 	virtual void Late_Update(_float fTimeDelta) override;
 	virtual HRESULT Render() override;
 
+	/* 몬스터 행동 */
+private: //해당객체의 몬스터 패턴
+	virtual void	MonsterTick(_float dt);
+	virtual void	AttackPattern(_float dt);
+	void			FlyPattern(_float dt);
+	void			FirePattern(_float dt);	
+	virtual void	ChasePlayer(_float dt, _float fChaseDist);
+	virtual void	DoBattle(_float dt);
+	virtual void	DoIdle(_float dt);
+	void			DoReady(_float dt);
+	void			DoDetect(_float dt);
+
 private:
 	virtual HRESULT Ready_Components(void* pArg);
 	virtual HRESULT Ready_Textures();
@@ -41,6 +53,34 @@ private:
 	// dead : 01234, 567 loop, 8 9 10 11 death
 	MONSTER_STATE	m_eCurMonsterState = { MONSTER_STATE::STATE_MOVE };
 	MONSTER_STATE	m_ePrevMonsterState = { MONSTER_STATE::STATE_MOVE };
+	
+	/* 공격 패턴 */
+	enum ATTACKPATTERN { ATTACK_FLY1, ATTACK_FLY2, ATTACK_FIRE1, ATTACK_FIRE2, ATTACK_END };
+	ATTACKPATTERN	m_eAttackPattern = { ATTACKPATTERN::ATTACK_FIRE1 };
+	_bool			m_bGravity = { true };
+	_float			m_fFlyingUpTime = { 0.f };
+	_float3			m_vTargetPos = {};
+
+private:
+	/* 잔상을 만들어보자.. */
+	struct TrailData {
+		_float3 position;
+		_float3 size;
+		_float4x4 matWorld;
+		float timeElapsed; // 잔상이 점차 사라지도록 시간 기록
+	};
+	queue<TrailData> m_TrailDataQueue;
+	_float			 m_fTrailDuration = 0.5f; // 잔상이 사라지는 시간	
+	_float			 m_fTrailTimer = {};	  // 잔상 생성 딜레이
+private:
+	/* 잔상 시간 업데이트 */
+	void Update_TrailData(_float dt);
+	void Render_TrailData();
+	void Trail_Billboard(_float4x4 &matWorld, _bool isInverse = false) const;
+	void Make_TrailData(_float dt);
+
+private:
+	CShader* m_pShaderCom = { nullptr };
 
 public:
 	virtual void On_Collision(_uint MyColliderID, _uint OtherColliderID) override;
@@ -49,6 +89,8 @@ public:
 	static CArchangel* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
 	virtual CGameObject* Clone(void* pArg) override;
 	virtual void Free();
+
+private:
 };
 
 END
