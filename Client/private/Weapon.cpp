@@ -1,8 +1,6 @@
 #include "Weapon.h"
 #include "Weapon.h"
 
-#define m_eLevelID  LEVEL_GAMEPLAY
-
 CWeapon::CWeapon(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CGameObject{ pGraphic_Device }
 {
@@ -23,7 +21,9 @@ HRESULT CWeapon::Initialize(void* pArg)
 	if (FAILED(Ready_Components(pArg)))
 		return E_FAIL;
 
-	m_pPlayerTransform = static_cast<DESC*>(pArg)->pPlayerTransform;
+	DESC* pDesc = static_cast<DESC*>(pArg);
+
+	m_pPlayerTransform = pDesc->pPlayerTransform;
 	Safe_AddRef(m_pPlayerTransform);
 
 	m_pCameraManager = CAMERA_MANAGER;
@@ -33,6 +33,8 @@ HRESULT CWeapon::Initialize(void* pArg)
 
 	m_fDepth = 6.f;
 	Set_State(ST_OPENING);
+
+	m_eLevelID = pDesc->eLevelID;
 
 	return S_OK;
 }

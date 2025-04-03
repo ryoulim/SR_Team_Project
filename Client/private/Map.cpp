@@ -81,7 +81,6 @@ void CMap::On_Collision(_uint MyColliderID, _uint OtherColliderID)
 		OtherColliderID == CI_DISPENSOR_SHELL)
 		FX_MGR->SpawnBlood(CCollider::Get_Last_Collision_Pos(), m_eLevelID);
 
-
 	/*if (m_fTextureIdx == 1010)
 		FX_MGR->SpawnBlood();
 	if (m_fTextureIdx == 1001)

@@ -43,8 +43,9 @@ public:
 		Update_Collider();
 	}
 #ifdef _COLLIDERRENDER
-	// 콜라이더 가시화(임시)
-	virtual void Render() {};
+	virtual void Render();
+	class CTransform* m_pRenderTransform = { nullptr };
+	class CVIBuffer* m_pRenderBuffer = { nullptr };
 #endif
 	// 다른 콜라이더와의 충돌을 감지합니다.
 	_bool Check_Intersect(const CCollider* pOther);

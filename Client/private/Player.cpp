@@ -250,6 +250,7 @@ void CPlayer::Add_Weapons()
 {
 	CWeapon::DESC WeaponDesc{};
 	WeaponDesc.pPlayerTransform = m_pTransformCom;
+	WeaponDesc.eLevelID = m_eLevelID;
 
 	WeaponDesc.fSpeedPerSec = 600.f;
 	m_Weapons.push_back(

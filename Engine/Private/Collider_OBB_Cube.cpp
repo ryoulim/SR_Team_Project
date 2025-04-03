@@ -20,40 +20,6 @@ HRESULT CCollider_OBB_Cube::Initialize_Prototype()
     return __super::Initialize_Prototype(OBB_CUBE);
 }
 
-#ifdef _COLLIDERRENDER
-
-#include "VIBuffer_Cube.h"
-#include "Transform.h"
-
-HRESULT CCollider_OBB_Cube::Initialize(void* pArg)
-{
-    __super::Initialize(pArg);
-
-    DESC* pDesc = static_cast<DESC*>(pArg);
-
-    m_pRenderTransform = CTransform::Create(m_pGraphic_Device);
-    m_pRenderBuffer = CVIBuffer_Cube::Create(m_pGraphic_Device);
-
-    m_pRenderTransform->Set_WorldMatrix(pDesc->pTransform->Get_WorldMatrix());
-    m_pRenderTransform->Scaling(pDesc->vScale);
-    m_pRenderTransform->Move(pDesc->vOffSet);
-
-    return S_OK;
-}
-
-void CCollider_OBB_Cube::Render()
-{
- //   m_pGraphic_Device->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);  // 와이어프레임
-
-    // 텍스처 제거
-    m_pGraphic_Device->SetTexture(0, nullptr);
-    m_pRenderTransform->Bind_Resource();
-    m_pRenderBuffer->Bind_Buffers();
-    m_pRenderBuffer->Render();
-
-}
-#endif
-
 void CCollider_OBB_Cube::Update_Collider()
 {
     // 위치 + 오프셋
@@ -126,14 +92,14 @@ _bool CCollider_OBB_Cube::RayCasting(const _float3& rayOrigin, const _float3& ra
 
     m_vLast_Collision_Pos = worldHitPoint;
 
-    // 충돌 면 방향 (로컬 축 기준으로 결정 → 다시 월드축으로 변환)
-    if (tNear == tMin.x) m_vLast_Collision_Depth = -obbAxes[0];
-    else if (tNear == tMax.x) m_vLast_Collision_Depth = +obbAxes[0];
-    else if (tNear == tMin.y) m_vLast_Collision_Depth = -obbAxes[1];
-    else if (tNear == tMax.y) m_vLast_Collision_Depth = +obbAxes[1];
-    else if (tNear == tMin.z) m_vLast_Collision_Depth = -obbAxes[2];
-    else if (tNear == tMax.z) m_vLast_Collision_Depth = +obbAxes[2];
+    if (abs(tNear - t1.x) < FLT_EPSILON)
+        m_vLast_Collision_Depth = rayLocalDir.x < 0.f ? obbAxes[0] : -obbAxes[0];
+    else if (abs(tNear - t1.y) < FLT_EPSILON)
+        m_vLast_Collision_Depth = rayLocalDir.y < 0.f ? obbAxes[1] : -obbAxes[1];
+    else if (abs(tNear - t1.z) < FLT_EPSILON)
+        m_vLast_Collision_Depth = rayLocalDir.z < 0.f ? obbAxes[2] : -obbAxes[2];
 
+    m_vLast_Collision_Depth.Normalize();
     return TRUE;
 }
 
@@ -324,9 +290,4 @@ CComponent* CCollider_OBB_Cube::Clone(void* pArg)
 void CCollider_OBB_Cube::Free()
 {
     __super::Free();
-
-#ifdef _COLLIDERRENDER
-    Safe_Release(m_pRenderTransform);
-    Safe_Release(m_pRenderBuffer);
-#endif
 }

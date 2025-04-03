@@ -23,6 +23,54 @@ HRESULT CCollider::Initialize_Prototype(COLLIDER_TYPE Type)
 	return S_OK;
 }
 
+#ifdef _COLLIDERRENDER
+
+#include "VIBuffer_Cube.h"
+#include "VIBuffer_Rect.h"
+
+HRESULT CCollider::Initialize(void* pArg)
+{
+	if (pArg == nullptr)
+	{
+		MSG_BOX("콜라이더 pArg에 nullptr을 넣어주면 어떡해...");
+		return E_FAIL;
+	}
+
+	DESC* pDesc = static_cast<DESC*>(pArg);
+	m_pOwner = pDesc->pOwner;
+	//Safe_AddRef(m_pOwner); 순환참조 때문에 어쩔수가 없다 쉬팔
+	m_pTransform = pDesc->pTransform;
+	Safe_AddRef(m_pTransform);
+	m_vOffSet = pDesc->vOffSet;
+	m_iColliderID = pDesc->iColliderID;
+	
+	m_pRenderTransform = CTransform::Create(m_pGraphic_Device);
+	m_pRenderBuffer = CVIBuffer_Cube::Create(m_pGraphic_Device);
+
+	m_pRenderTransform->Set_WorldMatrix(pDesc->pTransform->Get_WorldMatrix());
+	m_pRenderTransform->Scaling(pDesc->vScale);
+	m_pRenderTransform->Move(pDesc->vOffSet);
+
+	Update_Scale(pDesc->vScale);
+	Update_Collider();
+	m_pGameInstance->Add_Collider(this, pDesc->iColliderGroupID);
+	
+	return S_OK;
+}
+
+
+void CCollider::Render()
+{
+	m_pGraphic_Device->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
+	m_pGraphic_Device->SetTexture(0, nullptr);
+	m_pRenderTransform->Bind_Resource();
+	m_pRenderBuffer->Bind_Buffers();
+	m_pRenderBuffer->Render();
+	m_pGraphic_Device->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
+}
+
+#else
+
 HRESULT CCollider::Initialize(void* pArg)
 {
 	if (pArg == nullptr)
@@ -44,6 +92,9 @@ HRESULT CCollider::Initialize(void* pArg)
 	m_pGameInstance->Add_Collider(this, pDesc->iColliderGroupID);
 	return S_OK;
 }
+
+#endif
+
 
 _bool CCollider::Check_Intersect(const CCollider* Collider)
 {
@@ -77,4 +128,9 @@ void CCollider::Free()
 	__super::Free();
 	Safe_Release(m_pTransform);
 	//Safe_Release(m_pOwner); 난 최선을 다했어
+
+#ifdef _COLLIDERRENDER
+	Safe_Release(m_pRenderTransform);
+	Safe_Release(m_pRenderBuffer);
+#endif
 }

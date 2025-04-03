@@ -85,13 +85,13 @@ _bool CCollider_AABB_Cube::RayCasting(const _float3& rayOrigin, const _float3& r
 		return FALSE;
 
 	m_vLast_Collision_Pos = rayOrigin + rayDir * tNear;
-
-	if (tNear == tMin.x) m_vLast_Collision_Depth = { -1.0f, 0.0f, 0.0f };
-	else if (tNear == tMax.x) m_vLast_Collision_Depth = { 1.0f, 0.0f, 0.0f };
-	else if (tNear == tMin.y) m_vLast_Collision_Depth = { 0.0f, -1.0f, 0.0f };
-	else if (tNear == tMax.y) m_vLast_Collision_Depth = { 0.0f, 1.0f, 0.0f };
-	else if (tNear == tMin.z) m_vLast_Collision_Depth = { 0.0f, 0.0f, -1.0f };
-	else if (tNear == tMax.z) m_vLast_Collision_Depth = { 0.0f, 0.0f, 1.0f };
+	
+	if (abs(tNear - t1.x) < FLT_EPSILON)
+		m_vLast_Collision_Depth = { rayDir.x < 0.f ? 1.f : -1.f, 0.f, 0.f };
+	else if (abs(tNear - t1.y) < FLT_EPSILON)
+		m_vLast_Collision_Depth = { 0.f, rayDir.y < 0.f ? 1.f : -1.f, 0.f };
+	else if (abs(tNear - t1.z) < FLT_EPSILON)
+		m_vLast_Collision_Depth = { 0.f, 0.f, rayDir.z < 0.f ? 1.f : -1.f };
 
 	return TRUE;
 }

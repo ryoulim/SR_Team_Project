@@ -25,6 +25,10 @@ HRESULT CCollider_Capsule::Initialize_Prototype()
 void CCollider_Capsule::Update_Collider()
 {
 	m_tInfo.vCenter = *m_pTransform->Get_State(CTransform::STATE_POSITION) + m_vOffSet;
+
+#ifdef _COLLIDERRENDER
+	m_pRenderTransform->Set_State(CTransform::STATE_POSITION, m_tInfo.vCenter);
+#endif
 }
 
 void CCollider_Capsule::Update_Scale(const _float3& vScale)
@@ -33,6 +37,13 @@ void CCollider_Capsule::Update_Scale(const _float3& vScale)
 	m_tInfo.fRadius = (vScale.x + vScale.z) * 0.25f;
 	m_fMaxLength = m_tInfo.fHeight * 0.5f > m_tInfo.fRadius ?
 		m_tInfo.fHeight * 0.5f : m_tInfo.fRadius;
+
+#ifdef _COLLIDERRENDER
+	m_pRenderTransform->Set_State(CTransform::STATE_RIGHT, _float3{1.f,0.f,0.f} * m_tInfo.fRadius * 2.f);
+	m_pRenderTransform->Set_State(CTransform::STATE_UP, _float3{ 0.f,1.f,0.f } * m_tInfo.fHeight);
+	m_pRenderTransform->Set_State(CTransform::STATE_LOOK, _float3{ 0.f,0.f,1.f } * m_tInfo.fRadius * 2.f);
+#endif
+
 }
 
 _bool CCollider_Capsule::RayCasting(const _float3& rayOrigin, const _float3& rayDir)
@@ -46,7 +57,7 @@ _bool CCollider_Capsule::RayCasting(const _float3& rayOrigin, const _float3& ray
 	_float3 segB = center - _float3(0.f, halfHeight, 0.f);
 
 	// 레이 방향
-	_float3 d1 = rayDir;                   // ray dir
+	const _float3& d1 = rayDir;                   // ray dir
 	_float3 d2 = segB - segA;              // capsule axis
 	_float3 r = rayOrigin - segA;
 
