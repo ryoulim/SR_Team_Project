@@ -161,14 +161,22 @@ void CWeapon_LoverBoy::Strong_Attack(_float fTimeDelta)
 	}
 	else if (m_fMotionTimer < 1.2f)
 	{
-		if (Update_Frame(fTimeDelta))
+		if (m_CurTarget == m_TargetMonsters.end())
 		{
-			if (m_CurTarget != m_TargetMonsters.end())
-			{
-				m_pCameraTransform->LookAt(m_CurTarget->second->Get_Pos());
-				m_CurTarget++;
-			}
+			m_fMotionTimer = 1.2f;
+			return;
 		}
+		if (m_fStartFrmae == m_fTextureNum)
+		{
+			FX_MGR->SpawnGunFire(_float3{ 750.f, 450.f, 0.1f }, LEVEL_STATIC);
+			FX_MGR->SpawnBulletTracer(_float3{ 700.f, 400.f, 0.2f }, LEVEL_STATIC);
+			m_pCameraTransform->LookAt(m_CurTarget->second->Get_Pos());
+			m_tAmmoInfo.iReloadedAmmo--;
+			m_tAmmoInfo.iCurAmmo--;
+			Create_Bullet();
+			m_CurTarget++;
+		}
+		Update_Frame(fTimeDelta);
 	}
 	else if (m_fMotionTimer < 1.25f)
 	{
@@ -180,6 +188,8 @@ void CWeapon_LoverBoy::Strong_Attack(_float fTimeDelta)
 	}
 	else
 	{
+		for (auto Pair : m_TargetMonsters)
+			Safe_Release(Pair.second);
 		m_TargetMonsters.clear();
 		m_CurTarget = m_TargetMonsters.end();
 		Set_State(ST_RELOAD);
@@ -222,7 +232,7 @@ void CWeapon_LoverBoy::Search_Target()
 	// 몬스터 그룹 나중에 헤드로 바꿔야함
 	auto MonsterList = m_pGameInstance->Get_Colliders(CG_MONSTER);
 	const auto& vCameraPosition = *m_pCameraTransform->Get_State(CTransform::STATE_POSITION);
-	const auto& vCameraLook = *m_pCameraTransform->Get_State(CTransform::STATE_LOOK);
+	const auto& vCameraLook = m_pCameraTransform->Get_State(CTransform::STATE_LOOK)->Normalize();
 
 	// 플레이어와의 시야각에 있으면서,
 	// 플레이어와의 거리가 m_fRayLength보다는 작고 가장 가까운 3개를 탐색
@@ -232,18 +242,16 @@ void CWeapon_LoverBoy::Search_Target()
 	_float3 vDirectionVector{};
 
 	// FOV = 60
-	_float cosFovHalf = cosf(RADIAN(60.f*0.5f));
+	_float cosFovHalf = cosf(RADIAN(60.f * 0.8f));
 
 	for (auto Monster : *MonsterList)
 	{
-		vDirectionVector = Monster->Get_Pos() - vCameraPosition;
+		vDirectionVector = (Monster->Get_Pos() - vCameraPosition).Normalize();
 		if (vCameraLook.Dot(vDirectionVector) >= cosFovHalf)
 		{
 			m_TargetMonsters.emplace(vDirectionVector.Length(), Monster);
-			// 시야각 안에 있다.
 		}
 	}
-
 
 	if (m_TargetMonsters.empty())
 		return;
@@ -258,6 +266,7 @@ void CWeapon_LoverBoy::Search_Target()
 			Iter = m_TargetMonsters.erase(Iter);
 			continue;
 		}
+		Safe_AddRef(Iter->second);
 		Iter++;
 		// 3개 잡았으면 이후 필요없음
 		if (++iCount > 3)
@@ -341,4 +350,9 @@ void CWeapon_LoverBoy::Free()
 	Safe_Release(m_LeftHand.pTextureCom);
 	Safe_Release(m_LeftHand.pTransformCom);
 	Safe_Release(m_LeftHand.pVIBufferCom);
+
+	for (auto Pair : m_TargetMonsters)
+		Safe_Release(Pair.second);
+	m_TargetMonsters.clear();
+
 }

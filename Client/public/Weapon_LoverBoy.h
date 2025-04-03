@@ -29,6 +29,12 @@ public:
 	virtual void Set_State(STATE State) override;
 
 private:
+	_bool						m_bDoOnce{};
+	// 석양이진다 용 몬스터 골라내는 맵
+	multimap<_float, CCollider*> m_TargetMonsters;
+	multimap<_float, CCollider*>::iterator m_CurTarget{ m_TargetMonsters.end() };
+
+private:
 	virtual void Opening(_float fTimeDelta) override;
 	virtual void Weak_Attack(_float fTimeDelta) override;
 	virtual void Strong_Attack(_float fTimeDelta) override;
@@ -45,12 +51,6 @@ private:
 		CVIBuffer* pVIBufferCom = { nullptr };
 		CTransform* pTransformCom = { nullptr };
 	} m_LeftHand;
-
-
-private:
-	// 석양이진다 용 몬스터 골라내는 맵
-	multimap<_float, CCollider*> m_TargetMonsters;
-	multimap<_float, CCollider*>::iterator m_CurTarget{ m_TargetMonsters.end() };
 
 public:
 	static CWeapon_LoverBoy* Create(LPDIRECT3DDEVICE9 pGraphic_Device);

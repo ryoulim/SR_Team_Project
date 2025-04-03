@@ -41,11 +41,11 @@ HRESULT CWeapon::Initialize(void* pArg)
 
 void CWeapon::Priority_Update(_float fTimeDelta)
 {
+	Action(fTimeDelta);
 }
 
 EVENT CWeapon::Update(_float fTimeDelta)
 {
- 	Action(fTimeDelta);
 
 	return EVN_NONE;
 }

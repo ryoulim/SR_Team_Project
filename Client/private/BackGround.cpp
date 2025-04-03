@@ -55,10 +55,8 @@ HRESULT CBackGround::Render()
 	{
 		for (int i = 0; i < 4; i++) // 4는 임시, 정점 개수에 맞게 수정
 		{
-
 			pVertices[i].vTexcoord.x;
 			pVertices[i].vTexcoord.y;
-
 		}
 		m_pVIBufferCom->Get_VB()->Unlock();
 	}

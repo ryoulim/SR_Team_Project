@@ -83,8 +83,8 @@ _bool CCollider_Manager::RaycastBetweenPoints(const _float3& Point1, const _floa
     for (auto& pCollider : m_pColliders[ColliderGroupID])
     {
         // 범위 밖에 있음
-        auto Diff = (pCollider->Get_Pos() - Point1).Length();
-        if (Diff > fRayLength + pCollider->Get_MaxLength())
+        auto Length = (pCollider->Get_Pos() - Point1).Length();
+        if (Length > fRayLength)
             continue;
 
         if (pCollider->RayCasting(Point1, vRayDir))
