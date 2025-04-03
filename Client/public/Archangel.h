@@ -77,6 +77,7 @@ private:
 	void Update_TrailData(_float dt);
 	void Render_TrailData();
 	void Trail_Billboard(_float4x4 &matWorld, _bool isInverse = false) const;
+	void Trail_Billboard_Inverse(_float4x4& matWorld) const;
 	void Make_TrailData(_float dt);
 
 private:

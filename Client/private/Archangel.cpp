@@ -572,7 +572,7 @@ void CArchangel::Trail_Billboard(_float4x4& matWorld, _bool isInverse) const
 	matCamWorld.MakeInverseMat(matCamWorld);
 	_float3 vCameraPos = { matCamWorld._41, matCamWorld._42, matCamWorld._43 };
 
-	_float3 vRight = reinterpret_cast<_float3*>(&matCamWorld.m[0][0])->Normalize() * vScaled.x * iInverse;
+	_float3 vRight = reinterpret_cast<_float3*>(&matCamWorld.m[0][0])->Normalize() * vScaled.x * (_float)iInverse;
 	_float3 vLook = reinterpret_cast<_float3*>(&matCamWorld.m[2][0])->Normalize() * vScaled.z;
 
 	memcpy(&matWorld._11, &vRight, sizeof _float3);
