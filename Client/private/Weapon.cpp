@@ -191,6 +191,11 @@ void CWeapon::Key_Input()
 	}
 }
 
+void CWeapon::Replenish_Ammo(_uint iNumber)
+{
+	m_tAmmoInfo.iCurAmmo += iNumber;
+}
+
 HRESULT CWeapon::Ready_Components(void* pArg)
 {
 	/* For.Com_Texture */

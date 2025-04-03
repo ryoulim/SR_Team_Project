@@ -221,7 +221,6 @@
     <ClInclude Include="..\public\InvisibleBlock.h" />
     <ClInclude Include="..\public\GrenadeBullet.h" />
     <ClInclude Include="..\public\Item.h" />
-    <ClInclude Include="..\public\Item_Ammo.h" />
     <ClInclude Include="..\public\JumpAttack.h" />
     <ClInclude Include="..\public\Ladder.h" />
     <ClInclude Include="..\public\Lava.h" />
@@ -364,7 +363,6 @@
     <ClCompile Include="..\private\Interactive_Block.cpp" />
     <ClCompile Include="..\private\InvisibleBlock.cpp" />
     <ClCompile Include="..\private\Item.cpp" />
-    <ClCompile Include="..\private\Item_Ammo.cpp" />
     <ClCompile Include="..\private\JumpAttack.cpp" />
     <ClCompile Include="..\private\Ladder.cpp" />
     <ClCompile Include="..\private\Lava.cpp" />

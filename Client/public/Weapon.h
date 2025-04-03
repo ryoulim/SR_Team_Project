@@ -60,6 +60,8 @@ public:
 
 	virtual void Set_State(STATE State) PURE;
 	virtual void Key_Input();
+	void Replenish_Ammo(_uint iNumber);
+
 protected:
 	virtual HRESULT Ready_Components(void* pArg);
 	_bool Update_Frame(_float fTimeDelta);
