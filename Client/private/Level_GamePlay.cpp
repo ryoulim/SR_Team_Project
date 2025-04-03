@@ -478,8 +478,8 @@ void CLevel_GamePlay::SpawnMechsect(_float3 _Position, bool m_bActive, LEVEL _eL
 	Mechsect_iDesc.vActive = m_bActive;
 	Mechsect_iDesc.vReturnPos = _Position;
 	Mechsect_iDesc.eLevel = _eLevel;
-	Mechsect_iDesc.fAttackDistance = 150.f;
-	Mechsect_iDesc.fDetectiveDistance = 500.f;
+	Mechsect_iDesc.fAttackDistance = 300.f;
+	Mechsect_iDesc.fDetectiveDistance = 600.f;
 	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_Mechsect"),
 		_eLevel, L"Layer_Monster", &Mechsect_iDesc)))
 		return;
