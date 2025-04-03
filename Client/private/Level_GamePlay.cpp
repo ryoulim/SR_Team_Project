@@ -44,8 +44,8 @@ HRESULT CLevel_GamePlay::Initialize(class CLevelData* pLevelData)
 
 	CUI_Manager::Get_Instance()->Initialize_Player();
 
-	/*if (FAILED(Ready_Layer_Monster(TEXT("Layer_Monster"))))
-		return E_FAIL;*/
+	if (FAILED(Ready_Layer_Monster(TEXT("Layer_Monster"))))
+		return E_FAIL;
 
 	if (FAILED(Ready_Layer_Statue(TEXT("Layer_Statue"))))
 		return E_FAIL;
@@ -352,11 +352,11 @@ HRESULT CLevel_GamePlay::Ready_Layer_Monster(const _wstring& strLayerTag)
 	//전시용 (게임플레이 이니셜)
 	//SpawnWenteko(_float3{ 100.f, 40.f, -100.f }, false, LEVEL_GAMEPLAY);
 	//SpawnDeacon(_float3{ 1250.f, 100.f, 1500.f }, true, LEVEL_GAMEPLAY);
-	SpawnShotgunner(_float3{ 1300.f, 100.f, 1500.f }, true, LEVEL_GAMEPLAY);
+	//SpawnShotgunner(_float3{ 1300.f, 100.f, 1500.f }, true, LEVEL_GAMEPLAY);
 	//SpawnGreater(_float3{  1350.f, 100.f, 1500.f  }, true, LEVEL_GAMEPLAY);
 	//SpawnCultist(_float3{  1450.f, 100.f, 1500.f  }, true, LEVEL_GAMEPLAY);
 	//SpawnNukemutant(_float3{ 1450.f, 100.f, 1500.f }, true, LEVEL_GAMEPLAY);
-	SpawnMechsect(_float3{  1350.f, 100.f, 1500.f  }, true, LEVEL_GAMEPLAY);
+	//SpawnMechsect(_float3{  1350.f, 100.f, 1500.f  }, true, LEVEL_GAMEPLAY);
 	//SpawnArchangel(_float3{ 420.f, 30.f, -250.f }, false, LEVEL_GAMEPLAY);
 
 	return S_OK;
