@@ -8,6 +8,7 @@
 #include "Trigger.h"
 #include "Level_Loading.h"
 #include "Monster.h"
+#include "Item.h"
 
 #define CurLevel LEVEL_INDOOR
 
@@ -40,6 +41,9 @@ HRESULT CLevel_Indoor::Initialize(CLevelData* pLevelData)
 	// 테스트 해봤어요 
 	//if (FAILED(Ready_Layer_Monster(TEXT("Layer_Monster"))))
 	//	return E_FAIL;
+
+	if (FAILED(Ready_Layer_Item(TEXT("Layer_Item"))))
+		return E_FAIL;
 
 	return S_OK;
 }
@@ -410,6 +414,56 @@ HRESULT CLevel_Indoor::Ready_Layer_Monster(const _wstring& strLayerTag)
 		LEVEL_INDOOR, L"Layer_Monster", &Greater_iDesc)))
 		return E_FAIL;
 
+
+	return S_OK;
+}
+
+HRESULT CLevel_Indoor::Ready_Layer_Item(const _wstring& strLayerTag)
+{
+	CItem::DESC ItemDesc{};
+	ItemDesc.vInitPos = { 2100.f, 20.f, 1000.f };
+	ItemDesc.vScale = { 10.f, 10.f, 10.f };
+	ItemDesc.fRotationPerSec = RADIAN(180.f);
+	ItemDesc.fSpeedPerSec = 300.f;
+	ItemDesc.eLevelID = CurLevel;
+	ItemDesc.szBufferType = TEXT("Rect");
+	ItemDesc.szTextureID = TEXT("Item_Ammo");
+	ItemDesc.fTextureNum = 0.f;
+	ItemDesc.eColID = COLLIDER_ID::CI_ITEM_AMMO_CHAINGUN;
+
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_INDOOR, TEXT("Prototype_GameObject_Item_Ammo_Chaingun"),
+		LEVEL_INDOOR, strLayerTag, &ItemDesc)))
+		return E_FAIL;
+
+
+	ItemDesc.vInitPos = { 2175.f, 20.f, 430.f };
+	ItemDesc.vScale = { 10.f, 10.f, 10.f };
+	ItemDesc.fTextureNum = 1.f;
+	ItemDesc.eColID = COLLIDER_ID::CI_ITEM_AMMO_DISPENSER_SCATTER;
+
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_INDOOR, TEXT("Prototype_GameObject_Item_Ammo_Dispenser_Scatter"),
+		LEVEL_INDOOR, strLayerTag, &ItemDesc)))
+		return E_FAIL;
+
+
+	/*ItemDesc.vInitPos = { 1540.f, 30.f, 1035.f };
+	ItemDesc.vScale = { 10.f, 10.f, 10.f };
+	ItemDesc.fTextureNum = 2.f;
+	ItemDesc.eColID = COLLIDER_ID::CI_ITEM_AMMO_DISPENSER_CANNON;
+
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_INDOOR, TEXT("Prototype_GameObject_Item_Ammo_Dispenser_Cannon"),
+		LEVEL_INDOOR, strLayerTag, &ItemDesc)))
+		return E_FAIL;*/
+
+
+	ItemDesc.vInitPos = { 1540.f, 20.f, 1035.f };
+	ItemDesc.vScale = { 10.f, 10.f, 10.f };
+	ItemDesc.fTextureNum = 3.f;
+	ItemDesc.eColID = COLLIDER_ID::CI_ITEM_AMMO_LOVERBOY;
+
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_INDOOR, TEXT("Prototype_GameObject_Item_Ammo_LoverBoy"),
+		LEVEL_INDOOR, strLayerTag, &ItemDesc)))
+		return E_FAIL;
 
 	return S_OK;
 }
