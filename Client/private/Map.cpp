@@ -84,7 +84,14 @@ void CMap::On_Collision(_uint MyColliderID, _uint OtherColliderID)
 		_float3 vLook = CCollider::Get_Last_Collision_Depth().Normalize();
 
 		if (m_fTextureIdx == 93)
-			FX_MGR->SpawnBulletMark(CCollider::Get_Last_Collision_Pos(), m_eLevelID, vLook, 0);
+		{
+			FX_MGR->SpawnBulletMark(CCollider::Get_Last_Collision_Pos(), m_eLevelID, vLook, 2);
+		}
+		else
+		{
+			FX_MGR->SpawnBlood(CCollider::Get_Last_Collision_Pos(), m_eLevelID);
+		}
+
 	}
 
 

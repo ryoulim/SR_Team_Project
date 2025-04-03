@@ -20,10 +20,6 @@ HRESULT CFireAttack::Initialize(void* pArg)
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
 
-	//만약 보스가 1마리만 남으면 구분이 사라지게
-	if (m_pGameInstance->Find_Objects(LEVEL_GAMEPLAY, L"Layer_Boss")->size() < 2)
-		m_iNum = 0;
-
 	return S_OK;
 }
 
@@ -74,6 +70,10 @@ HRESULT CFireAttack::Ready_Components(void* pArg)
 void CFireAttack::resetParticle(Attribute* attribute)
 {
 	attribute->_isAlive = true;
+
+	//만약 보스가 1마리만 남으면 구분이 사라지게
+	if (m_pGameInstance->Find_Objects(LEVEL_GAMEPLAY, L"Layer_Boss")->size() < 2)
+		m_iNum = 0;
 
 	// 1. 보스의 현재 위치
 	auto pBossTransform = static_cast<CTransform*>(

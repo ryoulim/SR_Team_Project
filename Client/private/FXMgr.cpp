@@ -749,12 +749,13 @@ void CFXMgr::SpawnBulletMark(_float3 _vPosition, LEVEL eLevel, _float3 _vLook , 
 	BulletMarkDesc.fMaxFrame = 5.f;
 	BulletMarkDesc.fRotationPerSec = RADIAN(180.f);
 	BulletMarkDesc.fSpeedPerSec = 100.f;
-	BulletMarkDesc.szTextureTag = TEXT("Check_Tile");
+	BulletMarkDesc.szTextureTag = TEXT("BulletMark");
+	//BulletMarkDesc.szTextureTag = TEXT("Check_Tile");
 	BulletMarkDesc.vInitPos = _vPosition;
-	BulletMarkDesc.iType = 0;
+	BulletMarkDesc.iType = _iNum;
 	BulletMarkDesc.vLook = _vLook;
 
-	BulletMarkDesc.vScale = _float3{ 10.f, 10.f, 1.f };
+	BulletMarkDesc.vScale = _float3{ 5.f, 5.f, 1.f };
 
 	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_BulletMark"),
 		eLevel, L"Layer_Particle", &BulletMarkDesc)))
