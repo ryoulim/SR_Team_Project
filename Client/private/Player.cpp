@@ -166,20 +166,7 @@ void CPlayer::On_Collision(_uint MyColliderID, _uint OtherColliderID)
 	case CI_ITEM_AMMO_LOVERBOY:
 		m_Weapons[0]->Replenish_Ammo(5);
 		break;
-
-	default:
-		break;
-	}
-
-	//if (OtherColliderID == CI_BLOCK_INVISIBLE)
-	//	
-
-	//if (OtherColliderID == CI_TRIGGER)
-	//	
-
-	//if (OtherColliderID == CI_ITEM)
-		
-
+	
 	case CI_BLOCK_COMMON:
 	{
 		_float3 vPos = *m_pTransformCom->Get_State(CTransform::STATE_POSITION);
@@ -258,6 +245,8 @@ void CPlayer::On_Collision(_uint MyColliderID, _uint OtherColliderID)
 		break;
 	case CI_BOSS_TANGTANG:
 		On_Hit(10);
+		break;
+	default:
 		break;
 	}
 }
