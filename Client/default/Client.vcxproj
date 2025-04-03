@@ -186,6 +186,8 @@
     <ClInclude Include="..\public\BuildingW.h" />
     <ClInclude Include="..\public\Bullet.h" />
     <ClInclude Include="..\public\BulletImpactSpark.h" />
+    <ClInclude Include="..\public\BulletMark.h" />
+    <ClInclude Include="..\public\BulletSmoke.h" />
     <ClInclude Include="..\public\Button.h" />
     <ClInclude Include="..\public\Button_Main.h" />
     <ClInclude Include="..\public\Cabinet.h" />
@@ -219,7 +221,6 @@
     <ClInclude Include="..\public\InvisibleBlock.h" />
     <ClInclude Include="..\public\GrenadeBullet.h" />
     <ClInclude Include="..\public\Item.h" />
-    <ClInclude Include="..\public\Item_Ammo.h" />
     <ClInclude Include="..\public\JumpAttack.h" />
     <ClInclude Include="..\public\Ladder.h" />
     <ClInclude Include="..\public\Lava.h" />
@@ -249,6 +250,7 @@
     <ClInclude Include="..\public\PBState_Decel.h" />
     <ClInclude Include="..\public\PBState_Lerp.h" />
     <ClInclude Include="..\public\PBState_Normal.h" />
+    <ClInclude Include="..\public\Picture.h" />
     <ClInclude Include="..\public\Player.h" />
     <ClInclude Include="..\public\PlayerOnBoat.h" />
     <ClInclude Include="..\public\Portrait.h" />
@@ -327,6 +329,8 @@
     <ClCompile Include="..\private\BuildingW.cpp" />
     <ClCompile Include="..\private\Bullet.cpp" />
     <ClCompile Include="..\private\BulletImpactSpark.cpp" />
+    <ClCompile Include="..\private\BulletMark.cpp" />
+    <ClCompile Include="..\private\BulletSmoke.cpp" />
     <ClCompile Include="..\private\Button.cpp" />
     <ClCompile Include="..\private\Button_Main.cpp" />
     <ClCompile Include="..\private\Cabinet.cpp" />
@@ -359,7 +363,6 @@
     <ClCompile Include="..\private\Interactive_Block.cpp" />
     <ClCompile Include="..\private\InvisibleBlock.cpp" />
     <ClCompile Include="..\private\Item.cpp" />
-    <ClCompile Include="..\private\Item_Ammo.cpp" />
     <ClCompile Include="..\private\JumpAttack.cpp" />
     <ClCompile Include="..\private\Ladder.cpp" />
     <ClCompile Include="..\private\Lava.cpp" />
@@ -389,6 +392,7 @@
     <ClCompile Include="..\private\PBState_Decel.cpp" />
     <ClCompile Include="..\private\PBState_Lerp.cpp" />
     <ClCompile Include="..\private\PBState_Normal.cpp" />
+    <ClCompile Include="..\private\Picture.cpp" />
     <ClCompile Include="..\private\Player.cpp" />
     <ClCompile Include="..\private\PlayerOnBoat.cpp" />
     <ClCompile Include="..\private\Portrait.cpp" />

@@ -142,12 +142,6 @@
     <Filter Include="02.GameObjects\UI\Button">
       <UniqueIdentifier>{4a9434f2-285b-4625-b208-c24b1d822db7}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\Item\Item_Ammo">
-      <UniqueIdentifier>{d1aca46f-c220-419d-9122-7d021650f192}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Item\Item_Medkit">
-      <UniqueIdentifier>{c4d0bab2-7f74-4cea-a8bd-ecf3b8c3154e}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02.GameObjects\Particle\EmtyBullet">
       <UniqueIdentifier>{f0e372d5-eb30-435c-9f67-b6cb449f4d50}</UniqueIdentifier>
     </Filter>
@@ -183,9 +177,6 @@
     </Filter>
     <Filter Include="02.GameObjects\Map\Race">
       <UniqueIdentifier>{c6e4dfd4-97b2-4b0a-80f3-abd67204c7e4}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Item\Item_CardKey">
-      <UniqueIdentifier>{2d398edf-25e0-4a77-b816-89344c9bb9d5}</UniqueIdentifier>
     </Filter>
     <Filter Include="02.GameObjects\Statue\RaceLandscape">
       <UniqueIdentifier>{e970d7e2-082c-4f92-b341-18de7fa88d32}</UniqueIdentifier>
@@ -337,9 +328,6 @@
     <Filter Include="01.Levels\04. Race\Third">
       <UniqueIdentifier>{ddbf0416-6761-4365-babd-545fed9fd109}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\Map\Water">
-      <UniqueIdentifier>{f77f54b1-1a1d-4f3e-bdfe-494ddfc8483e}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02.GameObjects\Map\Sky">
       <UniqueIdentifier>{fb8359a3-f88c-4a22-b9c2-02ed4a1506ae}</UniqueIdentifier>
     </Filter>
@@ -421,8 +409,20 @@
     <Filter Include="02.GameObjects\Particle\_BossMobSkill\MonsterMissile">
       <UniqueIdentifier>{1e364046-6bff-481a-8049-3efda6bb3683}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\Map\Ladder">
+    <Filter Include="02.GameObjects\Map\Interactive_Block\Ladder">
       <UniqueIdentifier>{3fbe9f71-04fb-4e05-80a3-56b1a15641a3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Map\AnimeRect\Water">
+      <UniqueIdentifier>{f77f54b1-1a1d-4f3e-bdfe-494ddfc8483e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Map\Interactive_Block\Picture">
+      <UniqueIdentifier>{a98c4099-0473-4891-97f1-ed4cf09a8a45}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Particle\BulletSmoke">
+      <UniqueIdentifier>{0c4a7055-ecba-4c91-bd29-3f3a47aaa39c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Effect\BulletMark">
+      <UniqueIdentifier>{26a13a7f-6446-44f8-9085-93ee889f8665}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -587,9 +587,6 @@
     </ClInclude>
     <ClInclude Include="..\public\CameraManager.h">
       <Filter>02.GameObjects\Camera\Manager</Filter>
-    </ClInclude>
-    <ClInclude Include="..\public\Item_Ammo.h">
-      <Filter>02.GameObjects\Item\Item_Ammo</Filter>
     </ClInclude>
     <ClInclude Include="..\public\Signboard.h">
       <Filter>02.GameObjects\Statue\Signboard</Filter>
@@ -817,7 +814,7 @@
       <Filter>01.Levels\03. Outdoor</Filter>
     </ClInclude>
     <ClInclude Include="..\public\Water.h">
-      <Filter>02.GameObjects\Map\Water</Filter>
+      <Filter>02.GameObjects\Map\AnimeRect\Water</Filter>
     </ClInclude>
     <ClInclude Include="..\public\Interactive_Block.h">
       <Filter>02.GameObjects\Map\Interactive_Block</Filter>
@@ -848,7 +845,16 @@
       <Filter>02.GameObjects\Pawn\PlayerOnBoat\State\Accel</Filter>
     </ClInclude>
     <ClInclude Include="..\public\Ladder.h">
-      <Filter>02.GameObjects\Map\Ladder</Filter>
+      <Filter>02.GameObjects\Map\Interactive_Block\Ladder</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Picture.h">
+      <Filter>02.GameObjects\Map\Interactive_Block\Picture</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\BulletSmoke.h">
+      <Filter>02.GameObjects\Particle\BulletSmoke</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\BulletMark.h">
+      <Filter>02.GameObjects\Effect\BulletMark</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1011,9 +1017,6 @@
     </ClCompile>
     <ClCompile Include="..\private\CameraManager.cpp">
       <Filter>02.GameObjects\Camera\Manager</Filter>
-    </ClCompile>
-    <ClCompile Include="..\private\Item_Ammo.cpp">
-      <Filter>02.GameObjects\Item\Item_Ammo</Filter>
     </ClCompile>
     <ClCompile Include="..\private\Signboard.cpp">
       <Filter>02.GameObjects\Statue\Signboard</Filter>
@@ -1229,7 +1232,7 @@
       <Filter>01.Levels\04. Race\Third</Filter>
     </ClCompile>
     <ClCompile Include="..\private\Water.cpp">
-      <Filter>02.GameObjects\Map\Water</Filter>
+      <Filter>02.GameObjects\Map\AnimeRect\Water</Filter>
     </ClCompile>
     <ClCompile Include="..\private\Level_OutDoor.cpp">
       <Filter>01.Levels\03. Outdoor</Filter>
@@ -1259,7 +1262,16 @@
       <Filter>02.GameObjects\Statue\Rock</Filter>
     </ClCompile>
     <ClCompile Include="..\private\Ladder.cpp">
-      <Filter>02.GameObjects\Map\Ladder</Filter>
+      <Filter>02.GameObjects\Map\Interactive_Block\Ladder</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Picture.cpp">
+      <Filter>02.GameObjects\Map\Interactive_Block\Picture</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\BulletSmoke.cpp">
+      <Filter>02.GameObjects\Particle\BulletSmoke</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\BulletMark.cpp">
+      <Filter>02.GameObjects\Effect\BulletMark</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

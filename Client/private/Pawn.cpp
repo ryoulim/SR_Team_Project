@@ -106,6 +106,9 @@ void CPawn::Change_Level()
 	switch (m_eLevelID)
 	{
 	case LEVEL_INDOOR:
+		eNextLevelID = LEVEL_OUTDOOR;
+		break;
+	case LEVEL_OUTDOOR:
 		eNextLevelID = LEVEL_RACEFIRST;
 		break;
 	case LEVEL_RACEFIRST:

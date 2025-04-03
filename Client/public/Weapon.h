@@ -37,6 +37,7 @@ public:
 	{
 		CTransform* pPlayerTransform;
 		_float3 vInitPos;
+		LEVEL	eLevelID;
 	}DESC;
 
 	virtual const AMMOINFO* Get_Info() {
@@ -59,6 +60,8 @@ public:
 
 	virtual void Set_State(STATE State) PURE;
 	virtual void Key_Input();
+	void Replenish_Ammo(_uint iNumber);
+
 protected:
 	virtual HRESULT Ready_Components(void* pArg);
 	_bool Update_Frame(_float fTimeDelta);
@@ -67,6 +70,7 @@ protected:
 	void Release_RenderState();
 
 protected:
+	LEVEL	m_eLevelID{};
 	const _tchar* m_szTextureID = { nullptr };
 	CTexture* m_pTextureCom = { nullptr };
 	CVIBuffer* m_pVIBufferCom = { nullptr };

@@ -22,6 +22,9 @@
 #include "Rock.h"
 #include "Explosion.h"
 
+//아이템
+#include "Item.h"
+
 //테스트용
 #include "MyCube.h"
 #include "TestBullet.h"
@@ -52,6 +55,8 @@
 #include "JumpAttack.h"
 #include "MonsterGuidBullet.h"
 #include "MonsterNormalBullet.h"
+#include "BulletSmoke.h"
+#include "BulletMark.h"
 
 //UI 인클루드
 #include "Aim.h"
@@ -99,7 +104,7 @@
 #include "Trigger.h"
 
 /* 맵툴에서 넘어오는 텍스쳐 갯수, 건들지 말아주세요 감사합니다 */
-#define NUMMAPTEX 145
+#define NUMMAPTEX 146
 
 
 CLoader::CLoader(LPDIRECT3DDEVICE9 pGraphic_Device)
@@ -406,6 +411,9 @@ HRESULT CLoader::Loding_For_Static()
 #pragma region 파티클 준비물(스테틱)
 	
 	/* [ 스프라이트 ] */
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_GameObject_BulletMark"),
+		CBulletMark::Create(m_pGraphic_Device))))
+		return E_FAIL;
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_GameObject_PC_MonsterGuidBullet"),
 		CMonsterGuidBullet::Create(m_pGraphic_Device))))
 		return E_FAIL;
@@ -426,6 +434,9 @@ HRESULT CLoader::Loding_For_Static()
 		return E_FAIL;
 
 	/* [ 파티클 ] */
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_GameObject_PC_BulletSmoke"),
+		CBulletSmoke::Create(m_pGraphic_Device, L"PARTICLE_BulletSmoke"))))
+		return E_FAIL;
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_GameObject_PC_JumpAttack"),
 		CJumpAttack::Create(m_pGraphic_Device, L"PARTICLE_JumpAttack"))))
 		return E_FAIL;
@@ -464,6 +475,15 @@ HRESULT CLoader::Loding_For_Static()
 		return E_FAIL;
 
 	/* [ 텍스쳐 ] */
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_BulletMark"),
+		CTexture::Create(m_pGraphic_Device, TEXT("../Bin/Resources/Textures/Particle/BulletMark%d.PNG"), 7))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_PS_Fragment"),
+		CTexture::Create(m_pGraphic_Device, TEXT("../Bin/Resources/Textures/Particle/PS_Fragment%d.PNG"), 8))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_PS_BulletSmoke"),
+		CTexture::Create(m_pGraphic_Device, TEXT("../Bin/Resources/Textures/Particle/PS_BulletSmoke%d.PNG"), 6))))
+		return E_FAIL;
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_ShotGunFire"),
 		CTexture::Create(m_pGraphic_Device, TEXT("../Bin/Resources/Textures/Particle/ShotGunFire%d.PNG"), 4))))
 		return E_FAIL;
@@ -707,6 +727,10 @@ HRESULT CLoader::Loading_For_GamePlay()
 	ADD_TEXTURE(Boss_Missile_180, "../bin/Resources/Textures/Monster/boss/missile/180/%d.PNG", 2);
 #pragma endregion
 
+	//아이템
+	ADD_TEXTURE(Item_Ammo, "../Bin/Resources/Textures/Item/Ammo%d.PNG", 4);
+#pragma endregion
+
 #pragma region MODEL
 	lstrcpy(m_szLoadingText, TEXT("모델을(를) 로딩중입니다."));
 	Load_For_Terrain(TEXT("MapData.txt"));
@@ -744,6 +768,23 @@ HRESULT CLoader::Loading_For_GamePlay()
 
 	//몬스터
 	ADD_PRTOBJ(Ttakkeun_i);fDataCurNum++;m_fLoadPercent = fDataCurNum / fDataNum;
+
+	//아이템
+	if (FAILED(m_pGameInstance->Add_Prototype(m_eNextLevelID, TEXT("Prototype_GameObject_Item_Ammo_Chaingun"),
+		CItem::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(m_eNextLevelID, TEXT("Prototype_GameObject_Item_Ammo_Dispenser_Scatter"),
+		CItem::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(m_eNextLevelID, TEXT("Prototype_GameObject_Item_Ammo_Dispenser_Cannon"),
+		CItem::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(m_eNextLevelID, TEXT("Prototype_GameObject_Item_Ammo_LoverBoy"),
+		CItem::Create(m_pGraphic_Device))))
+		return E_FAIL;
 
 #pragma endregion
 
@@ -1068,6 +1109,9 @@ HRESULT CLoader::Loading_For_Indoor()
 	ADD_TEXTURE(BuildingV, "../Bin/Resources/Textures/Object/BuildingV/BuildingV.PNG", 1);
 	ADD_TEXTURE(BuildingU, "../Bin/Resources/Textures/Object/BuildingU/BuildingU.PNG", 1);
 
+	//아이템
+	ADD_TEXTURE(Item_Ammo, "../Bin/Resources/Textures/Item/Ammo%d.PNG", 4);
+
 	lstrcpy(m_szLoadingText, TEXT("모델을(를) 로딩중입니다."));
 	Load_For_Terrain(TEXT("NormalMapData.txt"));
 
@@ -1090,6 +1134,23 @@ HRESULT CLoader::Loading_For_Indoor()
 	ADD_PRTOBJ(AlphaBlock);
 	ADD_PRTOBJ(InvisibleBlock);
 	ADD_PRTOBJ(TriangularPillar);
+
+	//아이템
+	if (FAILED(m_pGameInstance->Add_Prototype(m_eNextLevelID, TEXT("Prototype_GameObject_Item_Ammo_Chaingun"),
+		CItem::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(m_eNextLevelID, TEXT("Prototype_GameObject_Item_Ammo_Dispenser_Scatter"),
+		CItem::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(m_eNextLevelID, TEXT("Prototype_GameObject_Item_Ammo_Dispenser_Cannon"),
+		CItem::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(m_eNextLevelID, TEXT("Prototype_GameObject_Item_Ammo_LoverBoy"),
+		CItem::Create(m_pGraphic_Device))))
+		return E_FAIL;
 
 	lstrcpy(m_szLoadingText, TEXT("사운드을(를) 로딩중입니다."));
 

@@ -95,7 +95,7 @@ void CBulletImpactSpark::resetParticle(Attribute* attribute)
 	attribute->_ColorFade = WHITE;						// 디졸브색상
 	attribute->_LifeTime = 0.2f;							// 라이프타임
 
-
+	attribute->_Animation = GetRandomFloat(0.f, m_fAnimationMaxFrame);
 
 }
 
@@ -108,6 +108,9 @@ EVENT CBulletImpactSpark::Update(_float timeDelta)
 
 	for (auto i = m_Particles.begin(); i != m_Particles.end();)
 	{
+		/* [ 파티클 개인의 애니메이션 적용 ] */
+		i->_Animation = GetRandomFloat(0.f, m_fAnimationMaxFrame);
+
 		//생존한 파티클만 갱신한다.
 		if (i->_isAlive)
 		{
@@ -129,8 +132,6 @@ EVENT CBulletImpactSpark::Update(_float timeDelta)
 		i++;
 	}
 
-	FrameUpdate(timeDelta);
-
 	return EVN_NONE;
 }
 
@@ -149,9 +150,6 @@ HRESULT CBulletImpactSpark::Render()
 	{
 		//렌더 상태를 지정한다.
 		SetUp_RenderState();
-
-		//m_pTextureCom->Bind_Resource(0);
-		m_pTextureCom->Bind_Resource((_uint)m_fFrame);
 
 		m_pGraphic_Device->SetFVF(Particle::FVF);
 		m_pGraphic_Device->SetStreamSource(0, m_pVB, 0, sizeof(Particle));
@@ -175,6 +173,9 @@ HRESULT CBulletImpactSpark::Render()
 		list<Attribute>::iterator i;
 		for (i = m_Particles.begin(); i != m_Particles.end(); i++)
 		{
+			/* [ 파티클 개인의 애니메이션 적용 ] */
+			m_pTextureCom->Bind_Resource((_uint)i->_Animation);
+
 			if (i->_isAlive)
 			{
 				//한 단계의 세그먼트에서 생존한 파티클을 다음 버텍스 버퍼 세그먼트로 복사한다.

@@ -62,6 +62,10 @@ public: //탄피
 public: //피흘리기
 	void SpawnBlood(_float3 _vPosition, LEVEL eLevel);
 
+
+public: //총알자국
+	void SpawnBulletMark(_float3 _vPosition, LEVEL eLevel, _float3 _vLook, _int _iNum);
+
 public: //보스스킬
 	void FireAttack(_float3 _vPosition, LEVEL eLevel, _int _iNum);
 	void JumpAttack(_float3 _vPosition, LEVEL eLevel);

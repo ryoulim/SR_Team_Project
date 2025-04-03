@@ -74,6 +74,8 @@ public:
 	class CGameObject* Raycast(const _float3& rayOrigin, const _float3& rayDir, _float rayLength, const initializer_list<_uint>& ColliderGroupIDs, _uint& _Out_ ColliderID);
 	// 아래로만 쏘는 레이
 	_float Raycast_Downward(const _float3& rayOrigin, _uint iColliderGroupID);
+
+	const list<class CCollider*>* Get_Colliders(_uint iIndex);
 #pragma endregion
 
 #pragma region RENDERER

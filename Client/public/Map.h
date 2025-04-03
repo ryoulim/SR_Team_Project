@@ -53,7 +53,7 @@ protected:
 	const _tchar* m_szTextureID = { nullptr };
 	const _tchar* m_szBufferType = { nullptr };
 	_float	  m_fTextureIdx = {};
-
+	//static _bool m_bRenderMode{};
 
 	CTexture* m_pTextureCom = { nullptr };
 	CVIBuffer* m_pVIBufferCom = { nullptr };

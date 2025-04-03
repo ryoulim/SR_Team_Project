@@ -120,6 +120,7 @@ void CWeapon_LoverBoy::Set_State(STATE State)
 		m_fEndFrame = 6.f;
 		m_pTransformCom->Set_State(CTransform::STATE_POSITION, { 320.f,-105.f,0.1f });
 		m_fFrameSpeed = 50.f;
+		Search_Target();
 		break;
 	case ST_RELOAD:
 		m_pTransformCom->Set_State(CTransform::STATE_POSITION, { 320.f,-105.f,0.1f });
@@ -160,7 +161,14 @@ void CWeapon_LoverBoy::Strong_Attack(_float fTimeDelta)
 	}
 	else if (m_fMotionTimer < 1.2f)
 	{
-		Update_Frame(fTimeDelta);
+		if (Update_Frame(fTimeDelta))
+		{
+			if (m_CurTarget != m_TargetMonsters.end())
+			{
+				m_pCameraTransform->LookAt(m_CurTarget->second->Get_Pos());
+				m_CurTarget++;
+			}
+		}
 	}
 	else if (m_fMotionTimer < 1.25f)
 	{
@@ -171,7 +179,11 @@ void CWeapon_LoverBoy::Strong_Attack(_float fTimeDelta)
 		m_LeftHand.pTransformCom->Chase({ 0.f,-600.f,0.1f }, fTimeDelta);
 	}
 	else
+	{
+		m_TargetMonsters.clear();
+		m_CurTarget = m_TargetMonsters.end();
 		Set_State(ST_RELOAD);
+	}
 }
 
 void CWeapon_LoverBoy::Reload(_float fTimeDelta)
@@ -203,6 +215,57 @@ void CWeapon_LoverBoy::Opening(_float fTimeDelta)
 		m_pTransformCom->Rotation_Reset();
 		Set_State(ST_IDLE);
 	}
+}
+
+void CWeapon_LoverBoy::Search_Target()
+{
+	// 몬스터 그룹 나중에 헤드로 바꿔야함
+	auto MonsterList = m_pGameInstance->Get_Colliders(CG_MONSTER);
+	const auto& vCameraPosition = *m_pCameraTransform->Get_State(CTransform::STATE_POSITION);
+	const auto& vCameraLook = *m_pCameraTransform->Get_State(CTransform::STATE_LOOK);
+
+	// 플레이어와의 시야각에 있으면서,
+	// 플레이어와의 거리가 m_fRayLength보다는 작고 가장 가까운 3개를 탐색
+	//검사에 통과한 이터레이터 리스트
+
+	//거리, 콜라이더
+	_float3 vDirectionVector{};
+
+	// FOV = 60
+	_float cosFovHalf = cosf(RADIAN(60.f*0.5f));
+
+	for (auto Monster : *MonsterList)
+	{
+		vDirectionVector = Monster->Get_Pos() - vCameraPosition;
+		if (vCameraLook.Dot(vDirectionVector) >= cosFovHalf)
+		{
+			m_TargetMonsters.emplace(vDirectionVector.Length(), Monster);
+			// 시야각 안에 있다.
+		}
+	}
+
+
+	if (m_TargetMonsters.empty())
+		return;
+
+	_uint iCount{};
+	//레이검사로 사이에 벽이 있는지 체크해서 다 걸러내기.
+	for (auto Iter = m_TargetMonsters.begin(); 
+		Iter != m_TargetMonsters.end();)
+	{
+		if (m_pGameInstance->RaycastBetweenPoints(vCameraPosition, Iter->second->Get_Pos(), CG_BLOCK))
+		{
+			Iter = m_TargetMonsters.erase(Iter);
+			continue;
+		}
+		Iter++;
+		// 3개 잡았으면 이후 필요없음
+		if (++iCount > 3)
+			break;
+	}
+
+	if (!m_TargetMonsters.empty())
+		m_CurTarget = m_TargetMonsters.begin();
 }
 
 void CWeapon_LoverBoy::Left_Hand_Render()

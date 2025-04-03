@@ -10,6 +10,7 @@
 #include "Explosion.h"
 #include "Firework.h"
 #include "EmptyBullet.h"
+#include "BulletMark.h"
 #include <iostream>
 
 //IMPLEMENT_SINGLETON(CFXMgr);
@@ -41,12 +42,58 @@ HRESULT CFXMgr::Initialize()
 	BulletImpactSparkDesc.vPosition.y += -20.f;
 	BulletImpactSparkDesc.fMaxFrame = 1;
 	BulletImpactSparkDesc.szTextureTag = TEXT("PC_Generic");
-	BulletImpactSparkDesc.fSize = 0.45f;
+	BulletImpactSparkDesc.fSize = 0.3f;
+	BulletImpactSparkDesc.iParticleNums = 2;
+	BulletImpactSparkDesc.fNum = 100.f;
 	pPool = CObjectPool::Create(20, LEVEL_STATIC,
 		TEXT("Prototype_GameObject_PC_BulletImpactSpark"), &BulletImpactSparkDesc);
 	if (!pPool)
 		return E_FAIL;
 	m_ObjectPools.emplace(TEXT("PC_BulletImpactSpark"), pPool);
+#pragma endregion
+
+#pragma region BULLETIMPACTSPARK2
+	CPSystem::DESC BulletImpactSparkDesc2{};
+	BulletImpactSparkDesc2.vPosition.y += -15.f;
+	BulletImpactSparkDesc2.fMaxFrame = 1;
+	BulletImpactSparkDesc2.szTextureTag = TEXT("PC_Generic");
+	BulletImpactSparkDesc2.fSize = 0.2f;
+	BulletImpactSparkDesc2.iParticleNums = 10;
+	pPool = CObjectPool::Create(40, LEVEL_STATIC,
+		TEXT("Prototype_GameObject_PC_BulletImpactSpark"), &BulletImpactSparkDesc2);
+	if (!pPool)
+		return E_FAIL;
+	m_ObjectPools.emplace(TEXT("PC_BulletImpactSpark2"), pPool);
+#pragma endregion
+
+#pragma region BULLETTRASH
+	CPSystem::DESC BulletTrash{};
+	BulletTrash.vPosition.y += -15.f;
+	BulletTrash.fMaxFrame = 15;
+	BulletTrash.szTextureTag = TEXT("PS_Trash");
+	BulletTrash.fSize = 0.5f;
+	BulletTrash.iParticleNums = 2;
+	BulletTrash.fNum = 100.f;
+	pPool = CObjectPool::Create(20, LEVEL_STATIC,
+		TEXT("Prototype_GameObject_PC_BulletImpactSpark"), &BulletTrash);
+	if (!pPool)
+		return E_FAIL;
+	m_ObjectPools.emplace(TEXT("PC_BulletTrash"), pPool);
+#pragma endregion
+
+#pragma region BULLETSMOKE
+	CPSystem::DESC BulletSmoke{};
+	BulletSmoke.vPosition.y += -10.f;
+	BulletSmoke.fMaxFrame = 6;
+	BulletSmoke.szTextureTag = TEXT("PS_BulletSmoke");
+	BulletSmoke.fSize = 3.f;
+	BulletSmoke.iParticleNums = 5;
+	BulletSmoke.fNum = 100.f;
+	pPool = CObjectPool::Create(40, LEVEL_STATIC,
+		TEXT("Prototype_GameObject_PC_BulletSmoke"), &BulletSmoke);
+	if (!pPool)
+		return E_FAIL;
+	m_ObjectPools.emplace(TEXT("PC_BulletSmoke"), pPool);
 #pragma endregion
 
 #pragma region EmptyBullet
@@ -692,6 +739,61 @@ void CFXMgr::SpawnBlood(_float3 _vPosition, LEVEL eLevel)
 		return;
 
 	Iter->second->Active_Object(eLevel, TEXT("Layer_Particle"), &BulletImpactSparkDesc);
+}
+
+void CFXMgr::SpawnBulletMark(_float3 _vPosition, LEVEL eLevel, _float3 _vLook , _int _iNum)
+{
+	/* [ 총알자국 스프라이트 ] */
+	CBulletMark::DESC BulletMarkDesc{};
+	BulletMarkDesc.bLoop = false;
+	BulletMarkDesc.fMaxFrame = 5.f;
+	BulletMarkDesc.fRotationPerSec = RADIAN(180.f);
+	BulletMarkDesc.fSpeedPerSec = 100.f;
+	BulletMarkDesc.szTextureTag = TEXT("BulletMark");
+	//BulletMarkDesc.szTextureTag = TEXT("Check_Tile");
+	BulletMarkDesc.vInitPos = _vPosition;
+	BulletMarkDesc.iType = _iNum;
+	BulletMarkDesc.vLook = _vLook;
+
+	BulletMarkDesc.vScale = _float3{ 5.f, 5.f, 1.f };
+
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_BulletMark"),
+		eLevel, L"Layer_Particle", &BulletMarkDesc)))
+		return;
+
+	/* [ 연기 튀는 파티클 ] */
+	CPSystem::DESC BulletSmoke{};
+	BulletSmoke.vPosition = _vPosition;
+	BulletSmoke.iParticleNums = 5;
+
+	auto Iter = m_ObjectPools.find(TEXT("PC_BulletSmoke"));
+	if (Iter == m_ObjectPools.end())
+		return;
+
+	Iter->second->Active_Object(eLevel, TEXT("Layer_Particle"), &BulletSmoke);
+
+	/* [ 스파크 튀는 파티클 ] */
+	CPSystem::DESC BulletImpactSparkDesc{};
+	BulletImpactSparkDesc.vPosition = _vPosition;
+	BulletImpactSparkDesc.vPosition.y += -10.f;
+	BulletImpactSparkDesc.iParticleNums = 2;
+
+	Iter = m_ObjectPools.find(TEXT("PC_BulletTrash"));
+	if (Iter == m_ObjectPools.end())
+		return;
+
+	Iter->second->Active_Object(eLevel, TEXT("Layer_Particle"), &BulletImpactSparkDesc);
+
+	CPSystem::DESC BulletImpactSparkDesc2{};
+	BulletImpactSparkDesc2.vPosition = _vPosition;
+	BulletImpactSparkDesc2.vPosition.y += -5.f;
+	BulletImpactSparkDesc2.iParticleNums = 10;
+
+	Iter = m_ObjectPools.find(TEXT("PC_BulletImpactSpark2"));
+	if (Iter == m_ObjectPools.end())
+		return;
+
+	Iter->second->Active_Object(eLevel, TEXT("Layer_Particle"), &BulletImpactSparkDesc2);
 }
 
 void CFXMgr::FireAttack(_float3 _vPosition, LEVEL eLevel, _int _iNum)

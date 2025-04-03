@@ -241,6 +241,12 @@ _float CGameInstance::Raycast_Downward(const _float3& rayOrigin, _uint iCollider
 	return m_pCollider_Manager->Raycast_Downward(rayOrigin, iColliderGroupID);
 }
 
+FORCEINLINE
+const list<class CCollider*>* CGameInstance::Get_Colliders(_uint iIndex)
+{
+	return m_pCollider_Manager->Get_Colliders(iIndex);
+}
+
 #pragma endregion
 
 #pragma region RENDERER

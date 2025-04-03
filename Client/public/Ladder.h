@@ -2,18 +2,12 @@
 // 부모 클래스 이름 : Map
 
 #pragma once
-#include "Map.h"
+#include "Interactive_Block.h"
 
 BEGIN(Client)
 
-class CLadder final : public CMap
+class CLadder final : public CInteractive_Block
 {
-public:
-	typedef struct tagLadderDesc : public CMap::DESC
-	{
-
-	}DESC;
-
 private:
 	CLadder(LPDIRECT3DDEVICE9 pGraphic_Device);
 	CLadder(const CLadder& Prototype);
@@ -26,9 +20,6 @@ public:
 	virtual EVENT Update(_float fTimeDelta) override;
 	virtual void Late_Update(_float fTimeDelta) override;
 	virtual HRESULT Render() override;
-
-private:
-	virtual HRESULT Ready_Components(void* pArg) override;
 
 public:
 	static CLadder* Create(LPDIRECT3DDEVICE9 pGraphic_Device);

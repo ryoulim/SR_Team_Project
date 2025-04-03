@@ -27,7 +27,6 @@ public:
 	virtual HRESULT Render() override;
 
 
-	void FrameUpdate(float timeDelta);
 	float GetRandomColor(float lowBound, float highBound);
 
 public:

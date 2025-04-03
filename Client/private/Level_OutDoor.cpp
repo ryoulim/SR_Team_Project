@@ -20,6 +20,10 @@ HRESULT CLevel_OutDoor::Initialize(CLevelData* pLevelData)
 	if (FAILED(Load_Map(LEVEL_OUTDOOR, TEXT("OutDoorMapData.txt"))))
 		return E_FAIL;
 
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_Sky"),
+		CurLevel, TEXT("Layer_Sky"))))
+		return E_FAIL;
+
 	if (FAILED(Ready_Layer_Camera(TEXT("Layer_Camera"))))
 		return E_FAIL;
 
@@ -36,10 +40,15 @@ HRESULT CLevel_OutDoor::Initialize(CLevelData* pLevelData)
 
 	return S_OK;
 }
-
+#include "Level_Loading.h"
 void CLevel_OutDoor::Update(_float fTimeDelta)
 {
 	Check_Collision();
+	if (m_iNextLevel)
+	{
+		m_pGameInstance->Change_Level(LEVEL_LOADING,
+			CLevel_Loading::Create(m_pGraphic_Device, (LEVEL)m_iNextLevel));
+	}
 }
 
 HRESULT CLevel_OutDoor::Render()
@@ -338,21 +347,26 @@ HRESULT CLevel_OutDoor::Ready_Layer_Camera(const _wstring& strLayerTag)
 HRESULT CLevel_OutDoor::Ready_Layer_Pawn(const _wstring& strLayerTag)
 {
 	//이 레벨의 플레이어 생성위치
-	_float3 vInitPosition = { 300.f, 300.f, 200.f };
+	_float3 vInitPosition = { 1938.f, 771.f, - 127.f};
 
-	// 플레이어가 있는지 체크하고 있으면 위치만 변경해줌.
-	auto pPlayer = GET_PLAYER;
+	//// 플레이어가 있는지 체크하고 있으면 위치만 변경해줌.
+	//auto pPlayer = GET_PLAYER;
+	//if (pPlayer)
+	//{
+	//	static_cast<CTransform*>(pPlayer->Find_Component(TEXT("Com_Transform")))
+	//		->Set_State(CTransform::STATE_POSITION, vInitPosition);
+	//	static_cast<CPawn*>(pPlayer)->Set_LevelID(CurLevel);
+	//	return S_OK;
+	//}
+
+	auto pPlayer = static_cast<CPawn*>(GET_PLAYER);
 	if (pPlayer)
-	{
-		static_cast<CTransform*>(pPlayer->Find_Component(TEXT("Com_Transform")))
-			->Set_State(CTransform::STATE_POSITION, vInitPosition);
-		return S_OK;
-	}
+		m_pGameInstance->Release_Layer(LEVEL_STATIC, strLayerTag);
 
 	//없으면 새로 생성해서 넣어줌
 	CPlayer::DESC PlayerDesc{};
 	PlayerDesc.vInitPos = vInitPosition;
-	PlayerDesc.vScale = { 20.f, 30.f, 20.f };
+	PlayerDesc.vScale = { 30.f, 40.f, 30.f };
 	PlayerDesc.fRotationPerSec = RADIAN(180.f);
 	PlayerDesc.fSpeedPerSec = 150.f;
 	PlayerDesc.eLevelID = CurLevel;
@@ -367,10 +381,21 @@ HRESULT CLevel_OutDoor::Ready_Layer_Pawn(const _wstring& strLayerTag)
 
 void CLevel_OutDoor::Check_Collision()
 {
+	/*PAWN*/
 	m_pGameInstance->Intersect(CG_PAWN, CG_BLOCK);
+	m_pGameInstance->Intersect(CG_PAWN, CG_INTERACTIVE);
+	m_pGameInstance->Intersect(CG_PAWN, CG_TRIGGER);
+
+	/*PBULLET*/
 	m_pGameInstance->Intersect(CG_PBULLET, CG_MONSTER);
 	m_pGameInstance->Intersect(CG_PBULLET, CG_BLOCK);
+
+	/*MBULLET*/
+	m_pGameInstance->Intersect(CG_MBULLET, CG_PAWN);
 	m_pGameInstance->Intersect(CG_MBULLET, CG_BLOCK);
+
+	/*MONSTER*/
+	m_pGameInstance->Intersect(CG_MONSTER, CG_BLOCK);
 }
 
 CLevel_OutDoor* CLevel_OutDoor::Create(LPDIRECT3DDEVICE9 pGraphic_Device, CLevelData* pLevelData)

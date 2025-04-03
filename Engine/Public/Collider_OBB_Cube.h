@@ -37,14 +37,6 @@ private:
 	INFO m_tInfo{};
 	_float m_fMaxLength{};
 
-#ifdef _COLLIDERRENDER
-	// 렌더링 가시화용
-	virtual HRESULT Initialize(void* pArg) override;
-	virtual void Render() override;
-	class CTransform* m_pRenderTransform = { nullptr };
-	class CVIBuffer* m_pRenderBuffer = { nullptr };
-#endif
-
 	virtual _bool Intersect_With_AABB_Cube(const CCollider* pOther) override;
 	virtual _bool Intersect_With_OBB_Cube(const CCollider* pOther) override;
 	virtual _bool Intersect_With_Sphere(const CCollider* pOther) override;
