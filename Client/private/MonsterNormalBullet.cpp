@@ -47,9 +47,13 @@ HRESULT CMonsterNormalBullet::Initialize(void* pArg)
 	Missile_iDesc.vPosition = { 0.f, 0.f, 0.f };
 	Missile_iDesc.szTextureTag = TEXT("PC_Small_Smoke");
 	Missile_iDesc.iParticleNums = 1000;
-	Missile_iDesc.fSize = 0.07f;
 	Missile_iDesc.fMaxFrame = 20.f;
 	Missile_iDesc.fLifeTime = GetRandomFloat(1.f, 3.f);
+
+	if (m_bGravity)
+		Missile_iDesc.fSize = 0.7f;
+	else
+		Missile_iDesc.fSize = 0.4f;
 
 	CGameObject* pObject = nullptr;
 	CGameObject** ppOut = &pObject;
@@ -197,10 +201,10 @@ HRESULT CMonsterNormalBullet::Render()
 	}
 	else
 	{
-		m_pGraphic_Device->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
-		m_pGraphic_Device->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
-		m_pGraphic_Device->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_ONE);
-		m_pGraphic_Device->SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
+		//m_pGraphic_Device->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
+		//m_pGraphic_Device->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
+		//m_pGraphic_Device->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_ONE);
+		//m_pGraphic_Device->SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
 
 		if (FAILED(m_pTransformCom->Bind_Resource()))
 			return E_FAIL;
@@ -216,8 +220,8 @@ HRESULT CMonsterNormalBullet::Render()
 		if (FAILED(m_pVIBufferCom->Render()))
 			return E_FAIL;
 
-		m_pGraphic_Device->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
-		m_pGraphic_Device->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);
+		//m_pGraphic_Device->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
+		//m_pGraphic_Device->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);
 	}
 	return S_OK;
 }

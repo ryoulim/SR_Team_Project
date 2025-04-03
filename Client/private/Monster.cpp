@@ -316,7 +316,7 @@ void CMonster::Collision_With_Weapon()
 		m_pTransformCom->LookAt(TargetPos);
 
 		// µÚ·Î ³Ë¹é
-		if (m_fAnimationFrame >= m_fAnimationMaxFrame - 1.f)
+		//if (m_fAnimationFrame >= m_fAnimationMaxFrame - 1.f)
 			m_bKnockBack = true;
 
 		return;

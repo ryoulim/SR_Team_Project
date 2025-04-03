@@ -170,7 +170,7 @@ void CMechsect::JumpPattern(_float dt)
 	case Client::CMechsect::JUMP_BEFORE:
 		m_fJumpFinished = 0.f;
 		m_fAnimationFrame = 0.f;
-		m_pGravityCom->Jump(30.f);
+		m_pGravityCom->Jump(20.f);
 		m_eJumpState = JUMP_ING;
 		break;
 

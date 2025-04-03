@@ -62,20 +62,11 @@ HRESULT CGreater::Initialize(void* pArg)
 
 void CGreater::Priority_Update(_float fTimeDelta)
 {
-	Set_Animation();
 	__super::Priority_Update(fTimeDelta);
 }
 
 EVENT CGreater::Update(_float fTimeDelta)
 {
-	if (KEY_DOWN(DIK_RBRACKET))
-	{
-		int i = m_eCurMonsterState;
-		i++;
-		m_eCurMonsterState = MONSTER_STATE(i);
-		if (m_eCurMonsterState == STATE_END)
-			m_eCurMonsterState = MONSTER_STATE(0);
-	}
 	return __super::Update(fTimeDelta);
 }
 
@@ -256,7 +247,7 @@ void CGreater::AttackPattern(_float dt)
 		MonsterNormalBullet_iDesc.iColliderID = CI_MONSTER_GREATER;
 		MonsterNormalBullet_iDesc.fSpeedPerSec = 900.f;
 		MonsterNormalBullet_iDesc.fRotationPerSec = RADIAN(180.f);
-		MonsterNormalBullet_iDesc.vScale = { 1.f, 3.f, 0.f };
+		MonsterNormalBullet_iDesc.vScale = { 1.f, 3.f, 1.f };
 		MonsterNormalBullet_iDesc.vPosition = *m_pTransformCom->Get_State(CTransform::STATE_POSITION);
 		_float3 vRight = *m_pTransformCom->Get_State(CTransform::STATE_RIGHT);
 		vRight.Normalize();
