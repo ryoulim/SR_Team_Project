@@ -439,6 +439,9 @@
     <Filter Include="02.GameObjects\Weapon\Bullet\RaceBossBullet">
       <UniqueIdentifier>{a4648b64-41aa-4afb-9569-9471b864482a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\Map\AlphaRect\TelephonePole">
+      <UniqueIdentifier>{37e21279-2922-432a-b162-fa0092fd4df9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -886,6 +889,9 @@
     <ClInclude Include="..\public\CutScene_Camera.h">
       <Filter>02.GameObjects\Camera\CutSceneCamera</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\TelephonePole.h">
+      <Filter>02.GameObjects\Map\AlphaRect\TelephonePole</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -1317,6 +1323,9 @@
     </ClCompile>
     <ClCompile Include="..\private\RaceBossBullet.cpp">
       <Filter>02.GameObjects\Weapon\Bullet\RaceBossBullet</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\TelephonePole.cpp">
+      <Filter>02.GameObjects\Map\AlphaRect\TelephonePole</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
