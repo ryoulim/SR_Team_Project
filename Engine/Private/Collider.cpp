@@ -5,7 +5,10 @@
 
 _float3 CCollider::m_vLast_Collision_Depth{};
 _float3 CCollider::m_vLast_Collision_Pos{};
+
+#ifdef _COLLIDERRENDER
 _bool	CCollider::m_bColliderRender{ FALSE };
+#endif
 
 CCollider::CCollider(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CComponent{ pGraphic_Device }

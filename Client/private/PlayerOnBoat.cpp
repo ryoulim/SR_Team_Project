@@ -82,7 +82,7 @@ HRESULT CPlayerOnBoat::Initialize(void* pArg)
 	WaterBoatDesc3.fMaxFrame = 1.f;
 	WaterBoatDesc3.fSize = 0.01f;
 	WaterBoatDesc3.fNum = static_cast<DESC*>(pArg)->fSpeedPerSec;
-	WaterBoatDesc2.
+	//WaterBoatDesc2.
 
 	CGameObject* pObject3 = nullptr;
 	CGameObject** ppOut3 = &pObject2;
@@ -118,11 +118,6 @@ EVENT CPlayerOnBoat::Update(_float fTimeDelta)
 
 	m_pCollider->Update_Collider();
 
-	__super::Priority_Update(fTimeDelta);
-}
-
-EVENT CPlayerOnBoat::Update(_float fTimeDelta)
-{
 	/* 따라오는 파티클 */
 	if (m_pWaterBoatEffect_01)
 	{
