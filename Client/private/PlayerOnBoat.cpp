@@ -39,58 +39,7 @@ HRESULT CPlayerOnBoat::Initialize(void* pArg)
 
 	m_pCurState = m_pState[NORMAL];
 
-
-	/* [ 물보라 파티클 01번 ] */
-	CPSystem::DESC WaterBoatDesc{};
-	WaterBoatDesc.vPosition = { 0.f, 0.f, 0.f };
-	WaterBoatDesc.szTextureTag = TEXT("WaterBoat");
-	WaterBoatDesc.iParticleNums = 50;
-	WaterBoatDesc.fMaxFrame = 1.f;
-	WaterBoatDesc.fSize = 0.06f;
-	WaterBoatDesc.fNum = static_cast<DESC*>(pArg)->fSpeedPerSec;
-
-	CGameObject* pObject = nullptr;
-	CGameObject** ppOut = &pObject;
-	if (FAILED(m_pGameInstance->Add_GameObjectReturn(LEVEL_STATIC, TEXT("Prototype_GameObject_PC_WaterBoat"),
-		m_eLevelID, L"Layer_Particle", ppOut, &WaterBoatDesc)))
-		return E_FAIL;
-
-	m_pWaterBoatEffect_01 = *ppOut;
-
-	/* [ 물보라 파티클 02번 ] */
-	CPSystem::DESC WaterBoatDesc2{};
-	WaterBoatDesc2.vPosition = { 0.f, 0.f, 0.f };
-	WaterBoatDesc2.szTextureTag = TEXT("WaterBoat");
-	WaterBoatDesc2.iParticleNums = 200;
-	WaterBoatDesc2.fMaxFrame = 1.f;
-	WaterBoatDesc2.fSize = 0.03f;
-	WaterBoatDesc2.fNum = static_cast<DESC*>(pArg)->fSpeedPerSec;
-
-	CGameObject* pObject2 = nullptr;
-	CGameObject** ppOut2 = &pObject2;
-	if (FAILED(m_pGameInstance->Add_GameObjectReturn(LEVEL_STATIC, TEXT("Prototype_GameObject_PC_WaterBoat"),
-		m_eLevelID, L"Layer_Particle", ppOut2, &WaterBoatDesc2)))
-		return E_FAIL;
-
-	m_pWaterBoatEffect_02 = *ppOut2;
-
-	/* [ 물보라 파티클 03번 ] */
-	CPSystem::DESC WaterBoatDesc3{};
-	WaterBoatDesc3.vPosition = { 0.f, 0.f, 0.f };
-	WaterBoatDesc3.szTextureTag = TEXT("WaterBoat");
-	WaterBoatDesc3.iParticleNums = 1000;
-	WaterBoatDesc3.fMaxFrame = 1.f;
-	WaterBoatDesc3.fSize = 0.01f;
-	WaterBoatDesc3.fNum = static_cast<DESC*>(pArg)->fSpeedPerSec;
-	WaterBoatDesc2.
-
-	CGameObject* pObject3 = nullptr;
-	CGameObject** ppOut3 = &pObject2;
-	if (FAILED(m_pGameInstance->Add_GameObjectReturn(LEVEL_STATIC, TEXT("Prototype_GameObject_PC_WaterBoat"),
-		m_eLevelID, L"Layer_Particle", ppOut3, &WaterBoatDesc3)))
-		return E_FAIL;
-
-	m_pWaterBoatEffect_03 = *ppOut3;
+	m_fWaterSpeed = static_cast<DESC*>(pArg)->fSpeedPerSec;
 
 	return S_OK;
 }
@@ -102,6 +51,9 @@ void CPlayerOnBoat::Priority_Update(_float fTimeDelta)
 	{
 		m_pCurState->Enter(this, fTimeDelta);
 		m_ePreState = m_eCurState;
+
+		if(m_pCurState == m_pState[NORMAL])
+			SpawnWaterParticle(m_fWaterSpeed);
 	}
 
 	//Exectue는 무조건 실행
@@ -206,6 +158,61 @@ void CPlayerOnBoat::StoreSlidingSpeed(_float fSpeed)
 _float CPlayerOnBoat::GetSlidingSpeed()
 {
 	return m_fSlidingSpeed;
+}
+
+void CPlayerOnBoat::SpawnWaterParticle(_float fWaterSpeed)
+{
+	/* [ 물보라 파티클 01번 ] */
+	CPSystem::DESC WaterBoatDesc{};
+	WaterBoatDesc.vPosition = { 0.f, 0.f, 0.f };
+	WaterBoatDesc.szTextureTag = TEXT("WaterBoat");
+	WaterBoatDesc.iParticleNums = 50;
+	WaterBoatDesc.fMaxFrame = 1.f;
+	WaterBoatDesc.fSize = 0.06f;
+	WaterBoatDesc.fNum = fWaterSpeed;
+
+	CGameObject* pObject = nullptr;
+	CGameObject** ppOut = &pObject;
+	if (FAILED(m_pGameInstance->Add_GameObjectReturn(LEVEL_STATIC, TEXT("Prototype_GameObject_PC_WaterBoat"),
+		m_eLevelID, L"Layer_Particle", ppOut, &WaterBoatDesc)))
+		return;
+
+	m_pWaterBoatEffect_01 = *ppOut;
+
+	/* [ 물보라 파티클 02번 ] */
+	CPSystem::DESC WaterBoatDesc2{};
+	WaterBoatDesc2.vPosition = { 0.f, 0.f, 0.f };
+	WaterBoatDesc2.szTextureTag = TEXT("WaterBoat");
+	WaterBoatDesc2.iParticleNums = 200;
+	WaterBoatDesc2.fMaxFrame = 1.f;
+	WaterBoatDesc2.fSize = 0.03f;
+	WaterBoatDesc2.fNum = fWaterSpeed;
+
+	CGameObject* pObject2 = nullptr;
+	CGameObject** ppOut2 = &pObject2;
+	if (FAILED(m_pGameInstance->Add_GameObjectReturn(LEVEL_STATIC, TEXT("Prototype_GameObject_PC_WaterBoat"),
+		m_eLevelID, L"Layer_Particle", ppOut2, &WaterBoatDesc2)))
+		return;
+
+	m_pWaterBoatEffect_02 = *ppOut2;
+
+	/* [ 물보라 파티클 03번 ] */
+	CPSystem::DESC WaterBoatDesc3{};
+	WaterBoatDesc3.vPosition = { 0.f, 0.f, 0.f };
+	WaterBoatDesc3.szTextureTag = TEXT("WaterBoat");
+	WaterBoatDesc3.iParticleNums = 1000;
+	WaterBoatDesc3.fMaxFrame = 1.f;
+	WaterBoatDesc3.fSize = 0.01f;
+	WaterBoatDesc3.fNum = fWaterSpeed;
+
+	CGameObject* pObject3 = nullptr;
+	CGameObject** ppOut3 = &pObject2;
+	if (FAILED(m_pGameInstance->Add_GameObjectReturn(LEVEL_STATIC, TEXT("Prototype_GameObject_PC_WaterBoat"),
+		m_eLevelID, L"Layer_Particle", ppOut3, &WaterBoatDesc3)))
+		return;
+
+	m_pWaterBoatEffect_03 = *ppOut3;
+
 }
 
 void CPlayerOnBoat::Set_State(STATE eState)

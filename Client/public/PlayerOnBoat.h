@@ -45,6 +45,7 @@ public:
 	void			Move_Lerp(_float fStartPosX, _float fTime);
 	void			StoreSlidingSpeed(_float fSpeed);
 	_float			GetSlidingSpeed();
+	void			SpawnWaterParticle(_float fWaterSpeed);
 
 private:
 	class CCameraManager*	m_pCameraManager = { nullptr };
@@ -57,6 +58,7 @@ private:
 	CPBState*				m_pCurState = { nullptr };
 	CPBState*				m_pState[NON] = { nullptr };
 	_float					m_fSlidingSpeed = {};
+	_float					m_fWaterSpeed = {};
 
 private:
 	void			Init_Camera_Link();
