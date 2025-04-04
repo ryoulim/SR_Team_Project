@@ -377,49 +377,77 @@ HRESULT CLevel_Indoor::Ready_Layer_Pawn(const _wstring& strLayerTag)
 
 HRESULT CLevel_Indoor::Ready_Layer_Monster(const _wstring& strLayerTag)
 {
-	_float3 Pos = { 513.f, 150.f, 325.f };
-
+	_float3 Pos = {};
 	CMonster::DESC Cultist_iDesc{};
-	Cultist_iDesc.vPosition = Pos;
 	Cultist_iDesc.fSpeedPerSec = 60.f;
 	Cultist_iDesc.fRotationPerSec = RADIAN(180.f);
 	Cultist_iDesc.vActive = true;
-	Cultist_iDesc.vReturnPos = Pos;
 	Cultist_iDesc.eLevel = LEVEL_INDOOR;
 	Cultist_iDesc.fAttackDistance = 400.f;
 	Cultist_iDesc.fDetectiveDistance = 500.f;
-	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_Cultist"),
-		LEVEL_INDOOR, L"Layer_Monster", &Cultist_iDesc)))
-		return E_FAIL;
 	/******************************************/
-	Pos = _float3{ 826.f, 150.f, 604.f };
 	CMonster::DESC Shotgunner_iDesc{};
-	Shotgunner_iDesc.vPosition = Pos;
 	Shotgunner_iDesc.fSpeedPerSec = 60.f;
 	Shotgunner_iDesc.fRotationPerSec = RADIAN(180.f);
 	Shotgunner_iDesc.vActive = true;
-	Shotgunner_iDesc.vReturnPos = Pos;
 	Shotgunner_iDesc.eLevel = LEVEL_INDOOR;
 	Shotgunner_iDesc.fAttackDistance = 300.f;
 	Shotgunner_iDesc.fDetectiveDistance = 500.f;
-	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_Shotgunner"),
-		LEVEL_INDOOR, L"Layer_Monster", &Shotgunner_iDesc)))
-		return E_FAIL;
 	/******************************************/
-	Pos = _float3{ 826.f, 150.f, 604.f };
-
 	CMonster::DESC Greater_iDesc{};
-	Greater_iDesc.vPosition = Pos;
 	Greater_iDesc.fSpeedPerSec = 60.f;
 	Greater_iDesc.fRotationPerSec = RADIAN(180.f);
 	Greater_iDesc.vActive = true;
-	Greater_iDesc.vReturnPos = Pos;
 	Greater_iDesc.eLevel = LEVEL_INDOOR;
 	Greater_iDesc.fAttackDistance = 400.f;
 	Greater_iDesc.fDetectiveDistance = 500.f;
-	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_Greater"),
-		LEVEL_INDOOR, L"Layer_Monster", &Greater_iDesc)))
-		return E_FAIL;
+
+#define SPAWN_CULTIST(x,y,z, level)							\
+Pos = _float3{ x, y, z };									\
+Cultist_iDesc.vPosition = Pos;								\
+Cultist_iDesc.vReturnPos = Pos;								\
+if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC,	\
+TEXT("Prototype_GameObject_Cultist"),						\
+level, L"Layer_Monster", &Cultist_iDesc)))					\
+return E_FAIL;												\
+
+#define SPAWN_SHOTGUNNER(x,y,z, level)						\
+Pos = _float3{ x, y, z };									\
+Shotgunner_iDesc.vPosition = Pos;							\
+Shotgunner_iDesc.vReturnPos = Pos;							\
+if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC,	\
+TEXT("Prototype_GameObject_Shotgunner"),					\
+level, L"Layer_Monster", &Shotgunner_iDesc)))				\
+return E_FAIL;												\
+
+#define SPAWN_GREATER(x,y,z, level)							\
+Pos = _float3{ x, y, z };									\
+Greater_iDesc.vPosition = Pos;								\
+Greater_iDesc.vReturnPos = Pos;								\
+if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC,	\
+TEXT("Prototype_GameObject_Greater"),						\
+level, L"Layer_Monster", &Greater_iDesc)))					\
+return E_FAIL;												\
+
+	SPAWN_CULTIST(513.f, 150.f, 325.f, LEVEL_INDOOR);
+	//SPAWN_CULTIST(1186.f, 150.f, 333.f, LEVEL_INDOOR);
+	//SPAWN_CULTIST(1917.f, 150.f, 329.f, LEVEL_INDOOR);
+	//SPAWN_CULTIST(1773.f, 150.f, 1544.f, LEVEL_INDOOR);
+	//SPAWN_CULTIST(539.f, 150.f, 309.f, LEVEL_INDOOR);
+
+	//SPAWN_SHOTGUNNER(826.f, 150.f, 604.f, LEVEL_INDOOR);
+	//SPAWN_SHOTGUNNER(1633.f, 150.f, 440.f, LEVEL_INDOOR);
+	//SPAWN_SHOTGUNNER(2077.f, 150.f, 937.f, LEVEL_INDOOR);
+	//SPAWN_SHOTGUNNER(642.f, 150.f, 835.f, LEVEL_INDOOR);
+	//SPAWN_SHOTGUNNER(530.f, 150.f, 323.f, LEVEL_INDOOR);
+
+	//SPAWN_GREATER(2111.f, 150.f, 470.f, LEVEL_INDOOR);
+	//SPAWN_GREATER(879.f, 150.f, 739.f, LEVEL_INDOOR);
+	//SPAWN_GREATER(353.f, 150.f, 781.f, LEVEL_INDOOR);
+	//SPAWN_GREATER(675.f, 150.f, 515.f, LEVEL_INDOOR);
+	//SPAWN_GREATER(1559.f, 150.f, 996.f, LEVEL_INDOOR);
+
+
 
 
 	return S_OK;

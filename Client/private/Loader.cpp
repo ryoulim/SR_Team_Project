@@ -597,6 +597,9 @@ HRESULT CLoader::Loding_For_Static()
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_FleshBullet"),
 		CTexture::Create(m_pGraphic_Device, TEXT("../Bin/Resources/Textures/Bullet/FleshBullet/%d.png"), 8))))
 		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_BlueFire"),
+		CTexture::Create(m_pGraphic_Device, TEXT("../Bin/Resources/Textures/Bullet/BlueFire/%d.png"), 8))))
+		return E_FAIL;
 #pragma endregion
 
 #pragma region 매니저 생성

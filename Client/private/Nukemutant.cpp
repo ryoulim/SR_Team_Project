@@ -257,10 +257,9 @@ void CNukemutant::AttackPattern(_float dt)
 
 		/*테스트용*/
 		MonsterNormalBullet_iDesc.szTextureID = TEXT("FleshBullet");
-		MonsterNormalBullet_iDesc.bAnimation = true;
-		MonsterNormalBullet_iDesc.bGravity = true;
+		MonsterNormalBullet_iDesc.bFlesh = true;
 		if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_MonsterNormalBullet"),
-			LEVEL_GAMEPLAY, L"Layer_MonsterBullet", &MonsterNormalBullet_iDesc)))
+			m_eLevelID, L"Layer_MonsterBullet", &MonsterNormalBullet_iDesc)))
 			return;
 
 		m_fBulletCooldownElapsed = 0.f;

@@ -345,8 +345,8 @@ void CMonster::Debug_Output()
 	if (elapsed >= 1000)
 	{
 		// 1초 이상 지났다면 출력
-		cout << m_szTextureID <<" |\t플레이어와의 거리 : " << m_fCurDistance << endl;
-		cout << m_szTextureID <<" |\t상태 : ";
+		cout << " |\t플레이어와의 거리 : " << m_fCurDistance << endl;
+		cout << " |\t상태 : ";
 		switch (m_eState)
 		{
 		case Client::CMonster::MODE_IDLE:
@@ -381,7 +381,6 @@ void CMonster::State_Change_IDLE(_float dt)
 	{
 		m_bFoundPlayer = true;
 		//플레이어 발견 시 행동
-		cout << m_szTextureID << " 플레이어 감지!!" << endl;
 		if (IsMonsterAbleToAttack())
 			m_eState = MODE::MODE_DETECTIVE;
 	}
@@ -527,6 +526,8 @@ void CMonster::CalculateVectorToPlayer()
 
 bool CMonster::IsPlayerDetected() // 이 함수 수정 좀만 해도 될까용 
 {
+	if (m_fCurDistance < 100.f && m_fCurDistance > 0.f)
+		return true;
 	// 거리 체크 (현재거리가 감지거리보다 작을 때)
 	if (m_fCurDistance < m_fDetectiveDistance)
 	{

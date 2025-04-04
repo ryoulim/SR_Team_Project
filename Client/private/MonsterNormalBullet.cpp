@@ -39,7 +39,7 @@ HRESULT CMonsterNormalBullet::Initialize(void* pArg)
 	/* [ 타겟 설정 ] */
 	SetTargetDir();
 
-	if (m_bGravity)
+	if (m_bFlesh)
 		m_pGravityCom->Jump(0.05f * m_fTargetDistance);
 
 	//미사일 파티클
@@ -50,7 +50,7 @@ HRESULT CMonsterNormalBullet::Initialize(void* pArg)
 	Missile_iDesc.fMaxFrame = 20.f;
 	Missile_iDesc.fLifeTime = GetRandomFloat(1.f, 3.f);
 
-	if (m_bGravity)
+	if (m_bFlesh)
 		Missile_iDesc.fSize = 0.7f;
 	else
 		Missile_iDesc.fSize = 0.4f;
@@ -85,10 +85,12 @@ HRESULT CMonsterNormalBullet::Ready_Components(void* pArg)
 
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, pDesc->vPosition);
 	m_pTransformCom->Scaling(pDesc->vScale);
-	m_bGravity = pDesc->bGravity;
+	//m_bGravity = pDesc->bGravity;
+	//m_bAnimation = pDesc->bAnimation;
 	m_szTextureID = pDesc->szTextureID;
-	m_bAnimation = pDesc->bAnimation;
 	m_fSpeed = pDesc->fSpeedPerSec;
+	m_bBlueFire = pDesc->bBlueFire;
+	m_bFlesh = pDesc->bFlesh;
 
 	/* For.Com_Texture */
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, _wstring(TEXT("Prototype_Component_Texture_")) + m_szTextureID,
@@ -108,7 +110,7 @@ HRESULT CMonsterNormalBullet::Ready_Components(void* pArg)
 		TEXT("Com_Collider"), reinterpret_cast<CComponent**>(&m_pCollider), &ColliderDesc)))
 		return E_FAIL;
 
-	if (m_bGravity)
+	if (m_bFlesh)
 	{
 		/* For.Com_Gravity */
 		CGravity::DESC GravityDesc{};
@@ -149,7 +151,7 @@ EVENT CMonsterNormalBullet::Update(_float fTimeDelta)
 
 
 	//플레이어로 향해 날라가라
-	if (m_bGravity)
+	if (m_bFlesh)
 	{
 		m_pTransformCom->Go_Straight(fTimeDelta);
 	}
@@ -161,7 +163,7 @@ EVENT CMonsterNormalBullet::Update(_float fTimeDelta)
 
 void CMonsterNormalBullet::Late_Update(_float fTimeDelta)
 {
-	if (m_bGravity)
+	if (m_bFlesh)
 		m_pGravityCom->Update(fTimeDelta);
 
 	//렌더그룹 업데이트
@@ -169,7 +171,7 @@ void CMonsterNormalBullet::Late_Update(_float fTimeDelta)
 		return;
 
 
-	if (m_bAnimation)
+	if (m_bFlesh || m_bBlueFire)
 		FrameUpdate(fTimeDelta, 8.f, 15.f, true);
 	__super::Late_Update(fTimeDelta);
 }
@@ -183,46 +185,35 @@ void CMonsterNormalBullet::On_Collision(_uint MyColliderID, _uint OtherColliderI
 		m_pMissile = nullptr;
 	}
 	m_bDead = true; // 뭐가 됐든 없어지는게 맞는 것 같음
-	//if (CI_PLAYER(OtherColliderID))
-	//{
-	//	m_bDead = true;
-	//}
+
 }
 
 HRESULT CMonsterNormalBullet::Render()
 {
-	if (m_bAnimation) // flesh
+	if (m_bFlesh)
 	{
 		m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
 		m_pGraphic_Device->SetRenderState(D3DRS_ALPHAREF, 200);
 		m_pGraphic_Device->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER);
-		__super::Render();
-		m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
 	}
-	else
+	if (m_bBlueFire)
 	{
-		//m_pGraphic_Device->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
-		//m_pGraphic_Device->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
-		//m_pGraphic_Device->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_ONE);
+		m_pGraphic_Device->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
+		m_pGraphic_Device->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
+		m_pGraphic_Device->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
 		//m_pGraphic_Device->SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
+	}
 
-		if (FAILED(m_pTransformCom->Bind_Resource()))
-			return E_FAIL;
-
-		if (FAILED(m_pTextureCom->Bind_Resource(static_cast<_uint>(m_fAnimationFrame))))
-			return E_FAIL;
-		//m_pGraphic_Device->SetTexture(0, nullptr);
-
-		if (FAILED(m_pVIBufferCom->Bind_Buffers()))
-			return E_FAIL;
-
-		m_pGraphic_Device->SetTransform(D3DTS_WORLD, &m_pTransformCom->Billboard());
-		if (FAILED(m_pVIBufferCom->Render()))
-			return E_FAIL;
-
-		//m_pGraphic_Device->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
+	__super::Render();
+	
+	if (m_bBlueFire)
+	{
+		m_pGraphic_Device->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
 		//m_pGraphic_Device->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);
 	}
+	if (m_bFlesh)
+		m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
+
 	return S_OK;
 }
 
@@ -238,7 +229,7 @@ void CMonsterNormalBullet::SetTargetDir()
 
 	// 약간의 랜덤 오차를 추가
 
-	if (m_bGravity)
+	if (m_bFlesh)
 	{
 		//m_vTargetPos.y += 50.f;
 		m_pTransformCom->LookAt(m_vTargetPos);
