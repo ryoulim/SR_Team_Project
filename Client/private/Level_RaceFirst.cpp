@@ -6,6 +6,7 @@
 #include "Map.h"
 #include "PlayerOnBoat.h"
 #include "CameraManager.h"
+#include "RaceBoss.h"
 
 #define CurLevel LEVEL_RACEFIRST
 
@@ -31,11 +32,17 @@ HRESULT CLevel_RaceFirst::Initialize(CLevelData* pLevelData)
 	if (FAILED(Ready_Layer_Pawn(TEXT("Layer_Pawn"))))
 		return E_FAIL;
 
+	if (FAILED(Ready_Layer_RaceBoss(TEXT("Layer_RaceBoss"))))
+		return E_FAIL;
+
+
 	return S_OK;
 }
 
 void CLevel_RaceFirst::Update(_float fTimeDelta)
 {
+	Check_Collision();
+
 	if (m_iNextLevel)
 	{
 		m_pGameInstance->Change_Level(LEVEL_LOADING,
@@ -226,10 +233,10 @@ HRESULT CLevel_RaceFirst::Ready_Layer_Pawn(const _wstring& strLayerTag)
 		m_pGameInstance->Release_Layer(LEVEL_STATIC,strLayerTag);
 
 	CPlayerOnBoat::DESC PlayerOnBoatDesc = {};
-	PlayerOnBoatDesc.vInitPos = { 450.f, 17.f, 8000.f };
+	PlayerOnBoatDesc.vInitPos = { 450.f, 17.f, 100.f };
 	PlayerOnBoatDesc.vScale = { 35.f, 30.f, 20.f };
 	PlayerOnBoatDesc.fRotationPerSec = RADIAN(180.f);
-	PlayerOnBoatDesc.fSpeedPerSec = 3000.f;
+	PlayerOnBoatDesc.fSpeedPerSec = 400.f;
 	PlayerOnBoatDesc.fMouseSensor = 0.1f;
 	PlayerOnBoatDesc.eLevelID = CurLevel;
 
@@ -238,6 +245,25 @@ HRESULT CLevel_RaceFirst::Ready_Layer_Pawn(const _wstring& strLayerTag)
 		return E_FAIL;
 
 	return S_OK;
+}
+
+HRESULT CLevel_RaceFirst::Ready_Layer_RaceBoss(const _wstring& strLayerTag)
+{
+	CRaceBoss::DESC RaceBossDesc = {};
+	RaceBossDesc.fRotationPerSec = RADIAN(180.f);
+	RaceBossDesc.fSpeedPerSec = 400.f;
+	RaceBossDesc.eLevelID = CurLevel;
+
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_RaceBoss"),
+		LEVEL_STATIC, strLayerTag, &RaceBossDesc)))
+		return E_FAIL;
+
+	return S_OK;
+}
+
+void CLevel_RaceFirst::Check_Collision()
+{
+	m_pGameInstance->Intersect(CG_PAWN, CG_MBULLET);
 }
 
 CLevel_RaceFirst* CLevel_RaceFirst::Create(LPDIRECT3DDEVICE9 pGraphic_Device, class CLevelData* pLevelData)

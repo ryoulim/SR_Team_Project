@@ -115,6 +115,11 @@ HRESULT CGrenadeBullet::Render()
 	__super::Render();
 
 	m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
+
+#ifdef _COLLIDERRENDER
+	m_pCollider->Render();
+#endif
+
 	return S_OK;
 }
 
@@ -185,7 +190,7 @@ HRESULT CGrenadeBullet::Ready_Components(void* pArg)
 
 		CCollider_Capsule::DESC ColliderDesc{};
 		ColliderDesc.pTransform = m_pTransformCom;
-		ColliderDesc.vScale = pDesc->vScale;
+		ColliderDesc.vScale.x = pDesc->vScale.x * 0.5f;
 		ColliderDesc.pOwner = this;
 
 		if (pDesc->ColliderGroup == CG_BOSS)

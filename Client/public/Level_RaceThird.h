@@ -21,6 +21,9 @@ private:
 	HRESULT Ready_Layer_Terrain(const _wstring& strLayerTag);
 	HRESULT Ready_Layer_Statue(const _wstring& strLayerTag);
 	HRESULT Ready_Layer_Pawn(const _wstring& strLayerTag);
+	HRESULT Ready_Layer_RaceBoss(const _wstring& strLayerTag);
+
+	void Check_Collision();
 
 public:
 	static CLevel_RaceThird* Create(LPDIRECT3DDEVICE9 pGraphic_Device, class CLevelData* pLevelData);

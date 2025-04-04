@@ -212,6 +212,7 @@
     <ClInclude Include="..\Public\VIBuffer_BuildingW.h" />
     <ClInclude Include="..\Public\VIBuffer_Cabinet.h" />
     <ClInclude Include="..\Public\VIBuffer_Canopy.h" />
+    <ClInclude Include="..\public\VIBuffer_Circle.h" />
     <ClInclude Include="..\Public\VIBuffer_Computer.h" />
     <ClInclude Include="..\public\VIBuffer_Cube.h" />
     <ClInclude Include="..\public\VIBuffer_CubeEx.h" />
@@ -272,6 +273,7 @@
     <ClCompile Include="..\Private\VIBuffer_BuildingW.cpp" />
     <ClCompile Include="..\Private\VIBuffer_Cabinet.cpp" />
     <ClCompile Include="..\Private\VIBuffer_Canopy.cpp" />
+    <ClCompile Include="..\private\VIBuffer_Circle.cpp" />
     <ClCompile Include="..\Private\VIBuffer_Computer.cpp" />
     <ClCompile Include="..\private\VIBuffer_Cube.cpp" />
     <ClCompile Include="..\private\VIBuffer_CubeEx.cpp" />

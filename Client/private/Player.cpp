@@ -151,8 +151,9 @@ void CPlayer::On_Collision(_uint MyColliderID, _uint OtherColliderID)
 		Change_Level();
 		break;
 
+		/* ¾ÆÀÌÅÛ */
 	case CI_ITEM_AMMO_CHAINGUN:
-		m_Weapons[1]->Replenish_Ammo(5);
+		m_Weapons[1]->Replenish_Ammo(50);
 		break;
 		
 	case CI_ITEM_AMMO_DISPENSER_SCATTER:
@@ -165,6 +166,22 @@ void CPlayer::On_Collision(_uint MyColliderID, _uint OtherColliderID)
 
 	case CI_ITEM_AMMO_LOVERBOY:
 		m_Weapons[0]->Replenish_Ammo(5);
+		break;
+
+	case CI_ITEM_HEALKIT:
+		m_tInfo.iHP += 10;
+		break;
+
+	case CI_ITEM_ARMOR_PIECE:
+		m_tInfo.iArmor += 1;
+		break;
+
+	case CI_ITEM_ARMOR_FULL:
+		m_tInfo.iArmor = 100;
+		break;
+
+	case CI_ITEM_CARDKEY:
+		m_bHaveCardkey = true;
 		break;
 	
 	case CI_BLOCK_COMMON:

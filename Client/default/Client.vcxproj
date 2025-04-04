@@ -257,6 +257,8 @@
     <ClInclude Include="..\public\PlayerOnBoat.h" />
     <ClInclude Include="..\public\Portrait.h" />
     <ClInclude Include="..\public\PSystem.h" />
+    <ClInclude Include="..\public\RaceBoss.h" />
+    <ClInclude Include="..\public\RaceBossBullet.h" />
     <ClInclude Include="..\public\RaceCylinder.h" />
     <ClInclude Include="..\public\RaceGate.h" />
     <ClInclude Include="..\public\RaceLandscape.h" />
@@ -402,6 +404,8 @@
     <ClCompile Include="..\private\PlayerOnBoat.cpp" />
     <ClCompile Include="..\private\Portrait.cpp" />
     <ClCompile Include="..\private\PSystem.cpp" />
+    <ClCompile Include="..\private\RaceBoss.cpp" />
+    <ClCompile Include="..\private\RaceBossBullet.cpp" />
     <ClCompile Include="..\private\RaceCylinder.cpp" />
     <ClCompile Include="..\private\RaceGate.cpp" />
     <ClCompile Include="..\private\RaceLandscape.cpp" />

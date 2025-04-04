@@ -193,6 +193,9 @@
     <ClInclude Include="..\public\Management.h">
       <Filter>06.Management</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\VIBuffer_Circle.h">
+      <Filter>04.Components\VIBuffer\Circle</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="99.Headers">
@@ -288,9 +291,6 @@
     <Filter Include="04.Components\Collider\Sphere">
       <UniqueIdentifier>{363cddbb-2bd8-46cc-be96-68226d0e499e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="04.Components\Collider\Capsule">
-      <UniqueIdentifier>{16c87723-ef05-409a-ba4e-619f17fc0234}</UniqueIdentifier>
-    </Filter>
     <Filter Include="04.Components\Collider\Line">
       <UniqueIdentifier>{00be9faa-a1ba-4551-9dcc-d44dd468399e}</UniqueIdentifier>
     </Filter>
@@ -383,6 +383,12 @@
     </Filter>
     <Filter Include="02.GameObject\Pool">
       <UniqueIdentifier>{4fbcb975-7b7a-4572-a7a8-8eadeb594170}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04.Components\VIBuffer\Circle">
+      <UniqueIdentifier>{46802c2a-69f3-482f-a8db-3b84d8e6f56a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04.Components\Collider\Capsule">
+      <UniqueIdentifier>{16c87723-ef05-409a-ba4e-619f17fc0234}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -559,6 +565,9 @@
     </ClCompile>
     <ClCompile Include="..\private\Management.cpp">
       <Filter>06.Management</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\VIBuffer_Circle.cpp">
+      <Filter>04.Components\VIBuffer\Circle</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -162,6 +162,11 @@ void CMainApp::Update(_float fTimeDelta)
 		CAMERA_MANAGER->Set_Mouse_Fix(m_bMouseToggle);
 		m_bMouseToggle = !m_bMouseToggle;
 	}
+
+#ifdef _COLLIDERRENDER
+	if (KEY_DOWN(DIK_F9))
+		CCollider::m_bColliderRender = !CCollider::m_bColliderRender;
+#endif
 #pragma endregion
 
 }
