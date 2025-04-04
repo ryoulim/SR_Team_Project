@@ -190,39 +190,30 @@ void CMonsterNormalBullet::On_Collision(_uint MyColliderID, _uint OtherColliderI
 
 HRESULT CMonsterNormalBullet::Render()
 {
-	if (m_bFlesh) // flesh
+	if (m_bFlesh)
 	{
 		m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
 		m_pGraphic_Device->SetRenderState(D3DRS_ALPHAREF, 200);
 		m_pGraphic_Device->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER);
-		__super::Render();
-		m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
 	}
-	else
+	if (m_bBlueFire)
 	{
-		//m_pGraphic_Device->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
-		//m_pGraphic_Device->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
-		//m_pGraphic_Device->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_ONE);
+		m_pGraphic_Device->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
+		m_pGraphic_Device->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
+		m_pGraphic_Device->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
 		//m_pGraphic_Device->SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
+	}
 
-
-		if (FAILED(m_pTransformCom->Bind_Resource()))
-			return E_FAIL;
-
-		if (FAILED(m_pTextureCom->Bind_Resource(static_cast<_uint>(m_fAnimationFrame))))
-			return E_FAIL;
-		//m_pGraphic_Device->SetTexture(0, nullptr);
-
-		if (FAILED(m_pVIBufferCom->Bind_Buffers()))
-			return E_FAIL;
-
-		m_pGraphic_Device->SetTransform(D3DTS_WORLD, &m_pTransformCom->Billboard());
-		if (FAILED(m_pVIBufferCom->Render()))
-			return E_FAIL;
-
-		//m_pGraphic_Device->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
+	__super::Render();
+	
+	if (m_bBlueFire)
+	{
+		m_pGraphic_Device->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
 		//m_pGraphic_Device->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);
 	}
+	if (m_bFlesh)
+		m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
+
 	return S_OK;
 }
 

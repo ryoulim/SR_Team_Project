@@ -53,9 +53,9 @@ HRESULT CArchangel::Initialize(void* pArg)
 	m_fAnimationMaxFrame = 4.f;
 	m_fAnimationSpeed = 5.f;
 	m_iState = STATE_MOVE;
-	m_fCooldownTime = 0.8f;     // °ø°Ý ½¬´Â ÅÒ
-	m_fBulletCooldown = 0.1f;	// ÃÑ¾Ë ¹ß»ç Äð
-	m_fAttackTime = 0.5f;		// °ø°Ý ½Ã°£
+	m_fCooldownTime = 1.5f;     // °ø°Ý ½¬´Â ÅÒ
+	m_fBulletCooldown = 0.03f;	// ÃÑ¾Ë ¹ß»ç Äð
+	m_fAttackTime = 0.2f;		// °ø°Ý ½Ã°£
 	m_fTrailDuration = 0.5f;	// ÀÜ»óÀÌ »ç¶óÁö´Â ½Ã°£	
 
 	return S_OK;
@@ -101,6 +101,10 @@ void CArchangel::Late_Update(_float fTimeDelta)
 
 HRESULT CArchangel::Render()
 {
+	if (KEY_DOWN(DIK_LCONTROL))
+	{
+		int a = 0;
+	}
 	__super::Render();
 	if (m_eState == MODE_READY || m_eState == MODE_BATTLE)
 	{
@@ -189,7 +193,7 @@ void CArchangel::DoReady(_float dt)
 	if (m_fCooldownDuration >= m_fCooldownTime)
 	{
 		m_isReadyToAttack = true;
-		rand() % 2 == 0 ? m_eAttackPattern = ATTACK_FLY1 : m_eAttackPattern = ATTACK_FIRE1;
+		rand() % 10 > 7 ? m_eAttackPattern = ATTACK_FLY1 : m_eAttackPattern = ATTACK_FIRE1;
 		if (m_eAttackPattern == ATTACK_FLY1) m_eCurMonsterState = STATE_FLY;
 		if (m_eAttackPattern == ATTACK_FIRE1) m_eCurMonsterState = STATE_ATTACK;
 		m_fBulletCooldownElapsed = 0.4f;
@@ -309,7 +313,6 @@ void CArchangel::FlyPattern(_float dt)
 		{
 			m_bCoolingDown = true;
 			m_bGravity = true;
-			m_pTransformCom->Set_State(CTransform::STATE_POSITION, m_vTargetPos);
 		}
 		break;
 
@@ -320,7 +323,7 @@ void CArchangel::FlyPattern(_float dt)
 
 void CArchangel::FirePattern(_float dt)
 {
-	m_bCoolingDown = true;
+	//m_bCoolingDown = true;
 	switch (m_eAttackPattern)
 	{
 	case Client::CArchangel::ATTACK_FIRE1:
@@ -344,7 +347,7 @@ void CArchangel::FirePattern(_float dt)
 		if (m_fAttackTimer >= m_fAttackTime)
 		{
 			m_fAttackTimer = 0.f;
-			m_bCoolingDown = false;
+			m_bCoolingDown = true;
 		}
 		if (m_fBulletCooldownElapsed >= m_fBulletCooldown)
 		{
@@ -355,9 +358,9 @@ void CArchangel::FirePattern(_float dt)
 			MonsterNormalBullet_iDesc.iColliderID = CI_MONSTER_ARCHANGEL;
 			MonsterNormalBullet_iDesc.fSpeedPerSec = 1000.f;
 			MonsterNormalBullet_iDesc.fRotationPerSec = RADIAN(180.f);
-			MonsterNormalBullet_iDesc.vScale = { 10.f, 10.f, 1.f };
+			MonsterNormalBullet_iDesc.vScale = { 30.f, 30.f, 1.f };
 			MonsterNormalBullet_iDesc.vPosition = *m_pTransformCom->Get_State(CTransform::STATE_POSITION);
-			MonsterNormalBullet_iDesc.vPosition.y += 15.f;
+			MonsterNormalBullet_iDesc.vPosition.y += 45.f;
 			MonsterNormalBullet_iDesc.szTextureID = TEXT("BlueFire");
 			MonsterNormalBullet_iDesc.bBlueFire = true;
 
