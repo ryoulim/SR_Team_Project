@@ -68,6 +68,8 @@ HRESULT CRaceBossBullet::Render()
 
 	if (FAILED(m_pVIBufferCom->Render()))
 		return E_FAIL;
+
+	return S_OK;
 }
  
 void CRaceBossBullet::On_Collision(_uint MyColliderID, _uint OtherColliderID)

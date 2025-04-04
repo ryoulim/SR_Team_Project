@@ -45,8 +45,9 @@ public:
 #ifdef _COLLIDERRENDER
 public:
 	virtual void Render();
-protected:
 	static _bool m_bColliderRender;
+
+protected:
 	class CTransform* m_pRenderTransform = { nullptr };
 	class CVIBuffer* m_pRenderBuffer = { nullptr };
 public:
