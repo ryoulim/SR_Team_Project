@@ -233,7 +233,6 @@ protected: // 일반 몬스터 행동 용 변수
 	_float			m_fBulletCooldown = {};
 	_float			m_fAttackTime = {};
 	_bool			m_bKnockBack = false;
-	_bool			m_bTackle = false;
 
 protected: // 몬스터 해골 띄우기용
 	_bool		m_bSkullActive{};

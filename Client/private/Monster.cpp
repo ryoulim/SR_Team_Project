@@ -101,9 +101,19 @@ void CMonster::Late_Update(_float fTimeDelta)
 	CalculateVectorToPlayer();
 	
 	//콜라이더 업데이트
+	if (m_bDead)
+	{
+		auto temp = m_vScale;
+		auto newY = temp.y - 20.f;
+		// 원래 세로 절반만큼 뺴고 나중 세로길이만큼 더하기 
+		m_pCollider->Update_OffSet({ 0.f, -newY, 0.f });
+		m_pCollider->Update_Scale({ 0.f, 20.f, 0.f });
+	}
+
   	m_pCollider->Update_Collider();
 	if (m_pHeadCollider != nullptr)
   		m_pHeadCollider->Update_Collider();
+
 
 	//그래비티 업데이트
 	m_pGravityCom->Update(fTimeDelta);
@@ -306,8 +316,10 @@ void CMonster::Compute_ViewAngle()
 
 void CMonster::Resize_Texture(_float fSizePercent)
 {
-	m_pTextureMap[m_iState][m_iDegree]->Get_TextureSize(static_cast<_uint>(m_fAnimationFrame), &m_vScale);
-	m_pTransformCom->Scaling(m_vScale * fSizePercent);
+	_float3 vScale = { 0.f, 0.f, 0.f };
+	m_pTextureMap[m_iState][m_iDegree]->Get_TextureSize(static_cast<_uint>(m_fAnimationFrame), &vScale);
+	m_pTransformCom->Scaling(vScale * fSizePercent);
+	m_vScale = m_vScale;
 }
 
 void CMonster::On_Collision_NormalMonster(_uint MyColliderID, _uint OtherColliderID)
