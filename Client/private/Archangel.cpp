@@ -47,6 +47,22 @@ HRESULT CArchangel::Initialize(void* pArg)
 	//위치, 크기초기화, 컴포넌트 부착
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
+	
+	/* 콜라이드 컴포넌트 */
+	DESC* pDesc = static_cast<DESC*>(pArg);
+	CCollider_Sphere::DESC ColliderDesc{};
+	ColliderDesc.pTransform = m_pTransformCom;
+	ColliderDesc.vOffSet = { 0.f, 10.f, 0.f }; /*{0.f, 192.f * 0.5f - 35.f, 0.f};*/
+	ColliderDesc.vScale = { 18.f, 18.f, 1.f };
+	ColliderDesc.pOwner = this;
+	ColliderDesc.iColliderGroupID = CG_MONSTER_HEAD;
+	ColliderDesc.iColliderID = CI_MON_HEAD;
+
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Collider_Sphere"),
+		TEXT("Com_Collider"), reinterpret_cast<CComponent**>(&m_pCollider), &ColliderDesc)))
+		return E_FAIL;
+
+
 
 	m_fDivOffset = 45.f;
 	//애니메이션(수정예정)

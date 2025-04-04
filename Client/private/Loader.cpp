@@ -401,6 +401,17 @@ HRESULT CLoader::Loding_For_Static()
 	ADD_TEXTURE(Wenteko_Move_90, "../Bin/Resources/Textures/Monster/wenteko/move/90/%d.PNG", 4);
 	ADD_TEXTURE(Wenteko_Move_135, "../Bin/Resources/Textures/Monster/wenteko/move/135/%d.PNG", 4);
 	ADD_TEXTURE(Wenteko_Move_180, "../Bin/Resources/Textures/Monster/wenteko/move/180/%d.PNG", 4);
+	ADD_TEXTURE(Wenteko_Attack_0, "../Bin/Resources/Textures/Monster/wenteko/attack/0/%d.PNG", 4);
+	ADD_TEXTURE(Wenteko_Attack_45, "../Bin/Resources/Textures/Monster/wenteko/attack/45/%d.PNG", 4);
+	ADD_TEXTURE(Wenteko_Attack_90, "../Bin/Resources/Textures/Monster/wenteko/attack/90/%d.PNG", 4);
+	ADD_TEXTURE(Wenteko_Attack_135, "../Bin/Resources/Textures/Monster/wenteko/attack/135/%d.PNG", 4);
+	ADD_TEXTURE(Wenteko_Attack_180, "../Bin/Resources/Textures/Monster/wenteko/attack/180/%d.PNG", 4);
+	ADD_TEXTURE(Wenteko_Jump_0, "../Bin/Resources/Textures/Monster/wenteko/jump/0/%d.PNG", 4);
+	ADD_TEXTURE(Wenteko_Jump_45, "../Bin/Resources/Textures/Monster/wenteko/jump/45/%d.PNG", 4);
+	ADD_TEXTURE(Wenteko_Jump_90, "../Bin/Resources/Textures/Monster/wenteko/jump/90/%d.PNG", 4);
+	ADD_TEXTURE(Wenteko_Jump_135, "../Bin/Resources/Textures/Monster/wenteko/jump/135/%d.PNG", 4);
+	ADD_TEXTURE(Wenteko_Jump_180, "../Bin/Resources/Textures/Monster/wenteko/jump/180/%d.PNG", 4);
+	ADD_TEXTURE(Wenteko_Dead, "../Bin/Resources/Textures/Monster/wenteko/death/%d.PNG", 7);
 
 #pragma endregion
 
