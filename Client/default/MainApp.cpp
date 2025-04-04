@@ -164,7 +164,8 @@ void CMainApp::Update(_float fTimeDelta)
 	}
 
 #ifdef _COLLIDERRENDER
-	//CCollider::m_b
+	if (KEY_DOWN(DIK_F9))
+		CCollider::m_bColliderRender = !CCollider::m_bColliderRender;
 #endif
 #pragma endregion
 
