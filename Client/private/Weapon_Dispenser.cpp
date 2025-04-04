@@ -303,7 +303,7 @@ void CWeapon_Dispenser::Create_Bullet()
 			auto pPickedObj = m_pGameInstance->Raycast(pPos, pLook + vOffset, m_fRayLength, { CG_BLOCK,CG_MONSTER }, iColliderID);
 			if (pPickedObj)
 			{
-				pPickedObj->On_Collision(iColliderID, m_tShellInfo.eType);
+				pPickedObj->Get_Owner()->On_Collision(iColliderID, m_tShellInfo.eType);
 			}
 		}
 	}

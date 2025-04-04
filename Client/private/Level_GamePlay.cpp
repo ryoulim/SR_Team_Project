@@ -66,8 +66,8 @@ HRESULT CLevel_GamePlay::Initialize(class CLevelData* pLevelData)
 	if (FAILED(Load_Map(LEVEL_GAMEPLAY, TEXT("MapData.txt"))))
 		return E_FAIL;
 
-	if (FAILED(Ready_Layer_Trigger(TEXT("Layer_Trigger"))))
-		return E_FAIL;
+	//if (FAILED(Ready_Layer_Trigger(TEXT("Layer_Trigger"))))
+	//	return E_FAIL;
 
 	ShowCursor(FALSE);
 
@@ -451,7 +451,6 @@ void CLevel_GamePlay::Check_Collision()
 
 	/*PBULLET*/
 	m_pGameInstance->Intersect(CG_PBULLET, CG_MONSTER);
-	m_pGameInstance->Intersect(CG_PBULLET, CG_MONSTER_HEAD);
 	m_pGameInstance->Intersect(CG_PBULLET, CG_BLOCK);
 
 	/*MBULLET*/

@@ -122,9 +122,10 @@ void CMonster::Late_Update(_float fTimeDelta)
 
 void CMonster::Render_Skull(_bool bOn)
 {
-	m_bSkullActive = bOn;
-	if(bOn)
+	if(m_bSkullActive != bOn)
 		m_pSkull->TimeReset();
+
+	m_bSkullActive = bOn;
 }
 
 HRESULT CMonster::SetUp_RenderState()

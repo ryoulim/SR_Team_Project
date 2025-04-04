@@ -3,6 +3,7 @@
 
 #include "Weapon_LoverBoy.h"
 #include "UI_Manager.h"
+#include "Monster.h"
 #include "FXMgr.h"
 
 CWeapon_LoverBoy::CWeapon_LoverBoy(LPDIRECT3DDEVICE9 pGraphic_Device)
@@ -178,10 +179,10 @@ void CWeapon_LoverBoy::Strong_Attack(_float fTimeDelta)
 			_float3 pLook = m_CurTarget->second->Get_Pos() - pPos;
 			_uint iColliderID{};
 
-			auto pPickedObj = m_pGameInstance->Raycast(pPos, pLook.Normalize(), m_fRayLength, { CG_BLOCK,CG_MONSTER,CG_MBULLET }, iColliderID);
+			auto pPickedObj = m_pGameInstance->Raycast(pPos, pLook.Normalize(), m_fRayLength, { CG_BLOCK,CG_MONSTER,CG_MBULLET,CG_MONSTER_HEAD }, iColliderID);
 			if (pPickedObj)
 			{
-				pPickedObj->On_Collision(iColliderID, m_tAmmoInfo.eType);
+				pPickedObj->Get_Owner()->On_Collision(iColliderID, m_tAmmoInfo.eType);
 			}
 			m_CurTarget++;
 		}
@@ -198,7 +199,10 @@ void CWeapon_LoverBoy::Strong_Attack(_float fTimeDelta)
 	else
 	{
 		for (auto Pair : m_TargetMonsters)
+		{
+			static_cast<CMonster*>(Pair.second->Get_Owner())->Render_Skull(FALSE);
 			Safe_Release(Pair.second);
+		}
 		m_TargetMonsters.clear();
 		m_CurTarget = m_TargetMonsters.end();
 		Set_State(ST_RELOAD);
@@ -239,7 +243,7 @@ void CWeapon_LoverBoy::Opening(_float fTimeDelta)
 void CWeapon_LoverBoy::Search_Target()
 {
 	// 몬스터 그룹 나중에 헤드로 바꿔야함
-	auto MonsterList = m_pGameInstance->Get_Colliders(CG_MONSTER);
+	auto MonsterList = m_pGameInstance->Get_Colliders(CG_MONSTER_HEAD);
 	const auto& vCameraPosition = *m_pCameraTransform->Get_State(CTransform::STATE_POSITION);
 	const auto& vCameraLook = m_pCameraTransform->Get_State(CTransform::STATE_LOOK)->Normalize();
 
@@ -275,6 +279,7 @@ void CWeapon_LoverBoy::Search_Target()
 			Iter = m_TargetMonsters.erase(Iter);
 			continue;
 		}
+		static_cast<CMonster*>(Iter->second->Get_Owner())->Render_Skull(TRUE);
 		Safe_AddRef(Iter->second);
 		Iter++;
 		// 3개 잡았으면 이후 필요없음

@@ -481,17 +481,20 @@ void CPlayer::Ladder(_float fTimeDelta)
 	}
 }
 
-void CPlayer::On_Hit(_uint iDamage)
+void CPlayer::On_Hit(_int iDamage)
 {
 	if (m_bOnHit)
 		return;
-
-	iDamage -= m_tInfo.iArmor;
 	m_tInfo.iArmor -= iDamage;
-	if (m_tInfo.iArmor < 0)
-		m_tInfo.iArmor = 0;
-	m_tInfo.iHP -= iDamage;
+	FX_MGR->SpawnHitEffect(m_eLevelID);
 
+	if (m_tInfo.iArmor <= 0)
+	{
+		// 음수니까 더해줘야겠지
+		m_tInfo.iHP += m_tInfo.iArmor;
+		m_tInfo.iArmor = 0;
+		//플레이어는 안죽는다
+	}
 	m_bOnHit = TRUE;
 }
 

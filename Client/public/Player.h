@@ -62,7 +62,7 @@ private:
 	void			Update_Camera_Link();
 	void			Update_Dash(_float fTimeDelta);
 	void			Ladder(_float fTimeDelta);
-	void			On_Hit(_uint iDamage);
+	void			On_Hit(_int iDamage);
 
 public:
 	static CPlayer* Create(LPDIRECT3DDEVICE9 pGraphic_Device);

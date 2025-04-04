@@ -230,7 +230,7 @@ _bool CGameInstance::RaycastBetweenPoints(const _float3& Point1, const _float3& 
 }
 
 FORCEINLINE
-class CGameObject* CGameInstance::Raycast(const _float3& rayOrigin, const _float3& rayDir, _float rayLength, const initializer_list<_uint>& ColliderGroupIDs, _uint& _Out_ ColliderID)
+class CCollider* CGameInstance::Raycast(const _float3& rayOrigin, const _float3& rayDir, _float rayLength, const initializer_list<_uint>& ColliderGroupIDs, _uint& _Out_ ColliderID)
 {
 	return m_pCollider_Manager->Raycast(rayOrigin, rayDir, rayLength, ColliderGroupIDs, ColliderID);
 }

@@ -87,8 +87,8 @@ protected:
 
 	_uint		m_iPrePickedColliderID{};
 	_uint		m_iPickedColliderID{};
-	CGameObject* m_pPrePickedObject{ nullptr };
-	CGameObject* m_pPickedObject{ nullptr };
+	CCollider* m_pPrePickedCollider{ nullptr };
+	CCollider* m_pPickedCollider{ nullptr };
 
 	AMMOINFO m_tAmmoInfo{};
 	_float m_fFrameSpeed{};

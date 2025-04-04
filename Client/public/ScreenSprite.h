@@ -49,7 +49,7 @@ private:
 	_int				m_iRandom = 0;
 	eEffectType			m_eEffectType = NONE;
 	float				m_fAccTime = 1.0f;
-	float				m_fFadeSpeed = 0.5f;
+	float				m_fFadeSpeed = 0.7f;
 
 private:
 	_float				m_fX = {};
