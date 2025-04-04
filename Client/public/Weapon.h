@@ -68,6 +68,8 @@ protected:
 
 	void Setup_RenderState();
 	void Release_RenderState();
+	void Picking_Object();
+	void Mouse_Over();
 
 protected:
 	LEVEL	m_eLevelID{};
@@ -81,8 +83,12 @@ protected:
 	CCameraManager* m_pCameraManager{ nullptr };
 	CTransform* m_pCameraTransform{ nullptr };
 
-	CSound_Event* m_pTestSound{ nullptr };
 	CSound_Core* m_pCoreSoundTest{ nullptr };
+
+	_uint		m_iPrePickedColliderID{};
+	_uint		m_iPickedColliderID{};
+	CGameObject* m_pPrePickedObject{ nullptr };
+	CGameObject* m_pPickedObject{ nullptr };
 
 	AMMOINFO m_tAmmoInfo{};
 	_float m_fFrameSpeed{};

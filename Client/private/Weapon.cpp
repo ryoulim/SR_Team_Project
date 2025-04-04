@@ -1,5 +1,5 @@
 #include "Weapon.h"
-#include "Weapon.h"
+#include "Monster.h"
 
 CWeapon::CWeapon(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CGameObject{ pGraphic_Device }
@@ -41,12 +41,14 @@ HRESULT CWeapon::Initialize(void* pArg)
 
 void CWeapon::Priority_Update(_float fTimeDelta)
 {
+	Picking_Object();
+	Mouse_Over();
+	Key_Input();
 	Action(fTimeDelta);
 }
 
 EVENT CWeapon::Update(_float fTimeDelta)
 {
-
 	return EVN_NONE;
 }
 
@@ -143,18 +145,9 @@ void CWeapon::Idle()
 #include "TestBullet.h"
 void CWeapon::Create_Bullet()
 {
-	//m_pCameraManager->StartRecoil(10.f, 0.5f);
-
-
-	// 여기 카메라의 흔들리메 영향받지 않도록 오프셋과 분리작업 필요
-	_float3 pPos = *m_pCameraTransform->Get_State(CTransform::STATE_POSITION);
-	_float3 pLook = *m_pCameraTransform->Get_State(CTransform::STATE_LOOK);
-	_uint iColliderID{};
-
-	auto pPickedObj = m_pGameInstance->Raycast(pPos, pLook.Normalize(), m_fRayLength, {CG_BLOCK,CG_MONSTER,CG_MBULLET}, iColliderID);
-	if (pPickedObj)
+	if (m_pPickedObject)
 	{
-		pPickedObj->On_Collision(iColliderID, m_tAmmoInfo.eType);
+		m_pPickedObject->On_Collision(m_iPickedColliderID, m_tAmmoInfo.eType);
 	}
 }
 
@@ -247,6 +240,35 @@ void CWeapon::Release_RenderState()
 	m_pGraphic_Device->SetRenderState(D3DRS_ZENABLE, TRUE);
 }
 
+void CWeapon::Picking_Object()
+{
+	m_pPrePickedObject = m_pPickedObject;
+	m_iPrePickedColliderID = m_iPickedColliderID;
+
+	_float3 pPos = *m_pCameraTransform->Get_State(CTransform::STATE_POSITION);
+	_float3 pLook = *m_pCameraTransform->Get_State(CTransform::STATE_LOOK);
+
+	// 최적화 할 방법 있나?
+	m_pPickedObject = m_pGameInstance->Raycast(pPos, pLook.Normalize(),
+		m_fRayLength, { CG_BLOCK,CG_MONSTER,CG_MBULLET }, m_iPickedColliderID);
+}
+
+void CWeapon::Mouse_Over()
+{
+	if (m_pPrePickedObject == m_pPickedObject)
+		return;
+	
+	if (m_iPrePickedColliderID == CI_MON_BODY)
+	{
+		static_cast<CMonster*>(m_pPrePickedObject)->Render_Skull(FALSE);
+	}
+
+	if (m_iPickedColliderID == CI_MON_BODY)
+	{
+		static_cast<CMonster*>(m_pPickedObject)->Render_Skull(TRUE);
+	}
+}
+
 void CWeapon::Free()
 {
 	__super::Free();
@@ -255,7 +277,6 @@ void CWeapon::Free()
 	Safe_Release(m_pTextureCom);
 	Safe_Release(m_pTransformCom);
 	Safe_Release(m_pShaderCom);
-	Safe_Release(m_pTestSound);
 	Safe_Release(m_pCoreSoundTest);
 
 	Safe_Release(m_pPlayerTransform);

@@ -59,6 +59,8 @@ void CPlayer::Priority_Update(_float fTimeDelta)
 	if (!m_bActive)
 		return;
 
+	fTimeDelta = m_pGameInstance->Get_TimeDelta(TEXT("Timer_60"));
+
 	m_pGameInstance->Set_Listener_Position(m_pTransformCom, *m_pTransformCom->Get_State(CTransform::STATE_POSITION) - m_vPrePosition);
 
 	if (m_bDash)
@@ -93,6 +95,8 @@ EVENT CPlayer::Update(_float fTimeDelta)
 	}
 #endif
 
+	fTimeDelta = m_pGameInstance->Get_TimeDelta(TEXT("Timer_60"));
+
 	// 피격 후 무적시간 계산
 	if (m_bOnHit)
 	{
@@ -111,6 +115,11 @@ EVENT CPlayer::Update(_float fTimeDelta)
 
 void CPlayer::Late_Update(_float fTimeDelta)
 {
+	if (!m_bActive)
+		return;
+
+	fTimeDelta = m_pGameInstance->Get_TimeDelta(TEXT("Timer_60"));
+
 	m_vPrePosition = *m_pTransformCom->Get_State(CTransform::STATE_POSITION);
 
 	m_pGameInstance->Add_RenderGroup(CRenderer::RG_NONBLEND, this);
@@ -392,8 +401,19 @@ void CPlayer::Key_Input(_float fTimeDelta)
 		m_Weapons[m_iCurWeaponIndex]->Set_State(CWeapon::ST_OPENING);
 	}
 
-	// 무기 키 감지
-	m_Weapons[m_iCurWeaponIndex]->Key_Input();
+	// 시간 테스트
+
+	static _float TestTime{ 1.f };
+	if (KEY_DOWN(DIK_COMMA))
+	{
+		TestTime -= 0.1f;
+		m_pGameInstance->Set_TimeScale(TEXT("Timer_60"), TestTime);
+	} 
+	else if (KEY_DOWN(DIK_PERIOD))
+	{
+		TestTime += 0.1f;
+		m_pGameInstance->Set_TimeScale(TEXT("Timer_60"), TestTime);
+	}
 }
 
 void CPlayer::Init_Camera_Link()

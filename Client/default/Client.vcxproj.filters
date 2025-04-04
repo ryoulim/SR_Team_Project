@@ -439,6 +439,9 @@
     <Filter Include="02.GameObjects\Weapon\Bullet\RaceBossBullet">
       <UniqueIdentifier>{a4648b64-41aa-4afb-9569-9471b864482a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\UI\GamePlayUI\Skull">
+      <UniqueIdentifier>{93e514f1-d12a-4783-a9b6-3d0acb9d64c8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -886,6 +889,9 @@
     <ClInclude Include="..\public\CutScene_Camera.h">
       <Filter>02.GameObjects\Camera\CutSceneCamera</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\Skull.h">
+      <Filter>02.GameObjects\UI\GamePlayUI\Skull</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -1317,6 +1323,9 @@
     </ClCompile>
     <ClCompile Include="..\private\RaceBossBullet.cpp">
       <Filter>02.GameObjects\Weapon\Bullet\RaceBossBullet</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Skull.cpp">
+      <Filter>02.GameObjects\UI\GamePlayUI\Skull</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

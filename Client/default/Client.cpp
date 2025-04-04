@@ -87,7 +87,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
             pGameInstance->Update_Timer(TEXT("Timer_60"));
 
             /* 내 게임의 반복적인 업데이트와 렌더를 호출해준다. */
-            pMainApp->Update(pGameInstance->Get_TimeDelta(TEXT("Timer_60")));
+            pMainApp->Update(pGameInstance->Get_Scaled_TimeDelta(TEXT("Timer_60")));
             pMainApp->Render();
 
             fTimeAcc = 0.f;

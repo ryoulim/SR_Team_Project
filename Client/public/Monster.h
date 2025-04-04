@@ -21,7 +21,7 @@ using namespace std::chrono;
 class CMonster abstract : public CGameObject
 {
 public:
-	enum MODE{	MODE_IDLE, MODE_READY, MODE_BATTLE, MODE_DETECTIVE, MODE_RETURN, MODE_DEAD, MODE_END  };
+	enum MODE { MODE_IDLE, MODE_READY, MODE_BATTLE, MODE_DETECTIVE, MODE_RETURN, MODE_DEAD, MODE_END };
 	enum EIdlePhase { IDLE_MOVE, IDLE_WAIT, IDLE_TURN };
 
 
@@ -49,6 +49,7 @@ protected:
 public: //상태변환	
 	virtual EVENT Update(_float fTimeDelta) override;
 	virtual void Late_Update(_float fTimeDelta) override;
+	void		Render_Skull(_bool bOn);
 
 protected:
 	virtual HRESULT SetUp_RenderState();
@@ -65,7 +66,7 @@ protected: // 길찾기 및 디텍티브
 	virtual void CalculateVectorToPlayer();
 	virtual bool IsPlayerDetected();
 	virtual void Render_DebugFOV();
-	const char*	 GetMonsterStateName(CMonster::MODE eState);
+	const char* GetMonsterStateName(CMonster::MODE eState);
 	virtual _bool Raycast_Player();
 
 protected: //상태변환
@@ -124,8 +125,8 @@ protected:
 	_uint	m_iState = {};					// 애니메이션 종류 선택(공격, 이동 ...)
 	_uint	m_iDegree = {};					// 애니메이션 시선 각 선택
 	_float	m_fPlayersViewAngle = {};		// 시선 각
-	_bool	m_bCW = {true};					// Clockwise?
-	_float	m_fDivOffset = {45.f};			// 몇 도로 쪼개져 있는 이미지인지 (보스: 22.5도, 일반(기본): 45도) 
+	_bool	m_bCW = { true };					// Clockwise?
+	_float	m_fDivOffset = { 45.f };			// 몇 도로 쪼개져 있는 이미지인지 (보스: 22.5도, 일반(기본): 45도) 
 	_bool	m_isReadyMonster = { false };	// 텍스쳐 준비 할 때 까지 기본 렌더링으로 돌리려고 
 	_float	m_fDeadBodyCounter = {};		// 시체 남아있는 시간 
 
@@ -137,32 +138,32 @@ protected:
 																// 매개변수로 m_fAnimationFrame 전달
 
 #pragma endregion
-		
+
 
 protected: //기본정보
 	LEVEL				m_eLevelID = { LEVEL_END };
-	const _tchar*		m_szTextureID = { nullptr };  // 직접 입력할지도..
-	const _tchar*		m_szBufferType = { nullptr };
+	const _tchar* m_szTextureID = { nullptr };  // 직접 입력할지도..
+	const _tchar* m_szBufferType = { nullptr };
 
 protected: //컴포넌트
-	CTexture*	m_pTextureCom = { nullptr };
-	CVIBuffer*	m_pVIBufferCom = { nullptr };
+	CTexture* m_pTextureCom = { nullptr };
+	CVIBuffer* m_pVIBufferCom = { nullptr };
 	CTransform* m_pTransformCom = { nullptr };
-	CGravity*	m_pGravityCom = { nullptr };
+	CGravity* m_pGravityCom = { nullptr };
 
 protected: //충돌	
 	CCollider* m_pCollider = { nullptr };
 
 protected: //속성
-	_int	m_iNum			= 0;
-	_int	m_iHP			= 100;
-	_int	m_iMaxHP		= 100;
-	_int	m_iAttackPower	= 10;
-	_int	m_iDefense		= 5;
-	_float	m_fSpeed		= 60.f;
-	_float3	m_vScale		= { 0.f, 0.f, 0.f };
-	_float3 m_vPosition		= { 0.f, 0.f, 0.f };
-	MODE	m_eState		= MODE::MODE_END;
+	_int	m_iNum = 0;
+	_int	m_iHP = 100;
+	_int	m_iMaxHP = 100;
+	_int	m_iAttackPower = 10;
+	_int	m_iDefense = 5;
+	_float	m_fSpeed = 60.f;
+	_float3	m_vScale = { 0.f, 0.f, 0.f };
+	_float3 m_vPosition = { 0.f, 0.f, 0.f };
+	MODE	m_eState = MODE::MODE_END;
 
 	EIdlePhase	m_eIdlePhase = EIdlePhase::IDLE_WAIT;
 
@@ -170,21 +171,21 @@ protected: //디버깅
 	steady_clock::time_point g_LastLogTime = steady_clock::now();
 
 protected: //부속성
-	vector<string>	m_vDropItems	= {};
-	string			m_strDialogue	= "Grrrr...";
-	string			m_strSound		= "SoundFilePath";
+	vector<string>	m_vDropItems = {};
+	string			m_strDialogue = "Grrrr...";
+	string			m_strSound = "SoundFilePath";
 
 protected: //플레이어
-	CGameObject*	m_pTargetPlayer	= nullptr;
+	CGameObject* m_pTargetPlayer = nullptr;
 
 protected: //디텍티브
-	_float3			m_vDirection		= { 0.f, 0.f, -1.f };
-	_float3			m_vToPlayer			= { 0.f, 0.f, 0.f };
-	_float			m_fCurDistance		= 0;
-	_float			m_fDetectiveDistance= 0;
-	_float			m_fIdleTime			= 0;
-	_float			m_fMaxIdleTime		= 0;
-	_float			m_fAttackDistance	= 0;
+	_float3			m_vDirection = { 0.f, 0.f, -1.f };
+	_float3			m_vToPlayer = { 0.f, 0.f, 0.f };
+	_float			m_fCurDistance = 0;
+	_float			m_fDetectiveDistance = 0;
+	_float			m_fIdleTime = 0;
+	_float			m_fMaxIdleTime = 0;
+	_float			m_fAttackDistance = 0;
 
 
 protected: // 랜덤 난수 생성변수
@@ -207,7 +208,7 @@ protected:
 	_float  m_fIdleWaitTime = 3.0f;
 	_float  m_fIdleWaitElapsed = 0.f;
 	_bool	m_bRotateAnimation = true;
-	
+
 	// 공격 쿨다운
 	_bool	m_bCoolingDown = false;
 	_float	m_fCooldownTime = 0.f;
@@ -232,6 +233,11 @@ protected: // 일반 몬스터 행동 용 변수
 	_float			m_fAttackTime = {};
 	_bool			m_bKnockBack = false;
 	_bool			m_bTackle = false;
+
+protected: // 몬스터 해골 띄우기용
+	_bool		m_bSkullActive{};
+	class CSkull* m_pSkull{ nullptr };
+	_float3		m_vSkullOffset{};
 
 protected: // 일반 몬스터용 충돌 함수
 	void	On_Collision_NormalMonster(_uint MyColliderID, _uint OtherColliderID);

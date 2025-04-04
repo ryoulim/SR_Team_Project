@@ -268,6 +268,7 @@
     <ClInclude Include="..\public\ScreenDust.h" />
     <ClInclude Include="..\public\ScreenSprite.h" />
     <ClInclude Include="..\public\Shotgunner.h" />
+    <ClInclude Include="..\public\Skull.h" />
     <ClInclude Include="..\public\Sky.h" />
     <ClInclude Include="..\public\Smoke.h" />
     <ClInclude Include="..\public\Sphere.h" />
@@ -416,6 +417,7 @@
     <ClCompile Include="..\private\ScreenSprite.cpp" />
     <ClCompile Include="..\private\Shotgunner.cpp" />
     <ClCompile Include="..\private\Signboard.cpp" />
+    <ClCompile Include="..\private\Skull.cpp" />
     <ClCompile Include="..\private\Sky.cpp" />
     <ClCompile Include="..\private\Sphere.cpp" />
     <ClCompile Include="..\private\Stall.cpp" />

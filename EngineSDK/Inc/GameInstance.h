@@ -98,8 +98,11 @@ public:
 
 #pragma region TIMER_MANAGER
 	_float Get_TimeDelta(const _wstring& strTimerTag);
+	_float Get_Scaled_TimeDelta(const _wstring& strTimerTag);
+	void Set_TimeScale(const _wstring& strTimerTag, _float fDeltaScale);
 	HRESULT Add_Timer(const _wstring& strTimerTag);
 	void Update_Timer(const _wstring& strTimerTag);
+
 #pragma endregion
 
 #pragma region CSV_READER

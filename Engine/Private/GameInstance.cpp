@@ -325,6 +325,18 @@ _float CGameInstance::Get_TimeDelta(const _wstring& strTimerTag)
 }
 
 FORCEINLINE
+_float CGameInstance::Get_Scaled_TimeDelta(const _wstring& strTimerTag)
+{
+	return m_pTimer_Manager->Get_Scaled_TimeDelta(strTimerTag);
+}
+
+FORCEINLINE
+void CGameInstance::Set_TimeScale(const _wstring& strTimerTag, _float fDeltaScale)
+{
+	m_pTimer_Manager->Set_TimeScale(strTimerTag, fDeltaScale);
+}
+
+FORCEINLINE
 HRESULT CGameInstance::Add_Timer(const _wstring& strTimerTag)
 {
 	return m_pTimer_Manager->Add_Timer(strTimerTag);

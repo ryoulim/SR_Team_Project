@@ -73,6 +73,7 @@
 #include "ScreenDust.h"
 #include "Button.h"
 #include "Button_Main.h"
+#include "Skull.h"
 
 //맵 인클루드
 #include "Block.h"
@@ -259,6 +260,8 @@ HRESULT CLoader::Loding_For_Static()
 	ADD_TEXTURE(Armor, "../Bin/Resources/Textures/UI/Armor/armor%d.PNG", 3);			// 치워도돼
 	ADD_TEXTURE(Ammo, "../Bin/Resources/Textures/UI/Ammo/ammo%d.PNG", 8);				// 치워도돼
 	ADD_TEXTURE(Portrait, "../Bin/Resources/Textures/UI/Portrait/portrait%d.PNG", 25);	// 치워도돼
+	ADD_TEXTURE(Skull, "../Bin/Resources/Textures/UI/On_Hit/Skull.PNG", 1);
+
 	
 #pragma region PLAYER
 	ADD_TEXTURE(PlayerOnBoat, "../Bin/Resources/Textures/Player/PlayerOnBoat/Tile15947.PNG", 1);
@@ -276,6 +279,7 @@ HRESULT CLoader::Loding_For_Static()
 	ADD_PRTOBJ(Ammo);
 	ADD_PRTOBJ(Portrait);
 	ADD_PRTOBJ(Armor);
+	ADD_PRTOBJ(Skull);
 
 #pragma region PLAYER
 	ADD_PRTOBJ(Player);

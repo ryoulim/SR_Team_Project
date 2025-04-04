@@ -49,7 +49,6 @@ public:
 	void Late_Update(_float fTimeDelta);
 	HRESULT Render();
 
-
 public:
 	HRESULT Render_Text(const string& _text, CFont::FONTTYPE _type, CFont::FONTALIGN _align, _float _posX, _float _posY, _float vSizeMul = 1.f) {
 		if (m_Fonts[_type] == nullptr)

@@ -1,6 +1,6 @@
 #include "Monster.h"
 #include "DebugDraw.h"
-
+#include "Skull.h"
 
 CMonster::CMonster(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CGameObject{ pGraphic_Device }
@@ -44,6 +44,23 @@ HRESULT CMonster::Initialize(void* pArg)
 	if (FAILED(Ready_Components(pArg)))
 		return E_FAIL;
 	m_fBulletCooldown = 0.2f; // 임시로 넣음, 자식으로 내릴 예정 (까먹고 계속 있으면 지워도 됨)
+
+	CSkull::DESC SkullDesc{};
+	SkullDesc.eLevelID = LEVEL_STATIC;
+	SkullDesc.vScale = { 1.f,1.f,1.f };
+
+
+	//// 몬스터 해골띄우기용 코드
+	m_pSkull = static_cast<CSkull*>(m_pGameInstance->Clone_Prototype(
+			PROTOTYPE::TYPE_GAMEOBJECT, LEVEL_STATIC,
+			TEXT("Prototype_GameObject_Skull"),&SkullDesc));
+
+	m_vSkullOffset = m_pTransformCom->Compute_Scaled();
+	m_vSkullOffset.x = 0.f;
+	m_vSkullOffset.y *= 0.5f;
+	m_vSkullOffset.z = 0.f;
+	//////
+
 	return S_OK;
 }
 
@@ -67,6 +84,13 @@ EVENT CMonster::Update(_float fTimeDelta)
 	{
 		MonsterTick(fTimeDelta);
 	}
+
+	if (m_bSkullActive)
+	{
+		const _float3& vPos = *m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+		m_pSkull->Update(vPos+m_vSkullOffset,fTimeDelta);
+	}
+
 	return EVN_NONE;
 }
 
@@ -89,6 +113,16 @@ void CMonster::Late_Update(_float fTimeDelta)
 	//렌더그룹 업데이트
 	if (FAILED(m_pGameInstance->Add_RenderGroup(CRenderer::RG_NONBLEND, this)))
 		return;
+
+	if (m_bSkullActive)
+		m_pSkull->Late_Update(fTimeDelta);
+}
+
+void CMonster::Render_Skull(_bool bOn)
+{
+	m_bSkullActive = bOn;
+	if(bOn)
+		m_pSkull->TimeReset();
 }
 
 HRESULT CMonster::SetUp_RenderState()
@@ -134,6 +168,11 @@ HRESULT CMonster::Render()
 	if (FAILED(m_pVIBufferCom->Render()))
 		return E_FAIL;
 	Release_RenderState();
+
+
+#ifdef _COLLIDERRENDER
+	m_pCollider->Render();
+#endif
 
 	return S_OK;
 }
@@ -198,7 +237,7 @@ HRESULT CMonster::Ready_Components(void* pArg)
 	DESC* pDesc = static_cast<DESC*>(pArg);
 	CCollider_Capsule::DESC ColliderDesc{};	
 	ColliderDesc.pTransform = m_pTransformCom;
-	ColliderDesc.vOffSet = {};
+	//ColliderDesc.vOffSet = {0.f,10.f,0.f};
 	ColliderDesc.vScale = m_pTransformCom->Compute_Scaled();
 	ColliderDesc.pOwner = this;
 	ColliderDesc.iColliderGroupID = CG_MONSTER;
@@ -472,6 +511,7 @@ void CMonster::Free()
 	Safe_Release(m_pCollider);
 	Safe_Release(m_pTargetPlayer);
 	Safe_Release(m_pGravityCom);
+	Safe_Release(m_pSkull);
 	for (auto pair : m_pTextureMap)
 	{
 		for (auto otherpair : pair.second)
@@ -878,6 +918,13 @@ void CMonster::On_Collision(_uint MyColliderID, _uint OtherColliderID)
 	{
 		// 1방이 쌔야함
 		m_iHP -= 50;
+	}
+
+
+	//몬스터 헤드 판정
+	if (OtherColliderID == CI_PICKING_RAY)
+	{
+		int a = 1;
 	}
 }
 
