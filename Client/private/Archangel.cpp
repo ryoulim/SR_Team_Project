@@ -50,18 +50,20 @@ HRESULT CArchangel::Initialize(void* pArg)
 	
 	/* 콜라이드 컴포넌트 */
 	DESC* pDesc = static_cast<DESC*>(pArg);
-	CCollider_Sphere::DESC ColliderDesc{};
+	CCollider::DESC ColliderDesc{};
 	ColliderDesc.pTransform = m_pTransformCom;
-	ColliderDesc.vOffSet = { 0.f, 10.f, 0.f }; /*{0.f, 192.f * 0.5f - 35.f, 0.f};*/
-	ColliderDesc.vScale = { 18.f, 18.f, 1.f };
+	ColliderDesc.vOffSet = {0.f, 192.f * 0.5f - 52.f, 0.f}; // y길이 * 0.5 - 머리위치y좌표 + 반지름크기?
+	ColliderDesc.vScale = { 17.f, 0.f, 0.f }; // 반지름 크기
 	ColliderDesc.pOwner = this;
 	ColliderDesc.iColliderGroupID = CG_MONSTER_HEAD;
 	ColliderDesc.iColliderID = CI_MON_HEAD;
 
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Collider_Sphere"),
-		TEXT("Com_Collider"), reinterpret_cast<CComponent**>(&m_pCollider), &ColliderDesc)))
+		TEXT("Com_Collider_head"), reinterpret_cast<CComponent**>(&m_pHeadCollider), &ColliderDesc)))
 		return E_FAIL;
 
+	m_pCollider->Update_OffSet({ 0.f, -18.f, 0.f });
+	m_pCollider->Update_Scale({ 56.7f, 130.f - 52.f, 1.f });
 
 
 	m_fDivOffset = 45.f;
@@ -96,6 +98,8 @@ void CArchangel::Late_Update(_float fTimeDelta)
 
 	//콜라이더 업데이트
 	m_pCollider->Update_Collider();
+	if (m_pHeadCollider != nullptr)
+		m_pHeadCollider->Update_Collider();
 
 	//그래비티 업데이트
 	if (m_bGravity)
@@ -128,6 +132,7 @@ HRESULT CArchangel::Render()
 	}						
 	return S_OK;
 	//특별히 더 렌더링 할게 있는 경우 ↓
+
 }
 
 void CArchangel::MonsterTick(_float dt)

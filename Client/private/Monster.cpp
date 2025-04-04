@@ -78,6 +78,8 @@ void CMonster::Late_Update(_float fTimeDelta)
 	
 	//콜라이더 업데이트
   	m_pCollider->Update_Collider();
+	if (m_pHeadCollider != nullptr)
+  		m_pHeadCollider->Update_Collider();
 
 	//그래비티 업데이트
 	m_pGravityCom->Update(fTimeDelta);
@@ -134,6 +136,13 @@ HRESULT CMonster::Render()
 	if (FAILED(m_pVIBufferCom->Render()))
 		return E_FAIL;
 	Release_RenderState();
+
+#ifdef _COLLIDERRENDER
+	if (m_pCollider != nullptr)
+		m_pCollider->Render();
+	if (m_pHeadCollider != nullptr)
+		m_pHeadCollider->Render();
+#endif
 
 	return S_OK;
 }
@@ -470,6 +479,7 @@ void CMonster::Free()
 	Safe_Release(m_pVIBufferCom);
 	Safe_Release(m_pTransformCom);
 	Safe_Release(m_pCollider);
+	Safe_Release(m_pHeadCollider);
 	Safe_Release(m_pTargetPlayer);
 	Safe_Release(m_pGravityCom);
 	for (auto pair : m_pTextureMap)
@@ -852,32 +862,37 @@ void CMonster::On_Collision(_uint MyColliderID, _uint OtherColliderID)
 
 	/* ↓ 이곳은 HP 만 관여하고 각종 이펙트나 해야할 처리는 오버라이딩해서 하시오 ↓  */
 
+	/* 머리에 맞았을 경우 */
+	if (MyColliderID == CI_MON_HEAD)
+		m_iHeadMultiplier = 2; // 데미지 2배
+	else
+		m_iHeadMultiplier = 1;
 
 	/* 권총 */
 	if (OtherColliderID == CI_LOVERBOY)
 	{
-		m_iHP -= 20;
+		m_iHP -= 20 * m_iHeadMultiplier;
 	}
 
 	/* 기관총 */
 	if (OtherColliderID == CI_CHAINGUN)
 	{
 		// 1초당 9발 == 27 데미지
-		m_iHP -= 10;
+		m_iHP -= 10 * m_iHeadMultiplier;
 	}
 
 	/* 샷건 */
 	if (OtherColliderID == CI_DISPENSOR_SHELL)
 	{
 		// 10방을 쏘지만 거리와 산탄이 있음
-		m_iHP -= 5;
+		m_iHP -= 5 * m_iHeadMultiplier;
 	}
 
 	/* 탱탱볼 */
 	if (OtherColliderID == CI_DISPENSOR_GRENADE)
 	{
 		// 1방이 쌔야함
-		m_iHP -= 50;
+		m_iHP -= 50 * m_iHeadMultiplier;
 	}
 }
 

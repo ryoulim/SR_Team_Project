@@ -70,6 +70,7 @@ private:
 		_float4x4 matWorld;
 		float timeElapsed; // 잔상이 점차 사라지도록 시간 기록
 	}TRAILDATA;
+
 	queue<TRAILDATA> m_TrailDataQueue;
 	_float			 m_fTrailDuration = 0.5f; // 잔상이 사라지는 시간	
 	_float			 m_fTrailTimer = {};	  // 잔상 생성 딜레이
@@ -94,6 +95,15 @@ public:
 	virtual void Free();
 
 private:
+	struct TrailDataCompare {
+		_float3 vCamPos;
+
+		TrailDataCompare(const _float3& camPos) : vCamPos(camPos) {}
+
+		bool operator()(const TRAILDATA& a, const TRAILDATA& b) const {
+			return (a.position - vCamPos).Length() > (b.position - vCamPos).Length();
+		}
+	};
 };
 
 END

@@ -45,8 +45,8 @@ HRESULT CLevel_GamePlay::Initialize(class CLevelData* pLevelData)
 
 	CUI_Manager::Get_Instance()->Initialize_Player();
 
-	/*if (FAILED(Ready_Layer_Monster(TEXT("Layer_Monster"))))
-		return E_FAIL;*/
+	if (FAILED(Ready_Layer_Monster(TEXT("Layer_Monster"))))
+		return E_FAIL;
 
 	if (FAILED(Ready_Layer_Statue(TEXT("Layer_Statue"))))
 		return E_FAIL;
@@ -451,6 +451,7 @@ void CLevel_GamePlay::Check_Collision()
 
 	/*PBULLET*/
 	m_pGameInstance->Intersect(CG_PBULLET, CG_MONSTER);
+	m_pGameInstance->Intersect(CG_PBULLET, CG_MONSTER_HEAD);
 	m_pGameInstance->Intersect(CG_PBULLET, CG_BLOCK);
 
 	/*MBULLET*/
