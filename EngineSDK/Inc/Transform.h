@@ -66,6 +66,7 @@ public:
 	void Scaling(_float Ratio);
 	void Scaling(const _float3& Ratio);
 	void Go_Straight(_float fTimeDelta);
+	void Go_StraightWithoutY(_float fTimeDelta);
 	void Go_Backward(_float fTimeDelta);
 	void Go_Left(_float fTimeDelta);
 	void Go_LeftOnRace(_float fTimeDelta);

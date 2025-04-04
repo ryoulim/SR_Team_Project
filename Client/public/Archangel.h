@@ -48,10 +48,7 @@ private:
 private:
 	enum MONSTER_STATE { STATE_MOVE, STATE_FLY, STATE_ATTACK, STATE_STAY, STATE_DEAD, STATE_END };
 	enum STATE_MAXFRAME { MAX_MOVERUN = 4, MAX_FLY = 4, MAX_ATTACK = 4, MAX_STAY = 4, MAX_DEAD = 12 };
-	// attack : 0, 1  ready / 3, 4 shoot
-	// fly : 0123 , 3 moving
-	// dead : 01234, 567 loop, 8 9 10 11 death
-	MONSTER_STATE	m_eCurMonsterState = { MONSTER_STATE::STATE_MOVE };
+	MONSTER_STATE	m_eCurMonsterState	 = { MONSTER_STATE::STATE_MOVE };
 	MONSTER_STATE	m_ePrevMonsterState = { MONSTER_STATE::STATE_MOVE };
 	
 	/* 공격 패턴 */
@@ -70,6 +67,7 @@ private:
 		_float4x4 matWorld;
 		float timeElapsed; // 잔상이 점차 사라지도록 시간 기록
 	}TRAILDATA;
+
 	queue<TRAILDATA> m_TrailDataQueue;
 	_float			 m_fTrailDuration = 0.5f; // 잔상이 사라지는 시간	
 	_float			 m_fTrailTimer = {};	  // 잔상 생성 딜레이
@@ -94,6 +92,15 @@ public:
 	virtual void Free();
 
 private:
+	struct TrailDataCompare {
+		_float3 vCamPos;
+
+		TrailDataCompare(const _float3& camPos) : vCamPos(camPos) {}
+
+		bool operator()(const TRAILDATA& a, const TRAILDATA& b) const {
+			return (a.position - vCamPos).Length() > (b.position - vCamPos).Length();
+		}
+	};
 };
 
 END

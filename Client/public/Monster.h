@@ -153,6 +153,7 @@ protected: //컴포넌트
 
 protected: //충돌	
 	CCollider* m_pCollider = { nullptr };
+	CCollider* m_pHeadCollider = { nullptr };
 
 protected: //속성
 	_int	m_iNum = 0;
@@ -251,7 +252,9 @@ protected: // 일반 몬스터용 함수들
 	virtual void State_Change_DETECTIVE(_float dt);
 	virtual void State_Change_READY(_float dt);
 	virtual void State_Change_BATTLE(_float dt);
-	//virtual void State_Change_(_float dt);
+
+protected:
+	_uint	m_iHeadMultiplier = 1;	// 헤드샷 여부
 };
 
 END
