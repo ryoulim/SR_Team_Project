@@ -35,7 +35,15 @@ void CHitBox::Priority_Update(_float fTimeDelta)
 
 EVENT CHitBox::Update(_float fTimeDelta)
 {
-	if (m_bDead) // 사망 체크
+	/* [ 히트박스 제거로직 ] */
+	m_fStartTime += fTimeDelta;
+	if (m_fStartTime > m_fMaxTime)
+	{
+		//일부러 나눈 이유가 있음
+		m_bDead = true;
+	}
+
+	if (m_bDead)
 	{
 		return EVN_DEAD;
 	}
@@ -100,12 +108,6 @@ HRESULT CHitBox::Release_RenderState()
 
 HRESULT CHitBox::Ready_Components(void* pArg)
 {
-
-	/* 버퍼 컴포넌트 */
-	if (FAILED(__super::Add_Component(LEVEL_STATIC, _wstring(TEXT("Prototype_Component_VIBuffer_")) + m_szBufferType,
-		TEXT("Com_VIBuffer"), reinterpret_cast<CComponent**>(&m_pVIBufferCom))))
-		return E_FAIL;
-
 	/* 트랜스폼 컴포넌트 */
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Transform"),
 		TEXT("Com_Transform"), reinterpret_cast<CComponent**>(&m_pTransformCom), pArg)))
@@ -118,6 +120,9 @@ HRESULT CHitBox::Ready_Components(void* pArg)
 
 		m_pTransformCom->Set_State(CTransform::STATE_POSITION, pDesc->vPosition);
 		m_pTransformCom->Scaling(pDesc->vScale);
+		m_szBufferType = pDesc->szTextureTag;
+		m_bHitDead = pDesc->bHitDead;
+		m_fMaxTime = pDesc->fMaxTime;
 		m_eLevelID = pDesc->eLevel;
 
 		/* 콜라이드 컴포넌트 */
@@ -134,14 +139,47 @@ HRESULT CHitBox::Ready_Components(void* pArg)
 			return E_FAIL;
 	}
 
+	/* 버퍼 컴포넌트 */
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, _wstring(TEXT("Prototype_Component_VIBuffer_")) + m_szBufferType,
+		TEXT("Com_VIBuffer"), reinterpret_cast<CComponent**>(&m_pVIBufferCom))))
+		return E_FAIL;
+
 	return S_OK;
 }
 
 
 void CHitBox::On_Collision(_uint MyColliderID, _uint OtherColliderID)
 {
-
+	if (m_bHitDead)
+		m_bDead = true;
 }
+
+CHitBox* CHitBox::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
+{
+	CHitBox* pInstance = new CHitBox(pGraphic_Device);
+
+	if (FAILED(pInstance->Initialize_Prototype()))
+	{
+		MSG_BOX("Failed to Created : CHitBox");
+		Safe_Release(pInstance);
+	}
+
+	return pInstance;
+}
+
+CGameObject* CHitBox::Clone(void* pArg)
+{
+	CHitBox* pInstance = new CHitBox(*this);
+
+	if (FAILED(pInstance->Initialize(pArg)))
+	{
+		MSG_BOX("Failed to Clone : CHitBox");
+		Safe_Release(pInstance);
+	}
+
+	return pInstance;
+}
+
 
 void CHitBox::Free()
 {

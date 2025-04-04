@@ -2,6 +2,8 @@
 
 #include <d3d9.h>
 #include <d3dx9.h>
+#include <random>
+
 
 struct Particle
 {
@@ -23,6 +25,7 @@ struct Attribute
 	float		_Size = 5.0f;		// 사이즈
 	float		_Animation = 0.f;	// 파티클별 애니메이션
 	bool		_isAlive = false;   // 기본적으로 죽은 상태
+	int		    _isInitialized = 0;
 
 	D3DXCOLOR _Color = D3DXCOLOR(1.0f, 0.0f, 0.0f, 1.0f);
 	D3DXCOLOR _ColorFade = D3DXCOLOR(1.0f, 1.0f, 1.0f, 0.0f);

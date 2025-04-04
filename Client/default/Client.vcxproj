@@ -197,6 +197,7 @@
     <ClInclude Include="..\public\Client_Function.h" />
     <ClInclude Include="..\public\Common_Shape.h" />
     <ClInclude Include="..\public\Cultist.h" />
+    <ClInclude Include="..\public\CutSceneSmoke.h" />
     <ClInclude Include="..\public\CutScene_Camera.h" />
     <ClInclude Include="..\public\Deacon.h" />
     <ClInclude Include="..\public\DebugDraw.h" />
@@ -295,6 +296,7 @@
     <ClInclude Include="..\public\UI_Camera.h" />
     <ClInclude Include="..\public\UI_Manager.h" />
     <ClInclude Include="..\public\Water.h" />
+    <ClInclude Include="..\public\WaterBoat.h" />
     <ClInclude Include="..\public\Weapon.h" />
     <ClInclude Include="..\public\Weapon_Chaingun.h" />
     <ClInclude Include="..\public\Weapon_Dispenser.h" />
@@ -342,6 +344,7 @@
     <ClCompile Include="..\private\Canopy.cpp" />
     <ClCompile Include="..\private\Common_Shape.cpp" />
     <ClCompile Include="..\private\Cultist.cpp" />
+    <ClCompile Include="..\private\CutSceneSmoke.cpp" />
     <ClCompile Include="..\private\CutScene_Camera.cpp" />
     <ClCompile Include="..\private\Deacon.cpp" />
     <ClCompile Include="..\private\DebugDraw.cpp" />
@@ -437,6 +440,7 @@
     <ClCompile Include="..\private\UI_Camera.cpp" />
     <ClCompile Include="..\private\UI_Manager.cpp" />
     <ClCompile Include="..\private\Water.cpp" />
+    <ClCompile Include="..\private\WaterBoat.cpp" />
     <ClCompile Include="..\private\Weapon.cpp" />
     <ClCompile Include="..\private\Weapon_Chaingun.cpp" />
     <ClCompile Include="..\private\Weapon_Dispenser.cpp" />

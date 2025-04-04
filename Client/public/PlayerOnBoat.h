@@ -49,6 +49,9 @@ public:
 private:
 	class CCameraManager*	m_pCameraManager = { nullptr };
 	CTransform*				m_pCameraTransform = { nullptr };
+	CGameObject*			m_pWaterBoatEffect_01 = nullptr;
+	CGameObject*			m_pWaterBoatEffect_02 = nullptr;
+	CGameObject*			m_pWaterBoatEffect_03 = nullptr;
 	STATE					m_ePreState = { NON };
 	STATE					m_eCurState = { NORMAL };
 	CPBState*				m_pCurState = { nullptr };

@@ -433,6 +433,12 @@
     <Filter Include="02.GameObjects\Camera\CutSceneCamera">
       <UniqueIdentifier>{b4b2de59-98e8-487d-a12b-26ac50baf856}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\Particle\_BossMobSkill\CutSceenEffect">
+      <UniqueIdentifier>{a71dc728-6f02-4b05-b3c6-f798dbffc851}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Particle\WaterBoat">
+      <UniqueIdentifier>{6acdaa8d-79dc-4758-91ad-f2b4c5c00f1e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -874,6 +880,12 @@
     <ClInclude Include="..\public\CutScene_Camera.h">
       <Filter>02.GameObjects\Camera\CutSceneCamera</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\CutSceneSmoke.h">
+      <Filter>02.GameObjects\Particle\_BossMobSkill\CutSceenEffect</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\WaterBoat.h">
+      <Filter>02.GameObjects\Particle\WaterBoat</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -1299,6 +1311,12 @@
     </ClCompile>
     <ClCompile Include="..\private\CutScene_Camera.cpp">
       <Filter>02.GameObjects\Camera\CutSceneCamera</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\CutSceneSmoke.cpp">
+      <Filter>02.GameObjects\Particle\_BossMobSkill\CutSceenEffect</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\WaterBoat.cpp">
+      <Filter>02.GameObjects\Particle\WaterBoat</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

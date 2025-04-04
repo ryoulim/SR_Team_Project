@@ -16,14 +16,17 @@ BEGIN(Client)
 using namespace std;
 using namespace std::chrono;
 
-class CHitBox abstract : public CGameObject
+class CHitBox : public CGameObject
 {
 public:
 	typedef struct tagMonsterDesc : public CTransform::DESC
 	{
+		const TCHAR* szTextureTag;
 		LEVEL		eLevel;
 		_float3		vPosition;
 		_float3		vScale;
+		_float		fMaxTime;
+		_bool		bHitDead;
 
 		COLLIDER_ID eID;
 	}DESC;
@@ -56,22 +59,12 @@ protected: // 충돌함수
 public: // 디버깅
 	void	ToggleDebugMode() { m_bDebug = !m_bDebug; }
 
-protected: // 난수 생성
-	float GetRandomFloat(float min, float max)
-	{
-		if (min > max) std::swap(min, max);
-		uniform_real_distribution<float> dist(min, max);
-		return dist(m_Gen);
-	}
-	int GetRandomInt(int min, int max)
-	{
-		if (min > max) std::swap(min, max);
-		std::uniform_int_distribution<int> dist(min, max); // min 이상 max 이하 정수
-		return dist(m_Gen);
-	}
+public: // 나눈이유가 있음
+	_bool	GetDead() { return m_bDead; }
 
-protected:
-	virtual CGameObject* Clone(void* pArg) PURE;
+public:
+	static CHitBox* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
+	virtual CGameObject* Clone(void* pArg) override;
 	virtual void Free();
 
 
@@ -92,13 +85,12 @@ protected: //속성
 protected: //플레이어
 	CGameObject* m_pTargetPlayer = nullptr;
 
-protected: // 랜덤 난수 생성변수
-	random_device m_Rd;
-	mt19937 m_Gen{ std::random_device{}() };
-	uniform_real_distribution<float> m_Dist;
-
 protected: // 작동변수
+	_bool			m_bHitDead = false;
 	_bool			m_bDead = false;
+
+	_float			m_fStartTime = 0.f;
+	_float			m_fMaxTime = 0.f;
 
 protected: // 디버깅
 	_bool			m_bDebug = false;

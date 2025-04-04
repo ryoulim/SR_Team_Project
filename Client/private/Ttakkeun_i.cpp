@@ -6,6 +6,7 @@
 #include "CameraManager.h"
 #include "MonsterGuidBullet.h"
 #include "Sprite.h"
+#include "HitBox.h"
 
 CTtakkeun_i::CTtakkeun_i(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CMonster{ pGraphic_Device }
@@ -24,8 +25,8 @@ HRESULT CTtakkeun_i::Initialize_Prototype()
 	m_szBufferType = TEXT("Rect");
 
 	//속성
-	m_iHP = 800;
-	m_iMaxHP = 800;
+	m_iHP = 1500;
+	m_iMaxHP = 1500;
 	m_iAttackPower = 10;
 	m_iDefense = 3;
 	m_fSpeed = 100.f;
@@ -65,8 +66,8 @@ HRESULT CTtakkeun_i::Initialize(void* pArg)
 	if (m_iNum == 1)
 		m_iRandom = 5;
 
-	m_pGravityCom->Set_Height(110.f);
-
+	m_pTransformCom->Turn_Immediately({ 0.f, 1.f, 0.f }, RADIAN(180));
+	m_vReturnPos.y = 77.f;
 	return S_OK;
 }
 
@@ -80,6 +81,11 @@ EVENT CTtakkeun_i::Update(_float fTimeDelta)
 {
 	if (m_bDie)
 		return EVN_DEAD;
+
+	if (m_bCutScene)
+	{
+		CutSceneAction(fTimeDelta);
+	}
 
 	if (m_bDead)
 	{
@@ -121,11 +127,30 @@ void CTtakkeun_i::Late_Update(_float fTimeDelta)
 	//플레이어 감지 업데이트
 	PlayerDistance();
 	CalculateVectorToPlayer();
-	//IsPlayerDetected();
+
+
+	/* 액티브가 켜지면 중력콜라이더를 활성화한다 */
+	if (m_bActive)
+	{
+		if (m_bCutSceneEnd)
+		{
+			CGravity::DESC GravityDesc{};
+			GravityDesc.pTransformCom = m_pTransformCom;
+			GravityDesc.fTimeIncreasePerSec = 8.2f;
+			GravityDesc.fMaxFallSpeedPerSec = 840.f;
+			if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Gravity"),
+				TEXT("Com_Gravity"), reinterpret_cast<CComponent**>(&m_pGravityCom), &GravityDesc)))
+				return;
+
+			m_pGravityCom->Set_Height(110.f);
+
+			m_bCutSceneEnd = false;
+		}
+	}
 
 	if (m_eCurMonsterState != STATE_FLY &&
 		m_eCurMonsterState != STATE_FLY_ATTACK &&
-		!m_bJumpStart)
+		!m_bJumpStart && m_bActive)
 	{
 		m_pGravityCom->Update(fTimeDelta);
 	}
@@ -157,6 +182,9 @@ void CTtakkeun_i::Late_Update(_float fTimeDelta)
 
 HRESULT CTtakkeun_i::Render()
 {
+	/* [ 만약 컷신이 시작되지않았다면 렌더를 꺼라 ] */
+	if (!m_bRender)
+		return S_OK;
 	
 	return __super::Render();
 
@@ -400,6 +428,45 @@ HRESULT CTtakkeun_i::Animate_Monster(_float fTimeDelta)
 
 
 	return S_OK;
+}
+
+void CTtakkeun_i::SpawnJumpHitBox(const _float3& _Position, const TCHAR* _szTextureTag, _float MaxTime, _bool _HitDead)
+{
+	CHitBox::DESC HitBoxDesc{};
+	HitBoxDesc.vPosition = _Position;
+	HitBoxDesc.vScale = { 130.f, 100.f, 130.f };
+	HitBoxDesc.fSpeedPerSec = 60.f;
+	HitBoxDesc.fRotationPerSec = RADIAN(180.f);
+	HitBoxDesc.eID = CI_BOSS_JUMP;
+	HitBoxDesc.szTextureTag = _szTextureTag;
+	HitBoxDesc.bHitDead = _HitDead;
+	HitBoxDesc.fMaxTime = MaxTime;
+
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_HitBox"),
+		m_eLevelID, L"Layer_HitBox", &HitBoxDesc)))
+		return;
+
+}
+
+void CTtakkeun_i::SpawnFireHitBox(const _float3& _Position, const TCHAR* _szTextureTag, _float MaxTime, _bool _HitDead)
+{
+	CHitBox::DESC HitBoxDesc{};
+	HitBoxDesc.vPosition = _Position;
+	HitBoxDesc.vScale = { 100.f, 50.f, 100.f };
+	HitBoxDesc.fSpeedPerSec = 60.f;
+	HitBoxDesc.fRotationPerSec = RADIAN(180.f);
+	HitBoxDesc.eID = CI_BOSS_FIRE;
+	HitBoxDesc.szTextureTag = _szTextureTag;
+	HitBoxDesc.bHitDead = _HitDead;
+	HitBoxDesc.fMaxTime = MaxTime;
+
+	CGameObject* pObject = nullptr;
+	CGameObject** ppOut = &pObject;
+	if (FAILED(m_pGameInstance->Add_GameObjectReturn(LEVEL_STATIC, TEXT("Prototype_GameObject_HitBox"),
+		m_eLevelID, L"Layer_HitBox", ppOut, &HitBoxDesc)))
+		return;
+
+	m_pBossHitBox = *ppOut;
 }
 
 void CTtakkeun_i::DoIdle(_float dt)
@@ -654,6 +721,7 @@ void CTtakkeun_i::FireAttack(_float dt)
 	{
 		StartCooldown(dt, 2.f, 2.5f);
 		m_fAttackTimer = 0.f;
+		m_bDoOnce = false;
 		return;
 	}
 
@@ -676,6 +744,38 @@ void CTtakkeun_i::FireAttack(_float dt)
 	/* 2. 화염을 발사한다! */
 	FX_MGR->FireAttack(vMyPos, LEVEL_GAMEPLAY, m_iNum);
 
+	/* [ 콜라이더 로직 ] */
+	if (!m_bDoOnce)
+	{
+		//1. 화염발사와 동시에 콜라이더를 한번만 소환한다.
+		_float3 vLook = *m_pTransformCom->Get_State(CTransform::STATE_LOOK);
+		_float3 vPos = *m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+
+		vLook.Normalize();
+		vPos += vLook * 100.f;
+		SpawnFireHitBox(vPos, TEXT("Cube"), 2.5f, false);
+		m_bDoOnce = true;
+	}
+
+	if (m_pBossHitBox)
+	{
+		//2. 만약 시간이 다 되어 삭제되었다면 댕글링포인터를 널포인터로 바꿔라
+		if (static_cast<CHitBox*>(m_pBossHitBox)->GetDead())
+			m_pBossHitBox = nullptr;
+	}
+
+	if (m_pBossHitBox)
+	{
+		//3. 포인터가 유효하다면 몬스터의 앞으로 계속 포지션을 바꿔줘라
+		auto vHitBoxPos = static_cast<CTransform*>(m_pBossHitBox->Find_Component(L"Com_Transform"));
+
+		_float3 vLook = *m_pTransformCom->Get_State(CTransform::STATE_LOOK);
+		_float3 vPos = *m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+
+		vLook.Normalize();
+		vPos += vLook * 100.0f;
+		vHitBoxPos->Set_State(CTransform::STATE_POSITION, vPos);
+	}
 }
 
 void CTtakkeun_i::BounceBall(_float dt)
@@ -774,6 +874,8 @@ void CTtakkeun_i::JumpAttack(_float dt)
 			//이펙트 생성 && 카메라 쉐이킹
 			vPos.y = 30.f;
 			FX_MGR->JumpAttack(vPos, LEVEL_GAMEPLAY);
+			FX_MGR->CutSceneSmoke(vPos, LEVEL_GAMEPLAY);
+			SpawnJumpHitBox(vPos, TEXT("Cube"), 0.3f, true);
 			m_pCamera->Shake_Camera();
 
 			//몬스터가 착지한 후 점프리셋
@@ -1075,6 +1177,60 @@ _float3 CTtakkeun_i::Rotate_Z(_float3 vDir, float rad)
 		vDir.z
 	};
 	return _float3();
+}
+
+void CTtakkeun_i::CutSceneAction(_float dt)
+{
+	/* [ 따끈이의 컷씬 함수 ] */
+
+	/* 1. 업데이트에서 호출되며 일정시간이 지난다. */
+
+	_float m_fCutsceneDelay = 3.f;
+	m_fAttackTimer += dt;
+
+	if (m_fAttackTimer >= m_fCutsceneDelay)
+	{
+		m_bRender = true;
+		/* 2. 일정시간 후 위에서 아래로 낙하한다. */
+		_float3 vPos = *m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+		if (vPos.y - 73.5f > 77.f)
+		{
+			// 중력 가속 유지
+			m_fFallSpeed += 3000.f * dt;
+
+			vPos.y -= m_fFallSpeed * dt;
+			m_pTransformCom->Set_State(CTransform::STATE_POSITION, vPos);
+
+		}
+		else
+		{
+			//이펙트 생성 && 카메라 쉐이킹
+			vPos.y = 30.f;
+			FX_MGR->JumpAttack(vPos, LEVEL_GAMEPLAY);
+			FX_MGR->CutSceneSmoke(vPos, LEVEL_GAMEPLAY);
+			m_pCamera->Shake_Camera(0.5f,0.5f);
+
+			//몬스터가 착지한 후 점프리셋
+			vPos.y = 77.f;
+			m_pTransformCom->Set_State(CTransform::STATE_POSITION, vPos);
+			m_fAttackTimer = 0.0f;
+			m_bIsLink = true;
+		}
+	}
+	if (m_bIsLink)
+	{
+		_float m_fCutsceneDelay = 0.7f;
+		m_bCutSceneTime += dt;
+
+		if (m_bCutSceneTime >= m_fCutsceneDelay)
+		{
+			m_fFallSpeed = 0.f;
+			m_bCutScene = false;
+			m_bCutSceneEnd = true;
+			m_bActive = true;
+			m_bCutSceneTime = 0.f;
+		}
+	}
 }
 
 void CTtakkeun_i::FlyEffect()
