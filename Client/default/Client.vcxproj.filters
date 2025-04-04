@@ -418,6 +418,12 @@
     <Filter Include="02.GameObjects\Camera\CutSceneCamera">
       <UniqueIdentifier>{b4b2de59-98e8-487d-a12b-26ac50baf856}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\Particle\_BossMobSkill\CutSceenEffect">
+      <UniqueIdentifier>{a71dc728-6f02-4b05-b3c6-f798dbffc851}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Particle\WaterBoat">
+      <UniqueIdentifier>{6acdaa8d-79dc-4758-91ad-f2b4c5c00f1e}</UniqueIdentifier>
+    </Filter>
     <Filter Include="02.GameObjects\Pawn\PlayerOnBoat\PBState">
       <UniqueIdentifier>{d271f4e8-7a83-4fd9-b606-963f509fc12a}</UniqueIdentifier>
     </Filter>
@@ -892,12 +898,6 @@
     <ClInclude Include="..\public\CutScene_Camera.h">
       <Filter>02.GameObjects\Camera\CutSceneCamera</Filter>
     </ClInclude>
-    <ClInclude Include="..\public\Skull.h">
-      <Filter>02.GameObjects\UI\GamePlayUI\Skull</Filter>
-    </ClInclude>
-    <ClInclude Include="..\public\TelephonePole.h">
-      <Filter>02.GameObjects\Map\AlphaRect\TelephonePole</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -1323,6 +1323,12 @@
     </ClCompile>
     <ClCompile Include="..\private\CutScene_Camera.cpp">
       <Filter>02.GameObjects\Camera\CutSceneCamera</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\CutSceneSmoke.cpp">
+      <Filter>02.GameObjects\Particle\_BossMobSkill\CutSceenEffect</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\WaterBoat.cpp">
+      <Filter>02.GameObjects\Particle\WaterBoat</Filter>
     </ClCompile>
     <ClCompile Include="..\private\RaceBoss.cpp">
       <Filter>02.GameObjects\RaceBoss</Filter>

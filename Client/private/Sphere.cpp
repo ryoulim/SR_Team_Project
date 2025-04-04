@@ -75,14 +75,15 @@ void CSphere::resetParticle(Attribute* attribute)
 	float angle = GetRandomFloat(0.0f, D3DX_PI * 2.0f);
 	m_fRadius = GetRandomFloat(m_fMin, m_fMax);
 	attribute->_Position.x = cos(angle) * m_fRadius;
-	attribute->_Position.y = GetRandomFloat(0.0f, -25.0f);
+	attribute->_Position.y = GetRandomFloat(0.0f, -50.0f);
 	attribute->_Position.z = sin(angle) * m_fRadius;
 
 
 	//나선형 상승을 위한 초기 속도
-	attribute->_Velocity.x = -sin(angle) * 100.0f; // 반대 방향으로 돌면서 상승
-	attribute->_Velocity.y = GetRandomFloat(30.0f, 50.0f); // 위로 상승
-	attribute->_Velocity.z = cos(angle) * 100.0f;
+	float spiralSpeed = GetRandomFloat(50.f, 150.f);
+	attribute->_Velocity.x = -sin(angle) * spiralSpeed; // 반대 방향으로 돌면서 상승
+	attribute->_Velocity.y = GetRandomFloat(30.0f, 350.0f); // 위로 상승
+	attribute->_Velocity.z = cos(angle) * spiralSpeed;
 
 
 	//중심으로 서서히 끌어당기는 가속도 설정 (목표점 - 현재위치)
@@ -98,7 +99,8 @@ void CSphere::resetParticle(Attribute* attribute)
 
 	//수명 설정 (2~5초 동안 지속)
 	attribute->_Age = GetRandomFloat(0.f, 1.f);
-	attribute->_LifeTime = GetRandomFloat(0.2f, 5.f);
+	attribute->_LifeTime = GetRandomFloat(1.f, 5.f);
+	attribute->_isInitialized += 1;
 }
 
 EVENT CSphere::Update(_float timeDelta)
@@ -109,8 +111,6 @@ EVENT CSphere::Update(_float timeDelta)
 	//목표 중심이 천천히 왕복하도록 설정 (부드럽게 움직이게)
 	m_vCenter.x = 100.0f + sin(SphereElapsed * 4.f) * 50.0f;
 	m_vCenter.z = 50.0f + sin(SphereElapsed * 4.f) * 100.0f;
-
-
 
 	list<Attribute>::iterator i;
 	for (i = m_Particles.begin(); i != m_Particles.end(); i++)
@@ -255,7 +255,8 @@ HRESULT CSphere::Render()
 					//버텍스 버퍼로 복사된 마지막 단계의 파티클을 그린다.
 					m_pVB->Unlock();
 
-					m_pGraphic_Device->DrawPrimitive(D3DPT_POINTLIST, m_vbOffset, m_vbBatchSize);
+					if(i->_isInitialized > 1)
+						m_pGraphic_Device->DrawPrimitive(D3DPT_POINTLIST, m_vbOffset, m_vbBatchSize);
 
 					//단계가 그려지는 동안 다음 단계를 파티클로 채운다.
 					m_vbOffset += m_vbBatchSize;
@@ -281,7 +282,8 @@ HRESULT CSphere::Render()
 
 		if (numParticlesInBatch)
 		{
-			m_pGraphic_Device->DrawPrimitive(D3DPT_POINTLIST, m_vbOffset, numParticlesInBatch);
+			if (i->_isInitialized > 1)
+				m_pGraphic_Device->DrawPrimitive(D3DPT_POINTLIST, m_vbOffset, numParticlesInBatch);
 		}
 
 		//다음블록
@@ -321,10 +323,10 @@ CSphere* CSphere::Create(LPDIRECT3DDEVICE9 pGraphicDev, wstring _strObjName)
 	CSphere* pInstance = new CSphere(pGraphicDev, _strObjName);
 
 	//파티클 정보
-	pInstance->m_vbSize = 2048;				//  GPU가 한번에 그릴 수 있는 파티클 개수, CPU가 GPU로 파티클 정점 버퍼에 담을 수 있는 개수
+	pInstance->m_vbSize = 100;				//  GPU가 한번에 그릴 수 있는 파티클 개수, CPU가 GPU로 파티클 정점 버퍼에 담을 수 있는 개수
 	pInstance->m_fSize = 2.f;				//  파티클의 크기
 	pInstance->m_vbOffset = 0;				//  세그먼트의 배치사이즈를 옮길때 쓰는 오프셋(0고정)
-	pInstance->m_vbBatchSize = 64;			//  세그먼트 배치사이즈 크기(한번에 옮길 수 있는 정점들의 개수)
+	pInstance->m_vbBatchSize = 50;			//  세그먼트 배치사이즈 크기(한번에 옮길 수 있는 정점들의 개수)
 	pInstance->m_vMin = _float3{ 0.f,0.f,0.f };				//  바운딩박스의 최소크기
 	pInstance->m_vMax = _float3{ 1.f,1.f,1.f };				//  바운딩박스의 최대크기
 

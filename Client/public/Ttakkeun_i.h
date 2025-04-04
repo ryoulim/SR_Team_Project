@@ -40,6 +40,11 @@ private:
 	virtual HRESULT Animate_Monster(_float fTimeDelta);
 
 
+private: // 히트박스
+	void SpawnJumpHitBox(const _float3& _Position, const TCHAR* _szTextureTag, _float MaxTime, _bool _HitDead);
+	void SpawnFireHitBox(const _float3& _Position, const TCHAR* _szTextureTag, _float MaxTime, _bool _HitDead);
+
+
 private: //해당객체의 몬스터 패턴
 	virtual void DoIdle(_float dt);
 	virtual void DoBattle(_float dt);
@@ -63,6 +68,10 @@ private: //서포팅 함수들
 	void StartCooldown(_float dt, _float fMin, _float fMax);
 	_float3 Rotate_Y(_float3 vDir, float rad);
 	_float3 Rotate_Z(_float3 vDir, float rad);
+
+public: // 컷씬시작
+	void SetCutScene() { m_bCutScene = true; }
+	void CutSceneAction(_float dt);
 
 
 private: //따끈이 전용 이펙트
@@ -91,6 +100,7 @@ private: //공중패턴
 
 private: //이펙트
 	CGameObject*	m_pBossEffect = nullptr;
+	CGameObject*	m_pBossHitBox = nullptr;
 
 private: //카메라
 	class CCameraManager* m_pCamera = nullptr;
@@ -107,7 +117,11 @@ private: //바운스볼 패턴
 	_float			m_fBounceTime = 0.f;
 	_int			m_iBounceCount = 0;
 
-
+private: // 컷씬시작
+	_bool			m_bRender = false;
+	_bool			m_bCutScene = false;
+	_bool			m_bCutSceneEnd = false;
+	_float			m_bCutSceneTime = 0.f;
 
 private: //데드 변수
 	_float			m_fCallTimer = 0.f;

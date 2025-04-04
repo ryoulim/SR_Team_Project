@@ -62,6 +62,8 @@
 #include "BulletSmoke.h"
 #include "BulletMark.h"
 #include "ScreenSprite.h"
+#include "CutSceneSmoke.h"
+#include "WaterBoat.h"
 
 //UI 인클루드
 #include "Aim.h"
@@ -105,6 +107,7 @@
 #include "MonsterBullet.h"
 #include "MonsterMissile.h"
 #include "LevelLoadingMenu.h"
+#include "HitBox.h"
 
 #include "Sky.h"
 
@@ -435,6 +438,7 @@ HRESULT CLoader::Loding_For_Static()
 	ADD_PRTOBJ(Deacon);  
 	ADD_PRTOBJ(Cultist);  
 	ADD_PRTOBJ(Archangel);  
+	ADD_PRTOBJ(HitBox);  
 #pragma endregion
 
 #pragma region 레이싱 보스
@@ -473,6 +477,12 @@ HRESULT CLoader::Loding_For_Static()
 		return E_FAIL;
 
 	/* [ 파티클 ] */
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_GameObject_PC_WaterBoat"),
+		CWaterBoat::Create(m_pGraphic_Device, L"PARTICLE_WaterBoat"))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_GameObject_PC_CutSceneSmoke"),
+		CCutSceneSmoke::Create(m_pGraphic_Device, L"PARTICLE_CutSceneSmoke"))))
+		return E_FAIL;
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_GameObject_PC_BulletSmoke"),
 		CBulletSmoke::Create(m_pGraphic_Device, L"PARTICLE_BulletSmoke"))))
 		return E_FAIL;
@@ -514,6 +524,15 @@ HRESULT CLoader::Loding_For_Static()
 		return E_FAIL;
 
 	/* [ 텍스쳐 ] */
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_WaterBoat"),
+		CTexture::Create(m_pGraphic_Device, TEXT("../Bin/Resources/Textures/Particle/WaterBoat.PNG"), 1))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Lava"),
+		CTexture::Create(m_pGraphic_Device, TEXT("../Bin/Resources/Textures/Particle/Lava%d.PNG"), 12))))
+		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Rava"),
+		CTexture::Create(m_pGraphic_Device, TEXT("../Bin/Resources/Textures/Particle/Rava%d.PNG"), 16))))
+		return E_FAIL;
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_ScreenHeal"),
 		CTexture::Create(m_pGraphic_Device, TEXT("../Bin/Resources/Textures/Particle/ScreenEffect/ScreenHeal.PNG"), 1))))
 		return E_FAIL;

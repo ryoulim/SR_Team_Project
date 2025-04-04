@@ -108,7 +108,7 @@ protected: //멤버변수
 	_float					m_fNum = 0;
 
 	//파티클 크기, 초당 개수
-	_float					m_fSize;
+	_float					m_fSize = 1.f;
 	_float					m_fEmitRate;
 	_float					m_fLifeTime = 0.f;
 	_float					m_fAccTime = 0.f;

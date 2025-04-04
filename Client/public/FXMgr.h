@@ -38,8 +38,8 @@ public: //폭발
 public: //비
 	void SpawnRain(LEVEL eLevel);
 
-public: //불
-	void SpawnFire(_float3 _vPosition, LEVEL eLevel);
+public: //용암
+	void SpawnRava(_float3 _vPosition, LEVEL eLevel);
 	
 public: //총알
 	void SpawnGunFire(_float3 _ScreenPos, LEVEL eLevel);
@@ -73,6 +73,7 @@ public: //피격 이펙트
 public: //보스스킬
 	void FireAttack(_float3 _vPosition, LEVEL eLevel, _int _iNum);
 	void JumpAttack(_float3 _vPosition, LEVEL eLevel);
+	void CutSceneSmoke(_float3 _vPosition, LEVEL eLevel);
 
 public: //플레이어대쉬
 	void PlayerDash(LEVEL eLevel);

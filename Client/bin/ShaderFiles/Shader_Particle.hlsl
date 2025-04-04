@@ -210,6 +210,31 @@ PS_OUT PS_MAIN_HEAL(PS_IN IN)
     return Out;
 }
 
+/* [ 픽셀셰이더 ] 워터용 */
+PS_OUT PS_MAIN_WATER(PS_IN_T IN)
+{
+    PS_OUT Out;
+
+    // 기본 물 색상 (딥블루)
+    float4 waterColor = float4(0.2f, 0.5f, 0.9f, 1.0f);
+
+    // 중심 기준 거리 계산
+    float2 center = float2(0.5f, 0.5f);
+    float dist = distance(IN.vTexcoord, center);
+
+    // Glow 값 계산 (0~1)
+    float glow = saturate(1.0f - dist * 2.0f); // 중앙 밝고, 외곽 어둡게
+
+    // Glow를 색과 알파에 곱하기
+    waterColor.rgb *= 1.2f * glow; // 중심 더 진하게
+    waterColor.a *= glow; // 중심에서만 더 보이게
+
+    // 수명 비례 알파
+    waterColor.a *= saturate(g_fLifeRatio);
+
+    Out.vColor = waterColor;
+    return Out;
+}
 
 technique DefaultTechnique
 {
@@ -246,5 +271,10 @@ technique DefaultTechnique
     {
         VertexShader = compile vs_3_0 VS_MAIN();
         PixelShader = compile ps_3_0 PS_MAIN_HIT();
+    }
+
+    pass WATERPass
+    {
+        PixelShader = compile ps_3_0 PS_MAIN_WATER();
     }
 }
