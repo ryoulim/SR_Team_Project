@@ -22,6 +22,10 @@
 #include "Rock.h"
 #include "Explosion.h"
 
+//레이싱 보스
+#include "RaceBoss.h"
+#include "RaceBossBullet.h"
+
 //아이템
 #include "Item.h"
 
@@ -262,8 +266,6 @@ HRESULT CLoader::Loding_For_Static()
 	ADD_TEXTURE(LeftHand, "../Bin/Resources/Textures/Weapon/LeftHand/LeftHand%d.PNG", 2);
 	ADD_TEXTURE(Weapon_Chaingun, "../Bin/Resources/Textures/Weapon/ChainGun/ChainGun%d.PNG", 16);
 	ADD_TEXTURE(Weapon_Dispenser, "../Bin/Resources/Textures/Weapon/Dispenser/Dispenser%d.PNG", 60);
-	ADD_PRTOBJ(PlayerOnBoat);
-
 #pragma endregion
 
 	ADD_PRTOBJ(Trigger);
@@ -279,6 +281,7 @@ HRESULT CLoader::Loding_For_Static()
 	ADD_PRTOBJ(Weapon_Chaingun);
 	ADD_PRTOBJ(Weapon_Dispenser);
 	ADD_PRTOBJ(GrenadeBullet);
+	ADD_PRTOBJ(PlayerOnBoat);
 #pragma endregion
 
 #pragma region 몬스터 텍스처
@@ -407,6 +410,12 @@ HRESULT CLoader::Loding_For_Static()
 	ADD_PRTOBJ(Archangel);  
 #pragma endregion
 
+#pragma region 레이싱 보스
+	ADD_TEXTURE(RaceBoss, "../Bin/Resources/Textures/RaceBoss/RaceBoss.PNG", 1);
+	ADD_TEXTURE(RaceBossBullet, "../Bin/Resources/Textures/Bullet/RaceBossBullet/RaceBossBullet.PNG", 1);
+	ADD_PRTOBJ(RaceBoss);
+	ADD_PRTOBJ(RaceBossBullet);
+#pragma endregion
 
 #pragma region 파티클 준비물(스테틱)
 	
@@ -729,6 +738,9 @@ HRESULT CLoader::Loading_For_GamePlay()
 
 	//아이템
 	ADD_TEXTURE(Item_Ammo, "../Bin/Resources/Textures/Item/Ammo%d.PNG", 4);
+	ADD_TEXTURE(Item_Healkit, "../Bin/Resources/Textures/Item/Healkit.PNG", 1);
+	ADD_TEXTURE(Item_Armor, "../Bin/Resources/Textures/Item/Armor%d.PNG", 2);
+	ADD_TEXTURE(Item_Cardkey, "../Bin/Resources/Textures/Item/CardKey.PNG", 1);
 #pragma endregion
 
 #pragma region MODEL
@@ -783,6 +795,24 @@ HRESULT CLoader::Loading_For_GamePlay()
 		return E_FAIL;
 
 	if (FAILED(m_pGameInstance->Add_Prototype(m_eNextLevelID, TEXT("Prototype_GameObject_Item_Ammo_LoverBoy"),
+		CItem::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+
+
+	if (FAILED(m_pGameInstance->Add_Prototype(m_eNextLevelID, TEXT("Prototype_GameObject_Item_Healkit"),
+		CItem::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(m_eNextLevelID, TEXT("Prototype_GameObject_Item_Armor_Piece"),
+		CItem::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(m_eNextLevelID, TEXT("Prototype_GameObject_Item_Armor_Full"),
+		CItem::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(m_eNextLevelID, TEXT("Prototype_GameObject_Item_Cardkey"),
 		CItem::Create(m_pGraphic_Device))))
 		return E_FAIL;
 

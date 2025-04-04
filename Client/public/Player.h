@@ -50,6 +50,9 @@ private:
 	//히트 관련
 	_bool						m_bOnHit{};
 	_float						m_fOnHitTimer{};
+
+	//카드 키 갖고있음?
+	_bool						m_bHaveCardkey{ false };
 private:
 	virtual HRESULT Ready_Components(void* pArg);
 

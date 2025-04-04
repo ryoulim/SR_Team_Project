@@ -44,8 +44,8 @@ HRESULT CLevel_GamePlay::Initialize(class CLevelData* pLevelData)
 
 	CUI_Manager::Get_Instance()->Initialize_Player();
 
-	if (FAILED(Ready_Layer_Monster(TEXT("Layer_Monster"))))
-		return E_FAIL;
+	/*if (FAILED(Ready_Layer_Monster(TEXT("Layer_Monster"))))
+		return E_FAIL;*/
 
 	if (FAILED(Ready_Layer_Statue(TEXT("Layer_Statue"))))
 		return E_FAIL;
@@ -214,12 +214,12 @@ HRESULT CLevel_GamePlay::Ready_Layer_Statue(const _wstring& strLayerTag)
 HRESULT CLevel_GamePlay::Ready_Layer_Item(const _wstring& strLayerTag)
 {
 	CItem::DESC ItemDesc{};
-	ItemDesc.vInitPos = { 1200.f, 50.f, 1500.f };
+	ItemDesc.vInitPos = { 900.f, 50.f, 1500.f };
 	ItemDesc.vScale = { 10.f, 10.f, 10.f };
 	ItemDesc.fRotationPerSec = RADIAN(0.f);
 	ItemDesc.fSpeedPerSec = 300.f;
 	ItemDesc.eLevelID = CurLevel;
-	ItemDesc.szBufferType = TEXT("Cube");
+	ItemDesc.szBufferType = TEXT("Rect");
 	ItemDesc.szTextureID = TEXT("Item_Ammo");
 	ItemDesc.fTextureNum = 0.f;
 	ItemDesc.eColID = COLLIDER_ID::CI_ITEM_AMMO_CHAINGUN;
@@ -229,7 +229,7 @@ HRESULT CLevel_GamePlay::Ready_Layer_Item(const _wstring& strLayerTag)
 		return E_FAIL;
 
 
-	ItemDesc.vInitPos = { 1300.f, 50.f, 1500.f };
+	ItemDesc.vInitPos = { 1000.f, 50.f, 1500.f };
 	ItemDesc.vScale = { 10.f, 10.f, 10.f };
 	ItemDesc.fTextureNum = 1.f;
 	ItemDesc.eColID = COLLIDER_ID::CI_ITEM_AMMO_DISPENSER_SCATTER;
@@ -239,7 +239,7 @@ HRESULT CLevel_GamePlay::Ready_Layer_Item(const _wstring& strLayerTag)
 		return E_FAIL;
 
 
-	ItemDesc.vInitPos = { 1400.f, 50.f, 1500.f };
+	ItemDesc.vInitPos = { 1100.f, 50.f, 1500.f };
 	ItemDesc.vScale = { 10.f, 10.f, 10.f };
 	ItemDesc.fTextureNum = 2.f;
 	ItemDesc.eColID = COLLIDER_ID::CI_ITEM_AMMO_DISPENSER_CANNON;
@@ -249,15 +249,58 @@ HRESULT CLevel_GamePlay::Ready_Layer_Item(const _wstring& strLayerTag)
 		return E_FAIL;
 
 
-	ItemDesc.vInitPos = { 1500.f, 50.f, 1500.f };
+	ItemDesc.vInitPos = { 1200.f, 50.f, 1500.f };
 	ItemDesc.vScale = { 10.f, 10.f, 10.f };
-	ItemDesc.fRotationPerSec = RADIAN(0.f);
 	ItemDesc.fTextureNum = 3.f;
 	ItemDesc.eColID = COLLIDER_ID::CI_ITEM_AMMO_LOVERBOY;
 
 	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Item_Ammo_LoverBoy"),
 		LEVEL_GAMEPLAY, strLayerTag, &ItemDesc)))
 		return E_FAIL;
+
+
+
+	ItemDesc.vInitPos = { 1300.f, 50.f, 1500.f };
+	ItemDesc.vScale = { 10.f, 10.f, 10.f };
+	ItemDesc.szTextureID = TEXT("Item_Healkit");
+	ItemDesc.fTextureNum = 0.f;
+	ItemDesc.eColID = COLLIDER_ID::CI_ITEM_HEALKIT;
+
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Item_Healkit"),
+		LEVEL_GAMEPLAY, strLayerTag, &ItemDesc)))
+		return E_FAIL;
+
+	ItemDesc.vInitPos = { 1400.f, 50.f, 1500.f };
+	ItemDesc.vScale = { 10.f, 10.f, 10.f };
+	ItemDesc.szTextureID = TEXT("Item_Armor");
+	ItemDesc.fTextureNum = 0.f;
+	ItemDesc.eColID = COLLIDER_ID::CI_ITEM_ARMOR_PIECE;
+
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Item_Armor_Piece"),
+		LEVEL_GAMEPLAY, strLayerTag, &ItemDesc)))
+		return E_FAIL;
+
+	ItemDesc.vInitPos = { 1500.f, 50.f, 1500.f };
+	ItemDesc.vScale = { 10.f, 10.f, 10.f };
+	ItemDesc.szTextureID = TEXT("Item_Armor");
+	ItemDesc.fTextureNum = 1.f;
+	ItemDesc.eColID = COLLIDER_ID::CI_ITEM_ARMOR_FULL;
+
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Item_Armor_Full"),
+		LEVEL_GAMEPLAY, strLayerTag, &ItemDesc)))
+		return E_FAIL;
+
+	ItemDesc.vInitPos = { 1600.f, 50.f, 1500.f };
+	ItemDesc.vScale = { 10.f, 10.f, 10.f };
+	ItemDesc.szTextureID = TEXT("Item_Cardkey");
+	ItemDesc.fTextureNum = 0.f;
+	ItemDesc.eColID = COLLIDER_ID::CI_ITEM_CARDKEY;
+
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Item_Cardkey"),
+		LEVEL_GAMEPLAY, strLayerTag, &ItemDesc)))
+		return E_FAIL;
+
+
 
 	return S_OK;
 }

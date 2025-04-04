@@ -43,6 +43,15 @@ HRESULT CPlayerOnBoat::Initialize(void* pArg)
 
 void CPlayerOnBoat::Priority_Update(_float fTimeDelta)
 {
+	Key_Input(fTimeDelta);
+
+	Update_Camera_Link();
+
+	__super::Priority_Update(fTimeDelta);
+}
+
+EVENT CPlayerOnBoat::Update(_float fTimeDelta)
+{
 	//이전 상태와 현재 상태가 다르다면 Enter 실행
 	if (m_eCurState != m_ePreState)
 	{
@@ -53,13 +62,8 @@ void CPlayerOnBoat::Priority_Update(_float fTimeDelta)
 	//Exectue는 무조건 실행
 	m_pCurState->Execute(this, fTimeDelta);
 
-	Update_Camera_Link();
+	m_pCollider->Update_Collider();
 
-	__super::Priority_Update(fTimeDelta);
-}
-
-EVENT CPlayerOnBoat::Update(_float fTimeDelta)
-{
 	return __super::Update(fTimeDelta);
 }
 
@@ -92,6 +96,15 @@ void CPlayerOnBoat::On_Collision(_uint MyColliderID, _uint OtherColliderID)
 
 void CPlayerOnBoat::Key_Input(_float fTimeDelta)
 {
+	if (KEY_PRESSING(DIK_W))
+	{
+		m_pTransformCom->Go_Straight(fTimeDelta);
+	}
+	if (KEY_PRESSING(DIK_S))
+	{
+		m_pTransformCom->Go_Backward(fTimeDelta);
+	}
+
 	if (KEY_PRESSING(DIK_A))
 	{
 		m_pTransformCom->Go_LeftOnRace(fTimeDelta);

@@ -385,21 +385,6 @@
     <Filter Include="02.GameObjects\Pawn\PlayerOnBoat">
       <UniqueIdentifier>{7efd6090-538e-41fe-a189-bea97aeafa1a}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\Pawn\PlayerOnBoat\State">
-      <UniqueIdentifier>{d271f4e8-7a83-4fd9-b606-963f509fc12a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Pawn\PlayerOnBoat\State\Normal">
-      <UniqueIdentifier>{c7d95076-a309-4a35-9934-64b7122ea0fd}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Pawn\PlayerOnBoat\State\Lerp">
-      <UniqueIdentifier>{094f8087-7b91-4350-a43d-41d306321b6d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Pawn\PlayerOnBoat\State\Accel">
-      <UniqueIdentifier>{b2a5e843-0d39-4564-9c01-f58678239d9a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Pawn\PlayerOnBoat\State\Decel">
-      <UniqueIdentifier>{1e5a2d16-c1de-4c16-9f97-e4af5cea9f52}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02.GameObjects\Statue\Forest">
       <UniqueIdentifier>{36987c60-46ac-4489-b37a-a6c1af9ba24a}</UniqueIdentifier>
     </Filter>
@@ -423,6 +408,27 @@
     </Filter>
     <Filter Include="02.GameObjects\Effect\BulletMark">
       <UniqueIdentifier>{26a13a7f-6446-44f8-9085-93ee889f8665}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Pawn\PlayerOnBoat\PBState">
+      <UniqueIdentifier>{d271f4e8-7a83-4fd9-b606-963f509fc12a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Pawn\PlayerOnBoat\PBState\Normal">
+      <UniqueIdentifier>{c7d95076-a309-4a35-9934-64b7122ea0fd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Pawn\PlayerOnBoat\PBState\Lerp">
+      <UniqueIdentifier>{094f8087-7b91-4350-a43d-41d306321b6d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Pawn\PlayerOnBoat\PBState\Accel">
+      <UniqueIdentifier>{b2a5e843-0d39-4564-9c01-f58678239d9a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Pawn\PlayerOnBoat\PBState\Decel">
+      <UniqueIdentifier>{1e5a2d16-c1de-4c16-9f97-e4af5cea9f52}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\RaceBoss">
+      <UniqueIdentifier>{a35d5e83-4b67-4ff4-8763-bd9f3d28f8ba}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Weapon\Bullet\RaceBossBullet">
+      <UniqueIdentifier>{a4648b64-41aa-4afb-9569-9471b864482a}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -829,20 +835,20 @@
       <Filter>02.GameObjects\Statue\Rock</Filter>
     </ClInclude>
     <ClInclude Include="..\public\PBState.h">
-      <Filter>02.GameObjects\Pawn\PlayerOnBoat\State</Filter>
+      <Filter>02.GameObjects\Pawn\PlayerOnBoat\PBState</Filter>
     </ClInclude>
     <ClInclude Include="..\public\PBState_Normal.h">
-      <Filter>02.GameObjects\Pawn\PlayerOnBoat\State\Normal</Filter>
+      <Filter>02.GameObjects\Pawn\PlayerOnBoat\PBState\Normal</Filter>
     </ClInclude>
     <ClInclude Include="..\public\PBState_Decel.h">
-      <Filter>02.GameObjects\Pawn\PlayerOnBoat\State\Decel</Filter>
+      <Filter>02.GameObjects\Pawn\PlayerOnBoat\PBState\Decel</Filter>
     </ClInclude>
     <ClInclude Include="..\public\PBState_Lerp.h">
       <Filter>02.GameObjects\Pawn\PlayerOnBoat\State\Lerp</Filter>
       <Filter>02.GameObjects\Statue\Rock</Filter>
     </ClInclude>
     <ClInclude Include="..\public\PBState_Accel.h">
-      <Filter>02.GameObjects\Pawn\PlayerOnBoat\State\Accel</Filter>
+      <Filter>02.GameObjects\Pawn\PlayerOnBoat\PBState\Accel</Filter>
     </ClInclude>
     <ClInclude Include="..\public\Ladder.h">
       <Filter>02.GameObjects\Map\Interactive_Block\Ladder</Filter>
@@ -855,6 +861,12 @@
     </ClInclude>
     <ClInclude Include="..\public\BulletMark.h">
       <Filter>02.GameObjects\Effect\BulletMark</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\RaceBoss.h">
+      <Filter>02.GameObjects\RaceBoss</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\RaceBossBullet.h">
+      <Filter>02.GameObjects\Weapon\Bullet\RaceBossBullet</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1244,19 +1256,19 @@
       <Filter>02.GameObjects\Statue\Forest</Filter>
     </ClCompile>
     <ClCompile Include="..\private\PBState_Accel.cpp">
-      <Filter>02.GameObjects\Pawn\PlayerOnBoat\State\Accel</Filter>
+      <Filter>02.GameObjects\Pawn\PlayerOnBoat\PBState\Accel</Filter>
     </ClCompile>
     <ClCompile Include="..\private\PBState.cpp">
-      <Filter>02.GameObjects\Pawn\PlayerOnBoat\State</Filter>
+      <Filter>02.GameObjects\Pawn\PlayerOnBoat\PBState</Filter>
     </ClCompile>
     <ClCompile Include="..\private\PBState_Decel.cpp">
-      <Filter>02.GameObjects\Pawn\PlayerOnBoat\State\Decel</Filter>
+      <Filter>02.GameObjects\Pawn\PlayerOnBoat\PBState\Decel</Filter>
     </ClCompile>
     <ClCompile Include="..\private\PBState_Lerp.cpp">
-      <Filter>02.GameObjects\Pawn\PlayerOnBoat\State\Lerp</Filter>
+      <Filter>02.GameObjects\Pawn\PlayerOnBoat\PBState\Lerp</Filter>
     </ClCompile>
     <ClCompile Include="..\private\PBState_Normal.cpp">
-      <Filter>02.GameObjects\Pawn\PlayerOnBoat\State\Normal</Filter>
+      <Filter>02.GameObjects\Pawn\PlayerOnBoat\PBState\Normal</Filter>
     </ClCompile>
     <ClCompile Include="..\private\Rock.cpp">
       <Filter>02.GameObjects\Statue\Rock</Filter>
@@ -1272,6 +1284,12 @@
     </ClCompile>
     <ClCompile Include="..\private\BulletMark.cpp">
       <Filter>02.GameObjects\Effect\BulletMark</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\RaceBoss.cpp">
+      <Filter>02.GameObjects\RaceBoss</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\RaceBossBullet.cpp">
+      <Filter>02.GameObjects\Weapon\Bullet\RaceBossBullet</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
