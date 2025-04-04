@@ -54,8 +54,8 @@ HRESULT CMechsect::Initialize(void* pArg)
 	m_fAnimationSpeed = 5.f;
 	m_iState = STATE_MOVE;
 	m_fCooldownTime = 1.f;     // 공격 쉬는 텀
-	m_fBulletCooldown = 0.4f;	// 총알 발사 쿨
-	m_fAttackTime = 0.35f;		// 공격 시간
+	//m_fBulletCooldown = 0.4f;	// 총알 발사 쿨
+	//m_fAttackTime = 0.35f;		// 공격 시간
 	return S_OK;
 }
 
@@ -158,13 +158,11 @@ void CMechsect::DoDetect(_float dt)
 {
 	// 감지 가능 거리 이내일 때 / 감지 상태 중 추격 가능 거리일 때
 	ChasePlayer(dt, 50.f);
-	//m_bJumpEnd = false;
 	m_eCurMonsterState = STATE_MOVE;
 }
 
 void CMechsect::JumpPattern(_float dt)
 {
-
 	switch (m_eJumpState)
 	{
 	case Client::CMechsect::JUMP_BEFORE:
@@ -197,7 +195,6 @@ void CMechsect::JumpPattern(_float dt)
 
 void CMechsect::DoReady(_float dt)
 {
-	//m_bJumpEnd = false;
 	m_fCooldownDuration += dt;
 	if (m_fCooldownDuration >= m_fCooldownTime)
 	{

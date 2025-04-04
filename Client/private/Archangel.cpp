@@ -29,7 +29,7 @@ HRESULT CArchangel::Initialize_Prototype()
 	m_fSpeed = 13.f;
 	m_vScale = { 56.7f, 130.f, 1.f };
 	// 81 192
-	m_eState = MODE::MODE_DETECTIVE;
+	m_eState = MODE::MODE_IDLE;
 
 	m_fDetectiveDistance = 300.f;
 
@@ -112,7 +112,6 @@ void CArchangel::Late_Update(_float fTimeDelta)
 	//렌더그룹 업데이트
 	if (FAILED(m_pGameInstance->Add_RenderGroup(CRenderer::RG_BLEND, this)))
 		return;
-
 
 	if (m_bRotateAnimation == false)
 		m_iDegree = 0;
@@ -718,6 +717,7 @@ void CArchangel::Free()
 {
 	__super::Free();
 	Safe_Release(m_pShaderCom);
+	
 	while (!m_TrailDataQueue.empty())
 		m_TrailDataQueue.pop();
 }

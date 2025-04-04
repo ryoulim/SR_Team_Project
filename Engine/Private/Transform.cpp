@@ -177,6 +177,18 @@ void CTransform::Go_Straight(_float fTimeDelta)
 	Set_State(STATE_POSITION, vPosition);
 }
 
+void CTransform::Go_StraightWithoutY(_float fTimeDelta)
+{
+	_float3		vPosition = *Get_State(STATE_POSITION);
+	_float3		vLook = *Get_State(STATE_LOOK);
+	vLook.Normalize();
+	vLook.y = 0.f;
+
+	vPosition += vLook * m_fSpeedPerSec * fTimeDelta;
+
+	Set_State(STATE_POSITION, vPosition);
+}
+
 void CTransform::Go_Backward(_float fTimeDelta)
 {
 	_float3		vPosition = *Get_State(STATE_POSITION);

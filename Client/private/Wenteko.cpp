@@ -26,8 +26,10 @@ HRESULT CWenteko::Initialize_Prototype()
 	m_iAttackPower = 5;
 	m_iDefense = 1;
 	m_fSpeed = 8.f;
-	m_vScale = { 50.f, 70.f, 1.f };
+	m_vScale = { 52.f, 65.6f, 1.f };
+	// 130 164
 	m_eState = MODE::MODE_IDLE;
+	m_fDetectiveDistance = 300.f;
 
 	//부속성
 	m_strDialogue = "Wente..Wente...";
@@ -40,15 +42,45 @@ HRESULT CWenteko::Initialize_Prototype()
 
 HRESULT CWenteko::Initialize(void* pArg)
 {
-
 	//위치, 크기초기화, 컴포넌트 부착
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
 
-	//애니메이션(수정예정)
-	m_fAnimationMaxFrame = 5.f;
-	m_fAnimationSpeed = 8.f;
+	/* 콜라이드 컴포넌트 - 대가리 */
+	CCollider::DESC ColliderDesc{};
+	ColliderDesc.pTransform = m_pTransformCom;
+	ColliderDesc.vOffSet = { 0.f, 192.f * 0.5f - 52.f, 0.f };	// y길이 * 0.5 - 머리위치y좌표 + 반지름크기?
+	ColliderDesc.vScale = { 17.f, 0.f, 0.f };					// 반지름 크기
+	ColliderDesc.pOwner = this;
+	ColliderDesc.iColliderGroupID = CG_MONSTER_HEAD;
+	ColliderDesc.iColliderID = CI_MON_HEAD;
 
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Collider_Sphere"),
+		TEXT("Com_Collider_head"), reinterpret_cast<CComponent**>(&m_pHeadCollider), &ColliderDesc)))
+		return E_FAIL;
+
+	/* 콜라이드 컴포넌트  - 근접공격용 타격 범위 */
+	CCollider::DESC AttackColliderDesc{};
+	AttackColliderDesc.pTransform = m_pTransformCom;
+	AttackColliderDesc.vOffSet = { 1000.f, 1000.f, 1000.f };	// 아이거어케짜냐 염병 ㅋㅋ
+	AttackColliderDesc.vScale = { 40.f, 0.f, 0.f };				// 아무튼 초기에 멀리 있으면 안맞는다니까요
+	AttackColliderDesc.pOwner = this;
+	AttackColliderDesc.iColliderGroupID = CG_MONSTER;
+	AttackColliderDesc.iColliderID = CI_MONSTER_WENTEKO;
+
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Collider_Sphere"),
+		TEXT("Com_Collider_CloseAttack"), reinterpret_cast<CComponent**>(&m_pAttackCollider), &AttackColliderDesc)))
+		return E_FAIL;
+
+
+	m_fDivOffset = 45.f;
+	//애니메이션(수정예정)
+	m_fAnimationMaxFrame = 4.f;
+	m_fAnimationSpeed = 5.f;
+	m_iState = STATE_MOVE;
+	m_fCooldownTime = 0.8f;     // 공격 쉬는 텀
+	//m_fBulletCooldown = 0.03f;	// 총알 발사 쿨
+	//m_fAttackTime = 0.2f;		// 공격 시간
 	return S_OK;
 }
 
@@ -65,10 +97,31 @@ EVENT CWenteko::Update(_float fTimeDelta)
 void CWenteko::Late_Update(_float fTimeDelta)
 {
 	__super::Late_Update(fTimeDelta);
+	if (m_isCloseAttack)
+	{
+		_float3 vLook = *m_pTransformCom->Get_State(CTransform::STATE_LOOK);
+		vLook.Normalize();
+		vLook *= 30.f;
+		vLook.y += 10.f;
+		m_pAttackCollider->Update_OffSet(vLook);
+		m_pAttackCollider->Update_Collider();  // 근접 공격 시에만 콜라이더 업데이트 
+	}
+	else
+	{
+		m_pAttackCollider->Update_OffSet({1000.f,1000.f,1000.f});
+		//m_pAttackCollider->Update_Collider();  // 근접 공격 시에만 콜라이더 업데이트 
+	}
+	if (m_bRotateAnimation == false)
+		m_iDegree = 0;
+	Resize_Texture(0.4f);
 }
 
 HRESULT CWenteko::Render()
 {
+#ifdef _COLLIDERRENDER
+	if (m_pAttackCollider)
+		m_pAttackCollider->Render();
+#endif
 	return __super::Render();
 
 	//특별히 더 렌더링 할게 있는 경우 ↓
@@ -143,33 +196,31 @@ void CWenteko::DoDetect(_float dt)
 {
 	// 감지 가능 거리 이내일 때 / 감지 상태 중 추격 가능 거리일 때
 	ChasePlayer(dt, 50.f);
-	//m_bJumpEnd = false;
 	m_eCurMonsterState = STATE_MOVE;
 }
 
 void CWenteko::JumpPattern(_float dt)
 {
-
 	switch (m_eJumpState)
 	{
 	case Client::CWenteko::JUMP_BEFORE:
 		m_fJumpFinished = 0.f;
 		m_fAnimationFrame = 0.f;
-		m_pGravityCom->Jump(20.f);
+		m_pGravityCom->Jump(25.f);
 		m_eJumpState = JUMP_ING;
 		break;
 
 	case Client::CWenteko::JUMP_ING:
 		m_fAnimationFrame += dt * m_fAnimationSpeed;
-		if (m_fAnimationFrame >= 2.f)
-			m_fAnimationFrame = 2.f;
-		m_pTransformCom->Go_Straight(dt * 5.f);
+		if (m_fAnimationFrame >= 4.f)
+			m_fAnimationFrame = 4.f;
+		m_pTransformCom->Go_Straight(dt * 10.f);
 		if (!m_pGravityCom->isJump())
 			m_eJumpState = JUMP_AFTER;
 		break;
 
 	case Client::CWenteko::JUMP_AFTER:
-		m_fAnimationFrame = 3.f;
+		m_fAnimationFrame = 5.f;
 		m_fJumpFinished += dt;
 		if (m_fJumpFinished >= 0.2f)
 			m_bCoolingDown = true;
@@ -180,15 +231,46 @@ void CWenteko::JumpPattern(_float dt)
 	}
 }
 
+void CWenteko::ClosePattern(_float dt)
+{
+	// 근접공격하기
+	m_eCurMonsterState = STATE_ATTACK;
+	
+	m_fAnimationFrame += dt * m_fAnimationSpeed;
+	m_pTransformCom->Go_StraightWithoutY(dt);
+	m_isCloseAttack = true;
+	if (m_fAnimationFrame >= m_fAnimationMaxFrame)
+	{
+		if (m_bOneMoreAttack)
+		{
+			m_fAnimationFrame = 0.f;
+			m_bCoolingDown = true;
+			m_isCloseAttack = false;
+			m_eCurMonsterState = STATE_STAY;
+		}
+		else
+		{
+			m_fAnimationFrame = 0.f;
+			m_bOneMoreAttack = true;
+		}
+	}
+}
+
 void CWenteko::DoReady(_float dt)
 {
-	//m_bJumpEnd = false;
 	m_fCooldownDuration += dt;
 	if (m_fCooldownDuration >= m_fCooldownTime)
 	{
 		m_isReadyToAttack = true;
+		if (m_fCurDistance < 150.f)
+			m_eAttackPattern = ATTACK_NORMAL;
+		else
+			m_eAttackPattern = ATTACK_JUMP;
+		//rand() % 2 == 0 ? m_eAttackPattern = ATTACK_JUMP : m_eAttackPattern = ATTACK_NORMAL;
 		m_fCooldownDuration = 0.f;
 		m_bJump = false;
+		m_isCloseAttack = false;
+		m_bOneMoreAttack = false;
 		m_eJumpState = JUMP_BEFORE;
 	}
 	m_fAnimationFrame = 0.f;
@@ -257,11 +339,21 @@ void CWenteko::DoIdle(_float dt)
 
 void CWenteko::AttackPattern(_float dt)
 {
-	// 실제 공격 패턴 작성하는 곳
-	m_eCurMonsterState = STATE_JUMP;
+	switch (m_eAttackPattern)
+	{
+	case Client::CWenteko::ATTACK_JUMP:
+		m_eCurMonsterState = STATE_JUMP;
+		JumpPattern(dt);
+		break;
 
-	JumpPattern(dt);
+	case Client::CWenteko::ATTACK_NORMAL:
+		m_eCurMonsterState = STATE_ATTACK;
+		ClosePattern(dt);
+		break;
 
+	default:
+		break;
+	}
 }
 
 void CWenteko::ChasePlayer(_float dt, _float fChaseDist)
@@ -282,8 +374,6 @@ void CWenteko::ChasePlayer(_float dt, _float fChaseDist)
 	bool bRotated = m_pTransformCom->RotateToDirection(vLook, vDir, 5.f, dt);
 	m_pTransformCom->ChaseWithOutY(TargetPos, dt, fChaseDist, 150.f);
 }
-
-
 
 HRESULT CWenteko::Ready_Components(void* pArg)
 {
@@ -347,38 +437,49 @@ HRESULT CWenteko::Ready_Textures()
 	/* Move */
 	for (_uint i = 0; i < D_END; i++)
 	{
-		_wstring sPrototypeTag = L"Prototype_Component_Texture_Mechsect_Move_";
+		_wstring sPrototypeTag = L"Prototype_Component_Texture_Wenteko_Move_";
 		_uint num = static_cast<_uint>(i * m_fDivOffset);
 		_tchar buf[32];
 		_itow_s((int)num, buf, 10);
 		sPrototypeTag += buf;
 		if (FAILED(__super::Add_Component(LEVEL_STATIC, sPrototypeTag,
-			_wstring(TEXT("Com_Texture")) + L"_Mechsect_Move_" + buf, reinterpret_cast<CComponent**>(&(m_pTextureMap[STATE_MOVE][i])))))
+			_wstring(TEXT("Com_Texture")) + L"_Wenteko_Move_" + buf, reinterpret_cast<CComponent**>(&(m_pTextureMap[STATE_MOVE][i])))))
 			return E_FAIL;
 	}
 
 	/* Jump */
 	for (_uint i = 0; i < D_END; i++)
 	{
-		_wstring sPrototypeTag = L"Prototype_Component_Texture_Mechsect_Jump_";
+		_wstring sPrototypeTag = L"Prototype_Component_Texture_Wenteko_Jump_";
 		_uint num = static_cast<_uint>(i * m_fDivOffset);
 		_tchar buf[32];
 		_itow_s((int)num, buf, 10);
 		sPrototypeTag += buf;
 		if (FAILED(__super::Add_Component(LEVEL_STATIC, sPrototypeTag,
-			_wstring(TEXT("Com_Texture")) + L"_Mechsect_Jump_" + buf, reinterpret_cast<CComponent**>(&(m_pTextureMap[STATE_JUMP][i])))))
+			_wstring(TEXT("Com_Texture")) + L"_Wenteko_Jump_" + buf, reinterpret_cast<CComponent**>(&(m_pTextureMap[STATE_JUMP][i])))))
+			return E_FAIL;
+	}
+
+	/* Attack */
+	for (_uint i = 0; i < D_END; i++)
+	{
+		_wstring sPrototypeTag = L"Prototype_Component_Texture_Wenteko_Attack_";
+		_uint num = static_cast<_uint>(i * m_fDivOffset);
+		_tchar buf[32];
+		_itow_s((int)num, buf, 10);
+		sPrototypeTag += buf;
+		if (FAILED(__super::Add_Component(LEVEL_STATIC, sPrototypeTag,
+			_wstring(TEXT("Com_Texture")) + L"_Wenteko_Attack_" + buf, reinterpret_cast<CComponent**>(&(m_pTextureMap[STATE_ATTACK][i])))))
 			return E_FAIL;
 	}
 
 	/* Death */
-	if (FAILED(__super::Add_Component(LEVEL_STATIC, L"Prototype_Component_Texture_Mechsect_Dead",
-		_wstring(TEXT("Com_Texture")) + L"_Mechsect_Dead", reinterpret_cast<CComponent**>(&(m_pTextureMap[STATE_DEAD][0])))))
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, L"Prototype_Component_Texture_Wenteko_Dead",
+		_wstring(TEXT("Com_Texture")) + L"_Wenteko_Dead", reinterpret_cast<CComponent**>(&(m_pTextureMap[STATE_DEAD][0])))))
 		return E_FAIL;
-
 
 	return S_OK;
 }
-
 
 HRESULT CWenteko::Set_Animation()
 {
@@ -391,11 +492,15 @@ HRESULT CWenteko::Set_Animation()
 		{
 		case Client::CWenteko::STATE_MOVE:
 			m_fAnimationMaxFrame = _float(MAX_MOVERUN);
-			m_fAnimationSpeed = 10.f;
+			m_fAnimationSpeed = 12.f;
 			break;
 		case Client::CWenteko::STATE_JUMP:
 			m_fAnimationMaxFrame = _float(MAX_MOVERUN);
-			m_fAnimationSpeed = 6.f;
+			m_fAnimationSpeed = 13.f;
+			break;
+		case Client::CWenteko::STATE_ATTACK:
+			m_fAnimationMaxFrame = _float(MAX_ATTACK);
+			m_fAnimationSpeed = 18.f;
 			break;
 		case Client::CWenteko::STATE_STAY:
 			m_fAnimationMaxFrame = 1.f;
@@ -404,7 +509,7 @@ HRESULT CWenteko::Set_Animation()
 			break;
 		case Client::CWenteko::STATE_DEAD:
 			m_fAnimationMaxFrame = _float(MAX_DEAD);
-			m_fAnimationSpeed = 8.f;
+			m_fAnimationSpeed = 10.f;
 			m_bRotateAnimation = false;
 			break;
 		}
@@ -454,10 +559,6 @@ HRESULT CWenteko::Animate_Monster(_float fTimeDelta)
 	return S_OK;
 }
 
-
-
-
-
 void CWenteko::On_Collision(_uint MyColliderID, _uint OtherColliderID)
 {
 	__super::On_Collision_NormalMonster(MyColliderID, OtherColliderID);
@@ -492,4 +593,5 @@ CGameObject* CWenteko::Clone(void* pArg)
 void CWenteko::Free()
 {
 	__super::Free();
+	Safe_Release(m_pAttackCollider);
 }
