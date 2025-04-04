@@ -43,9 +43,13 @@ public:
 		Update_Collider();
 	}
 #ifdef _COLLIDERRENDER
+public:
 	virtual void Render();
+protected:
+	static _bool m_bColliderRender;
 	class CTransform* m_pRenderTransform = { nullptr };
 	class CVIBuffer* m_pRenderBuffer = { nullptr };
+public:
 #endif
 	// 다른 콜라이더와의 충돌을 감지합니다.
 	_bool Check_Intersect(const CCollider* pOther);

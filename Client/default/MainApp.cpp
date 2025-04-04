@@ -162,6 +162,10 @@ void CMainApp::Update(_float fTimeDelta)
 		CAMERA_MANAGER->Set_Mouse_Fix(m_bMouseToggle);
 		m_bMouseToggle = !m_bMouseToggle;
 	}
+
+#ifdef _COLLIDERRENDER
+	//CCollider::m_b
+#endif
 #pragma endregion
 
 }

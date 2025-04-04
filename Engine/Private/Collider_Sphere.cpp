@@ -22,11 +22,21 @@ HRESULT CCollider_Sphere::Initialize_Prototype()
 void CCollider_Sphere::Update_Collider()
 {
     m_tInfo.vPosition = *m_pTransform->Get_State(CTransform::STATE_POSITION) + m_vOffSet;
+#ifdef _COLLIDERRENDER
+    m_pRenderTransform->Set_State(CTransform::STATE_POSITION, m_tInfo.vPosition);
+#endif
+
 }
 
 void CCollider_Sphere::Update_Scale(const _float3& vScale)
 {
     m_tInfo.fRadius = vScale.x;
+#ifdef _COLLIDERRENDER
+    m_pRenderTransform->Set_State(CTransform::STATE_RIGHT, _float3{ 1.f,0.f,0.f } * m_tInfo.fRadius * 2.f);
+    m_pRenderTransform->Set_State(CTransform::STATE_UP, _float3{ 0.f,1.f,0.f } * m_tInfo.fRadius * 2.f);
+    m_pRenderTransform->Set_State(CTransform::STATE_LOOK, _float3{ 0.f,0.f,1.f });
+#endif
+
 }
 
 _bool CCollider_Sphere::RayCasting(const _float3& rayOrigin, const _float3& rayDir)
@@ -70,6 +80,23 @@ _bool CCollider_Sphere::RayCasting(const _float3& rayOrigin, const _float3& rayD
 
     return TRUE;
 }
+
+#ifdef _COLLIDERRENDER
+#include "VIBuffer.h"   
+void CCollider_Sphere::Render()
+{
+    if (!m_bColliderRender)
+        return;
+
+    m_pGraphic_Device->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
+    m_pGraphic_Device->SetTexture(0, nullptr);
+    m_pGraphic_Device->SetTransform(D3DTS_WORLD, &m_pRenderTransform->Billboard_Y());
+    m_pRenderBuffer->Bind_Buffers();
+    m_pRenderBuffer->Render();
+    m_pGraphic_Device->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
+
+}
+#endif
 
 _bool CCollider_Sphere::Intersect_With_AABB_Cube(const CCollider* pOther)
 {

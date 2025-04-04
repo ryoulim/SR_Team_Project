@@ -239,6 +239,7 @@ HRESULT CLoader::Loding_For_Static()
 	ADD_MODEL(BuildingU);
 	ADD_MODEL(RaceGate);
 	ADD_MODEL(RaceCylinder);
+	//ADD_MODEL(Circle);
 
 	// 기능 컴포넌트
 	ADD_PRTCOM(Gravity);

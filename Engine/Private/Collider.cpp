@@ -5,28 +5,37 @@
 
 _float3 CCollider::m_vLast_Collision_Depth{};
 _float3 CCollider::m_vLast_Collision_Pos{};
+_bool	CCollider::m_bColliderRender{ FALSE };
 
 CCollider::CCollider(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CComponent{ pGraphic_Device }
 {
 }
 
+#ifdef _COLLIDERRENDER
+
+#include "VIBuffer_Cube.h"
+#include "VIBuffer_Circle.h"
+
 CCollider::CCollider(const CCollider& Prototype)
 	: CComponent(Prototype)
-	, m_eType{ Prototype.m_eType}
+	, m_eType{ Prototype.m_eType }
+	, m_pRenderBuffer{ Prototype.m_pRenderBuffer }
 {
+	Safe_AddRef(m_pRenderBuffer);
 }
 
 HRESULT CCollider::Initialize_Prototype(COLLIDER_TYPE Type)
 {
 	m_eType = Type;
+
+	if (m_eType == SPHERE)
+		m_pRenderBuffer = CVIBuffer_Circle::Create(m_pGraphic_Device);
+	else
+		m_pRenderBuffer = CVIBuffer_Cube::Create(m_pGraphic_Device);
+
 	return S_OK;
 }
-
-#ifdef _COLLIDERRENDER
-
-#include "VIBuffer_Cube.h"
-#include "VIBuffer_Rect.h"
 
 HRESULT CCollider::Initialize(void* pArg)
 {
@@ -45,7 +54,6 @@ HRESULT CCollider::Initialize(void* pArg)
 	m_iColliderID = pDesc->iColliderID;
 	
 	m_pRenderTransform = CTransform::Create(m_pGraphic_Device);
-	m_pRenderBuffer = CVIBuffer_Cube::Create(m_pGraphic_Device);
 
 	m_pRenderTransform->Set_WorldMatrix(pDesc->pTransform->Get_WorldMatrix());
 	m_pRenderTransform->Scaling(pDesc->vScale);
@@ -61,6 +69,9 @@ HRESULT CCollider::Initialize(void* pArg)
 
 void CCollider::Render()
 {
+	if (!m_bColliderRender)
+		return;
+
 	m_pGraphic_Device->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
 	m_pGraphic_Device->SetTexture(0, nullptr);
 	m_pRenderTransform->Bind_Resource();
@@ -70,6 +81,18 @@ void CCollider::Render()
 }
 
 #else
+
+CCollider::CCollider(const CCollider& Prototype)
+	: CComponent(Prototype)
+	, m_eType{ Prototype.m_eType }
+{
+}
+
+HRESULT CCollider::Initialize_Prototype(COLLIDER_TYPE Type)
+{
+	m_eType = Type;
+	return S_OK;
+}
 
 HRESULT CCollider::Initialize(void* pArg)
 {
