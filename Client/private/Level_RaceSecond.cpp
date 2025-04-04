@@ -5,6 +5,7 @@
 #include "Statue.h"
 #include "Map.h"
 #include "PlayerOnBoat.h"
+#include "RaceBoss.h"
 #include "CameraManager.h"
 
 #define CurLevel LEVEL_RACESECOND
@@ -28,11 +29,16 @@ HRESULT CLevel_RaceSecond::Initialize(CLevelData* pLevelData)
 	if (FAILED(Ready_Layer_Pawn(TEXT("Layer_Pawn"))))
 		return E_FAIL;
 
+	if (FAILED(Ready_Layer_RaceBoss(TEXT("Layer_RaceBoss"))))
+		return E_FAIL;
+
 	return S_OK;
 }
 
 void CLevel_RaceSecond::Update(_float fTimeDelta)
 {
+	Check_Collision();
+
 	if (m_iNextLevel)
 	{
 		m_pGameInstance->Change_Level(LEVEL_LOADING,
@@ -165,6 +171,26 @@ HRESULT CLevel_RaceSecond::Ready_Layer_Pawn(const _wstring& strLayerTag)
 	}
 
 	return S_OK;
+}
+
+HRESULT CLevel_RaceSecond::Ready_Layer_RaceBoss(const _wstring& strLayerTag)
+{
+	_float3 vInitPosition = { 450.f, 250.f, 300.f };
+
+	auto pBoss = static_cast<CRaceBoss*>(m_pGameInstance->Find_Object(LEVEL_STATIC, TEXT("Layer_RaceBoss")));
+	if (pBoss)
+	{
+		static_cast<CTransform*>(pBoss->Find_Component(TEXT("Com_Transform")))
+			->Set_State(CTransform::STATE_POSITION, vInitPosition);
+		return S_OK;
+	}
+
+	return S_OK;
+}
+
+void CLevel_RaceSecond::Check_Collision()
+{
+	m_pGameInstance->Intersect(CG_PAWN, CG_MBULLET);
 }
 
 CLevel_RaceSecond* CLevel_RaceSecond::Create(LPDIRECT3DDEVICE9 pGraphic_Device, class CLevelData* pLevelData)
