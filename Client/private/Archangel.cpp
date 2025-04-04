@@ -3,7 +3,7 @@
 
 #include "Archangel.h"
 #include "FXMgr.h"
-#include "Transform.h"
+#include "MonsterNormalBullet.h"
 
 CArchangel::CArchangel(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CMonster{ pGraphic_Device }
@@ -27,7 +27,7 @@ HRESULT CArchangel::Initialize_Prototype()
 	m_iAttackPower = 20;
 	m_iDefense = 3;
 	m_fSpeed = 13.f;
-	m_vScale = { 56.7f, 134.f, 1.f };
+	m_vScale = { 56.7f, 130.f, 1.f };
 	// 81 192
 	m_eState = MODE::MODE_DETECTIVE;
 
@@ -54,8 +54,8 @@ HRESULT CArchangel::Initialize(void* pArg)
 	m_fAnimationSpeed = 5.f;
 	m_iState = STATE_MOVE;
 	m_fCooldownTime = 0.8f;     // 공격 쉬는 텀
-	m_fBulletCooldown = 0.4f;	// 총알 발사 쿨
-	m_fAttackTime = 0.35f;		// 공격 시간
+	m_fBulletCooldown = 0.1f;	// 총알 발사 쿨
+	m_fAttackTime = 0.5f;		// 공격 시간
 	m_fTrailDuration = 0.5f;	// 잔상이 사라지는 시간	
 
 	return S_OK;
@@ -101,12 +101,12 @@ void CArchangel::Late_Update(_float fTimeDelta)
 
 HRESULT CArchangel::Render()
 {
+	__super::Render();
 	if (m_eState == MODE_READY || m_eState == MODE_BATTLE)
 	{
-		Render_TrailData();
-	}
-	return __super::Render();
-
+		Render_TrailData(); 
+	}						
+	return S_OK;
 	//특별히 더 렌더링 할게 있는 경우 ↓
 }
 
@@ -185,6 +185,7 @@ void CArchangel::DoDetect(_float dt)
 void CArchangel::DoReady(_float dt)
 {
 	m_fCooldownDuration += dt;
+	m_eCurMonsterState = STATE_STAY;
 	if (m_fCooldownDuration >= m_fCooldownTime)
 	{
 		m_isReadyToAttack = true;
@@ -197,24 +198,6 @@ void CArchangel::DoReady(_float dt)
 	m_fAnimationFrame = 0.f;
 	_float3 TargetPos = *static_cast<CTransform*>(m_pTargetPlayer->Find_Component(L"Com_Transform"))->Get_State(CTransform::STATE_POSITION);
 	m_pTransformCom->LookAt(TargetPos);
-}
-
-void CArchangel::DoBattle(_float dt)
-{
-	_float fChaseDistance = 500.f;
-	if (m_fCurDistance > fChaseDistance)
-	{
-		if (m_eState != MODE_BATTLE)
-		{
-			m_eState = MODE::MODE_BATTLE;
-			m_eAttackPattern = ATTACK_FLY1;
-			m_eCurMonsterState = STATE_FLY;
-		}
-	}
-	else
-	{
-		AttackPattern(dt);
-	}
 }
 
 void CArchangel::DoIdle(_float dt)
@@ -262,6 +245,21 @@ void CArchangel::DoIdle(_float dt)
 	}
 }
 
+void CArchangel::DoBattle(_float dt)
+{
+	_float fChaseDistance = 500.f;
+	if (m_fCurDistance > fChaseDistance && m_eState != MODE_BATTLE)
+	{
+		m_eState = MODE::MODE_BATTLE;
+		m_eAttackPattern = ATTACK_FLY1;
+		m_eCurMonsterState = STATE_FLY;
+	}
+	else
+	{
+		AttackPattern(dt);
+	}
+}
+
 void CArchangel::AttackPattern(_float dt)
 {	// 실제 공격 패턴 작성하는 곳
 
@@ -290,7 +288,7 @@ void CArchangel::FlyPattern(_float dt)
 	{
 	case Client::CArchangel::ATTACK_FLY1:
 		m_bGravity = false;
-		m_pTransformCom->Go_Up(dt);
+		m_pTransformCom->Go_Up(dt*1.3f);
 		m_fFlyingUpTime += dt;
 		if (m_fFlyingUpTime >= 0.4f)
 		{
@@ -326,11 +324,49 @@ void CArchangel::FirePattern(_float dt)
 	switch (m_eAttackPattern)
 	{
 	case Client::CArchangel::ATTACK_FIRE1:
-
+		m_fAnimationFrame += dt * m_fAnimationSpeed;
+		if (m_fAnimationFrame >= 1.f)
+			m_fAnimationFrame = 1.f;
+		m_fFireReadyTime += dt;
+		if (m_fFireReadyTime >= 0.5f)
+		{
+			m_eAttackPattern = ATTACK_FIRE2;
+			m_fFireReadyTime = 0.f;
+		}
 		break;
 
 	case Client::CArchangel::ATTACK_FIRE2:
+		m_fAnimationFrame += dt * m_fAnimationSpeed;
+		if (m_fAnimationFrame >= 3.f )
+			m_fAnimationFrame = 3.f;
+		m_fAttackTimer += dt;
+		m_fBulletCooldownElapsed += dt;
+		if (m_fAttackTimer >= m_fAttackTime)
+		{
+			m_fAttackTimer = 0.f;
+			m_bCoolingDown = false;
+		}
+		if (m_fBulletCooldownElapsed >= m_fBulletCooldown)
+		{
+			_float3 TargetPos = *static_cast<CTransform*>(m_pTargetPlayer->Find_Component(L"Com_Transform"))->Get_State(CTransform::STATE_POSITION);
+			m_pTransformCom->LookAt(TargetPos);
 
+			CMonsterNormalBullet::DESC MonsterNormalBullet_iDesc{};
+			MonsterNormalBullet_iDesc.iColliderID = CI_MONSTER_ARCHANGEL;
+			MonsterNormalBullet_iDesc.fSpeedPerSec = 1000.f;
+			MonsterNormalBullet_iDesc.fRotationPerSec = RADIAN(180.f);
+			MonsterNormalBullet_iDesc.vScale = { 10.f, 10.f, 1.f };
+			MonsterNormalBullet_iDesc.vPosition = *m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+			MonsterNormalBullet_iDesc.vPosition.y += 15.f;
+			MonsterNormalBullet_iDesc.szTextureID = TEXT("BlueFire");
+			MonsterNormalBullet_iDesc.bBlueFire = true;
+
+			if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_MonsterNormalBullet"),
+				m_eLevelID, L"Layer_MonsterBullet", &MonsterNormalBullet_iDesc)))
+				return;
+
+			m_fBulletCooldownElapsed = 0.f;
+		}
 		break;
 
 	default:
@@ -492,9 +528,9 @@ HRESULT CArchangel::Animate_Monster(_float fTimeDelta)
 		m_bRotateAnimation = true;
 		break;
 	case Client::CArchangel::STATE_ATTACK: // 삭제?
-		m_fAnimationFrame += fTimeDelta * m_fAnimationSpeed;
-		if (m_fAnimationFrame >= m_fAnimationMaxFrame)
-			m_fAnimationFrame = 0.f;
+		//m_fAnimationFrame += fTimeDelta * m_fAnimationSpeed;
+		//if (m_fAnimationFrame >= m_fAnimationMaxFrame)
+		//	m_fAnimationFrame = 0.f;
 		m_bRotateAnimation = true;
 		break;
 	case Client::CArchangel::STATE_DEAD:
@@ -525,9 +561,10 @@ void CArchangel::Update_TrailData(_float dt)
 void CArchangel::Render_TrailData()
 {
 	// 잔상 렌더링
-	std::queue<TrailData> tempQueue = m_TrailDataQueue;
-	while (!tempQueue.empty()) {
-		TrailData trailData = tempQueue.front();
+	queue<TRAILDATA> tempQueue = Sorted_TrailData();
+	while (!tempQueue.empty())
+	{
+		TRAILDATA trailData = tempQueue.front();
 		tempQueue.pop();
 
 		// 잔상 위치로 변환 행렬 설정
@@ -581,33 +618,12 @@ void CArchangel::Trail_Billboard(_float4x4& matWorld, _bool isInverse) const
 	memcpy(&matWorld._41, &vPosition, sizeof _float3);
 }
 
-void CArchangel::Trail_Billboard_Inverse(_float4x4& matWorld) const
-{
-	_float4x4 CopyMatWorld = matWorld;
-	//_float4x4 m_Return;
-	_float3	vScaled = m_pTransformCom->Compute_Scaled();
-	_float3	vPosition = *reinterpret_cast<_float3*>(CopyMatWorld.m[3]);
-
-	_float4x4 matCamWorld;
-	m_pGraphic_Device->GetTransform(D3DTS_VIEW, &matCamWorld);
-	matCamWorld.MakeInverseMat(matCamWorld);
-	_float3 vCameraPos = { matCamWorld._41, matCamWorld._42, matCamWorld._43 };
-
-	_float3 vRight = reinterpret_cast<_float3*>(&matCamWorld.m[0][0])->Normalize() * -vScaled.x;
-	_float3 vLook = reinterpret_cast<_float3*>(&matCamWorld.m[2][0])->Normalize() * vScaled.z;
-
-	memcpy(&matWorld._11, &vRight, sizeof _float3);
-	memcpy(&matWorld._21, *reinterpret_cast<_float3*>(CopyMatWorld.m[1]), sizeof _float3);
-	memcpy(&matWorld._31, &vLook, sizeof _float3);
-	memcpy(&matWorld._41, &vPosition, sizeof _float3);
-}
-
 void CArchangel::Make_TrailData(_float dt)
 {
 	m_fTrailTimer += dt;
 	if (m_fTrailTimer >= 0.05f)
 	{
-		TrailData newTrailData;
+		TRAILDATA newTrailData;
 		newTrailData.position = *m_pTransformCom->Get_State(CTransform::STATE_POSITION);
 		newTrailData.matWorld = *m_pTransformCom->Get_WorldMatrix();
 		newTrailData.size = m_pTransformCom->Compute_Scaled();
@@ -615,6 +631,32 @@ void CArchangel::Make_TrailData(_float dt)
 		m_TrailDataQueue.push(newTrailData);
 		m_fTrailTimer = 0.f;
 	}
+}
+
+queue<CArchangel::TRAILDATA> CArchangel::Sorted_TrailData()
+{
+	queue<TRAILDATA> TempQueue = m_TrailDataQueue;
+	list<TRAILDATA> SortedList;
+
+	_float4x4	matCamWorld;
+	m_pGraphic_Device->GetTransform(D3DTS_VIEW, &matCamWorld);
+	D3DXMatrixInverse(&matCamWorld, NULL, &matCamWorld);
+	_float3		vCamPos;
+	memcpy(&vCamPos, &matCamWorld.m[3][0], sizeof(_float3));
+
+	while (!TempQueue.empty())
+	{
+		SortedList.push_back(TempQueue.front());
+		TempQueue.pop();
+	}
+	SortedList.sort([&vCamPos](const TRAILDATA& a, const TRAILDATA& b) {
+		return (a.position - vCamPos).Length() > (b.position - vCamPos).Length();
+		});
+	for (auto& data : SortedList)
+	{
+		TempQueue.push(data);
+	}
+	return TempQueue;
 }
 
 void CArchangel::On_Collision(_uint MyColliderID, _uint OtherColliderID)

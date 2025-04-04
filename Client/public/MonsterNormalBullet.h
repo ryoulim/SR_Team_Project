@@ -10,8 +10,10 @@ public:
 	typedef struct tagGrenadeBulletDesc : public CBullet::DESC
 	{
 		const TCHAR* szTextureID = TEXT("PC_Generic");
-		_bool bAnimation = false;
-		_bool bGravity = false;
+		_bool bBlueFire = false;
+		_bool bFlesh = false;
+		//_bool bAnimation = false;
+		//_bool bGravity = false;
 	}DESC;
 
 private:
@@ -41,12 +43,14 @@ protected:
 	CGameObject* m_pTargetPlayer = nullptr;
 	CGameObject* m_pMissile = nullptr;
 	CGravity*	 m_pGravityCom = { nullptr };
-	_bool		 m_bGravity = false;
-	_bool		 m_bAnimation = false;
+	//_bool		 m_bGravity = false;
+	//_bool		 m_bAnimation = false;
 	_float3	 	 m_vTargetPos;
 	_float		 m_fSpeed = 50.f;
 	_float		 m_fLifetime = 0.f;
 	_float		 m_fTargetDistance = {};
+	_bool		 m_bFlesh = false;
+	_bool		 m_bBlueFire = false;
 
 	class CCameraManager* m_pCamera = nullptr;
 };

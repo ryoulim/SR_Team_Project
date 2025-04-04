@@ -60,25 +60,27 @@ private:
 	_bool			m_bGravity = { true };
 	_float			m_fFlyingUpTime = { 0.f };
 	_float3			m_vTargetPos = {};
+	_float			m_fFireReadyTime = { 0.f };
 
 private:
 	/* 잔상을 만들어보자.. */
-	struct TrailData {
+	typedef struct TrailData {
 		_float3 position;
 		_float3 size;
 		_float4x4 matWorld;
 		float timeElapsed; // 잔상이 점차 사라지도록 시간 기록
-	};
-	queue<TrailData> m_TrailDataQueue;
+	}TRAILDATA;
+	queue<TRAILDATA> m_TrailDataQueue;
 	_float			 m_fTrailDuration = 0.5f; // 잔상이 사라지는 시간	
 	_float			 m_fTrailTimer = {};	  // 잔상 생성 딜레이
+
 private:
 	/* 잔상 시간 업데이트 */
 	void Update_TrailData(_float dt);
 	void Render_TrailData();
 	void Trail_Billboard(_float4x4 &matWorld, _bool isInverse = false) const;
-	void Trail_Billboard_Inverse(_float4x4& matWorld) const;
 	void Make_TrailData(_float dt);
+	queue<TRAILDATA> Sorted_TrailData();
 
 private:
 	CShader* m_pShaderCom = { nullptr };
