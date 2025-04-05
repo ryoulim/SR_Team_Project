@@ -194,12 +194,12 @@ void CWeapon_Chaingun::Key_Input()
 {
 	if (MOUSE_DOWN(DIMK_LBUTTON) && m_tAmmoInfo.iCurAmmo > 0)
 	{
-		Set_State(ST_W_ATK);
+		Set_State(ST_S_ATK);
 	}
 	//if (MOUSE_DOWN(DIMK_RBUTTON))
 	//{
 	//	Set_State(ST_S_ATK);
-	//}
+	//} 
 }
 
 HRESULT CWeapon_Chaingun::Ready_Components(void* pArg)
@@ -234,19 +234,19 @@ void CWeapon_Chaingun::Weak_Attack(_float fTimeDelta)
 	// รั น฿ป็
 	Update_Frame(fTimeDelta);
 
-	if (m_fMotionTimer < 1.f)
-	{
-		_float3 vSize{};
-		m_pTextureCom->Get_TextureSize(1, &vSize);
-		m_pTransformCom->Scaling(vSize * 1.25f);
-		m_iBodynum = 0;
-		m_eState = ST_S_ATK;
-		m_fTextureNum = 1.f;
-		m_fStartFrmae = 1.f;
-		m_fEndFrame = 7.f;
-		m_fFrameSpeed = 20.f;
-		return;
-	}
+	//if (m_fMotionTimer < 1.f)
+	//{
+	//	_float3 vSize{};
+	//	m_pTextureCom->Get_TextureSize(1, &vSize);
+	//	m_pTransformCom->Scaling(vSize * 1.25f);
+	//	m_iBodynum = 0;
+	//	m_eState = ST_S_ATK;
+	//	m_fTextureNum = 1.f;
+	//	m_fStartFrmae = 1.f;
+	//	m_fEndFrame = 7.f;
+	//	m_fFrameSpeed = 20.f;
+	//	return;
+	//}
 
 	if (m_fMotionTimer - m_fLastActionTime >= BULLETINTER)
 	{

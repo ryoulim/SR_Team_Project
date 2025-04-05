@@ -41,6 +41,8 @@ HRESULT CWeapon::Initialize(void* pArg)
 
 void CWeapon::Priority_Update(_float fTimeDelta)
 {
+	Picking_Object();
+	Mouse_Over();
 	Action(fTimeDelta);
 }
 
@@ -111,8 +113,6 @@ void CWeapon::Action(_float fTimeDelta)
 	{
 	case ST_IDLE:
 	case ST_WALK:
-		Picking_Object();
-		Mouse_Over();
 		Key_Input();
 		//Idle();
 		break;

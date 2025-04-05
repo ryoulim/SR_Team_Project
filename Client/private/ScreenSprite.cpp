@@ -91,12 +91,12 @@ EVENT CScreenSprite::Update(_float fTimeDelta)
 		m_fAccTime = 0.f;
 
 	/* [ 데드카운트 작동 ] */
-	FrameUpdate(fTimeDelta, m_fAnimationMaxFrame, m_fAnimationSpeed, false);
-	if (m_fAnimationMaxFrame <= m_fAnimationFrame || m_bDead)
-	{
-		FX_MGR->SetbHit(false);
-		return EVN_DEAD;
-	}
+	//FrameUpdate(fTimeDelta, m_fAnimationMaxFrame, m_fAnimationSpeed, false);
+	//if (m_fAnimationMaxFrame <= m_fAnimationFrame || m_bDead)
+	//{
+	//	FX_MGR->SetbHit(false);
+	//	return EVN_DEAD;
+	//}
 
 	/* [ 약간 상승 애니메이션 ] */
 	if (m_eEffectType == HEAL)
