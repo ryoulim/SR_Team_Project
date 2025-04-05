@@ -42,6 +42,8 @@ namespace Client
 		CI_BOSS_GUIDBULLET, CI_BOSS_FIRE, CI_BOSS_BULLET, CI_BOSS_JUMP, CI_BOSS_TANGTANG,
 		CI_MBULLET_END,
 
+		CI_PHOTOFRAME,                                                                              // 사진액자
+
 		CI_TRIGGER,                                                                                // 트리거 ( 조건문 안들어가게 하기 위해서 만든 이넘 )
 		CI_PICKING_RAY,
 

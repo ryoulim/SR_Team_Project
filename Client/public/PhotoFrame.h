@@ -1,4 +1,4 @@
-// 내 클래스 이름 : AlphaBlock
+// 내 클래스 이름 : PhotoFrame
 // 부모 클래스 이름 : Map
 
 #pragma once
@@ -6,18 +6,18 @@
 
 BEGIN(Client)
 
-class CAlphaBlock final : public CMap
+class CPhotoFrame final : public CMap
 {
 public:
-	typedef struct tagAlphaBlockDesc : public CMap::DESC
+	typedef struct tagPhotoFrameDesc : public CMap::DESC
 	{
 
 	}DESC;
 
 private:
-	CAlphaBlock(LPDIRECT3DDEVICE9 pGraphic_Device);
-	CAlphaBlock(const CAlphaBlock& Prototype);
-	virtual ~CAlphaBlock() = default;
+	CPhotoFrame(LPDIRECT3DDEVICE9 pGraphic_Device);
+	CPhotoFrame(const CPhotoFrame& Prototype);
+	virtual ~CPhotoFrame() = default;
 
 public:
 	virtual HRESULT Initialize_Prototype() override;
@@ -27,11 +27,15 @@ public:
 	virtual void Late_Update(_float fTimeDelta) override;
 	virtual HRESULT Render() override;
 
-public:
+private:
 	virtual HRESULT Ready_Components(void* pArg) override;
+	virtual void On_Collision(_uint MyColliderID, _uint OtherColliderID)override;
+
+private:
+	_bool m_bBroken = { false };
 
 public:
-	static CAlphaBlock* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
+	static CPhotoFrame* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
 	virtual CGameObject* Clone(void* pArg) override;
 	virtual void Free();
 };

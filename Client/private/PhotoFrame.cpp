@@ -1,25 +1,25 @@
-// 내 클래스 이름 : AlphaBlock
+// 내 클래스 이름 : PhotoFrame
 // 부모 클래스 이름 : Map
 
-#include "AlphaBlock.h"
+#include "PhotoFrame.h"
 #include "GameInstance.h"
 
-CAlphaBlock::CAlphaBlock(LPDIRECT3DDEVICE9 pGraphic_Device)
+CPhotoFrame::CPhotoFrame(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CMap{ pGraphic_Device }
 {
 }
 
-CAlphaBlock::CAlphaBlock(const CAlphaBlock& Prototype)
+CPhotoFrame::CPhotoFrame(const CPhotoFrame& Prototype)
 	: CMap(Prototype)
 {
 }
 
-HRESULT CAlphaBlock::Initialize_Prototype()
+HRESULT CPhotoFrame::Initialize_Prototype()
 {
 	return S_OK;
 }
 
-HRESULT CAlphaBlock::Initialize(void* pArg)
+HRESULT CPhotoFrame::Initialize(void* pArg)
 {
 	m_szTextureID = TEXT("Test");
 	m_szBufferType = TEXT("Cube");
@@ -30,36 +30,27 @@ HRESULT CAlphaBlock::Initialize(void* pArg)
 	return S_OK;
 }
 
-void CAlphaBlock::Priority_Update(_float fTimeDelta)
+void CPhotoFrame::Priority_Update(_float fTimeDelta)
 {
 	__super::Priority_Update(fTimeDelta);
 }
 
-EVENT CAlphaBlock::Update(_float fTimeDelta)
+EVENT CPhotoFrame::Update(_float fTimeDelta)
 {
 	return __super::Update(fTimeDelta);
 }
 
-void CAlphaBlock::Late_Update(_float fTimeDelta)
+void CPhotoFrame::Late_Update(_float fTimeDelta)
 {
 	__super::Late_Update(fTimeDelta);
 }
 
-HRESULT CAlphaBlock::Render()
+HRESULT CPhotoFrame::Render()
 {
-	m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
-
-	m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
-	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAREF, 40);
-	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER);
-
 	return __super::Render();
-
-	m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
-	m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
 }
 
-HRESULT CAlphaBlock::Ready_Components(void* pArg)
+HRESULT CPhotoFrame::Ready_Components(void* pArg)
 {
     __super::Ready_Components(pArg);
 
@@ -75,7 +66,7 @@ HRESULT CAlphaBlock::Ready_Components(void* pArg)
             ColliderDesc.vScale = m_pTransformCom->Compute_Scaled();
             ColliderDesc.pOwner = this;
             ColliderDesc.iColliderGroupID = CG_BLOCK;
-            ColliderDesc.iColliderID = CI_BLOCK_COMMON;
+            ColliderDesc.iColliderID = CI_PHOTOFRAME;
 
             auto& vAngle = static_cast<DESC*>(pArg)->vAngle;
 
@@ -123,33 +114,54 @@ HRESULT CAlphaBlock::Ready_Components(void* pArg)
     return S_OK;
 }
 
-CAlphaBlock* CAlphaBlock::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
+void CPhotoFrame::On_Collision(_uint MyColliderID, _uint OtherColliderID)
 {
-	CAlphaBlock* pInstance = new CAlphaBlock(pGraphic_Device);
+    switch (OtherColliderID)
+    {
+    case CI_LOVERBOY:
+        break;
+    case CI_CHAINGUN:
+        break;
+    case CI_DISPENSOR_SHELL:
+        break;
+    default:
+        return;
+    }
+
+	if (!m_bBroken)
+	{
+		++m_fTextureIdx;
+		m_bBroken = true;
+	}
+}
+
+CPhotoFrame* CPhotoFrame::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
+{
+	CPhotoFrame* pInstance = new CPhotoFrame(pGraphic_Device);
 
 	if (FAILED(pInstance->Initialize_Prototype()))
 	{
-		MSG_BOX("Failed to Created : CAlphaBlock");
+		MSG_BOX("Failed to Created : CPhotoFrame");
 		Safe_Release(pInstance);
 	}
 
 	return pInstance;
 }
 
-CGameObject* CAlphaBlock::Clone(void* pArg)
+CGameObject* CPhotoFrame::Clone(void* pArg)
 {
-	CAlphaBlock* pInstance = new CAlphaBlock(*this);
+	CPhotoFrame* pInstance = new CPhotoFrame(*this);
 
 	if (FAILED(pInstance->Initialize(pArg)))
 	{
-		MSG_BOX("Failed to Clone : CAlphaBlock");
+		MSG_BOX("Failed to Clone : CPhotoFrame");
 		Safe_Release(pInstance);
 	}
 
 	return pInstance;
 }
 
-void CAlphaBlock::Free()
+void CPhotoFrame::Free()
 {
 	__super::Free();
 }
