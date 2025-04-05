@@ -288,6 +288,15 @@ void CTransform::Go_Down(_float fTimeDelta)
 	Set_State(STATE_POSITION, vPosition);
 }
 
+void CTransform::Go_Dir(const _float3& vMoveDir, _float fTimeDelta)
+{
+	_float3		vPosition = *Get_State(STATE_POSITION);
+
+	vPosition += vMoveDir * m_fSpeedPerSec * fTimeDelta;
+
+	Set_State(STATE_POSITION, vPosition);
+}
+
 void CTransform::LookAt(const _float3& vTargetPos)
 {
 	_float3		vScaled = Compute_Scaled();

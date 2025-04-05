@@ -326,28 +326,33 @@ void CPlayer::Key_Input(_float fTimeDelta)
 	_bool bTriger{};
 
 	// 이동관련
+	_float3 vMoveDir{};
 	if (KEY_PRESSING(DIK_W))
 	{
-		m_pGravityCom->Go_Straight_On_Terrain(fTimeDelta);
+		vMoveDir += m_pGravityCom->Get_Terrain_Front_Dir();
 		bTriger = TRUE;
 	}
 	if (KEY_PRESSING(DIK_S))
 	{
-		m_pGravityCom->Go_Backward_On_Terrain(fTimeDelta);
+		vMoveDir -= m_pGravityCom->Get_Terrain_Front_Dir();
 		bTriger = TRUE;
 	}
 	if (KEY_PRESSING(DIK_A))
 	{
-		m_pGravityCom->Go_Left_On_Terrain(fTimeDelta);
+		vMoveDir -= m_pGravityCom->Get_Terrain_Right_Dir();
 		bTriger = TRUE;
 	}
 	if (KEY_PRESSING(DIK_D))
 	{
-		m_pGravityCom->Go_Right_On_Terrain(fTimeDelta);
+		vMoveDir += m_pGravityCom->Get_Terrain_Right_Dir();
 		bTriger = TRUE;
 	}
 	if (bTriger)
+	{
+		vMoveDir.Normalize();
+		m_pTransformCom->Go_Dir(vMoveDir, fTimeDelta);
 		m_Weapons[m_iCurWeaponIndex]->Walk(fTimeDelta);
+	}
 
 	// 점프
 	if (KEY_DOWN(DIK_SPACE))
@@ -358,14 +363,23 @@ void CPlayer::Key_Input(_float fTimeDelta)
 	if (KEY_DOWN(DIK_LSHIFT)			&&
 		!m_bDash						&&
 		m_fDashTimer < -DASH_COOLTIME	&&
+		bTriger							&&
 		m_vPrePosition != *m_pTransformCom->Get_State(CTransform::STATE_POSITION))
 	{
+		// 이펙트 생성
 		FX_MGR->PlayerDash(m_eLevelID);
 
-		m_vDashDirection = (*m_pTransformCom->Get_State(CTransform::STATE_POSITION)
-			- m_vPrePosition).Normalize() * DASH_SPEED;
-		m_vDashDirection.y = 0.f;
+		// 대쉬 스피드 설정
+		m_pTransformCom->Set_SpeedPerSec(DASH_SPEED);
 
+		// 이동방향 판별
+		if (m_pGravityCom->isJump())
+			vMoveDir.y = 0.f;
+		vMoveDir.y = max(vMoveDir.y, 0.f);
+
+		m_vDashDirection = vMoveDir;
+		
+		// FOV 관련
 		_float fTargetFov{};
 		if (0 <= m_pTransformCom->Get_State(CTransform::STATE_LOOK)->Dot(m_vDashDirection))
 			fTargetFov = RADIAN(50.f);
@@ -448,6 +462,7 @@ void CPlayer::Update_Camera_Link()
 
 void CPlayer::Update_Dash(_float fTimeDelta)
 {
+	// 대쉬 끝났는지 판단
 	m_fDashTimer += fTimeDelta;
 	if (m_fDashTimer > DASH_TIME)
 	{
@@ -455,17 +470,8 @@ void CPlayer::Update_Dash(_float fTimeDelta)
 		m_pCameraManager->Zoom(RADIAN(60.f), DASH_TIME * 2.f);
 	}
 
-	_float3 vPos = *m_pTransformCom->Get_State(CTransform::STATE_POSITION);
-	_float fFloorY = m_pGravityCom->Get_FloorY();
-
-	vPos += (m_vDashDirection * fTimeDelta);
-
-	if (vPos.y < fFloorY)
-		vPos.y = fFloorY;
-
-	m_pTransformCom->Set_State(CTransform::STATE_POSITION,vPos);
-
-	m_vDashDirection *= 0.85f;
+	m_pTransformCom->Go_Dir(m_vDashDirection, fTimeDelta);
+	m_pTransformCom->Mul_SpeedPerSec(0.85f);
 }
 
 void CPlayer::Ladder(_float fTimeDelta)
