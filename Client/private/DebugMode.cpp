@@ -26,7 +26,7 @@ HRESULT CDebugMode::Initialize(void* pArg)
 
 EVENT CDebugMode::Update(_float fTimeDelta)
 {
- 	m_fTimeAcc += fTimeDelta;
+ 	m_fTimeAcc += m_pGameInstance->Get_TimeDelta(TEXT("Timer_60"));
 	m_iFPSConter++;
 	if (m_fTimeAcc >= 1.f)
 	{

@@ -79,6 +79,7 @@ HRESULT CPawn::Ready_Components(void* pArg)
 		DESC* pDesc = static_cast<DESC*>(pArg);
 		m_pTransformCom->Set_State(CTransform::STATE_POSITION, pDesc->vInitPos);
 		m_pTransformCom->Scaling(pDesc->vScale);
+		m_fInitSpeed = pDesc->fSpeedPerSec;
 	}
 
 
@@ -93,6 +94,13 @@ HRESULT CPawn::Ready_Components(void* pArg)
 	/* For.Com_Collider */
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Collider_Capsule"),
 		TEXT("Com_Collider"), reinterpret_cast<CComponent**>(&m_pCollider), &ColliderDesc)))
+		return E_FAIL;
+
+	ColliderDesc.iColliderGroupID = CG_PAWN_PRE;
+	ColliderDesc.iColliderID = CI_PLAYER_PRE;
+	/* For.Com_Collider */
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Collider_Capsule"),
+		TEXT("Com_PrePosCollider"), reinterpret_cast<CComponent**>(&m_pPrePosCollider), &ColliderDesc)))
 		return E_FAIL;
 
 	return S_OK;
@@ -135,4 +143,5 @@ void CPawn::Free()
 	Safe_Release(m_pTextureCom);
 	Safe_Release(m_pTransformCom);
 	Safe_Release(m_pCollider);
+	Safe_Release(m_pPrePosCollider);
 }
