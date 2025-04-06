@@ -216,6 +216,7 @@
     <ClInclude Include="..\Public\VIBuffer_Computer.h" />
     <ClInclude Include="..\public\VIBuffer_Cube.h" />
     <ClInclude Include="..\public\VIBuffer_CubeEx.h" />
+    <ClInclude Include="..\Public\VIBuffer_RaceBoss.h" />
     <ClInclude Include="..\Public\VIBuffer_RaceCylinder.h" />
     <ClInclude Include="..\Public\VIBuffer_RaceGate.h" />
     <ClInclude Include="..\Public\VIBuffer_RaceLandscape.h" />
@@ -277,6 +278,7 @@
     <ClCompile Include="..\Private\VIBuffer_Computer.cpp" />
     <ClCompile Include="..\private\VIBuffer_Cube.cpp" />
     <ClCompile Include="..\private\VIBuffer_CubeEx.cpp" />
+    <ClCompile Include="..\Private\VIBuffer_RaceBoss.cpp" />
     <ClCompile Include="..\Private\VIBuffer_RaceCylinder.cpp" />
     <ClCompile Include="..\Private\VIBuffer_RaceGate.cpp" />
     <ClCompile Include="..\Private\VIBuffer_RaceLandscape.cpp" />

@@ -45,8 +45,8 @@ HRESULT CLevel_GamePlay::Initialize(class CLevelData* pLevelData)
 
 	CUI_Manager::Get_Instance()->Initialize_Player();
 
-	/*if (FAILED(Ready_Layer_Monster(TEXT("Layer_Monster"))))
-		return E_FAIL;*/
+	if (FAILED(Ready_Layer_Monster(TEXT("Layer_Monster"))))
+		return E_FAIL;
 
 	if (FAILED(Ready_Layer_Statue(TEXT("Layer_Statue"))))
 		return E_FAIL;
@@ -66,8 +66,8 @@ HRESULT CLevel_GamePlay::Initialize(class CLevelData* pLevelData)
 	if (FAILED(Load_Map(LEVEL_GAMEPLAY, TEXT("MapData.txt"))))
 		return E_FAIL;
 
-	if (FAILED(Ready_Layer_Trigger(TEXT("Layer_Trigger"))))
-		return E_FAIL;
+	/*if (FAILED(Ready_Layer_Trigger(TEXT("Layer_Trigger"))))
+		return E_FAIL;*/
 
 	ShowCursor(FALSE);
 
@@ -315,7 +315,7 @@ HRESULT CLevel_GamePlay::Ready_Layer_Pawn(const _wstring& strLayerTag)
 		m_pGameInstance->Release_Layer(LEVEL_STATIC, strLayerTag);
 
 	CPlayer::DESC PlayerDesc{};
-	PlayerDesc.vInitPos = { 1400.f, 150.f, 200.f };
+	PlayerDesc.vInitPos = { 1400.f, 150.f, 1000.f }; //200.f;
 	PlayerDesc.vScale = { 30.f, 40.f, 30.f };
 	PlayerDesc.fRotationPerSec = RADIAN(180.f);
 	PlayerDesc.fSpeedPerSec = 150.f;

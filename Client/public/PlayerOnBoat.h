@@ -40,6 +40,7 @@ public:
 	void			Set_State(STATE eState);
 	void			Go_Straight(_float fTimeDelta);
 	void			Key_Input(_float fTimeDelta);
+	void			Key_Input2(_float fTimeDelta);
 	_float			Compute_StartPosX();
 	_float			Compute_CurPosZ();
 	void			Move_Lerp(_float fStartPosX, _float fTime);

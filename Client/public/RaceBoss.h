@@ -3,6 +3,7 @@
 #include "Client_Defines.h"
 #include "Pawn.h"
 #include "GameInstance.h"
+#include "RaceBossBullet.h"
 
 BEGIN(Engine)
 class CTexture;
@@ -15,6 +16,9 @@ BEGIN(Client)
 
 class CRaceBoss final : public CGameObject
 {
+public:
+	enum STATE { ENTRANCE, IDLE, SHOTREADY, SHOTHEADBULLET, SHOTTAILBULLET, LEAVE, NON };
+
 public:
 	typedef struct tagRaceBossDesc : public CTransform::DESC
 	{
@@ -40,7 +44,8 @@ public:
 
 private:
 	HRESULT Ready_Components(void* pArg);
-	void Attack();
+	void Action(_float fTimeDelta);
+	HRESULT Fire_Bullet(CRaceBossBullet::RBULLETTYPE eType);
 
 private:
 	CTexture* m_pTextureCom = { nullptr };
@@ -48,11 +53,14 @@ private:
 	CTransform* m_pTransformCom = { nullptr };
 	CCollider* m_pCollider = { nullptr };
 	
+	STATE		m_eState = { NON };
 	LEVEL		m_eLevelID = { LEVEL_END };
 	_bool		m_bDead = { false };
 	_float3		m_vScale = {};
 	_uint		m_iHp = {};
 	_float		m_fTime = {};
+	_uint		m_iBulletCount = {};
+	_float3		m_vBulletDiretion = {};
 
 public:
 	static CRaceBoss* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
