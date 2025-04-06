@@ -24,7 +24,7 @@ public:
 	virtual void On_Collision(_uint MyColliderID, _uint OtherColliderID);
 
 private:
-	HRESULT Ready_Components(void* pArg)override;
+	virtual HRESULT Ready_Components(void* pArg)override;
 
 private:
 	_bool			m_bBroken{ FALSE };

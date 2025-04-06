@@ -91,6 +91,10 @@
 #include "Ladder.h"
 #include "TelephonePole.h"
 #include "Picture.h"
+#include "TrashCan.h"
+#include "GarbageBag.h"
+#include "FirePlug.h"
+#include "HydroPump.h"
 
 //전시용 플랫폼
 #include "Flatform.h"
@@ -115,7 +119,7 @@
 #include "Trigger.h"
 
 /* 맵툴에서 넘어오는 텍스쳐 갯수, 건들지 말아주세요 감사합니다 */
-#define NUMMAPTEX 185
+#define NUMMAPTEX 188
 
 
 CLoader::CLoader(LPDIRECT3DDEVICE9 pGraphic_Device)
@@ -1261,6 +1265,7 @@ HRESULT CLoader::Loading_For_Outdoor()
 	ADD_TEXTURE(Terrain, "../Bin/Resources/Textures/Check_Tile.PNG", 1);
 	ADD_TEXTURE(Water, "../Bin/Resources/Textures/Map/Water/Water%d.png", 16);
 
+	/* 맵, 스태츄 */
 	ADD_TEXTURE(MyCube, "../Bin/Resources/Textures/Snow/Snow.png", 1);
 	ADD_TEXTURE(Portrait, "../Bin/Resources/Textures/UI/Portrait/portrait%d.PNG", 25);
 	ADD_TEXTURE(Box, "../Bin/Resources/Textures/Object/Box/tile6628.png", 1);
@@ -1270,11 +1275,22 @@ HRESULT CLoader::Loading_For_Outdoor()
 	ADD_TEXTURE(Signboard, "../Bin/Resources/Textures/Object/Signboard/Signboard%d.png", 5);
 	ADD_TEXTURE(MyComputer, "../Bin/Resources/Textures/Object/Computer/Computer%d.png", 3);
 	ADD_TEXTURE(Canopy, "../Bin/Resources/Textures/Object/Canopy/Canopy%d.png", 2);
+	ADD_TEXTURE(TrashCan, "../Bin/Resources/Textures/Map/TrashCan/TrashCan%d.png", 2);
+	ADD_TEXTURE(GarbageBag, "../Bin/Resources/Textures/Map/GarbageBag/GarbageBag%d.png", 3);
+	ADD_TEXTURE(FirePlug, "../Bin/Resources/Textures/Map/FirePlug/FirePlug%d.png", 6);
+	ADD_TEXTURE(HydroPump, "../Bin/Resources/Textures/Map/FirePlug/HydroPump/HydroPump%d.png", 25);
 
+	/* 빌딩 */
 	ADD_TEXTURE(BuildingH, "../Bin/Resources/Textures/Object/BuildingH/BuildingH%d.PNG", 4);
 	ADD_TEXTURE(BuildingW, "../Bin/Resources/Textures/Object/BuildingW/BuildingW.PNG", 1);
 	ADD_TEXTURE(BuildingV, "../Bin/Resources/Textures/Object/BuildingV/BuildingV.PNG", 1);
 	ADD_TEXTURE(BuildingU, "../Bin/Resources/Textures/Object/BuildingU/BuildingU.PNG", 1);
+
+	/* 아이템 */
+	ADD_TEXTURE(Item_Ammo, "../Bin/Resources/Textures/Item/Ammo%d.PNG", 4);
+	ADD_TEXTURE(Item_Healkit, "../Bin/Resources/Textures/Item/Healkit.PNG", 1);
+	ADD_TEXTURE(Item_Armor, "../Bin/Resources/Textures/Item/Armor%d.PNG", 2);
+	ADD_TEXTURE(Item_Cardkey, "../Bin/Resources/Textures/Item/CardKey.PNG", 1);
 
 	lstrcpy(m_szLoadingText, TEXT("모델을(를) 로딩중입니다."));
 	Load_For_Terrain(TEXT("OutDoorMapData.txt"));
@@ -1302,6 +1318,46 @@ HRESULT CLoader::Loading_For_Outdoor()
 	ADD_PRTOBJ(Ladder);
 	ADD_PRTOBJ(TelephonePole);
 	ADD_PRTOBJ(Picture);
+	ADD_PRTOBJ(TrashCan);
+	ADD_PRTOBJ(GarbageBag);
+	ADD_PRTOBJ(FirePlug);
+	ADD_PRTOBJ(HydroPump);
+	
+#pragma region 아이템
+	/* 아이템 */
+	if (FAILED(m_pGameInstance->Add_Prototype(m_eNextLevelID, TEXT("Prototype_GameObject_Item_Ammo_Chaingun"),
+		CItem::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(m_eNextLevelID, TEXT("Prototype_GameObject_Item_Ammo_Dispenser_Scatter"),
+		CItem::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(m_eNextLevelID, TEXT("Prototype_GameObject_Item_Ammo_Dispenser_Cannon"),
+		CItem::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(m_eNextLevelID, TEXT("Prototype_GameObject_Item_Ammo_LoverBoy"),
+		CItem::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+
+	if (FAILED(m_pGameInstance->Add_Prototype(m_eNextLevelID, TEXT("Prototype_GameObject_Item_Healkit"),
+		CItem::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(m_eNextLevelID, TEXT("Prototype_GameObject_Item_Armor_Piece"),
+		CItem::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(m_eNextLevelID, TEXT("Prototype_GameObject_Item_Armor_Full"),
+		CItem::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(m_eNextLevelID, TEXT("Prototype_GameObject_Item_Cardkey"),
+		CItem::Create(m_pGraphic_Device))))
+		return E_FAIL;
+#pragma endregion
 
 	lstrcpy(m_szLoadingText, TEXT("사운드을(를) 로딩중입니다."));
 

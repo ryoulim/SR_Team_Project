@@ -55,6 +55,7 @@ protected:
 	CCollider* m_pCollider = { nullptr };
 	bool m_bDead = { false };
 	COLLIDER_ID m_eColID = { COLLIDER_ID::CI_END };
+	_float m_fStdHeight = {};
 
 public:
 	static CItem* Create(LPDIRECT3DDEVICE9 pGraphic_Device);

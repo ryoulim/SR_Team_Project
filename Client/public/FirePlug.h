@@ -28,6 +28,16 @@ public:
 	virtual HRESULT Render() override;
 
 public:
+	virtual void On_Collision(_uint MyColliderID, _uint OtherColliderID) override;
+
+private:
+	virtual HRESULT Ready_Components(void* pArg)override;
+	void Spawn_HydroPump();
+
+private:
+	_bool m_bBroken = { false };
+
+public:
 	static CFirePlug* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
 	virtual CGameObject* Clone(void* pArg) override;
 	virtual void Free();

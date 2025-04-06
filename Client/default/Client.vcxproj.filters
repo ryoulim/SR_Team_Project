@@ -460,6 +460,9 @@
     <Filter Include="02.GameObjects\Map\Interactive_Block\FirePlug">
       <UniqueIdentifier>{8832452f-58ae-439f-a4d1-a9d3db199f58}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\Effect\HydroPump">
+      <UniqueIdentifier>{6fce5487-f0ec-4a08-8102-210bd2617862}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -855,9 +858,6 @@
     <ClInclude Include="..\public\Interactive_Block.h">
       <Filter>02.GameObjects\Map\Interactive_Block</Filter>
     </ClInclude>
-    <ClInclude Include="..\public\Interactive_Block.h">
-      <Filter>02.GameObjects\Map\Interactive_Block</Filter>
-    </ClInclude>
     <ClInclude Include="..\public\Forest.h">
       <Filter>02.GameObjects\Statue\Forest</Filter>
     </ClInclude>
@@ -913,8 +913,6 @@
     <ClInclude Include="..\public\TelephonePole.h">
       <Filter>02.GameObjects\Map\AlphaRect\TelephonePole</Filter>
     </ClInclude>
-    <ClInclude Include="..\public\CutSceneSmoke.h" />
-    <ClInclude Include="..\public\WaterBoat.h" />
     <ClInclude Include="..\public\GarbageBag.h">
       <Filter>02.GameObjects\Map\Interactive_Block\GarbageBag</Filter>
     </ClInclude>
@@ -923,6 +921,18 @@
     </ClInclude>
     <ClInclude Include="..\public\FirePlug.h">
       <Filter>02.GameObjects\Map\Interactive_Block\FirePlug</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Interactive_Block.h">
+      <Filter>02.GameObjects\Map\Interactive_Block</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\HydroPump.h">
+      <Filter>02.GameObjects\Effect\HydroPump</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\WaterBoat.h">
+      <Filter>02.GameObjects\Particle\WaterBoat</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\CutSceneSmoke.h">
+      <Filter>02.GameObjects\Particle\_BossMobSkill\CutSceenEffect</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1376,6 +1386,9 @@
     </ClCompile>
     <ClCompile Include="..\private\FirePlug.cpp">
       <Filter>02.GameObjects\Map\Interactive_Block\FirePlug</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\HydroPump.cpp">
+      <Filter>02.GameObjects\Effect\HydroPump</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

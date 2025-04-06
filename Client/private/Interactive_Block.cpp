@@ -9,7 +9,9 @@ CInteractive_Block::CInteractive_Block(LPDIRECT3DDEVICE9 pGraphic_Device)
 }
 
 CInteractive_Block::CInteractive_Block(const CInteractive_Block& Prototype)
-	: CMap(Prototype)
+	: CMap(Prototype),
+	m_iHp{Prototype.m_iHp},
+	m_iMaxHp{Prototype.m_iMaxHp}
 {
 }
 

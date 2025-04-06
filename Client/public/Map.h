@@ -8,6 +8,10 @@
 #define INDOORSCALE 14.f
 #define OUTDOORSCALE 10.f
 
+#define BOSSITEMSCALE 22.f
+#define INDOORITEMSCALE 14.f
+#define OUTDOORITEMSCALE 20.f
+
 BEGIN(Engine)
 class CTexture;
 class CVIBuffer_Rect;

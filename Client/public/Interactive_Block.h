@@ -13,6 +13,11 @@ protected:
 	CInteractive_Block(const CInteractive_Block& Prototype);
 	virtual ~CInteractive_Block() = default;
 
+protected:
+	_bool m_bDead = { false };
+	_int  m_iHp = {};
+	_int  m_iMaxHp = {};
+
 public:
 	virtual void Free();
 };
