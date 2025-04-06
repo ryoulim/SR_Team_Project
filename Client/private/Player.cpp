@@ -361,7 +361,9 @@ void CPlayer::Key_Input(_float fTimeDelta)
 	{
 		vMoveDir.Normalize();
 		m_pTransformCom->Go_Dir(vMoveDir, fTimeDelta);
-		m_Weapons[m_iCurWeaponIndex]->Walk(fTimeDelta);
+
+		if(!m_pGravityCom->isJump())
+			m_Weapons[m_iCurWeaponIndex]->Walk(fTimeDelta);
 	}
 
 	// 점프
@@ -449,20 +451,6 @@ void CPlayer::Key_Input(_float fTimeDelta)
 	{
 		m_Weapons[m_iCurWeaponIndex]->Set_State(CWeapon::ST_OPENING);
 	}
-
-	// 시간 테스트
-
-	//static _float TestTime{ 1.f };
-	//if (KEY_DOWN(DIK_COMMA))
-	//{
-	//	TestTime -= 0.1f;
-	//	m_pGameInstance->Set_TimeScale(TEXT("Timer_60"), TestTime);
-	//} 
-	//else if (KEY_DOWN(DIK_PERIOD))
-	//{
-	//	TestTime += 0.1f;
-	//	m_pGameInstance->Set_TimeScale(TEXT("Timer_60"), TestTime);
-	//}
 }
 
 void CPlayer::Init_Camera_Link()
