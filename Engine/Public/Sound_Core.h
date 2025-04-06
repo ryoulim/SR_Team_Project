@@ -11,7 +11,7 @@ END
 BEGIN(Engine)
 
 // FMOD_CORE_API 기반 래핑 클래스
-class ENGINE_DLL CSound_Core : public CBase
+class CSound_Core : public CBase
 {
 private:
 	friend class CSound_Control_Group;

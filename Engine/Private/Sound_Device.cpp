@@ -94,7 +94,7 @@ HRESULT CSound_Device::LoadSound(const string& Path, _bool is3D, _bool loop, _bo
 
 	FMOD_MODE mode = FMOD_DEFAULT;
 
-	if (is3D) mode |= FMOD_3D_INVERSETAPEREDROLLOFF;
+	if (is3D) mode |= FMOD_3D_LINEARROLLOFF;
 	else      mode |= FMOD_2D;
 
 	if (loop) mode |= FMOD_LOOP_NORMAL;

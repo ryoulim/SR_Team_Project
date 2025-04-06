@@ -1,5 +1,4 @@
-﻿// 내 클래스 이름 : Weapon_LoverBoy
-// 부모 클래스 이름 : Weapon
+﻿// 부모 클래스 이름 : Weapon
 
 #include "Weapon_LoverBoy.h"
 #include "UI_Manager.h"
@@ -38,6 +37,8 @@ HRESULT CWeapon_LoverBoy::Initialize(void* pArg)
 	m_tAmmoInfo.iMaxAmmo = 6;
 	m_tAmmoInfo.iReloadedAmmo = 6;
 	///////
+
+	m_pSoundCom->Set_Volume(0.7f);
 
 	return S_OK;
 }
@@ -100,6 +101,7 @@ void CWeapon_LoverBoy::Set_State(STATE State)
 		m_fTextureNum = 0.f;
 		break;
 	case ST_W_ATK:
+		m_pSoundCom->Play("Fire");
 		FX_MGR->SpawnGunFire(_float3{ 750.f, 450.f, 0.1f }, LEVEL_STATIC);
 		FX_MGR->SpawnBulletTracer(_float3{ 700.f, 400.f, 0.2f }, LEVEL_STATIC);
 		m_pTransformCom->Set_State(CTransform::STATE_POSITION, { 320.f,-105.f,0.1f });
@@ -121,6 +123,7 @@ void CWeapon_LoverBoy::Set_State(STATE State)
 		Search_Target();
 		break;
 	case ST_RELOAD:
+		m_pSoundCom->Play("Reload");
 		m_pTransformCom->Set_State(CTransform::STATE_POSITION, { 320.f,-105.f,0.1f });
 		m_fFrameSpeed = 25.f;
 		m_eState = ST_RELOAD;
@@ -167,8 +170,7 @@ void CWeapon_LoverBoy::Strong_Attack(_float fTimeDelta)
 				return;
 			}
 			FX_MGR->SpawnGunFire(_float3{ 750.f, 450.f, 0.1f }, LEVEL_STATIC);
-			//FX_MGR->SpawnBulletTracer(_float3{ 700.f, 400.f, 0.2f }, LEVEL_STATIC);
-			//m_pCoreSoundTest->Play(0.7f);
+			m_pSoundCom->Play("Fire");
 			m_tAmmoInfo.iReloadedAmmo--;
 			m_tAmmoInfo.iCurAmmo--;
 
@@ -222,6 +224,7 @@ void CWeapon_LoverBoy::Ending(_float fTimeDelta)
 	if (m_fMotionTimer > 0.8f)
 	{
 		m_pTransformCom->Rotation_Reset();
+		m_pSoundCom->Play("Reload2");
 		Set_State(ST_OPENING);
 	}
 }

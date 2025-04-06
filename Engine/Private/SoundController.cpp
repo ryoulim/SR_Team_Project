@@ -34,7 +34,51 @@ void CSoundController::Play(const string& strTag)
 	Find_Sound(strTag)->Play();
 }
 
-CSound_Core* CSoundController::Find_Sound(const string& strTag)
+void CSoundController::Stop(const string& strTag)
+{
+	Find_Sound(strTag)->Stop();
+}
+
+void CSoundController::Set_Volume(const string& strTag, _float Volume)
+{
+	Find_Sound(strTag)->Set_Volume(Volume);
+}
+
+void CSoundController::Update3DPosition(const string& strTag, const _float3& vPos)
+{
+	Find_Sound(strTag)->Update3DPosition(vPos);
+}
+
+void CSoundController::Set3DState(const string& strTag, _float fMin, _float fMax)
+{
+	Find_Sound(strTag)->Set3DState(fMin, fMax);
+}
+
+_bool CSoundController::IsPlaying(const string& strTag) const
+{
+	return Find_Sound(strTag)->IsPlaying();
+}
+
+void CSoundController::Set_Volume(_float Volume)
+{
+	for (auto& [key, value] : m_Sounds)
+		value->Set_Volume(Volume);
+
+}
+
+void CSoundController::Update3DPosition(const _float3& vPos)
+{
+	for (auto& [key, value] : m_Sounds)
+		value->Update3DPosition(vPos);
+}
+
+void CSoundController::Set3DState(_float fMin, _float fMax)
+{
+	for (auto& [key,value] : m_Sounds)
+		value->Set3DState(fMin, fMax);
+}
+
+CSound_Core* CSoundController::Find_Sound(const string& strTag) const
 {
 	auto Iter = m_Sounds.find(strTag);
 	if (Iter == m_Sounds.end())
