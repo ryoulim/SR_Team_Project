@@ -591,7 +591,7 @@ void CArchangel::Render_TrailData()
 	queue<TRAILDATA> tempQueue = Sorted_TrailData();
 	while (!tempQueue.empty())
 	{
-		TRAILDATA trailData = tempQueue.front();
+		TRAILDATA trailData = tempQueue.front();	
 		tempQueue.pop();
 
 		// 잔상 위치로 변환 행렬 설정

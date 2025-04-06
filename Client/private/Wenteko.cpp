@@ -48,9 +48,9 @@ HRESULT CWenteko::Initialize(void* pArg)
 
 	/* 콜라이드 컴포넌트 - 대가리 */
 	CCollider::DESC ColliderDesc{};
-	ColliderDesc.pTransform = m_pTransformCom;
-	ColliderDesc.vOffSet = { 0.f, 192.f * 0.5f - 52.f, 0.f };	// y길이 * 0.5 - 머리위치y좌표 + 반지름크기?
-	ColliderDesc.vScale = { 17.f, 0.f, 0.f };					// 반지름 크기
+	ColliderDesc.pTransform = m_pTransformCom; // 50쯤
+	ColliderDesc.vOffSet = { 0.f, 20.8f, 0.f };	// y길이 * 0.5 - 머리위치y좌표 + 반지름크기?
+	ColliderDesc.vScale = { 8.f, 0.f, 0.f };					// 반지름 크기
 	ColliderDesc.pOwner = this;
 	ColliderDesc.iColliderGroupID = CG_MONSTER_HEAD;
 	ColliderDesc.iColliderID = CI_MON_HEAD;
@@ -62,8 +62,8 @@ HRESULT CWenteko::Initialize(void* pArg)
 	/* 콜라이드 컴포넌트  - 근접공격용 타격 범위 */
 	CCollider::DESC AttackColliderDesc{};
 	AttackColliderDesc.pTransform = m_pTransformCom;
-	AttackColliderDesc.vOffSet = { 1000.f, 1000.f, 1000.f };	// 아이거어케짜냐 염병 ㅋㅋ
-	AttackColliderDesc.vScale = { 40.f, 0.f, 0.f };				// 아무튼 초기에 멀리 있으면 안맞는다니까요
+	AttackColliderDesc.vOffSet = { 0.f, -1000.f, 0.f }; // 아무튼 초기에 멀리 있으면 안맞는다니까요
+	AttackColliderDesc.vScale = { 40.f, 0.f, 0.f };				
 	AttackColliderDesc.pOwner = this;
 	AttackColliderDesc.iColliderGroupID = CG_MONSTER;
 	AttackColliderDesc.iColliderID = CI_MONSTER_WENTEKO;
@@ -97,20 +97,25 @@ EVENT CWenteko::Update(_float fTimeDelta)
 void CWenteko::Late_Update(_float fTimeDelta)
 {
 	__super::Late_Update(fTimeDelta);
+	_float3 vLook = *m_pTransformCom->Get_State(CTransform::STATE_LOOK);
+	vLook.Normalize();
 	if (m_isCloseAttack)
 	{
-		_float3 vLook = *m_pTransformCom->Get_State(CTransform::STATE_LOOK);
-		vLook.Normalize();
-		vLook *= 30.f;
-		vLook.y += 10.f;
-		m_pAttackCollider->Update_OffSet(vLook);
+		_float3 vCLook = vLook;
+		vCLook *= 30.f;
+		vCLook.y += 10.f;
+		m_pAttackCollider->Update_OffSet(vCLook);
 		m_pAttackCollider->Update_Collider();  // 근접 공격 시에만 콜라이더 업데이트 
 	}
 	else
 	{
-		m_pAttackCollider->Update_OffSet({1000.f,1000.f,1000.f});
+		m_pAttackCollider->Update_OffSet({0.f, -10000.f, 0.f});
 		//m_pAttackCollider->Update_Collider();  // 근접 공격 시에만 콜라이더 업데이트 
 	}
+	vLook *= 16.f;
+	vLook.y += 20.8f;
+	m_pHeadCollider->Update_OffSet(vLook);
+
 	if (m_bRotateAnimation == false)
 		m_iDegree = 0;
 	Resize_Texture(0.4f);
@@ -237,7 +242,7 @@ void CWenteko::ClosePattern(_float dt)
 	m_eCurMonsterState = STATE_ATTACK;
 	
 	m_fAnimationFrame += dt * m_fAnimationSpeed;
-	m_pTransformCom->Go_StraightWithoutY(dt);
+	m_pTransformCom->Go_StraightWithoutY(dt * 3.f);
 	m_isCloseAttack = true;
 	if (m_fAnimationFrame >= m_fAnimationMaxFrame)
 	{
@@ -262,7 +267,7 @@ void CWenteko::DoReady(_float dt)
 	if (m_fCooldownDuration >= m_fCooldownTime)
 	{
 		m_isReadyToAttack = true;
-		if (m_fCurDistance < 150.f)
+		if (m_fCurDistance < 200.f)
 			m_eAttackPattern = ATTACK_NORMAL;
 		else
 			m_eAttackPattern = ATTACK_JUMP;
