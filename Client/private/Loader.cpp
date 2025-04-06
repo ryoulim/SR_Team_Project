@@ -651,8 +651,8 @@ HRESULT CLoader::Loding_For_Static()
 #pragma endregion
 
 #pragma region 사운드
-
 	ADD_SOUND(LoverBoy, "../Bin/Resources/Sounds/Weapons/Loverboy/");
+	ADD_SOUND(Dispenser, "../Bin/Resources/Sounds/Weapons/Dispenser/");
 #pragma endregion
 
 

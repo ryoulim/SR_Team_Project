@@ -85,6 +85,18 @@ const CWeapon::AMMOINFO* CWeapon_Dispenser::Get_Info()
 		return &m_tShellInfo;
 }
 
+HRESULT CWeapon_Dispenser::Ready_Components(void* pArg)
+{
+	__super::Ready_Components(pArg);
+
+	/* For.Com_Sound */
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Sound_Dispenser"),
+		TEXT("Com_Sound"), reinterpret_cast<CComponent**>(&m_pSoundCom))))
+		return E_FAIL;
+
+	return S_OK;
+}
+
 void CWeapon_Dispenser::Set_State(STATE State)
 {
 	if (m_eState == State)
@@ -114,6 +126,7 @@ void CWeapon_Dispenser::Set_State(STATE State)
 		m_fTextureNum = 0.f;
 		break;
 	case ST_W_ATK: // 공격
+		m_pSoundCom->Play("fire_1_4");
 		m_pTransformCom->Set_State(CTransform::STATE_POSITION, INITPOS);
 		m_eState = ST_W_ATK;
 		m_fFrameSpeed = 35.f;
@@ -123,6 +136,7 @@ void CWeapon_Dispenser::Set_State(STATE State)
 		break;
 	case ST_S_ATK: // 펌핑(자동)
 	{
+		m_pSoundCom->Play("reload_1");
 		_float3 vPos = INITPOS;
 		vPos.x -= 40.f;
 		m_pTransformCom->Set_State(CTransform::STATE_POSITION, vPos);

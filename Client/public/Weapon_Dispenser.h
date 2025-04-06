@@ -36,6 +36,8 @@ private:
 	AMMOINFO* m_pCurAmmo{ nullptr };
 
 private:
+	virtual HRESULT Ready_Components(void* pArg);
+
 	virtual void Set_State(STATE State) override;
 	virtual void Key_Input() override;
 	virtual void Opening(_float fTimeDelta) override;
