@@ -31,7 +31,7 @@ HRESULT CGameInstance::Initialize_Engine(const ENGINE_DESC& EngineDesc, LPDIRECT
 	if (nullptr == m_pInputDevice)
 		return E_FAIL;
 
-	m_pSound_Device = CSound_Device::Create(EngineDesc.strBankFilePath);
+	m_pSound_Device = CSound_Device::Create(EngineDesc.strBankFilePath, EngineDesc.strSoundFolderPath);
 	if (nullptr == m_pSound_Device)
 		return E_FAIL;
 
@@ -230,7 +230,7 @@ _bool CGameInstance::RaycastBetweenPoints(const _float3& Point1, const _float3& 
 }
 
 FORCEINLINE
-class CGameObject* CGameInstance::Raycast(const _float3& rayOrigin, const _float3& rayDir, _float rayLength, const initializer_list<_uint>& ColliderGroupIDs, _uint& _Out_ ColliderID)
+class CCollider* CGameInstance::Raycast(const _float3& rayOrigin, const _float3& rayDir, _float rayLength, const initializer_list<_uint>& ColliderGroupIDs, _uint& _Out_ ColliderID)
 {
 	return m_pCollider_Manager->Raycast(rayOrigin, rayDir, rayLength, ColliderGroupIDs, ColliderID);
 }
@@ -378,10 +378,16 @@ CSound_Event* CGameInstance::Create_Sound_Event(const string& eventPath)
 }
 
 FORCEINLINE
-CSound_Core* CGameInstance::Create_Core_Sound(const string& path, _bool is3D, _bool loop, _bool stream)
+HRESULT CGameInstance::LoadSound(const string& Path, _bool is3D, _bool loop, _bool stream, unordered_map<string, class CSound_Core*>* _Out_ pOut)
 {
-	return m_pSound_Device->Create_Core_Instance(path, is3D, loop, stream);
+	return m_pSound_Device->LoadSound(Path, is3D, loop, stream, pOut);
 }
+
+//FORCEINLINE
+//CSound_Core* CGameInstance::Create_Core_Sound(const string& strSoundKey)
+//{
+//	return m_pSound_Device->Create_Core_Instance(strSoundKey);
+//}
 
 FORCEINLINE
 void CGameInstance::Set_Listener_Position(const CTransform* pTransform, const _float3& vel)

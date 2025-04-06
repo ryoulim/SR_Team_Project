@@ -93,9 +93,9 @@ _bool CCollider_Manager::RaycastBetweenPoints(const _float3& Point1, const _floa
     return FALSE;
 }
 
-CGameObject* CCollider_Manager::Raycast(const _float3& rayOrigin, const _float3& rayDir, _float rayLength, const initializer_list<_uint>& ColliderGroupIDs, _uint& _Out_ ColliderID)
+CCollider* CCollider_Manager::Raycast(const _float3& rayOrigin, const _float3& rayDir, _float rayLength, const initializer_list<_uint>& ColliderGroupIDs, _uint& _Out_ ColliderID)
 {
-    CGameObject* pCurObj{nullptr};
+    CCollider* pCurCollider{nullptr};
     _float3 vCurPos{}, vCurNormal{};
     _float fCurLength{}, fResult{ rayLength };
 
@@ -119,7 +119,7 @@ CGameObject* CCollider_Manager::Raycast(const _float3& rayOrigin, const _float3&
                     fResult = fCurLength;
                     vCurNormal = CCollider::m_vLast_Collision_Depth;
                     vCurPos = CCollider::m_vLast_Collision_Pos;
-                    pCurObj = pCollider->m_pOwner;
+                    pCurCollider = pCollider;
                     ColliderID = pCollider->Get_ID();
                 }
                 else
@@ -131,7 +131,7 @@ CGameObject* CCollider_Manager::Raycast(const _float3& rayOrigin, const _float3&
         }
     }
 
-    return pCurObj;
+    return pCurCollider;
 }
 
 _float CCollider_Manager::Raycast_Downward(const _float3& rayOrigin, _uint iColliderGroupID)

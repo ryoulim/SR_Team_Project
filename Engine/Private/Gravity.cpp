@@ -155,6 +155,26 @@ void CGravity::Go_Right_On_Terrain(_float fTimedelta)
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, vPos);
 }
 
+_float3 CGravity::Get_Terrain_Front_Dir()
+{
+	const _float3& vLook = *m_pTransformCom->Get_State(CTransform::STATE_LOOK);
+
+	_float3 vFrontOnTerrain = vLook - m_vCurNormal * vLook.Dot(m_vCurNormal);
+	vFrontOnTerrain.Normalize();
+
+	return vFrontOnTerrain;
+}
+
+_float3 CGravity::Get_Terrain_Right_Dir()
+{
+	const _float3& vRight = *m_pTransformCom->Get_State(CTransform::STATE_RIGHT);
+
+	_float3 vRightOnTerrain = vRight - m_vCurNormal * vRight.Dot(m_vCurNormal);
+	vRightOnTerrain.Normalize();
+
+	return vRightOnTerrain;
+}
+
 void CGravity::Update(_float fTimeDelta)
 {
 	//Check_Terrain();

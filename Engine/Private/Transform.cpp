@@ -288,6 +288,15 @@ void CTransform::Go_Down(_float fTimeDelta)
 	Set_State(STATE_POSITION, vPosition);
 }
 
+void CTransform::Go_Dir(const _float3& vMoveDir, _float fTimeDelta)
+{
+	_float3		vPosition = *Get_State(STATE_POSITION);
+
+	vPosition += vMoveDir * m_fSpeedPerSec * fTimeDelta;
+
+	Set_State(STATE_POSITION, vPosition);
+}
+
 void CTransform::LookAt(const _float3& vTargetPos)
 {
 	_float3		vScaled = Compute_Scaled();
@@ -522,6 +531,16 @@ void CTransform::HarmonicMoveY(_float fWaveHegiht, _float fStdheight, _float fTi
 	m_fHarmonicTime += fTimeDelta;
 
 	Set_State(CTransform::STATE_POSITION, _float3(vPosX, fWaveHegiht * sinf(RADIAN(m_fSpeedPerSec * m_fHarmonicTime)) + fStdheight, vPosZ));
+}
+
+void CTransform::BossBulletLook()
+{
+	_float3 vLook = *Get_State(CTransform::STATE_LOOK);
+	_float vLookScale = vLook.Length();
+
+	_float3 vLookProjOnZ = { vLook.x, vLook.y, 0.f };
+	
+	Set_State(CTransform::STATE_LOOK, vLookProjOnZ.Normalize() * vLookScale);
 }
 
 void CTransform::Quaternion_Turn(const _float3& vAngle)

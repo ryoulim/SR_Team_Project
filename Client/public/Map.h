@@ -12,6 +12,7 @@ BEGIN(Engine)
 class CTexture;
 class CVIBuffer_Rect;
 class CTransform;
+class CShader;
 END
 
 BEGIN(Client)
@@ -59,10 +60,15 @@ protected:
 	CVIBuffer* m_pVIBufferCom = { nullptr };
 	CTransform* m_pTransformCom = { nullptr };
 	CCollider* m_pColliderCom = { nullptr };
+	CShader* m_pShaderCom = { nullptr };
 
 public:
 	virtual CGameObject* Clone(void* pArg) PURE;
 	virtual void Free() override;
+
+protected: /* [ 안개 셰이더 조절용 ] */
+	LEVEL m_eShadingLevel = LEVEL_END;
+	_float m_fShaderTime = 0.f;
 };
 
 END

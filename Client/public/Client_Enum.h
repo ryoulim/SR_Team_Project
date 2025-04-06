@@ -4,11 +4,11 @@
 namespace Client
 {
 	enum LEVEL { LEVEL_STATIC, LEVEL_LOADING, LEVEL_LOGO, LEVEL_GAMEPLAY, LEVEL_RACEFIRST, LEVEL_RACESECOND, LEVEL_RACETHIRD, LEVEL_BOSS, LEVEL_INDOOR, LEVEL_OUTDOOR, LEVEL_END };
-	enum COLLIDER_GROUP { CG_PAWN, CG_MONSTER, CG_MONSTER_HEAD, CG_BOSS, CG_BLOCK, CG_INTERACTIVE, CG_ITEM, CG_PBULLET, CG_MBULLET, CG_TRIGGER, CG_END };
+	enum COLLIDER_GROUP { CG_PAWN, CG_PAWN_PRE, CG_MONSTER, CG_MONSTER_HEAD, CG_BOSS, CG_BLOCK, CG_INTERACTIVE, CG_ITEM, CG_PBULLET, CG_MBULLET, CG_TRIGGER, CG_END };
 
 	enum COLLIDER_ID {
 		CI_PLAYER_START,																			// 플레이어
-		CI_PLAYER,
+		CI_PLAYER, CI_PLAYER_PRE,
 		CI_PLAYER_END,
 
 		CI_MONBODY_START,                                                                            // 몬스터 몸통
@@ -41,6 +41,8 @@ namespace Client
 		
 		CI_BOSS_GUIDBULLET, CI_BOSS_FIRE, CI_BOSS_BULLET, CI_BOSS_JUMP, CI_BOSS_TANGTANG,
 		CI_MBULLET_END,
+
+		CI_PHOTOFRAME,                                                                              // 사진액자
 
 		CI_TRIGGER,                                                                                // 트리거 ( 조건문 안들어가게 하기 위해서 만든 이넘 )
 		CI_PICKING_RAY,

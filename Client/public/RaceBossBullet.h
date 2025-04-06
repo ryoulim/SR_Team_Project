@@ -5,6 +5,9 @@
 class CRaceBossBullet final : public CBullet
 {
 public:
+	enum RBULLETTYPE { HEAD, TAIL, NON };
+
+public:
 	typedef struct tagRaceBossBulletDesc : public CBullet::DESC
 	{
 		_bool bAnimation = false;
@@ -30,6 +33,9 @@ public:
 private:
 	virtual HRESULT Ready_Components(void* pArg) override;
 
+private:
+	_float m_fScale = { 1.f };
+	
 public:
 	static CRaceBossBullet* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
 	virtual CGameObject* Clone(void* pArg) override;

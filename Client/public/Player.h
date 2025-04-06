@@ -43,6 +43,7 @@ private:
 	_float3						m_vPrePosition{};
 	_float3						m_vDashDirection{};
 	_float						m_fDashTimer{};
+	_float						m_fDashSpeed{}; // 대쉬 스피드 저장용
 	
 	// 사다리
 	_bool						m_bOnLadder{};
@@ -53,6 +54,11 @@ private:
 
 	//카드 키 갖고있음?
 	_bool						m_bHaveCardkey{ false };
+
+	// 저스트 회피
+	_byte						m_byJustDodgeFlag{};
+	_float						m_fJustDodgeTimer{};
+	_float						m_fDashUnappliedDistance{};// 저스트 회피중 대쉬거리 계산
 private:
 	virtual HRESULT Ready_Components(void* pArg);
 
@@ -62,7 +68,8 @@ private:
 	void			Update_Camera_Link();
 	void			Update_Dash(_float fTimeDelta);
 	void			Ladder(_float fTimeDelta);
-	void			On_Hit(_uint iDamage);
+	void			On_Hit(_int iDamage);
+	void			On_Just_Dodge();
 
 public:
 	static CPlayer* Create(LPDIRECT3DDEVICE9 pGraphic_Device);

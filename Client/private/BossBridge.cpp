@@ -4,6 +4,7 @@
 #include "BossBridge.h"
 #include "GameInstance.h"
 #include "CameraManager.h"
+#include "Ttakkeun_i.h"
 #include "FXMgr.h"
 
 CBossBridge::CBossBridge(LPDIRECT3DDEVICE9 pGraphic_Device)
@@ -168,6 +169,15 @@ void CBossBridge::BossMap_CutScene2()
 	pLookVector->push_back(_float3{ 0.025f, 0.035f, 1.000f }.Normalize());
 
 	CAMERA_MANAGER->Start_CutScene(pMoveVector, pLookVector, 0.7f, &m_bCutSceneEnd[1]);
+
+	/* [ 배우 입장하실게요 ] */
+	CGameObject* LeftBoss = CGameInstance::Get_Instance()->Find_Object(LEVEL_GAMEPLAY, L"Layer_Boss", 0);
+	CGameObject* RightBoss = CGameInstance::Get_Instance()->Find_Object(LEVEL_GAMEPLAY, L"Layer_Boss", 1);
+	if (LeftBoss && RightBoss)
+	{
+		static_cast<CTtakkeun_i*>(LeftBoss)->SetCutScene();
+		static_cast<CTtakkeun_i*>(RightBoss)->SetCutScene();
+	}
 }
 
 CBossBridge* CBossBridge::Create(LPDIRECT3DDEVICE9 pGraphic_Device)

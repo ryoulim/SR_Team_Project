@@ -11,11 +11,6 @@ void CSound_Control_Group::Add_Control_Group(CSound_Control_Group* pControl_Grou
 {
 }
 
-void CSound_Control_Group::Add_Sound(CSound_Core* pSound_Core)
-{
-	pSound_Core->m_pChannelGroup = m_pChannelGroup;
-}
-
 CSound_Control_Group* CSound_Control_Group::Create(FMOD::ChannelGroup* pChannelGroup)
 {
 	return new CSound_Control_Group(pChannelGroup);

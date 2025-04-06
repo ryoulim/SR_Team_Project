@@ -82,13 +82,12 @@ protected:
 	CTransform* m_pPlayerTransform{ nullptr };
 	CCameraManager* m_pCameraManager{ nullptr };
 	CTransform* m_pCameraTransform{ nullptr };
-
-	CSound_Core* m_pCoreSoundTest{ nullptr };
+	CSoundController* m_pSoundCom{ nullptr };
 
 	_uint		m_iPrePickedColliderID{};
 	_uint		m_iPickedColliderID{};
-	CGameObject* m_pPrePickedObject{ nullptr };
-	CGameObject* m_pPickedObject{ nullptr };
+	CCollider* m_pPrePickedCollider{ nullptr };
+	CCollider* m_pPickedCollider{ nullptr };
 
 	AMMOINFO m_tAmmoInfo{};
 	_float m_fFrameSpeed{};

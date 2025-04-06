@@ -51,6 +51,9 @@ public:
 	void Set_RotationPerSec(_float fRotationPerSec) {
 		m_fRotationPerSec = fRotationPerSec;
 	}
+	void Mul_SpeedPerSec(_float Mul) {
+		m_fSpeedPerSec *= Mul;
+	}
 
 public:
 	virtual HRESULT Initialize_Prototype() override;
@@ -76,6 +79,7 @@ public:
 	bool Go_UpCustom(_float fTimeDelta, _float fSpeed, _float fMaxHight);
 	void Go_DownCustom(_float fTimeDelta, _float fSpeed);
 	void Go_Down(_float fTimeDelta);
+	void Go_Dir(const _float3& vMoveDir, _float fTimeDelta);
 
 	void LookAt(const _float3& vTargetPos);
 	bool RotateToDirection(const _float3& vCurLook, const _float3& vTargetDir, _float fTurnSpeed, _float dt);
@@ -93,6 +97,7 @@ public:
 	void Move(const _float3& vDirectionVector);
 	void Move(const _float3& vDirectionVector, _float fTimeDelta);
 	void HarmonicMoveY(_float fWaveHegiht, _float fStdheight, _float fTimeDelta);
+	void BossBulletLook();
 
 	void Quaternion_Turn(const _float3& vAngle);
 	void Quaternion_Rotation(const _float3& vAngle);

@@ -40,20 +40,26 @@ public:
 	void			Set_State(STATE eState);
 	void			Go_Straight(_float fTimeDelta);
 	void			Key_Input(_float fTimeDelta);
+	void			Key_Input2(_float fTimeDelta);
 	_float			Compute_StartPosX();
 	_float			Compute_CurPosZ();
 	void			Move_Lerp(_float fStartPosX, _float fTime);
 	void			StoreSlidingSpeed(_float fSpeed);
 	_float			GetSlidingSpeed();
+	void			SpawnWaterParticle(_float fWaterSpeed);
 
 private:
 	class CCameraManager*	m_pCameraManager = { nullptr };
 	CTransform*				m_pCameraTransform = { nullptr };
+	CGameObject*			m_pWaterBoatEffect_01 = nullptr;
+	CGameObject*			m_pWaterBoatEffect_02 = nullptr;
+	CGameObject*			m_pWaterBoatEffect_03 = nullptr;
 	STATE					m_ePreState = { NON };
 	STATE					m_eCurState = { NORMAL };
 	CPBState*				m_pCurState = { nullptr };
 	CPBState*				m_pState[NON] = { nullptr };
 	_float					m_fSlidingSpeed = {};
+	_float					m_fWaterSpeed = {};
 
 private:
 	void			Init_Camera_Link();

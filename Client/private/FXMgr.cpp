@@ -332,21 +332,45 @@ void CFXMgr::SpawnExplosion3(_float3 _vPosition, LEVEL eLevel)
 		return;
 }
 
-void CFXMgr::SpawnFire(_float3 _vPosition, LEVEL eLevel)
+void CFXMgr::SpawnRava(_float3 _vPosition, LEVEL eLevel)
 {
-	for (int i = 0; i < 10; i++)
-	{
-		_float3 vPosition = { m_pGameInstance->RandomFloat(550.f, 1050.f) , 15.f , m_pGameInstance->RandomFloat(-50.f, -350.f) };
+	const int count = 300;
+	const float baseRadius = 1000.f;
 
+	for (int i = 0; i < count; i++)
+	{
+		// 1. 각도 계산 (기본 각도에 살짝 오차 추가)
+		float baseAngle = (D3DX_PI * 2.0f / count) * i;
+		float angleOffset = m_pGameInstance->RandomFloat(-150.f, 150.f); // 최대 약 ±11도 오차
+		float angle = baseAngle + angleOffset;
+
+		// 2. 반지름 오차도 약간 주기
+		float radiusOffset = m_pGameInstance->RandomFloat(-350.f, 350.f);
+		float radius = baseRadius + radiusOffset;
+
+		// 3. 위치 계산 (중심 기준 원 + 약간 랜덤 퍼짐)
+		_float3 vPosition;
+		vPosition.x = _vPosition.x + cosf(angle) * radius;
+		vPosition.y = _vPosition.y;
+		vPosition.z = _vPosition.z + sinf(angle) * radius;
+
+		if (1450.f < _vPosition.z && _vPosition.z > 1600.f)
+			continue;
+
+		// 4. 이펙트 생성
 		CSprite::DESC SpriteDesc{};
 		SpriteDesc.bLoop = true;
-		SpriteDesc.fMaxFrame = 18;
+		SpriteDesc.fMaxFrame = 20;
 		SpriteDesc.fRotationPerSec = RADIAN(180.f);
 		SpriteDesc.fSpeedPerSec = 100.f;
-		SpriteDesc.szTextureTag = TEXT("PC_Fire");
 		SpriteDesc.vInitPos = vPosition;
-
 		SpriteDesc.vScale = _float3{ 30.f, 30.f, 1.f };
+
+		_int iRandom = rand() % 2;
+		if (iRandom == 1)
+			SpriteDesc.szTextureTag = TEXT("Rava");
+		else if (iRandom == 0)
+			SpriteDesc.szTextureTag = TEXT("Lava");
 
 		if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_PC_Sprite"),
 			eLevel, L"Layer_Effect", &SpriteDesc)))
@@ -802,7 +826,7 @@ void CFXMgr::SpawnHitEffect(LEVEL eLevel)
 {
 	/* [ 히트 스크린 스프라이트 ] */
 	CScreenSprite::DESC ScreenHitDesc{};
-	ScreenHitDesc.fMaxFrame = 30.f;
+	ScreenHitDesc.fMaxFrame = 25.f;
 	ScreenHitDesc.fAniSpeed = 10.f;
 	ScreenHitDesc.fRotationPerSec = RADIAN(180.f);
 	ScreenHitDesc.fSpeedPerSec = 100.f;
@@ -895,6 +919,20 @@ void CFXMgr::JumpAttack(_float3 _vPosition, LEVEL eLevel)
 		return;
 }
 
+void CFXMgr::CutSceneSmoke(_float3 _vPosition, LEVEL eLevel)
+{
+	CPSystem::DESC CutSceneSmokeDesc{};
+	CutSceneSmokeDesc.vPosition = _vPosition;
+	CutSceneSmokeDesc.szTextureTag = TEXT("PC_Small_Smoke");
+	CutSceneSmokeDesc.iParticleNums = 100;
+	CutSceneSmokeDesc.fSize = 12.f;
+	CutSceneSmokeDesc.fMaxFrame = 20.f;
+
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_PC_CutSceneSmoke"),
+		LEVEL_GAMEPLAY, L"Layer_Particle", &CutSceneSmokeDesc)))
+		return;
+}
+
 void CFXMgr::PlayerDash(LEVEL eLevel)
 {
 	CCameraSprite::DESC SpriteDesc{};
@@ -922,6 +960,45 @@ void CFXMgr::SpawnRain(LEVEL eLevel)
 	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_PC_Rain"),
 		eLevel, L"Layer_Particle", &RainDesc)))
 		return;
+}
+
+void CFXMgr::SpawnThunder(_float3 _vPosition, LEVEL eLevel)
+{
+	CSprite::DESC SpriteDesc{};
+	SpriteDesc.bLoop = false;
+	SpriteDesc.fStartFrame = GetRandomFloat(0.f, 9.f);
+	SpriteDesc.fMaxFrame = SpriteDesc.fStartFrame + 2.f;
+	SpriteDesc.fRotationPerSec = RADIAN(180.f);
+	SpriteDesc.fSpeedPerSec = 100.f;
+	SpriteDesc.vInitPos = _vPosition;
+	SpriteDesc.vScale = _float3{ 64.f, 128.f, 1.f };
+	SpriteDesc.vScale *= GetRandomFloat(3.5f, 4.5f);
+	SpriteDesc.szTextureTag = TEXT("Thunderbolt");
+
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_PC_Sprite"),
+		eLevel, L"Layer_Effect", &SpriteDesc)))
+		return;
+}
+
+void CFXMgr::SpawnMultipleThunder(_float fTimeDelta, LEVEL eLevel)
+{
+	static float fTimer = 0.0f;
+	const float fInterval = 0.4f; //반복주기
+
+	fTimer += fTimeDelta;
+	if (fTimer >= fInterval)
+	{
+		_float fRandomX = m_pGameInstance->RandomFloat(101.0f, 1684.0f);
+		_float fRandomY = m_pGameInstance->RandomFloat(1000.f, 1050.f);
+		_float fRandomZ = m_pGameInstance->RandomFloat(95.0f, 949.0f);
+
+		m_vThunderPos = { fRandomX, fRandomY, fRandomZ };
+
+		_float3 vPosition = { fRandomX, fRandomY, fRandomZ };
+		SpawnThunder(vPosition, eLevel);
+
+		fTimer = 0.0f;
+	}
 }
 
 

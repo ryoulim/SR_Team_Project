@@ -51,7 +51,7 @@ HRESULT CGrenadeBullet::Initialize(void* pArg)
 		CGameObject* pObject = nullptr;
 		CGameObject** ppOut = &pObject;
 		if (FAILED(m_pGameInstance->Add_GameObjectReturn(LEVEL_STATIC, TEXT("Prototype_GameObject_PC_MonsterMissile"),
-			LEVEL_GAMEPLAY, L"Layer_Monster", ppOut, &Missile_iDesc)))
+			m_eLevelID, L"Layer_Monster", ppOut, &Missile_iDesc)))
 			return E_FAIL;
 
 		m_pBullet = *ppOut;
@@ -77,7 +77,8 @@ EVENT CGrenadeBullet::Update(_float fTimeDelta)
 			m_pBullet = nullptr;
 		}
 
-		FX_MGR->SpawnExplosion(CCollider::Get_Last_Collision_Pos(), m_eLevelID);
+		// 여기 라스트 콜리전 포즈면 안됩니다.
+		FX_MGR->SpawnExplosion(*m_pTransformCom->Get_State(CTransform::STATE_POSITION), m_eLevelID);
 		return EVN_DEAD;
 	}
 
@@ -125,8 +126,8 @@ HRESULT CGrenadeBullet::Render()
 
 void CGrenadeBullet::On_Collision(_uint MyColliderID, _uint OtherColliderID)
 {
-	if (OtherColliderID == CI_MON_HEAD || 
-		OtherColliderID == CI_MON_BODY ||
+	if (CI_MONBODY(OtherColliderID) ||
+		CI_MONHEAD(OtherColliderID) ||
 		CI_WEAPON(OtherColliderID))
 	{
 		m_bDead = TRUE;

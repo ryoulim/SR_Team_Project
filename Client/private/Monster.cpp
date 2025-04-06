@@ -26,7 +26,7 @@ CMonster::CMonster(const CMonster& Prototype)
 	, m_fCurDistance(Prototype.m_fCurDistance)
 	, m_fDetectiveDistance(Prototype.m_fDetectiveDistance)
 {
-	//Å©¸®¿¡ÀÌÆ®¿¡¼­ ÃÊ±âÈ­µÇ´Â ¸ðµç °ÍÀ» º¹»çÇØÁØ´Ù.
+	//Å©ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ï¿½ï¿½ ï¿½Ê±ï¿½È­ï¿½Ç´ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ø´ï¿½.
 }
 
 HRESULT CMonster::Initialize_Prototype()
@@ -36,21 +36,21 @@ HRESULT CMonster::Initialize_Prototype()
 
 HRESULT CMonster::Initialize(void* pArg)
 {
-	/* ÇÃ·¹ÀÌ¾î¸¦ ¾Ë°í ÀÖ¾î¶ó */
+	/* ï¿½Ã·ï¿½ï¿½Ì¾î¸¦ ï¿½Ë°ï¿½ ï¿½Ö¾ï¿½ï¿½ */
 	m_pTargetPlayer = GET_PLAYER;
 	Safe_AddRef(m_pTargetPlayer);
 
-	/* ÅØ½ºÃ³, Æ®·£½ºÆû, ·ºÆ®¹öÆÛ, ÄÝ¶óÀÌ´õ ÄÄÆ÷³ÍÆ® ÁØºñ(À§Ä¡ÃÊ±âÈ­) */
+	/* ï¿½Ø½ï¿½Ã³, Æ®ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½Æ®ï¿½ï¿½ï¿½ï¿½, ï¿½Ý¶ï¿½ï¿½Ì´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ® ï¿½Øºï¿½(ï¿½ï¿½Ä¡ï¿½Ê±ï¿½È­) */
 	if (FAILED(Ready_Components(pArg)))
 		return E_FAIL;
-	m_fBulletCooldown = 0.2f; // ÀÓ½Ã·Î ³ÖÀ½, ÀÚ½ÄÀ¸·Î ³»¸± ¿¹Á¤ (±î¸Ô°í °è¼Ó ÀÖÀ¸¸é Áö¿öµµ µÊ)
+	m_fBulletCooldown = 0.2f; // ï¿½Ó½Ã·ï¿½ ï¿½ï¿½ï¿½ï¿½, ï¿½Ú½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ (ï¿½ï¿½Ô°ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½)
 
 	CSkull::DESC SkullDesc{};
 	SkullDesc.eLevelID = LEVEL_STATIC;
 	SkullDesc.vScale = { 1.f,1.f,1.f };
 
 
-	//// ¸ó½ºÅÍ ÇØ°ñ¶ç¿ì±â¿ë ÄÚµå
+	//// ï¿½ï¿½ï¿½ï¿½ ï¿½Ø°ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Úµï¿½
 	m_pSkull = static_cast<CSkull*>(m_pGameInstance->Clone_Prototype(
 			PROTOTYPE::TYPE_GAMEOBJECT, LEVEL_STATIC,
 			TEXT("Prototype_GameObject_Skull"),&SkullDesc));
@@ -66,14 +66,14 @@ HRESULT CMonster::Initialize(void* pArg)
 
 void CMonster::Priority_Update(_float fTimeDelta)
 {
-	//ÇÁ·¹ÀÓ ¾÷µ¥ÀÌÆ®
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®
 	Set_Animation();
 	Animate_Monster(fTimeDelta);
 }
 
 EVENT CMonster::Update(_float fTimeDelta)
 {
-	if (m_bDead) // »ç¸Á Ã¼Å©
+	if (m_bDead) // ï¿½ï¿½ï¿½ Ã¼Å©
 	{
 		m_fDeadBodyCounter += fTimeDelta;
 		if (m_fDeadBodyCounter > 5000.f)
@@ -96,17 +96,17 @@ EVENT CMonster::Update(_float fTimeDelta)
 
 void CMonster::Late_Update(_float fTimeDelta)
 {
-	//ÇÃ·¹ÀÌ¾î °¨Áö ¾÷µ¥ÀÌÆ®
+	//ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®
 	PlayerDistance();
 	CalculateVectorToPlayer();
 	
-	//ÄÝ¶óÀÌ´õ ¾÷µ¥ÀÌÆ®
-	if (m_bDead) // ½ÃÃ¼ ÄÝ¶óÀÌ´õ º¯°æÇÏ¸é Ä¸½¶ÀÌ¶ó »çÀÌÁî°¡ ¹¦ÇÏ°Ô ¾È¸ÂÀ½..
+	//ï¿½Ý¶ï¿½ï¿½Ì´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®
+	if (m_bDead) // ï¿½ï¿½Ã¼ ï¿½Ý¶ï¿½ï¿½Ì´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï¸ï¿½ Ä¸ï¿½ï¿½ï¿½Ì¶ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½î°¡ ï¿½ï¿½ï¿½Ï°ï¿½ ï¿½È¸ï¿½ï¿½ï¿½..
 	{
 		_float3 vOrigSize = {};
 		m_pTextureMap[m_iState][m_iDegree]->Get_TextureSize(m_fAnimationFrame, &vOrigSize);
 		_float fComputedSizeYFromOrig = -vOrigSize.y + 20.f;
-		// ¿ø·¡ ¼¼·Î Àý¹Ý¸¸Å­ •û°í ³ªÁß ¼¼·Î±æÀÌ¸¸Å­ ´õÇÏ±â 
+		// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ý¸ï¿½Å­ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Î±ï¿½ï¿½Ì¸ï¿½Å­ ï¿½ï¿½ï¿½Ï±ï¿½ 
 		auto newY = m_vScale.y - 20.f;
 		m_pCollider->Update_OffSet({ 0.f, -20.f, 0.f });
 		//m_pCollider->Update_OffSet({ 0.f, fComputedSizeYFromOrig, 0.f });
@@ -119,14 +119,14 @@ void CMonster::Late_Update(_float fTimeDelta)
   		m_pHeadCollider->Update_Collider();
 
 
-	//±×·¡ºñÆ¼ ¾÷µ¥ÀÌÆ®
+	//ï¿½×·ï¿½ï¿½ï¿½Æ¼ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®
 	m_pGravityCom->Update(fTimeDelta);
 
-	//¸ó½ºÅÍ °¢µµ¾÷µ¥ÀÌÆ®
+	//ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®
 	Compute_ViewAngle();
 	Set_TextureType();
 
-	//·»´õ±×·ì ¾÷µ¥ÀÌÆ®
+	//ï¿½ï¿½ï¿½ï¿½ï¿½×·ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®
 	if (FAILED(m_pGameInstance->Add_RenderGroup(CRenderer::RG_NONBLEND, this)))
 		return;
 
@@ -208,7 +208,7 @@ void CMonster::FrameUpdate(_float timeDelta, _float _MaxFrame, _float fSpeed, _b
 {
 	if (isLoop)
 	{
-		//ÇöÀç ÇÁ·¹ÀÓÀÌ ¸Æ½ºÇÁ·¹ÀÓº¸´Ù Å©¸é ? 0 À¸·Î ¹Ù²ã¶ó.
+		//ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Æ½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Óºï¿½ï¿½ï¿½ Å©ï¿½ï¿½ ? 0 ï¿½ï¿½ï¿½ï¿½ ï¿½Ù²ï¿½ï¿½.
 		if (_MaxFrame <= m_fAnimationFrame)
 		{
 			m_fAnimationFrame -= _MaxFrame;
@@ -216,7 +216,7 @@ void CMonster::FrameUpdate(_float timeDelta, _float _MaxFrame, _float fSpeed, _b
 	}
 	else
 	{
-		//¹Ýº¹ÀÌ ¾Æ´Ï¸é ±×³É ¸®ÅÏ 
+		//ï¿½Ýºï¿½ï¿½ï¿½ ï¿½Æ´Ï¸ï¿½ ï¿½×³ï¿½ ï¿½ï¿½ï¿½ï¿½ 
 		if (_MaxFrame <= m_fAnimationFrame)
 			return;
 	}
@@ -227,17 +227,17 @@ void CMonster::FrameUpdate(_float timeDelta, _float _MaxFrame, _float fSpeed, _b
 HRESULT CMonster::Ready_Components(void* pArg)
 {
 
-	/* ·ºÆ® ¹öÆÛ ÄÄÆ÷³ÍÆ® */
+	/* ï¿½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ® */
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, _wstring(TEXT("Prototype_Component_VIBuffer_")) + m_szBufferType,
 		TEXT("Com_VIBuffer"), reinterpret_cast<CComponent**>(&m_pVIBufferCom))))
 		return E_FAIL;
 
-	/* Æ®·£½ºÆû ÄÄÆ÷³ÍÆ® */
+	/* Æ®ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ® */
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Transform"),
 		TEXT("Com_Transform"), reinterpret_cast<CComponent**>(&m_pTransformCom), pArg)))
 		return E_FAIL;
 
-	/* À§Ä¡, ½ºÄÉÀÏ ÃÊ±âÈ­ */
+	/* ï¿½ï¿½Ä¡, ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ê±ï¿½È­ */
 	if (pArg != nullptr)
 	{
 		DESC* pDesc = static_cast<DESC*>(pArg);
@@ -251,7 +251,7 @@ HRESULT CMonster::Ready_Components(void* pArg)
 		m_fAttackDistance = pDesc->fAttackDistance;
 	}
 
-	/* ÄÝ¶óÀÌµå ÄÄÆ÷³ÍÆ® */
+	/* ï¿½Ý¶ï¿½ï¿½Ìµï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ® */
 	DESC* pDesc = static_cast<DESC*>(pArg);
 	CCollider_Capsule::DESC ColliderDesc{};	
 	ColliderDesc.pTransform = m_pTransformCom;
@@ -289,7 +289,7 @@ void CMonster::Compute_ViewAngle()
 	_float3 vCurLook = *(m_pTransformCom->Get_State(CTransform::STATE_LOOK)) * -1.f;
 	vCurLook.y = 0.f;
 	vCurLook = *D3DXVec3Normalize(&vCurLook, &vCurLook);
-	// º¸´Â ¹æÇâÀÌ °Å²Ù·Î±æ·¡ ¼öÁ¤
+	// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Å²Ù·Î±æ·¡ ï¿½ï¿½ï¿½ï¿½
 
 	_float3	vBillLook = {};
 	_float3 temp = *(m_pTransformCom->Get_State(CTransform::STATE_POSITION)) - vCameraPos;
@@ -298,16 +298,16 @@ void CMonster::Compute_ViewAngle()
 	
 	//vCurLook.y = vBillLook.y = 0.f;
 
-	// º¤ÅÍÀÇ ³»Àû °è»ê
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 	float dotProduct = D3DXVec3Dot(&vCurLook, &vBillLook);
 
-	// ¾ÈÁ¤¼ºÀ» À§ÇØ cosTheta¸¦ Å¬·¥ÇÎ (-1 <= cosTheta <= 1)
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ cosThetaï¿½ï¿½ Å¬ï¿½ï¿½ï¿½ï¿½ (-1 <= cosTheta <= 1)
 	float cosTheta = max(-1.0f, min(1.0f, dotProduct));
 
-	// °¢µµ¸¦ ¶óµð¾ÈÀ¸·Î °è»ê
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 	float angleInRadians = acos(cosTheta);
 
-	// °¢µµ¸¦ µµ(degree)·Î º¯È¯
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½(degree)ï¿½ï¿½ ï¿½ï¿½È¯
 	m_fPlayersViewAngle = D3DXToDegree(angleInRadians);
 
 	float crossProduct = vCurLook.x * vBillLook.z - vCurLook.z * vBillLook.x;
@@ -322,7 +322,7 @@ void CMonster::Resize_Texture(_float fSizePercent)
 {
 	_float3 vScale = { 0.f, 0.f, 0.f };
 	m_pTextureMap[m_iState][m_iDegree]->Get_TextureSize(static_cast<_uint>(m_fAnimationFrame), &vScale);
-	vScale.z = 1.f; // 0ÀÌ µé¾î¿Í¼­ ·èº¤ÅÍ°¡ Á×¾î¹ö¸®´õ¶ó... 
+	vScale.z = 1.f; // 0ï¿½ï¿½ ï¿½ï¿½ï¿½Í¼ï¿½ ï¿½èº¤ï¿½Í°ï¿½ ï¿½×¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½... 
 	m_pTransformCom->Scaling(vScale * fSizePercent);
 	m_vScale = m_vScale;
 }
@@ -331,7 +331,7 @@ void CMonster::On_Collision_NormalMonster(_uint MyColliderID, _uint OtherCollide
 {
 	CMonster::On_Collision(MyColliderID, OtherColliderID);
 
-	// ÀÏ¹Ý ¸ó½ºÅÍ On_Collision ÇÔ¼ö°¡ ÀüºÎ ÅëÀÏµÉ °Í °°¾Æ¼­ º°µµ·Î ¸¸µê.
+	// ï¿½Ï¹ï¿½ ï¿½ï¿½ï¿½ï¿½ On_Collision ï¿½Ô¼ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ïµï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½Æ¼ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½.
 	if (CI_BLOCK(OtherColliderID))
 	{
 		Collision_With_Block();
@@ -350,13 +350,13 @@ void CMonster::Collision_With_Weapon()
 		m_eState = MODE::MODE_DETECTIVE;
 	}
 
-	//À§Ä¡Å½»ö
+	//ï¿½ï¿½Ä¡Å½ï¿½ï¿½
 	_float3 vImpactPos = CalculateEffectPos();
 
-	// ÀÌÆåÆ® »ý¼º
+	// ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½
 	FX_MGR->SpawnBlood(vImpactPos, LEVEL_GAMEPLAY);
 
-	//¸ó½ºÅÍ »ç¸Á
+	//ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 	if (0 >= m_iHP)
 	{
 		//FX_MGR->SpawnCustomExplosion(vImpactPos, LEVEL_GAMEPLAY, _float3{ 130.f, 160.f, 1.f }, TEXT("PC_Explosion"), 14);
@@ -365,7 +365,7 @@ void CMonster::Collision_With_Weapon()
 		_float3 TargetPos = *static_cast<CTransform*>(m_pTargetPlayer->Find_Component(L"Com_Transform"))->Get_State(CTransform::STATE_POSITION);
 		m_pTransformCom->LookAt(TargetPos);
 
-		// µÚ·Î ³Ë¹é
+		// ï¿½Ú·ï¿½ ï¿½Ë¹ï¿½
 		//if (m_fAnimationFrame >= m_fAnimationMaxFrame - 1.f)
 			m_bKnockBack = true;
 
@@ -389,7 +389,7 @@ void CMonster::Collision_With_Block()
 
 _bool CMonster::IsMonsterAbleToAttack()
 {
-	// ¿©±â ·¹ÀÌÄ³½ºÆÃÀ¸·Î ÇÃ·¹ÀÌ¾î¿Í ¸ó½ºÅÍ »çÀÌ Àå¾Ö¹° À¯¹« Ã¼Å©
+	// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ä³ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ö¹ï¿½ ï¿½ï¿½ï¿½ï¿½ Ã¼Å©
 	m_fRaycastTicker = 0.f;
 	if (m_fCurDistance > m_fAttackDistance)
 		return false;
@@ -404,9 +404,9 @@ void CMonster::Debug_Output()
 
 	if (elapsed >= 1000)
 	{
-		// 1ÃÊ ÀÌ»ó Áö³µ´Ù¸é Ãâ·Â
-		cout << " |\tÇÃ·¹ÀÌ¾î¿ÍÀÇ °Å¸® : " << m_fCurDistance << endl;
-		cout << " |\t»óÅÂ : ";
+		// 1ï¿½ï¿½ ï¿½Ì»ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ù¸ï¿½ ï¿½ï¿½ï¿½
+		cout << " |\tï¿½Ã·ï¿½ï¿½Ì¾ï¿½ï¿½ï¿½ï¿½ ï¿½Å¸ï¿½ : " << m_fCurDistance << endl;
+		cout << " |\tï¿½ï¿½ï¿½ï¿½ : ";
 		switch (m_eState)
 		{
 		case Client::CMonster::MODE_IDLE:
@@ -437,10 +437,10 @@ void CMonster::Debug_Output()
 
 void CMonster::State_Change_IDLE(_float dt)
 {
-	if (IsPlayerDetected())	// °¨Áö °Å¸® ±âÁØ °è»ê
+	if (IsPlayerDetected())	// ï¿½ï¿½ï¿½ï¿½ ï¿½Å¸ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 	{
 		m_bFoundPlayer = true;
-		//ÇÃ·¹ÀÌ¾î ¹ß°ß ½Ã Çàµ¿
+		//ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ ï¿½ß°ï¿½ ï¿½ï¿½ ï¿½àµ¿
 		if (IsMonsterAbleToAttack())
 			m_eState = MODE::MODE_DETECTIVE;
 	}
@@ -448,11 +448,11 @@ void CMonster::State_Change_IDLE(_float dt)
 
 void CMonster::State_Change_DETECTIVE(_float dt)
 {
-	//ÇÃ·¹ÀÌ¾î °ø°Ý °¡´ÉÇÒ ¶§ ±îÁö Å½»ö
+	//ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ Å½ï¿½ï¿½
 	m_fRaycastTicker += dt;
 	if (m_fRaycastTicker > 0.5f)
 	{
-		if (IsMonsterAbleToAttack())	// RayPickingÀ¸·Î ÇÃ·¹ÀÌ¾î¿Í ¸ó½ºÅÍ »çÀÌ Àå¾Ö¹° Ã¼Å©
+		if (IsMonsterAbleToAttack())	// RayPickingï¿½ï¿½ï¿½ï¿½ ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ö¹ï¿½ Ã¼Å©
 		{
 			m_bFoundPlayer = true;
 			m_eState = MODE::MODE_READY;
@@ -462,7 +462,7 @@ void CMonster::State_Change_DETECTIVE(_float dt)
 
 void CMonster::State_Change_READY(_float dt)
 {
-	//°ø°Ý ÇÒ ÁØºñ  ( ÀåÀü µîÀÇ µô·¹ÀÌ ÇÊ¿ä )
+	//ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Øºï¿½  ( ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ê¿ï¿½ )
 	m_fRaycastTicker += dt;
 	if (m_fRaycastTicker > 0.5f)
 	{
@@ -472,7 +472,7 @@ void CMonster::State_Change_READY(_float dt)
 			return;
 		}
 	}
-	// ÁØºñ ³¡³ª¸é
+	// ï¿½Øºï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	if (m_isReadyToAttack)
 		m_eState = MODE::MODE_BATTLE;
 }
@@ -506,7 +506,7 @@ HRESULT CMonster::Set_TextureType()
 	_float div = 0.f;
 	_float mod = modff(degree, &div);
 
-	m_iDegree = (_uint)div + (_uint)(mod > 0.5f ? 1 : 0); // ±âÁØ °¢µµ¿¡¼­ +- ÇÏ´Â Áß
+	m_iDegree = (_uint)div + (_uint)(mod > 0.5f ? 1 : 0); // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ +- ï¿½Ï´ï¿½ ï¿½ï¿½
 
 	return S_OK;
 }
@@ -546,19 +546,19 @@ void CMonster::Free()
 
 void CMonster::PlayerDistance()
 {
-	//Ä«¸Þ¶óÀÇ À§Ä¡, //¸ó½ºÅÍÀÇ À§Ä¡ // ±× »çÀÌÀÇ °Å¸®
+	//Ä«ï¿½Þ¶ï¿½ï¿½ï¿½ ï¿½ï¿½Ä¡, //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ä¡ // ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Å¸ï¿½
 	_float4x4 matCamWorld;
 
-	//Ä«¸Þ¶óÀÇ À§Ä¡ÀúÀå
+	//Ä«ï¿½Þ¶ï¿½ï¿½ï¿½ ï¿½ï¿½Ä¡ï¿½ï¿½ï¿½ï¿½
 	m_pGraphic_Device->GetTransform(D3DTS_VIEW, &matCamWorld);
 	D3DXMatrixInverse(&matCamWorld, NULL, &matCamWorld);
 	_float3 vCameraPos = { matCamWorld._41, matCamWorld._42, matCamWorld._43 };
 
-	//¸ó½ºÅÍÀÇ À§Ä¡
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ä¡
 	_float3 vMonsterPos = *m_pTransformCom->Get_State(CTransform::STATE_POSITION);
 
 
-	// µÎ Á¡ »çÀÌÀÇ °Å¸® °è»ê
+	// ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Å¸ï¿½ ï¿½ï¿½ï¿½
 	_float distance = sqrtf(
 		powf(vCameraPos.x - vMonsterPos.x, 2) +
 		powf(vCameraPos.y - vMonsterPos.y, 2) +
@@ -570,27 +570,27 @@ void CMonster::PlayerDistance()
 
 void CMonster::CalculateVectorToPlayer()
 {
-	//¸ñÀû : ¸ó½ºÅÍ¿¡¼­ ÇÃ·¹ÀÌ¾î·Î ÇâÇÏ´Â ¹æÇâº¤ÅÍ¸¦ ±¸ÇÑ´Ù.
+	//ï¿½ï¿½ï¿½ï¿½ : ï¿½ï¿½ï¿½Í¿ï¿½ï¿½ï¿½ ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ï¿½ ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½âº¤ï¿½Í¸ï¿½ ï¿½ï¿½ï¿½Ñ´ï¿½.
 
-	// ¸ó½ºÅÍ À§Ä¡
+	// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ä¡
 	_float3 vMonsterPos = *m_pTransformCom->Get_State(CTransform::STATE_POSITION);
 
-	// ÇÃ·¹ÀÌ¾î À§Ä¡
+	// ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ ï¿½ï¿½Ä¡
 	_float3 vPlayerPos = *static_cast<CTransform*>(m_pTargetPlayer->Find_Component(L"Com_Transform"))->Get_State(CTransform::STATE_POSITION);
 
-	// ¹æÇâ º¤ÅÍ = Å¸°Ù À§Ä¡ - ³» À§Ä¡
+	// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ = Å¸ï¿½ï¿½ ï¿½ï¿½Ä¡ - ï¿½ï¿½ ï¿½ï¿½Ä¡
 	m_vToPlayer = vPlayerPos - vMonsterPos;
 
-	// Á¤±ÔÈ­ÇØ¼­ ¹æÇâ¸¸ ³²±ä´Ù (±æÀÌ 1)
+	// ï¿½ï¿½ï¿½ï¿½È­ï¿½Ø¼ï¿½ ï¿½ï¿½ï¿½â¸¸ ï¿½ï¿½ï¿½ï¿½ï¿½ (ï¿½ï¿½ï¿½ï¿½ 1)
 	D3DXVec3Normalize(&m_vToPlayer, &m_vToPlayer);
 	
 }
 
-bool CMonster::IsPlayerDetected() // ÀÌ ÇÔ¼ö ¼öÁ¤ Á»¸¸ ÇØµµ µÉ±î¿ë 
+bool CMonster::IsPlayerDetected() // ï¿½ï¿½ ï¿½Ô¼ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Øµï¿½ ï¿½É±ï¿½ï¿½ 
 {
 	if (m_fCurDistance < 100.f && m_fCurDistance > 0.f)
 		return true;
-	// °Å¸® Ã¼Å© (ÇöÀç°Å¸®°¡ °¨Áö°Å¸®º¸´Ù ÀÛÀ» ¶§)
+	// ï¿½Å¸ï¿½ Ã¼Å© (ï¿½ï¿½ï¿½ï¿½Å¸ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Å¸ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½)
 	if (m_fCurDistance < m_fDetectiveDistance)
 	{
 		_float3 vLook = *m_pTransformCom->Get_State(CTransform::STATE_LOOK);
@@ -598,9 +598,9 @@ bool CMonster::IsPlayerDetected() // ÀÌ ÇÔ¼ö ¼öÁ¤ Á»¸¸ ÇØµµ µÉ±î¿ë
 		m_vToPlayer.y = 0.f;
 		vLook.y = 0.f;
 
-		float fDot = D3DXVec3Dot(&m_vToPlayer, &vLook);  // 3. °¢µµ ºñ±³
+		float fDot = D3DXVec3Dot(&m_vToPlayer, &vLook);  // 3. ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½
 
-		if (fDot > cosf(D3DXToRadian(30)))          // 4. ÀÏÁ¤ °¢µµ ÀÌ³»
+		if (fDot > cosf(D3DXToRadian(30)))          // 4. ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ì³ï¿½
 		{
 			return true;
 		}
@@ -610,29 +610,29 @@ bool CMonster::IsPlayerDetected() // ÀÌ ÇÔ¼ö ¼öÁ¤ Á»¸¸ ÇØµµ µÉ±î¿ë
 
 void CMonster::Render_DebugFOV()
 {
-	//¸ó½ºÅÍ Æ÷Áö¼Ç
+	//ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	_float3 vPos = *m_pTransformCom->Get_State(CTransform::STATE_POSITION);
 
-	//¸ó½ºÅÍÀÇ ¹æÇâ(µð·º¼Ç)
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½(ï¿½ð·º¼ï¿½)
 	_float3 vForward = *m_pTransformCom->Get_State(CTransform::STATE_LOOK);
 	vForward.y = 0.f;
 	D3DXVec3Normalize(&vForward, &vForward);
 
-	// ½Ã¾ß °¢µµ Àý¹Ý (¿¹: 60µµ ½Ã¾ß ¡æ 30µµ¾¿ ¾çÂÊ)
+	// ï¿½Ã¾ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ (ï¿½ï¿½: 60ï¿½ï¿½ ï¿½Ã¾ï¿½ ï¿½ï¿½ 30ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½)
 	float fHalfFOV = D3DXToRadian(20.f / 2.0f);
-	float fLength = 100.0f;  // ½Ã¾ß °Å¸®
+	float fLength = 100.0f;  // ï¿½Ã¾ï¿½ ï¿½Å¸ï¿½
 
-	// È¸Àü Çà·Ä »ý¼º (YÃà ±âÁØ È¸Àü)
+	// È¸ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ (Yï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ È¸ï¿½ï¿½)
 	_float4x4 matRotLeft, matRotRight;
 	D3DXMatrixRotationY(&matRotLeft, -fHalfFOV);
 	D3DXMatrixRotationY(&matRotRight, fHalfFOV);
 
-	// ¹æÇâ º¤ÅÍ È¸Àü
+	// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ È¸ï¿½ï¿½
 	_float3 vLeft, vRight;
 	D3DXVec3TransformNormal(&vLeft, &vForward, &matRotLeft);
 	D3DXVec3TransformNormal(&vRight, &vForward, &matRotRight);
 
-	// ³¡ Á¡ °è»ê
+	// ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½
 	_float3 vLeftEnd = vPos + vLeft * fLength;
 	_float3 vRightEnd = vPos + vRight * fLength;
 
@@ -645,12 +645,12 @@ void CMonster::Render_DebugFOV()
 	float fDot = D3DXVec3Dot(&vToMonster, &vCameraLook);
 
 
-	if (fDot > 0.5f) // 60µµ ÀÌ³» Á¤¸é
+	if (fDot > 0.5f) // 60ï¿½ï¿½ ï¿½Ì³ï¿½ ï¿½ï¿½ï¿½ï¿½
 	{
-		// µð¹ö±× ¼± ±×¸®±â
-		CDebugDraw::DrawLine(m_pGraphic_Device, vPos, vLeftEnd, D3DCOLOR_ARGB(255, 255, 255, 0));   // ³ë¶õ ¼±
-		CDebugDraw::DrawLine(m_pGraphic_Device, vPos, vRightEnd, D3DCOLOR_ARGB(255, 255, 255, 0));  // ³ë¶õ ¼±
-		CDebugDraw::DrawLine(m_pGraphic_Device, vLeftEnd, vRightEnd, D3DCOLOR_ARGB(100, 255, 255, 0)); // »ó´Ü ¿¬°á¼±
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½×¸ï¿½ï¿½ï¿½
+		CDebugDraw::DrawLine(m_pGraphic_Device, vPos, vLeftEnd, D3DCOLOR_ARGB(255, 255, 255, 0));   // ï¿½ï¿½ï¿½ ï¿½ï¿½
+		CDebugDraw::DrawLine(m_pGraphic_Device, vPos, vRightEnd, D3DCOLOR_ARGB(255, 255, 255, 0));  // ï¿½ï¿½ï¿½ ï¿½ï¿½
+		CDebugDraw::DrawLine(m_pGraphic_Device, vLeftEnd, vRightEnd, D3DCOLOR_ARGB(100, 255, 255, 0)); // ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½á¼±
 	}
 }
 
@@ -684,27 +684,27 @@ _bool CMonster::Raycast_Player()
 
 void CMonster::MonsterTick(_float fTimeDelta)
 {
-	//»óÅÂº¯È­
+	//ï¿½ï¿½ï¿½Âºï¿½È­
 	switch (m_eState)
 	{
 	case MODE::MODE_IDLE:
 		if (IsPlayerDetected())
 		{
-			//ÇÃ·¹ÀÌ¾î ¹ß°ß ½Ã Çàµ¿
-			cout << "µû²öÀÌ ÇÃ·¹ÀÌ¾î ¹ß°ß!!" << endl;
+			//ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ ï¿½ß°ï¿½ ï¿½ï¿½ ï¿½àµ¿
+			cout << "ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ ï¿½ß°ï¿½!!" << endl;
 			m_eState = MODE::MODE_BATTLE;
 		}
 		break;
 
 	case MODE::MODE_BATTLE:
-		//¹èÆ² ¸ðµå½Ã¿¡ Çàµ¿
+		//ï¿½ï¿½Æ² ï¿½ï¿½ï¿½Ã¿ï¿½ ï¿½àµ¿
 		break;
 	case MODE::MODE_RETURN:
-		//º»·¡À§Ä¡·Î µ¹¾Æ°¡°í IDLE·Î »óÅÂ°¡ º¯ÇÑ´Ù.
+		//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¡ï¿½ï¿½ ï¿½ï¿½ï¿½Æ°ï¿½ï¿½ï¿½ IDLEï¿½ï¿½ ï¿½ï¿½ï¿½Â°ï¿½ ï¿½ï¿½ï¿½Ñ´ï¿½.
 		break;
 	}
 
-	// »óÅÂÇàµ¿(¾×¼Ç)
+	// ï¿½ï¿½ï¿½ï¿½ï¿½àµ¿(ï¿½×¼ï¿½)
 	switch (m_eState)
 	{
 	case MODE::MODE_IDLE:
@@ -740,9 +740,9 @@ void CMonster::DoIdle(_float dt)
 		m_fIdleWaitElapsed += dt;
 		if (m_fIdleWaitElapsed >= m_fIdleWaitTime)
 		{
-			SetRandomDirection();                  // È¸ÀüÇÒ ¹æÇâ ¼³Á¤
+			SetRandomDirection();                  // È¸ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 			m_fIdleWaitElapsed = 0.f;
-			m_eIdlePhase = EIdlePhase::IDLE_TURN; // ´ÙÀ½¿£ È¸ÀüÇÏ·¯ °£´Ù
+			m_eIdlePhase = EIdlePhase::IDLE_TURN; // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ È¸ï¿½ï¿½ï¿½Ï·ï¿½ ï¿½ï¿½ï¿½ï¿½
 		}
 		break;
 
@@ -751,7 +751,7 @@ void CMonster::DoIdle(_float dt)
 		_float3 vLook = *m_pTransformCom->Get_State(CTransform::STATE_LOOK);
 
 		bool bRotated = m_pTransformCom->RotateToDirection(vLook, m_vDirection, 5.f, dt);
-		if (bRotated)  // È¸Àü ¿Ï·á ½ÅÈ£
+		if (bRotated)  // È¸ï¿½ï¿½ ï¿½Ï·ï¿½ ï¿½ï¿½È£
 		{
 			m_eIdlePhase = EIdlePhase::IDLE_MOVE;
 		}
@@ -762,54 +762,54 @@ void CMonster::DoIdle(_float dt)
 
 void CMonster::DoBattle(_float dt)
 {
-	// 1. ÇÃ·¹ÀÌ¾î¿ÍÀÇ °Å¸® °è»ê
+	// 1. ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ï¿½ï¿½ï¿½ ï¿½Å¸ï¿½ ï¿½ï¿½ï¿½
 	_float fAttackRange = 250.f;
 	_float fChaseRange = 700.f;
 
-	// 2. °Å¸® ±âÁØ ºÐ±â
+	// 2. ï¿½Å¸ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ð±ï¿½
 	if (m_fCurDistance < fAttackRange)
 	{
-		// °¡±î¿ì¸é °ø°Ý
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 		AttackPattern(dt);
-		//cout << "¸ó½ºÅÍÀÇ °ø°Ý »ç°Å¸® ¾ÈÀÔ´Ï´Ù." << endl;
+		//cout << "ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å¸ï¿½ ï¿½ï¿½ï¿½Ô´Ï´ï¿½." << endl;
 	}
 	else if (m_fCurDistance < fChaseRange)
 	{
-		// Áß°£ °Å¸®¸é ÃßÀû
+		// ï¿½ß°ï¿½ ï¿½Å¸ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 		ChasePlayer(dt);
-		//cout << "¸ó½ºÅÍ Ãß°ÝÁßÀÔ´Ï´Ù!" << endl;
+		//cout << "ï¿½ï¿½ï¿½ï¿½ ï¿½ß°ï¿½ï¿½ï¿½ï¿½Ô´Ï´ï¿½!" << endl;
 	}
 	else
 	{
-		// ³Ê¹« ¸Ö¸é ÀüÅõ Á¾·á
+		// ï¿½Ê¹ï¿½ ï¿½Ö¸ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 		m_eState = MODE_RETURN;
 	}
 }
 
 void CMonster::DoReturn(_float dt)
 {
-	// ÇöÀç À§Ä¡
+	// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ä¡
 	_float3 vMyPos = *m_pTransformCom->Get_State(CTransform::STATE_POSITION);
 
-	// ¹æÇâ °è»ê
+	// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 	_float3 vDir = m_vReturnPos - vMyPos;
 	float fDistance = vDir.Length();
 	vDir.Normalize();
 
-	//¿ø·¡¹æÇâÀ¸·Î ÅÏÇÏ±â
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ï±ï¿½
 	_float3 vLook = *m_pTransformCom->Get_State(CTransform::STATE_LOOK);
 	bool bRotated = m_pTransformCom->RotateToDirection(vLook, vDir, 5.f, dt);
 
-	if (bRotated)  // È¸Àü ¿Ï·á ½ÅÈ£
+	if (bRotated)  // È¸ï¿½ï¿½ ï¿½Ï·ï¿½ ï¿½ï¿½È£
 	{
-		// ³Ê¹« °¡±î¿ì¸é ÀÌµ¿ Á¾·á
-		if (fDistance < 1.0f) // µµÂø ÆÇÁ¤ ¿ÀÂ÷ Çã¿ë
+		// ï¿½Ê¹ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ìµï¿½ ï¿½ï¿½ï¿½ï¿½
+		if (fDistance < 1.0f) // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 		{
 			m_eState = MODE::MODE_IDLE;
 			return;
 		}
 
-		// ÀÌµ¿ Ã³¸® (dt °í·Á)
+		// ï¿½Ìµï¿½ Ã³ï¿½ï¿½ (dt ï¿½ï¿½ï¿½ï¿½)
 		float fSpeed = m_fSpeed;
 		_float3 vMove = vDir * fSpeed * dt;
 
@@ -844,19 +844,19 @@ void CMonster::DoDead(_float dt)
 
 void CMonster::SetRandomDirection()
 {
-	// 0 ~ 359µµ »çÀÌÀÇ ·£´ý °¢µµ »ý¼º
-	float fAngle = D3DXToRadian(rand() % 360);  // rand() % 360 ¡æ 0~359µµ
+	// 0 ~ 359ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+	float fAngle = D3DXToRadian(rand() % 360);  // rand() % 360 ï¿½ï¿½ 0~359ï¿½ï¿½
 
-	// °¢µµ·ÎºÎÅÍ ¹æÇâ º¤ÅÍ »ý¼º
+	// ï¿½ï¿½ï¿½ï¿½ï¿½Îºï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	_float3 vDir = {
-		sinf(fAngle),   // xÃà
+		sinf(fAngle),   // xï¿½ï¿½
 		0.f,
-		cosf(fAngle)    // zÃà
+		cosf(fAngle)    // zï¿½ï¿½
 	};
 
 	m_vDirection = vDir;
 
-	// ÀÌµ¿ ½Ã°£ ¼³Á¤
+	// ï¿½Ìµï¿½ ï¿½Ã°ï¿½ ï¿½ï¿½ï¿½ï¿½
 	m_fWanderTime = (rand() % 2000) / 1000.f + 1.f;
 	m_fWanderElapsed = 0.f;
 
@@ -864,23 +864,23 @@ void CMonster::SetRandomDirection()
 
 void CMonster::AttackPattern(_float dt)
 {
-	//°¢°¢ÀÇ ¸ó½ºÅÍ¿¡ ¸ÂÃç¼­ ÆÐÅÏÀ» ¿À¹ö¶óÀÌµù ÇÏ½Ã¿À.
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Í¿ï¿½ ï¿½ï¿½ï¿½ç¼­ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ìµï¿½ ï¿½Ï½Ã¿ï¿½.
 }
 
 void CMonster::ChasePlayer(_float dt)
 {
-	//Å¸°ÙÀ» 350°Å¸®±îÁö Ãß°ÝÇÑ´Ù.
+	//Å¸ï¿½ï¿½ï¿½ï¿½ 350ï¿½Å¸ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ß°ï¿½ï¿½Ñ´ï¿½.
 	_float3 TargetPos = *static_cast<CTransform*>(m_pTargetPlayer->Find_Component(L"Com_Transform"))->Get_State(CTransform::STATE_POSITION);
 
-	// ÇöÀç À§Ä¡
+	// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ä¡
 	_float3 vMyPos = *m_pTransformCom->Get_State(CTransform::STATE_POSITION);
 
-	// ¹æÇâ °è»ê
+	// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 	_float3 vDir = TargetPos - vMyPos;
 	float fDistance = vDir.Length();
 	vDir.Normalize();
 
-	//¿ø·¡¹æÇâÀ¸·Î ÅÏÇÏ±â
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ï±ï¿½
 	_float3 vLook = *m_pTransformCom->Get_State(CTransform::STATE_LOOK);
 	bool bRotated = m_pTransformCom->RotateToDirection(vLook, vDir, 5.f, dt);
 	m_pTransformCom->ChaseWithOutY(TargetPos, dt, 200.f,100.f);
@@ -889,19 +889,19 @@ void CMonster::ChasePlayer(_float dt)
 
 _float3 CMonster::CalculateEffectPos()
 {
-	// Ãæµ¹ À§Ä¡ °¡Á®¿À±â
+	// ï¿½æµ¹ ï¿½ï¿½Ä¡ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	_float3 vImpactPos = m_pCollider->Get_Last_Collision_Pos();
 
-	// Ä«¸Þ¶óÀÇ Look º¤ÅÍ °¡Á®¿À±â
+	// Ä«ï¿½Þ¶ï¿½ï¿½ï¿½ Look ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	_float4x4 vCameraLook;
 	m_pGraphic_Device->GetTransform(D3DTS_VIEW, &vCameraLook);
 	vCameraLook.MakeInverseMat(vCameraLook);
 	_float3 vCameraPos = { vCameraLook._31, vCameraLook._32, vCameraLook._33 };
 
-	// Look º¤ÅÍ Á¤±ÔÈ­ (Å©±â 1·Î Á¶Á¤)
+	// Look ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½È­ (Å©ï¿½ï¿½ 1ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½)
 	vCameraPos.Normalize();
 
-	// Look ¹æÇâÀ¸·Î ÀÌµ¿ (¾ÕÀ¸·Î 1.0f ¸¸Å­ ¹Ð±â)
+	// Look ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ìµï¿½ (ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 1.0f ï¿½ï¿½Å­ ï¿½Ð±ï¿½)
 	vImpactPos -= vCameraPos * 10.0f;
 	//vImpactPos.y += m_vScale.y / 2.f;
 
@@ -910,45 +910,45 @@ _float3 CMonster::CalculateEffectPos()
 
 void CMonster::On_Collision(_uint MyColliderID, _uint OtherColliderID)
 {
-	/* [ ÇÃ·¹ÀÌ¾îÀÇ ¹«±â¿¡ µû¶ó ¸ó½ºÅÍÀÇ HP ¸¸ ±îÀÌµµ·Ï ¼öÁ¤ÇÏÀÚ ] */
+	/* [ ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½â¿¡ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ HP ï¿½ï¿½ ï¿½ï¿½ï¿½Ìµï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ] */
 
-	/* ¡é ÀÌ°÷Àº HP ¸¸ °ü¿©ÇÏ°í °¢Á¾ ÀÌÆåÆ®³ª ÇØ¾ßÇÒ Ã³¸®´Â ¿À¹ö¶óÀÌµùÇØ¼­ ÇÏ½Ã¿À ¡é  */
+	/* ï¿½ï¿½ ï¿½Ì°ï¿½ï¿½ï¿½ HP ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï°ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½Ø¾ï¿½ï¿½ï¿½ Ã³ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ìµï¿½ï¿½Ø¼ï¿½ ï¿½Ï½Ã¿ï¿½ ï¿½ï¿½  */
 
-	/* ¸Ó¸®¿¡ ¸Â¾ÒÀ» °æ¿ì */
+	/* ï¿½Ó¸ï¿½ï¿½ï¿½ ï¿½Â¾ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ */
 	if (MyColliderID == CI_MON_HEAD)
-		m_iHeadMultiplier = 2; // µ¥¹ÌÁö 2¹è
+		m_iHeadMultiplier = 2; // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 2ï¿½ï¿½
 	else
 		m_iHeadMultiplier = 1;
 
-	/* ±ÇÃÑ */
+	/* ï¿½ï¿½ï¿½ï¿½ */
 	if (OtherColliderID == CI_LOVERBOY)
 	{
 		m_iHP -= 20 * m_iHeadMultiplier;
 	}
 
-	/* ±â°üÃÑ */
+	/* ï¿½ï¿½ï¿½ï¿½ï¿½ */
 	if (OtherColliderID == CI_CHAINGUN)
 	{
-		// 1ÃÊ´ç 9¹ß == 27 µ¥¹ÌÁö
+		// 1ï¿½Ê´ï¿½ 9ï¿½ï¿½ == 27 ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		m_iHP -= 10 * m_iHeadMultiplier;
 	}
 
-	/* ¼¦°Ç */
+	/* ï¿½ï¿½ï¿½ï¿½ */
 	if (OtherColliderID == CI_DISPENSOR_SHELL)
 	{
-		// 10¹æÀ» ½îÁö¸¸ °Å¸®¿Í »êÅºÀÌ ÀÖÀ½
+		// 10ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Å¸ï¿½ï¿½ï¿½ ï¿½ï¿½Åºï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 		m_iHP -= 5 * m_iHeadMultiplier;
 	}
 
-	/* ÅÊÅÊº¼ */
+	/* ï¿½ï¿½ï¿½Êºï¿½ */
 	if (OtherColliderID == CI_DISPENSOR_GRENADE)
 	{
-		// 1¹æÀÌ ½Ø¾ßÇÔ
+		// 1ï¿½ï¿½ï¿½ï¿½ ï¿½Ø¾ï¿½ï¿½ï¿½
 		m_iHP -= 50 * m_iHeadMultiplier;
 	}
 
 
-	//¸ó½ºÅÍ Çìµå ÆÇÁ¤
+	//ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	if (OtherColliderID == CI_PICKING_RAY)
 	{
 		int a = 1;

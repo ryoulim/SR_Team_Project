@@ -2,29 +2,28 @@
 #include "fmod.hpp"
 #include "Transform.h"
 
-_float3 CSound_Core::m_vCurve[6]{};
-const _float CSound_Core::m_fCurveRatios[6] = { 0.0f, 0.1f, 0.25f, 0.5f, 0.8f, 1.0f };  // 0~1 °Å¸® ºñÀ²
-const _float CSound_Core::m_fCurveVolumes[6] = {1.0f, 0.9f, 0.75f, 0.5f, 0.2f, 0.0f};  // °¨¼è º¼·ý
-
-
 CSound_Core::CSound_Core(FMOD::System* pCoreSystem, FMOD::Sound* pSound)
     :m_pCoreSystem(pCoreSystem)
-    , m_pSound(pSound)
+    , m_pSound(pSound, [](FMOD::Sound* Sound) {Sound->release(); })
 {
 }
 
-void CSound_Core::Play(_float Volume)
+CSound_Core::CSound_Core(CSound_Core& Prototype)
+    :m_pCoreSystem(Prototype.m_pCoreSystem)
+    , m_pSound(Prototype.m_pSound)
 {
-    if (m_pCoreSystem->playSound(m_pSound, m_pChannelGroup, true, &m_pChannel))
+}
+
+void CSound_Core::Play()
+{
+    if (m_pCoreSystem->playSound(m_pSound.get(), nullptr, true, &m_pChannel))
     {
         m_pChannel = nullptr;
         return;
     }
 
-    m_pChannel->set3DCustomRolloff(reinterpret_cast<FMOD_VECTOR*>(m_vCurve),
-        sizeof(m_vCurve) / sizeof(FMOD_VECTOR));
-
-    m_pChannel->setVolume(Volume);
+    m_pChannel->setVolume(m_fVolume);
+    m_pChannel->set3DMinMaxDistance(m_fMinDis, m_fMaxDis);
     m_pChannel->set3DAttributes(reinterpret_cast<FMOD_VECTOR*>(&m_vSoundPos), {});
 
     SetPaused(false);
@@ -41,34 +40,24 @@ void CSound_Core::Stop()
 
 void CSound_Core::Set_Volume(_float Volume)
 {
+    m_fVolume = Volume;
     if (m_pChannel)
         m_pChannel->setVolume(Volume);
 }
 
-void CSound_Core::Update3DPosition()
+void CSound_Core::Update3DPosition(const _float3& vPos)
 {
-    const _float3& vCurPos = *m_pTransform->Get_State(CTransform::STATE_POSITION);
-
-    _float3 vSoundVel = vCurPos - m_vSoundPos;
-    m_vSoundPos = vCurPos;
+    _float3 vSoundVel = vPos - m_vSoundPos;
+    m_vSoundPos = vPos;
     if (m_pChannel)
         m_pChannel->set3DAttributes(reinterpret_cast<FMOD_VECTOR*>(&m_vSoundPos), reinterpret_cast<FMOD_VECTOR*>(&vSoundVel));
 
 }
 
-void CSound_Core::Set3DState(CTransform* pTransfrom, _float fMin, _float fMax)
+void CSound_Core::Set3DState(_float fMin, _float fMax)
 {
-    m_pTransform = pTransfrom;
-    Safe_AddRef(m_pTransform);
-
-    const _float3& vCurPos = *m_pTransform->Get_State(CTransform::STATE_POSITION);
-    m_pChannel->set3DAttributes(reinterpret_cast<FMOD_VECTOR*>(&m_vSoundPos), {});
-
-    for (_uint i = 0; i < 6; ++i)
-    {
-        m_vCurve[i].x = fMin + (fMax - fMin) * m_fCurveRatios[i];  // °Å¸® ¸®¸ÅÇÎ
-        m_vCurve[i].y = m_fCurveVolumes[i];                        // º¼·ý
-    }
+    m_fMinDis = fMin;
+    m_fMaxDis = fMax;
 }
 
 _bool CSound_Core::IsPlaying() const
@@ -92,10 +81,13 @@ CSound_Core* CSound_Core::Create(FMOD::System* pCoreSystem, FMOD::Sound* pSound)
 	return new CSound_Core(pCoreSystem, pSound);
 }
 
+CSound_Core* CSound_Core::Clone()
+{
+    return new CSound_Core(*this);
+}
+
 void CSound_Core::Free()
 {
     __super::Free();
     Stop();
-
-    Safe_Release(m_pTransform);
 }

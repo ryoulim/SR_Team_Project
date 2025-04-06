@@ -3,9 +3,11 @@
 #include "Sound_Event.h"
 #include "Sound_Core.h"
 #include "Transform.h"
+#include <filesystem>
 
-CSound_Device::CSound_Device(const string& strBankFilePath)
+CSound_Device::CSound_Device(const string& strBankFilePath, const string& strSoundFolderPath)
 	:m_strBankFilePath(strBankFilePath)
+	, m_strSoundFolderPath(strSoundFolderPath)
 {
 }
 
@@ -78,6 +80,69 @@ void CSound_Device::Update()
 	m_pStudioSystem->update();
 }
 
+HRESULT CSound_Device::LoadSound(const string& Path, _bool is3D, _bool loop, _bool stream, unordered_map<string, class CSound_Core*>* _Out_ pOut)
+{
+	namespace fs = std::filesystem;
+
+	if (!m_pCoreSystem)
+		return E_FAIL;
+
+	fs::path fsPath(Path);
+
+	if (!fs::exists(fsPath))
+		return E_FAIL;
+
+	FMOD_MODE mode = FMOD_DEFAULT;
+
+	if (is3D) mode |= FMOD_3D_LINEARROLLOFF;
+	else      mode |= FMOD_2D;
+
+	if (loop) mode |= FMOD_LOOP_NORMAL;
+	else      mode |= FMOD_LOOP_OFF;
+
+	if (stream) mode |= FMOD_CREATESTREAM;
+	else        mode |= FMOD_CREATECOMPRESSEDSAMPLE;
+
+	if (fs::is_directory(fsPath))
+	{
+		for (const auto& entry : fs::recursive_directory_iterator(fsPath))
+		{
+			if (!entry.is_regular_file())
+				continue;
+
+			fs::path filePath = entry.path();
+			string key = filePath.stem().string();
+
+			FMOD::Sound* pSound = nullptr;
+			FMOD_RESULT result = m_pCoreSystem->createSound(filePath.string().c_str(), mode, nullptr, &pSound);
+			auto pSoundCore = CSound_Core::Create(m_pCoreSystem, pSound);
+			if (result == FMOD_OK)
+				pOut->emplace(key,pSoundCore);
+		}
+	}
+	else if (fs::is_regular_file(fsPath))
+	{
+		string key = fsPath.stem().string();
+
+		if (pOut->count(key) == 0)
+		{
+			FMOD::Sound* pSound = nullptr;
+			FMOD_RESULT result = m_pCoreSystem->createSound(fsPath.string().c_str(), mode, nullptr, &pSound);
+			if (result != FMOD_OK)
+				return E_FAIL;
+			auto pSoundCore = CSound_Core::Create(m_pCoreSystem, pSound);
+
+			pOut->emplace(key, pSoundCore);
+		}
+	}
+	else
+	{
+		return E_FAIL;
+	}
+
+	return S_OK;
+}
+
 HRESULT CSound_Device::LoadBank(const string& name)
 {
 	auto it = m_LoadedBanks.find(name);
@@ -106,6 +171,7 @@ void CSound_Device::UnloadBank(const string& name)
 CSound_Control_Group* CSound_Device::Create_Control_Group(const string& name)
 {
 	FMOD::ChannelGroup* pChannelGroup { nullptr };
+
 	m_pCoreSystem->createChannelGroup(name.c_str(), &pChannelGroup);
 
 	return nullptr;
@@ -124,25 +190,16 @@ CSound_Event* CSound_Device::Create_Event_Instance(const string& eventPath)
 	return CSound_Event::Create(instance);
 }
 
-CSound_Core* CSound_Device::Create_Core_Instance(const string& path, _bool is3D, _bool loop, _bool stream)
-{
-	FMOD::Sound* sound = nullptr;
-	FMOD_MODE mode = FMOD_DEFAULT;
-
-	if (is3D) mode |= FMOD_3D_CUSTOMROLLOFF;
-	else mode |= FMOD_2D;
-
-	if (loop) mode |= FMOD_LOOP_NORMAL;
-	else mode |= FMOD_LOOP_OFF;
-
-	if (stream) mode |= FMOD_CREATESTREAM;
-	else mode |= FMOD_CREATECOMPRESSEDSAMPLE;
-
-	if (m_pCoreSystem->createSound(path.c_str(), mode, nullptr, &sound) || !sound)
-		return nullptr;
-
-	return CSound_Core::Create(m_pCoreSystem, sound);
-}
+//CSound_Core* CSound_Device::Create_Core_Instance(const string& strSoundtag)
+//{
+//	// 사운드가 로딩되어 있어야지만 쓰도록
+//	auto Iter = m_Sounds.find(strSoundtag);
+//	if (Iter == m_Sounds.end())
+//		return nullptr;
+//
+//	// 아잉 FMod에는 레퍼 카운터 없엉 어짜피 디바이스가 제일 마지막에 지워졍
+//	return CSound_Core::Create(m_pCoreSystem, Iter->second);
+//}
 
 void CSound_Device::Set_Listener_Position(const CTransform* pTransform, const _float3& vel)
 {
@@ -167,9 +224,9 @@ void CSound_Device::Set_Master_Volume(_float volume)
 		masterBus->setVolume(volume);
 }
 
-CSound_Device* CSound_Device::Create(const string& strBankFilePath)
+CSound_Device* CSound_Device::Create(const string& strBankFilePath, const string& strSoundFolderPath)
 {
-	CSound_Device* pInstance = new CSound_Device(strBankFilePath);
+	CSound_Device* pInstance = new CSound_Device(strBankFilePath, strSoundFolderPath);
 
 	if (FAILED(pInstance->Initialize()))
 	{

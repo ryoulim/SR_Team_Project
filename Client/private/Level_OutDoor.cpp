@@ -44,6 +44,8 @@ HRESULT CLevel_OutDoor::Initialize(CLevelData* pLevelData)
 #include "Level_Loading.h"
 void CLevel_OutDoor::Update(_float fTimeDelta)
 {
+	FX_MGR->SpawnMultipleThunder(fTimeDelta, LEVEL_OUTDOOR);
+
 	Check_Collision();
 	if (m_iNextLevel)
 	{
@@ -76,7 +78,7 @@ HRESULT CLevel_OutDoor::Load_Map(_uint iLevelIdx, const _wstring& FileName)
 	/* 배열로 선언할까 싶기도 했는데, 레벨마다 쓸 녀석과 안 쓸 녀석이 나뉘어질 거같기때문에,, */
 	_int iNumTile{}, iNumBlock{}, iNumTriPil{}, iNumAniRect{}, iNumAniBlock{},
 		iNumInviBlock{}, iNumAlphaRect{}, iNumAlphaBlock{}, iNumWater{}, iNumLadder{},
-		iNumTelephonPole{};
+		iNumTelephonePole{}, iNumPhotoFrame{};
 	/* 불러오기용 변수 */
 	_int iNumVertexX = {}, iNumVertexZ = {}, iLoadLength = {};
 	_uint iNumBackGround = {}, iNumModel = {};
@@ -254,7 +256,7 @@ HRESULT CLevel_OutDoor::Load_Map(_uint iLevelIdx, const _wstring& FileName)
 			}
 			else if (Prototype == TEXT("Prototype_GameObject_TelephonePole"))
 			{
-				CGameObject* pGameObject = m_pGameInstance->Find_Object(iLevelIdx, Layertag, iNumLadder++);
+				CGameObject* pGameObject = m_pGameInstance->Find_Object(iLevelIdx, Layertag, iNumTelephonePole++);
 				if (nullptr != pGameObject)
 				{
 					if (FAILED(__super::Load_VertexBuffer(pGameObject, hFile, &dwByte)))
@@ -263,7 +265,19 @@ HRESULT CLevel_OutDoor::Load_Map(_uint iLevelIdx, const _wstring& FileName)
 						return E_FAIL;
 					}
 				}
+			}
+			else if (Prototype == TEXT("Prototype_GameObject_PhotoFrame"))
+			{
+				CGameObject* pGameObject = m_pGameInstance->Find_Object(iLevelIdx, Layertag, iNumPhotoFrame++);
+				if (nullptr != pGameObject)
+				{
+					if (FAILED(__super::Load_VertexBuffer(pGameObject, hFile, &dwByte)))
+					{
+						MSG_BOX("버텍스 버퍼 로딩실패");
+						return E_FAIL;
+					}
 				}
+			}
 
 			ZeroMemory(szPrototypeTag, sizeof(szPrototypeTag));
 

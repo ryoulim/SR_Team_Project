@@ -143,13 +143,13 @@
       <Filter>04.Components\VIBuffer\Canopy</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\VIBuffer_RaceTerrain.h">
-      <Filter>04.Components\VIBuffer\RaceTerrain</Filter>
+      <Filter>04.Components\VIBuffer\RaceLevel</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\VIBuffer_BuildingH.h">
-      <Filter>04.Components\VIBuffer\RaceTerrain\VIBuffer_BuildingH</Filter>
+      <Filter>04.Components\VIBuffer\RaceLevel\VIBuffer_BuildingH</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\VIBuffer_BuildingW.h">
-      <Filter>04.Components\VIBuffer\RaceTerrain\VIBuffer_BuildingW</Filter>
+      <Filter>04.Components\VIBuffer\RaceLevel\VIBuffer_BuildingW</Filter>
     </ClInclude>
     <ClInclude Include="..\public\VIBuffer_CubeEx.h">
       <Filter>04.Components\VIBuffer\CubeEx</Filter>
@@ -161,19 +161,19 @@
       <Filter>04.Components\VIBuffer\TriangularPillar</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\VIBuffer_BuildingV.h">
-      <Filter>04.Components\VIBuffer\RaceTerrain\VIBuffer_BuildingV</Filter>
+      <Filter>04.Components\VIBuffer\RaceLevel\VIBuffer_BuildingV</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\VIBuffer_BuildingU.h">
-      <Filter>04.Components\VIBuffer\RaceTerrain\VIBuffer_BuildingU</Filter>
+      <Filter>04.Components\VIBuffer\RaceLevel\VIBuffer_BuildingU</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Shader.h">
       <Filter>04.Components\Shader</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\VIBuffer_RaceGate.h">
-      <Filter>04.Components\VIBuffer\RaceTerrain\VIBuffer_RaceGate</Filter>
+      <Filter>04.Components\VIBuffer\RaceLevel\VIBuffer_RaceGate</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\VIBuffer_RaceCylinder.h">
-      <Filter>04.Components\VIBuffer\RaceTerrain\VIBuffer_RaceCylinder</Filter>
+      <Filter>04.Components\VIBuffer\RaceLevel\VIBuffer_RaceCylinder</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Sound_Device.h">
       <Filter>97.Device\Sound</Filter>
@@ -188,13 +188,19 @@
       <Filter>97.Device\Sound\Control_Group</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\VIBuffer_RaceLandscape.h">
-      <Filter>04.Components\VIBuffer\RaceTerrain\VIBuffer_RaceLandscape\Basic</Filter>
+      <Filter>04.Components\VIBuffer\RaceLevel\VIBuffer_RaceLandscape\Basic</Filter>
     </ClInclude>
     <ClInclude Include="..\public\Management.h">
       <Filter>06.Management</Filter>
     </ClInclude>
     <ClInclude Include="..\public\VIBuffer_Circle.h">
       <Filter>04.Components\VIBuffer\Circle</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\VIBuffer_RaceBoss.h">
+      <Filter>04.Components\VIBuffer\RaceLevel\VIBuffer_RaceBoss</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\SoundController.h">
+      <Filter>04.Components\SoundController</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -312,12 +318,6 @@
     <Filter Include="04.Components\VIBuffer\Canopy">
       <UniqueIdentifier>{2384da72-0b4c-46c3-b789-3567a4128378}</UniqueIdentifier>
     </Filter>
-    <Filter Include="04.Components\VIBuffer\RaceTerrain">
-      <UniqueIdentifier>{563856f0-e543-4fad-b80e-afebfa50eb71}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="04.Components\VIBuffer\RaceTerrain\VIBuffer_RaceLandscape">
-      <UniqueIdentifier>{a17320ba-13d7-4378-8347-94e8f49998f7}</UniqueIdentifier>
-    </Filter>
     <Filter Include="01.Level">
       <UniqueIdentifier>{4984c672-521a-4088-a0d7-c4c1f4639603}</UniqueIdentifier>
     </Filter>
@@ -333,29 +333,11 @@
     <Filter Include="04.Components\VIBuffer\CubeEx">
       <UniqueIdentifier>{de6d8a58-f371-4f9c-8830-2898e909e7c9}</UniqueIdentifier>
     </Filter>
-    <Filter Include="04.Components\VIBuffer\RaceTerrain\VIBuffer_BuildingH">
-      <UniqueIdentifier>{0ca130d8-202e-4e32-b161-313466f789b1}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="04.Components\VIBuffer\RaceTerrain\VIBuffer_BuildingW">
-      <UniqueIdentifier>{c3a148c2-1ed3-4b58-8593-6a40608c8977}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="04.Components\VIBuffer\RaceTerrain\VIBuffer_BuildingV">
-      <UniqueIdentifier>{a3659643-82a3-4f45-b452-d405151758db}</UniqueIdentifier>
-    </Filter>
     <Filter Include="04.Components\VIBuffer\TriangularPillar">
       <UniqueIdentifier>{bfc39af0-9640-4103-9f4c-6f516e854cc4}</UniqueIdentifier>
     </Filter>
-    <Filter Include="04.Components\VIBuffer\RaceTerrain\VIBuffer_BuildingU">
-      <UniqueIdentifier>{82780763-43ee-4921-94b5-0590584ff9e7}</UniqueIdentifier>
-    </Filter>
     <Filter Include="04.Components\Shader">
       <UniqueIdentifier>{1195ae93-e37d-4492-9b0c-6916d2e98d1b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="04.Components\VIBuffer\RaceTerrain\VIBuffer_RaceGate">
-      <UniqueIdentifier>{155a14c5-4098-48cc-9260-7091b1bf3c2b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="04.Components\VIBuffer\RaceTerrain\VIBuffer_RaceCylinder">
-      <UniqueIdentifier>{3a842960-2b33-4a6d-b43c-25e97d784803}</UniqueIdentifier>
     </Filter>
     <Filter Include="04.Components\VIBuffer\StreetLamp">
       <UniqueIdentifier>{eda876f1-fe55-433d-aa6b-58937f2d3af2}</UniqueIdentifier>
@@ -375,9 +357,6 @@
     <Filter Include="97.Device\Sound\Control_Group">
       <UniqueIdentifier>{e5e581a5-f93d-489d-a5a5-c5c0859ff9af}</UniqueIdentifier>
     </Filter>
-    <Filter Include="04.Components\VIBuffer\RaceTerrain\VIBuffer_RaceLandscape\Basic">
-      <UniqueIdentifier>{f8fed4aa-10a5-4f2a-8c93-f4df6b55e5e7}</UniqueIdentifier>
-    </Filter>
     <Filter Include="06.Management">
       <UniqueIdentifier>{b7dc617e-f092-449d-be05-27b4046c2fbf}</UniqueIdentifier>
     </Filter>
@@ -389,6 +368,39 @@
     </Filter>
     <Filter Include="04.Components\Collider\Capsule">
       <UniqueIdentifier>{16c87723-ef05-409a-ba4e-619f17fc0234}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04.Components\VIBuffer\RaceLevel">
+      <UniqueIdentifier>{563856f0-e543-4fad-b80e-afebfa50eb71}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04.Components\VIBuffer\RaceLevel\VIBuffer_RaceLandscape">
+      <UniqueIdentifier>{a17320ba-13d7-4378-8347-94e8f49998f7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04.Components\VIBuffer\RaceLevel\VIBuffer_RaceLandscape\Basic">
+      <UniqueIdentifier>{f8fed4aa-10a5-4f2a-8c93-f4df6b55e5e7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04.Components\VIBuffer\RaceLevel\VIBuffer_BuildingH">
+      <UniqueIdentifier>{0ca130d8-202e-4e32-b161-313466f789b1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04.Components\VIBuffer\RaceLevel\VIBuffer_BuildingW">
+      <UniqueIdentifier>{c3a148c2-1ed3-4b58-8593-6a40608c8977}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04.Components\VIBuffer\RaceLevel\VIBuffer_BuildingV">
+      <UniqueIdentifier>{a3659643-82a3-4f45-b452-d405151758db}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04.Components\VIBuffer\RaceLevel\VIBuffer_BuildingU">
+      <UniqueIdentifier>{82780763-43ee-4921-94b5-0590584ff9e7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04.Components\VIBuffer\RaceLevel\VIBuffer_RaceGate">
+      <UniqueIdentifier>{155a14c5-4098-48cc-9260-7091b1bf3c2b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04.Components\VIBuffer\RaceLevel\VIBuffer_RaceCylinder">
+      <UniqueIdentifier>{3a842960-2b33-4a6d-b43c-25e97d784803}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04.Components\VIBuffer\RaceLevel\VIBuffer_RaceBoss">
+      <UniqueIdentifier>{5f4b6c23-13f6-40aa-ae76-20ac762c9732}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04.Components\SoundController">
+      <UniqueIdentifier>{ef55d175-3b5a-4b1d-8690-834b84865080}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -513,7 +525,7 @@
       <Filter>04.Components\VIBuffer\Canopy</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\VIBuffer_RaceTerrain.cpp">
-      <Filter>04.Components\VIBuffer\RaceTerrain</Filter>
+      <Filter>04.Components\VIBuffer\RaceLevel</Filter>
     </ClCompile>
     <ClCompile Include="..\private\Collider_Manager.cpp">
       <Filter>04.Components\Collider\Manager</Filter>
@@ -522,13 +534,13 @@
       <Filter>04.Components\VIBuffer\CubeEx</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\VIBuffer_BuildingH.cpp">
-      <Filter>04.Components\VIBuffer\RaceTerrain\VIBuffer_BuildingH</Filter>
+      <Filter>04.Components\VIBuffer\RaceLevel\VIBuffer_BuildingH</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\VIBuffer_BuildingW.cpp">
-      <Filter>04.Components\VIBuffer\RaceTerrain\VIBuffer_BuildingW</Filter>
+      <Filter>04.Components\VIBuffer\RaceLevel\VIBuffer_BuildingW</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\VIBuffer_BuildingV.cpp">
-      <Filter>04.Components\VIBuffer\RaceTerrain\VIBuffer_BuildingV</Filter>
+      <Filter>04.Components\VIBuffer\RaceLevel\VIBuffer_BuildingV</Filter>
     </ClCompile>
     <ClCompile Include="..\private\VIBuffer_TriangularPillar.cpp">
       <Filter>04.Components\VIBuffer\TriangularPillar</Filter>
@@ -537,16 +549,16 @@
       <Filter>04.Components\VIBuffer</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\VIBuffer_BuildingU.cpp">
-      <Filter>04.Components\VIBuffer\RaceTerrain\VIBuffer_BuildingU</Filter>
+      <Filter>04.Components\VIBuffer\RaceLevel\VIBuffer_BuildingU</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Shader.cpp">
       <Filter>04.Components\Shader</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\VIBuffer_RaceGate.cpp">
-      <Filter>04.Components\VIBuffer\RaceTerrain\VIBuffer_RaceGate</Filter>
+      <Filter>04.Components\VIBuffer\RaceLevel\VIBuffer_RaceGate</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\VIBuffer_RaceCylinder.cpp">
-      <Filter>04.Components\VIBuffer\RaceTerrain\VIBuffer_RaceCylinder</Filter>
+      <Filter>04.Components\VIBuffer\RaceLevel\VIBuffer_RaceCylinder</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Sound_Device.cpp">
       <Filter>97.Device\Sound</Filter>
@@ -561,13 +573,19 @@
       <Filter>97.Device\Sound\Control_Group</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\VIBuffer_RaceLandscape.cpp">
-      <Filter>04.Components\VIBuffer\RaceTerrain\VIBuffer_RaceLandscape\Basic</Filter>
+      <Filter>04.Components\VIBuffer\RaceLevel\VIBuffer_RaceLandscape\Basic</Filter>
     </ClCompile>
     <ClCompile Include="..\private\Management.cpp">
       <Filter>06.Management</Filter>
     </ClCompile>
     <ClCompile Include="..\private\VIBuffer_Circle.cpp">
       <Filter>04.Components\VIBuffer\Circle</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\VIBuffer_RaceBoss.cpp">
+      <Filter>04.Components\VIBuffer\RaceLevel\VIBuffer_RaceBoss</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\SoundController.cpp">
+      <Filter>04.Components\SoundController</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -157,7 +157,7 @@ HRESULT CLevel_Boss::Ready_Layer_Particle(const _wstring& strLayerTag)
 	FX_Manager->SpawnTornado(_float3{ 850.f, 25.f, -230.f }, LEVEL_GAMEPLAY);
 
 	//불지르기
-	FX_Manager->SpawnFire(_float3{ 800.f, 0.f, -200.f }, LEVEL_GAMEPLAY);
+	FX_Manager->SpawnRava(_float3{ 800.f, 0.f, -200.f }, LEVEL_GAMEPLAY);
 
 	return S_OK;
 }

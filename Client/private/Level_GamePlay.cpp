@@ -66,8 +66,8 @@ HRESULT CLevel_GamePlay::Initialize(class CLevelData* pLevelData)
 	if (FAILED(Load_Map(LEVEL_GAMEPLAY, TEXT("MapData.txt"))))
 		return E_FAIL;
 
-	if (FAILED(Ready_Layer_Trigger(TEXT("Layer_Trigger"))))
-		return E_FAIL;
+	/*if (FAILED(Ready_Layer_Trigger(TEXT("Layer_Trigger"))))
+		return E_FAIL;*/
 
 	ShowCursor(FALSE);
 
@@ -279,31 +279,13 @@ HRESULT CLevel_GamePlay::Ready_Layer_Item(const _wstring& strLayerTag)
 
 HRESULT CLevel_GamePlay::Ready_Layer_Particle(const _wstring& strLayerTag)
 {
-	//플렛폼 생성
-	//CFlatform::DESC FlatformDESC;
-	//FlatformDESC.vInitPos = _float3{ 800.f, 0.f, -200.f };
-	//FlatformDESC.vScale = _float3{ 500.f, 300.f, 1.f };
-	//FlatformDESC.bLoop = true;
-	//FlatformDESC.fMaxFrame = 1.f;
-	//FlatformDESC.fRotationPerSec = RADIAN(180.f);
-	//FlatformDESC.fSpeedPerSec = 100.f;
-	//FlatformDESC.szTextureTag = TEXT("MonsterFlatform");
-	//if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Flatform"),
-	//	LEVEL_GAMEPLAY, strLayerTag, &FlatformDESC)))
-	//	return E_FAIL;
-	//
-	//auto FX_Manager = FX_MGR;
-	//
-	////빗방울
-	//FX_Manager->SpawnRain(LEVEL_GAMEPLAY);
-	////불지르기
-	//FX_Manager->SpawnFire(_float3{ 800.f, 0.f, -200.f }, LEVEL_GAMEPLAY);
-
 	return S_OK;
 }
 
 HRESULT CLevel_GamePlay::Ready_Layer_Effect(const _wstring& strLayerTag)
 {
+	FX_MGR->SpawnRava(_float3{ 1550.f, 20.f, 1500.f }, LEVEL_GAMEPLAY);
+
 	return S_OK;
 }
 
@@ -315,7 +297,7 @@ HRESULT CLevel_GamePlay::Ready_Layer_Pawn(const _wstring& strLayerTag)
 		m_pGameInstance->Release_Layer(LEVEL_STATIC, strLayerTag);
 
 	CPlayer::DESC PlayerDesc{};
-	PlayerDesc.vInitPos = { 1400.f, 150.f, 200.f };
+	PlayerDesc.vInitPos = { 1400.f, 150.f, 1000.f }; //200.f;
 	PlayerDesc.vScale = { 30.f, 40.f, 30.f };
 	PlayerDesc.fRotationPerSec = RADIAN(180.f);
 	PlayerDesc.fSpeedPerSec = 150.f;
@@ -334,8 +316,8 @@ HRESULT CLevel_GamePlay::Ready_Layer_Pawn(const _wstring& strLayerTag)
 HRESULT CLevel_GamePlay::Ready_Layer_Monster(const _wstring& strLayerTag)
 {
 	//따끈이
-	//SpawnTtakkeun_i(_float3{ 1200.f, 100.f, 1500.f }, true, 0, LEVEL_GAMEPLAY);
-	//SpawnTtakkeun_i(_float3{ 1600.f, 100.f, 1500.f }, true, 1, LEVEL_GAMEPLAY);
+	SpawnTtakkeun_i(_float3{ 1200.f, 1000.f, 1500.f }, false, 0, LEVEL_GAMEPLAY);
+	SpawnTtakkeun_i(_float3{ 1600.f, 1000.f, 1500.f }, false, 1, LEVEL_GAMEPLAY);
 
 	//플렛폼 생성
 	//CFlatform::DESC FlatformDESC;
@@ -451,7 +433,6 @@ void CLevel_GamePlay::Check_Collision()
 
 	/*PBULLET*/
 	m_pGameInstance->Intersect(CG_PBULLET, CG_MONSTER);
-	m_pGameInstance->Intersect(CG_PBULLET, CG_MONSTER_HEAD);
 	m_pGameInstance->Intersect(CG_PBULLET, CG_BLOCK);
 
 	/*MBULLET*/
@@ -461,6 +442,10 @@ void CLevel_GamePlay::Check_Collision()
 	/*MONSTER*/
 	m_pGameInstance->Intersect(CG_MONSTER, CG_BLOCK);
 	m_pGameInstance->Intersect(CG_PAWN, CG_ITEM);
+
+	/*BOSS*/
+	m_pGameInstance->Intersect(CG_BOSS, CG_BLOCK);
+	m_pGameInstance->Intersect(CG_BOSS, CG_PAWN);
 }
 
 void CLevel_GamePlay::SpawnTtakkeun_i(const _float3& _Position, _bool m_bActive, _int _iNum, LEVEL _eLevel)

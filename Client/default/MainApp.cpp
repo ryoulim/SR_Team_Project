@@ -98,6 +98,7 @@ HRESULT CMainApp::Initialize()
 	Desc.iWinSizeY = g_iWinSizeY;
 	Desc.iNumLevels = LEVEL_END;
 	Desc.INumColliderGroups = CG_END;
+	Desc.strSoundFolderPath = "../bin/Resources/Sounds/";
 	//Desc.strBankFilePath = "../bin/BankFiles/";
 
 	if (FAILED(m_pGameInstance->Initialize_Engine(Desc, &m_pGraphic_Device)))

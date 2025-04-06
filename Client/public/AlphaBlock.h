@@ -28,6 +28,9 @@ public:
 	virtual HRESULT Render() override;
 
 public:
+	virtual HRESULT Ready_Components(void* pArg) override;
+
+public:
 	static CAlphaBlock* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
 	virtual CGameObject* Clone(void* pArg) override;
 	virtual void Free();

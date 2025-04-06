@@ -18,7 +18,7 @@ HRESULT CRaceBossBullet::Initialize_Prototype()
 HRESULT CRaceBossBullet::Initialize(void* pArg)
 {
 	m_szTextureID = TEXT("RaceBossBullet");
-	m_szBufferType = TEXT("Cube");
+	m_szBufferType = TEXT("Rect");
 
 	Ready_Components(pArg);
 
@@ -35,20 +35,19 @@ EVENT CRaceBossBullet::Update(_float fTimeDelta)
 	if (m_bDead)
 		return EVN_DEAD;
 
-	auto pPlayer = GET_PLAYER;
-	_float3 vPlayerPos = *GET_PLAYER_TRANSFORM->Get_State(CTransform::STATE_POSITION);
-
-	m_pTransformCom->LookAt(vPlayerPos);
 	m_pTransformCom->Go_Straight(fTimeDelta);
+
+	/*m_fScale += 1.f;
+	if (m_fScale > 20.f)
+		m_fScale = 1.f;*/
 	
-
-	_float3 vPos = *m_pTransformCom->Get_State(CTransform::STATE_POSITION);
-
 	return __super::Update(fTimeDelta);
 }
 
 void CRaceBossBullet::Late_Update(_float fTimeDelta)
 {
+	//m_pTransformCom->Scaling(_float3(m_fScale, m_fScale, m_fScale));
+
 	if (FAILED(m_pGameInstance->Add_RenderGroup(CRenderer::RG_NONBLEND, this)))
 		return;
 
@@ -57,8 +56,10 @@ void CRaceBossBullet::Late_Update(_float fTimeDelta)
 
 HRESULT CRaceBossBullet::Render()
 {
-	if (FAILED(m_pTransformCom->Bind_Resource()))
-		return E_FAIL;
+	/*if (FAILED(m_pTransformCom->Bind_Resource()))
+		return E_FAIL;*/
+
+	m_pGraphic_Device->SetTransform(D3DTS_WORLD, &m_pTransformCom->Billboard_Y());
 
 	if (FAILED(m_pTextureCom->Bind_Resource(0)))
 		return E_FAIL;
@@ -68,7 +69,7 @@ HRESULT CRaceBossBullet::Render()
 
 	if (FAILED(m_pVIBufferCom->Render()))
 		return E_FAIL;
-
+		
 	return S_OK;
 }
  

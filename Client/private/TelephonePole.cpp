@@ -48,15 +48,22 @@ void CTelephonePole::Late_Update(_float fTimeDelta)
 HRESULT CTelephonePole::Render()
 {
 	m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
+	
+	if(FAILED(m_pGraphic_Device->SetTransform(D3DTS_WORLD, &m_pTransformCom->Billboard())))
+		return E_FAIL;
 
-	m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
-	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAREF, 40);
-	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER);
+	__super::Render();
 
-	return __super::Render();
+	m_pGraphic_Device->SetTextureStageState(0, D3DTSS_TEXCOORDINDEX, 0);
 
-	m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
+#ifdef _COLLIDERRENDER
+	if (m_pColliderCom)
+		m_pColliderCom->Render();
+#endif
+
 	m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
+
+	return S_OK;
 }
 
 CTelephonePole* CTelephonePole::Create(LPDIRECT3DDEVICE9 pGraphic_Device)

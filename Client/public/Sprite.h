@@ -9,6 +9,7 @@ public:
 	typedef struct tagSpriteDesc : public CEffect::DESC
 	{
 		const TCHAR*	szTextureTag;
+		_float	fStartFrame = 0.f;
 		_float	fMaxFrame;
 		bool	bLoop;
 	}DESC;

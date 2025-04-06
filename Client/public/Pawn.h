@@ -47,7 +47,11 @@ protected:
 	CVIBuffer* m_pVIBufferCom = { nullptr };
 	CTransform* m_pTransformCom = { nullptr };
 	CCollider* m_pCollider = { nullptr };
+	CCollider* m_pPrePosCollider{ nullptr };
 	_bool	m_bActive{ TRUE };
+
+	_float						m_fInitSpeed{};
+
 	//_bool	m_bDead{ FALSE };
 
 public:

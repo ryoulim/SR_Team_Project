@@ -17,6 +17,7 @@
 #include "VIBuffer_BuildingU.h"
 #include "VIBuffer_RaceGate.h"
 #include "VIBuffer_RaceCylinder.h"
+#include "VIBuffer_RaceBoss.h"
 
 #include "VIBuffer_Terrain.h"
 #include "VIBuffer_RaceTerrain.h"
@@ -33,6 +34,7 @@
 #include "Collider_Line.h"
 #include "Collider_Rect.h"
 
+#include "SoundController.h"
 #include "Sound_Event.h"
 #include "Sound_Core.h"
 

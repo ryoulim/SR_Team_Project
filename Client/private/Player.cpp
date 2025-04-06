@@ -11,9 +11,13 @@
 #include "UI_Manager.h"
 
 #define DASH_TIME 0.25f
-#define JUST_DASH_TIME 0.15f
-#define DASH_SPEED 1500.f
+#define JUST_DASH_TIME 0.13f
+//이게 근데 타이머판정 말고 그 콜라이더 판정도 있어서 약간 특정상황에서 후해지긴함
+#define DASH_SPEED 900.f
+#define DASH_DECAY 0.05f
 #define DASH_COOLTIME 0.7f
+
+#define DODGE_TIMESCALE 0.1f
 
 // 무적시간
 #define INVINCIBILITY_FRAMES 0.3f
@@ -59,7 +63,7 @@ void CPlayer::Priority_Update(_float fTimeDelta)
 	if (!m_bActive)
 		return;
 
-	fTimeDelta = m_pGameInstance->Get_TimeDelta(TEXT("Timer_60"));
+	//fTimeDelta = m_pGameInstance->Get_TimeDelta(TEXT("Timer_60"));
 
 	m_pGameInstance->Set_Listener_Position(m_pTransformCom, *m_pTransformCom->Get_State(CTransform::STATE_POSITION) - m_vPrePosition);
 
@@ -76,7 +80,6 @@ void CPlayer::Priority_Update(_float fTimeDelta)
 		m_fDashTimer -= fTimeDelta;
 		Key_Input(fTimeDelta);
 	}
-	Update_Camera_Link();
 
 	m_Weapons[m_iCurWeaponIndex]->Priority_Update(fTimeDelta);
 	__super::Priority_Update(fTimeDelta);
@@ -95,7 +98,7 @@ EVENT CPlayer::Update(_float fTimeDelta)
 	}
 #endif
 
-	fTimeDelta = m_pGameInstance->Get_TimeDelta(TEXT("Timer_60"));
+	//fTimeDelta = m_pGameInstance->Get_TimeDelta(TEXT("Timer_60"));
 
 	// 피격 후 무적시간 계산
 	if (m_bOnHit)
@@ -107,7 +110,6 @@ EVENT CPlayer::Update(_float fTimeDelta)
 			m_fOnHitTimer = 0.f;
 		}
 	}
-
 	m_Weapons[m_iCurWeaponIndex]->Update(fTimeDelta);
 
 	return __super::Update(fTimeDelta);
@@ -118,24 +120,23 @@ void CPlayer::Late_Update(_float fTimeDelta)
 	if (!m_bActive)
 		return;
 
-	fTimeDelta = m_pGameInstance->Get_TimeDelta(TEXT("Timer_60"));
+	//fTimeDelta = m_pGameInstance->Get_TimeDelta(TEXT("Timer_60"));
 
 	m_vPrePosition = *m_pTransformCom->Get_State(CTransform::STATE_POSITION);
 
 	m_pGameInstance->Add_RenderGroup(CRenderer::RG_NONBLEND, this);
 
-	if (!m_bActive)
-		return;
-
 	m_Weapons[m_iCurWeaponIndex]->Late_Update(fTimeDelta);
-
 	
 	m_pCollider->Update_Collider();
 
-	if (m_bOnLadder)
-		m_bOnLadder = FALSE;
-	else
-		m_pGravityCom->Update(fTimeDelta);
+	//if (m_bOnLadder)
+	//	m_bOnLadder = FALSE;
+	//else
+
+	m_pGravityCom->Update(fTimeDelta);
+
+	Update_Camera_Link();
 
 	__super::Late_Update(fTimeDelta);	
 }
@@ -150,8 +151,32 @@ HRESULT CPlayer::Render()
 
 void CPlayer::On_Collision(_uint MyColliderID, _uint OtherColliderID)
 {
+	if (MyColliderID == CI_PLAYER_PRE)
+	{
+		On_Just_Dodge();
+		return;
+	}
+
 	switch (OtherColliderID)
 	{
+	case CI_BLOCK_COMMON:
+	{
+		_float3 vPos = *m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+		_float3 vPos2 = *m_pCameraTransform->Get_State(CTransform::STATE_POSITION);
+
+		_float3 Depth = m_pCollider->Get_Last_Collision_Depth();
+
+		vPos += Depth;
+		vPos2 += Depth;
+
+		m_pTransformCom->Set_State(CTransform::STATE_POSITION, vPos);
+		m_pCameraTransform->Set_State(CTransform::STATE_POSITION, vPos2);
+
+		//m_pGraphic_Device->SetTransform(D3DTS_VIEW, &m_pCameraTransform->Get_WorldMatrix_Inverse());
+		break;
+	}
+
+
 	case CI_BLOCK_INVISIBLE:
 		return;
 		break;
@@ -179,6 +204,9 @@ void CPlayer::On_Collision(_uint MyColliderID, _uint OtherColliderID)
 
 	case CI_ITEM_HEALKIT:
 		m_tInfo.iHP += 10;
+		if (m_tInfo.iHP > 100)
+			m_tInfo.iHP = 100;
+		FX_MGR->SpawnHealEffect(m_eLevelID);
 		break;
 
 	case CI_ITEM_ARMOR_PIECE:
@@ -193,24 +221,6 @@ void CPlayer::On_Collision(_uint MyColliderID, _uint OtherColliderID)
 		m_bHaveCardkey = true;
 		break;
 	
-	case CI_BLOCK_COMMON:
-	{
-		_float3 vPos = *m_pTransformCom->Get_State(CTransform::STATE_POSITION);
-		_float3 vPos2 = *m_pCameraTransform->Get_State(CTransform::STATE_POSITION);
-
-		_float3 Depth = m_pCollider->Get_Last_Collision_Depth();
-		if (Depth.y != 0)
-			int a = 1;
-		vPos += Depth;
-		vPos2 += Depth;
-
-		m_pTransformCom->Set_State(CTransform::STATE_POSITION, vPos);
-		m_pCameraTransform->Set_State(CTransform::STATE_POSITION, vPos2);
-
-		m_pGraphic_Device->SetTransform(D3DTS_VIEW, &m_pCameraTransform->Get_WorldMatrix_Inverse());
-		break;
-	}
-
 		/* 인터렉션 */
 	case CI_INTERACTIVE_LAVA:
 		On_Hit(5);
@@ -326,28 +336,35 @@ void CPlayer::Key_Input(_float fTimeDelta)
 	_bool bTriger{};
 
 	// 이동관련
+	_float3 vMoveDir{};
 	if (KEY_PRESSING(DIK_W))
 	{
-		m_pGravityCom->Go_Straight_On_Terrain(fTimeDelta);
+		vMoveDir += m_pGravityCom->Get_Terrain_Front_Dir();
 		bTriger = TRUE;
 	}
 	if (KEY_PRESSING(DIK_S))
 	{
-		m_pGravityCom->Go_Backward_On_Terrain(fTimeDelta);
+		vMoveDir -= m_pGravityCom->Get_Terrain_Front_Dir();
 		bTriger = TRUE;
 	}
 	if (KEY_PRESSING(DIK_A))
 	{
-		m_pGravityCom->Go_Left_On_Terrain(fTimeDelta);
+		vMoveDir -= m_pGravityCom->Get_Terrain_Right_Dir();
 		bTriger = TRUE;
 	}
 	if (KEY_PRESSING(DIK_D))
 	{
-		m_pGravityCom->Go_Right_On_Terrain(fTimeDelta);
+		vMoveDir += m_pGravityCom->Get_Terrain_Right_Dir();
 		bTriger = TRUE;
 	}
 	if (bTriger)
-		m_Weapons[m_iCurWeaponIndex]->Walk(fTimeDelta);
+	{
+		vMoveDir.Normalize();
+		m_pTransformCom->Go_Dir(vMoveDir, fTimeDelta);
+
+		if(!m_pGravityCom->isJump())
+			m_Weapons[m_iCurWeaponIndex]->Walk(fTimeDelta);
+	}
 
 	// 점프
 	if (KEY_DOWN(DIK_SPACE))
@@ -358,23 +375,57 @@ void CPlayer::Key_Input(_float fTimeDelta)
 	if (KEY_DOWN(DIK_LSHIFT)			&&
 		!m_bDash						&&
 		m_fDashTimer < -DASH_COOLTIME	&&
-		m_vPrePosition != *m_pTransformCom->Get_State(CTransform::STATE_POSITION))
+		bTriger)
 	{
+		// 이펙트 생성
 		FX_MGR->PlayerDash(m_eLevelID);
 
-		m_vDashDirection = (*m_pTransformCom->Get_State(CTransform::STATE_POSITION)
-			- m_vPrePosition).Normalize() * DASH_SPEED;
-		m_vDashDirection.y = 0.f;
+		// 대쉬 스피드 설정
+		m_pTransformCom->Set_SpeedPerSec(DASH_SPEED);
 
-		_float fTargetFov{};
-		if (0 <= m_pTransformCom->Get_State(CTransform::STATE_LOOK)->Dot(m_vDashDirection))
-			fTargetFov = RADIAN(50.f);
-		else
-			fTargetFov = RADIAN(70.f);
+		// 이동방향 판별
+		if (m_pGravityCom->isJump())
+			vMoveDir.y = 0.f;
+		vMoveDir.y = max(vMoveDir.y, 0.f);
 
-		m_pCameraManager->Zoom(fTargetFov, DASH_TIME * 0.5f);
+		m_vDashDirection = vMoveDir.Normalize();
+		
+		// FOV 관련
+		//_float fTargetFov{};
+		//if (0 <= m_pTransformCom->Get_State(CTransform::STATE_LOOK)->Dot(m_vDashDirection))
+		//	fTargetFov = RADIAN(50.f);
+		//else
+		//	fTargetFov = RADIAN(70.f);
+		//m_pCameraManager->Zoom(fTargetFov, DASH_TIME * 0.5f);
+
+		// 저스트 회피 콜라이더
+		m_pPrePosCollider->Update_Collider();
+
+		// 대쉬 초기화
 		m_bDash = TRUE;
 		m_fDashTimer = 0.f;
+	}
+
+	if (KEY_DOWN(DIK_LCONTROL) &&
+		!m_bDash && ! m_pGravityCom->isJump() &&
+		m_fDashTimer < -DASH_COOLTIME)
+	{
+		// 이펙트 생성
+		FX_MGR->PlayerDash(m_eLevelID);
+
+		// 대쉬 스피드 설정
+		//m_pTransformCom->Set_SpeedPerSec(DASH_SPEED);
+
+		// 이동방향 판별
+		m_pGravityCom->Jump(60.f);
+		//m_vDashDirection = {0.f,1.f,0.f};
+
+		// 저스트 회피 콜라이더
+		m_pPrePosCollider->Update_Collider();
+		// 대쉬 초기화
+		m_bDash = TRUE;
+		m_fDashTimer = 0.f;
+
 	}
 
 	// 무기 교체
@@ -399,20 +450,6 @@ void CPlayer::Key_Input(_float fTimeDelta)
 	if (bTriger)
 	{
 		m_Weapons[m_iCurWeaponIndex]->Set_State(CWeapon::ST_OPENING);
-	}
-
-	// 시간 테스트
-
-	static _float TestTime{ 1.f };
-	if (KEY_DOWN(DIK_COMMA))
-	{
-		TestTime -= 0.1f;
-		m_pGameInstance->Set_TimeScale(TEXT("Timer_60"), TestTime);
-	} 
-	else if (KEY_DOWN(DIK_PERIOD))
-	{
-		TestTime += 0.1f;
-		m_pGameInstance->Set_TimeScale(TEXT("Timer_60"), TestTime);
 	}
 }
 
@@ -448,24 +485,37 @@ void CPlayer::Update_Camera_Link()
 
 void CPlayer::Update_Dash(_float fTimeDelta)
 {
+	if (m_byJustDodgeFlag == 1)
+	{
+		if (m_fJustDodgeTimer > 0.5f)
+		{
+			m_pGameInstance->Set_TimeScale(TEXT("Timer_60"), 1.f);
+			m_byJustDodgeFlag = -1;
+			m_bOnHit = FALSE;
+		}
+
+		m_fJustDodgeTimer += fTimeDelta * (1.f / DODGE_TIMESCALE);
+		m_pTransformCom->Move(m_vDashDirection * 210.f * fTimeDelta); // 상숫값 : 저스트 회피시의 이동 속도
+		return;
+	}
+
+	// 대쉬 끝났는지 판단
 	m_fDashTimer += fTimeDelta;
+
 	if (m_fDashTimer > DASH_TIME)
 	{
 		m_bDash = FALSE;
-		m_pCameraManager->Zoom(RADIAN(60.f), DASH_TIME * 2.f);
+		m_byJustDodgeFlag = 0;
+		//m_pCameraManager->Zoom(RADIAN(60.f), DASH_TIME * 2.f);
+		m_pTransformCom->Set_SpeedPerSec(m_fInitSpeed);
+		return;
 	}
 
-	_float3 vPos = *m_pTransformCom->Get_State(CTransform::STATE_POSITION);
-	_float fFloorY = m_pGravityCom->Get_FloorY();
+	if (m_fDashTimer < JUST_DASH_TIME)
+		m_pGameInstance->Intersect(CG_PAWN_PRE, CG_MBULLET);
 
-	vPos += (m_vDashDirection * fTimeDelta);
-
-	if (vPos.y < fFloorY)
-		vPos.y = fFloorY;
-
-	m_pTransformCom->Set_State(CTransform::STATE_POSITION,vPos);
-
-	m_vDashDirection *= 0.85f;
+	m_pTransformCom->Go_Dir(m_vDashDirection, fTimeDelta);
+	m_pTransformCom->Mul_SpeedPerSec(powf(DASH_DECAY, fTimeDelta));
 }
 
 void CPlayer::Ladder(_float fTimeDelta)
@@ -481,18 +531,44 @@ void CPlayer::Ladder(_float fTimeDelta)
 	}
 }
 
-void CPlayer::On_Hit(_uint iDamage)
+void CPlayer::On_Hit(_int iDamage)
 {
 	if (m_bOnHit)
 		return;
 
-	iDamage -= m_tInfo.iArmor;
-	m_tInfo.iArmor -= iDamage;
-	if (m_tInfo.iArmor < 0)
-		m_tInfo.iArmor = 0;
-	m_tInfo.iHP -= iDamage;
+	if (m_bDash &&
+		m_fDashTimer < JUST_DASH_TIME)
+	{
+		On_Just_Dodge();
+		m_bOnHit = TRUE;
+		return;
+	}
 
 	m_bOnHit = TRUE;
+	m_tInfo.iArmor -= iDamage;
+	FX_MGR->SpawnHitEffect(m_eLevelID);
+
+	if (m_tInfo.iArmor <= 0)
+	{
+		// 음수니까 더해줘야겠지
+		m_tInfo.iHP += m_tInfo.iArmor;
+		m_tInfo.iArmor = 0;
+		//플레이어는 안죽는다
+	}
+}
+
+void CPlayer::On_Just_Dodge()
+{
+	// 1 = 회피중
+	// 0 = 회피중 아님
+	// -1 = 회피 끝났음(재 진입 방지)
+	if (m_byJustDodgeFlag || m_bOnHit)
+		return;
+
+	// 저스트 회피
+	m_byJustDodgeFlag = 1;
+	m_fJustDodgeTimer = 0.f;
+	m_pGameInstance->Set_TimeScale(TEXT("Timer_60"), DODGE_TIMESCALE);
 }
 
 CPlayer* CPlayer::Create(LPDIRECT3DDEVICE9 pGraphic_Device)

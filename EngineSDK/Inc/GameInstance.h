@@ -71,7 +71,7 @@ public:
 	/// <param name="ColliderGroupIDs"> 체크할 그룹을 중괄호로 넣으세요 </param>
 	/// <param name="ColliderID"> 여기다가 부딪힌 콜라이더 아이디 뱉어줄게 온콜리전은 니가불러 </param>
 	/// <returns></returns>
-	class CGameObject* Raycast(const _float3& rayOrigin, const _float3& rayDir, _float rayLength, const initializer_list<_uint>& ColliderGroupIDs, _uint& _Out_ ColliderID);
+	class CCollider* Raycast(const _float3& rayOrigin, const _float3& rayDir, _float rayLength, const initializer_list<_uint>& ColliderGroupIDs, _uint& _Out_ ColliderID);
 	// 아래로만 쏘는 레이
 	_float Raycast_Downward(const _float3& rayOrigin, _uint iColliderGroupID);
 
@@ -112,10 +112,10 @@ public:
 #pragma region SOUND_DEVICE
 	HRESULT LoadBank(const string& name);
 	void UnloadBank(const string& name);
-
 	class CSound_Event* Create_Sound_Event(const string& eventPath);
-	class CSound_Core* Create_Core_Sound(const string& path, _bool is3D = TRUE, _bool loop = FALSE, _bool stream = FALSE);
 
+	HRESULT LoadSound(const string& Path, _bool is3D, _bool loop, _bool stream, unordered_map<string, class CSound_Core*>* _Out_ pOut);
+	//class CSound_Core* Create_Core_Sound(const string& strSoundKey);
 	void Set_Listener_Position(const class CTransform* pTransform, const _float3& vel);
 	void Set_Master_Volume(_float volume);
 #pragma endregion

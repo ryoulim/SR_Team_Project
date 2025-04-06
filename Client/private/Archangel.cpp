@@ -4,6 +4,7 @@
 #include "Archangel.h"
 #include "FXMgr.h"
 #include "MonsterNormalBullet.h"
+#include "Skull.h"
 
 CArchangel::CArchangel(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CMonster{ pGraphic_Device }
@@ -116,6 +117,9 @@ void CArchangel::Late_Update(_float fTimeDelta)
 	if (m_bRotateAnimation == false)
 		m_iDegree = 0;
 	Resize_Texture(0.7f);
+
+	if (m_bSkullActive)
+		m_pSkull->Late_Update(fTimeDelta);
 }
 
 HRESULT CArchangel::Render()

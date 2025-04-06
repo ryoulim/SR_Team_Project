@@ -43,7 +43,6 @@ void CWeapon::Priority_Update(_float fTimeDelta)
 {
 	Picking_Object();
 	Mouse_Over();
-	Key_Input();
 	Action(fTimeDelta);
 }
 
@@ -113,14 +112,13 @@ void CWeapon::Action(_float fTimeDelta)
 	switch (m_eState)
 	{
 	case ST_IDLE:
-		Idle();
+	case ST_WALK:
+		Key_Input();
+		//Idle();
 		break;
 	case ST_OPENING:
 		Opening(fTimeDelta);
 		break;
-	//case ST_WALK :
-	//	Walk(fTimeDelta);
-	//	break;
 	case ST_W_ATK:
 		Weak_Attack(fTimeDelta);
 		break;
@@ -145,9 +143,9 @@ void CWeapon::Idle()
 #include "TestBullet.h"
 void CWeapon::Create_Bullet()
 {
-	if (m_pPickedObject)
+	if (m_pPickedCollider)
 	{
-		m_pPickedObject->On_Collision(m_iPickedColliderID, m_tAmmoInfo.eType);
+		m_pPickedCollider->Get_Owner()->On_Collision(m_iPickedColliderID, m_tAmmoInfo.eType);
 	}
 }
 
@@ -160,11 +158,6 @@ void CWeapon::Key_Input()
 	{
 		if (m_tAmmoInfo.iReloadedAmmo)
 		{
-			//m_pTestSound->Set3DAttributes(*m_pPlayerTransform->Get_State(CTransform::STATE_POSITION));
-			//m_pTestSound->SetVolume(0.7f);
-			//m_pTestSound->Play();
-			//m_pCoreSoundTest->Update3DPosition();
-			//m_pCoreSoundTest->Play(0.7f);
 			Set_State(CWeapon::ST_W_ATK);
 			Create_Bullet();
 			m_tAmmoInfo.iReloadedAmmo--;
@@ -210,6 +203,11 @@ HRESULT CWeapon::Ready_Components(void* pArg)
 		TEXT("Com_Shader"), reinterpret_cast<CComponent**>(&m_pShaderCom))))
 		return E_FAIL;
 
+	/* For.Com_Sound */
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Sound_LoverBoy"),
+		TEXT("Com_Sound"), reinterpret_cast<CComponent**>(&m_pSoundCom))))
+		return E_FAIL;
+
 	if (pArg != nullptr)
 	{
 		DESC* pDesc = static_cast<DESC*>(pArg);
@@ -242,30 +240,33 @@ void CWeapon::Release_RenderState()
 
 void CWeapon::Picking_Object()
 {
-	m_pPrePickedObject = m_pPickedObject;
-	m_iPrePickedColliderID = m_iPickedColliderID;
+	if (m_pPrePickedCollider != m_pPickedCollider)
+	{
+		m_pPrePickedCollider = m_pPickedCollider;
+		m_iPrePickedColliderID = m_iPickedColliderID;
+	}
+	m_iPickedColliderID = 0;
 
 	_float3 pPos = *m_pCameraTransform->Get_State(CTransform::STATE_POSITION);
 	_float3 pLook = *m_pCameraTransform->Get_State(CTransform::STATE_LOOK);
 
 	// 최적화 할 방법 있나?
-	m_pPickedObject = m_pGameInstance->Raycast(pPos, pLook.Normalize(),
-		m_fRayLength, { CG_BLOCK,CG_MONSTER,CG_MBULLET }, m_iPickedColliderID);
+	m_pPickedCollider = m_pGameInstance->Raycast(pPos, pLook.Normalize(),
+		m_fRayLength, { CG_BLOCK,CG_MONSTER,CG_MBULLET,CG_MONSTER_HEAD }, m_iPickedColliderID);
 }
 
 void CWeapon::Mouse_Over()
 {
-	if (m_pPrePickedObject == m_pPickedObject)
+	if (m_pPrePickedCollider == m_pPickedCollider)
 		return;
-	
-	if (m_iPrePickedColliderID == CI_MON_BODY)
-	{
-		static_cast<CMonster*>(m_pPrePickedObject)->Render_Skull(FALSE);
-	}
 
-	if (m_iPickedColliderID == CI_MON_BODY)
+	if (m_iPrePickedColliderID == CI_MON_HEAD)
 	{
-		static_cast<CMonster*>(m_pPickedObject)->Render_Skull(TRUE);
+		static_cast<CMonster*>(m_pPrePickedCollider->Get_Owner())->Render_Skull(FALSE);
+	}
+	if (m_iPickedColliderID == CI_MON_HEAD)
+	{
+		static_cast<CMonster*>(m_pPickedCollider->Get_Owner())->Render_Skull(TRUE);
 	}
 }
 
@@ -277,7 +278,7 @@ void CWeapon::Free()
 	Safe_Release(m_pTextureCom);
 	Safe_Release(m_pTransformCom);
 	Safe_Release(m_pShaderCom);
-	Safe_Release(m_pCoreSoundTest);
+	Safe_Release(m_pSoundCom);
 
 	Safe_Release(m_pPlayerTransform);
 	Safe_Release(m_pCameraManager);

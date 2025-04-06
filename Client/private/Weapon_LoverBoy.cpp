@@ -1,8 +1,9 @@
-﻿// 내 클래스 이름 : Weapon_LoverBoy
-// 부모 클래스 이름 : Weapon
+﻿// 부모 클래스 이름 : Weapon
 
 #include "Weapon_LoverBoy.h"
 #include "UI_Manager.h"
+#include "Monster.h"
+#include "GameObject.h"
 #include "FXMgr.h"
 
 CWeapon_LoverBoy::CWeapon_LoverBoy(LPDIRECT3DDEVICE9 pGraphic_Device)
@@ -37,9 +38,8 @@ HRESULT CWeapon_LoverBoy::Initialize(void* pArg)
 	m_tAmmoInfo.iReloadedAmmo = 6;
 	///////
 
-	//m_pTestSound = m_pGameInstance->Create_Sound_Event("event:/Test_SFX");
-	m_pCoreSoundTest = m_pGameInstance->Create_Core_Sound("../bin/Resources/Sound/Weapons/smg/smg_fire.ogg",false);
-	//m_pCoreSoundTest->Set3DState(m_pPlayerTransform, 10.f, 500.f);
+	m_pSoundCom->Set_Volume(0.7f);
+
 	return S_OK;
 }
 
@@ -51,7 +51,6 @@ void CWeapon_LoverBoy::Priority_Update(_float fTimeDelta)
 EVENT CWeapon_LoverBoy::Update(_float fTimeDelta)
 {	
 	__super::Update(fTimeDelta);
-
 	return EVN_NONE;
 }
 
@@ -102,6 +101,7 @@ void CWeapon_LoverBoy::Set_State(STATE State)
 		m_fTextureNum = 0.f;
 		break;
 	case ST_W_ATK:
+		m_pSoundCom->Play("Fire");
 		FX_MGR->SpawnGunFire(_float3{ 750.f, 450.f, 0.1f }, LEVEL_STATIC);
 		FX_MGR->SpawnBulletTracer(_float3{ 700.f, 400.f, 0.2f }, LEVEL_STATIC);
 		m_pTransformCom->Set_State(CTransform::STATE_POSITION, { 320.f,-105.f,0.1f });
@@ -123,6 +123,7 @@ void CWeapon_LoverBoy::Set_State(STATE State)
 		Search_Target();
 		break;
 	case ST_RELOAD:
+		m_pSoundCom->Play("Reload");
 		m_pTransformCom->Set_State(CTransform::STATE_POSITION, { 320.f,-105.f,0.1f });
 		m_fFrameSpeed = 25.f;
 		m_eState = ST_RELOAD;
@@ -169,8 +170,7 @@ void CWeapon_LoverBoy::Strong_Attack(_float fTimeDelta)
 				return;
 			}
 			FX_MGR->SpawnGunFire(_float3{ 750.f, 450.f, 0.1f }, LEVEL_STATIC);
-			//FX_MGR->SpawnBulletTracer(_float3{ 700.f, 400.f, 0.2f }, LEVEL_STATIC);
-			m_pCoreSoundTest->Play(0.7f);
+			m_pSoundCom->Play("Fire");
 			m_tAmmoInfo.iReloadedAmmo--;
 			m_tAmmoInfo.iCurAmmo--;
 
@@ -178,10 +178,10 @@ void CWeapon_LoverBoy::Strong_Attack(_float fTimeDelta)
 			_float3 pLook = m_CurTarget->second->Get_Pos() - pPos;
 			_uint iColliderID{};
 
-			auto pPickedObj = m_pGameInstance->Raycast(pPos, pLook.Normalize(), m_fRayLength, { CG_BLOCK,CG_MONSTER,CG_MBULLET }, iColliderID);
+			auto pPickedObj = m_pGameInstance->Raycast(pPos, pLook.Normalize(), m_fRayLength, { CG_BLOCK,CG_MONSTER,CG_MBULLET,CG_MONSTER_HEAD }, iColliderID);
 			if (pPickedObj)
 			{
-				pPickedObj->On_Collision(iColliderID, m_tAmmoInfo.eType);
+				pPickedObj->Get_Owner()->On_Collision(iColliderID, m_tAmmoInfo.eType);
 			}
 			m_CurTarget++;
 		}
@@ -198,7 +198,11 @@ void CWeapon_LoverBoy::Strong_Attack(_float fTimeDelta)
 	else
 	{
 		for (auto Pair : m_TargetMonsters)
+		{
+			static_cast<CMonster*>(Pair.second->Get_Owner())->Render_Skull(FALSE);
 			Safe_Release(Pair.second);
+			Pair.second->Get_Owner()->Release();
+		}
 		m_TargetMonsters.clear();
 		m_CurTarget = m_TargetMonsters.end();
 		Set_State(ST_RELOAD);
@@ -220,6 +224,7 @@ void CWeapon_LoverBoy::Ending(_float fTimeDelta)
 	if (m_fMotionTimer > 0.8f)
 	{
 		m_pTransformCom->Rotation_Reset();
+		m_pSoundCom->Play("Reload2");
 		Set_State(ST_OPENING);
 	}
 }
@@ -239,7 +244,7 @@ void CWeapon_LoverBoy::Opening(_float fTimeDelta)
 void CWeapon_LoverBoy::Search_Target()
 {
 	// 몬스터 그룹 나중에 헤드로 바꿔야함
-	auto MonsterList = m_pGameInstance->Get_Colliders(CG_MONSTER);
+	auto MonsterList = m_pGameInstance->Get_Colliders(CG_MONSTER_HEAD);
 	const auto& vCameraPosition = *m_pCameraTransform->Get_State(CTransform::STATE_POSITION);
 	const auto& vCameraLook = m_pCameraTransform->Get_State(CTransform::STATE_LOOK)->Normalize();
 
@@ -275,7 +280,9 @@ void CWeapon_LoverBoy::Search_Target()
 			Iter = m_TargetMonsters.erase(Iter);
 			continue;
 		}
+		static_cast<CMonster*>(Iter->second->Get_Owner())->Render_Skull(TRUE);
 		Safe_AddRef(Iter->second);
+		Iter->second->Get_Owner()->AddRef();
 		Iter++;
 		// 3개 잡았으면 이후 필요없음
 		if (++iCount > 3)

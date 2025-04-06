@@ -37,6 +37,9 @@ public:
 	void Go_Left_On_Terrain(_float fTimedelta);
 	void Go_Right_On_Terrain(_float fTimedelta);
 
+	_float3 Get_Terrain_Front_Dir();
+	_float3 Get_Terrain_Right_Dir();
+
 	void Jump(_float fJumpPower);
 	void Stop_Jump() {
 		m_bJump = FALSE;
