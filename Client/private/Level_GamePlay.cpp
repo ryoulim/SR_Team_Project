@@ -25,9 +25,6 @@ HRESULT CLevel_GamePlay::Initialize(class CLevelData* pLevelData)
 	if (FAILED(__super::Initialize(pLevelData)))
 		return E_FAIL;
 
-	//if (FAILED(m_pGameInstance->LoadBank("Test_Bank")))
-	//	return E_FAIL;
-
 	if (FAILED(Ready_Layer_Terrain(TEXT("Layer_Terrain"))))
 		return E_FAIL;
 
