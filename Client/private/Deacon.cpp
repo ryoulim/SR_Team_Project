@@ -76,26 +76,39 @@ void CDeacon::Late_Update(_float fTimeDelta)
 {
 	/* 중력 업데이트 없어서 그냥 오버라이딩 함 */
 
-	if (!m_bDead)
-	{
-		//플레이어 감지 업데이트
-		PlayerDistance();
-		CalculateVectorToPlayer();
+	PlayerDistance();
+	CalculateVectorToPlayer();
 
-		//몬스터 각도업데이트
-		Compute_ViewAngle();
-		Set_TextureType();
-	}
-	else
+	if (m_bDead) 
 	{
-		m_pGravityCom->Update(fTimeDelta);
+		m_pGravityCom->Update(fTimeDelta);	
+		_float3 vOrigSize = {};
+		m_pTextureMap[m_iState][m_iDegree]->Get_TextureSize(m_fAnimationFrame, &vOrigSize);
+		_float fComputedSizeYFromOrig = -vOrigSize.y * 0.5f + 20.f;
+		auto newY = m_vScale.y - 20.f;
+		//m_pCollider->Update_OffSet({ 0.f, -10.f, 0.f });
+		m_pCollider->Update_OffSet({ 0.f, -10.f, 0.f });
+		//m_pCollider->Update_Scale({ vOrigSize.x, 20.f, 1.f });
+		m_pCollider->Update_Scale({ vOrigSize.x * 0.5f, 3.f, 1.f });
+
+		if (m_pHeadCollider != nullptr)
+			m_pHeadCollider->Update_OffSet({ 0.f,10000.f,0.f });
 	}
-	//콜라이더 업데이트
+
 	m_pCollider->Update_Collider();
-	
-	//렌더그룹 업데이트
+	if (m_pHeadCollider != nullptr)
+		m_pHeadCollider->Update_Collider();
+
+
+
+	Compute_ViewAngle();
+	Set_TextureType();
+
 	if (FAILED(m_pGameInstance->Add_RenderGroup(CRenderer::RG_NONBLEND, this)))
 		return;
+
+	//if (m_bSkullActive)
+		//m_pSkull->Late_Update(fTimeDelta);
 
 	if (false == m_bRotateAnimation)
 		m_iDegree = 0;

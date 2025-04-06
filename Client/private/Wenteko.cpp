@@ -112,9 +112,16 @@ void CWenteko::Late_Update(_float fTimeDelta)
 		m_pAttackCollider->Update_OffSet({0.f, -10000.f, 0.f});
 		//m_pAttackCollider->Update_Collider();  // 근접 공격 시에만 콜라이더 업데이트 
 	}
-	vLook *= 16.f;
-	vLook.y += 20.8f;
-	m_pHeadCollider->Update_OffSet(vLook);
+	if (!m_bDead)
+	{
+		vLook *= 16.f;
+		vLook.y += 20.8f;
+		m_pHeadCollider->Update_OffSet(vLook);
+	}
+	else
+	{
+		m_pAttackCollider->Update_Scale({ 0.f, 0.f, 0.f });	
+	}
 
 	if (m_bRotateAnimation == false)
 		m_iDegree = 0;
