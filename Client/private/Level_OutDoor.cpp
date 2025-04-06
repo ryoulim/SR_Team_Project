@@ -76,7 +76,7 @@ HRESULT CLevel_OutDoor::Load_Map(_uint iLevelIdx, const _wstring& FileName)
 	/* 배열로 선언할까 싶기도 했는데, 레벨마다 쓸 녀석과 안 쓸 녀석이 나뉘어질 거같기때문에,, */
 	_int iNumTile{}, iNumBlock{}, iNumTriPil{}, iNumAniRect{}, iNumAniBlock{},
 		iNumInviBlock{}, iNumAlphaRect{}, iNumAlphaBlock{}, iNumWater{}, iNumLadder{},
-		iNumTelephonePole{}, iNumPhotoFrame{};
+		iNumTelephonePole{}, iNumPicture{};
 	/* 불러오기용 변수 */
 	_int iNumVertexX = {}, iNumVertexZ = {}, iLoadLength = {};
 	_uint iNumBackGround = {}, iNumModel = {};
@@ -264,9 +264,9 @@ HRESULT CLevel_OutDoor::Load_Map(_uint iLevelIdx, const _wstring& FileName)
 					}
 				}
 			}
-			else if (Prototype == TEXT("Prototype_GameObject_PhotoFrame"))
+			else if (Prototype == TEXT("Prototype_GameObject_Picture"))
 			{
-				CGameObject* pGameObject = m_pGameInstance->Find_Object(iLevelIdx, Layertag, iNumPhotoFrame++);
+				CGameObject* pGameObject = m_pGameInstance->Find_Object(iLevelIdx, Layertag, iNumPicture++);
 				if (nullptr != pGameObject)
 				{
 					if (FAILED(__super::Load_VertexBuffer(pGameObject, hFile, &dwByte)))
@@ -415,6 +415,7 @@ void CLevel_OutDoor::Check_Collision()
 	/*PBULLET*/
 	m_pGameInstance->Intersect(CG_PBULLET, CG_MONSTER);
 	m_pGameInstance->Intersect(CG_PBULLET, CG_BLOCK);
+	m_pGameInstance->Intersect(CG_PBULLET, CG_INTERACTIVE);
 
 	/*MBULLET*/
 	m_pGameInstance->Intersect(CG_MBULLET, CG_PAWN);

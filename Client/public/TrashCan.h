@@ -1,17 +1,23 @@
-// 내 클래스 이름 : Ladder
-// 부모 클래스 이름 : Map
+// 내 클래스 이름 : TrashCan
+// 부모 클래스 이름 : Interactive_Block
 
 #pragma once
 #include "Interactive_Block.h"
 
 BEGIN(Client)
 
-class CLadder final : public CInteractive_Block
+class CTrashCan final : public CInteractive_Block
 {
+public:
+	typedef struct tagTrashCanDesc : public CInteractive_Block::DESC
+	{
+
+	}DESC;
+
 private:
-	CLadder(LPDIRECT3DDEVICE9 pGraphic_Device);
-	CLadder(const CLadder& Prototype);
-	virtual ~CLadder() = default;
+	CTrashCan(LPDIRECT3DDEVICE9 pGraphic_Device);
+	CTrashCan(const CTrashCan& Prototype);
+	virtual ~CTrashCan() = default;
 
 public:
 	virtual HRESULT Initialize_Prototype() override;
@@ -21,11 +27,8 @@ public:
 	virtual void Late_Update(_float fTimeDelta) override;
 	virtual HRESULT Render() override;
 
-private:
-	virtual HRESULT Ready_Components(void* pArg) override;
-
 public:
-	static CLadder* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
+	static CTrashCan* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
 	virtual CGameObject* Clone(void* pArg) override;
 	virtual void Free();
 };

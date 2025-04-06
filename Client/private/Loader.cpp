@@ -90,7 +90,7 @@
 #include "Water.h"
 #include "Ladder.h"
 #include "TelephonePole.h"
-#include "PhotoFrame.h"
+#include "Picture.h"
 
 //전시용 플랫폼
 #include "Flatform.h"
@@ -1223,7 +1223,7 @@ HRESULT CLoader::Loading_For_Indoor()
 	ADD_PRTOBJ(AlphaBlock);
 	ADD_PRTOBJ(InvisibleBlock);
 	ADD_PRTOBJ(TriangularPillar);
-	ADD_PRTOBJ(PhotoFrame);
+	ADD_PRTOBJ(Picture);
 
 	//아이템
 	if (FAILED(m_pGameInstance->Add_Prototype(m_eNextLevelID, TEXT("Prototype_GameObject_Item_Ammo_Chaingun"),
@@ -1301,7 +1301,7 @@ HRESULT CLoader::Loading_For_Outdoor()
 	ADD_PRTOBJ(Water);
 	ADD_PRTOBJ(Ladder);
 	ADD_PRTOBJ(TelephonePole);
-	ADD_PRTOBJ(PhotoFrame);
+	ADD_PRTOBJ(Picture);
 
 	lstrcpy(m_szLoadingText, TEXT("사운드을(를) 로딩중입니다."));
 

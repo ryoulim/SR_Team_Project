@@ -13,9 +13,6 @@ protected:
 	CInteractive_Block(const CInteractive_Block& Prototype);
 	virtual ~CInteractive_Block() = default;
 
-private:
-	virtual HRESULT Ready_Components(void* pArg) override;
-
 public:
 	virtual void Free();
 };

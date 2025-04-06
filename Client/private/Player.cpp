@@ -226,6 +226,7 @@ void CPlayer::On_Collision(_uint MyColliderID, _uint OtherColliderID)
 		// 만약 E키를 눌렀다면
 		// 1. 손이 올라옴
 		// 2. 이후에 문이 열림 << 근데 이거 두 개다 오브젝트쪽에서 하면 되는거 아니냐?
+		/* 개추 ㅋㅋㅋ */
 		break;
 
 		/* 몬스터 투사체*/
