@@ -16,6 +16,7 @@ class ENGINE_DLL CSound_Core : public CBase
 private:
 	friend class CSound_Control_Group;
 	CSound_Core(FMOD::System* pCoreSystem, FMOD::Sound* pSound);
+	CSound_Core(CSound_Core& Prototype);
 	virtual ~CSound_Core() = default;
 
 public:
@@ -25,27 +26,25 @@ public:
 	void Stop();
 	void Set_Volume(_float Volume);
 	// 사운드 포지션 업데이트
-	void Update3DPosition();
+	void Update3DPosition(const _float3& vPos);
 	//트랜스폼과 소리의 감쇠곡선을 결정할 죄소,최대 거리
-	void Set3DState(class CTransform* pTransform, _float fMin, _float fMax);
+	void Set3DState(_float fMin, _float fMax);
 	_bool IsPlaying() const;
 	void SetPaused(_bool paused);
-private:
-	_float m_fVolume{ 1.f };
-	class CTransform* m_pTransform = { nullptr };
-	FMOD::System* m_pCoreSystem = { nullptr };
-	FMOD::Sound* m_pSound = { nullptr };
-	FMOD::Channel* m_pChannel = { nullptr };
-	FMOD::ChannelGroup* m_pChannelGroup = { nullptr };
-	_float3		m_vSoundPos{};
 
 private:
-	static _float3		m_vCurve[6];
-	static const _float m_fCurveRatios[6];
-	static const _float m_fCurveVolumes[6];
+	FMOD::System* m_pCoreSystem = { nullptr };
+	shared_ptr<FMOD::Sound> m_pSound = {nullptr};
+	FMOD::Channel* m_pChannel = { nullptr };
+
+	_float m_fVolume{ 1.f };
+	_float3		m_vSoundPos{};
+	_float		m_fMinDis;
+	_float		m_fMaxDis;
 
 public:
 	static CSound_Core* Create(FMOD::System* pCoreSystem, FMOD::Sound* pSound);
+	CSound_Core* Clone();
 	virtual void Free() override;
 };
 

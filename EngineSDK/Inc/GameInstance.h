@@ -114,8 +114,8 @@ public:
 	void UnloadBank(const string& name);
 	class CSound_Event* Create_Sound_Event(const string& eventPath);
 
-	HRESULT LoadSound(const string& Path, _bool is3D = false, _bool loop = false, _bool stream = false);
-	class CSound_Core* Create_Core_Sound(const string& strSoundKey);
+	HRESULT LoadSound(const string& Path, _bool is3D, _bool loop, _bool stream, unordered_map<string, class CSound_Core*>* _Out_ pOut);
+	//class CSound_Core* Create_Core_Sound(const string& strSoundKey);
 	void Set_Listener_Position(const class CTransform* pTransform, const _float3& vel);
 	void Set_Master_Volume(_float volume);
 #pragma endregion

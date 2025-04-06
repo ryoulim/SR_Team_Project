@@ -21,6 +21,7 @@
 #include <array>
 #include <queue>
 #include <thread>
+#include <memory>
 using namespace std;
 
 #include "Engine_Macro.h"

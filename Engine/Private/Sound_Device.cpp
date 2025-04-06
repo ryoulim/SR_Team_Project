@@ -80,22 +80,21 @@ void CSound_Device::Update()
 	m_pStudioSystem->update();
 }
 
-HRESULT CSound_Device::LoadSound(const string& Path, _bool is3D, _bool loop, _bool stream)
+HRESULT CSound_Device::LoadSound(const string& Path, _bool is3D, _bool loop, _bool stream, unordered_map<string, class CSound_Core*>* _Out_ pOut)
 {
 	namespace fs = std::filesystem;
 
 	if (!m_pCoreSystem)
 		return E_FAIL;
 
-	string strFullpath = m_strSoundFolderPath + Path;
-	fs::path fsPath(strFullpath);
+	fs::path fsPath(Path);
 
 	if (!fs::exists(fsPath))
 		return E_FAIL;
 
 	FMOD_MODE mode = FMOD_DEFAULT;
 
-	if (is3D) mode |= FMOD_3D_CUSTOMROLLOFF;
+	if (is3D) mode |= FMOD_3D_INVERSETAPEREDROLLOFF;
 	else      mode |= FMOD_2D;
 
 	if (loop) mode |= FMOD_LOOP_NORMAL;
@@ -103,12 +102,6 @@ HRESULT CSound_Device::LoadSound(const string& Path, _bool is3D, _bool loop, _bo
 
 	if (stream) mode |= FMOD_CREATESTREAM;
 	else        mode |= FMOD_CREATECOMPRESSEDSAMPLE;
-
-	auto makeKey = [&](const fs::path& filePath) -> string {
-	fs::path relPath = fs::relative(filePath, m_strSoundFolderPath);
-	relPath.replace_extension(); // 확장자 제거
-	return relPath.generic_string(); // '/' 일관성 유지
-		};
 
 	if (fs::is_directory(fsPath))
 	{
@@ -118,29 +111,28 @@ HRESULT CSound_Device::LoadSound(const string& Path, _bool is3D, _bool loop, _bo
 				continue;
 
 			fs::path filePath = entry.path();
-			string key = makeKey(filePath);
-
-			if (m_Sounds.count(key) > 0)
-				continue;
+			string key = filePath.stem().string();
 
 			FMOD::Sound* pSound = nullptr;
 			FMOD_RESULT result = m_pCoreSystem->createSound(filePath.string().c_str(), mode, nullptr, &pSound);
+			auto pSoundCore = CSound_Core::Create(m_pCoreSystem, pSound);
 			if (result == FMOD_OK)
-				m_Sounds[key] = pSound;
+				pOut->emplace(key,pSoundCore);
 		}
 	}
 	else if (fs::is_regular_file(fsPath))
 	{
-		string key = makeKey(fsPath);
+		string key = fsPath.stem().string();
 
-		if (m_Sounds.count(key) == 0)
+		if (pOut->count(key) == 0)
 		{
 			FMOD::Sound* pSound = nullptr;
 			FMOD_RESULT result = m_pCoreSystem->createSound(fsPath.string().c_str(), mode, nullptr, &pSound);
 			if (result != FMOD_OK)
 				return E_FAIL;
+			auto pSoundCore = CSound_Core::Create(m_pCoreSystem, pSound);
 
-			m_Sounds[key] = pSound;
+			pOut->emplace(key, pSoundCore);
 		}
 	}
 	else
@@ -179,6 +171,7 @@ void CSound_Device::UnloadBank(const string& name)
 CSound_Control_Group* CSound_Device::Create_Control_Group(const string& name)
 {
 	FMOD::ChannelGroup* pChannelGroup { nullptr };
+
 	m_pCoreSystem->createChannelGroup(name.c_str(), &pChannelGroup);
 
 	return nullptr;
@@ -197,16 +190,16 @@ CSound_Event* CSound_Device::Create_Event_Instance(const string& eventPath)
 	return CSound_Event::Create(instance);
 }
 
-CSound_Core* CSound_Device::Create_Core_Instance(const string& strSoundtag)
-{
-	// 사운드가 로딩되어 있어야지만 쓰도록
-	auto Iter = m_Sounds.find(strSoundtag);
-	if (Iter == m_Sounds.end())
-		return nullptr;
-
-	// 아잉 FMod에는 레퍼 카운터 없엉 어짜피 디바이스가 제일 마지막에 지워졍
-	return CSound_Core::Create(m_pCoreSystem, Iter->second);
-}
+//CSound_Core* CSound_Device::Create_Core_Instance(const string& strSoundtag)
+//{
+//	// 사운드가 로딩되어 있어야지만 쓰도록
+//	auto Iter = m_Sounds.find(strSoundtag);
+//	if (Iter == m_Sounds.end())
+//		return nullptr;
+//
+//	// 아잉 FMod에는 레퍼 카운터 없엉 어짜피 디바이스가 제일 마지막에 지워졍
+//	return CSound_Core::Create(m_pCoreSystem, Iter->second);
+//}
 
 void CSound_Device::Set_Listener_Position(const CTransform* pTransform, const _float3& vel)
 {

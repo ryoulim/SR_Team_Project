@@ -533,6 +533,16 @@ void CTransform::HarmonicMoveY(_float fWaveHegiht, _float fStdheight, _float fTi
 	Set_State(CTransform::STATE_POSITION, _float3(vPosX, fWaveHegiht * sinf(RADIAN(m_fSpeedPerSec * m_fHarmonicTime)) + fStdheight, vPosZ));
 }
 
+void CTransform::BossBulletLook()
+{
+	_float3 vLook = *Get_State(CTransform::STATE_LOOK);
+	_float vLookScale = vLook.Length();
+
+	_float3 vLookProjOnZ = { vLook.x, vLook.y, 0.f };
+	
+	Set_State(CTransform::STATE_LOOK, vLookProjOnZ.Normalize() * vLookScale);
+}
+
 void CTransform::Quaternion_Turn(const _float3& vAngle)
 {
 	_float3			vRight = *Get_State(STATE_RIGHT);

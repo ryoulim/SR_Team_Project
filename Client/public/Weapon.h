@@ -82,8 +82,7 @@ protected:
 	CTransform* m_pPlayerTransform{ nullptr };
 	CCameraManager* m_pCameraManager{ nullptr };
 	CTransform* m_pCameraTransform{ nullptr };
-
-	CSound_Core* m_pCoreSoundTest{ nullptr };
+	CSoundController* m_pSoundCom{ nullptr };
 
 	_uint		m_iPrePickedColliderID{};
 	_uint		m_iPickedColliderID{};

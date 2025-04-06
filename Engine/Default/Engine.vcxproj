@@ -197,6 +197,7 @@ CALL $(SolutionDir)\UpdateLib.bat</Command>
     <ClInclude Include="..\public\Prototype_Manager.h" />
     <ClInclude Include="..\public\Renderer.h" />
     <ClInclude Include="..\Public\Shader.h" />
+    <ClInclude Include="..\public\SoundController.h" />
     <ClInclude Include="..\public\Sound_Control_Group.h" />
     <ClInclude Include="..\public\Sound_Core.h" />
     <ClInclude Include="..\Public\Sound_Device.h" />
@@ -217,6 +218,7 @@ CALL $(SolutionDir)\UpdateLib.bat</Command>
     <ClInclude Include="..\Public\VIBuffer_Computer.h" />
     <ClInclude Include="..\public\VIBuffer_Cube.h" />
     <ClInclude Include="..\public\VIBuffer_CubeEx.h" />
+    <ClInclude Include="..\Public\VIBuffer_RaceBoss.h" />
     <ClInclude Include="..\Public\VIBuffer_RaceCylinder.h" />
     <ClInclude Include="..\Public\VIBuffer_RaceGate.h" />
     <ClInclude Include="..\Public\VIBuffer_RaceLandscape.h" />
@@ -258,6 +260,7 @@ CALL $(SolutionDir)\UpdateLib.bat</Command>
     <ClCompile Include="..\private\Prototype_Manager.cpp" />
     <ClCompile Include="..\private\Renderer.cpp" />
     <ClCompile Include="..\Private\Shader.cpp" />
+    <ClCompile Include="..\private\SoundController.cpp" />
     <ClCompile Include="..\private\Sound_Control_Group.cpp" />
     <ClCompile Include="..\private\Sound_Core.cpp" />
     <ClCompile Include="..\Private\Sound_Device.cpp" />
@@ -278,6 +281,7 @@ CALL $(SolutionDir)\UpdateLib.bat</Command>
     <ClCompile Include="..\Private\VIBuffer_Computer.cpp" />
     <ClCompile Include="..\private\VIBuffer_Cube.cpp" />
     <ClCompile Include="..\private\VIBuffer_CubeEx.cpp" />
+    <ClCompile Include="..\Private\VIBuffer_RaceBoss.cpp" />
     <ClCompile Include="..\Private\VIBuffer_RaceCylinder.cpp" />
     <ClCompile Include="..\Private\VIBuffer_RaceGate.cpp" />
     <ClCompile Include="..\Private\VIBuffer_RaceLandscape.cpp" />

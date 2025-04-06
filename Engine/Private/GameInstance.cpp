@@ -378,16 +378,16 @@ CSound_Event* CGameInstance::Create_Sound_Event(const string& eventPath)
 }
 
 FORCEINLINE
-HRESULT CGameInstance::LoadSound(const string& Path, _bool is3D, _bool loop, _bool stream)
+HRESULT CGameInstance::LoadSound(const string& Path, _bool is3D, _bool loop, _bool stream, unordered_map<string, class CSound_Core*>* _Out_ pOut)
 {
-	return m_pSound_Device->LoadSound(Path, is3D, loop, stream);
+	return m_pSound_Device->LoadSound(Path, is3D, loop, stream, pOut);
 }
 
-FORCEINLINE
-CSound_Core* CGameInstance::Create_Core_Sound(const string& strSoundKey)
-{
-	return m_pSound_Device->Create_Core_Instance(strSoundKey);
-}
+//FORCEINLINE
+//CSound_Core* CGameInstance::Create_Core_Sound(const string& strSoundKey)
+//{
+//	return m_pSound_Device->Create_Core_Instance(strSoundKey);
+//}
 
 FORCEINLINE
 void CGameInstance::Set_Listener_Position(const CTransform* pTransform, const _float3& vel)

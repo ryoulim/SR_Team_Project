@@ -1,5 +1,4 @@
 #include "RaceBoss.h"
-#include "RaceBossBullet.h"
 
 CRaceBoss::CRaceBoss(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CGameObject { pGraphic_Device }
@@ -22,11 +21,12 @@ HRESULT CRaceBoss::Initialize(void* pArg)
 
 	Ready_Components(pArg);
 
-	m_vScale = _float3(200.f, 200.f, 200.f);
+	m_vScale = _float3(100.f, 100.f, 100.f);
 	m_iHp = 100;
 
-	m_pTransformCom->Set_State(CTransform::STATE_POSITION, _float3(450.f, 250.f, 300.f));
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION, _float3(450.f, 250.f, 1000.f));
 	m_pTransformCom->Scaling(m_vScale);
+	m_eState = SHOTREADY;
 
 	return S_OK;
 }
@@ -43,14 +43,7 @@ EVENT CRaceBoss::Update(_float fTimeDelta)
 
 	m_pTransformCom->Go_Straight(fTimeDelta);
 
-	m_fTime += fTimeDelta;
-
-	if (m_fTime > 2.f)
-	{
-		Attack();
-		m_fTime = 0.f;
-	}
-	
+	Action(fTimeDelta);
 
 	return EVN_NONE;
 }
@@ -68,10 +61,10 @@ HRESULT CRaceBoss::Render()
 	if (FAILED(m_pTransformCom->Bind_Resource()))
 		return E_FAIL;
 
-	if (FAILED(m_pTextureCom->Bind_Resource(static_cast<_uint>(m_fTextureNum))))
+	if (FAILED(m_pVIBufferCom->Bind_Buffers()))
 		return E_FAIL;
 
-	if (FAILED(m_pVIBufferCom->Bind_Buffers()))
+	if (FAILED(m_pTextureCom->Bind_Resource(static_cast<_uint>(m_fTextureNum))))
 		return E_FAIL;
 
 	if (FAILED(m_pVIBufferCom->Render()))
@@ -88,7 +81,7 @@ HRESULT CRaceBoss::Ready_Components(void* pArg)
 		return E_FAIL;
 
 	/* For.Com_VIBuffer */
-	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_VIBuffer_Cube"),
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_VIBuffer_RaceBoss"),
 		TEXT("Com_VIBuffer"), reinterpret_cast<CComponent**>(&m_pVIBufferCom))))
 		return E_FAIL;
 
@@ -112,22 +105,93 @@ HRESULT CRaceBoss::Ready_Components(void* pArg)
 	return S_OK;
 }
 
-void CRaceBoss::Attack()
+void CRaceBoss::Action(_float fTimeDelta)
+{
+	switch (m_eState)
+	{
+	case ENTRANCE:
+		//왼쪽 상단에서 등장해서 화면 중간으로 이동
+		break;
+
+	case IDLE:
+		//Go_Straight();
+		break;
+
+	case SHOTREADY:
+		m_fTime += fTimeDelta;
+		if (m_fTime > 1.f)
+		{
+			m_eState = SHOTHEADBULLET; //일정 주기마다 한 번씩 발사
+			m_fTime = 0.f;
+		}
+		break;
+
+	case SHOTHEADBULLET:
+		m_fTime += fTimeDelta;
+		if (m_fTime > 0.02f)
+		{
+			Fire_Bullet(CRaceBossBullet::HEAD);
+			m_eState = SHOTTAILBULLET;
+			m_fTime = 0.f;
+		}
+		break;
+
+	case SHOTTAILBULLET:
+		m_fTime += fTimeDelta;
+		if (m_fTime > 0.02f)
+		{
+			Fire_Bullet(CRaceBossBullet::TAIL);
+			++m_iBulletCount;
+			m_fTime = 0.f;
+		}
+
+		if (m_iBulletCount > 3)
+		{
+			m_eState = SHOTREADY;
+			m_iBulletCount = 0;
+		}
+		break;
+
+	case LEAVE:
+		//z축 이동을 멈추고 수직 위로 상승해서 시야에서 사라짐
+		break;
+
+	default:
+		break;
+	}
+}
+
+HRESULT CRaceBoss::Fire_Bullet(CRaceBossBullet::RBULLETTYPE eType)
 {
 	auto pPlayer = GET_PLAYER;
 
 	CRaceBossBullet::DESC RaceBossBulletdesc{};
 	RaceBossBulletdesc.bAnimation = false;
 	RaceBossBulletdesc.iColliderID = CI_BOSS_GUIDBULLET;
-	RaceBossBulletdesc.fSpeedPerSec = 400.f;
+	RaceBossBulletdesc.fSpeedPerSec = 300.f;
 	RaceBossBulletdesc.fRotationPerSec = RADIAN(180.f);
 	RaceBossBulletdesc.vScale = { 20.f, 20.f, 20.f };
 	RaceBossBulletdesc.vPosition = *m_pTransformCom->Get_State(CTransform::STATE_POSITION);
-	RaceBossBulletdesc.vLook = *GET_PLAYER_TRANSFORM->Get_State(CTransform::STATE_POSITION);
 
+	if (eType == CRaceBossBullet::HEAD)
+	{
+		//HEAD 총알은 플레이어를 향함
+		RaceBossBulletdesc.vLook = *GET_PLAYER_TRANSFORM->Get_State(CTransform::STATE_POSITION)
+			+ _float3(0.f, 0.f, 650.f);
+		m_vBulletDiretion = RaceBossBulletdesc.vLook;
+	}
+
+	if (eType == CRaceBossBullet::TAIL)
+	{
+		//TAIL 총알은 HEAD 총알을 향함
+		RaceBossBulletdesc.vLook = m_vBulletDiretion;
+	}
+	
 	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_RaceBossBullet"),
 		m_eLevelID, L"Layer_RaceBossBullet", &RaceBossBulletdesc)))
-		return;
+		return E_FAIL;
+
+	return S_OK;
 }
 
 CRaceBoss* CRaceBoss::Create(LPDIRECT3DDEVICE9 pGraphic_Device)

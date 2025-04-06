@@ -39,8 +39,6 @@ HRESULT CWeapon_LoverBoy::Initialize(void* pArg)
 	m_tAmmoInfo.iReloadedAmmo = 6;
 	///////
 
-	m_pCoreSoundTest = m_pGameInstance->Create_Core_Sound("Weapons/smg/smg_fire");
-	m_pCoreSoundTest->Set_Volume(0.5f);
 	return S_OK;
 }
 

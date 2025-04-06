@@ -249,6 +249,7 @@ HRESULT CLoader::Loding_For_Static()
 	ADD_MODEL(BuildingU);
 	ADD_MODEL(RaceGate);
 	ADD_MODEL(RaceCylinder);
+	ADD_MODEL(RaceBoss);
 	//ADD_MODEL(Circle);
 
 	// 기능 컴포넌트
@@ -651,8 +652,7 @@ HRESULT CLoader::Loding_For_Static()
 
 #pragma region 사운드
 
-	if (FAILED(m_pGameInstance->LoadSound("Weapons")))
-		return E_FAIL;
+	ADD_SOUND(LoverBoy, "../Bin/Resources/Sounds/Weapons/smg/");
 #pragma endregion
 
 
@@ -922,6 +922,7 @@ HRESULT CLoader::Loading_For_RaceFirst()/**/
 	lstrcpy(m_szLoadingText, TEXT("모델을(를) 로딩중입니다."));
 	ADD_MODEL_EX(RaceTerrain, 10, 1500);
 	ADD_MODEL(Rect);
+	
 
 	lstrcpy(m_szLoadingText, TEXT("사운드을(를) 로딩중입니다."));
 

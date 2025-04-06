@@ -46,7 +46,7 @@ HRESULT CPlayerOnBoat::Initialize(void* pArg)
 
 void CPlayerOnBoat::Priority_Update(_float fTimeDelta)
 {
-	Key_Input(fTimeDelta);
+	//Key_Input(fTimeDelta);
 
 	Update_Camera_Link();
 
@@ -125,6 +125,18 @@ void CPlayerOnBoat::On_Collision(_uint MyColliderID, _uint OtherColliderID)
 }
 
 void CPlayerOnBoat::Key_Input(_float fTimeDelta)
+{
+	if (KEY_PRESSING(DIK_A))
+	{
+		m_pTransformCom->Go_LeftOnRace(fTimeDelta);
+	}
+	if (KEY_PRESSING(DIK_D))
+	{
+		m_pTransformCom->Go_RightOnRace(fTimeDelta);
+	}
+}
+
+void CPlayerOnBoat::Key_Input2(_float fTimeDelta)
 {
 	if (KEY_PRESSING(DIK_W))
 	{

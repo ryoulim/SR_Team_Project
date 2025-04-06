@@ -97,6 +97,7 @@ public:
 	void Move(const _float3& vDirectionVector);
 	void Move(const _float3& vDirectionVector, _float fTimeDelta);
 	void HarmonicMoveY(_float fWaveHegiht, _float fStdheight, _float fTimeDelta);
+	void BossBulletLook();
 
 	void Quaternion_Turn(const _float3& vAngle);
 	void Quaternion_Rotation(const _float3& vAngle);
