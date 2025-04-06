@@ -324,6 +324,12 @@ HRESULT CWeapon_LoverBoy::Ready_Components(void* pArg)
 		TEXT("Com_Left_Transform"), reinterpret_cast<CComponent**>(&m_LeftHand.pTransformCom),&Desc)))
 		return E_FAIL;
 
+
+	/* For.Com_Sound */
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Sound_LoverBoy"),
+		TEXT("Com_Sound"), reinterpret_cast<CComponent**>(&m_pSoundCom))))
+		return E_FAIL;
+
 	_float3 VScale{};
 	m_LeftHand.pTextureCom->Get_TextureSize(0, &VScale);
 	m_LeftHand.pTransformCom->Scaling(VScale*1.5f);

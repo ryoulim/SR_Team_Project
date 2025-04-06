@@ -203,11 +203,6 @@ HRESULT CWeapon::Ready_Components(void* pArg)
 		TEXT("Com_Shader"), reinterpret_cast<CComponent**>(&m_pShaderCom))))
 		return E_FAIL;
 
-	/* For.Com_Sound */
-	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Sound_LoverBoy"),
-		TEXT("Com_Sound"), reinterpret_cast<CComponent**>(&m_pSoundCom))))
-		return E_FAIL;
-
 	if (pArg != nullptr)
 	{
 		DESC* pDesc = static_cast<DESC*>(pArg);
