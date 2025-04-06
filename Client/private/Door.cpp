@@ -50,6 +50,18 @@ HRESULT CDoor::Render()
 	return __super::Render();
 }
 
+void CDoor::On_Collision(_uint MyColliderID, _uint OtherColliderID)
+{
+	/* 똑똑 열려라 참깨 */
+}
+
+HRESULT CDoor::Ready_Components(void* pArg)
+{
+	__super::Ready_Components(pArg);
+
+	return S_OK;
+}
+
 CDoor* CDoor::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 {
 	CDoor* pInstance = new CDoor(pGraphic_Device);
