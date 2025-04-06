@@ -829,7 +829,7 @@ void CFXMgr::SpawnHitEffect(LEVEL eLevel)
 {
 	/* [ 히트 스크린 스프라이트 ] */
 	CScreenSprite::DESC ScreenHitDesc{};
-	ScreenHitDesc.fMaxFrame = 30.f;
+	ScreenHitDesc.fMaxFrame = 25.f;
 	ScreenHitDesc.fAniSpeed = 10.f;
 	ScreenHitDesc.fRotationPerSec = RADIAN(180.f);
 	ScreenHitDesc.fSpeedPerSec = 100.f;
