@@ -2,6 +2,7 @@
 #include "Client_Defines.h"
 #include "GameInstance.h"
 
+
 CDynamic_Camera::CDynamic_Camera(LPDIRECT3DDEVICE9 pGraphicDevice)
     :CCamera{ pGraphicDevice }
 {

@@ -29,6 +29,7 @@ HRESULT CSprite::Initialize(void* pArg)
 	m_szTextureID = SpriteDESC->szTextureTag;
 	m_bLoop = SpriteDESC->bLoop;
 	m_szBufferType = TEXT("Rect");
+	m_fAnimationFrame = SpriteDESC->fStartFrame;
 
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;

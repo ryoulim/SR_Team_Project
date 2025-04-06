@@ -37,6 +37,8 @@ public: //폭발
 
 public: //비
 	void SpawnRain(LEVEL eLevel);
+	void SpawnThunder(_float3 _vPosition, LEVEL eLevel);
+	void SpawnMultipleThunder(_float fTimeDelta, LEVEL eLevel);
 
 public: //용암
 	void SpawnRava(_float3 _vPosition, LEVEL eLevel);
@@ -78,10 +80,9 @@ public: //보스스킬
 public: //플레이어대쉬
 	void PlayerDash(LEVEL eLevel);
 
-
-public: //중복방지를 위한 함수들
-	void SetbHit(_bool Hit) { m_IsHit = Hit; }
-	bool GetbHit() { return m_IsHit; }
+public: //번개위치
+	_float3 GetThunderPos() { return m_vThunderPos; }
+	void SetThunderPos(_float3 _vPosition) { m_vThunderPos = _vPosition; }
 
 private:
 	class CGameInstance* m_pGameInstance;
@@ -90,8 +91,9 @@ public:
 	static CFXMgr* Create();
 	virtual void Free() override;
 
-private:
-	_bool m_IsHit = false;
+private: /* 번개의 위치를 들고 있자 */
+	_float3 m_vThunderPos = { 0.f, 0.f, 0.f };
+
 };
 
 END

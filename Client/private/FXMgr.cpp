@@ -372,12 +372,9 @@ void CFXMgr::SpawnRava(_float3 _vPosition, LEVEL eLevel)
 		else if (iRandom == 0)
 			SpriteDesc.szTextureTag = TEXT("Lava");
 
-		if (FAILED(m_pGameInstance->Add_GameObject(
-			LEVEL_STATIC, TEXT("Prototype_GameObject_PC_Sprite"),
+		if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_PC_Sprite"),
 			eLevel, L"Layer_Effect", &SpriteDesc)))
-		{
 			return;
-		}
 	}
 }
 void CFXMgr::SpawnGunFire(_float3 _ScreenPos, LEVEL eLevel)
@@ -963,6 +960,45 @@ void CFXMgr::SpawnRain(LEVEL eLevel)
 	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_PC_Rain"),
 		eLevel, L"Layer_Particle", &RainDesc)))
 		return;
+}
+
+void CFXMgr::SpawnThunder(_float3 _vPosition, LEVEL eLevel)
+{
+	CSprite::DESC SpriteDesc{};
+	SpriteDesc.bLoop = false;
+	SpriteDesc.fStartFrame = GetRandomFloat(0.f, 9.f);
+	SpriteDesc.fMaxFrame = SpriteDesc.fStartFrame + 2.f;
+	SpriteDesc.fRotationPerSec = RADIAN(180.f);
+	SpriteDesc.fSpeedPerSec = 100.f;
+	SpriteDesc.vInitPos = _vPosition;
+	SpriteDesc.vScale = _float3{ 64.f, 128.f, 1.f };
+	SpriteDesc.vScale *= GetRandomFloat(3.5f, 4.5f);
+	SpriteDesc.szTextureTag = TEXT("Thunderbolt");
+
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_PC_Sprite"),
+		eLevel, L"Layer_Effect", &SpriteDesc)))
+		return;
+}
+
+void CFXMgr::SpawnMultipleThunder(_float fTimeDelta, LEVEL eLevel)
+{
+	static float fTimer = 0.0f;
+	const float fInterval = 0.4f; //반복주기
+
+	fTimer += fTimeDelta;
+	if (fTimer >= fInterval)
+	{
+		_float fRandomX = m_pGameInstance->RandomFloat(101.0f, 1684.0f);
+		_float fRandomY = m_pGameInstance->RandomFloat(1000.f, 1050.f);
+		_float fRandomZ = m_pGameInstance->RandomFloat(95.0f, 949.0f);
+
+		m_vThunderPos = { fRandomX, fRandomY, fRandomZ };
+
+		_float3 vPosition = { fRandomX, fRandomY, fRandomZ };
+		SpawnThunder(vPosition, eLevel);
+
+		fTimer = 0.0f;
+	}
 }
 
 
