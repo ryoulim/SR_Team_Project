@@ -451,6 +451,9 @@
     <Filter Include="02.GameObjects\UI\GamePlayUI\Skull">
       <UniqueIdentifier>{93e514f1-d12a-4783-a9b6-3d0acb9d64c8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\Map\PhotoFrame">
+      <UniqueIdentifier>{98d3ffe9-24cd-4dfe-8595-c8bfedaf92a9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -898,6 +901,15 @@
     <ClInclude Include="..\public\CutScene_Camera.h">
       <Filter>02.GameObjects\Camera\CutSceneCamera</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\Skull.h">
+      <Filter>02.GameObjects\UI\GamePlayUI\Skull</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\TelephonePole.h">
+      <Filter>02.GameObjects\Map\AlphaRect\TelephonePole</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\PhotoFrame.h">
+      <Filter>02.GameObjects\Map\PhotoFrame</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -1341,6 +1353,9 @@
     </ClCompile>
     <ClCompile Include="..\private\TelephonePole.cpp">
       <Filter>02.GameObjects\Map\AlphaRect\TelephonePole</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\PhotoFrame.cpp">
+      <Filter>02.GameObjects\Map\PhotoFrame</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

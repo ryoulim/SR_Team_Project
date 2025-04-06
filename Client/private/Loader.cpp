@@ -90,6 +90,7 @@
 #include "Water.h"
 #include "Ladder.h"
 #include "TelephonePole.h"
+#include "PhotoFrame.h"
 
 //전시용 플랫폼
 #include "Flatform.h"
@@ -114,7 +115,7 @@
 #include "Trigger.h"
 
 /* 맵툴에서 넘어오는 텍스쳐 갯수, 건들지 말아주세요 감사합니다 */
-#define NUMMAPTEX 166
+#define NUMMAPTEX 185
 
 
 CLoader::CLoader(LPDIRECT3DDEVICE9 pGraphic_Device)
@@ -1222,6 +1223,7 @@ HRESULT CLoader::Loading_For_Indoor()
 	ADD_PRTOBJ(AlphaBlock);
 	ADD_PRTOBJ(InvisibleBlock);
 	ADD_PRTOBJ(TriangularPillar);
+	ADD_PRTOBJ(PhotoFrame);
 
 	//아이템
 	if (FAILED(m_pGameInstance->Add_Prototype(m_eNextLevelID, TEXT("Prototype_GameObject_Item_Ammo_Chaingun"),
@@ -1299,6 +1301,7 @@ HRESULT CLoader::Loading_For_Outdoor()
 	ADD_PRTOBJ(Water);
 	ADD_PRTOBJ(Ladder);
 	ADD_PRTOBJ(TelephonePole);
+	ADD_PRTOBJ(PhotoFrame);
 
 	lstrcpy(m_szLoadingText, TEXT("사운드을(를) 로딩중입니다."));
 

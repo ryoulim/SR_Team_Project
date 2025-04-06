@@ -253,6 +253,7 @@
     <ClInclude Include="..\public\PBState_Decel.h" />
     <ClInclude Include="..\public\PBState_Lerp.h" />
     <ClInclude Include="..\public\PBState_Normal.h" />
+    <ClInclude Include="..\public\PhotoFrame.h" />
     <ClInclude Include="..\public\Picture.h" />
     <ClInclude Include="..\public\Player.h" />
     <ClInclude Include="..\public\PlayerOnBoat.h" />
@@ -404,6 +405,7 @@
     <ClCompile Include="..\private\PBState_Decel.cpp" />
     <ClCompile Include="..\private\PBState_Lerp.cpp" />
     <ClCompile Include="..\private\PBState_Normal.cpp" />
+    <ClCompile Include="..\private\PhotoFrame.cpp" />
     <ClCompile Include="..\private\Picture.cpp" />
     <ClCompile Include="..\private\Player.cpp" />
     <ClCompile Include="..\private\PlayerOnBoat.cpp" />
