@@ -14,6 +14,7 @@ typedef struct tagEngineDesc
 	unsigned int			iNumLevels;		
 	unsigned int			INumColliderGroups;
 	string					strBankFilePath;
+	string					strSoundFolderPath;
 }ENGINE_DESC;
 
 /*D3DDECLUSAGE*/

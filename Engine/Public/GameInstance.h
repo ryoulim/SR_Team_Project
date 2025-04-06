@@ -112,10 +112,10 @@ public:
 #pragma region SOUND_DEVICE
 	HRESULT LoadBank(const string& name);
 	void UnloadBank(const string& name);
-
 	class CSound_Event* Create_Sound_Event(const string& eventPath);
-	class CSound_Core* Create_Core_Sound(const string& path, _bool is3D = TRUE, _bool loop = FALSE, _bool stream = FALSE);
 
+	HRESULT LoadSound(const string& Path, _bool is3D = false, _bool loop = false, _bool stream = false);
+	class CSound_Core* Create_Core_Sound(const string& strSoundKey);
 	void Set_Listener_Position(const class CTransform* pTransform, const _float3& vel);
 	void Set_Master_Volume(_float volume);
 #pragma endregion

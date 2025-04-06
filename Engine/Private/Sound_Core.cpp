@@ -13,7 +13,7 @@ CSound_Core::CSound_Core(FMOD::System* pCoreSystem, FMOD::Sound* pSound)
 {
 }
 
-void CSound_Core::Play(_float Volume)
+void CSound_Core::Play()
 {
     if (m_pCoreSystem->playSound(m_pSound, m_pChannelGroup, true, &m_pChannel))
     {
@@ -24,7 +24,7 @@ void CSound_Core::Play(_float Volume)
     m_pChannel->set3DCustomRolloff(reinterpret_cast<FMOD_VECTOR*>(m_vCurve),
         sizeof(m_vCurve) / sizeof(FMOD_VECTOR));
 
-    m_pChannel->setVolume(Volume);
+    m_pChannel->setVolume(m_fVolume);
     m_pChannel->set3DAttributes(reinterpret_cast<FMOD_VECTOR*>(&m_vSoundPos), {});
 
     SetPaused(false);
@@ -41,6 +41,7 @@ void CSound_Core::Stop()
 
 void CSound_Core::Set_Volume(_float Volume)
 {
+    m_fVolume = Volume;
     if (m_pChannel)
         m_pChannel->setVolume(Volume);
 }

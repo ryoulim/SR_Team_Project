@@ -17,13 +17,12 @@ HRESULT CcsvReader::Readcsv(const _wstring& strcsvPath, CLevelData* pDatas)
 {
 	wifstream fin;
 
-#pragma push_macro("new")
-#undef new
-
-	fin.imbue(locale(locale::empty(), new codecvt_utf8<wchar_t>));
-
-#pragma pop_macro("new")
-
+//#pragma push_macro("new")
+//#undef new
+//
+//	fin.imbue(locale(locale::empty(), new codecvt_utf8<wchar_t>));
+//
+//#pragma pop_macro("new")
 
 	fin.open(strcsvPath, ios::in);
 

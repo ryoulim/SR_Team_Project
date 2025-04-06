@@ -646,6 +646,13 @@ HRESULT CLoader::Loding_For_Static()
 
 #pragma endregion
 
+#pragma region 사운드
+
+	if (FAILED(m_pGameInstance->LoadSound("Weapons")))
+		return E_FAIL;
+#pragma endregion
+
+
 	m_eNextLevelID = Tmp;
 	return S_OK;
 }

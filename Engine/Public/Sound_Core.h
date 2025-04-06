@@ -21,7 +21,7 @@ private:
 public:
 	// 주의점 - 이 클래스는 마지막으로 재생된 채널만 저장하고 있습니다.
 	// 즉 여러번 호출시에는 마지막 재생했던 사운드를 제외하고는 제어가 불가능합니다.
-	void Play(_float Volume);
+	void Play();
 	void Stop();
 	void Set_Volume(_float Volume);
 	// 사운드 포지션 업데이트
@@ -31,6 +31,7 @@ public:
 	_bool IsPlaying() const;
 	void SetPaused(_bool paused);
 private:
+	_float m_fVolume{ 1.f };
 	class CTransform* m_pTransform = { nullptr };
 	FMOD::System* m_pCoreSystem = { nullptr };
 	FMOD::Sound* m_pSound = { nullptr };

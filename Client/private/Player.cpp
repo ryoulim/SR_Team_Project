@@ -179,6 +179,9 @@ void CPlayer::On_Collision(_uint MyColliderID, _uint OtherColliderID)
 
 	case CI_ITEM_HEALKIT:
 		m_tInfo.iHP += 10;
+		if (m_tInfo.iHP > 100)
+			m_tInfo.iHP = 100;
+		FX_MGR->SpawnHealEffect(m_eLevelID);
 		break;
 
 	case CI_ITEM_ARMOR_PIECE:

@@ -50,7 +50,6 @@ void CWeapon_Chaingun::Priority_Update(_float fTimeDelta)
 
 EVENT CWeapon_Chaingun::Update(_float fTimeDelta)
 {
-	Update_Frame(fTimeDelta);
 	return __super::Update(fTimeDelta);
 }
 
@@ -152,7 +151,7 @@ void CWeapon_Chaingun::Set_State(STATE State)
 		m_fTextureNum = 8.f;
 		m_fStartFrmae = 8.f;
 		m_fEndFrame = 14.f;
-		m_fFrameSpeed = 40.f;
+		m_fFrameSpeed = 80.f;
 		m_iBodynum = 0;
 		m_fLastActionTime = 0.f;
 		break;
@@ -231,28 +230,11 @@ void CWeapon_Chaingun::Weak_Attack(_float fTimeDelta)
 #define AMPSPEED 60.f
 #define BULLETINTER 0.1f
 
-	// รั น฿ป็
 	Update_Frame(fTimeDelta);
-
-	//if (m_fMotionTimer < 1.f)
-	//{
-	//	_float3 vSize{};
-	//	m_pTextureCom->Get_TextureSize(1, &vSize);
-	//	m_pTransformCom->Scaling(vSize * 1.25f);
-	//	m_iBodynum = 0;
-	//	m_eState = ST_S_ATK;
-	//	m_fTextureNum = 1.f;
-	//	m_fStartFrmae = 1.f;
-	//	m_fEndFrame = 7.f;
-	//	m_fFrameSpeed = 20.f;
-	//	return;
-	//}
 
 	if (m_fMotionTimer - m_fLastActionTime >= BULLETINTER)
 	{
 		m_fLastActionTime = m_fMotionTimer;
-		//FX_MGR->SpawnFireMachineGun(_float3{ 750.f, 450.f, 0.1f }, LEVEL_GAMEPLAY);
-		//FX_MGR->SpawnGunFireMachineGun(_float3{ 750.f, 450.f, 0.2f }, LEVEL_GAMEPLAY);
 		m_tAmmoInfo.iCurAmmo--;
 		FX_MGR->SpawnEmptyBullet(_float3(0.f, 0.f, 0.f), LEVEL_GAMEPLAY);
 		FX_MGR->SpawnBulletTracerMachineGun(_float3{ 700.f, 400.f, 0.99999f }, LEVEL_GAMEPLAY);
@@ -279,25 +261,12 @@ void CWeapon_Chaingun::Strong_Attack(_float fTimeDelta)
 
 	_float curve = t * t * (3 - 2 * t);
 
-	m_fFrameSpeed = LERP(5, 20, curve);
+	m_fFrameSpeed = LERP(5, 60, curve);
 	Update_Frame(fTimeDelta); 
 
-
 	if (m_fMotionTimer > 1.f && MOUSE_PRESSING(DIMK_LBUTTON))
-	{
-		_float3 vSize{};
-		m_pTextureCom->Get_TextureSize(8, &vSize);
-		m_pTransformCom->Scaling(vSize * 1.25f);
-		m_eState = ST_W_ATK;
-		m_fTextureNum = 8.f;
-		m_fStartFrmae = 8.f;
-		m_fEndFrame = 14.f;
-		m_fFrameSpeed = 40.f;
-		return;
-	}
-	
-	
-	if (MOUSE_UP(DIMK_LBUTTON))
+		Set_State(ST_W_ATK);
+	else if (MOUSE_UP(DIMK_LBUTTON))
 		Set_State(ST_RELEASE);
 }
 
@@ -307,7 +276,7 @@ void CWeapon_Chaingun::Reload(_float fTimeDelta)
 
 	_float curve = (1.f - t) * (1.f - t);
 
-	m_fFrameSpeed = LERP(5, 20, curve);
+	m_fFrameSpeed = LERP(5, 60, curve);
 
 	Update_Frame(fTimeDelta);
 	
