@@ -207,6 +207,7 @@
     <ClInclude Include="..\public\Effect.h" />
     <ClInclude Include="..\public\FadeUI.h" />
     <ClInclude Include="..\public\FireAttack.h" />
+    <ClInclude Include="..\public\FirePlug.h" />
     <ClInclude Include="..\public\Firework.h" />
     <ClInclude Include="..\public\Flatform.h" />
     <ClInclude Include="..\public\FlyEffect.h" />
@@ -219,8 +220,10 @@
     <ClInclude Include="..\public\Forest.h" />
     <ClInclude Include="..\public\FPS_Camera.h" />
     <ClInclude Include="..\public\FXMgr.h" />
+    <ClInclude Include="..\public\GarbageBag.h" />
     <ClInclude Include="..\public\Greater.h" />
     <ClInclude Include="..\public\HitBox.h" />
+    <ClInclude Include="..\public\HydroPump.h" />
     <ClInclude Include="..\public\Interactive_Block.h" />
     <ClInclude Include="..\public\InvisibleBlock.h" />
     <ClInclude Include="..\public\GrenadeBullet.h" />
@@ -254,7 +257,6 @@
     <ClInclude Include="..\public\PBState_Decel.h" />
     <ClInclude Include="..\public\PBState_Lerp.h" />
     <ClInclude Include="..\public\PBState_Normal.h" />
-    <ClInclude Include="..\public\PhotoFrame.h" />
     <ClInclude Include="..\public\Picture.h" />
     <ClInclude Include="..\public\Player.h" />
     <ClInclude Include="..\public\PlayerOnBoat.h" />
@@ -294,6 +296,7 @@
     <ClInclude Include="..\public\Tornado.h" />
     <ClInclude Include="..\public\TestBullet.h" />
     <ClInclude Include="..\public\TPS_Camera.h" />
+    <ClInclude Include="..\public\TrashCan.h" />
     <ClInclude Include="..\public\TriangularPillar.h" />
     <ClInclude Include="..\public\Trigger.h" />
     <ClInclude Include="..\public\Ttakkeun_i.h" />
@@ -360,6 +363,7 @@
     <ClCompile Include="..\private\Effect.cpp" />
     <ClCompile Include="..\private\FadeUI.cpp" />
     <ClCompile Include="..\private\FireAttack.cpp" />
+    <ClCompile Include="..\private\FirePlug.cpp" />
     <ClCompile Include="..\private\Firework.cpp" />
     <ClCompile Include="..\private\Flatform.cpp" />
     <ClCompile Include="..\private\FlyEffect.cpp" />
@@ -372,9 +376,11 @@
     <ClCompile Include="..\private\Forest.cpp" />
     <ClCompile Include="..\private\FPS_Camera.cpp" />
     <ClCompile Include="..\private\FXMgr.cpp" />
+    <ClCompile Include="..\private\GarbageBag.cpp" />
     <ClCompile Include="..\private\Greater.cpp" />
     <ClCompile Include="..\private\GrenadeBullet.cpp" />
     <ClCompile Include="..\private\HitBox.cpp" />
+    <ClCompile Include="..\private\HydroPump.cpp" />
     <ClCompile Include="..\private\Interactive_Block.cpp" />
     <ClCompile Include="..\private\InvisibleBlock.cpp" />
     <ClCompile Include="..\private\Item.cpp" />
@@ -407,7 +413,6 @@
     <ClCompile Include="..\private\PBState_Decel.cpp" />
     <ClCompile Include="..\private\PBState_Lerp.cpp" />
     <ClCompile Include="..\private\PBState_Normal.cpp" />
-    <ClCompile Include="..\private\PhotoFrame.cpp" />
     <ClCompile Include="..\private\Picture.cpp" />
     <ClCompile Include="..\private\Player.cpp" />
     <ClCompile Include="..\private\PlayerOnBoat.cpp" />
@@ -444,6 +449,7 @@
     <ClCompile Include="..\private\Tornado.cpp" />
     <ClCompile Include="..\private\TestBullet.cpp" />
     <ClCompile Include="..\private\TPS_Camera.cpp" />
+    <ClCompile Include="..\private\TrashCan.cpp" />
     <ClCompile Include="..\private\TriangularPillar.cpp" />
     <ClCompile Include="..\private\Trigger.cpp" />
     <ClCompile Include="..\private\Ttakkeun_i.cpp" />

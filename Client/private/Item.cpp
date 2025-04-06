@@ -26,6 +26,10 @@ HRESULT CItem::Initialize(void* pArg)
 	if (FAILED(Ready_Components(pArg)))
 		return E_FAIL;
 
+	DESC* Desc = static_cast<DESC*>(pArg);
+
+	m_fStdHeight = Desc->vInitPos.y - (Desc->vScale.y * 0.5f);
+
 	return S_OK;
 }
 
@@ -40,7 +44,7 @@ EVENT CItem::Update(_float fTimeDelta)
 
 	//ÇÔ¼ö µþ±ï
 	//HarmonicMoveY(_float fWaveHegiht, _float fStdheight, _float fTimeDelta);
-	m_pTransformCom->HarmonicMoveY(2.f, 30.f, fTimeDelta);
+	m_pTransformCom->HarmonicMoveY(2.f, m_fStdHeight, fTimeDelta);
 
 	return EVN_NONE;
 }

@@ -13,8 +13,10 @@ protected:
 	CInteractive_Block(const CInteractive_Block& Prototype);
 	virtual ~CInteractive_Block() = default;
 
-private:
-	virtual HRESULT Ready_Components(void* pArg) override;
+protected:
+	_bool m_bDead = { false };
+	_int  m_iHp = {};
+	_int  m_iMaxHp = {};
 
 public:
 	virtual void Free();

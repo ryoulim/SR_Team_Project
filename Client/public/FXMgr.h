@@ -64,7 +64,6 @@ public: //ÅºÇÇ
 public: //ÇÇÈê¸®±â
 	void SpawnBlood(_float3 _vPosition, LEVEL eLevel);
 
-
 public: //ÃÑ¾ËÀÚ±¹
 	void SpawnBulletMark(_float3 _vPosition, LEVEL eLevel, _float3 _vLook, _int _iNum);
 

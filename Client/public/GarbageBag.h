@@ -1,4 +1,4 @@
-// 내 클래스 이름 : Picture
+// 내 클래스 이름 : GarbageBag
 // 부모 클래스 이름 : Interactive_Block
 
 #pragma once
@@ -6,12 +6,18 @@
 
 BEGIN(Client)
 
-class CPicture final : public CInteractive_Block
+class CGarbageBag final : public CInteractive_Block
 {
+public:
+	typedef struct tagGarbageBagDesc : public CInteractive_Block::DESC
+	{
+
+	}DESC;
+
 private:
-	CPicture(LPDIRECT3DDEVICE9 pGraphic_Device);
-	CPicture(const CPicture& Prototype);
-	virtual ~CPicture() = default;
+	CGarbageBag(LPDIRECT3DDEVICE9 pGraphic_Device);
+	CGarbageBag(const CGarbageBag& Prototype);
+	virtual ~CGarbageBag() = default;
 
 public:
 	virtual HRESULT Initialize_Prototype() override;
@@ -21,15 +27,15 @@ public:
 	virtual void Late_Update(_float fTimeDelta) override;
 	virtual HRESULT Render() override;
 
-	virtual void On_Collision(_uint MyColliderID, _uint OtherColliderID);
+public:
+	virtual void On_Collision(_uint MyColliderID, _uint OtherColliderID) override;
 
 private:
 	virtual HRESULT Ready_Components(void* pArg)override;
+	void Create_Item();
 
-private:
-	_bool			m_bBroken{ FALSE };
 public:
-	static CPicture* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
+	static CGarbageBag* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
 	virtual CGameObject* Clone(void* pArg) override;
 	virtual void Free();
 };

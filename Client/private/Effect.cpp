@@ -105,6 +105,7 @@ void CEffect::FrameUpdate(_float timeDelta, _float _MaxFrame, _float fSpeed, _bo
 		if (_MaxFrame <= m_fAnimationFrame)
 			return;
 	}
+
 	m_fAnimationFrame += fSpeed * timeDelta;
 
 }
