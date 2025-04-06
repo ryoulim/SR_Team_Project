@@ -33,6 +33,7 @@ public:
 private:
 	virtual HRESULT Ready_Components(void* pArg)override;
 	void Spawn_HydroPump();
+	void Im_Broken();
 
 private:
 	_bool m_bBroken = { false };

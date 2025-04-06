@@ -13,6 +13,7 @@ public:
 	{
 		_float fMaxFrame;
 		_float fAniSpeed;
+		_float m_fDeadTime;
 		LEVEL eLevelID;
 	}DESC;
 
@@ -31,6 +32,11 @@ public:
 	
 private:
 	_float m_fDeadTime = {};
+	_float m_fTimeAcc = {};
+
+
+private:
+	class CCameraManager* m_pCameraManager = { nullptr };
 
 public:
 	static CHydroPump* Create(LPDIRECT3DDEVICE9 pGraphic_Device);

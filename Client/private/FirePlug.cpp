@@ -49,17 +49,7 @@ EVENT CFirePlug::Update(_float fTimeDelta)
         if (!m_bBroken)
         {
             Spawn_HydroPump();
-
-            _float3 vScale = m_pTransformCom->Compute_Scaled();
-            _float fScaley = vScale.y / 2.5f;
-            vScale.y = fScaley;
-            m_pTransformCom->Scaling(vScale);
-
-            _float3 vPosition = *m_pTransformCom->Get_State(CTransform::STATE_POSITION);
-            vPosition.y -= (vScale.y * 0.5f);
-            m_pTransformCom->Set_State(CTransform::STATE_POSITION, vPosition);
-
-            m_bBroken = true;
+            Im_Broken();
         }
 
         m_fTextureIdx = 5.f;
@@ -179,17 +169,37 @@ HRESULT CFirePlug::Ready_Components(void* pArg)
 void CFirePlug::Spawn_HydroPump()
 {
     CHydroPump::DESC tDesc = {};
-    tDesc.fAniSpeed = 100.f;
-    tDesc.fMaxFrame = 25.f;
+    tDesc.fAniSpeed = 30.f;
+    tDesc.fMaxFrame = 24.f;
     tDesc.fSpeedPerSec = 0.f;
     tDesc.fRotationPerSec = RADIAN(0.f);
     tDesc.vInitPos = *m_pTransformCom->Get_State(CTransform::STATE_POSITION);
     tDesc.vScale = m_pTransformCom->Compute_Scaled();
     tDesc.eLevelID = m_eLevelID;
+    tDesc.m_fDeadTime = 7.5f;
+
+    tDesc.vScale.x *= 2.f;
+    tDesc.vScale.y *= 2.f;
+    tDesc.vInitPos.y += (tDesc.vScale.y * 0.25f);
 
     if (FAILED(m_pGameInstance->Add_GameObject(m_eLevelID, TEXT("Prototype_GameObject_HydroPump"),
         m_eLevelID, TEXT("Layer_Item"), &tDesc)))
         return;
+}
+
+void CFirePlug::Im_Broken()
+{
+    _float3 vScale = m_pTransformCom->Compute_Scaled();
+
+    _float3 vPosition = *m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+    vPosition.y -= (vScale.y * 0.3f);
+    m_pTransformCom->Set_State(CTransform::STATE_POSITION, vPosition);
+
+    _float fScaley = vScale.y / 2.5f;
+    vScale.y = fScaley;
+    m_pTransformCom->Scaling(vScale);
+
+    m_bBroken = true;
 }
 
 CFirePlug* CFirePlug::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
