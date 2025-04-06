@@ -25,15 +25,6 @@ HRESULT CBuildingW::Initialize(void* pArg)
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
 
-	/**************************************************************/
-	// 임시로 이 빌딩에만 추가했는데 부모에 넣긴 뭐해서 필요한 곳에 셰이더 컴포넌트를 생성하시오
-	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Shader"),
-		TEXT("Com_Shader"), reinterpret_cast<CComponent**>(&m_pShaderCom))))
-		return E_FAIL;
-	m_pTextureCom->Bind_Shader_To_Texture(m_pShaderCom, "Tex", 0);
-	m_pShaderCom->SetFloat("hueShift", 0.5f); // "hueShift" 에 0.0~1.0 사이 값 전달, 뭘 넣어야 무슨 색이 되는지는 넣어서 확인해보셔야...(포토샵 색조조절기능임)
-	/**************************************************************/
-
 	return S_OK;
 }
 

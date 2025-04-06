@@ -19,7 +19,7 @@ CCameraManager::CCameraManager()
 HRESULT CCameraManager::Initialize()
 {	
 	CFPS_Camera::DESC FPSCameraDesc{};
-	FPSCameraDesc.fFar = 2000.f;
+	FPSCameraDesc.fFar = 20000.f;
 	FPSCameraDesc.fNear = 0.1f;
 	FPSCameraDesc.fMouseSensor = 0.1f;
 	FPSCameraDesc.fFov = 60.f;

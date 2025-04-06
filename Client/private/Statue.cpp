@@ -27,6 +27,7 @@ HRESULT CStatue::Initialize(void* pArg)
 		m_pTransformCom->Set_State(CTransform::STATE_POSITION, pDesc->vInitPos);
 		m_pTransformCom->Scaling(pDesc->vScale);
 		m_pTransformCom->QurternionRotation(pDesc->vAngle);
+		m_eShadingLevel = pDesc->eLevelID;
 	}
 
 	return S_OK;
@@ -49,18 +50,101 @@ void CStatue::Late_Update(_float fTimeDelta)
 
 HRESULT CStatue::Render()
 {
-	if (FAILED(m_pTransformCom->Bind_Resource()))
-		return E_FAIL;
+	if (m_eShadingLevel == LEVEL_RACEFIRST || m_eShadingLevel == LEVEL_RACESECOND || m_eShadingLevel == LEVEL_RACETHIRD)
+	{
+		if (FAILED(m_pTransformCom->Bind_Resource()))
+			return E_FAIL;
 
-	if (FAILED(m_pTextureCom->Bind_Resource(static_cast<_uint>(m_fTextureNum))))
-		return E_FAIL;
+		m_pGraphic_Device->SetTextureStageState(0, D3DTSS_TEXCOORDINDEX, 0);
 
-	if (FAILED(m_pVIBufferCom->Bind_Buffers()))
-		return E_FAIL;
+		if (FAILED(m_pTextureCom->Bind_Resource(static_cast<_uint>(m_fTextureNum))))
+			return E_FAIL;
 
-	if (FAILED(m_pVIBufferCom->Render()))
-		return E_FAIL;
+		if (FAILED(m_pVIBufferCom->Bind_Buffers()))
+			return E_FAIL;
 
+		if (FAILED(m_pVIBufferCom->Render()))
+			return E_FAIL;
+	}
+	else
+	{
+		/* [ 텍스처 셰이더로 넘기기 ] */
+		m_pTextureCom->Bind_Shader_To_Texture(m_pShaderCom, "g_Texture", (_uint)m_fTextureNum);
+
+		/* [ 메트릭스 셰이더로 넘기기 ] */
+		_float4x4 matWorld, maxView, maxProj;
+		matWorld = *m_pTransformCom->Get_WorldMatrix();
+
+		m_pGraphic_Device->GetTransform(D3DTS_VIEW, &maxView);
+		m_pGraphic_Device->GetTransform(D3DTS_PROJECTION, &maxProj);
+
+		if (FAILED(m_pShaderCom->Bind_Matrix("g_WorldMatrix", &matWorld)))
+			return E_FAIL;
+		if (FAILED(m_pShaderCom->Bind_Matrix("g_ViewMatrix", &maxView)))
+			return E_FAIL;
+		if (FAILED(m_pShaderCom->Bind_Matrix("g_ProjMatrix", &maxProj)))
+			return E_FAIL;
+
+		/* [ 카메라 위치 넘기기 ] */
+		_float3 vCamPos;
+		_float4x4 invView;
+		D3DXMatrixInverse(&invView, nullptr, &maxView);
+		vCamPos = *(_float3*)&invView._41;
+
+		if (FAILED(m_pShaderCom->SetFloatArray("g_CameraPos", (_float*)&vCamPos, 3)))
+			return E_FAIL;
+
+		/* [ 안개 거리 설정 ] */
+		_float fFogStart = 0.f;
+		_float fFogEnd = 0.f;
+
+		if (m_eShadingLevel == LEVEL_OUTDOOR)
+		{
+			fFogStart = 0.f;
+			fFogEnd = 700.f;
+		}
+		else if (m_eShadingLevel == LEVEL_GAMEPLAY)
+		{
+			fFogStart = 1000.f;
+			fFogEnd = 2500.f;
+		}
+		else if (m_eShadingLevel == LEVEL_INDOOR)
+		{
+			fFogStart = 300.f;
+			fFogEnd = 1500.f;
+		}
+		else
+		{
+			fFogStart = 0.f;
+			fFogEnd = 700.f;
+		}
+
+		if (FAILED(m_pShaderCom->SetFloat("g_FogStart", fFogStart)))
+			return E_FAIL;
+		if (FAILED(m_pShaderCom->SetFloat("g_FogEnd", fFogEnd)))
+			return E_FAIL;
+
+		/* [ 안개 색상 설정 ] */
+		_float4 vFogColor = _float4(0.059f, 0.067f, 0.082f, 1.f);
+		if (FAILED(m_pShaderCom->SetVector("g_FogColor", &vFogColor)))
+			return E_FAIL;
+
+		//셰이더 시작
+		m_pShaderCom->Begin(CShader::FOG);
+
+		if (FAILED(m_pVIBufferCom->Bind_Buffers()))
+			return E_FAIL;
+
+
+		/* ------------------------------------------------------------------------- */
+
+		if (FAILED(m_pVIBufferCom->Render()))
+			return E_FAIL;
+
+		/* ------------------------------------------------------------------------- */
+
+		m_pShaderCom->End();
+	}
 	return S_OK;
 }
 
@@ -79,6 +163,11 @@ HRESULT CStatue::Ready_Components(void* pArg)
 	/* For.Com_Transform */
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Transform"),
 		TEXT("Com_Transform"), reinterpret_cast<CComponent**>(&m_pTransformCom), pArg)))
+		return E_FAIL;
+
+	//셰이더 장착
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Shader_Particle"),
+		TEXT("Com_Shader"), reinterpret_cast<CComponent**>(&m_pShaderCom))))
 		return E_FAIL;
 
 	return S_OK;
@@ -135,4 +224,5 @@ void CStatue::Free()
 	Safe_Release(m_pVIBufferCom);
 	Safe_Release(m_pTextureCom);
 	Safe_Release(m_pTransformCom);
+	Safe_Release(m_pShaderCom);
 }

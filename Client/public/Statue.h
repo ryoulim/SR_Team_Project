@@ -52,10 +52,14 @@ protected:
 	CVIBuffer* m_pVIBufferCom = { nullptr };
 	CTransform* m_pTransformCom = { nullptr };
 	CCollider* m_pCollider = { nullptr };
+	CShader* m_pShaderCom = { nullptr };
 
 public:
 	virtual CGameObject* Clone(void* pArg) PURE;
 	virtual void Free();
+
+protected: /* [ 안개 셰이더 조절용 ] */
+	LEVEL m_eShadingLevel = LEVEL_END;
 };
 
 END
