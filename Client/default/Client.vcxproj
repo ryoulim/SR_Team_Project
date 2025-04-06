@@ -202,6 +202,7 @@
     <ClInclude Include="..\public\Deacon.h" />
     <ClInclude Include="..\public\DebugDraw.h" />
     <ClInclude Include="..\public\DebugMode.h" />
+    <ClInclude Include="..\public\Door.h" />
     <ClInclude Include="..\public\Dust.h" />
     <ClInclude Include="..\public\Effect.h" />
     <ClInclude Include="..\public\FadeUI.h" />
@@ -354,6 +355,7 @@
     <ClCompile Include="..\private\Deacon.cpp" />
     <ClCompile Include="..\private\DebugDraw.cpp" />
     <ClCompile Include="..\private\DebugMode.cpp" />
+    <ClCompile Include="..\private\Door.cpp" />
     <ClCompile Include="..\private\Dust.cpp" />
     <ClCompile Include="..\private\Effect.cpp" />
     <ClCompile Include="..\private\FadeUI.cpp" />
