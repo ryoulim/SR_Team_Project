@@ -76,7 +76,7 @@ EVENT CMonster::Update(_float fTimeDelta)
 	if (m_bDead) // 사망 체크
 	{
 		m_fDeadBodyCounter += fTimeDelta;
-		if (m_fDeadBodyCounter > 5.f)
+		if (m_fDeadBodyCounter > 5000.f)
 			return EVN_DEAD;
 	}
 
@@ -101,13 +101,17 @@ void CMonster::Late_Update(_float fTimeDelta)
 	CalculateVectorToPlayer();
 	
 	//콜라이더 업데이트
-	if (m_bDead)
+	if (m_bDead) // 시체 콜라이더 변경하면 캡슐이라 사이즈가 묘하게 안맞음..
 	{
-		auto temp = m_vScale;
-		auto newY = temp.y - 20.f;
+		_float3 vOrigSize = {};
+		m_pTextureMap[m_iState][m_iDegree]->Get_TextureSize(m_fAnimationFrame, &vOrigSize);
+		_float fComputedSizeYFromOrig = -vOrigSize.y + 20.f;
 		// 원래 세로 절반만큼 뺴고 나중 세로길이만큼 더하기 
-		m_pCollider->Update_OffSet({ 0.f, -newY, 0.f });
-		m_pCollider->Update_Scale({ 0.f, 20.f, 0.f });
+		auto newY = m_vScale.y - 20.f;
+		m_pCollider->Update_OffSet({ 0.f, -20.f, 0.f });
+		//m_pCollider->Update_OffSet({ 0.f, fComputedSizeYFromOrig, 0.f });
+		//m_pCollider->Update_Scale({ vOrigSize.x, 20.f, 1.f });
+		m_pCollider->Update_Scale({ vOrigSize.x * 0.5f, 1.f, 1.f });
 	}
 
   	m_pCollider->Update_Collider();
@@ -132,9 +136,9 @@ void CMonster::Late_Update(_float fTimeDelta)
 
 void CMonster::Render_Skull(_bool bOn)
 {
-	m_bSkullActive = bOn;
-	if(bOn)
-		m_pSkull->TimeReset();
+	//m_bSkullActive = bOn;
+	//if(bOn)
+	//	m_pSkull->TimeReset();
 }
 
 HRESULT CMonster::SetUp_RenderState()
@@ -318,6 +322,7 @@ void CMonster::Resize_Texture(_float fSizePercent)
 {
 	_float3 vScale = { 0.f, 0.f, 0.f };
 	m_pTextureMap[m_iState][m_iDegree]->Get_TextureSize(static_cast<_uint>(m_fAnimationFrame), &vScale);
+	vScale.z = 1.f; // 0이 들어와서 룩벡터가 죽어버리더라... 
 	m_pTransformCom->Scaling(vScale * fSizePercent);
 	m_vScale = m_vScale;
 }
