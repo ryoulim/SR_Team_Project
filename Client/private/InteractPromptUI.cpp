@@ -24,6 +24,7 @@ HRESULT CInteractPromptUI::Initialize_Prototype()
 
 HRESULT CInteractPromptUI::Initialize(void* pArg)
 {
+	m_szTextureID = TEXT("Test");
 	m_szBufferType = TEXT("Rect");
 
 	if (FAILED(__super::Initialize(pArg)))
@@ -46,15 +47,15 @@ void CInteractPromptUI::Late_Update(_float fTimeDelta)
 {
 	/* 여기서 피킹 됐을 때만 띄워주도록 해주고싶은데? */
 	/* 이 코드 개 에바긴함 */
-	list<CGameObject*>* pDoorSecuritylist = m_pGameInstance->Find_Objects(m_eLevelID, TEXT("Layer_DoorSecurity"));
-	if (nullptr == pDoorSecuritylist)
-		return;
+	//list<CGameObject*>* pDoorSecuritylist = m_pGameInstance->Find_Objects(m_eLevelID, TEXT("Layer_DoorSecurity"));
+	//if (nullptr == pDoorSecuritylist)
+	//	return;
 
-	for (auto& pDoorSecurity : *pDoorSecuritylist)
-	{
-		if(dynamic_cast<CDoorSecurity*>(pDoorSecurity)->Get_IsPicked())
-			__super::Late_Update(fTimeDelta);
-	}
+	//for (auto& pDoorSecurity : *pDoorSecuritylist)
+	//{
+	//	if(dynamic_cast<CDoorSecurity*>(pDoorSecurity)->Get_IsPicked())
+	//		__super::Late_Update(fTimeDelta);
+	//}
 }
 
 HRESULT CInteractPromptUI::Render()
@@ -76,22 +77,6 @@ HRESULT CInteractPromptUI::Render()
 		return E_FAIL;
 
 	return S_OK;
-}
-
-HRESULT CInteractPromptUI::Ready_Components(void* pArg)
-{
-	/* For.Com_VIBuffer */
-	if (FAILED(__super::Add_Component(LEVEL_STATIC, _wstring(TEXT("Prototype_Component_VIBuffer_")) + m_szBufferType,
-		TEXT("Com_VIBuffer"), reinterpret_cast<CComponent**>(&m_pVIBufferCom))))
-		return E_FAIL;
-
-	/* For.Com_Transform */
-	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Transform"),
-		TEXT("Com_Transform"), reinterpret_cast<CComponent**>(&m_pTransformCom), pArg)))
-		return E_FAIL;
-
-	return S_OK;
-
 }
 
 CInteractPromptUI* CInteractPromptUI::Create(LPDIRECT3DDEVICE9 pGraphic_Device)

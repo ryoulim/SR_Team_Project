@@ -23,7 +23,7 @@ private:
 
 public:
 	_bool Get_IsPicked() {
-		return m_bPickinged;
+		return m_bPicked;
 	}
 
 public:
@@ -45,10 +45,13 @@ private:
 private:
 	_float m_fMaxFrame = {};
 	_float m_fLockTimeAcc = {};
-	_bool  m_bPickinged = { false };
+	_bool  m_bPicked = { false };
 
 private:
+	class CGameObject* m_pInteractPromptUI = { nullptr };
 	class CGameObject* m_pDoor = { nullptr };
+	class CGameObject* m_pPlayer = { nullptr };
+
 	STATE m_eState = { USUAL };
 
 public:

@@ -40,6 +40,7 @@ private:
 private:
 	_bool m_bOpen = { false };
 	_bool m_bSecurity = { false };
+	_bool m_bPicked = { false };
 	_float m_fTimeAcc = {};
 
 public:

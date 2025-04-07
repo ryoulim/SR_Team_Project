@@ -7,7 +7,7 @@
 #include "Player.h"
 #include "Door.h"
 
-#include "InteractPromptUI.h"
+#include "UI_Manager.h"
 
 CDoorSecurity::CDoorSecurity(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CInteractive_Block{ pGraphic_Device }
@@ -38,6 +38,13 @@ HRESULT CDoorSecurity::Initialize(void* pArg)
     if (FAILED(Link_Door()))
         return E_FAIL;
 
+    m_pInteractPromptUI = m_pGameInstance->Find_Object(m_eLevelID, TEXT("Layer_UI"), 4);
+
+    if (nullptr == m_pInteractPromptUI)
+        return E_FAIL;
+
+    Safe_AddRef(m_pInteractPromptUI);
+
 	return S_OK;
 }
 
@@ -48,6 +55,17 @@ void CDoorSecurity::Priority_Update(_float fTimeDelta)
 
 EVENT CDoorSecurity::Update(_float fTimeDelta)
 {
+    if (m_bPicked)
+    {
+        if (KEY_DOWN(DIK_F))
+        {
+            if (dynamic_cast<CPlayer*>(GET_PLAYER)->Get_HaveCardKey())
+                m_eState = OPEN;
+            else
+                m_eState = LOCK;
+        }
+    }
+
     switch (m_eState)
     {
     case USUAL:
@@ -74,12 +92,16 @@ EVENT CDoorSecurity::Update(_float fTimeDelta)
 
 void CDoorSecurity::Late_Update(_float fTimeDelta)
 {
+    if (m_bPicked)
+    {
+        m_pGameInstance->Add_RenderGroup(CRenderer::RG_UI, m_pInteractPromptUI);
+    }
 	__super::Late_Update(fTimeDelta);
 }
 
 HRESULT CDoorSecurity::Render()
 {
-	return __super::Render();
+    return __super::Render();
 }
 
 void CDoorSecurity::On_Collision(_uint MyColliderID, _uint OtherColliderID)
@@ -87,17 +109,7 @@ void CDoorSecurity::On_Collision(_uint MyColliderID, _uint OtherColliderID)
     switch (OtherColliderID)
     {
     case CI_PICKING_RAY:
-
-        m_bPickinged = true;
-        /* 여기에 UI출력 */
-        /* Press USE [E] to unlock terminal with Access Card. */
-        if (KEY_DOWN(DIK_F))
-        {
-            if (dynamic_cast<CPlayer*>(GET_PLAYER)->Get_HaveCardKey())
-                m_eState = OPEN;
-            else
-                m_eState = LOCK;
-        }
+        m_bPicked = !m_bPicked;
         break;
     default:
         break;
@@ -246,4 +258,5 @@ void CDoorSecurity::Free()
 	__super::Free();
 
     Safe_Release(m_pDoor);
+    Safe_Release(m_pInteractPromptUI);
 }

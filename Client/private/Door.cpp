@@ -40,6 +40,12 @@ void CDoor::Priority_Update(_float fTimeDelta)
 
 EVENT CDoor::Update(_float fTimeDelta)
 {
+    if (m_bSecurity)
+        return EVN_NONE;
+
+    if (KEY_DOWN(DIK_F))
+        m_bOpen = true;
+
     if (m_bOpen)
     {
         m_fTimeAcc += fTimeDelta;
@@ -62,16 +68,11 @@ HRESULT CDoor::Render()
 
 void CDoor::On_Collision(_uint MyColliderID, _uint OtherColliderID)
 {
-    if (m_bSecurity)
-        return;
-
     switch (OtherColliderID)
     {
     case CI_PICKING_RAY:
-
         /* Press USE [E] to interact with the world. */
-        if (KEY_DOWN(DIK_F))
-            m_bOpen = true;
+        m_bPicked = !m_bPicked;
         break;
     }
 }

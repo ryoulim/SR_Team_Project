@@ -26,9 +26,6 @@ HRESULT CLevel_Indoor::Initialize(CLevelData* pLevelData)
 	if (FAILED(Ready_Layer_UI(TEXT("Layer_UI"))))
 		return E_FAIL;
 
-	if (FAILED(Load_Map(LEVEL_INDOOR, TEXT("NormalMapData.txt"))))
-		return E_FAIL;
-
 	CUI_Manager::Get_Instance()->Initialize_GamePlayUI(CurLevel);
 
 	if (FAILED(Ready_Layer_Pawn(TEXT("Layer_Pawn"))))
@@ -44,6 +41,9 @@ HRESULT CLevel_Indoor::Initialize(CLevelData* pLevelData)
 		return E_FAIL;
 
 	if (FAILED(Ready_Layer_Item(TEXT("Layer_Item"))))
+		return E_FAIL;
+
+	if (FAILED(Load_Map(LEVEL_INDOOR, TEXT("NormalMapData.txt"))))
 		return E_FAIL;
 
 	return S_OK;
