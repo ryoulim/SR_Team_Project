@@ -103,7 +103,7 @@ void CMonster::Late_Update(_float fTimeDelta)
 	if (m_bDead)
 	{
 		_float3 vOrigSize = {};
-		m_pTextureMap[m_iState][m_iDegree]->Get_TextureSize(m_fAnimationFrame, &vOrigSize);
+		m_pTextureMap[m_iState][m_iDegree]->Get_TextureSize(static_cast<_uint>(m_fAnimationFrame), &vOrigSize);
 		_float fComputedSizeYFromOrig = -vOrigSize.y*0.5f + 20.f;
 		// ���� ���� ���ݸ�ŭ ���� ���� ���α��̸�ŭ ���ϱ� 
 		auto newY = m_vScale.y - 20.f;
@@ -138,9 +138,9 @@ void CMonster::Late_Update(_float fTimeDelta)
 
 void CMonster::Render_Skull(_bool bOn)
 {
-	//m_bSkullActive = bOn;
-	//if(bOn)
-	//	m_pSkull->TimeReset();
+	m_bSkullActive = bOn;
+	if(bOn)
+		m_pSkull->TimeReset();
 }
 
 HRESULT CMonster::SetUp_RenderState()
