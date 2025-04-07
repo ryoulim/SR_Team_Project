@@ -20,7 +20,7 @@
 #define DODGE_TIMESCALE 0.1f
 
 // 무적시간
-#define INVINCIBILITY_FRAMES 0.3f
+#define INVINCIBILITY_FRAMES 0.4f
 
 CPlayer::CPlayer(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CPawn{ pGraphic_Device }
@@ -241,19 +241,19 @@ void CPlayer::On_Collision(_uint MyColliderID, _uint OtherColliderID)
 
 		/* 몬스터 투사체*/
 	case CI_MONSTER_SHOTGUNNER:
-		On_Hit(10);
+		On_Hit(3);
 		break;
 	case CI_MONSTER_CULTIST:
-		On_Hit(10);
+		On_Hit(4);
 		break;
 	case CI_MONSTER_GREATER:
-		On_Hit(10);
+		On_Hit(5);
 		break;
 	case CI_MONSTER_DEACON:
-		On_Hit(10);
+		On_Hit(6);
 		break;
 	case CI_MONSTER_NUKEMUTANT:
-		On_Hit(10);
+		On_Hit(7);
 		break;
 	case CI_MONSTER_ARCHANGEL:
 		On_Hit(10);
@@ -563,7 +563,7 @@ void CPlayer::On_Just_Dodge()
 	// 1 = 회피중
 	// 0 = 회피중 아님
 	// -1 = 회피 끝났음(재 진입 방지)
-	if (m_byJustDodgeFlag || m_bOnHit)
+	if (m_byJustDodgeFlag)
 		return;
 
 	// 저스트 회피
