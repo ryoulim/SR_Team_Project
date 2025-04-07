@@ -1,11 +1,11 @@
 #include "PlayerOnBoat.h"
 #include "CameraManager.h"
-
-#include "PBState_Accel.h"
-#include "PBState_Normal.h"
-#include "PBState_Decel.h"
-#include "PBState_Lerp.h"
+#include "PBState.h"
 #include "WaterBoat.h"
+
+#include "PlayerMissile.h"
+
+#define BULLET_COOLTIME 0.5f
 
 CPlayerOnBoat::CPlayerOnBoat(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CPawn { pGraphic_Device }
@@ -32,10 +32,10 @@ HRESULT CPlayerOnBoat::Initialize(void* pArg)
 
 	Init_Camera_Link();
 
-	m_pState[DECEL] = new CPBState_Decel();
-	m_pState[NORMAL] = new CPBState_Normal();
-	m_pState[LERP] = new CPBState_Lerp();
-	m_pState[ACCEL] = new CPBState_Accel();
+	m_pState[DECEL] = new CPBState_Decel(this);
+	m_pState[NORMAL] = new CPBState_Normal(this);
+	m_pState[LERP] = new CPBState_Lerp(this);
+	m_pState[ACCEL] = new CPBState_Accel(this);
 
 	m_pCurState = m_pState[NORMAL];
 
@@ -48,13 +48,6 @@ void CPlayerOnBoat::Priority_Update(_float fTimeDelta)
 {
 	//Key_Input(fTimeDelta);
 
-	Update_Camera_Link();
-
-	__super::Priority_Update(fTimeDelta);
-}
-
-EVENT CPlayerOnBoat::Update(_float fTimeDelta)
-{
 #ifdef _CONSOL
 	if (KEY_DOWN(DIK_LCONTROL))
 	{
@@ -66,18 +59,19 @@ EVENT CPlayerOnBoat::Update(_float fTimeDelta)
 	//이전 상태와 현재 상태가 다르다면 Enter 실행
 	if (m_eCurState != m_ePreState)
 	{
-		m_pCurState->Enter(this, fTimeDelta);
+		m_pCurState->Enter(fTimeDelta);
 		m_ePreState = m_eCurState;
 
-		if(m_pCurState == m_pState[NORMAL])
+		if (m_pCurState == m_pState[NORMAL])
 			SpawnWaterParticle(m_fWaterSpeed);
 	}
 
 	//Exectue는 무조건 실행
-	m_pCurState->Execute(this, fTimeDelta);
+	m_pCurState->Execute(fTimeDelta);
 
-	m_pCollider->Update_Collider();
+	Update_Camera_Link();
 
+#pragma region 파티클 
 	/* 따라오는 파티클 */
 	if (m_pWaterBoatEffect_01)
 	{
@@ -101,7 +95,14 @@ EVENT CPlayerOnBoat::Update(_float fTimeDelta)
 		}
 	}
 
+#pragma endregion
 
+	__super::Priority_Update(fTimeDelta);
+}
+
+EVENT CPlayerOnBoat::Update(_float fTimeDelta)
+{
+	m_fBulletTimer += fTimeDelta;
 	return __super::Update(fTimeDelta);
 }
 
@@ -109,6 +110,8 @@ void CPlayerOnBoat::Late_Update(_float fTimeDelta)
 {
 	if (m_pTransformCom->Get_State(CTransform::STATE_POSITION)->z > 13000.f)
 		Change_Level();
+
+	m_pCollider->Update_Collider();
 
 	m_pGameInstance->Add_RenderGroup(CRenderer::RG_NONBLEND, this);
 
@@ -141,6 +144,10 @@ void CPlayerOnBoat::Key_Input(_float fTimeDelta)
 	if (KEY_PRESSING(DIK_D))
 	{
 		m_pTransformCom->Go_RightOnRace(fTimeDelta);
+	}
+	if (MOUSE_PRESSING(DIMK_LBUTTON))
+	{
+		Create_Bullet();
 	}
 }
 
@@ -246,6 +253,25 @@ void CPlayerOnBoat::SpawnWaterParticle(_float fWaterSpeed)
 
 	m_pWaterBoatEffect_03 = *ppOut3;
 
+}
+
+void CPlayerOnBoat::Create_Bullet()
+{
+	if (BULLET_COOLTIME > m_fBulletTimer)
+		return;
+
+	CPlayerMissile::DESC MissileDesc{};
+	MissileDesc.fSpeedPerSec = 750.f;
+	MissileDesc.vPosition = *m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+	MissileDesc.vScale = { 20.f,20.f,20.f };
+	MissileDesc.iColliderID = CI_MISSILE;
+	MissileDesc.vLook = { 0.f,0.35f,1.f };
+
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_PlayerMissile"),
+		m_eLevelID, TEXT("Layer_Bullet"), &MissileDesc)))
+		return;
+
+	m_fBulletTimer = 0.f;
 }
 
 void CPlayerOnBoat::Set_State(STATE eState)

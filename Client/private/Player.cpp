@@ -429,26 +429,25 @@ void CPlayer::Key_Input(_float fTimeDelta)
 
 	}
 
+	_int iMouseWheelZ = m_pGameInstance->Get_DIMMoveState(DIMM_WHEEL);
+
 	// 무기 교체
-	bTriger = FALSE;
-	if (KEY_DOWN(DIK_Q))
+	if (iMouseWheelZ > 0)
 	{
 		m_iCurWeaponIndex--;
 		if (m_iCurWeaponIndex < 0)
 			m_iCurWeaponIndex = m_iMaxWeaponIndex;
 		CUI_Manager::Get_Instance()->Change_Weapon(m_Weapons[m_iCurWeaponIndex]->Get_Info());
-		bTriger = TRUE;
 	}
-	if (KEY_DOWN(DIK_E))
+	else if (iMouseWheelZ < 0)
 	{
 		m_iCurWeaponIndex++;
 		if (m_iMaxWeaponIndex < m_iCurWeaponIndex)
 			m_iCurWeaponIndex = 0;
 		CUI_Manager::Get_Instance()->Change_Weapon(m_Weapons[m_iCurWeaponIndex]->Get_Info());
-		bTriger = TRUE;
 	}
 
-	if (bTriger)
+	if (iMouseWheelZ)
 	{
 		m_Weapons[m_iCurWeaponIndex]->Set_State(CWeapon::ST_OPENING);
 	}

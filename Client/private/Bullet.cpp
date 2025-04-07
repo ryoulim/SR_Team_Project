@@ -76,7 +76,7 @@ void CBullet::Late_Update(_float fTimeDelta)
 
 HRESULT CBullet::Render()
 {
-	m_pGraphic_Device->SetTransform(D3DTS_WORLD, &m_pTransformCom->Billboard());
+	m_pGraphic_Device->SetTransform(D3DTS_WORLD, &m_pTransformCom->Billboard_Y());
 
 	if (FAILED(m_pTextureCom->Bind_Resource(static_cast<_uint>(m_fAnimationFrame))))
 		return E_FAIL;
@@ -121,9 +121,9 @@ HRESULT CBullet::Ready_Components(void* pArg)
 	if (pArg != nullptr)
 	{
 		DESC* pDesc = static_cast<DESC*>(pArg);
-		_float4x4 mat{};
-		m_pGraphic_Device->GetTransform(D3DTS_VIEW, &mat);
-		m_pTransformCom->Set_WorldMatrix(&mat.MakeInverseMat(mat));
+		//_float4x4 mat{};
+		//m_pGraphic_Device->GetTransform(D3DTS_VIEW, &mat);
+		//m_pTransformCom->Set_WorldMatrix(&mat.MakeInverseMat(mat));
 		m_pTransformCom->Scaling(pDesc->vScale);
 	}
 

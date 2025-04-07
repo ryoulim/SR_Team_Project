@@ -5,22 +5,11 @@
 #include "Pawn.h"
 
 BEGIN(Client)
-class CPBState;
-END
-
-BEGIN(Client)
 
 class CPlayerOnBoat final : public CPawn
 {
 public:
 	enum STATE { DECEL, NORMAL, LERP, ACCEL, NON };
-
-public:
-	typedef struct tagPlayerOnBoatDesc : public CPawn::DESC
-	{
-		_float			fMouseSensor;
-	}DESC;
-
 private:
 	CPlayerOnBoat(LPDIRECT3DDEVICE9 pGraphic_Device);
 	CPlayerOnBoat(const CPlayerOnBoat& Prototype);
@@ -36,6 +25,12 @@ public:
 
 	virtual void On_Collision(_uint MyColliderID, _uint OtherColliderID) override;
 
+private:
+	friend class CPBState_Accel;
+	friend class CPBState_Decel;
+	friend class CPBState_Lerp;
+	friend class CPBState_Normal;
+
 	//»óÅÂÆÐÅÏ
 	void			Set_State(STATE eState);
 	void			Go_Straight(_float fTimeDelta);
@@ -48,6 +43,8 @@ public:
 	_float			GetSlidingSpeed();
 	void			SpawnWaterParticle(_float fWaterSpeed);
 
+	void			Create_Bullet();
+
 private:
 	class CCameraManager*	m_pCameraManager = { nullptr };
 	CTransform*				m_pCameraTransform = { nullptr };
@@ -56,11 +53,13 @@ private:
 	CGameObject*			m_pWaterBoatEffect_03 = nullptr;
 	STATE					m_ePreState = { NON };
 	STATE					m_eCurState = { NORMAL };
-	CPBState*				m_pCurState = { nullptr };
-	CPBState*				m_pState[NON] = { nullptr };
+	class CPBState*			m_pCurState = { nullptr };
+	class CPBState*			m_pState[NON] = { nullptr };
 	_float					m_fSlidingSpeed = {};
 	_float					m_fWaterSpeed = {};
 
+	// ÃÑ¾Ë ÄðÅ¸ÀÓ
+	_float					m_fBulletTimer{};
 private:
 	void			Init_Camera_Link();
 	void			Update_Camera_Link();

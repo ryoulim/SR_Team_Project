@@ -40,6 +40,7 @@
 #include "Weapon_Chaingun.h"
 #include "Weapon_Dispenser.h"
 #include "GrenadeBullet.h"
+#include "PlayerMissile.h"
 
 //파티클 인클루드
 #include "Explosion.h"
@@ -281,6 +282,7 @@ HRESULT CLoader::Loding_For_Static()
 	ADD_TEXTURE(LeftHand, "../Bin/Resources/Textures/Weapon/LeftHand/LeftHand%d.PNG", 2);
 	ADD_TEXTURE(Weapon_Chaingun, "../Bin/Resources/Textures/Weapon/ChainGun/ChainGun%d.PNG", 16);
 	ADD_TEXTURE(Weapon_Dispenser, "../Bin/Resources/Textures/Weapon/Dispenser/Dispenser%d.PNG", 60);
+	ADD_TEXTURE(PlayerMissile, "../Bin/Resources/Textures/Bullet/PlayerMissile/PlayerMissile%d.PNG", 8);
 #pragma endregion
 
 	ADD_PRTOBJ(Trigger);
@@ -298,6 +300,7 @@ HRESULT CLoader::Loding_For_Static()
 	ADD_PRTOBJ(Weapon_Dispenser);
 	ADD_PRTOBJ(GrenadeBullet);
 	ADD_PRTOBJ(PlayerOnBoat);
+	ADD_PRTOBJ(PlayerMissile);
 #pragma endregion
 
 #pragma region 몬스터 텍스처
@@ -943,6 +946,7 @@ HRESULT CLoader::Loading_For_RaceFirst()/**/
 	ADD_PRTOBJ(BuildingV);
 	ADD_PRTOBJ(BuildingW);
 	ADD_PRTOBJ(RaceCylinder);
+
 	
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_RACEFIRST, TEXT("Prototype_GameObject_StreetLampHead"),
 		CStreetLampHead::Create(m_pGraphic_Device))))
