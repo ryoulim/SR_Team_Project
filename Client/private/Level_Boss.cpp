@@ -219,7 +219,7 @@ HRESULT CLevel_Boss::Ready_Layer_UI(const _wstring& strLayerTag)
 {
 	CUI::DESC Desc{};
 	Desc.eLevelID = LEVEL_BOSS;
-	Desc.fDepth = 3.f;
+	Desc.fDepth = _float(UI_HUD);
 	Desc.vScale = _float3(1.f, 1.f, 1.f);
 	Desc.vInitPos = _float3(0.f, 0.f, 0.1f);
 	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_Aim"),

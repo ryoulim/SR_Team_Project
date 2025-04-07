@@ -469,6 +469,12 @@
     <Filter Include="02.GameObjects\UI\MenuUI\LoadingUI\LevelLoadingMenu">
       <UniqueIdentifier>{f9967e05-e098-4fcc-b1ea-218980f9bbda}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\UI\GamePlayUI\BossHPBar">
+      <UniqueIdentifier>{bec1c7fb-d793-4711-824d-bd23f689a699}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\GamePlayUI\RacingPanel">
+      <UniqueIdentifier>{62b83594-64da-46d6-8fd8-d04d4dae49fa}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -934,16 +940,25 @@
     <ClInclude Include="..\public\HydroPump.h">
       <Filter>02.GameObjects\Effect\HydroPump</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\WaterBoat.h">
+      <Filter>02.GameObjects\Particle\WaterBoat</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\CutSceneSmoke.h">
+      <Filter>02.GameObjects\Particle\_BossMobSkill\CutSceenEffect</Filter>
+    </ClInclude>
     <ClInclude Include="..\public\CutSceneSmoke.h" />
     <ClInclude Include="..\public\WaterBoat.h" />
     <ClInclude Include="..\public\Door.h">
       <Filter>02.GameObjects\Map\Door</Filter>
     </ClInclude>
-    <ClInclude Include="..\public\CutSceneSmoke.h">
-      <Filter>02.GameObjects\Particle\_BossMobSkill\CutSceenEffect</Filter>
+    <ClInclude Include="..\public\BossHPBar.h">
+      <Filter>02.GameObjects\UI\GamePlayUI\BossHPBar</Filter>
     </ClInclude>
-    <ClInclude Include="..\public\WaterBoat.h">
-      <Filter>02.GameObjects\Particle\WaterBoat</Filter>
+    <ClInclude Include="..\public\ItemDialog.h">
+      <Filter>02.GameObjects\UI\GamePlayUI\ItemDialog</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\RacingPanel.h">
+      <Filter>02.GameObjects\UI\GamePlayUI\RacingPanel</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1403,6 +1418,15 @@
     </ClCompile>
     <ClCompile Include="..\private\Door.cpp">
       <Filter>02.GameObjects\Map\Door</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\BossHPBar.cpp">
+      <Filter>02.GameObjects\UI\GamePlayUI\BossHPBar</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\ItemDialog.cpp">
+      <Filter>02.GameObjects\UI\GamePlayUI\ItemDialog</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\RacingPanel.cpp">
+      <Filter>02.GameObjects\UI\GamePlayUI\RacingPanel</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

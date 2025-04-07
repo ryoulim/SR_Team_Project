@@ -28,7 +28,7 @@ HRESULT CFont::Initialize(void* pArg)
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
 
-	m_fDepth = 5.f;
+	m_fDepth = _float(UI_FONT);
 	
 	__super::Ready_ShaderComponent();
 
@@ -52,7 +52,6 @@ void CFont::Late_Update(_float fTimeDelta)
 
 HRESULT CFont::Render()
 {
-	
 	if (FAILED(Bind_Texture_To_Transform()))
 		return E_FAIL;
 
@@ -63,10 +62,10 @@ HRESULT CFont::Render()
 }
 
 // 0~9/A~Z/a~z 외 특수문자 다수 포함 용    // 그 외는 각 객체들에서 오버라이딩
-HRESULT CFont::Render_Text(const string& _text,FONTALIGN _align, _float _posX, _float _posY, _float vSizeMul)
+HRESULT CFont::Render_Text(const string& _text,FONTALIGN _align, _float _posX, _float _posY, _float vSizeMul, CShader* pShader)
 {
 	m_uiTextWidth = static_cast<_uint>(_text.length());
-	
+
 	_float startPosX = {};
 	if (_align == LEFT)
 		startPosX = _posX;
@@ -83,23 +82,30 @@ HRESULT CFont::Render_Text(const string& _text,FONTALIGN _align, _float _posX, _
 			m_vSize *= vSizeMul;
 			fontWidth += m_vSize.x * 0.5f;
 			m_pTransformCom->Set_State(CTransform::STATE_POSITION, _float3(startPosX + fontWidth, _posY, 0.5f));
-				                                 
+			if (pShader != nullptr)
+			{
+				m_pTextureCom->Bind_Shader_To_Texture(pShader, "Tex", static_cast<_uint>(m_fTextureNum));
+				pShader->Begin(CShader::ALPHA);
+			}
 			Render();
+			if (pShader != nullptr)
+				pShader->End();
 			fontWidth += m_vSize.x * 0.5f + 1.f;
 		}
 		else
 			fontWidth += 10.f;
 	}
+
 	return S_OK;
 }
 
-HRESULT CFont::Render_Text(const _int _val, FONTALIGN _align, _float _posX, _float _posY, _float vSizeMul)
+HRESULT CFont::Render_Text(const _int _val, FONTALIGN _align, _float _posX, _float _posY, _float vSizeMul, CShader* pShader)
 {
 	char buffer[64]{};
 	_itoa_s(_val, buffer, 10);
 	string temp = buffer;
 
-	Render_Text(temp, _align, _posX, _posY, vSizeMul);
+	Render_Text(temp, _align, _posX, _posY, vSizeMul, pShader);
 
 	return S_OK;
 }

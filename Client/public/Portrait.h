@@ -17,8 +17,7 @@ public:
 		HP40 = 10,
 		HP25 = 15,
 		HP10 = 18,
-		HP0 = 21,
-		HP200 = 24
+		HP0 = 21
 	};
 	enum PORTRAITSTATUS
 	{
@@ -27,7 +26,8 @@ public:
 		PORTRAIT_SMILE,
 		PORTRAIT_LOOKL,
 		PORTRAIT_LOOKR,
-		PORTRAIT_DEAD
+		PORTRAIT_DEAD,
+		PORTRAIT_HYPER = 24
 	};
 
 private:
@@ -56,6 +56,7 @@ private:
 
 public:
 	void	Set_Info(const CPlayer::INFO* pInfo) { m_pPlayerInfo = pInfo; }
+	void	Set_Face(PORTRAITSTATUS eFace) { m_eFace = eFace; m_fAnimTick = 0.f; }
 	
 public:
 	static CPortrait* Create(LPDIRECT3DDEVICE9 pGraphicDevice);

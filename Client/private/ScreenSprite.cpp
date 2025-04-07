@@ -65,7 +65,7 @@ HRESULT CScreenSprite::Initialize(void* pArg)
 		m_fAccTime = 1.f;
 
 	/* 이 스크린의 뎁스를 정해주세요 */
-	m_fDepth = 0.001f;
+	m_fDepth = _float(UI_PRIORITY);
 
 	return S_OK;
 }

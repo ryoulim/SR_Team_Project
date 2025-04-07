@@ -180,6 +180,7 @@
     <ClInclude Include="..\public\Block.h" />
     <ClInclude Include="..\public\Blood.h" />
     <ClInclude Include="..\public\BossBridge.h" />
+    <ClInclude Include="..\public\BossHPBar.h" />
     <ClInclude Include="..\public\BuildingH.h" />
     <ClInclude Include="..\public\BuildingU.h" />
     <ClInclude Include="..\public\BuildingV.h" />
@@ -228,6 +229,7 @@
     <ClInclude Include="..\public\InvisibleBlock.h" />
     <ClInclude Include="..\public\GrenadeBullet.h" />
     <ClInclude Include="..\public\Item.h" />
+    <ClInclude Include="..\public\ItemDialog.h" />
     <ClInclude Include="..\public\JumpAttack.h" />
     <ClInclude Include="..\public\Ladder.h" />
     <ClInclude Include="..\public\Lava.h" />
@@ -268,6 +270,7 @@
     <ClInclude Include="..\public\RaceGate.h" />
     <ClInclude Include="..\public\RaceLandscape.h" />
     <ClInclude Include="..\public\RaceTerrain.h" />
+    <ClInclude Include="..\public\RacingPanel.h" />
     <ClInclude Include="..\public\Rain.h" />
     <ClInclude Include="..\public\Rock.h" />
     <ClInclude Include="..\public\ScreenDust.h" />
@@ -337,6 +340,7 @@
     <ClCompile Include="..\private\Block.cpp" />
     <ClCompile Include="..\private\Blood.cpp" />
     <ClCompile Include="..\private\BossBridge.cpp" />
+    <ClCompile Include="..\private\BossHPBar.cpp" />
     <ClCompile Include="..\private\BuildingH.cpp" />
     <ClCompile Include="..\private\BuildingU.cpp" />
     <ClCompile Include="..\private\BuildingV.cpp" />
@@ -384,6 +388,7 @@
     <ClCompile Include="..\private\Interactive_Block.cpp" />
     <ClCompile Include="..\private\InvisibleBlock.cpp" />
     <ClCompile Include="..\private\Item.cpp" />
+    <ClCompile Include="..\private\ItemDialog.cpp" />
     <ClCompile Include="..\private\JumpAttack.cpp" />
     <ClCompile Include="..\private\Ladder.cpp" />
     <ClCompile Include="..\private\Lava.cpp" />
@@ -424,6 +429,7 @@
     <ClCompile Include="..\private\RaceGate.cpp" />
     <ClCompile Include="..\private\RaceLandscape.cpp" />
     <ClCompile Include="..\private\RaceTerrain.cpp" />
+    <ClCompile Include="..\private\RacingPanel.cpp" />
     <ClCompile Include="..\private\Rain.cpp" />
     <ClCompile Include="..\private\Rock.cpp" />
     <ClCompile Include="..\private\ScreenDust.cpp" />

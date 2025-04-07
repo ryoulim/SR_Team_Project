@@ -331,7 +331,7 @@ HRESULT CMechsect::Ready_Components(void* pArg)
 	ColliderDesc.vOffSet = {};
 	ColliderDesc.vScale = m_pTransformCom->Compute_Scaled();
 	ColliderDesc.pOwner = this;
-	ColliderDesc.iColliderGroupID = CG_MONSTER;
+	ColliderDesc.iColliderGroupID = CG_MONSTER_BODY;
 	ColliderDesc.iColliderID = CI_MONSTER_MECHSECT;
 
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Collider_Capsule"),

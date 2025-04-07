@@ -33,7 +33,6 @@ HRESULT CMainMenu::Initialize(void* pArg)
 
 	// 세로비 대로 이미지 맞춤
 	m_vSize.x *= g_iWinSizeY / m_vSize.y; m_vSize.y = g_iWinSizeY;
-	m_fDepth = 10.f;
 
 	m_pTransformCom->Scaling(m_vSize);
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, { 0.f,0.f,0.9f });

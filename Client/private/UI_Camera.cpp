@@ -25,7 +25,7 @@ HRESULT CUI_Camera::Initialize(void* pArg)
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
 
-	m_fDepth = 999.f;
+	m_fDepth = _float(UI_CAMERA);
 
 	return S_OK;
 }

@@ -211,7 +211,7 @@ HRESULT CMainApp::Ready_Protype_Object_For_Static()
 	ADD_PRTOBJ(CutScene_Camera);
 	ADD_PRTOBJ(UI_Camera);
 
-	ADD_PRTOBJ(LevelLoadingMenu); // 치워도 안돼
+	ADD_PRTOBJ(LevelLoadingMenu);
 
 	// UI Ready
 	ADD_PRTOBJ(Font_MediumBlue);

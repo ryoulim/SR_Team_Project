@@ -42,7 +42,7 @@ HRESULT CLevel_Loading::Initialize(LEVEL eNextLevelID)
 		BackGroundDesc.eLevelID = LEVEL_LOADING;
 		BackGroundDesc.vInitPos = { 0.f,0.f,0.9f };
 		BackGroundDesc.vScale = { FWINCX, FWINCY, 1.f };
-		BackGroundDesc.fDepth = 10.f;
+		BackGroundDesc.fDepth = _float(UI_BACKGROUND);
 		//if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_LoadingMenu"),
 		//	LEVEL_LOADING, TEXT("Layer_UI"), &BackGroundDesc)))
 		//	return E_FAIL;
@@ -56,7 +56,7 @@ HRESULT CLevel_Loading::Initialize(LEVEL eNextLevelID)
 		BackGroundDesc.eLevelID = LEVEL_LOADING;
 		BackGroundDesc.vInitPos = { 0.f,0.f,0.9f };
 		BackGroundDesc.vScale = { FWINCX, FWINCY, 1.f };
-		BackGroundDesc.fDepth = 10.f;
+		BackGroundDesc.fDepth = _float(UI_BACKGROUND);
 		//if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_LevelLoadingMenu"),
 		//	LEVEL_LOADING, TEXT("Layer_UI"), &BackGroundDesc)))
 		//	return E_FAIL;

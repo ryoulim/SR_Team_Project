@@ -34,7 +34,7 @@ HRESULT CSkull::Initialize(void* pArg)
 		return E_FAIL;
 
 	m_pTransformCom->Scaling(SkullScale1);
-	m_fDepth = 7.f;
+	m_fDepth = _float(UI_OBJECT_HUD);
 
 	return S_OK;
 }

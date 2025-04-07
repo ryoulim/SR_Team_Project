@@ -31,7 +31,7 @@ HRESULT CWeapon::Initialize(void* pArg)
 	m_pCameraTransform = static_cast<CTransform*>(m_pCameraManager->Get_Camera(CCameraManager::FPS)->Find_Component(TEXT("Com_Transform")));
 	Safe_AddRef(m_pCameraTransform);
 
-	m_fDepth = 6.f;
+	m_fDepth = _float(UI_PLAYER);
 	Set_State(ST_OPENING);
 
 	m_eLevelID = pDesc->eLevelID;

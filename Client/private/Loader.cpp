@@ -76,6 +76,8 @@
 #include "Button.h"
 #include "Button_Main.h"
 #include "Skull.h"
+#include "BossHPBar.h"
+#include "ItemDialog.h"
 
 //맵 인클루드
 #include "Block.h"
@@ -267,12 +269,15 @@ HRESULT CLoader::Loding_For_Static()
 	ADD_PRTCOM(Collider_Line);
 	ADD_PRTCOM(Collider_Rect);
 
-	ADD_TEXTURE_EX(Sky, "../Bin/Resources/Textures/SkyBox/Sky_%d.dds", 1, CTexture::TYPE_CUBE); // 치워도?돼
-	ADD_TEXTURE(Aim, "../Bin/Resources/Textures/Aim/aim0.PNG", 1);						// 치워도돼
-	ADD_TEXTURE(Armor, "../Bin/Resources/Textures/UI/Armor/armor%d.PNG", 3);			// 치워도돼
-	ADD_TEXTURE(Ammo, "../Bin/Resources/Textures/UI/Ammo/ammo%d.PNG", 8);				// 치워도돼
-	ADD_TEXTURE(Portrait, "../Bin/Resources/Textures/UI/Portrait/portrait%d.PNG", 25);	// 치워도돼
+	ADD_TEXTURE_EX(Sky, "../Bin/Resources/Textures/SkyBox/Sky_%d.dds", 1, CTexture::TYPE_CUBE); 
+
+	// UI텍스쳐
+	ADD_TEXTURE(Aim, "../Bin/Resources/Textures/Aim/aim0.PNG", 1);						
+	ADD_TEXTURE(Armor, "../Bin/Resources/Textures/UI/Armor/armor%d.PNG", 3);			
+	ADD_TEXTURE(Ammo, "../Bin/Resources/Textures/UI/Ammo/ammo%d.PNG", 8);				
+	ADD_TEXTURE(Portrait, "../Bin/Resources/Textures/UI/Portrait/portrait%d.PNG", 25);	
 	ADD_TEXTURE(Skull, "../Bin/Resources/Textures/UI/On_Hit/Skull.PNG", 1);
+	ADD_TEXTURE(BossHPBar, "../Bin/Resources/Textures/UI/BossHPBar/bosshpbar%d.PNG", 2);
 
 	
 #pragma region PLAYER
@@ -292,6 +297,8 @@ HRESULT CLoader::Loding_For_Static()
 	ADD_PRTOBJ(Portrait);
 	ADD_PRTOBJ(Armor);
 	ADD_PRTOBJ(Skull);
+	ADD_PRTOBJ(BossHPBar);
+	ADD_PRTOBJ(ItemDialog);
 
 #pragma region PLAYER
 	ADD_PRTOBJ(Player);

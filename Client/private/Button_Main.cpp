@@ -49,7 +49,7 @@ HRESULT CButton_Main::Initialize(void* pArg)
 		_float posy = -(m_vPos.y - g_iWinSizeY * 0.5f);
 		Initialize_ButtonRect();
 	}
-	m_fDepth = 5.f;
+	m_fDepth = _float(UI_BUTTON);
 	return S_OK;
 }
 
@@ -75,17 +75,9 @@ void CButton_Main::Late_Update(_float fTimeDelta)
 
 HRESULT CButton_Main::Render()
 {
-	if (FAILED(m_pTransformCom->Bind_Resource()))
-		return E_FAIL;
-
-	//_float2 vPos = { m_pTransformCom->Get_State(CTransform::STATE_POSITION)->x , m_pTransformCom->Get_State(CTransform::STATE_POSITION)->y };
-
-
 	Pick_Button();
 
-
 	return S_OK;
- 
 }
 
 void CButton_Main::Initialize_ButtonRect()
@@ -138,6 +130,7 @@ HRESULT CButton_Main::Pick_Button()
 		RENDER_TEXT_BOL_DARK("NEW GAME", 280.f - g_iWinSizeX * 0.5f, g_iWinSizeY * 0.5f - 460.f, 0.9f);
 	}
 
+	/* 옵션을 안 쓰고 있는데 바꾸거나.. 옵션창을 만들거나... */
 	if (PtInRect(&m_tButton[OPTIONS], ptMouse))
 	{
 		RENDER_TEXT_BOL("OPTIONS", 280.f - g_iWinSizeX * 0.5f, g_iWinSizeY * 0.5f - 510.f, 0.9f);

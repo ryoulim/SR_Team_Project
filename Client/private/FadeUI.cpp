@@ -45,7 +45,7 @@ HRESULT CFadeUI::Initialize(void* pArg)
 		return E_FAIL;
 	__super::Ready_ShaderComponent();
 
-	m_fDepth = 0.f;
+	m_fDepth = _float(UI_PRIORITY);
 
 	m_fAnimationFrame = 0.f;
 

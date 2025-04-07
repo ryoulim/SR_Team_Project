@@ -9,6 +9,7 @@
 #include "Portrait.h"
 #include "Armor.h"
 #include <Aim.h>
+#include <ItemDialog.h>
 
 CUI_Manager* CUI_Manager::m_pInstance = nullptr;
 
@@ -63,6 +64,20 @@ void CUI_Manager::Late_Update(_float fTimeDelta)
 HRESULT CUI_Manager::Render()
 {
 	return S_OK;
+}
+
+HRESULT CUI_Manager::Render_Text(const string& _text, CFont::FONTTYPE _type, CFont::FONTALIGN _align, _float _posX, _float _posY, _float vSizeMul, CShader* pShader)
+{
+	if (m_Fonts[_type] == nullptr)
+		return E_FAIL;
+	return m_Fonts[_type]->Render_Text(_text, _align, _posX, _posY, vSizeMul, pShader);
+}
+
+HRESULT CUI_Manager::Render_Text(const _int _val, CFont::FONTTYPE _type, CFont::FONTALIGN _align, _float _posX, _float _posY, _float vSizeMul, CShader* pShader)
+{
+	if (m_Fonts[_type] == nullptr)
+		return E_FAIL;
+	return m_Fonts[_type]->Render_Text(_val, _align, _posX, _posY, vSizeMul, pShader);
 }
 
 void CUI_Manager::Fade_In()
@@ -150,11 +165,17 @@ HRESULT CUI_Manager::Init_UI_To_Player(const CPlayer::INFO* pPlayerInfo)
 	return S_OK;
 }
 
+HRESULT CUI_Manager::Set_Face(CPortrait::PORTRAITSTATUS eStatus)
+{
+	static_cast<CPortrait*>(m_GameUIs[GUI_PORTRAIT])->Set_Face(eStatus);
+	return S_OK;
+}
+
 HRESULT CUI_Manager::Initialize_Font()
 {
 	CUI::DESC Desc{};
 	Desc.eLevelID = LEVEL_STATIC;
-	Desc.fDepth = 5.f;
+	Desc.fDepth = _float(UI_FONT);
 	Desc.vScale = _float3(1.f, 1.f, 1.f);
 	Desc.vInitPos = _float3(0.1f, 0.1f, 0.1f);
 
@@ -167,11 +188,21 @@ HRESULT CUI_Manager::Initialize_Font()
 	return S_OK;
 }
 
-HRESULT CUI_Manager::Initialize_FadeUI()
+void CUI_Manager::Insert_DialogQueue(const string& strMsg)
 {
-	return S_OK;
+	if (m_pDialog == nullptr)
+	{
+		MSG_BOX("다이얼로그 초기화가 안 된 것 같은디요?? ");
+		return;
+	}
+	static_cast<CItemDialog*>(m_pDialog)->Insert_DialogQueue(strMsg);
 }
 
+void CUI_Manager::Initialize_Dialog(CGameObject* pObj)
+{
+	m_pDialog = pObj;
+	Safe_AddRef(m_pDialog);
+}
 
 void CUI_Manager::Free()
 { 
@@ -183,6 +214,8 @@ void CUI_Manager::Free()
 			Safe_Release(m_Fonts[i]);
 	} 
 	Clear_GamePlayUI();
+	Safe_Release(m_pDialog);
 	Safe_Release(m_pGameInstance);
+
 
 } 

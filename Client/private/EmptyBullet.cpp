@@ -205,7 +205,7 @@ HRESULT CEmptyBullet::Initialize(void* pArg)
 
 	m_fFrame = GetRandomFloat(0.f, m_fAnimationMaxFrame);
 	m_fViewZ = 0.f;
-	m_fDepth = 0.f;
+	m_fDepth = _float(UI_PRIORITY);
 
 	return S_OK;
 }

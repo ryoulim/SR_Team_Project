@@ -53,6 +53,12 @@ void CLevel_Indoor::Update(_float fTimeDelta)
 {
 	Check_Collision();
 
+	if (KEY_DOWN(DIK_1))
+	{
+		CUI_Manager::Get_Instance()->Insert_DialogQueue("test message!");
+	}
+
+
 	if (m_iNextLevel)
 	{
 		m_pGameInstance->Change_Level(LEVEL_LOADING,
@@ -305,7 +311,7 @@ HRESULT CLevel_Indoor::Ready_Layer_UI(const _wstring& strLayerTag)
 {
 	CUI::DESC Desc{};
 	Desc.eLevelID = LEVEL_INDOOR;
-	Desc.fDepth = 3.f;
+	Desc.fDepth = _float(UI_HUD);
 	Desc.vScale = _float3(1.f, 1.f, 1.f);
 	Desc.vInitPos = _float3(0.f, 0.f, 0.1f);
 	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_Aim"),
@@ -330,9 +336,17 @@ HRESULT CLevel_Indoor::Ready_Layer_UI(const _wstring& strLayerTag)
 		Desc.eLevelID, strLayerTag, &Desc)))
 		return E_FAIL;
 
+	CGameObject* pDialog{ nullptr };
+	Desc.fDepth = _float(UI_FONT);
+	if (FAILED(m_pGameInstance->Add_GameObjectReturn(LEVEL_STATIC, TEXT("Prototype_GameObject_ItemDialog"),
+		LEVEL_STATIC, strLayerTag, &pDialog, &Desc)))
+		return E_FAIL;
+	if (pDialog)
+	{
+		CUI_Manager::Get_Instance()->Initialize_Dialog(pDialog);
+	}
 
 	/* ui생성 순서 중요, player 생성 이후 호출 중요  */
-	// 과거의 나야 미안해 
 	return S_OK;
 }
 
@@ -505,23 +519,13 @@ HRESULT CLevel_Indoor::Ready_Layer_Item(const _wstring& strLayerTag)
 
 void CLevel_Indoor::Check_Collision()
 {
-	/*PAWN*/
 	m_pGameInstance->Intersect(CG_PAWN, CG_BLOCK);
-	m_pGameInstance->Intersect(CG_PAWN, CG_INTERACTIVE);
-	m_pGameInstance->Intersect(CG_PAWN, CG_TRIGGER);
-	m_pGameInstance->Intersect(CG_PAWN, CG_ITEM);
-
-	/*PBULLET*/
 	m_pGameInstance->Intersect(CG_PBULLET, CG_MONSTER);
 	m_pGameInstance->Intersect(CG_PBULLET, CG_BLOCK);
-	m_pGameInstance->Intersect(CG_PBULLET, CG_INTERACTIVE);
-
-	/*MBULLET*/
-	m_pGameInstance->Intersect(CG_MBULLET, CG_PAWN);
 	m_pGameInstance->Intersect(CG_MBULLET, CG_BLOCK);
-
-	/*MONSTER*/
+	m_pGameInstance->Intersect(CG_PAWN, CG_TRIGGER);
 	m_pGameInstance->Intersect(CG_MONSTER, CG_BLOCK);
+	m_pGameInstance->Intersect(CG_PAWN, CG_ITEM);
 }
 
 

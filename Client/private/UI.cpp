@@ -26,7 +26,7 @@ HRESULT CUI::Initialize(void* pArg)
 	{
 		DESC* pDesc = static_cast<DESC*>(pArg);
 		m_vPos = pDesc->vInitPos;
-		m_fDepth = m_vPos.z = 0.99f;
+		m_vPos.z = 0.99f; // 혹시라도 위치z값에 0이나 1 넣는 불상사를 방지하기 위해...
 		m_vSize = pDesc->vScale;
 		m_fDepth = pDesc->fDepth;
 		m_pTransformCom->Set_State(CTransform::STATE_POSITION, m_vPos);
