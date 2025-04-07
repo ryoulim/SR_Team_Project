@@ -33,6 +33,9 @@ void CPawn::Priority_Update(_float fTimeDelta)
 
 EVENT CPawn::Update(_float fTimeDelta)
 {
+	if (KEY_DOWN(DIK_I))
+		m_bFog = !m_bFog;
+
 	return EVN_NONE;
 }
 

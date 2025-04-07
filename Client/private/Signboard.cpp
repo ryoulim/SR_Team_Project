@@ -1,4 +1,6 @@
 #include "Signboard.h"
+#include "Player.h"
+#include "Client_Defines.h"
 
 CSignboard::CSignboard(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CStatue { pGraphic_Device }
@@ -52,6 +54,25 @@ HRESULT CSignboard::Render()
 
 HRESULT CSignboard::SignBoard_Render(_float _fTexNum, _int _iSetting)
 {
+	if (!static_cast<CPlayer*>(GET_PLAYER)->GetbFog())
+	{
+		if (FAILED(m_pTransformCom->Bind_Resource()))
+			return E_FAIL;
+
+		m_pGraphic_Device->SetTextureStageState(0, D3DTSS_TEXCOORDINDEX, 0);
+
+		if (FAILED(m_pTextureCom->Bind_Resource(static_cast<_uint>(_fTexNum))))
+			return E_FAIL;
+
+		if (FAILED(m_pVIBufferCom->Bind_Buffers()))
+			return E_FAIL;
+
+		if (FAILED(m_pVIBufferCom->Render(_iSetting)))
+			return E_FAIL;
+
+		return S_OK;
+	}
+
 	if (m_eShadingLevel == LEVEL_RACEFIRST || m_eShadingLevel == LEVEL_RACESECOND || m_eShadingLevel == LEVEL_RACETHIRD)
 	{
 		if (FAILED(m_pTransformCom->Bind_Resource()))
