@@ -43,8 +43,8 @@ HRESULT CLevel_Indoor::Initialize(CLevelData* pLevelData)
 	if (FAILED(Ready_Layer_Monster(TEXT("Layer_Monster"))))
 		return E_FAIL;
 
-	//if (FAILED(Ready_Layer_Item(TEXT("Layer_Item"))))
-	//	return E_FAIL;
+	if (FAILED(Ready_Layer_Item(TEXT("Layer_Item"))))
+		return E_FAIL;
 
 	return S_OK;
 }
@@ -83,7 +83,7 @@ HRESULT CLevel_Indoor::Load_Map(_uint iLevelIdx, const _wstring& FileName)
 	/* 텍스쿠드 변경해서 적용시켜 줄 때 각 오브젝트를 갖고오는 변수 ( 점점추가될 예정 )*/
 	/* 배열로 선언할까 싶기도 했는데, 레벨마다 쓸 녀석과 안 쓸 녀석이 나뉘어질 거같기때문에,, */
 	_int iNumTile{}, iNumBlock{}, iNumTriPil{}, iNumAniRect{}, iNumAniBlock{},
-		iNumInviBlock{}, iNumAlphaRect{}, iNumAlphaBlock{};
+		iNumInviBlock{}, iNumAlphaRect{}, iNumAlphaBlock{}, iNumDoor{}, iNumDoorSecurity{};
 	/* 불러오기용 변수 */
 	_int iNumVertexX = {}, iNumVertexZ = {}, iLoadLength = {};
 	_uint iNumBackGround = {}, iNumModel = {};
@@ -226,6 +226,30 @@ HRESULT CLevel_Indoor::Load_Map(_uint iLevelIdx, const _wstring& FileName)
 			else if (Prototype == TEXT("Prototype_GameObject_AlphaBlock"))
 			{
 				CGameObject* pGameObject = m_pGameInstance->Find_Object(iLevelIdx, Layertag, iNumAlphaBlock++);
+				if (nullptr != pGameObject)
+				{
+					if (FAILED(__super::Load_VertexBuffer(pGameObject, hFile, &dwByte)))
+					{
+						MSG_BOX("버텍스 버퍼 로딩실패");
+						return E_FAIL;
+					}
+				}
+			}
+			else if (Prototype == TEXT("Prototype_GameObject_Door"))
+			{
+				CGameObject* pGameObject = m_pGameInstance->Find_Object(iLevelIdx, Layertag, iNumDoor++);
+				if (nullptr != pGameObject)
+				{
+					if (FAILED(__super::Load_VertexBuffer(pGameObject, hFile, &dwByte)))
+					{
+						MSG_BOX("버텍스 버퍼 로딩실패");
+						return E_FAIL;
+					}
+				}
+			}
+			else if (Prototype == TEXT("Prototype_GameObject_DoorSecurity"))
+			{
+				CGameObject* pGameObject = m_pGameInstance->Find_Object(iLevelIdx, Layertag, iNumDoorSecurity++);
 				if (nullptr != pGameObject)
 				{
 					if (FAILED(__super::Load_VertexBuffer(pGameObject, hFile, &dwByte)))
@@ -481,8 +505,8 @@ return E_FAIL;												\
 HRESULT CLevel_Indoor::Ready_Layer_Item(const _wstring& strLayerTag)
 {
 	CItem::DESC ItemDesc{};
-	ItemDesc.vInitPos = { 2100.f, 20.f, 1000.f };
-	ItemDesc.vScale = { 10.f, 10.f, 10.f };
+	ItemDesc.vInitPos = { 2100.f, 29.f, 1000.f };
+	ItemDesc.vScale = { INDOORITEMSCALE, INDOORITEMSCALE, INDOORITEMSCALE };
 	ItemDesc.fRotationPerSec = RADIAN(180.f);
 	ItemDesc.fSpeedPerSec = 300.f;
 	ItemDesc.eLevelID = CurLevel;
@@ -495,9 +519,7 @@ HRESULT CLevel_Indoor::Ready_Layer_Item(const _wstring& strLayerTag)
 		LEVEL_INDOOR, strLayerTag, &ItemDesc)))
 		return E_FAIL;
 
-
-	ItemDesc.vInitPos = { 2175.f, 20.f, 430.f };
-	ItemDesc.vScale = { 10.f, 10.f, 10.f };
+	ItemDesc.vInitPos = { 2175.f, 29.f, 430.f };
 	ItemDesc.fTextureNum = 1.f;
 	ItemDesc.eColID = COLLIDER_ID::CI_ITEM_AMMO_DISPENSER_SCATTER;
 
@@ -507,7 +529,7 @@ HRESULT CLevel_Indoor::Ready_Layer_Item(const _wstring& strLayerTag)
 
 
 	/*ItemDesc.vInitPos = { 1540.f, 30.f, 1035.f };
-	ItemDesc.vScale = { 10.f, 10.f, 10.f };
+	ItemDesc.vScale = { INDOORITEMSCALE, INDOORITEMSCALE, INDOORITEMSCALE };
 	ItemDesc.fTextureNum = 2.f;
 	ItemDesc.eColID = COLLIDER_ID::CI_ITEM_AMMO_DISPENSER_CANNON;
 
@@ -516,8 +538,7 @@ HRESULT CLevel_Indoor::Ready_Layer_Item(const _wstring& strLayerTag)
 		return E_FAIL;*/
 
 
-	ItemDesc.vInitPos = { 1540.f, 20.f, 1035.f };
-	ItemDesc.vScale = { 10.f, 10.f, 10.f };
+	ItemDesc.vInitPos = { 1540.f, 29.f, 1035.f };
 	ItemDesc.fTextureNum = 3.f;
 	ItemDesc.eColID = COLLIDER_ID::CI_ITEM_AMMO_LOVERBOY;
 
@@ -525,12 +546,25 @@ HRESULT CLevel_Indoor::Ready_Layer_Item(const _wstring& strLayerTag)
 		LEVEL_INDOOR, strLayerTag, &ItemDesc)))
 		return E_FAIL;
 
+	ItemDesc.vInitPos = { 2114.f, 29.f, 995.f };
+	ItemDesc.szBufferType = TEXT("Rect");
+	ItemDesc.szTextureID = TEXT("Item_Cardkey");
+	ItemDesc.fTextureNum = 0.f;
+	ItemDesc.eColID = COLLIDER_ID::CI_ITEM_CARDKEY;
+
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_INDOOR, TEXT("Prototype_GameObject_Item_Cardkey"),
+		LEVEL_INDOOR, strLayerTag, &ItemDesc)))
+		return E_FAIL;
+
+
 	return S_OK;
 }
 
 void CLevel_Indoor::Check_Collision()
 {
 	m_pGameInstance->Intersect(CG_PAWN, CG_BLOCK);
+	m_pGameInstance->Intersect(CG_PAWN, CG_INTERACTIVE);
+
 	m_pGameInstance->Intersect(CG_PBULLET, CG_MONSTER);
 	m_pGameInstance->Intersect(CG_PBULLET, CG_BLOCK);
 	m_pGameInstance->Intersect(CG_MBULLET, CG_BLOCK);

@@ -17,6 +17,11 @@ private:
 	CPlayer(LPDIRECT3DDEVICE9 pGraphic_Device);
 	CPlayer(const CPlayer& Prototype);
 	virtual ~CPlayer() = default;
+	
+public:
+	_bool Get_HaveCardKey() {
+		return m_bHaveCardkey;
+	}
 
 public:
 	virtual HRESULT Initialize_Prototype() override;

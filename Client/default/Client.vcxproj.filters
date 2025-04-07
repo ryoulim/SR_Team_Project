@@ -466,6 +466,9 @@
     <Filter Include="02.GameObjects\Map\Door">
       <UniqueIdentifier>{da89019a-0b76-4ef7-b96f-64af9287f2f5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\Map\Door\DoorSecurity">
+      <UniqueIdentifier>{8ee1653a-232a-4db2-a7fa-ae602516307c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -942,6 +945,9 @@
     <ClInclude Include="..\public\Door.h">
       <Filter>02.GameObjects\Map\Door</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\DoorSecurity.h">
+      <Filter>02.GameObjects\Map\Door\DoorSecurity</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -1400,6 +1406,9 @@
     </ClCompile>
     <ClCompile Include="..\private\Door.cpp">
       <Filter>02.GameObjects\Map\Door</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\DoorSecurity.cpp">
+      <Filter>02.GameObjects\Map\Door\DoorSecurity</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -28,9 +28,19 @@ public:
 	virtual HRESULT Render() override;
 
 	virtual void On_Collision(_uint MyColliderID, _uint OtherColliderID)override;
+
+public:
+	void Security_Off() {
+		m_bSecurity = false; }
+
 private:
 	virtual HRESULT Ready_Components(void* pArg)override;
+	void Open_The_Door(_float fTimeDelta);
 
+private:
+	_bool m_bOpen = { false };
+	_bool m_bSecurity = { false };
+	_float m_fTimeAcc = {};
 
 public:
 	static CDoor* Create(LPDIRECT3DDEVICE9 pGraphic_Device);

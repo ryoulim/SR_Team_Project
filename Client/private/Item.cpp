@@ -28,7 +28,7 @@ HRESULT CItem::Initialize(void* pArg)
 
 	DESC* Desc = static_cast<DESC*>(pArg);
 
-	m_fStdHeight = Desc->vInitPos.y - (Desc->vScale.y * 0.5f);
+	m_fStdHeight = Desc->vInitPos.y;
 
 	return S_OK;
 }

@@ -91,7 +91,7 @@ EVENT CPlayer::Update(_float fTimeDelta)
 		return EVN_NONE;
 
 #ifdef _CONSOL
-	if (KEY_DOWN(DIK_LCONTROL))
+	if (KEY_DOWN(DIK_RCONTROL))
 	{
 		_float3 vPosition = *m_pTransformCom->Get_State(CTransform::STATE_POSITION);
 		printf("플레이어 좌표 : { %.2f, %.2f, %.2f }\n", vPosition.x, vPosition.y, vPosition.z);
@@ -239,6 +239,20 @@ void CPlayer::On_Collision(_uint MyColliderID, _uint OtherColliderID)
 		/* 개추 ㅋㅋㅋ */
 		break;
 
+	case CI_INTERACTIVE_DOOR:
+	{
+		_float3 vPos = *m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+		_float3 vPos2 = *m_pCameraTransform->Get_State(CTransform::STATE_POSITION);
+
+		_float3 Depth = m_pCollider->Get_Last_Collision_Depth();
+
+		vPos += Depth;
+		vPos2 += Depth;
+
+		m_pTransformCom->Set_State(CTransform::STATE_POSITION, vPos);
+		m_pCameraTransform->Set_State(CTransform::STATE_POSITION, vPos2);
+		break;
+	}
 		/* 몬스터 투사체*/
 	case CI_MONSTER_SHOTGUNNER:
 		On_Hit(10);
