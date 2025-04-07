@@ -931,16 +931,16 @@
     <ClInclude Include="..\public\HydroPump.h">
       <Filter>02.GameObjects\Effect\HydroPump</Filter>
     </ClInclude>
-    <ClInclude Include="..\public\WaterBoat.h">
-      <Filter>02.GameObjects\Particle\WaterBoat</Filter>
-    </ClInclude>
-    <ClInclude Include="..\public\CutSceneSmoke.h">
-      <Filter>02.GameObjects\Particle\_BossMobSkill\CutSceenEffect</Filter>
-    </ClInclude>
     <ClInclude Include="..\public\CutSceneSmoke.h" />
     <ClInclude Include="..\public\WaterBoat.h" />
     <ClInclude Include="..\public\Door.h">
       <Filter>02.GameObjects\Map\Door</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\CutSceneSmoke.h">
+      <Filter>02.GameObjects\Particle\_BossMobSkill\CutSceenEffect</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\WaterBoat.h">
+      <Filter>02.GameObjects\Particle\WaterBoat</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
