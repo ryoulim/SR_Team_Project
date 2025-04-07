@@ -30,10 +30,12 @@ private:
 	CVIBuffer*	m_pVIBufferComForLoading[LOADERTEX_END] = { nullptr };
 	CTransform* m_pTransformComForLoading[LOADERTEX_END] = { nullptr };
 	_float		m_fAnimTick{};
-	_float		m_fLoadingGauge{0.1f};
+	_float		m_fLoadingGauge{0.01f};
+	_float		m_fCurLoadingGauge{ 0.f };
 
 public:
-	void	Set_LoadingGauge(const _float percent) { m_fLoadingGauge = percent; }
+	void	Set_LoadingGauge(const _float percent) { m_fCurLoadingGauge = percent; }
+	_bool	IsLoadingComplete() { return m_fLoadingGauge >= 1.19f; }
 
 public:
 	virtual HRESULT Initialize_Prototype() override;

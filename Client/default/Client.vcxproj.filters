@@ -136,9 +136,6 @@
     <Filter Include="02.GameObjects\UI\Font\Font_BigSilver">
       <UniqueIdentifier>{9f63eadd-9790-4713-be66-28482d1458fb}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\UI\MenuUI\LoadingMenu">
-      <UniqueIdentifier>{dd5a48aa-1696-4a1d-ab26-6e5a44c91854}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02.GameObjects\UI\Button">
       <UniqueIdentifier>{4a9434f2-285b-4625-b208-c24b1d822db7}</UniqueIdentifier>
     </Filter>
@@ -228,9 +225,6 @@
     </Filter>
     <Filter Include="02.GameObjects\Statue\BuildingV">
       <UniqueIdentifier>{c7a153e3-4a3d-45e2-91bb-a70163e921fd}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\UI\MenuUI\LevelLoadingMenu">
-      <UniqueIdentifier>{f9967e05-e098-4fcc-b1ea-218980f9bbda}</UniqueIdentifier>
     </Filter>
     <Filter Include="02.GameObjects\Statue\BuildingU">
       <UniqueIdentifier>{7384122a-f587-4088-8d84-249653a83ad1}</UniqueIdentifier>
@@ -466,6 +460,15 @@
     <Filter Include="02.GameObjects\Map\Door">
       <UniqueIdentifier>{da89019a-0b76-4ef7-b96f-64af9287f2f5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\UI\MenuUI\LoadingUI">
+      <UniqueIdentifier>{1f7ad30a-3122-493c-9573-3f07de951b2a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\MenuUI\LoadingUI\LoadingMenu">
+      <UniqueIdentifier>{dd5a48aa-1696-4a1d-ab26-6e5a44c91854}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\MenuUI\LoadingUI\LevelLoadingMenu">
+      <UniqueIdentifier>{f9967e05-e098-4fcc-b1ea-218980f9bbda}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -610,7 +613,7 @@
       <Filter>02.GameObjects\UI\MenuUI\MainMenu</Filter>
     </ClInclude>
     <ClInclude Include="..\public\LoadingMenu.h">
-      <Filter>02.GameObjects\UI\MenuUI\LoadingMenu</Filter>
+      <Filter>02.GameObjects\UI\MenuUI\LoadingUI\LoadingMenu</Filter>
     </ClInclude>
     <ClInclude Include="..\public\Smoke.h">
       <Filter>02.GameObjects\Particle\Smoke</Filter>
@@ -763,7 +766,7 @@
       <Filter>02.GameObjects\Statue\BuildingH</Filter>
     </ClInclude>
     <ClInclude Include="..\public\LevelLoadingMenu.h">
-      <Filter>02.GameObjects\UI\MenuUI\LevelLoadingMenu</Filter>
+      <Filter>02.GameObjects\UI\MenuUI\LoadingUI\LevelLoadingMenu</Filter>
     </ClInclude>
     <ClInclude Include="..\public\BuildingW.h">
       <Filter>02.GameObjects\Statue\BuildingW</Filter>
@@ -1084,7 +1087,7 @@
       <Filter>02.GameObjects\UI\MenuUI\MainMenu</Filter>
     </ClCompile>
     <ClCompile Include="..\private\LoadingMenu.cpp">
-      <Filter>02.GameObjects\UI\MenuUI\LoadingMenu</Filter>
+      <Filter>02.GameObjects\UI\MenuUI\LoadingUI\LoadingMenu</Filter>
     </ClCompile>
     <ClCompile Include="..\private\Smoke.cpp">
       <Filter>02.GameObjects\Particle\Smoke</Filter>
@@ -1228,7 +1231,7 @@
       <Filter>02.GameObjects\Monster\_Debug</Filter>
     </ClCompile>
     <ClCompile Include="..\private\LevelLoadingMenu.cpp">
-      <Filter>02.GameObjects\UI\MenuUI\LevelLoadingMenu</Filter>
+      <Filter>02.GameObjects\UI\MenuUI\LoadingUI\LevelLoadingMenu</Filter>
     </ClCompile>
     <ClCompile Include="..\private\BuildingW.cpp">
       <Filter>02.GameObjects\Statue\BuildingW</Filter>

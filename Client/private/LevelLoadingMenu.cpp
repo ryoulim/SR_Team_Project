@@ -71,13 +71,13 @@ void CLevelLoadingMenu::Priority_Update(_float fTimeDelta)
 
 EVENT CLevelLoadingMenu::Update(_float fTimeDelta)
 {
-	if (m_fLoadingGauge > 0.25f)
+	if (m_fCurLoadingGauge > 0.25f)
 		m_fTextureNum = 1.f;
-	if (m_fLoadingGauge > 0.50f)
+	if (m_fCurLoadingGauge > 0.50f)
 		m_fTextureNum = 2.f;
-	if (m_fLoadingGauge > 0.75f)
+	if (m_fCurLoadingGauge > 0.75f)
 		m_fTextureNum = 3.f;
-	if (m_fLoadingGauge > 0.9f)
+	if (m_fCurLoadingGauge > 0.9f)
 	{
 		if (!m_isFinished)
 		{
