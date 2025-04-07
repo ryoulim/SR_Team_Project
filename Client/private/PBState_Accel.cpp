@@ -19,7 +19,7 @@ void CPBState_Accel::Execute(CPlayerOnBoat* pPlayerOnBoat, _float fTimeDelta)
 
 	pPlayerOnBoat->Go_Straight(m_fAccelSpeed);
 	
-	if (m_fPosZ > -5100.f && m_fPosZ < -5000.f)
+	if (m_fPosZ > -5600.f && m_fPosZ < -5500.f)
 		Exit(pPlayerOnBoat);
 }
 

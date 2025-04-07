@@ -24,9 +24,10 @@ HRESULT CRaceBoss::Initialize(void* pArg)
 	m_vScale = _float3(100.f, 100.f, 100.f);
 	m_iHp = 100;
 
-	m_pTransformCom->Set_State(CTransform::STATE_POSITION, _float3(450.f, 250.f, 1000.f));
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION, _float3(0.f, 250.f, 0.f));
+	//450,250,1000
 	m_pTransformCom->Scaling(m_vScale);
-	m_eState = SHOTREADY;
+	m_eState = ENTRANCE;
 
 	return S_OK;
 }
@@ -41,8 +42,6 @@ EVENT CRaceBoss::Update(_float fTimeDelta)
 	if (m_bDead)
 		return EVN_DEAD;
 
-	m_pTransformCom->Go_Straight(fTimeDelta);
-
 	Action(fTimeDelta);
 
 	return EVN_NONE;
@@ -52,12 +51,17 @@ void CRaceBoss::Late_Update(_float fTimeDelta)
 {
 	m_pCollider->Update_Collider();
 
+	if (m_pTransformCom->Get_State(CTransform::STATE_POSITION)->z > 9500.f)
+		m_eState = LEAVE;
+
 	if (FAILED(m_pGameInstance->Add_RenderGroup(CRenderer::RG_NONBLEND, this)))
 		return;
 }
 
 HRESULT CRaceBoss::Render()
 {
+	m_fTextureNum = 0.f;
+
 	if (FAILED(m_pTransformCom->Bind_Resource()))
 		return E_FAIL;
 
@@ -68,6 +72,22 @@ HRESULT CRaceBoss::Render()
 		return E_FAIL;
 
 	if (FAILED(m_pVIBufferCom->Render()))
+		return E_FAIL;
+
+	m_fTextureNum = 1.f;
+
+	if (FAILED(m_pTextureCom->Bind_Resource(static_cast<_uint>(m_fTextureNum))))
+		return E_FAIL;
+
+	if (FAILED(m_pVIBufferCom->Render(CVIBuffer_RaceBoss::MUZZLE)))
+		return E_FAIL;
+
+	m_fTextureNum = 2.f;
+
+	if (FAILED(m_pTextureCom->Bind_Resource(static_cast<_uint>(m_fTextureNum))))
+		return E_FAIL;
+
+	if (FAILED(m_pVIBufferCom->Render(CVIBuffer_RaceBoss::MIDDLE)))
 		return E_FAIL;
 
 	return S_OK;
@@ -110,14 +130,18 @@ void CRaceBoss::Action(_float fTimeDelta)
 	switch (m_eState)
 	{
 	case ENTRANCE:
-		//왼쪽 상단에서 등장해서 화면 중간으로 이동
-		break;
+		m_fTime += fTimeDelta * 0.98f;
+		m_pTransformCom->Set_State(CTransform::STATE_POSITION, m_pTransformCom->Lerp(m_vLerpStartPos, m_vLerpEndPos, m_fTime));
 
-	case IDLE:
-		//Go_Straight();
+		if (m_pTransformCom->Get_State(CTransform::STATE_POSITION)->z > 1200.f)
+		{
+			m_eState = SHOTREADY;
+			m_fTime = 0.f;
+		}
 		break;
 
 	case SHOTREADY:
+		m_pTransformCom->Go_Straight(fTimeDelta);
 		m_fTime += fTimeDelta;
 		if (m_fTime > 1.f)
 		{
@@ -127,20 +151,25 @@ void CRaceBoss::Action(_float fTimeDelta)
 		break;
 
 	case SHOTHEADBULLET:
+		m_pTransformCom->Go_Straight(fTimeDelta);
 		m_fTime += fTimeDelta;
 		if (m_fTime > 0.02f)
 		{
-			Fire_Bullet(CRaceBossBullet::HEAD);
+			if (m_ePos == POSEND)
+				m_ePos = static_cast<MUZZLEPOS>(rand() % 4);
+
+			Fire_Bullet(CRaceBossBullet::HEAD, m_ePos);
 			m_eState = SHOTTAILBULLET;
 			m_fTime = 0.f;
 		}
 		break;
 
 	case SHOTTAILBULLET:
+		m_pTransformCom->Go_Straight(fTimeDelta);
 		m_fTime += fTimeDelta;
 		if (m_fTime > 0.02f)
 		{
-			Fire_Bullet(CRaceBossBullet::TAIL);
+			Fire_Bullet(CRaceBossBullet::TAIL, m_ePos);
 			++m_iBulletCount;
 			m_fTime = 0.f;
 		}
@@ -149,11 +178,12 @@ void CRaceBoss::Action(_float fTimeDelta)
 		{
 			m_eState = SHOTREADY;
 			m_iBulletCount = 0;
+			m_ePos = POSEND;
 		}
 		break;
 
 	case LEAVE:
-		//z축 이동을 멈추고 수직 위로 상승해서 시야에서 사라짐
+		m_pTransformCom->Go_Up(fTimeDelta);
 		break;
 
 	default:
@@ -161,9 +191,32 @@ void CRaceBoss::Action(_float fTimeDelta)
 	}
 }
 
-HRESULT CRaceBoss::Fire_Bullet(CRaceBossBullet::RBULLETTYPE eType)
+HRESULT CRaceBoss::Fire_Bullet(CRaceBossBullet::RBULLETTYPE eType, MUZZLEPOS ePos)
 {
-	auto pPlayer = GET_PLAYER;
+	_float3 vAdjustPos = {};
+
+	switch (ePos)
+	{
+	case LSIDE:
+		vAdjustPos = { -m_vScale.x * 1.625f, m_vScale.y * 0.25f, -m_vScale.z * 2.f };
+		break;
+
+	case LMIDDLE:
+		vAdjustPos = { -m_vScale.x * 0.875f, m_vScale.y * 0.f, -m_vScale.z * 2.f };
+		break;
+
+	case RMIDDLE:
+		vAdjustPos = { m_vScale.x * 0.875f, m_vScale.y * 0.f, -m_vScale.z * 2.f };
+		break;
+
+	case RSIDE:
+		vAdjustPos = { m_vScale.x * 1.625f, m_vScale.y * 0.25f, -m_vScale.z * 2.f };
+		break;
+
+	default:
+		return E_FAIL;
+		break;
+	}
 
 	CRaceBossBullet::DESC RaceBossBulletdesc{};
 	RaceBossBulletdesc.bAnimation = false;
@@ -171,13 +224,14 @@ HRESULT CRaceBoss::Fire_Bullet(CRaceBossBullet::RBULLETTYPE eType)
 	RaceBossBulletdesc.fSpeedPerSec = 300.f;
 	RaceBossBulletdesc.fRotationPerSec = RADIAN(180.f);
 	RaceBossBulletdesc.vScale = { 20.f, 20.f, 20.f };
-	RaceBossBulletdesc.vPosition = *m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+	RaceBossBulletdesc.vPosition = *m_pTransformCom->Get_State(CTransform::STATE_POSITION) + vAdjustPos;
 
 	if (eType == CRaceBossBullet::HEAD)
 	{
 		//HEAD 총알은 플레이어를 향함
+		auto pPlayer = GET_PLAYER;
 		RaceBossBulletdesc.vLook = *GET_PLAYER_TRANSFORM->Get_State(CTransform::STATE_POSITION)
-			+ _float3(0.f, 0.f, 650.f);
+			+ _float3(0.f, 0.f, 600.f);
 		m_vBulletDiretion = RaceBossBulletdesc.vLook;
 	}
 

@@ -17,7 +17,8 @@ BEGIN(Client)
 class CRaceBoss final : public CGameObject
 {
 public:
-	enum STATE { ENTRANCE, IDLE, SHOTREADY, SHOTHEADBULLET, SHOTTAILBULLET, LEAVE, NON };
+	enum STATE { ENTRANCE, SHOTREADY, SHOTHEADBULLET, SHOTTAILBULLET, LEAVE, NON };
+	enum MUZZLEPOS { LSIDE, LMIDDLE, RMIDDLE, RSIDE, POSEND };
 
 public:
 	typedef struct tagRaceBossDesc : public CTransform::DESC
@@ -42,10 +43,14 @@ public:
 		m_eLevelID = ID;
 	}
 
+	void Set_StartState(STATE eState) {
+		m_eState = eState;
+	}
+
 private:
 	HRESULT Ready_Components(void* pArg);
 	void Action(_float fTimeDelta);
-	HRESULT Fire_Bullet(CRaceBossBullet::RBULLETTYPE eType);
+	HRESULT Fire_Bullet(CRaceBossBullet::RBULLETTYPE eType, MUZZLEPOS ePos);
 
 private:
 	CTexture* m_pTextureCom = { nullptr };
@@ -61,7 +66,9 @@ private:
 	_float		m_fTime = {};
 	_uint		m_iBulletCount = {};
 	_float3		m_vBulletDiretion = {};
-
+	MUZZLEPOS	m_ePos = { POSEND };
+	_float3		m_vLerpStartPos = { 0.f, 250.f, 0.f };
+	_float3		m_vLerpEndPos = { 450.f, 250.f, 1200.f };
 public:
 	static CRaceBoss* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
 	virtual CGameObject* Clone(void* pArg) override;
