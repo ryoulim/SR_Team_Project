@@ -278,7 +278,7 @@ HRESULT CLoader::Loding_For_Static()
 	ADD_TEXTURE(Portrait, "../Bin/Resources/Textures/UI/Portrait/portrait%d.PNG", 25);	
 	ADD_TEXTURE(Skull, "../Bin/Resources/Textures/UI/On_Hit/Skull.PNG", 1);
 	ADD_TEXTURE(BossHPBar, "../Bin/Resources/Textures/UI/BossHPBar/bosshpbar%d.PNG", 2);
-
+	ADD_TEXTURE(Font_Racing, "../Bin/Resources/Textures/UI/Font/Font_Racing/%d.PNG", 10);
 	
 #pragma region PLAYER
 	ADD_TEXTURE(PlayerOnBoat, "../Bin/Resources/Textures/Player/PlayerOnBoat/Tile15947.PNG", 1);
@@ -299,6 +299,7 @@ HRESULT CLoader::Loding_For_Static()
 	ADD_PRTOBJ(Skull);
 	ADD_PRTOBJ(BossHPBar);
 	ADD_PRTOBJ(ItemDialog);
+	//ADD_PRTOBJ(Font_Racing);
 
 #pragma region PLAYER
 	ADD_PRTOBJ(Player);

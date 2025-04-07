@@ -475,6 +475,9 @@
     <Filter Include="02.GameObjects\UI\GamePlayUI\RacingPanel">
       <UniqueIdentifier>{62b83594-64da-46d6-8fd8-d04d4dae49fa}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\UI\Font\Font_Racing">
+      <UniqueIdentifier>{4b438393-50be-4b89-82eb-82379fd32208}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -960,6 +963,9 @@
     <ClInclude Include="..\public\RacingPanel.h">
       <Filter>02.GameObjects\UI\GamePlayUI\RacingPanel</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\Font_Racing.h">
+      <Filter>02.GameObjects\UI\Font\Font_Racing</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -1427,6 +1433,9 @@
     </ClCompile>
     <ClCompile Include="..\private\RacingPanel.cpp">
       <Filter>02.GameObjects\UI\GamePlayUI\RacingPanel</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Font_Racing.cpp">
+      <Filter>02.GameObjects\UI\Font\Font_Racing</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

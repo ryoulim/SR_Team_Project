@@ -33,6 +33,9 @@ public:
 	virtual HRESULT Render_Text(const _int _val, FONTALIGN _align, _float _posX, _float _posY, _float vSizeMul = 1.f, CShader* pShader = nullptr);
 	void	Set_Brightness(_float val) { m_fShadeVal = val; }
 
+	virtual HRESULT Set_Font_Settings(FONTTYPE _eFontType, FONTALIGN _Align, CShader::TYPE _eShaderType, _tchar _ShaderVar, _float vSizeMultiplier = 1.f) { return S_OK; };
+	virtual HRESULT imsi_Render_Text(const string& _Text, _float3 vPos) { return S_OK; };
+
 protected:
 	HRESULT Bind_Texture_To_Transform();
 

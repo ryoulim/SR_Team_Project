@@ -91,10 +91,6 @@ public:
 
 
 #pragma region ÆùÆ® ¸ÅÅ©·Î
-// Render_Text MediumBlueLeft
-// ÆÄ¶õ ±Û¾¾ (¾ÆÀÌÅÛ È¹µæ dialog¿ëµµ ÁÂÃø »ó´Ü °íÁ¤)
-#define RENDER_ITEMDIALOG(message, fposY)  CUI_Manager::Get_Instance()->Render_Text(message, CFont::MEDIUMBLUE, CFont::LEFT, -(g_iWinSizeX / 2.f) + 20.f, fposY)
-
 // Render_Text BigOrangeCenter
 // ³ë¶õ ±Û¾¾ Áß¾Ó Á¤·Ä
 #define RENDER_TEXT_BOC(message, fX, fY, fSize) \
@@ -116,8 +112,16 @@ CUI_Manager::Get_Instance()->Render_Text(message, CFont::BIGORANGE, CFont::CENTE
 #define RENDER_TEXT_BOL_DARK(message, fX, fY, fSize) \
 CUI_Manager::Get_Instance()->Set_ButtonBrightness(0.6f, CFont::BIGORANGE);\
 CUI_Manager::Get_Instance()->Render_Text(message, CFont::BIGORANGE, CFont::LEFT, fX, fY, fSize)
-#pragma endregion
 
+#define RENDER_TEXT_MBL(message, fX, fY, fSize) \
+CUI_Manager::Get_Instance()->Set_ButtonBrightness(1.f, CFont::MEDIUMBLUE);\
+CUI_Manager::Get_Instance()->Render_Text(message, CFont::MEDIUMBLUE, CFont::LEFT, fX, fY, fSize)
+
+#define RENDER_TEXT_MBC(message, fX, fY, fSize) \
+CUI_Manager::Get_Instance()->Set_ButtonBrightness(1.f, CFont::MEDIUMBLUE);\
+CUI_Manager::Get_Instance()->Render_Text(message, CFont::MEDIUMBLUE, CFont::CENTER, fX, fY, fSize)
+
+#pragma endregion
 
 
 END

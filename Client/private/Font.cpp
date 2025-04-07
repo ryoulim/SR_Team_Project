@@ -112,8 +112,11 @@ HRESULT CFont::Render_Text(const _int _val, FONTALIGN _align, _float _posX, _flo
 
 HRESULT CFont::Bind_Texture_To_Transform()
 {
-	if (FAILED(m_pTextureCom->Bind_Resource(static_cast<_uint>(m_fTextureNum))))
-		return E_FAIL;
+	if (m_pShaderCom == nullptr)
+	{
+		if (FAILED(m_pTextureCom->Bind_Resource(static_cast<_uint>(m_fTextureNum))))
+			return E_FAIL;
+	}
 
 	m_pTransformCom->Scaling(m_vSize);
 

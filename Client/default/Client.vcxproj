@@ -217,6 +217,7 @@
     <ClInclude Include="..\public\Font_BigOrange.h" />
     <ClInclude Include="..\public\Font_BigSilver.h" />
     <ClInclude Include="..\public\Font_MediumBlue.h" />
+    <ClInclude Include="..\public\Font_Racing.h" />
     <ClInclude Include="..\public\Font_TinyBlue.h" />
     <ClInclude Include="..\public\Forest.h" />
     <ClInclude Include="..\public\FPS_Camera.h" />
@@ -376,6 +377,7 @@
     <ClCompile Include="..\private\Font_BigOrange.cpp" />
     <ClCompile Include="..\private\Font_BigSilver.cpp" />
     <ClCompile Include="..\private\Font_MediumBlue.cpp" />
+    <ClCompile Include="..\private\Font_Racing.cpp" />
     <ClCompile Include="..\private\Font_TinyBlue.cpp" />
     <ClCompile Include="..\private\Forest.cpp" />
     <ClCompile Include="..\private\FPS_Camera.cpp" />

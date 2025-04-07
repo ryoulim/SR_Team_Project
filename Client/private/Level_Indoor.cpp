@@ -336,16 +336,6 @@ HRESULT CLevel_Indoor::Ready_Layer_UI(const _wstring& strLayerTag)
 		Desc.eLevelID, strLayerTag, &Desc)))
 		return E_FAIL;
 
-	CGameObject* pDialog{ nullptr };
-	Desc.fDepth = _float(UI_FONT);
-	if (FAILED(m_pGameInstance->Add_GameObjectReturn(LEVEL_STATIC, TEXT("Prototype_GameObject_ItemDialog"),
-		LEVEL_STATIC, strLayerTag, &pDialog, &Desc)))
-		return E_FAIL;
-	if (pDialog)
-	{
-		CUI_Manager::Get_Instance()->Initialize_Dialog(pDialog);
-	}
-
 	/* ui생성 순서 중요, player 생성 이후 호출 중요  */
 	return S_OK;
 }

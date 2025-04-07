@@ -2,6 +2,7 @@
 #include "Level_Loading.h"
 #include "BackGround.h"
 #include "Button.h"
+#include "UI_Manager.h"
 
 CLevel_Logo::CLevel_Logo(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CLevel { pGraphic_Device }
@@ -91,6 +92,17 @@ HRESULT CLevel_Logo::Ready_Layer_UI(const _wstring& strLayerTag)
 	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_LOGO, TEXT("Prototype_GameObject_Logo"),
 		LEVEL_LOGO, strLayerTag, &pDesc)))
 		return E_FAIL;
+
+	CGameObject* pDialog{ nullptr };
+	pDesc.fDepth = _float(UI_FONT);
+	if (FAILED(m_pGameInstance->Add_GameObjectReturn(LEVEL_STATIC, TEXT("Prototype_GameObject_ItemDialog"),
+		LEVEL_STATIC, strLayerTag, &pDialog, &pDesc)))
+		return E_FAIL;
+	if (pDialog)
+	{
+		CUI_Manager::Get_Instance()->Initialize_Dialog(pDialog);
+	}
+
 
 	return S_OK;
 }

@@ -110,6 +110,7 @@ void CWenteko::Late_Update(_float fTimeDelta)
 	else
 	{
 		m_pAttackCollider->Update_OffSet({0.f, -10000.f, 0.f});
+		//m_pAttackCollider->Update_Scale({ 0.f, 0.f, 0.f });
 		//m_pAttackCollider->Update_Collider();  // 근접 공격 시에만 콜라이더 업데이트 
 	}
 	if (!m_bDead)
@@ -227,8 +228,12 @@ void CWenteko::JumpPattern(_float dt)
 		if (m_fAnimationFrame >= 4.f)
 			m_fAnimationFrame = 4.f;
 		m_pTransformCom->Go_Straight(dt * 10.f);
+		m_isCloseAttack = true;
 		if (!m_pGravityCom->isJump())
+		{
+			m_isCloseAttack = false;
 			m_eJumpState = JUMP_AFTER;
+		}
 		break;
 
 	case Client::CWenteko::JUMP_AFTER:

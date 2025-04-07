@@ -26,6 +26,8 @@ public:
 	virtual EVENT Update(_float fTimeDelta) override;
 	virtual void Late_Update(_float fTimeDelta) override;
 	virtual HRESULT Render() override;
+	void Render_FirstTime();
+
 
 public:
 	void Set_BossHP(_int* pBossHP) { m_pBossHP = pBossHP; }
