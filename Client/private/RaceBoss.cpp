@@ -275,11 +275,6 @@ void CRaceBoss::Init_Skull()
 	m_pSkull = static_cast<CSkull*>(m_pGameInstance->Clone_Prototype(
 		PROTOTYPE::TYPE_GAMEOBJECT, LEVEL_STATIC,
 		TEXT("Prototype_GameObject_Skull"), &SkullDesc));
-
-	m_vSkullOffset = m_pTransformCom->Compute_Scaled();
-	m_vSkullOffset.x = 0.f;
-	m_vSkullOffset.y *= 0.3f;
-	m_vSkullOffset.z = 0.f;
 }
 
 void CRaceBoss::Update_Skull(_float fTimeDelta)
@@ -321,7 +316,7 @@ void CRaceBoss::Render_Skull(MUZZLEPOS eMuzzle)
 	m_eSkullMuzzlePos = eMuzzle;
 	m_bSkullActive = TRUE;
 	m_pSkull->TimeReset();
-	m_vSkullPos = Calc_Muzzle_Position(eMuzzle) + m_vSkullOffset;
+	m_vSkullPos = Calc_Muzzle_Position(eMuzzle);
 }
 
 CRaceBoss* CRaceBoss::Create(LPDIRECT3DDEVICE9 pGraphic_Device)

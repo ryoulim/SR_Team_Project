@@ -81,7 +81,6 @@ private:
 
 	///// 해골바가지
 	class CSkull* m_pSkull = { nullptr };
-	_float3 m_vSkullOffset{};
 	_float3 m_vSkullPos{};
 	MUZZLEPOS	m_eSkullMuzzlePos{ POSEND };
 	_bool m_bSkullActive{};

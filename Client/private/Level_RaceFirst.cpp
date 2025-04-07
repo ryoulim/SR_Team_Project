@@ -234,7 +234,7 @@ HRESULT CLevel_RaceFirst::Ready_Layer_Pawn(const _wstring& strLayerTag)
 
 	CPlayerOnBoat::DESC PlayerOnBoatDesc = {};
 	PlayerOnBoatDesc.vInitPos = { 450.f, 17.f, 0.f };
-	PlayerOnBoatDesc.vScale = { 35.f, 30.f, 20.f };
+	PlayerOnBoatDesc.vScale = _float3{ 223.f, 137.f, 223.f } * 0.15f;
 	PlayerOnBoatDesc.fRotationPerSec = RADIAN(180.f);
 	PlayerOnBoatDesc.fSpeedPerSec = RACE_SPEED_PER_SEC;
 	PlayerOnBoatDesc.eLevelID = CurLevel;
