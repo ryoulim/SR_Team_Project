@@ -272,8 +272,6 @@ void CWeapon::Mouse_Over()
 	{
 		static_cast<CMonster*>(m_pPickedCollider->Get_Owner())->Render_Skull(TRUE);
 	}
-
-
 }
 
 void CWeapon::Free()

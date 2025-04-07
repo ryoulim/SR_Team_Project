@@ -469,6 +469,9 @@
     <Filter Include="02.GameObjects\Map\Door\DoorSecurity">
       <UniqueIdentifier>{8ee1653a-232a-4db2-a7fa-ae602516307c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\UI\GamePlayUI\InteractPromptUI">
+      <UniqueIdentifier>{eaa5ed9c-f296-4c86-b720-0286ca6926d2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -948,6 +951,9 @@
     <ClInclude Include="..\public\DoorSecurity.h">
       <Filter>02.GameObjects\Map\Door\DoorSecurity</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\InteractPromptUI.h">
+      <Filter>02.GameObjects\UI\GamePlayUI\InteractPromptUI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -1409,6 +1415,9 @@
     </ClCompile>
     <ClCompile Include="..\private\DoorSecurity.cpp">
       <Filter>02.GameObjects\Map\Door\DoorSecurity</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\InteractPromptUI.cpp">
+      <Filter>02.GameObjects\UI\GamePlayUI\InteractPromptUI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

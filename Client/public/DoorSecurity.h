@@ -22,6 +22,11 @@ private:
 	virtual ~CDoorSecurity() = default;
 
 public:
+	_bool Get_IsPicked() {
+		return m_bPickinged;
+	}
+
+public:
 	virtual HRESULT Initialize_Prototype() override;
 	virtual HRESULT Initialize(void* pArg) override;
 	virtual void Priority_Update(_float fTimeDelta) override;
@@ -35,13 +40,14 @@ public:
 private:
 	virtual HRESULT Ready_Components(void* pArg)override;
 	void Move_Frame(_float fTimeDelta);
+	HRESULT Link_Door();
 
 private:
 	_float m_fMaxFrame = {};
 	_float m_fLockTimeAcc = {};
+	_bool  m_bPickinged = { false };
 
 private:
-
 	class CGameObject* m_pDoor = { nullptr };
 	STATE m_eState = { USUAL };
 

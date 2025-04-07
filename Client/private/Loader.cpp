@@ -76,6 +76,7 @@
 #include "Button.h"
 #include "Button_Main.h"
 #include "Skull.h"
+#include "InteractPromptUI.h"
 
 //맵 인클루드
 #include "Block.h"
@@ -1269,6 +1270,9 @@ HRESULT CLoader::Loading_For_Indoor()
 	if (FAILED(m_pGameInstance->Add_Prototype(m_eNextLevelID, TEXT("Prototype_GameObject_Item_Cardkey"),
 		CItem::Create(m_pGraphic_Device))))
 		return E_FAIL;
+
+	/* UI */
+	ADD_PRTOBJ(InteractPromptUI);
 
 	lstrcpy(m_szLoadingText, TEXT("사운드을(를) 로딩중입니다."));
 

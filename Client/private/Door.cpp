@@ -68,6 +68,8 @@ void CDoor::On_Collision(_uint MyColliderID, _uint OtherColliderID)
     switch (OtherColliderID)
     {
     case CI_PICKING_RAY:
+
+        /* Press USE [E] to interact with the world. */
         if (KEY_DOWN(DIK_F))
             m_bOpen = true;
         break;

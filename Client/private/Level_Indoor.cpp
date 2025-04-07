@@ -19,14 +19,14 @@ CLevel_Indoor::CLevel_Indoor(LPDIRECT3DDEVICE9 pGraphic_Device)
 }
 
 HRESULT CLevel_Indoor::Initialize(CLevelData* pLevelData)
-{
- 	if (FAILED(Load_Map(LEVEL_INDOOR, TEXT("NormalMapData.txt"))))
-		return E_FAIL;
-	
+{	
 	if (FAILED(Ready_Layer_Camera(TEXT("Layer_Camera"))))
 		return E_FAIL;
 
 	if (FAILED(Ready_Layer_UI(TEXT("Layer_UI"))))
+		return E_FAIL;
+
+	if (FAILED(Load_Map(LEVEL_INDOOR, TEXT("NormalMapData.txt"))))
 		return E_FAIL;
 
 	CUI_Manager::Get_Instance()->Initialize_GamePlayUI(CurLevel);
@@ -354,6 +354,9 @@ HRESULT CLevel_Indoor::Ready_Layer_UI(const _wstring& strLayerTag)
 		Desc.eLevelID, strLayerTag, &Desc)))
 		return E_FAIL;
 
+	if (FAILED(m_pGameInstance->Add_GameObject(Desc.eLevelID, TEXT("Prototype_GameObject_InteractPromptUI"),
+		Desc.eLevelID, strLayerTag, &Desc)))
+		return E_FAIL;
 
 	/* ui생성 순서 중요, player 생성 이후 호출 중요  */
 	// 과거의 나야 미안해 

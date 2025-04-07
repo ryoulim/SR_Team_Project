@@ -7,6 +7,8 @@
 #include "Player.h"
 #include "Door.h"
 
+#include "InteractPromptUI.h"
+
 CDoorSecurity::CDoorSecurity(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CInteractive_Block{ pGraphic_Device }
 {
@@ -33,33 +35,8 @@ HRESULT CDoorSecurity::Initialize(void* pArg)
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
 
-    list<CGameObject*>* pDoorList = m_pGameInstance->Find_Objects(m_eLevelID, TEXT("Layer_Door"));
-
-    _float3 vPosition = *m_pTransformCom->Get_State(CTransform::STATE_POSITION);
-    _float fMinDistance = FLT_MAX;
-    for (auto pDoor : *pDoorList)
-    {
-        _float3 vDoorPos = *dynamic_cast<CTransform*>(pDoor->Find_Component(TEXT("Com_Transform")))->Get_State(CTransform::STATE_POSITION);
-        _float3 vDistance = vDoorPos - vPosition;
-        _float fDoorDistance = vDistance.Length();
-
-        if (fDoorDistance < fMinDistance)
-        {
-            fMinDistance = fDoorDistance;
-
-            if (nullptr == m_pDoor)
-            {
-                m_pDoor = pDoor;
-                Safe_AddRef(m_pDoor);
-            }
-            else
-            {
-                Safe_Release(m_pDoor);
-                m_pDoor = pDoor;
-                Safe_AddRef(m_pDoor);
-            }
-        }
-    }
+    if (FAILED(Link_Door()))
+        return E_FAIL;
 
 	return S_OK;
 }
@@ -92,7 +69,6 @@ EVENT CDoorSecurity::Update(_float fTimeDelta)
         dynamic_cast<CDoor*>(m_pDoor)->Security_Off();
         break;
     }
-
 	return __super::Update(fTimeDelta);
 }
 
@@ -111,18 +87,19 @@ void CDoorSecurity::On_Collision(_uint MyColliderID, _uint OtherColliderID)
     switch (OtherColliderID)
     {
     case CI_PICKING_RAY:
+
+        m_bPickinged = true;
+        /* 여기에 UI출력 */
+        /* Press USE [E] to unlock terminal with Access Card. */
         if (KEY_DOWN(DIK_F))
         {
             if (dynamic_cast<CPlayer*>(GET_PLAYER)->Get_HaveCardKey())
-            {
-                /* 문을 잠금해제 한다? / 또는 문을 연다 */
                 m_eState = OPEN;
-            }
             else
-            {
                 m_eState = LOCK;
-            }
         }
+        break;
+    default:
         break;
     }
 }
@@ -198,6 +175,44 @@ void CDoorSecurity::Move_Frame(_float fTimeDelta)
 
     if (m_fTextureIdx >= m_fMaxFrame)
         m_fTextureIdx = 0.f;
+}
+
+HRESULT CDoorSecurity::Link_Door()
+{
+    list<CGameObject*>* pDoorList = m_pGameInstance->Find_Objects(m_eLevelID, TEXT("Layer_Door"));
+    if (nullptr == pDoorList)
+        return E_FAIL;
+
+    _float3 vPosition = *m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+    _float fMinDistance = FLT_MAX;
+    for (auto pDoor : *pDoorList)
+    {
+        _float3 vDoorPos = *dynamic_cast<CTransform*>(pDoor->Find_Component(TEXT("Com_Transform")))->Get_State(CTransform::STATE_POSITION);
+        _float3 vDistance = vDoorPos - vPosition;
+        _float fDoorDistance = vDistance.Length();
+
+        if (fDoorDistance < fMinDistance)
+        {
+            fMinDistance = fDoorDistance;
+
+            if (nullptr == m_pDoor)
+            {
+                m_pDoor = pDoor;
+                Safe_AddRef(m_pDoor);
+            }
+            else
+            {
+                Safe_Release(m_pDoor);
+                m_pDoor = pDoor;
+                Safe_AddRef(m_pDoor);
+            }
+        }
+    }
+
+    if (nullptr == m_pDoor)
+        return E_FAIL;
+
+    return S_OK;
 }
 
 CDoorSecurity* CDoorSecurity::Create(LPDIRECT3DDEVICE9 pGraphic_Device)

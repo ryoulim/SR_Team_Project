@@ -226,6 +226,7 @@
     <ClInclude Include="..\public\HitBox.h" />
     <ClInclude Include="..\public\HydroPump.h" />
     <ClInclude Include="..\public\Interactive_Block.h" />
+    <ClInclude Include="..\public\InteractPromptUI.h" />
     <ClInclude Include="..\public\InvisibleBlock.h" />
     <ClInclude Include="..\public\GrenadeBullet.h" />
     <ClInclude Include="..\public\Item.h" />
@@ -384,6 +385,7 @@
     <ClCompile Include="..\private\HitBox.cpp" />
     <ClCompile Include="..\private\HydroPump.cpp" />
     <ClCompile Include="..\private\Interactive_Block.cpp" />
+    <ClCompile Include="..\private\InteractPromptUI.cpp" />
     <ClCompile Include="..\private\InvisibleBlock.cpp" />
     <ClCompile Include="..\private\Item.cpp" />
     <ClCompile Include="..\private\JumpAttack.cpp" />
