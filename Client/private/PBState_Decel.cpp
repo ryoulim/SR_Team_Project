@@ -23,7 +23,7 @@ void CPBState_Decel::Execute(CPlayerOnBoat* pPlayerOnBoat, _float fTimeDelta)
 
 	pPlayerOnBoat->Go_Straight(m_fDecelSpeed);
 
-	if(m_fPosZ > 500.f)
+	if(m_fPosZ > -300.f)
 		Exit(pPlayerOnBoat);
 }
 
