@@ -105,13 +105,16 @@ void CMonster::Late_Update(_float fTimeDelta)
 	{
 		_float3 vOrigSize = {};
 		m_pTextureMap[m_iState][m_iDegree]->Get_TextureSize(m_fAnimationFrame, &vOrigSize);
-		_float fComputedSizeYFromOrig = -vOrigSize.y + 20.f;
+		_float fComputedSizeYFromOrig = -vOrigSize.y*0.5f + 20.f;
 		// ���� ���� ���ݸ�ŭ ���� ���� ���α��̸�ŭ ���ϱ� 
 		auto newY = m_vScale.y - 20.f;
-		m_pCollider->Update_OffSet({ 0.f, -20.f, 0.f });
-		//m_pCollider->Update_OffSet({ 0.f, fComputedSizeYFromOrig, 0.f });
+		//m_pCollider->Update_OffSet({ 0.f, -10.f, 0.f });
+		m_pCollider->Update_OffSet({ 0.f, -10.f, 0.f });
 		//m_pCollider->Update_Scale({ vOrigSize.x, 20.f, 1.f });
-		m_pCollider->Update_Scale({ vOrigSize.x * 0.5f, 1.f, 1.f });
+		m_pCollider->Update_Scale({ vOrigSize.x * 0.5f, 3.f, 1.f });
+		
+		if (m_pHeadCollider != nullptr)
+			m_pHeadCollider->Update_Scale({ 0.f,0.f,0.f });
 	}
 
   	m_pCollider->Update_Collider();

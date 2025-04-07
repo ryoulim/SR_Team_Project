@@ -1,5 +1,5 @@
-// ³» Å¬·¡½º ÀÌ¸§ : TestMonster
-// ºÎ¸ğ Å¬·¡½º ÀÌ¸§ : Monster
+ï»¿// ë‚´ í´ë˜ìŠ¤ ì´ë¦„ : TestMonster
+// ë¶€ëª¨ í´ë˜ìŠ¤ ì´ë¦„ : Monster
 
 #include "Archangel.h"
 #include "FXMgr.h"
@@ -18,11 +18,11 @@ CArchangel::CArchangel(const CArchangel& Prototype)
 
 HRESULT CArchangel::Initialize_Prototype()
 {
-	//ÇÁ·ÎÅäÅ¸ÀÔÀÇ ±âº»Á¤ÀÇ
+	//í”„ë¡œí† íƒ€ì…ì˜ ê¸°ë³¸ì •ì˜
 	m_szTextureID = TEXT("Archangel_Walk");
 	m_szBufferType = TEXT("Rect");
 
-	//¼Ó¼º
+	//ì†ì„±
 	m_iHP = 350;
 	m_iMaxHP = 350;
 	m_iAttackPower = 20;
@@ -34,7 +34,7 @@ HRESULT CArchangel::Initialize_Prototype()
 
 	m_fDetectiveDistance = 300.f;
 
-	//ºÎ¼Ó¼º
+	//ë¶€ì†ì„±
 	m_strDialogue = "Archangel..Archangel...";
 	m_strSound = "SoundFilePath";
 
@@ -45,16 +45,16 @@ HRESULT CArchangel::Initialize_Prototype()
 
 HRESULT CArchangel::Initialize(void* pArg)
 {
-	//À§Ä¡, Å©±âÃÊ±âÈ­, ÄÄÆ÷³ÍÆ® ºÎÂø
+	//ìœ„ì¹˜, í¬ê¸°ì´ˆê¸°í™”, ì»´í¬ë„ŒíŠ¸ ë¶€ì°©
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
 	
-	/* Äİ¶óÀÌµå ÄÄÆ÷³ÍÆ® */
+	/* ì½œë¼ì´ë“œ ì»´í¬ë„ŒíŠ¸ */
 	DESC* pDesc = static_cast<DESC*>(pArg);
 	CCollider::DESC ColliderDesc{};
 	ColliderDesc.pTransform = m_pTransformCom;
-	ColliderDesc.vOffSet = {0.f, 192.f * 0.5f - 52.f, 0.f}; // y±æÀÌ * 0.5 - ¸Ó¸®À§Ä¡yÁÂÇ¥ + ¹İÁö¸§Å©±â?
-	ColliderDesc.vScale = { 17.f, 0.f, 0.f }; // ¹İÁö¸§ Å©±â
+	ColliderDesc.vOffSet = {0.f, 130.f * 0.5f - 20.f, 0.f}; // yê¸¸ì´ * 0.5 - ë¨¸ë¦¬ìœ„ì¹˜yì¢Œí‘œ + ë°˜ì§€ë¦„í¬ê¸°?
+	ColliderDesc.vScale = { 15.f, 0.f, 0.f }; // ë°˜ì§€ë¦„ í¬ê¸°
 	ColliderDesc.pOwner = this;
 	ColliderDesc.iColliderGroupID = CG_MONSTER_HEAD;
 	ColliderDesc.iColliderID = CI_MON_HEAD;
@@ -63,19 +63,19 @@ HRESULT CArchangel::Initialize(void* pArg)
 		TEXT("Com_Collider_head"), reinterpret_cast<CComponent**>(&m_pHeadCollider), &ColliderDesc)))
 		return E_FAIL;
 
-	m_pCollider->Update_OffSet({ 0.f, -18.f, 0.f });
-	m_pCollider->Update_Scale({ 56.7f, 130.f - 52.f, 1.f });
+	m_pCollider->Update_OffSet({ 0.f, -15.f, 0.f });
+	m_pCollider->Update_Scale({ 56.7f, 130.f - 40.f, 1.f });
 
 
 	m_fDivOffset = 45.f;
-	//¾Ö´Ï¸ŞÀÌ¼Ç(¼öÁ¤¿¹Á¤)
+	//ì• ë‹ˆë©”ì´ì…˜(ìˆ˜ì •ì˜ˆì •)
 	m_fAnimationMaxFrame = 4.f;
 	m_fAnimationSpeed = 5.f;
 	m_iState = STATE_MOVE;
-	m_fCooldownTime = 1.5f;     // °ø°İ ½¬´Â ÅÒ
-	m_fBulletCooldown = 0.03f;	// ÃÑ¾Ë ¹ß»ç Äğ
-	m_fAttackTime = 0.2f;		// °ø°İ ½Ã°£
-	m_fTrailDuration = 0.5f;	// ÀÜ»óÀÌ »ç¶óÁö´Â ½Ã°£	
+	m_fCooldownTime = 1.5f;     // ê³µê²© ì‰¬ëŠ” í…€
+	m_fBulletCooldown = 0.03f;	// ì´ì•Œ ë°œì‚¬ ì¿¨
+	m_fAttackTime = 0.2f;		// ê³µê²© ì‹œê°„
+	m_fTrailDuration = 0.5f;	// ì”ìƒì´ ì‚¬ë¼ì§€ëŠ” ì‹œê°„	
 
 	return S_OK;
 }
@@ -93,33 +93,78 @@ EVENT CArchangel::Update(_float fTimeDelta)
 
 void CArchangel::Late_Update(_float fTimeDelta)
 {
-	//ÇÃ·¹ÀÌ¾î °¨Áö ¾÷µ¥ÀÌÆ®
+	////í”Œë ˆì´ì–´ ê°ì§€ ì—…ë°ì´íŠ¸
+	//PlayerDistance();
+	//CalculateVectorToPlayer();
+
+	////ì½œë¼ì´ë” ì—…ë°ì´íŠ¸
+	//m_pCollider->Update_Collider();
+	//if (m_pHeadCollider != nullptr)
+	//	m_pHeadCollider->Update_Collider();
+
+	////ê·¸ë˜ë¹„í‹° ì—…ë°ì´íŠ¸
+	//if (m_bGravity)
+	//	m_pGravityCom->Update(fTimeDelta);
+
+	////ëª¬ìŠ¤í„° ê°ë„ì—…ë°ì´íŠ¸
+	//Compute_ViewAngle();
+	//Set_TextureType();
+
+	////ë Œë”ê·¸ë£¹ ì—…ë°ì´íŠ¸
+	//if (FAILED(m_pGameInstance->Add_RenderGroup(CRenderer::RG_BLEND, this)))
+	//	return;
+
+	//if (m_bRotateAnimation == false)
+	//	m_iDegree = 0;
+	//Resize_Texture(0.7f);
+
+	//if (m_bSkullActive)
+	//	m_pSkull->Late_Update(fTimeDelta);
+
+
+
 	PlayerDistance();
 	CalculateVectorToPlayer();
 
-	//Äİ¶óÀÌ´õ ¾÷µ¥ÀÌÆ®
+	if (m_bDead) // ï¿½ï¿½Ã¼ ï¿½İ¶ï¿½ï¿½Ì´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï¸ï¿½ Ä¸ï¿½ï¿½ï¿½Ì¶ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½î°¡ ï¿½ï¿½ï¿½Ï°ï¿½ ï¿½È¸ï¿½ï¿½ï¿½..
+	{
+		_float3 vOrigSize = {};
+		m_pTextureMap[m_iState][m_iDegree]->Get_TextureSize(m_fAnimationFrame, &vOrigSize);
+		_float fComputedSizeYFromOrig = -vOrigSize.y * 0.5f + 20.f;
+		auto newY = m_vScale.y - 20.f;
+		//m_pCollider->Update_OffSet({ 0.f, -10.f, 0.f });
+		m_pCollider->Update_OffSet({ 0.f, -40.f, 0.f });
+		//m_pCollider->Update_Scale({ vOrigSize.x, 20.f, 1.f });
+		m_pCollider->Update_Scale({ vOrigSize.x * 0.5f, 3.f, 1.f });
+
+		if (m_pHeadCollider != nullptr)
+			m_pHeadCollider->Update_OffSet({ 0.f,10000.f,0.f });
+	}
+
 	m_pCollider->Update_Collider();
 	if (m_pHeadCollider != nullptr)
 		m_pHeadCollider->Update_Collider();
 
-	//±×·¡ºñÆ¼ ¾÷µ¥ÀÌÆ®
-	if (m_bGravity)
-		m_pGravityCom->Update(fTimeDelta);
 
-	//¸ó½ºÅÍ °¢µµ¾÷µ¥ÀÌÆ®
+	m_pGravityCom->Update(fTimeDelta);
+
 	Compute_ViewAngle();
 	Set_TextureType();
 
-	//·»´õ±×·ì ¾÷µ¥ÀÌÆ®
 	if (FAILED(m_pGameInstance->Add_RenderGroup(CRenderer::RG_BLEND, this)))
 		return;
 
-	if (m_bRotateAnimation == false)
+	if (m_bSkullActive)
+		m_pSkull->Late_Update(fTimeDelta);
+
+
+
+	//__super::Late_Update(fTimeDelta);
+
+	if (false == m_bRotateAnimation)
 		m_iDegree = 0;
 	Resize_Texture(0.7f);
 
-	if (m_bSkullActive)
-		m_pSkull->Late_Update(fTimeDelta);
 }
 
 HRESULT CArchangel::Render()
@@ -134,13 +179,13 @@ HRESULT CArchangel::Render()
 		Render_TrailData(); 
 	}						
 	return S_OK;
-	//Æ¯º°È÷ ´õ ·»´õ¸µ ÇÒ°Ô ÀÖ´Â °æ¿ì ¡é
+	//íŠ¹ë³„íˆ ë” ë Œë”ë§ í• ê²Œ ìˆëŠ” ê²½ìš° â†“
 
 }
 
 void CArchangel::MonsterTick(_float dt)
 {
-	//»óÅÂº¯È­
+	//ìƒíƒœë³€í™”
 	switch (m_eState)
 	{
 	case MODE::MODE_IDLE:
@@ -163,7 +208,7 @@ void CArchangel::MonsterTick(_float dt)
 		break;
 
 	case MODE::MODE_RETURN:
-		//º»·¡À§Ä¡·Î µ¹¾Æ°¡°í IDLE·Î »óÅÂ°¡ º¯ÇÑ´Ù.
+		//ë³¸ë˜ìœ„ì¹˜ë¡œ ëŒì•„ê°€ê³  IDLEë¡œ ìƒíƒœê°€ ë³€í•œë‹¤.
 		m_bFoundPlayer = false;
 		break;
 	}
@@ -172,7 +217,7 @@ void CArchangel::MonsterTick(_float dt)
 	Debug_Output();
 #endif
 
-	// »óÅÂÇàµ¿(¾×¼Ç)
+	// ìƒíƒœí–‰ë™(ì•¡ì…˜)
 	switch (m_eState)
 	{
 	case MODE::MODE_IDLE:
@@ -204,7 +249,7 @@ void CArchangel::MonsterTick(_float dt)
 
 void CArchangel::DoDetect(_float dt)
 {
-	// °¨Áö °¡´É °Å¸® ÀÌ³»ÀÏ ¶§ / °¨Áö »óÅÂ Áß Ãß°İ °¡´É °Å¸®ÀÏ ¶§
+	// ê°ì§€ ê°€ëŠ¥ ê±°ë¦¬ ì´ë‚´ì¼ ë•Œ / ê°ì§€ ìƒíƒœ ì¤‘ ì¶”ê²© ê°€ëŠ¥ ê±°ë¦¬ì¼ ë•Œ
 	ChasePlayer(dt, 50.f);
 
 	m_eCurMonsterState = STATE_MOVE;
@@ -252,9 +297,9 @@ void CArchangel::DoIdle(_float dt)
 
 		if (m_fIdleWaitElapsed >= m_fIdleWaitTime)
 		{
-			SetRandomDirection();                  // È¸ÀüÇÒ ¹æÇâ ¼³Á¤
+			SetRandomDirection();                  // íšŒì „í•  ë°©í–¥ ì„¤ì •
 			m_fIdleWaitElapsed = 0.f;
-			m_eIdlePhase = EIdlePhase::IDLE_TURN; // ´ÙÀ½¿£ È¸ÀüÇÏ·¯ °£´Ù
+			m_eIdlePhase = EIdlePhase::IDLE_TURN; // ë‹¤ìŒì—” íšŒì „í•˜ëŸ¬ ê°„ë‹¤
 		}
 		break;
 
@@ -264,7 +309,7 @@ void CArchangel::DoIdle(_float dt)
 		_float3 vLook = *m_pTransformCom->Get_State(CTransform::STATE_LOOK);
 
 		bool bRotated = m_pTransformCom->RotateToDirection(vLook, m_vDirection, 5.f, dt);
-		if (bRotated)  // È¸Àü ¿Ï·á ½ÅÈ£
+		if (bRotated)  // íšŒì „ ì™„ë£Œ ì‹ í˜¸
 		{
 			m_eIdlePhase = EIdlePhase::IDLE_MOVE;
 		}
@@ -289,7 +334,7 @@ void CArchangel::DoBattle(_float dt)
 }
 
 void CArchangel::AttackPattern(_float dt)
-{	// ½ÇÁ¦ °ø°İ ÆĞÅÏ ÀÛ¼ºÇÏ´Â °÷
+{	// ì‹¤ì œ ê³µê²© íŒ¨í„´ ì‘ì„±í•˜ëŠ” ê³³
 
 	switch (m_eAttackPattern)
 	{
@@ -403,18 +448,18 @@ void CArchangel::FirePattern(_float dt)
 
 void CArchangel::ChasePlayer(_float dt, _float fChaseDist)
 {
-	//Å¸°ÙÀ» 350°Å¸®±îÁö Ãß°İÇÑ´Ù.
+	//íƒ€ê²Ÿì„ 350ê±°ë¦¬ê¹Œì§€ ì¶”ê²©í•œë‹¤.
 	_float3 TargetPos = *static_cast<CTransform*>(m_pTargetPlayer->Find_Component(L"Com_Transform"))->Get_State(CTransform::STATE_POSITION);
 
-	// ÇöÀç À§Ä¡
+	// í˜„ì¬ ìœ„ì¹˜
 	_float3 vMyPos = *m_pTransformCom->Get_State(CTransform::STATE_POSITION);
 
-	// ¹æÇâ °è»ê
+	// ë°©í–¥ ê³„ì‚°
 	_float3 vDir = TargetPos - vMyPos;
 	float fDistance = vDir.Length();
 	vDir.Normalize();
 
-	//¿ø·¡¹æÇâÀ¸·Î ÅÏÇÏ±â
+	//ì›ë˜ë°©í–¥ìœ¼ë¡œ í„´í•˜ê¸°
 	_float3 vLook = *m_pTransformCom->Get_State(CTransform::STATE_LOOK);
 	bool bRotated = m_pTransformCom->RotateToDirection(vLook, vDir, 5.f, dt);
 	m_pTransformCom->ChaseWithOutY(TargetPos, dt, fChaseDist, 150.f);
@@ -424,6 +469,21 @@ HRESULT CArchangel::Ready_Components(void* pArg)
 {
 	if (FAILED(__super::Ready_Components(pArg)))
 		return E_FAIL;
+
+	Safe_Release(m_pCollider);
+	// ì½œë¼ì´ë” ì¬í• ë‹¹ 
+	DESC* pDesc = static_cast<DESC*>(pArg);
+	CCollider_Capsule::DESC ColliderDesc{};
+	ColliderDesc.pTransform = m_pTransformCom;
+	ColliderDesc.vScale = m_pTransformCom->Compute_Scaled();
+	ColliderDesc.pOwner = this;
+	ColliderDesc.iColliderGroupID = CG_MONSTER;
+	ColliderDesc.iColliderID = CI_MONSTER_ARCHANGELBODY;
+
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Collider_Capsule"),
+		TEXT("Com_Collider"), reinterpret_cast<CComponent**>(&m_pCollider), &ColliderDesc)))
+		return E_FAIL;
+
 
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Shader"),
 		TEXT("Com_Shader"), reinterpret_cast<CComponent**>(&m_pShaderCom))))
@@ -548,13 +608,13 @@ HRESULT CArchangel::Animate_Monster(_float fTimeDelta)
 			m_fAnimationFrame = 0.f;
 		m_bRotateAnimation = true;
 		break;
-	case Client::CArchangel::STATE_FLY: // »èÁ¦?
+	case Client::CArchangel::STATE_FLY: // ì‚­ì œ?
 		//m_fAnimationFrame += fTimeDelta * m_fAnimationSpeed;
 		//if (m_fAnimationFrame >= m_fAnimationMaxFrame)
 		//	m_fAnimationFrame = 0.f;
 		m_bRotateAnimation = true;
 		break;
-	case Client::CArchangel::STATE_ATTACK: // »èÁ¦?
+	case Client::CArchangel::STATE_ATTACK: // ì‚­ì œ?
 		//m_fAnimationFrame += fTimeDelta * m_fAnimationSpeed;
 		//if (m_fAnimationFrame >= m_fAnimationMaxFrame)
 		//	m_fAnimationFrame = 0.f;
@@ -572,7 +632,7 @@ HRESULT CArchangel::Animate_Monster(_float fTimeDelta)
 
 void CArchangel::Update_TrailData(_float dt)
 {
-	// ÀÜ»ó µ¥ÀÌÅÍ ¾÷µ¥ÀÌÆ®
+	// ì”ìƒ ë°ì´í„° ì—…ë°ì´íŠ¸
 	std::queue<TrailData> updatedQueue;
 	while (!m_TrailDataQueue.empty()) {
 		TrailData trailData = m_TrailDataQueue.front();
@@ -587,14 +647,14 @@ void CArchangel::Update_TrailData(_float dt)
 
 void CArchangel::Render_TrailData()
 {
-	// ÀÜ»ó ·»´õ¸µ
+	// ì”ìƒ ë Œë”ë§
 	queue<TRAILDATA> tempQueue = Sorted_TrailData();
 	while (!tempQueue.empty())
 	{
 		TRAILDATA trailData = tempQueue.front();	
 		tempQueue.pop();
 
-		// ÀÜ»ó À§Ä¡·Î º¯È¯ Çà·Ä ¼³Á¤
+		// ì”ìƒ ìœ„ì¹˜ë¡œ ë³€í™˜ í–‰ë ¬ ì„¤ì •
 		_float4x4 matWorld = trailData.matWorld;
 		//D3DXMatrixTranslation(&matWorld, trailData.position.x, trailData.position.y, trailData.position.z);
 		if (!m_bCW || m_iDegree == 0 || m_iDegree == 180.f / m_fDivOffset)
@@ -604,7 +664,7 @@ void CArchangel::Render_TrailData()
 
 		m_pGraphic_Device->SetTransform(D3DTS_WORLD, &matWorld);
 
-		// ÀÜ»ó ·»´õ¸µ (¿¹: ¹İÅõ¸íÇÑ ÅØ½ºÃ³ »ç¿ë)
+		// ì”ìƒ ë Œë”ë§ (ì˜ˆ: ë°˜íˆ¬ëª…í•œ í…ìŠ¤ì²˜ ì‚¬ìš©)
 		m_pTextureMap[m_iState][m_iDegree]->Bind_Shader_To_Texture(m_pShaderCom, "Tex", static_cast<_uint>(m_fAnimationFrame));
 		//m_pTextureMap[m_iState][m_iDegree]->Bind_Resource(static_cast<_uint>(m_fAnimationFrame));
 		m_pShaderCom->SetFloat("opacity", 1.f - (trailData.timeElapsed / m_fTrailDuration));

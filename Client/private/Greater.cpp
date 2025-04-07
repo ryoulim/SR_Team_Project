@@ -47,6 +47,24 @@ HRESULT CGreater::Initialize(void* pArg)
 	//위치, 크기초기화, 컴포넌트 부착
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
+	// 머리 콜라이더 
+/* 콜라이드 컴포넌트 */
+	DESC* pDesc = static_cast<DESC*>(pArg);
+	CCollider::DESC ColliderDesc{};
+	ColliderDesc.pTransform = m_pTransformCom;
+	ColliderDesc.vOffSet = { 0.f, 68.2f * 0.5f - 7.f, 0.f }; // y길이 * 0.5 - 머리위치y좌표 + 지름크기?
+	ColliderDesc.vScale = { 6.f, 0.f, 0.f }; // 반지름 크기
+	ColliderDesc.pOwner = this;
+	ColliderDesc.iColliderGroupID = CG_MONSTER_HEAD;
+	ColliderDesc.iColliderID = CI_MON_HEAD;
+
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Collider_Sphere"),
+		TEXT("Com_Collider_head"), reinterpret_cast<CComponent**>(&m_pHeadCollider), &ColliderDesc)))
+		return E_FAIL;
+
+	m_pCollider->Update_OffSet({ 0.f, -8.f, 0.f });
+	m_pCollider->Update_Scale({ 28.f, 68.2f - 8.f, 1.f });
+
 
 	m_fDivOffset = 45.f;
 	//애니메이션(수정예정)
