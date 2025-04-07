@@ -505,13 +505,23 @@ HRESULT CLevel_Indoor::Ready_Layer_Item(const _wstring& strLayerTag)
 
 void CLevel_Indoor::Check_Collision()
 {
+	/*PAWN*/
 	m_pGameInstance->Intersect(CG_PAWN, CG_BLOCK);
+	m_pGameInstance->Intersect(CG_PAWN, CG_INTERACTIVE);
+	m_pGameInstance->Intersect(CG_PAWN, CG_TRIGGER);
+	m_pGameInstance->Intersect(CG_PAWN, CG_ITEM);
+
+	/*PBULLET*/
 	m_pGameInstance->Intersect(CG_PBULLET, CG_MONSTER);
 	m_pGameInstance->Intersect(CG_PBULLET, CG_BLOCK);
+	m_pGameInstance->Intersect(CG_PBULLET, CG_INTERACTIVE);
+
+	/*MBULLET*/
+	m_pGameInstance->Intersect(CG_MBULLET, CG_PAWN);
 	m_pGameInstance->Intersect(CG_MBULLET, CG_BLOCK);
-	m_pGameInstance->Intersect(CG_PAWN, CG_TRIGGER);
+
+	/*MONSTER*/
 	m_pGameInstance->Intersect(CG_MONSTER, CG_BLOCK);
-	m_pGameInstance->Intersect(CG_PAWN, CG_ITEM);
 }
 
 

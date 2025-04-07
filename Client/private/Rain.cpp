@@ -1,5 +1,7 @@
 ﻿#include "Rain.h"
 #include "GameInstance.h"
+#include "Client_Defines.h"
+#include "Player.h"
 
 CRain::CRain(LPDIRECT3DDEVICE9 pGraphicDev, wstring _strObjName)
 	:CPSystem(pGraphicDev, _strObjName)
@@ -71,6 +73,9 @@ EVENT CRain::Update(_float timeDelta)
 
 HRESULT CRain::Render()
 {
+	if (!static_cast<CPlayer*>(GET_PLAYER)->GetbFog())
+		return S_OK;
+
 	if (!m_Particles.empty())
 	{
 		//렌더 상태를 지정한다.

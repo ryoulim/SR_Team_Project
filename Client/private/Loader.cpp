@@ -451,7 +451,7 @@ HRESULT CLoader::Loding_For_Static()
 #pragma endregion
 
 #pragma region 레이싱 보스
-	ADD_TEXTURE(RaceBoss, "../Bin/Resources/Textures/RaceBoss/RaceBoss.PNG", 1);
+	ADD_TEXTURE(RaceBoss, "../Bin/Resources/Textures/RaceBoss/RaceBoss%d.PNG", 3);
 	ADD_TEXTURE(RaceBossBullet, "../Bin/Resources/Textures/Bullet/RaceBossBullet/RaceBossBullet.PNG", 1);
 	ADD_PRTOBJ(RaceBoss);
 	ADD_PRTOBJ(RaceBossBullet);
@@ -696,6 +696,9 @@ HRESULT CLoader::Loading_For_Logo()
 
 #pragma region SOUND
 	lstrcpy(m_szLoadingText, TEXT("사운드을(를) 로딩중입니다."));
+
+	m_pGameInstance->LoadSound("../Bin/Resources/Sounds/Music/");
+
 #pragma endregion
 	
 

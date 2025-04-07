@@ -294,7 +294,7 @@ technique DefaultTechnique
     pass HEALPass
     {
         VertexShader = compile vs_3_0 VS_MAIN();
-        PixelShader = compile ps_3_0 PS_MAIN_HIT();
+        PixelShader = compile ps_3_0 PS_MAIN_HEAL();
     }
 
     pass WATERPass

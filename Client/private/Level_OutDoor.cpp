@@ -45,7 +45,8 @@ HRESULT CLevel_OutDoor::Initialize(CLevelData* pLevelData)
 #include "Level_Loading.h"
 void CLevel_OutDoor::Update(_float fTimeDelta)
 {
-	FX_MGR->SpawnMultipleThunder(fTimeDelta, LEVEL_OUTDOOR);
+	if (static_cast<CPlayer*>(GET_PLAYER)->GetbFog())
+		FX_MGR->SpawnMultipleThunder(fTimeDelta, LEVEL_OUTDOOR);
 
 	Check_Collision();
 	if (m_iNextLevel)

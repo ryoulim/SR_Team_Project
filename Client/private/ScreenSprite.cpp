@@ -6,7 +6,6 @@
 CScreenSprite::CScreenSprite(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CEffect{ pGraphic_Device }
 {
-	/* [ 이 클래스에는 애니메이션이 데드카운트 ] */
 }
 
 CScreenSprite::CScreenSprite(const CScreenSprite& Prototype)
@@ -57,13 +56,6 @@ HRESULT CScreenSprite::Initialize(void* pArg)
 			SpriteDESC->vInitPos.z));
 
 
-	/* 만약 FX 매니저에서 이미 HIT 이 진행 중이라면? */
-	//if (FX_MGR->GetbHit())
-	//	m_bDead = true;
-	//else 
-	//	FX_MGR->SetbHit(true);
-
-
 	/* [ 맞았을 경우 랜덤한 이펙트 ] */
 	if (m_eEffectType == HIT)
 		m_iRandom = GetRandomInt(0, 1);
@@ -89,14 +81,6 @@ EVENT CScreenSprite::Update(_float fTimeDelta)
 	m_fAccTime -= m_fFadeSpeed * fTimeDelta;
 	if (m_fAccTime < 0.f)
 		m_fAccTime = 0.f;
-
-	/* [ 데드카운트 작동 ] */
-	//FrameUpdate(fTimeDelta, m_fAnimationMaxFrame, m_fAnimationSpeed, false);
-	//if (m_fAnimationMaxFrame <= m_fAnimationFrame || m_bDead)
-	//{
-	//	FX_MGR->SetbHit(false);
-	//	return EVN_DEAD;
-	//}
 
 	/* [ 약간 상승 애니메이션 ] */
 	if (m_eEffectType == HEAL)

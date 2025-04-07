@@ -39,6 +39,9 @@ protected:
 	virtual HRESULT Ready_Components(void* pArg);
 	void Change_Level();
 
+public:
+	_bool GetbFog() { return m_bFog; }
+
 protected:
 	LEVEL m_eLevelID = { LEVEL_END };
 	const _tchar* m_szTextureID = { nullptr };
@@ -49,6 +52,7 @@ protected:
 	CCollider* m_pCollider = { nullptr };
 	CCollider* m_pPrePosCollider{ nullptr };
 	_bool	m_bActive{ TRUE };
+	_bool	m_bFog{ TRUE };
 
 	_float						m_fInitSpeed{};
 

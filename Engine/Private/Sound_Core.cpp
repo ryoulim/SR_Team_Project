@@ -2,6 +2,29 @@
 #include "fmod.hpp"
 #include "Transform.h"
 
+// 채널 중복접근 방지를 위한 포인터 초기화용 콜백
+FMOD_RESULT F_CALLBACK OnChannelEnd(
+    FMOD_CHANNELCONTROL* chanCtrl,
+    FMOD_CHANNELCONTROL_TYPE type,
+    FMOD_CHANNELCONTROL_CALLBACK_TYPE callbackType,
+    void* commandData1, void* commandData2)
+{
+    if (callbackType == FMOD_CHANNELCONTROL_CALLBACK_END && type == FMOD_CHANNELCONTROL_CHANNEL)
+    {
+        FMOD::Channel* pChannel = reinterpret_cast<FMOD::Channel*>(chanCtrl);
+
+        void* userData = nullptr;
+        pChannel->getUserData(&userData);
+
+        if (userData)
+        {
+            FMOD::Channel** ppChannel = static_cast<FMOD::Channel**>(userData);
+            *ppChannel = nullptr;  // 진짜 채널 포인터를 nullptr로 초기화
+        }
+    }
+    return FMOD_OK;
+}
+
 CSound_Core::CSound_Core(FMOD::System* pCoreSystem, FMOD::Sound* pSound)
     :m_pCoreSystem(pCoreSystem)
     , m_pSound(pSound, [](FMOD::Sound* Sound) {Sound->release(); })
@@ -16,6 +39,10 @@ CSound_Core::CSound_Core(CSound_Core& Prototype)
 
 void CSound_Core::Play()
 {
+    // 만약 채널포인터를 잃어버린다면 콜백을 삭제
+    if(m_pChannel)
+        m_pChannel->setCallback(nullptr);
+
     if (m_pCoreSystem->playSound(m_pSound.get(), nullptr, true, &m_pChannel))
     {
         m_pChannel = nullptr;
@@ -25,6 +52,10 @@ void CSound_Core::Play()
     m_pChannel->setVolume(m_fVolume);
     m_pChannel->set3DMinMaxDistance(m_fMinDis, m_fMaxDis);
     m_pChannel->set3DAttributes(reinterpret_cast<FMOD_VECTOR*>(&m_vSoundPos), {});
+
+    // 채널 더블포인터와 콜백 등록
+    m_pChannel->setUserData(&m_pChannel);
+    m_pChannel->setCallback(OnChannelEnd);
 
     SetPaused(false);
 }
@@ -63,7 +94,7 @@ void CSound_Core::Set3DState(_float fMin, _float fMax)
 _bool CSound_Core::IsPlaying() const
 {
     if (!m_pChannel) 
-        return false;
+        return m_pChannel;
 
     _bool playing = false;
     m_pChannel->isPlaying(&playing);
@@ -91,3 +122,4 @@ void CSound_Core::Free()
     __super::Free();
     Stop();
 }
+

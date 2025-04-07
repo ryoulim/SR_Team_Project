@@ -1,4 +1,4 @@
-#include "Monster.h"
+﻿#include "Monster.h"
 #include "DebugDraw.h"
 #include "Skull.h"
 
@@ -100,11 +100,10 @@ void CMonster::Late_Update(_float fTimeDelta)
 	PlayerDistance();
 	CalculateVectorToPlayer();
 	
-	//�ݶ��̴� ������Ʈ
-	if (m_bDead) // ��ü �ݶ��̴� �����ϸ� ĸ���̶� ����� ���ϰ� �ȸ���..
+	if (m_bDead)
 	{
 		_float3 vOrigSize = {};
-		m_pTextureMap[m_iState][m_iDegree]->Get_TextureSize(m_fAnimationFrame, &vOrigSize);
+		m_pTextureMap[m_iState][m_iDegree]->Get_TextureSize(static_cast<_uint>(m_fAnimationFrame), &vOrigSize);
 		_float fComputedSizeYFromOrig = -vOrigSize.y*0.5f + 20.f;
 		// ���� ���� ���ݸ�ŭ ���� ���� ���α��̸�ŭ ���ϱ� 
 		auto newY = m_vScale.y - 20.f;
@@ -139,9 +138,9 @@ void CMonster::Late_Update(_float fTimeDelta)
 
 void CMonster::Render_Skull(_bool bOn)
 {
-	//m_bSkullActive = bOn;
-	//if(bOn)
-	//	m_pSkull->TimeReset();
+	m_bSkullActive = bOn;
+	if(bOn)
+		m_pSkull->TimeReset();
 }
 
 HRESULT CMonster::SetUp_RenderState()
@@ -407,9 +406,6 @@ void CMonster::Debug_Output()
 
 	if (elapsed >= 1000)
 	{
-		// 1�� �̻� �����ٸ� ���
-		cout << " |\t�÷��̾���� �Ÿ� : " << m_fCurDistance << endl;
-		cout << " |\t���� : ";
 		switch (m_eState)
 		{
 		case Client::CMonster::MODE_IDLE:
@@ -693,8 +689,6 @@ void CMonster::MonsterTick(_float fTimeDelta)
 	case MODE::MODE_IDLE:
 		if (IsPlayerDetected())
 		{
-			//�÷��̾� �߰� �� �ൿ
-			cout << "������ �÷��̾� �߰�!!" << endl;
 			m_eState = MODE::MODE_BATTLE;
 		}
 		break;

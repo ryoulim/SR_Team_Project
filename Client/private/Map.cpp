@@ -1,5 +1,7 @@
 #include "Map.h"
 #include "FXMgr.h"
+#include "Client_Defines.h"
+#include "Player.h"
 
 CMap::CMap(LPDIRECT3DDEVICE9 pGraphic_Device)
 	:CGameObject{pGraphic_Device}
@@ -47,6 +49,25 @@ void CMap::Late_Update(_float fTimeDelta)
 
 HRESULT CMap::Render()
 {
+	if (!static_cast<CPlayer*>(GET_PLAYER)->GetbFog())
+	{
+		if (FAILED(m_pTransformCom->Bind_Resource()))
+			return E_FAIL;
+
+		m_pGraphic_Device->SetTextureStageState(0, D3DTSS_TEXCOORDINDEX, 0);
+
+		if (FAILED(m_pTextureCom->Bind_Resource(static_cast<_uint>(m_fTextureIdx))))
+			return E_FAIL;
+
+		if (FAILED(m_pVIBufferCom->Bind_Buffers()))
+			return E_FAIL;
+
+		if (FAILED(m_pVIBufferCom->Render()))
+			return E_FAIL;
+
+		return S_OK;
+	}
+
 	if (m_eShadingLevel == LEVEL_RACEFIRST || m_eShadingLevel == LEVEL_RACESECOND || m_eShadingLevel == LEVEL_RACETHIRD)
 	{
 		if (FAILED(m_pTransformCom->Bind_Resource()))

@@ -175,13 +175,14 @@ HRESULT CLevel_RaceSecond::Ready_Layer_Pawn(const _wstring& strLayerTag)
 
 HRESULT CLevel_RaceSecond::Ready_Layer_RaceBoss(const _wstring& strLayerTag)
 {
-	_float3 vInitPosition = { 450.f, 250.f, 300.f };
+	_float3 vInitPosition = { 0.f, 250.f, 0.f };
 
 	auto pBoss = static_cast<CRaceBoss*>(m_pGameInstance->Find_Object(LEVEL_STATIC, TEXT("Layer_RaceBoss")));
 	if (pBoss)
 	{
 		static_cast<CTransform*>(pBoss->Find_Component(TEXT("Com_Transform")))
 			->Set_State(CTransform::STATE_POSITION, vInitPosition);
+		pBoss->Set_StartState(CRaceBoss::ENTRANCE);
 		return S_OK;
 	}
 
