@@ -38,7 +38,7 @@ HRESULT CWeapon_LoverBoy::Initialize(void* pArg)
 	m_tAmmoInfo.iReloadedAmmo = 6;
 	///////
 
-	m_pSoundCom->Set_Volume(0.7f);
+	m_pSoundCom->SetVolume(0.7f);
 
 	return S_OK;
 }
@@ -322,6 +322,11 @@ HRESULT CWeapon_LoverBoy::Ready_Components(void* pArg)
 	/* For.Com_Transform */
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Transform"),
 		TEXT("Com_Left_Transform"), reinterpret_cast<CComponent**>(&m_LeftHand.pTransformCom),&Desc)))
+		return E_FAIL;
+
+	/* For.Com_Sound */
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Sound_LoverBoy"),
+		TEXT("Com_Sound"), reinterpret_cast<CComponent**>(&m_pSoundCom))))
 		return E_FAIL;
 
 	_float3 VScale{};

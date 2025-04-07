@@ -31,7 +31,7 @@ HRESULT CGameInstance::Initialize_Engine(const ENGINE_DESC& EngineDesc, LPDIRECT
 	if (nullptr == m_pInputDevice)
 		return E_FAIL;
 
-	m_pSound_Device = CSound_Device::Create(EngineDesc.strBankFilePath, EngineDesc.strSoundFolderPath);
+	m_pSound_Device = CSound_Device::Create();
 	if (nullptr == m_pSound_Device)
 		return E_FAIL;
 
@@ -359,35 +359,12 @@ HRESULT CGameInstance::Readcsv(const _wstring& strcsvPath, class CLevelData* pDa
 
 
 #pragma region SOUND_DEVICE
-FORCEINLINE
-HRESULT CGameInstance::LoadBank(const string& name)
-{
-	return m_pSound_Device->LoadBank(name);
-}
-
-FORCEINLINE
-void CGameInstance::UnloadBank(const string& name)
-{
-	m_pSound_Device->UnloadBank(name);
-}
-
-FORCEINLINE
-CSound_Event* CGameInstance::Create_Sound_Event(const string& eventPath)
-{
-	return m_pSound_Device->Create_Event_Instance(eventPath);
-}
 
 FORCEINLINE
 HRESULT CGameInstance::LoadSound(const string& Path, _bool is3D, _bool loop, _bool stream, unordered_map<string, class CSound_Core*>* _Out_ pOut)
 {
 	return m_pSound_Device->LoadSound(Path, is3D, loop, stream, pOut);
 }
-
-//FORCEINLINE
-//CSound_Core* CGameInstance::Create_Core_Sound(const string& strSoundKey)
-//{
-//	return m_pSound_Device->Create_Core_Instance(strSoundKey);
-//}
 
 FORCEINLINE
 void CGameInstance::Set_Listener_Position(const CTransform* pTransform, const _float3& vel)

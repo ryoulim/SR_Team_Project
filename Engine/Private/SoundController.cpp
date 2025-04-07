@@ -31,39 +31,50 @@ HRESULT CSoundController::Initialize(void* pArg)
 
 void CSoundController::Play(const string& strTag)
 {
-	Find_Sound(strTag)->Play();
+	auto pSoundCore = Find_Sound(strTag);
+	if(pSoundCore)
+		pSoundCore->Play();
 }
 
 void CSoundController::Stop(const string& strTag)
 {
-	Find_Sound(strTag)->Stop();
+	auto pSoundCore = Find_Sound(strTag);
+	if (pSoundCore)
+		pSoundCore->Stop();
 }
 
-void CSoundController::Set_Volume(const string& strTag, _float Volume)
+void CSoundController::SetVolume(const string& strTag, _float Volume)
 {
-	Find_Sound(strTag)->Set_Volume(Volume);
+	auto pSoundCore = Find_Sound(strTag);
+	if (pSoundCore)
+		pSoundCore->Set_Volume(Volume);
 }
 
 void CSoundController::Update3DPosition(const string& strTag, const _float3& vPos)
 {
-	Find_Sound(strTag)->Update3DPosition(vPos);
+	auto pSoundCore = Find_Sound(strTag);
+	if (pSoundCore)
+		pSoundCore->Update3DPosition(vPos);
 }
 
 void CSoundController::Set3DState(const string& strTag, _float fMin, _float fMax)
 {
-	Find_Sound(strTag)->Set3DState(fMin, fMax);
+	auto pSoundCore = Find_Sound(strTag);
+	if (pSoundCore)
+		pSoundCore->Set3DState(fMin, fMax);
 }
 
 _bool CSoundController::IsPlaying(const string& strTag) const
 {
-	return Find_Sound(strTag)->IsPlaying();
+	auto pSoundCore = Find_Sound(strTag);
+	if (pSoundCore)
+	return pSoundCore->IsPlaying();
 }
 
-void CSoundController::Set_Volume(_float Volume)
+void CSoundController::SetVolume(_float Volume)
 {
 	for (auto& [key, value] : m_Sounds)
 		value->Set_Volume(Volume);
-
 }
 
 void CSoundController::Update3DPosition(const _float3& vPos)

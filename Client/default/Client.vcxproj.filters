@@ -451,8 +451,20 @@
     <Filter Include="02.GameObjects\UI\GamePlayUI\Skull">
       <UniqueIdentifier>{93e514f1-d12a-4783-a9b6-3d0acb9d64c8}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\Map\PhotoFrame">
-      <UniqueIdentifier>{98d3ffe9-24cd-4dfe-8595-c8bfedaf92a9}</UniqueIdentifier>
+    <Filter Include="02.GameObjects\Map\Interactive_Block\GarbageBag">
+      <UniqueIdentifier>{a381ee26-5d7e-4870-88cc-104035a9a01f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Map\Interactive_Block\TrashCan">
+      <UniqueIdentifier>{3f8b811e-7076-450f-b8c5-f7867118265a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Map\Interactive_Block\FirePlug">
+      <UniqueIdentifier>{8832452f-58ae-439f-a4d1-a9d3db199f58}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Effect\HydroPump">
+      <UniqueIdentifier>{6fce5487-f0ec-4a08-8102-210bd2617862}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Map\Door">
+      <UniqueIdentifier>{da89019a-0b76-4ef7-b96f-64af9287f2f5}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -849,9 +861,6 @@
     <ClInclude Include="..\public\Interactive_Block.h">
       <Filter>02.GameObjects\Map\Interactive_Block</Filter>
     </ClInclude>
-    <ClInclude Include="..\public\Interactive_Block.h">
-      <Filter>02.GameObjects\Map\Interactive_Block</Filter>
-    </ClInclude>
     <ClInclude Include="..\public\Forest.h">
       <Filter>02.GameObjects\Statue\Forest</Filter>
     </ClInclude>
@@ -907,8 +916,31 @@
     <ClInclude Include="..\public\TelephonePole.h">
       <Filter>02.GameObjects\Map\AlphaRect\TelephonePole</Filter>
     </ClInclude>
-    <ClInclude Include="..\public\PhotoFrame.h">
-      <Filter>02.GameObjects\Map\PhotoFrame</Filter>
+    <ClInclude Include="..\public\GarbageBag.h">
+      <Filter>02.GameObjects\Map\Interactive_Block\GarbageBag</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\TrashCan.h">
+      <Filter>02.GameObjects\Map\Interactive_Block\TrashCan</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\FirePlug.h">
+      <Filter>02.GameObjects\Map\Interactive_Block\FirePlug</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Interactive_Block.h">
+      <Filter>02.GameObjects\Map\Interactive_Block</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\HydroPump.h">
+      <Filter>02.GameObjects\Effect\HydroPump</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\WaterBoat.h">
+      <Filter>02.GameObjects\Particle\WaterBoat</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\CutSceneSmoke.h">
+      <Filter>02.GameObjects\Particle\_BossMobSkill\CutSceenEffect</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\CutSceneSmoke.h" />
+    <ClInclude Include="..\public\WaterBoat.h" />
+    <ClInclude Include="..\public\Door.h">
+      <Filter>02.GameObjects\Map\Door</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1354,8 +1386,20 @@
     <ClCompile Include="..\private\TelephonePole.cpp">
       <Filter>02.GameObjects\Map\AlphaRect\TelephonePole</Filter>
     </ClCompile>
-    <ClCompile Include="..\private\PhotoFrame.cpp">
-      <Filter>02.GameObjects\Map\PhotoFrame</Filter>
+    <ClCompile Include="..\private\GarbageBag.cpp">
+      <Filter>02.GameObjects\Map\Interactive_Block\GarbageBag</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\TrashCan.cpp">
+      <Filter>02.GameObjects\Map\Interactive_Block\TrashCan</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\FirePlug.cpp">
+      <Filter>02.GameObjects\Map\Interactive_Block\FirePlug</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\HydroPump.cpp">
+      <Filter>02.GameObjects\Effect\HydroPump</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Door.cpp">
+      <Filter>02.GameObjects\Map\Door</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

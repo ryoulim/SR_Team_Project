@@ -98,8 +98,6 @@ HRESULT CMainApp::Initialize()
 	Desc.iWinSizeY = g_iWinSizeY;
 	Desc.iNumLevels = LEVEL_END;
 	Desc.INumColliderGroups = CG_END;
-	Desc.strSoundFolderPath = "../bin/Resources/Sounds/";
-	//Desc.strBankFilePath = "../bin/BankFiles/";
 
 	if (FAILED(m_pGameInstance->Initialize_Engine(Desc, &m_pGraphic_Device)))
 		return E_FAIL;
@@ -132,12 +130,6 @@ HRESULT CMainApp::Initialize()
 	/*FPS 출력용*/
 	if (FAILED(Ready_Debug_Mode()))
 		return E_FAIL;
-
-	//if (FAILED(m_pGameInstance->LoadBank("Master")))
-	//	return E_FAIL;
-
-	//if (FAILED(m_pGameInstance->LoadBank("Master.strings")))
-	//	return E_FAIL;
 
 	ShowCursor(FALSE);
 
