@@ -1,5 +1,4 @@
 #include "Level_Logo.h"
-#include "GameInstance.h"
 #include "Level_Loading.h"
 #include "BackGround.h"
 #include "Button.h"
@@ -15,11 +14,14 @@ HRESULT CLevel_Logo::Initialize(class CLevelData* pLevelData)
 	if (FAILED(__super::Initialize(pLevelData)))
 		return E_FAIL;
 
-
 	if (FAILED(Ready_Layer_BackGround(TEXT("Layer_Background"))))
 		return E_FAIL;
 	if (FAILED(Ready_Layer_UI(TEXT("Layer_UI"))))
 		return E_FAIL;
+
+	m_pBGM = m_pGameInstance->Get_Single_Sound("intro_af");
+	m_pBGM->Set_Volume(0.5f);
+	m_pBGM->Play();
 
 	ShowCursor(TRUE);
 	return S_OK;
@@ -90,8 +92,6 @@ HRESULT CLevel_Logo::Ready_Layer_UI(const _wstring& strLayerTag)
 		LEVEL_LOGO, strLayerTag, &pDesc)))
 		return E_FAIL;
 
-
-	
 	return S_OK;
 }
 
@@ -112,4 +112,7 @@ CLevel_Logo* CLevel_Logo::Create(LPDIRECT3DDEVICE9 pGraphic_Device, class CLevel
 void CLevel_Logo::Free()
 {
 	__super::Free();
+
+	m_pBGM->Stop();
+	Safe_Release(m_pBGM);
 }

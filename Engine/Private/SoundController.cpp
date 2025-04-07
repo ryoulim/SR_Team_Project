@@ -2,6 +2,7 @@
 #include "Sound_Core.h"
 #include "GameInstance.h"
 
+
 CSoundController::CSoundController()
 	:CComponent{ nullptr }
 {
@@ -68,7 +69,8 @@ _bool CSoundController::IsPlaying(const string& strTag) const
 {
 	auto pSoundCore = Find_Sound(strTag);
 	if (pSoundCore)
-	return pSoundCore->IsPlaying();
+		return pSoundCore->IsPlaying();
+	return FALSE;
 }
 
 void CSoundController::SetVolume(_float Volume)

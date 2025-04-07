@@ -1,5 +1,6 @@
 #pragma once
 
+#include "GameInstance.h"
 #include "Client_Defines.h"
 #include "Level.h"
 
@@ -18,9 +19,9 @@ public:
 
 private:
 	HRESULT Ready_Layer_BackGround(const _wstring& strLayerTag);
-	HRESULT Ready_Layer_UI(const _wstring& strLayerTag);
-
-
+	HRESULT Ready_Layer_UI(const _wstring& strLayerTag); 
+	
+	CSound_Core* m_pBGM = {nullptr};
 public:
 	static CLevel_Logo* Create(LPDIRECT3DDEVICE9 pGraphic_Device, class CLevelData* pLevelData);
 	virtual void Free() override;

@@ -691,6 +691,9 @@ HRESULT CLoader::Loading_For_Logo()
 
 #pragma region SOUND
 	lstrcpy(m_szLoadingText, TEXT("사운드을(를) 로딩중입니다."));
+
+	m_pGameInstance->LoadSound("../Bin/Resources/Sounds/Music/");
+
 #pragma endregion
 	
 

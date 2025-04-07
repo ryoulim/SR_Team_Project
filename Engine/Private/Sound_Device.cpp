@@ -3,6 +3,8 @@
 #include "Transform.h"
 #include <filesystem>
 
+namespace fs = std::filesystem;
+
 CSound_Device::CSound_Device()
 {
 }
@@ -68,7 +70,8 @@ void CSound_Device::Update()
 
 HRESULT CSound_Device::LoadSound(const string& Path, _bool is3D, _bool loop, _bool stream, unordered_map<string, class CSound_Core*>* _Out_ pOut)
 {
-    namespace fs = std::filesystem;
+    if (pOut == nullptr)
+        pOut = &m_SingleSounds;
 
     if (!m_pCoreSystem)
         return E_FAIL;
@@ -98,10 +101,16 @@ HRESULT CSound_Device::LoadSound(const string& Path, _bool is3D, _bool loop, _bo
             string key = filePath.stem().string();
 
             FMOD::Sound* pSound = nullptr;
-            FMOD_RESULT result = m_pCoreSystem->createSound(filePath.string().c_str(), mode, nullptr, &pSound);
-            auto pSoundCore = CSound_Core::Create(m_pCoreSystem, pSound);
+            FMOD_RESULT result{};
+            if(filePath.extension().string() == ".xm")
+                result = m_pCoreSystem->createSound(filePath.string().c_str(), FMOD_DEFAULT, nullptr, &pSound);
+            else
+                result = m_pCoreSystem->createSound(filePath.string().c_str(), mode, nullptr, &pSound);
             if (result == FMOD_OK)
+            {
+                auto pSoundCore = CSound_Core::Create(m_pCoreSystem, pSound);
                 pOut->emplace(key, pSoundCore);
+            }
         }
     }
     else if (fs::is_regular_file(fsPath))
@@ -111,7 +120,11 @@ HRESULT CSound_Device::LoadSound(const string& Path, _bool is3D, _bool loop, _bo
         if (pOut->count(key) == 0)
         {
             FMOD::Sound* pSound = nullptr;
-            FMOD_RESULT result = m_pCoreSystem->createSound(fsPath.string().c_str(), mode, nullptr, &pSound);
+            FMOD_RESULT result{};
+            if (fsPath.extension().string() == ".xm")
+                result = m_pCoreSystem->createSound(fsPath.string().c_str(), FMOD_DEFAULT, nullptr, &pSound);
+            else
+                result = m_pCoreSystem->createSound(fsPath.string().c_str(), mode, nullptr, &pSound);
             if (result != FMOD_OK)
                 return E_FAIL;
 
@@ -135,6 +148,16 @@ void CSound_Device::Set_Listener_Position(const CTransform* pTransform, const _f
 
     m_pCoreSystem->set3DListenerAttributes(0, &m_ListenerAttr.position, &m_ListenerAttr.velocity,
         &m_ListenerAttr.forward, &m_ListenerAttr.up);
+}
+
+CSound_Core* CSound_Device::Get_Single_Sound(const string& strKey)
+{
+    auto Iter = m_SingleSounds.find(strKey);
+    if (Iter == m_SingleSounds.end())
+        return nullptr;
+
+    Safe_AddRef(Iter->second);
+    return Iter->second;
 }
 
 void CSound_Device::Set_Master_Volume(_float volume)
@@ -161,6 +184,10 @@ CSound_Device* CSound_Device::Create()
 void CSound_Device::Free()
 {
     __super::Free();
+
+    for (auto& [Key, Value] : m_SingleSounds)
+        Safe_Release(Value);
+    m_SingleSounds.clear();
 
     if (m_pCoreSystem)
     {

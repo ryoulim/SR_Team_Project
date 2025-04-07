@@ -367,6 +367,12 @@ HRESULT CGameInstance::LoadSound(const string& Path, _bool is3D, _bool loop, _bo
 }
 
 FORCEINLINE
+CSound_Core* CGameInstance::Get_Single_Sound(const string& strKey)
+{
+	return m_pSound_Device->Get_Single_Sound(strKey);
+}
+
+FORCEINLINE
 void CGameInstance::Set_Listener_Position(const CTransform* pTransform, const _float3& vel)
 {
 	m_pSound_Device->Set_Listener_Position(pTransform, vel);
