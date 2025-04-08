@@ -8,11 +8,6 @@ BEGIN(Client)
 
 class CPlayer final : public CPawn
 {
-public:
-	typedef struct tagPlayerInfo {
-		_int	iHP;
-		_int	iArmor;
-	}INFO;
 private:
 	CPlayer(LPDIRECT3DDEVICE9 pGraphic_Device);
 	CPlayer(const CPlayer& Prototype);
@@ -38,7 +33,6 @@ private:
 	class CCameraManager*		m_pCameraManager {};
 	CTransform*					m_pCameraTransform{};
 	_bool						m_bDash{};
-	INFO						m_tInfo{};
 
 	vector<class CWeapon*>		m_Weapons;
 	_int						m_iCurWeaponIndex{};

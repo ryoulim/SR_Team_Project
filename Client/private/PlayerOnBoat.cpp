@@ -2,7 +2,7 @@
 #include "CameraManager.h"
 #include "PBState.h"
 #include "WaterBoat.h"
-
+#include "UI_Manager.h"
 #include "PlayerMissile.h"
 
 #define BULLET_COOLTIME 0.5f
@@ -224,6 +224,8 @@ void CPlayerOnBoat::Key_Input(_float fTimeDelta)
 			m_fKeyTimer = 0.f;
 		m_pTransformCom->Rotation({ 0.f,0.f,1.f }, 0.f);
 	}
+	CUI_Manager::Get_Instance()->Set_RacingSpeed(_int(fabsf(m_fKeyTimer) * 30));
+
 	// 지수 함수: y = sign(x) * (1 - e^(-a * |x|)) 
 	_float fSign = (m_fKeyTimer >= 0.f) ? 1.f : -1.f;
 	_float fExpFactor = 1.f - expf(-fAccelRate * fabsf(m_fKeyTimer));

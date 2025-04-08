@@ -22,6 +22,10 @@ public:
 	virtual HRESULT Render() override;
 
 public:
+	virtual HRESULT imsi_Render_Text(const string& _Text, _float3 vPos);
+	HRESULT Render_Number(const _uint _Val);
+
+public:
 	static CFont_Racing* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
 	virtual CGameObject* Clone(void* pArg) override;
 	virtual void Free();

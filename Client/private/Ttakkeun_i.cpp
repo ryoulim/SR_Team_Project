@@ -163,6 +163,8 @@ void CTtakkeun_i::Late_Update(_float fTimeDelta)
 	if (FAILED(m_pGameInstance->Add_RenderGroup(CRenderer::RG_NONBLEND, this)))
 		return;
 	Set_TextureType();
+	if (m_bRotateAnimation == false)
+		m_iDegree = 0;
 	Resize_Texture(0.35f);
 	//__super::Late_Update(fTimeDelta);
 #ifdef _CONSOL

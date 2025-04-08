@@ -343,7 +343,7 @@ HRESULT CLevel_GamePlay::Ready_Layer_Monster(const _wstring& strLayerTag)
 	//	return E_FAIL;	
 
 	//전시용 (게임플레이 이니셜)
-	SpawnWenteko(_float3{ 1250.f, 100.f, 1500.f }, true, LEVEL_GAMEPLAY);
+	//SpawnWenteko(_float3{ 1250.f, 100.f, 1500.f }, true, LEVEL_GAMEPLAY);
 	//SpawnDeacon(_float3{ 1250.f, 100.f, 1500.f }, true, LEVEL_GAMEPLAY);
 	//SpawnShotgunner(_float3{ 1300.f, 100.f, 1500.f }, true, LEVEL_GAMEPLAY);
 	//SpawnGreater(_float3{  1350.f, 100.f, 1500.f  }, true, LEVEL_GAMEPLAY);
@@ -384,6 +384,11 @@ HRESULT CLevel_GamePlay::Ready_Layer_UI(const _wstring& strLayerTag)
 		Desc.eLevelID, strLayerTag, &Desc)))
 		return E_FAIL;
 
+	Desc.vScale = _float3(240.f, 42.f, 1.f);
+	Desc.vInitPos = _float3(0.f, g_iWinSizeY * 0.5f - 40.f, 0.1f);
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_BossHPBar"),
+		Desc.eLevelID, strLayerTag, &Desc)))
+		return E_FAIL;
 
 	/* ui생성 순서 중요, player 생성 이후 호출 중요  */
 	// 과거의 나야 미안해 

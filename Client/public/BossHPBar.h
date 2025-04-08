@@ -22,6 +22,7 @@ private:
 public:
 	virtual HRESULT Initialize_Prototype() override;
 	virtual HRESULT Initialize(void* pArg) override;
+	virtual HRESULT Ready_Components(void* pArg) override;
 	virtual void Priority_Update(_float fTimeDelta) override;
 	virtual EVENT Update(_float fTimeDelta) override;
 	virtual void Late_Update(_float fTimeDelta) override;
@@ -36,6 +37,8 @@ public:
 private:
 	_int	m_iBossMaxHP = {};
 	_int*	m_pBossHP = { nullptr };
+	_float3 m_vBarSize = {};
+	_float3 m_vBackSize = {};
 
 public:
 	static CBossHPBar* Create(LPDIRECT3DDEVICE9 pGraphic_Device);

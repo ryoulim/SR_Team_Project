@@ -10,6 +10,7 @@
 #include "Armor.h"
 #include <Aim.h>
 #include <ItemDialog.h>
+#include <RacingPanel.h>
 
 CUI_Manager* CUI_Manager::m_pInstance = nullptr;
 
@@ -125,9 +126,17 @@ HRESULT CUI_Manager::Initialize_GamePlayUI(LEVEL eLevelID)
 	return S_OK;
 }
 
+HRESULT CUI_Manager::Initialize_RacingUI(LEVEL eLevelID)
+{
+	m_pRacingUI = m_pGameInstance->Find_Object(eLevelID, L"Layer_UI", GUI_RACING);
+	if (m_pRacingUI == nullptr)
+		return E_FAIL;	
+	return S_OK;
+}
+
 HRESULT CUI_Manager::Initialize_Player()
 {
-	m_pPlayer = dynamic_cast<CPlayer*>(GET_PLAYER);
+	m_pPlayer = dynamic_cast<CPawn*>(GET_PLAYER);
 	if (nullptr == m_pPlayer)
 		return E_FAIL;
 	//Safe_AddRef(m_pPlayer);
@@ -155,9 +164,10 @@ HRESULT CUI_Manager::Change_Weapon(const CWeapon::AMMOINFO* pAmmoInfo)
 	return S_OK;
 }
 
-HRESULT CUI_Manager::Init_UI_To_Player(const CPlayer::INFO* pPlayerInfo)
+HRESULT CUI_Manager::Init_UI_To_Player(const CPawn::INFO* pPlayerInfo)
 {
 	/* 플레이어 합치고 다시 키기 */
+	/* Info를 Pawn으로 옮길 것 */
 	static_cast<CPortrait*>(m_GameUIs[GUI_PORTRAIT])->Set_Info(pPlayerInfo);
 	static_cast<CArmor*>(m_GameUIs[GUI_ARMOR])->Set_Info(pPlayerInfo);
 	return S_OK;
@@ -166,6 +176,14 @@ HRESULT CUI_Manager::Init_UI_To_Player(const CPlayer::INFO* pPlayerInfo)
 HRESULT CUI_Manager::Set_Face(CPortrait::PORTRAITSTATUS eStatus)
 {
 	static_cast<CPortrait*>(m_GameUIs[GUI_PORTRAIT])->Set_Face(eStatus);
+	return S_OK;
+}
+
+HRESULT CUI_Manager::Set_RacingSpeed(_int iSpeed)
+{
+	if (m_pRacingUI == nullptr)
+		return E_FAIL;
+	static_cast<CRacingPanel*>(m_pRacingUI)->Set_TargetSpeed(iSpeed);
 	return S_OK;
 }
 

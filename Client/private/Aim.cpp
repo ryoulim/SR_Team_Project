@@ -44,7 +44,6 @@ HRESULT CAim::Initialize(void* pArg)
 	return S_OK;
 }
 
-
 HRESULT CAim::Ready_Components(void* pArg)
 {
 	/* For.Com_Texture */
@@ -65,7 +64,6 @@ HRESULT CAim::Ready_Components(void* pArg)
 	return S_OK;
 }
 
-
 void CAim::Priority_Update(_float fTimeDelta)
 {
 	__super::Priority_Update(fTimeDelta);
@@ -73,14 +71,10 @@ void CAim::Priority_Update(_float fTimeDelta)
 
 EVENT CAim::Update(_float fTimeDelta)
 {
-	//if (MOUSE_DOWN(DIMK_LBUTTON)) // 탄약 받아오는 것으로 변경 필요 
-	//{
-	//	int a = 0;
-	//}
-	//if (KEY_DOWN(DIK_R))
-	//{
-	//	m_fMaskingDist = 1.f;
-	//}
+	if (m_eLevelID == LEVEL_RACEFIRST ||
+		m_eLevelID == LEVEL_RACESECOND ||
+		m_eLevelID == LEVEL_RACETHIRD)
+		return EVN_NONE;
  	Calc_Magazine(m_pAmmoInfo->iMaxAmmo, m_pAmmoInfo->iReloadedAmmo);
 
 	return __super::Update(fTimeDelta);
@@ -88,6 +82,10 @@ EVENT CAim::Update(_float fTimeDelta)
 
 void CAim::Late_Update(_float fTimeDelta)
 {
+	if (m_eLevelID == LEVEL_RACEFIRST ||
+		m_eLevelID == LEVEL_RACESECOND ||
+		m_eLevelID == LEVEL_RACETHIRD)
+		return;
 	__super::Late_Update(fTimeDelta);
 }
 

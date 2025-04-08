@@ -31,7 +31,8 @@ HRESULT CLevel_Indoor::Initialize(CLevelData* pLevelData)
 	if (FAILED(Ready_Layer_Pawn(TEXT("Layer_Pawn"))))
 		return E_FAIL;
 
-	CUI_Manager::Get_Instance()->Initialize_Player();
+	//CUI_Manager::Get_Instance()->Initialize_Player();
+	// 생각해보니 없어도 되는 기능이 된 듯..
 
 	if (FAILED(Ready_Layer_Trigger(TEXT("Layer_Trigger"))))
 		return E_FAIL;
