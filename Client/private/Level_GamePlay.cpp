@@ -359,7 +359,7 @@ HRESULT CLevel_GamePlay::Ready_Layer_UI(const _wstring& strLayerTag)
 {
 	CUI::DESC Desc{};
 	Desc.eLevelID = LEVEL_GAMEPLAY;
-	Desc.fDepth = 3.f;
+	Desc.fDepth = _float(UI_HUD);
 	Desc.vScale = _float3(1.f, 1.f, 1.f);
 	Desc.vInitPos = _float3(0.f, 0.f, 0.1f);
 	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_Aim"),
@@ -439,7 +439,7 @@ void CLevel_GamePlay::Check_Collision()
 	/*PAWN*/
 	m_pGameInstance->Intersect(CG_PAWN, CG_BLOCK);
 	m_pGameInstance->Intersect(CG_PAWN, CG_INTERACTIVE);
-	m_pGameInstance->Intersect(CG_PAWN, CG_TRIGGER);
+	m_pGameInstance->Intersect(CG_PAWN, CG_MONSTER_BODY);
 
 	/*PBULLET*/
 	m_pGameInstance->Intersect(CG_PBULLET, CG_MONSTER);

@@ -52,7 +52,7 @@ HRESULT CFont_BigOrange::Render()
 	return __super::Render();
 }
 
-HRESULT CFont_BigOrange::Render_Text(const string& _text, FONTALIGN _align, _float _posX, _float _posY, _float vSizeMul)
+HRESULT CFont_BigOrange::Render_Text(const string& _text, FONTALIGN _align, _float _posX, _float _posY, _float vSizeMul, CShader* pShader)
 {
 	m_uiTextWidth = static_cast<_uint>(_text.length());
 
@@ -61,6 +61,13 @@ HRESULT CFont_BigOrange::Render_Text(const string& _text, FONTALIGN _align, _flo
 		startPosX = _posX;
 	else if (_align == CENTER)
 		startPosX = _posX - m_uiTextWidth / 2.f * 14.f;
+
+	if (m_pShaderCom != nullptr)
+	{
+		m_pShaderCom->SetFloat("darknessFactor", m_fShadeVal);
+		m_pTextureCom->Bind_Shader_To_Texture(m_pShaderCom, "Tex", static_cast<_uint>(m_fTextureNum));
+		m_pShaderCom->Begin(CShader::SHADE);
+	}
 
 	_float fontWidth{};
 	for (auto ch : _text)
@@ -92,37 +99,26 @@ HRESULT CFont_BigOrange::Render_Text(const string& _text, FONTALIGN _align, _flo
 			m_vSize *= vSizeMul;
 			fontWidth += m_vSize.x * 0.5f;
 			m_pTransformCom->Set_State(CTransform::STATE_POSITION, _float3(startPosX + fontWidth, _posY, 0.f));
-			/***********************************************************/
 
-			/***********************************************************/
-			
-			if (m_pShaderCom != nullptr)
-			{
-				m_pShaderCom->SetFloat("darknessFactor", m_fShadeVal);
-				m_pTextureCom->Bind_Shader_To_Texture(m_pShaderCom, "Tex", static_cast<_uint>(m_fTextureNum));
-				m_pShaderCom->Begin(CShader::SHADE);
-			}
 			Render();
-			if (m_pShaderCom != nullptr)
-				m_pShaderCom->End();
+
 			fontWidth += m_vSize.x * 0.5f + 1.f;
 		}
 		else
 			fontWidth += 10.f;
 	}
-	/***********************************************************/
-
-	/***********************************************************/
+	if (m_pShaderCom != nullptr)
+		m_pShaderCom->End();
 	return S_OK;
 }
 
-HRESULT CFont_BigOrange::Render_Text(const _int _val, FONTALIGN _align, _float _posX, _float _posY, _float vSizeMul)
+HRESULT CFont_BigOrange::Render_Text(const _int _val, FONTALIGN _align, _float _posX, _float _posY, _float vSizeMul, CShader* pShader)
 {
 	char buffer[64]{};
 	_itoa_s(_val, buffer, 10);
 	string temp = buffer;
 
-	Render_Text(temp, _align, _posX, _posY, vSizeMul);
+	Render_Text(temp, _align, _posX, _posY, vSizeMul, pShader);
 
 	return S_OK;
 }

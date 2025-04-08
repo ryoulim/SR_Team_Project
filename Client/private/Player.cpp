@@ -9,6 +9,8 @@
 // 무기들 인클루드
 //#include "Weapon_LoverBoy.h"
 #include "UI_Manager.h"
+#define UIMGR CUI_Manager::Get_Instance()
+#define PRINT_DIALOG(Message) UIMGR->Insert_DialogQueue(Message)
 
 #define DASH_TIME 0.25f
 #define JUST_DASH_TIME 0.13f
@@ -188,18 +190,22 @@ void CPlayer::On_Collision(_uint MyColliderID, _uint OtherColliderID)
 		/* 아이템 */
 	case CI_ITEM_AMMO_CHAINGUN:
 		m_Weapons[1]->Replenish_Ammo(50);
+		PRINT_DIALOG("ammo for Chaingun x 50");
 		break;
 		
 	case CI_ITEM_AMMO_DISPENSER_SCATTER:
 		m_Weapons[2]->Replenish_Ammo(5);
+		PRINT_DIALOG("shells for Disperser x 5");
 		break;
 
 	case CI_ITEM_AMMO_DISPENSER_CANNON:
 		m_Weapons[2]->Replenish_Ammo(5);
+		PRINT_DIALOG("grenades for Disperser x 5");
 		break;
 
 	case CI_ITEM_AMMO_LOVERBOY:
 		m_Weapons[0]->Replenish_Ammo(5);
+		PRINT_DIALOG("ammo for LoverBoy x 5");
 		break;
 
 	case CI_ITEM_HEALKIT:
@@ -207,18 +213,22 @@ void CPlayer::On_Collision(_uint MyColliderID, _uint OtherColliderID)
 		if (m_tInfo.iHP > 100)
 			m_tInfo.iHP = 100;
 		FX_MGR->SpawnHealEffect(m_eLevelID);
+		PRINT_DIALOG("health kit: +10% HP ");
 		break;
 
 	case CI_ITEM_ARMOR_PIECE:
 		m_tInfo.iArmor += 1;
+		PRINT_DIALOG("armor fragment x 1");
 		break;
 
 	case CI_ITEM_ARMOR_FULL:
 		m_tInfo.iArmor = 100;
+		PRINT_DIALOG("full armor pack !");
 		break;
 
 	case CI_ITEM_CARDKEY:
 		m_bHaveCardkey = true;
+		PRINT_DIALOG("picked up a CARDKEY.");
 		break;
 	
 		/* 인터렉션 */
@@ -561,6 +571,7 @@ void CPlayer::On_Hit(_int iDamage)
 	m_bOnHit = TRUE;
 	m_tInfo.iArmor -= iDamage;
 	FX_MGR->SpawnHitEffect(m_eLevelID);
+	CUI_Manager::Get_Instance()->Set_Face(CPortrait::PORTRAIT_ANGER);
 
 	if (m_tInfo.iArmor <= 0)
 	{
@@ -583,6 +594,7 @@ void CPlayer::On_Just_Dodge()
 	m_byJustDodgeFlag = 1;
 	m_fJustDodgeTimer = 0.f;
 	m_pGameInstance->Set_TimeScale(TEXT("Timer_60"), DODGE_TIMESCALE);
+	CUI_Manager::Get_Instance()->Set_Face(CPortrait::PORTRAIT_HYPER);
 }
 
 CPlayer* CPlayer::Create(LPDIRECT3DDEVICE9 pGraphic_Device)

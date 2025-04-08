@@ -49,38 +49,41 @@ public:
 	void Late_Update(_float fTimeDelta);
 	HRESULT Render();
 
+	/* 텍스트 출력 */
 public:
-	HRESULT Render_Text(const string& _text, CFont::FONTTYPE _type, CFont::FONTALIGN _align, _float _posX, _float _posY, _float vSizeMul = 1.f) {
-		if (m_Fonts[_type] == nullptr)
-			return E_FAIL;
-		return m_Fonts[_type]->Render_Text(_text, _align, _posX, _posY, vSizeMul);
-	}
-	HRESULT Render_Text(const _int _val, CFont::FONTTYPE _type, CFont::FONTALIGN _align, _float _posX, _float _posY, _float vSizeMul = 1.f) {
-		if (m_Fonts[_type] == nullptr)
-			return E_FAIL;
-		return m_Fonts[_type]->Render_Text(_val, _align, _posX, _posY, vSizeMul);
-	}
-	void	Set_ButtonBrightness(_float val, CFont::FONTTYPE _type) { 
-		m_Fonts[_type]->Set_Brightness(val); 
-	}
+	HRESULT Render_Text(const string& _text, CFont::FONTTYPE _type, CFont::FONTALIGN _align, _float _posX, _float _posY, _float vSizeMul = 1.f, CShader* pShader = nullptr);
+	HRESULT Render_Text(const _int _val, CFont::FONTTYPE _type, CFont::FONTALIGN _align, _float _posX, _float _posY, _float vSizeMul = 1.f, CShader* pShader = nullptr);
+	void	Set_ButtonBrightness(_float val, CFont::FONTTYPE _type) { m_Fonts[_type]->Set_Brightness(val); }
+
+	/* 페이드 인 아웃 */
+public:
 	void	Fade_In();
 	void	Fade_Out();
 
+	/* 연동 함수 */
 public:
 	HRESULT Initialize_GamePlayUI(LEVEL eLevelID);
 	HRESULT Initialize_Player();
 	HRESULT Clear_GamePlayUI();
 	HRESULT Change_Weapon(const CWeapon::AMMOINFO* pAmmoInfo);
 	HRESULT Init_UI_To_Player(const CPlayer::INFO* pPlayerInfo);
+	HRESULT	Set_Face(CPortrait::PORTRAITSTATUS eStatus); 
 
+	/* 폰트 생성 및 들고댕기기 */
 private:
 	HRESULT	Initialize_Font();
-	HRESULT Initialize_FadeUI();
 	
 private:
 	class CFont*						m_Fonts[CFont::FONT_END] = {nullptr};
 	array<class CGameObject*, GUI_END>	m_GameUIs = { nullptr };
 	class CPlayer*						m_pPlayer = { nullptr };
+	
+private: // 좌상단 텍스트 다이얼로그 관리 (아이템 습득 등)
+	CGameObject* m_pDialog = { nullptr };
+
+public:
+	void Insert_DialogQueue(const string &strMsg);
+	void Initialize_Dialog(CGameObject* pObj);
 
 public:
 	virtual void Free();
@@ -88,10 +91,6 @@ public:
 
 
 #pragma region 폰트 매크로
-// Render_Text MediumBlueLeft
-// 파란 글씨 (아이템 획득 dialog용도 좌측 상단 고정)
-#define RENDER_ITEMDIALOG(message, fposY)  CUI_Manager::Get_Instance()->Render_Text(message, CFont::MEDIUMBLUE, CFont::LEFT, -(g_iWinSizeX / 2.f) + 20.f, fposY)
-
 // Render_Text BigOrangeCenter
 // 노란 글씨 중앙 정렬
 #define RENDER_TEXT_BOC(message, fX, fY, fSize) \
@@ -113,8 +112,16 @@ CUI_Manager::Get_Instance()->Render_Text(message, CFont::BIGORANGE, CFont::CENTE
 #define RENDER_TEXT_BOL_DARK(message, fX, fY, fSize) \
 CUI_Manager::Get_Instance()->Set_ButtonBrightness(0.6f, CFont::BIGORANGE);\
 CUI_Manager::Get_Instance()->Render_Text(message, CFont::BIGORANGE, CFont::LEFT, fX, fY, fSize)
-#pragma endregion
 
+#define RENDER_TEXT_MBL(message, fX, fY, fSize) \
+CUI_Manager::Get_Instance()->Set_ButtonBrightness(1.f, CFont::MEDIUMBLUE);\
+CUI_Manager::Get_Instance()->Render_Text(message, CFont::MEDIUMBLUE, CFont::LEFT, fX, fY, fSize)
+
+#define RENDER_TEXT_MBC(message, fX, fY, fSize) \
+CUI_Manager::Get_Instance()->Set_ButtonBrightness(1.f, CFont::MEDIUMBLUE);\
+CUI_Manager::Get_Instance()->Render_Text(message, CFont::MEDIUMBLUE, CFont::CENTER, fX, fY, fSize)
+
+#pragma endregion
 
 
 END

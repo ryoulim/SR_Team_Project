@@ -2,6 +2,7 @@
 #include "Level_Loading.h"
 #include "BackGround.h"
 #include "Button.h"
+#include "UI_Manager.h"
 
 CLevel_Logo::CLevel_Logo(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CLevel { pGraphic_Device }
@@ -56,14 +57,14 @@ HRESULT CLevel_Logo::Ready_Layer_UI(const _wstring& strLayerTag)
 	BackGroundDesc.eLevelID = LEVEL_LOGO;
 	BackGroundDesc.vInitPos = { 0.f,0.f,9.f };
 	BackGroundDesc.vScale = { FWINCX, FWINCY, 1.f };
-	BackGroundDesc.fDepth = 10.f;
+	BackGroundDesc.fDepth = _float(UI_BACKGROUND);
 	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_LOGO, TEXT("Prototype_GameObject_MainMenu"),
 		LEVEL_LOGO, strLayerTag, &BackGroundDesc)))
 		return E_FAIL;
 
 	BackGroundDesc.vInitPos = { 0.f,0.f,1.f };
 	BackGroundDesc.vScale = { FWINCX , FWINCY, 1.f };
-	BackGroundDesc.fDepth = 9.f;
+	BackGroundDesc.fDepth = _float(UI_EFFECT);
 	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_LOGO, TEXT("Prototype_GameObject_ScreenDust"),
 		LEVEL_LOGO, TEXT("Layer_UI"), &BackGroundDesc)))
 		return E_FAIL;
@@ -73,7 +74,7 @@ HRESULT CLevel_Logo::Ready_Layer_UI(const _wstring& strLayerTag)
 	TestButtonDesc.eLevelID = LEVEL_LOGO;
 	TestButtonDesc.vInitPos = { 280.f - g_iWinSizeX * 0.5f, g_iWinSizeY * 0.5f - 460.f,1.f };
 	TestButtonDesc.vScale = { 200.f, 38.f, 10.f };
-	TestButtonDesc.fDepth = 5.f;
+	TestButtonDesc.fDepth = _float(UI_BUTTON);
 	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_LOGO, TEXT("Prototype_GameObject_Button_Main"),
 		LEVEL_LOGO, strLayerTag, &TestButtonDesc)))
 		return E_FAIL;
@@ -86,11 +87,22 @@ HRESULT CLevel_Logo::Ready_Layer_UI(const _wstring& strLayerTag)
 	pDesc.vInitPos = { -250.f,-20.f,0.9f };
 	pDesc.vScale = { 1.f,1.f,1.f };
 	pDesc.eLevelID = LEVEL_LOGO;
-	pDesc.fDepth = 2.f;
+	pDesc.fDepth = _float(UI_DECO);
 
 	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_LOGO, TEXT("Prototype_GameObject_Logo"),
 		LEVEL_LOGO, strLayerTag, &pDesc)))
 		return E_FAIL;
+
+	CGameObject* pDialog{ nullptr };
+	pDesc.fDepth = _float(UI_FONT);
+	if (FAILED(m_pGameInstance->Add_GameObjectReturn(LEVEL_STATIC, TEXT("Prototype_GameObject_ItemDialog"),
+		LEVEL_STATIC, strLayerTag, &pDialog, &pDesc)))
+		return E_FAIL;
+	if (pDialog)
+	{
+		CUI_Manager::Get_Instance()->Initialize_Dialog(pDialog);
+	}
+
 
 	return S_OK;
 }

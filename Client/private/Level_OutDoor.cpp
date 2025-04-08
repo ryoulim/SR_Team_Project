@@ -8,6 +8,7 @@
 #include "Trigger.h"
 #include "UI_Manager.h"
 #include "FXMgr.h"
+#include "Monster.h"
 
 #define CurLevel LEVEL_OUTDOOR
 
@@ -384,7 +385,7 @@ HRESULT CLevel_OutDoor::Ready_Layer_UI(const _wstring& strLayerTag)
 {
 	CUI::DESC Desc{};
 	Desc.eLevelID = LEVEL_OUTDOOR;
-	Desc.fDepth = 3.f;
+	Desc.fDepth = _float(UI_HUD);
 	Desc.vScale = _float3(1.f, 1.f, 1.f);
 	Desc.vInitPos = _float3(0.f, 0.f, 0.1f);
 	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_Aim"),
@@ -456,6 +457,88 @@ HRESULT CLevel_OutDoor::Ready_Layer_Pawn(const _wstring& strLayerTag)
 		return E_FAIL;
 
 	return S_OK;
+}
+
+HRESULT CLevel_OutDoor::Ready_Layer_Monster(const _wstring& strLayerTag)
+{
+	_float3 Pos = {};
+	CMonster::DESC Wenteko_iDesc{};
+	Wenteko_iDesc.fSpeedPerSec = 60.f;
+	Wenteko_iDesc.fRotationPerSec = RADIAN(180.f);
+	Wenteko_iDesc.vActive = true;
+	Wenteko_iDesc.eLevel = LEVEL_OUTDOOR;
+	Wenteko_iDesc.fAttackDistance = 400.f;
+	Wenteko_iDesc.fDetectiveDistance = 500.f;
+	/******************************************/
+	CMonster::DESC Nukemutant_iDesc{};
+	Nukemutant_iDesc.fSpeedPerSec = 60.f;
+	Nukemutant_iDesc.fRotationPerSec = RADIAN(180.f);
+	Nukemutant_iDesc.vActive = true;
+	Nukemutant_iDesc.eLevel = LEVEL_OUTDOOR;
+	Nukemutant_iDesc.fAttackDistance = 400.f;
+	Nukemutant_iDesc.fDetectiveDistance = 500.f;
+	/******************************************/
+	CMonster::DESC Mechsect_iDesc{};
+	Mechsect_iDesc.fSpeedPerSec = 60.f;
+	Mechsect_iDesc.fRotationPerSec = RADIAN(180.f);
+	Mechsect_iDesc.vActive = true;
+	Mechsect_iDesc.eLevel = LEVEL_OUTDOOR;
+	Mechsect_iDesc.fAttackDistance = 300.f;
+	Mechsect_iDesc.fDetectiveDistance = 600.f;
+	/******************************************/
+	CMonster::DESC Archangel_iDesc{};
+	Archangel_iDesc.fSpeedPerSec = 60.f;
+	Archangel_iDesc.fRotationPerSec = RADIAN(180.f);
+	Archangel_iDesc.vActive = true;
+	Archangel_iDesc.eLevel = LEVEL_OUTDOOR;
+	Archangel_iDesc.fAttackDistance = 600.f;
+	Archangel_iDesc.fDetectiveDistance = 800.f;
+
+
+
+#define SPAWN_WENTEKO(x,y,z, level)							\
+Pos = _float3{ x, y, z };									\
+Wenteko_iDesc.vPosition = Pos;								\
+Wenteko_iDesc.vReturnPos = Pos;								\
+if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC,	\
+TEXT("Prototype_GameObject_Wenteko"),						\
+level, L"Layer_Monster", &Wenteko_iDesc)))					\
+return E_FAIL;												\
+
+#define SPAWN_NUKEMUTANT(x,y,z, level)						\
+Pos = _float3{ x, y, z };									\
+Nukemutant_iDesc.vPosition = Pos;							\
+Nukemutant_iDesc.vReturnPos = Pos;							\
+if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC,	\
+TEXT("Prototype_GameObject_Nukemutant"),					\
+level, L"Layer_Monster", &Nukemutant_iDesc)))				\
+return E_FAIL;												\
+
+#define SPAWN_MECHSECT(x,y,z, level)						\
+Pos = _float3{ x, y, z };									\
+Mechsect_iDesc.vPosition = Pos;								\
+Mechsect_iDesc.vReturnPos = Pos;							\
+if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC,	\
+TEXT("Prototype_GameObject_Mechsect"),						\
+level, L"Layer_Monster", &Mechsect_iDesc)))					\
+return E_FAIL;												\
+
+#define SPAWN_ARCHANGEL(x,y,z, level)						\
+Pos = _float3{ x, y, z };									\
+Archangel_iDesc.vPosition = Pos;							\
+Archangel_iDesc.vReturnPos = Pos;							\
+if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC,	\
+TEXT("Prototype_GameObject_Archangel"),						\
+level, L"Layer_Monster", &Archangel_iDesc)))				\
+return E_FAIL;												\
+
+	SPAWN_ARCHANGEL(513.f, 150.f, 325.f, LEVEL_OUTDOOR);
+	SPAWN_NUKEMUTANT(1186.f, 150.f, 333.f, LEVEL_OUTDOOR);
+	SPAWN_MECHSECT(1917.f, 150.f, 329.f, LEVEL_OUTDOOR);
+	SPAWN_WENTEKO(1773.f, 150.f, 1544.f, LEVEL_OUTDOOR);
+
+	return S_OK;
+
 }
 
 void CLevel_OutDoor::Check_Collision()

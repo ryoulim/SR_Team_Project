@@ -28,10 +28,13 @@ public:
 
 public:
 	// 텍스트 출력 용, 매개변수 wstring 아님에 주의
-	virtual HRESULT Render_Text(const string& _text, FONTALIGN _align, _float _posX, _float _posY, _float vSizeMul = 1.f);
+	virtual HRESULT Render_Text(const string& _text, FONTALIGN _align, _float _posX, _float _posY, _float vSizeMul = 1.f, CShader* pShader = nullptr);
 	// 숫자 출력 용
-	virtual HRESULT Render_Text(const _int _val, FONTALIGN _align, _float _posX, _float _posY, _float vSizeMul = 1.f);
+	virtual HRESULT Render_Text(const _int _val, FONTALIGN _align, _float _posX, _float _posY, _float vSizeMul = 1.f, CShader* pShader = nullptr);
 	void	Set_Brightness(_float val) { m_fShadeVal = val; }
+
+	virtual HRESULT Set_Font_Settings(FONTTYPE _eFontType, FONTALIGN _Align, CShader::TYPE _eShaderType, _tchar _ShaderVar, _float vSizeMultiplier = 1.f) { return S_OK; };
+	virtual HRESULT imsi_Render_Text(const string& _Text, _float3 vPos) { return S_OK; };
 
 protected:
 	HRESULT Bind_Texture_To_Transform();
@@ -43,8 +46,6 @@ protected:
 
 
 public:
-	//static CFont* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
-	//virtual CGameObject* Clone(void* pArg) override;
 	virtual void Free();
 };
 

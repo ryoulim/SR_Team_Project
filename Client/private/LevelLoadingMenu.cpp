@@ -47,7 +47,7 @@ HRESULT CLevelLoadingMenu::Initialize(void* pArg)
 	{
 		DESC* pDesc = static_cast<DESC*>(pArg);
 		m_vPos = pDesc->vInitPos;
-		m_fDepth = m_vPos.z = 0.99f;
+		m_vPos.z = 0.99f;
 		m_vSize = pDesc->vScale;
 		m_fDepth = pDesc->fDepth;
 		m_pTransformCom->Set_State(CTransform::STATE_POSITION, m_vPos);
@@ -59,7 +59,6 @@ HRESULT CLevelLoadingMenu::Initialize(void* pArg)
 	m_vSize.x *= g_iWinSizeY / m_vSize.y; m_vSize.y = g_iWinSizeY;
 	m_pTransformCom->Scaling(m_vSize);
 
-	m_fDepth = 10.f;
 
 	return S_OK;
 }
@@ -71,13 +70,13 @@ void CLevelLoadingMenu::Priority_Update(_float fTimeDelta)
 
 EVENT CLevelLoadingMenu::Update(_float fTimeDelta)
 {
-	if (m_fLoadingGauge > 0.25f)
+	if (m_fCurLoadingGauge > 0.25f)
 		m_fTextureNum = 1.f;
-	if (m_fLoadingGauge > 0.50f)
+	if (m_fCurLoadingGauge > 0.50f)
 		m_fTextureNum = 2.f;
-	if (m_fLoadingGauge > 0.75f)
+	if (m_fCurLoadingGauge > 0.75f)
 		m_fTextureNum = 3.f;
-	if (m_fLoadingGauge > 0.9f)
+	if (m_fCurLoadingGauge > 0.9f)
 	{
 		if (!m_isFinished)
 		{

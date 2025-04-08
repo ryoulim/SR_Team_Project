@@ -29,11 +29,12 @@ public:
 
 private:
 	_float		m_fLoadingGauge{ 0.1f };
+	_float		m_fCurLoadingGauge{};
 	_bool		m_isFinished = { false };
 
 public:
 	void	Set_LoadingGauge(const _float percent) { m_fLoadingGauge = percent; }
-
+	_bool	IsLoadingComplete() { return m_fLoadingGauge >= 1.f; }
 
 public:
 	static CLevelLoadingMenu* Create(LPDIRECT3DDEVICE9 pGraphic_Device);

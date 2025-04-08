@@ -32,8 +32,6 @@ HRESULT CLogo::Initialize(void* pArg)
 	/* For.Com_Shader */
 	__super::Ready_ShaderComponent();
 
-	m_fDepth = 2.f;
-
 	Ready_Component_For_Shadow(pArg);
 
 	m_pTextureCom->Get_TextureSize(0, &(m_vSize));

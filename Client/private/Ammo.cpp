@@ -34,7 +34,7 @@ HRESULT CAmmo::Initialize(void* pArg)
 	{
 		DESC* pDesc = static_cast<DESC*>(pArg);
 		m_vPos = pDesc->vInitPos;
-		m_fDepth = m_vPos.z = 0.99f;
+		m_vPos.z = 0.99f;
 		m_vSize = pDesc->vScale;
 		m_fDepth = pDesc->fDepth;
 		m_pTransformCom->Set_State(CTransform::STATE_POSITION, m_vPos);

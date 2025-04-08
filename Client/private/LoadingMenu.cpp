@@ -96,7 +96,7 @@ HRESULT CLoadingMenu::Initialize(void* pArg)
 	m_pTransformCom->Scaling(m_vSize);
 
 	m_vPos = { 0.f,0.f,0.9f };
-	m_fDepth = m_vPos.z;
+	m_fDepth = _float(UI_HUD);
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, m_vPos);
 	m_pTransformComForLoading[LOADERTEX_ANIM]->Set_State(CTransform::STATE_POSITION, { (g_iWinSizeX*0.5f - 130.f), -(g_iWinSizeY * 0.5f) + 130.f, 0.1f });
 	m_pTransformComForLoading[LOADERTEX_ANIM]->Scaling({ 128.f, 128.f, 1.f });
@@ -121,7 +121,14 @@ EVENT CLoadingMenu::Update(_float fTimeDelta)
 	if (m_fTextureNum >= 7.9f)
 		m_fTextureNum = 0.f;
 
+	if (m_fLoadingGauge < m_fCurLoadingGauge)
+	{
+		m_fLoadingGauge += fTimeDelta;
+	}
+
+
 		
+
 	__super::Update(fTimeDelta);
 	return EVN_NONE;
 }
@@ -146,13 +153,13 @@ HRESULT CLoadingMenu::Render()
 		return E_FAIL;
 
 	if (m_fLoadingGauge > 0.2f)
-		CUI_Manager::Get_Instance()->Render_Text("Press bar to skip Loading Level !!!", CFont::MEDIUMBLUE, CFont::LEFT, -600.f, -325.f + 26.f * (int(m_fLoadingGauge / 0.2f) - 1));
+		CUI_Manager::Get_Instance()->Render_Text("Loading ... \"ION FURY\"", CFont::MEDIUMBLUE, CFont::LEFT, -600.f, -325.f + 26.f * (int(m_fLoadingGauge / 0.2f) - 1));
 	if (m_fLoadingGauge > 0.4f)
-		CUI_Manager::Get_Instance()->Render_Text("Loading ... \"ION FURY\"", CFont::MEDIUMBLUE, CFont::LEFT, -600.f, -325.f + 26.f * (int(m_fLoadingGauge / 0.2f) - 2));
+		CUI_Manager::Get_Instance()->Render_Text("HINT : Press LCtrl to jump higher.", CFont::MEDIUMBLUE, CFont::LEFT, -600.f, -325.f + 26.f * (int(m_fLoadingGauge / 0.2f) - 2));
 	if (m_fLoadingGauge > 0.6f)
-		CUI_Manager::Get_Instance()->Render_Text("And now I have no idea ", CFont::MEDIUMBLUE, CFont::LEFT, -600.f, -325.f + 26.f * (int(m_fLoadingGauge / 0.2f) - 3));
+		CUI_Manager::Get_Instance()->Render_Text("REAL TIME LOADING!! @>-----", CFont::MEDIUMBLUE, CFont::LEFT, -600.f, -325.f + 26.f * (int(m_fLoadingGauge / 0.2f) - 3));
 	if (m_fLoadingGauge > 0.8f)
-		CUI_Manager::Get_Instance()->Render_Text("HINT : hint hint hint hint hint hint.", CFont::MEDIUMBLUE, CFont::LEFT, -600.f, -325.f + 26.f * (int(m_fLoadingGauge / 0.2f) - 4));
+		CUI_Manager::Get_Instance()->Render_Text("You can't skip this loading...", CFont::MEDIUMBLUE, CFont::LEFT, -600.f, -325.f + 26.f * (int(m_fLoadingGauge / 0.2f) - 4));
 	if (m_fLoadingGauge > 1.f)
 	CUI_Manager::Get_Instance()->Render_Text("Loading Complete !! ", CFont::MEDIUMBLUE, CFont::LEFT, -600.f, -325.f + 26.f * (int(m_fLoadingGauge / 0.2f) - 5));
 
@@ -196,9 +203,12 @@ HRESULT CLoadingMenu::Render_LoadingBar()
 
 	if (FAILED(m_pTextureComForLoading[LOADERTEX_BAR]->Bind_Resource(0)))
 		return E_FAIL;
-	_float fsize = 126.f * m_fLoadingGauge;
+	_float fLoadingGauge = m_fLoadingGauge;
+	if (m_fLoadingGauge >= 1.f)
+		fLoadingGauge = 1.f;
+	_float fsize = 126.f * fLoadingGauge;
 	m_pTransformComForLoading[LOADERTEX_BAR]->Set_State(CTransform::STATE_POSITION,
-		{ (g_iWinSizeX * 0.5f - 130.f) - (126.f  - 126.f * m_fLoadingGauge) * 0.5f,
+		{ (g_iWinSizeX * 0.5f - 130.f) - (126.f  - 126.f * fLoadingGauge) * 0.5f,
 		-(g_iWinSizeY * 0.5f) + 50.f, 0.01f });
 	m_pTransformComForLoading[LOADERTEX_BAR]->Scaling({ fsize, 6.f, 1.f });
 

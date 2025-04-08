@@ -60,7 +60,7 @@ HRESULT CCameraSprite::Initialize(void* pArg)
 	/* 이 스크린의 뎁스를 정해주세요 */
 	if (m_eEffectType == eEffectType::FIRE)
 		m_fDepth = 0.001f;
-	if(m_eEffectType == eEffectType::GUNFIRE)
+	if (m_eEffectType == eEffectType::GUNFIRE)
 		m_fDepth = 0.05f;
 	if (m_eEffectType == eEffectType::BULLETTRACER)
 		m_fDepth = 0.1f;

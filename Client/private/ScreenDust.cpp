@@ -21,7 +21,6 @@ HRESULT CScreenDust::Initialize(void* pArg)
 	m_eLevelID = LEVEL_LOGO;
 	m_szTextureID = TEXT("Screen_Dust");
 	m_szBufferType = TEXT("Rect");
-	m_fDepth = 5.f;
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
 
