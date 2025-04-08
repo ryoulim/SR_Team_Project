@@ -454,6 +454,12 @@
     <Filter Include="02.GameObjects\Map\Door">
       <UniqueIdentifier>{da89019a-0b76-4ef7-b96f-64af9287f2f5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\Map\Door\DoorSecurity">
+      <UniqueIdentifier>{8ee1653a-232a-4db2-a7fa-ae602516307c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\GamePlayUI\InteractPromptUI">
+      <UniqueIdentifier>{eaa5ed9c-f296-4c86-b720-0286ca6926d2}</UniqueIdentifier>
+    </Filter>
     <Filter Include="02.GameObjects\Weapon\Bullet\PlayerMissile">
       <UniqueIdentifier>{ea67d519-7dbb-4e84-ad9e-c3728d296089}</UniqueIdentifier>
     </Filter>
@@ -923,6 +929,12 @@
     <ClInclude Include="..\public\PlayerMissile.h">
       <Filter>02.GameObjects\Weapon\Bullet\PlayerMissile</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\DoorSecurity.h">
+      <Filter>02.GameObjects\Map\Door\DoorSecurity</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\InteractPromptUI.h">
+      <Filter>02.GameObjects\UI\GamePlayUI\InteractPromptUI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -1369,6 +1381,12 @@
     </ClCompile>
     <ClCompile Include="..\private\PlayerMissile.cpp">
       <Filter>02.GameObjects\Weapon\Bullet\PlayerMissile</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\DoorSecurity.cpp">
+      <Filter>02.GameObjects\Map\Door\DoorSecurity</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\InteractPromptUI.cpp">
+      <Filter>02.GameObjects\UI\GamePlayUI\InteractPromptUI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

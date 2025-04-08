@@ -78,7 +78,7 @@ private:
 	HRESULT Initialize_FadeUI();
 	
 private:
-	class CFont*						m_Fonts[CFont::FONT_END] = {nullptr,};
+	class CFont*						m_Fonts[CFont::FONT_END] = {nullptr};
 	array<class CGameObject*, GUI_END>	m_GameUIs = { nullptr };
 	class CPlayer*						m_pPlayer = { nullptr };
 

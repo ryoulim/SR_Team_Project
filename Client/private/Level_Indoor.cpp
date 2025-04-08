@@ -1,4 +1,4 @@
-#include "Level_Indoor.h"
+ï»¿#include "Level_Indoor.h"
 
 #include "GameInstance.h"
 #include "Map.h"
@@ -19,10 +19,7 @@ CLevel_Indoor::CLevel_Indoor(LPDIRECT3DDEVICE9 pGraphic_Device)
 }
 
 HRESULT CLevel_Indoor::Initialize(CLevelData* pLevelData)
-{
- 	if (FAILED(Load_Map(LEVEL_INDOOR, TEXT("NormalMapData.txt"))))
-		return E_FAIL;
-	
+{	
 	if (FAILED(Ready_Layer_Camera(TEXT("Layer_Camera"))))
 		return E_FAIL;
 
@@ -39,12 +36,15 @@ HRESULT CLevel_Indoor::Initialize(CLevelData* pLevelData)
 	if (FAILED(Ready_Layer_Trigger(TEXT("Layer_Trigger"))))
 		return E_FAIL;
 
-	// Å×½ºÆ® ÇØºÃ¾î¿ä 
+	// í…ŒìŠ¤íŠ¸ í•´ë´¤ì–´ìš” 
 	if (FAILED(Ready_Layer_Monster(TEXT("Layer_Monster"))))
 		return E_FAIL;
 
-	//if (FAILED(Ready_Layer_Item(TEXT("Layer_Item"))))
-	//	return E_FAIL;
+	if (FAILED(Ready_Layer_Item(TEXT("Layer_Item"))))
+		return E_FAIL;
+
+	if (FAILED(Load_Map(LEVEL_INDOOR, TEXT("NormalMapData.txt"))))
+		return E_FAIL;
 
 	return S_OK;
 }
@@ -62,7 +62,7 @@ void CLevel_Indoor::Update(_float fTimeDelta)
 
 HRESULT CLevel_Indoor::Render()
 {
-	SetWindowText(g_hWnd, TEXT("½Ç³» ·¹º§ÀÔ´Ï´Ù."));
+	SetWindowText(g_hWnd, TEXT("ì‹¤ë‚´ ë ˆë²¨ìž…ë‹ˆë‹¤."));
 	return S_OK;
 }
 
@@ -77,14 +77,14 @@ HRESULT CLevel_Indoor::Load_Map(_uint iLevelIdx, const _wstring& FileName)
 
 	if (INVALID_HANDLE_VALUE == hFile)
 	{
-		MSG_BOX("ÆÄÀÏ °³¹æ ½ÇÆÐ");
+		MSG_BOX("íŒŒì¼ ê°œë°© ì‹¤íŒ¨");
 		return E_FAIL;
 	}
-	/* ÅØ½ºÄíµå º¯°æÇØ¼­ Àû¿ë½ÃÄÑ ÁÙ ¶§ °¢ ¿ÀºêÁ§Æ®¸¦ °®°í¿À´Â º¯¼ö ( Á¡Á¡Ãß°¡µÉ ¿¹Á¤ )*/
-	/* ¹è¿­·Î ¼±¾ðÇÒ±î ½Í±âµµ Çß´Âµ¥, ·¹º§¸¶´Ù ¾µ ³à¼®°ú ¾È ¾µ ³à¼®ÀÌ ³ª´µ¾îÁú °Å°°±â¶§¹®¿¡,, */
+	/* í…ìŠ¤ì¿ ë“œ ë³€ê²½í•´ì„œ ì ìš©ì‹œì¼œ ì¤„ ë•Œ ê° ì˜¤ë¸Œì íŠ¸ë¥¼ ê°–ê³ ì˜¤ëŠ” ë³€ìˆ˜ ( ì ì ì¶”ê°€ë  ì˜ˆì • )*/
+	/* ë°°ì—´ë¡œ ì„ ì–¸í• ê¹Œ ì‹¶ê¸°ë„ í–ˆëŠ”ë°, ë ˆë²¨ë§ˆë‹¤ ì“¸ ë…€ì„ê³¼ ì•ˆ ì“¸ ë…€ì„ì´ ë‚˜ë‰˜ì–´ì§ˆ ê±°ê°™ê¸°ë•Œë¬¸ì—,, */
 	_int iNumTile{}, iNumBlock{}, iNumTriPil{}, iNumAniRect{}, iNumAniBlock{},
-		iNumInviBlock{}, iNumAlphaRect{}, iNumAlphaBlock{};
-	/* ºÒ·¯¿À±â¿ë º¯¼ö */
+		iNumInviBlock{}, iNumAlphaRect{}, iNumAlphaBlock{}, iNumDoor{}, iNumDoorSecurity{};
+	/* ë¶ˆëŸ¬ì˜¤ê¸°ìš© ë³€ìˆ˜ */
 	_int iNumVertexX = {}, iNumVertexZ = {}, iLoadLength = {};
 	_uint iNumBackGround = {}, iNumModel = {};
 	_float fSpeedPerSec = {}, fRotationPerSec = {}, fTextureIdx = {};
@@ -133,11 +133,11 @@ HRESULT CLevel_Indoor::Load_Map(_uint iLevelIdx, const _wstring& FileName)
 
  			if (FAILED(m_pGameInstance->Add_GameObject(iLevelIdx, Prototype, iLevelIdx, Layertag, &tDesc)))
 			{
-				MSG_BOX("°´Ã¼ »ý¼º ½ÇÆÐ");
+				MSG_BOX("ê°ì²´ ìƒì„± ì‹¤íŒ¨");
 				return E_FAIL;
 			}
 
-			// Å¥ºêÀÎÁö ·ºÆ®ÀÎÁö ºÐ±â ÇÊ¿äÇÔ
+			// íë¸Œì¸ì§€ ë ‰íŠ¸ì¸ì§€ ë¶„ê¸° í•„ìš”í•¨
 			if (Prototype == TEXT("Prototype_GameObject_BackGround"))
 			{
 				CGameObject* pGameObject = m_pGameInstance->Find_Object(iLevelIdx, Layertag, iNumTile++);
@@ -145,7 +145,7 @@ HRESULT CLevel_Indoor::Load_Map(_uint iLevelIdx, const _wstring& FileName)
 				{
 					if (FAILED(__super::Load_VertexBuffer(pGameObject, hFile, &dwByte)))
 					{
-						MSG_BOX("¹öÅØ½º ¹öÆÛ ·Îµù½ÇÆÐ");
+						MSG_BOX("ë²„í…ìŠ¤ ë²„í¼ ë¡œë”©ì‹¤íŒ¨");
 						return E_FAIL;
 					}
 				}
@@ -158,7 +158,7 @@ HRESULT CLevel_Indoor::Load_Map(_uint iLevelIdx, const _wstring& FileName)
 				{
 					if (FAILED(__super::Load_VertexBuffer(pGameObject, hFile, &dwByte)))
 					{
-						MSG_BOX("¹öÅØ½º ¹öÆÛ ·Îµù½ÇÆÐ");
+						MSG_BOX("ë²„í…ìŠ¤ ë²„í¼ ë¡œë”©ì‹¤íŒ¨");
 						return E_FAIL;
 					}
 				}
@@ -170,7 +170,7 @@ HRESULT CLevel_Indoor::Load_Map(_uint iLevelIdx, const _wstring& FileName)
 				{
 					if (FAILED(__super::Load_VertexBuffer(pGameObject, hFile, &dwByte)))
 					{
-						MSG_BOX("¹öÅØ½º ¹öÆÛ ·Îµù½ÇÆÐ");
+						MSG_BOX("ë²„í…ìŠ¤ ë²„í¼ ë¡œë”©ì‹¤íŒ¨");
 						return E_FAIL;
 					}
 				}
@@ -182,7 +182,7 @@ HRESULT CLevel_Indoor::Load_Map(_uint iLevelIdx, const _wstring& FileName)
 				{
 					if (FAILED(__super::Load_VertexBuffer(pGameObject, hFile, &dwByte)))
 					{
-						MSG_BOX("¹öÅØ½º ¹öÆÛ ·Îµù½ÇÆÐ");
+						MSG_BOX("ë²„í…ìŠ¤ ë²„í¼ ë¡œë”©ì‹¤íŒ¨");
 						return E_FAIL;
 					}
 				}
@@ -194,7 +194,7 @@ HRESULT CLevel_Indoor::Load_Map(_uint iLevelIdx, const _wstring& FileName)
 				{
 					if (FAILED(__super::Load_VertexBuffer(pGameObject, hFile, &dwByte)))
 					{
-						MSG_BOX("¹öÅØ½º ¹öÆÛ ·Îµù½ÇÆÐ");
+						MSG_BOX("ë²„í…ìŠ¤ ë²„í¼ ë¡œë”©ì‹¤íŒ¨");
 						return E_FAIL;
 					}
 				}
@@ -206,7 +206,7 @@ HRESULT CLevel_Indoor::Load_Map(_uint iLevelIdx, const _wstring& FileName)
 				{
 					if (FAILED(__super::Load_VertexBuffer(pGameObject, hFile, &dwByte)))
 					{
-						MSG_BOX("¹öÅØ½º ¹öÆÛ ·Îµù½ÇÆÐ");
+						MSG_BOX("ë²„í…ìŠ¤ ë²„í¼ ë¡œë”©ì‹¤íŒ¨");
 						return E_FAIL;
 					}
 				}
@@ -218,7 +218,7 @@ HRESULT CLevel_Indoor::Load_Map(_uint iLevelIdx, const _wstring& FileName)
 				{
 					if (FAILED(__super::Load_VertexBuffer(pGameObject, hFile, &dwByte)))
 					{
-						MSG_BOX("¹öÅØ½º ¹öÆÛ ·Îµù½ÇÆÐ");
+						MSG_BOX("ë²„í…ìŠ¤ ë²„í¼ ë¡œë”©ì‹¤íŒ¨");
 						return E_FAIL;
 					}
 				}
@@ -230,7 +230,31 @@ HRESULT CLevel_Indoor::Load_Map(_uint iLevelIdx, const _wstring& FileName)
 				{
 					if (FAILED(__super::Load_VertexBuffer(pGameObject, hFile, &dwByte)))
 					{
-						MSG_BOX("¹öÅØ½º ¹öÆÛ ·Îµù½ÇÆÐ");
+						MSG_BOX("ë²„í…ìŠ¤ ë²„í¼ ë¡œë”©ì‹¤íŒ¨");
+						return E_FAIL;
+					}
+				}
+			}
+			else if (Prototype == TEXT("Prototype_GameObject_Door"))
+			{
+				CGameObject* pGameObject = m_pGameInstance->Find_Object(iLevelIdx, Layertag, iNumDoor++);
+				if (nullptr != pGameObject)
+				{
+					if (FAILED(__super::Load_VertexBuffer(pGameObject, hFile, &dwByte)))
+					{
+						MSG_BOX("ë²„í…ìŠ¤ ë²„í¼ ë¡œë”©ì‹¤íŒ¨");
+						return E_FAIL;
+					}
+				}
+			}
+			else if (Prototype == TEXT("Prototype_GameObject_DoorSecurity"))
+			{
+				CGameObject* pGameObject = m_pGameInstance->Find_Object(iLevelIdx, Layertag, iNumDoorSecurity++);
+				if (nullptr != pGameObject)
+				{
+					if (FAILED(__super::Load_VertexBuffer(pGameObject, hFile, &dwByte)))
+					{
+						MSG_BOX("ë²„í…ìŠ¤ ë²„í¼ ë¡œë”©ì‹¤íŒ¨");
 						return E_FAIL;
 					}
 				}
@@ -273,7 +297,7 @@ HRESULT CLevel_Indoor::Load_Map(_uint iLevelIdx, const _wstring& FileName)
 
 			if (FAILED(m_pGameInstance->Add_GameObject(iLevelIdx, Prototype, iLevelIdx, Layertag, &tDesc)))
 			{
-				MSG_BOX("°´Ã¼ »ý¼º ½ÇÆÐ");
+				MSG_BOX("ê°ì²´ ìƒì„± ì‹¤íŒ¨");
 				return E_FAIL;
 			}
 
@@ -330,9 +354,12 @@ HRESULT CLevel_Indoor::Ready_Layer_UI(const _wstring& strLayerTag)
 		Desc.eLevelID, strLayerTag, &Desc)))
 		return E_FAIL;
 
+	if (FAILED(m_pGameInstance->Add_GameObject(Desc.eLevelID, TEXT("Prototype_GameObject_InteractPromptUI"),
+		Desc.eLevelID, strLayerTag, &Desc)))
+		return E_FAIL;
 
-	/* ui»ý¼º ¼ø¼­ Áß¿ä, player »ý¼º ÀÌÈÄ È£Ãâ Áß¿ä  */
-	// °ú°ÅÀÇ ³ª¾ß ¹Ì¾ÈÇØ 
+	/* uiìƒì„± ìˆœì„œ ì¤‘ìš”, player ìƒì„± ì´í›„ í˜¸ì¶œ ì¤‘ìš”  */
+	// ê³¼ê±°ì˜ ë‚˜ì•¼ ë¯¸ì•ˆí•´ 
 	return S_OK;
 }
 
@@ -346,10 +373,10 @@ HRESULT CLevel_Indoor::Ready_Layer_Camera(const _wstring& strLayerTag)
 
 HRESULT CLevel_Indoor::Ready_Layer_Pawn(const _wstring& strLayerTag)
 {
-	//ÀÌ ·¹º§ÀÇ ÇÃ·¹ÀÌ¾î »ý¼ºÀ§Ä¡
+	//ì´ ë ˆë²¨ì˜ í”Œë ˆì´ì–´ ìƒì„±ìœ„ì¹˜
 	_float3 vInitPosition = { 1400.f, 150.f, 500.f };
 
-	// ÇÃ·¹ÀÌ¾î°¡ ÀÖ´ÂÁö Ã¼Å©ÇÏ°í ÀÖÀ¸¸é À§Ä¡¸¸ º¯°æÇØÁÜ.
+	// í”Œë ˆì´ì–´ê°€ ìžˆëŠ”ì§€ ì²´í¬í•˜ê³  ìžˆìœ¼ë©´ ìœ„ì¹˜ë§Œ ë³€ê²½í•´ì¤Œ.
 	auto pPlayer = GET_PLAYER;
 	if (pPlayer)
 	{
@@ -359,7 +386,7 @@ HRESULT CLevel_Indoor::Ready_Layer_Pawn(const _wstring& strLayerTag)
 		return S_OK;
 	}
 
-	//¾øÀ¸¸é »õ·Î »ý¼ºÇØ¼­ ³Ö¾îÁÜ
+	//ì—†ìœ¼ë©´ ìƒˆë¡œ ìƒì„±í•´ì„œ ë„£ì–´ì¤Œ
 	CPlayer::DESC PlayerDesc{};
 	PlayerDesc.vInitPos = vInitPosition;
 	PlayerDesc.vScale = { 20.f, 30.f, 20.f };
@@ -367,7 +394,7 @@ HRESULT CLevel_Indoor::Ready_Layer_Pawn(const _wstring& strLayerTag)
 	PlayerDesc.fSpeedPerSec = RACE_SPEED_PER_SEC;
 	PlayerDesc.eLevelID = CurLevel;
 
-	// ÃÖÃÊ °ÔÀÓ ÀÔÀåÇÒ¶§ ¾îµð¿¡¼­ ÀÔÀåÇÏ´ø ½ºÅÂÆ½¿¡ »ý¼ºÇØÁØ´Ù.
+	// ìµœì´ˆ ê²Œìž„ ìž…ìž¥í• ë•Œ ì–´ë””ì—ì„œ ìž…ìž¥í•˜ë˜ ìŠ¤íƒœí‹±ì— ìƒì„±í•´ì¤€ë‹¤.
 	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_Player"),
 		LEVEL_STATIC, strLayerTag, &PlayerDesc)))
 		return E_FAIL;
@@ -472,7 +499,7 @@ return E_FAIL;												\
 	//SPAWN_GREATER(1559.f, 150.f, 996.f, LEVEL_INDOOR);
 	//SPAWN_GREATER(1559.f, 150.f, 996.f, LEVEL_INDOOR);
 
-	// ÀÓ½Ã·Î ±×³É ¸¹ÀÌ¸¹ÀÌ ¸¸µé¾îº½ 
+	// ìž„ì‹œë¡œ ê·¸ëƒ¥ ë§Žì´ë§Žì´ ë§Œë“¤ì–´ë´„ 
 
 
 	return S_OK;
@@ -481,8 +508,8 @@ return E_FAIL;												\
 HRESULT CLevel_Indoor::Ready_Layer_Item(const _wstring& strLayerTag)
 {
 	CItem::DESC ItemDesc{};
-	ItemDesc.vInitPos = { 2100.f, 20.f, 1000.f };
-	ItemDesc.vScale = { 10.f, 10.f, 10.f };
+	ItemDesc.vInitPos = { 2100.f, 29.f, 1000.f };
+	ItemDesc.vScale = { INDOORITEMSCALE, INDOORITEMSCALE, INDOORITEMSCALE };
 	ItemDesc.fRotationPerSec = RADIAN(180.f);
 	ItemDesc.fSpeedPerSec = 300.f;
 	ItemDesc.eLevelID = CurLevel;
@@ -495,9 +522,7 @@ HRESULT CLevel_Indoor::Ready_Layer_Item(const _wstring& strLayerTag)
 		LEVEL_INDOOR, strLayerTag, &ItemDesc)))
 		return E_FAIL;
 
-
-	ItemDesc.vInitPos = { 2175.f, 20.f, 430.f };
-	ItemDesc.vScale = { 10.f, 10.f, 10.f };
+	ItemDesc.vInitPos = { 2175.f, 29.f, 430.f };
 	ItemDesc.fTextureNum = 1.f;
 	ItemDesc.eColID = COLLIDER_ID::CI_ITEM_AMMO_DISPENSER_SCATTER;
 
@@ -507,7 +532,7 @@ HRESULT CLevel_Indoor::Ready_Layer_Item(const _wstring& strLayerTag)
 
 
 	/*ItemDesc.vInitPos = { 1540.f, 30.f, 1035.f };
-	ItemDesc.vScale = { 10.f, 10.f, 10.f };
+	ItemDesc.vScale = { INDOORITEMSCALE, INDOORITEMSCALE, INDOORITEMSCALE };
 	ItemDesc.fTextureNum = 2.f;
 	ItemDesc.eColID = COLLIDER_ID::CI_ITEM_AMMO_DISPENSER_CANNON;
 
@@ -516,14 +541,24 @@ HRESULT CLevel_Indoor::Ready_Layer_Item(const _wstring& strLayerTag)
 		return E_FAIL;*/
 
 
-	ItemDesc.vInitPos = { 1540.f, 20.f, 1035.f };
-	ItemDesc.vScale = { 10.f, 10.f, 10.f };
+	ItemDesc.vInitPos = { 1540.f, 29.f, 1035.f };
 	ItemDesc.fTextureNum = 3.f;
 	ItemDesc.eColID = COLLIDER_ID::CI_ITEM_AMMO_LOVERBOY;
 
 	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_INDOOR, TEXT("Prototype_GameObject_Item_Ammo_LoverBoy"),
 		LEVEL_INDOOR, strLayerTag, &ItemDesc)))
 		return E_FAIL;
+
+	ItemDesc.vInitPos = { 2114.f, 29.f, 995.f };
+	ItemDesc.szBufferType = TEXT("Rect");
+	ItemDesc.szTextureID = TEXT("Item_Cardkey");
+	ItemDesc.fTextureNum = 0.f;
+	ItemDesc.eColID = COLLIDER_ID::CI_ITEM_CARDKEY;
+
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_INDOOR, TEXT("Prototype_GameObject_Item_Cardkey"),
+		LEVEL_INDOOR, strLayerTag, &ItemDesc)))
+		return E_FAIL;
+
 
 	return S_OK;
 }

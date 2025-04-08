@@ -203,6 +203,7 @@
     <ClInclude Include="..\public\DebugDraw.h" />
     <ClInclude Include="..\public\DebugMode.h" />
     <ClInclude Include="..\public\Door.h" />
+    <ClInclude Include="..\public\DoorSecurity.h" />
     <ClInclude Include="..\public\Dust.h" />
     <ClInclude Include="..\public\Effect.h" />
     <ClInclude Include="..\public\FadeUI.h" />
@@ -225,6 +226,7 @@
     <ClInclude Include="..\public\HitBox.h" />
     <ClInclude Include="..\public\HydroPump.h" />
     <ClInclude Include="..\public\Interactive_Block.h" />
+    <ClInclude Include="..\public\InteractPromptUI.h" />
     <ClInclude Include="..\public\InvisibleBlock.h" />
     <ClInclude Include="..\public\GrenadeBullet.h" />
     <ClInclude Include="..\public\Item.h" />
@@ -356,6 +358,7 @@
     <ClCompile Include="..\private\DebugDraw.cpp" />
     <ClCompile Include="..\private\DebugMode.cpp" />
     <ClCompile Include="..\private\Door.cpp" />
+    <ClCompile Include="..\private\DoorSecurity.cpp" />
     <ClCompile Include="..\private\Dust.cpp" />
     <ClCompile Include="..\private\Effect.cpp" />
     <ClCompile Include="..\private\FadeUI.cpp" />
@@ -379,6 +382,7 @@
     <ClCompile Include="..\private\HitBox.cpp" />
     <ClCompile Include="..\private\HydroPump.cpp" />
     <ClCompile Include="..\private\Interactive_Block.cpp" />
+    <ClCompile Include="..\private\InteractPromptUI.cpp" />
     <ClCompile Include="..\private\InvisibleBlock.cpp" />
     <ClCompile Include="..\private\Item.cpp" />
     <ClCompile Include="..\private\JumpAttack.cpp" />

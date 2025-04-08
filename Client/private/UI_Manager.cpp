@@ -107,8 +107,6 @@ HRESULT CUI_Manager::Initialize_GamePlayUI(LEVEL eLevelID)
 		//Safe_AddRef(m_GameUIs[i]);
 	}
 
-
-
 	return S_OK;
 }
 

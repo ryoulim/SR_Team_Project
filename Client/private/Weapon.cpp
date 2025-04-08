@@ -255,6 +255,25 @@ void CWeapon::Mouse_Over()
 	if (m_pPrePickedCollider == m_pPickedCollider)
 		return;
 
+	if (m_iPrePickedColliderID == CI_INTERACTIVE_DOOR)
+	{
+		m_pPrePickedCollider->Get_Owner()->On_Collision(m_iPickedColliderID, CI_PICKING_RAY);
+	}
+	if (m_iPickedColliderID == CI_INTERACTIVE_DOOR)
+	{
+		m_pPickedCollider->Get_Owner()->On_Collision(m_iPickedColliderID, CI_PICKING_RAY);
+	}
+
+	if (m_iPrePickedColliderID == CI_INTERACTIVE_SECURITY)
+	{
+		m_pPrePickedCollider->Get_Owner()->On_Collision(m_iPickedColliderID, CI_PICKING_RAY);
+	}
+	if (m_iPickedColliderID == CI_INTERACTIVE_SECURITY)
+	{
+		m_pPickedCollider->Get_Owner()->On_Collision(m_iPickedColliderID, CI_PICKING_RAY);
+	}
+
+
 	if (m_iPrePickedColliderID == CI_MON_HEAD)
 	{
 		static_cast<CMonster*>(m_pPrePickedCollider->Get_Owner())->Render_Skull(FALSE);
