@@ -36,7 +36,6 @@ EVENT CRaceBossBullet::Update(_float fTimeDelta)
 		return EVN_DEAD;
 
 	m_pTransformCom->Go_Straight(fTimeDelta);
-	m_pTransformCom->Move({ 0.f,0.f,RACE_SPEED_PER_SEC }, fTimeDelta);
 	
 	return __super::Update(fTimeDelta);
 }

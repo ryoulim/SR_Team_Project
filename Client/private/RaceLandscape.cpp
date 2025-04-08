@@ -35,6 +35,7 @@ void CRaceLandscape::Priority_Update(_float fTimeDelta)
 
 EVENT CRaceLandscape::Update(_float fTimeDelta)
 {
+	m_pTransformCom->Move({ 0.f,0.f,-RACE_SPEED_PER_SEC }, fTimeDelta);
 	return __super::Update(fTimeDelta);
 }
 

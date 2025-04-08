@@ -236,7 +236,7 @@ HRESULT CLevel_RaceFirst::Ready_Layer_Pawn(const _wstring& strLayerTag)
 	PlayerOnBoatDesc.vInitPos = { 450.f, 17.f, 0.f };
 	PlayerOnBoatDesc.vScale = _float3{ 223.f, 137.f, 223.f } * 0.15f;
 	PlayerOnBoatDesc.fRotationPerSec = RADIAN(180.f);
-	PlayerOnBoatDesc.fSpeedPerSec = RACE_SPEED_PER_SEC;
+	PlayerOnBoatDesc.fSpeedPerSec = 0.f;
 	PlayerOnBoatDesc.eLevelID = CurLevel;
 
 	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_PlayerOnBoat"),
@@ -250,7 +250,7 @@ HRESULT CLevel_RaceFirst::Ready_Layer_RaceBoss(const _wstring& strLayerTag)
 {
 	CRaceBoss::DESC RaceBossDesc = {};
 	RaceBossDesc.fRotationPerSec = RADIAN(180.f);
-	RaceBossDesc.fSpeedPerSec = RACE_SPEED_PER_SEC;
+	RaceBossDesc.fSpeedPerSec = 0.f;
 	RaceBossDesc.eLevelID = CurLevel;
 
 	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_RaceBoss"),

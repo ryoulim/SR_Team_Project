@@ -51,6 +51,7 @@ private:
 	HRESULT Ready_Components(void* pArg);
 	void Action(_float fTimeDelta);
 	HRESULT Fire_Bullet(CRaceBossBullet::RBULLETTYPE eType, MUZZLEPOS ePos);
+	_float3 Calc_Muzzle_Position(MUZZLEPOS eMuzzle);
 	void ShuffleandPop();
 	_float3 CatmulRomPos(_float3& v0, _float3& vStartPos, _float3& vEndPos, _float3& v3, _float fTimeAcc);
 
