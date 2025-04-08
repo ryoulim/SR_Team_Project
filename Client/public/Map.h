@@ -53,6 +53,12 @@ public:
 protected:
 	virtual HRESULT Ready_Components(void* pArg);
 
+public: /* [ ºŒ¿Ã¥ı∏¶ »∞øÎ«— ∑ª¥ı∏µ ] */
+	virtual HRESULT DefaultShaderRender();
+	virtual HRESULT MultiShaderRender(_float _fTexNum, _int _iSetting);
+	virtual HRESULT MultiTextureShaderRender(int _iNums);
+	virtual HRESULT BillboardShaderRender();
+
 protected:
 	LEVEL m_eLevelID = { LEVEL_END };
 	const _tchar* m_szTextureID = { nullptr };

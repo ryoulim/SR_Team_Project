@@ -39,8 +39,6 @@ protected:
 	virtual HRESULT Ready_Components(void* pArg);
 	void Change_Level();
 
-public:
-	_bool GetbFog() { return m_bFog; }
 
 protected:
 	LEVEL m_eLevelID = { LEVEL_END };
@@ -52,7 +50,7 @@ protected:
 	CCollider* m_pCollider = { nullptr };
 	CCollider* m_pPrePosCollider{ nullptr };
 	_bool	m_bActive{ TRUE };
-	_bool	m_bFog{ TRUE };
+	_bool	m_bFogAnimation{ false };
 
 	_float						m_fInitSpeed{};
 

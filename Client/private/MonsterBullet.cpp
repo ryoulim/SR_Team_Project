@@ -39,10 +39,11 @@ HRESULT CMonsterBullet::Initialize(void* pArg)
 	SetTargetDir();
 
 	//미사일 파티클
+
 	CPSystem::DESC Missile_iDesc{};
 	Missile_iDesc.vPosition = { 0.f, 0.f, 0.f };
 	Missile_iDesc.szTextureTag = TEXT("PC_Small_Smoke");
-	Missile_iDesc.iParticleNums = 1000;
+	Missile_iDesc.iParticleNums = 100;
 	Missile_iDesc.fSize = 10.f;
 	Missile_iDesc.fMaxFrame = 20.f;
 	Missile_iDesc.fNum = 60.f;

@@ -37,6 +37,12 @@ public:
 	virtual void Late_Update(_float fTimeDelta) override;
 	virtual HRESULT Render() override;
 
+public: /* [ 셰이더 렌더링 함수 ] */
+	HRESULT DefaultShaderRender();
+	HRESULT MultiShaderRender(_float _fTexNum, _int _iSetting);
+	HRESULT MultiTextureShaderRender(int _iNums);
+	HRESULT BillboardShaderRender();
+
 protected:
 	virtual HRESULT Ready_Components(void* pArg);
 
@@ -60,6 +66,8 @@ public:
 
 protected: /* [ 안개 셰이더 조절용 ] */
 	LEVEL m_eShadingLevel = LEVEL_END;
+	_float m_fShaderTime = 0.f;
+	_float m_fTextureIdx = {};
 };
 
 END

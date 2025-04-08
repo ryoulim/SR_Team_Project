@@ -43,17 +43,17 @@ HRESULT CGrenadeBullet::Initialize(void* pArg)
 		CPSystem::DESC Missile_iDesc{};
 		Missile_iDesc.vPosition = { 0.f, 0.f, 0.f };
 		Missile_iDesc.szTextureTag = TEXT("PC_Small_Smoke");
-		Missile_iDesc.iParticleNums = 500;
-		Missile_iDesc.fSize = 5.f;
+		Missile_iDesc.iParticleNums = 60;
+		Missile_iDesc.fSize = 2.5f;
 		Missile_iDesc.fMaxFrame = 20.f;
-		Missile_iDesc.fNum = 60.f;
+		Missile_iDesc.fNum = 0.f;
 
 		CGameObject* pObject = nullptr;
 		CGameObject** ppOut = &pObject;
 		if (FAILED(m_pGameInstance->Add_GameObjectReturn(LEVEL_STATIC, TEXT("Prototype_GameObject_PC_MonsterMissile"),
 			m_eLevelID, L"Layer_Monster", ppOut, &Missile_iDesc)))
 			return E_FAIL;
-
+		
 		m_pBullet = *ppOut;
 	}
 	return S_OK;
@@ -113,7 +113,16 @@ HRESULT CGrenadeBullet::Render()
 	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAREF, 40);
 	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER);
 
-	__super::Render();
+	m_pGraphic_Device->SetTransform(D3DTS_WORLD, &m_pTransformCom->Billboard());
+
+	if (FAILED(m_pTextureCom->Bind_Resource(static_cast<_uint>(m_fAnimationFrame))))
+		return E_FAIL;
+
+	if (FAILED(m_pVIBufferCom->Bind_Buffers()))
+		return E_FAIL;
+
+	if (FAILED(m_pVIBufferCom->Render()))
+		return E_FAIL;
 
 	m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
 

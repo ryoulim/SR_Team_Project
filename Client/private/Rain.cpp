@@ -1,7 +1,6 @@
 ﻿#include "Rain.h"
 #include "GameInstance.h"
-#include "Client_Defines.h"
-#include "Player.h"
+#include "FXMgr.h"
 
 CRain::CRain(LPDIRECT3DDEVICE9 pGraphicDev, wstring _strObjName)
 	:CPSystem(pGraphicDev, _strObjName)
@@ -73,7 +72,7 @@ EVENT CRain::Update(_float timeDelta)
 
 HRESULT CRain::Render()
 {
-	if (!static_cast<CPlayer*>(GET_PLAYER)->GetbFog())
+	if (g_FogCustom > 1000.f)
 		return S_OK;
 
 	if (!m_Particles.empty())
@@ -190,7 +189,7 @@ CRain* CRain::Create(LPDIRECT3DDEVICE9 pGraphicDev, wstring _strObjName)
 		return nullptr;
 	}
 
-	for (int i = 0; i < 2000; i++)
+	for (int i = 0; i < 2500; i++)
 	{
 		pInstance->addParticle();
 	}

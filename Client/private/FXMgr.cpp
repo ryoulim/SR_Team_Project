@@ -15,7 +15,12 @@
 #include "Rain.h"
 #include <iostream>
 
-//IMPLEMENT_SINGLETON(CFXMgr);
+namespace Client
+{
+	bool g_FogTrigger = true;
+	float g_FogCustom = 2000.f;
+}
+
 
 CFXMgr::CFXMgr()
 	: m_pGameInstance(CGameInstance::Get_Instance())
@@ -953,8 +958,8 @@ void CFXMgr::PlayerDash(LEVEL eLevel)
 void CFXMgr::SpawnRain(LEVEL eLevel)
 {
 	CRain::DESC RainDesc{};
-	RainDesc.vMin = _float3(-100.f, -100.f, 0.f);
-	RainDesc.vMax = _float3(2500.f, 1000.f, 2000.f);
+	RainDesc.vMin = _float3(-1000.f, -1000.f, 0.f);
+	RainDesc.vMax = _float3(3000.f, 1500.f, 3000.f);
 
 	//ºø¹æ¿ï
 	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_PC_Rain"),
