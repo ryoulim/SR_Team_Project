@@ -51,7 +51,7 @@ private:
 private:
 	class CGameObject* m_pInteractPromptUI = { nullptr };
 	class CGameObject* m_pDoor = { nullptr };
-	class CGameObject* m_pPlayer = { nullptr };
+	class CPlayer* m_pPlayer = { nullptr };
 
 	STATE m_eState = { USUAL };
 

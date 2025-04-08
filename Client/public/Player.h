@@ -9,6 +9,32 @@ BEGIN(Client)
 class CPlayer final : public CPawn
 {
 private:
+	class CLeftHand : public CGameObject
+	{
+	public:
+		CLeftHand(LPDIRECT3DDEVICE9 pGraphic_Device);
+		~CLeftHand() = default;
+
+	public:
+		HRESULT Initialize(void* pArg);
+		_bool Move(_float fTimeDelta);
+		HRESULT Render();
+		
+	private:
+		CTexture* m_pTextureCom = { nullptr };
+		CVIBuffer* m_pVIBufferCom = { nullptr };
+		CTransform* m_pTransformCom = { nullptr };
+
+		_float m_fTimeAcc = {};
+		_byte  m_byState = {};
+
+	public:
+		virtual CGameObject* Clone(void* pArg) { return nullptr; }
+		virtual void Free()override;
+
+	} *m_pLeftHand{nullptr}; // 이러면 바로 선언가능
+
+private:
 	CPlayer(LPDIRECT3DDEVICE9 pGraphic_Device);
 	CPlayer(const CPlayer& Prototype);
 	virtual ~CPlayer() = default;
@@ -17,6 +43,7 @@ public:
 	_bool Get_HaveCardKey() {
 		return m_bHaveCardkey;
 	}
+	void Start_Move_LeftHand() { m_bMoveLeftHand = TRUE; };
 
 public:
 	virtual HRESULT Initialize_Prototype() override;
@@ -51,8 +78,9 @@ private:
 	_bool						m_bOnHit{};
 	_float						m_fOnHitTimer{};
 
-	//카드 키 갖고있음?
+	//카드 키 관련
 	_bool						m_bHaveCardkey{ false };
+	_bool						m_bMoveLeftHand{};
 
 	// 저스트 회피
 	_byte						m_byJustDodgeFlag{};
