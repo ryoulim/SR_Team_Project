@@ -433,7 +433,6 @@
     <ClCompile Include="..\private\RaceTerrain.cpp" />
     <ClCompile Include="..\private\RacingPanel.cpp" />
     <ClCompile Include="..\private\Rain.cpp" />
-    <ClCompile Include="..\private\RBState.cpp" />
     <ClCompile Include="..\private\Rock.cpp" />
     <ClCompile Include="..\private\ScreenDust.cpp" />
     <ClCompile Include="..\private\ScreenSprite.cpp" />

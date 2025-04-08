@@ -315,6 +315,7 @@ HRESULT CLevel_RaceFirst::Ready_Layer_UI(const _wstring& strLayerTag)
 void CLevel_RaceFirst::Check_Collision()
 {
 	m_pGameInstance->Intersect(CG_PAWN, CG_MBULLET);
+	m_pGameInstance->Intersect(CG_MONSTER, CG_PBULLET);
 }
 
 CLevel_RaceFirst* CLevel_RaceFirst::Create(LPDIRECT3DDEVICE9 pGraphic_Device, class CLevelData* pLevelData)

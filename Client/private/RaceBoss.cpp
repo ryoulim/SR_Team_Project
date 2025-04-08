@@ -22,15 +22,10 @@ HRESULT CRaceBoss::Initialize_Prototype()
 HRESULT CRaceBoss::Initialize(void* pArg)
 {
 	m_eLevelID = static_cast<DESC*>(pArg)->eLevelID;
+	m_iHp = 100;
 
 	Ready_Components(pArg);
 
-	m_vScale = _float3(100.f, 100.f, 100.f);
-	m_iHp = 100;
-
-	m_pTransformCom->Set_State(CTransform::STATE_POSITION, _float3(0.f, 250.f, 0.f));
-	//450,250,1000
-	m_pTransformCom->Scaling(m_vScale);
 	m_eState = ENTRANCE;
 
 	ReadyForState();
@@ -68,7 +63,8 @@ EVENT CRaceBoss::Update(_float fTimeDelta)
 
 void CRaceBoss::Late_Update(_float fTimeDelta)
 {
-	m_pCollider->Update_Collider();
+	for (auto& Collider : m_ColliderComs)
+		Collider->Update_Collider();
 
 	const _float3& vPos = *m_pTransformCom->Get_State(CTransform::STATE_POSITION);
 
@@ -115,6 +111,11 @@ HRESULT CRaceBoss::Render()
 
 	if (FAILED(m_pVIBufferCom->Render(CVIBuffer_RaceBoss::MIDDLE)))
 		return E_FAIL;
+
+#ifdef _COLLIDERRENDER
+	for(auto& Collider : m_ColliderComs)
+		Collider->Render();
+#endif
 
 	return S_OK;
 }
@@ -183,17 +184,29 @@ HRESULT CRaceBoss::Ready_Components(void* pArg)
 		TEXT("Com_Transform"), reinterpret_cast<CComponent**>(&m_pTransformCom), pArg)))
 		return E_FAIL;
 
+	m_vScale = _float3(100.f, 100.f, 100.f);
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION, _float3(0.f, 250.f, 0.f));
+	//450,250,1000
+	m_pTransformCom->Scaling(m_vScale);
+
 	CCollider_Capsule::DESC ColliderDesc{};
 	ColliderDesc.pTransform = m_pTransformCom;
-	ColliderDesc.vScale = m_vScale;
+	ColliderDesc.vScale = {20.f,1.f,1.f};
 	ColliderDesc.pOwner = this;
 	ColliderDesc.iColliderGroupID = CG_MONSTER; //임시로 몬스터
 	ColliderDesc.iColliderID = CI_MON_BODY;
 
-	/* For.Com_Collider */
-	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Collider_Capsule"),
-		TEXT("Com_Collider"), reinterpret_cast<CComponent**>(&m_pCollider), &ColliderDesc)))
-		return E_FAIL;
+	m_ColliderComs.resize(5);
+	_wstring Key = TEXT("Com_Collider");
+	for (_uint i = 0; i < 5; ++i)
+	{
+		ColliderDesc.vOffSet = Calc_Muzzle_Position((MUZZLEPOS)i);
+
+		/* For.Com_Collider */
+		if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Collider_Sphere"),
+			Key + to_wstring(i), reinterpret_cast<CComponent**>(&m_ColliderComs[i]), &ColliderDesc)))
+			return E_FAIL;
+	}
 
 	return S_OK;
 }
@@ -494,8 +507,10 @@ void CRaceBoss::Free()
 	Safe_Release(m_pTextureCom);
 	Safe_Release(m_pVIBufferCom);
 	Safe_Release(m_pTransformCom);
-	Safe_Release(m_pCollider);
 	Safe_Release(m_pSkull);
+
+	for(auto& Collider : m_ColliderComs)
+		Safe_Release(Collider);
 	for (size_t i = WAITFORPLAYER; i < NON; ++i)
 		Safe_Release(m_pState[i]);
 }

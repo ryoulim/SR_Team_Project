@@ -33,6 +33,9 @@ public:
 	}
 
 private:
+	virtual HRESULT Ready_Components(void* pArg)override;
+
+private:
 	friend class CPBState_Accel;
 	friend class CPBState_Decel;
 	friend class CPBState_Lerp;

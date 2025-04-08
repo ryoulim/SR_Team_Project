@@ -45,7 +45,6 @@ EVENT CPlayerMissile::Update(_float fTimeDelta)
 	m_pTransformCom->Go_Straight(fTimeDelta);
 
 	Update_TrailData(fTimeDelta);
-
 	FrameUpdate(fTimeDelta, 7.f, 40.f, true);
 
 	if (m_pEffect)
