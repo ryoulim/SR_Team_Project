@@ -49,6 +49,8 @@ EVENT CRaceBoss::Update(_float fTimeDelta)
 	if (m_bDead)
 		return EVN_DEAD;
 
+	m_pTransformCom->Move({ 0.f,0.f,RACE_SPEED_PER_SEC }, fTimeDelta);
+
 	Action(fTimeDelta);
 	Update_Skull(fTimeDelta);
 	return EVN_NONE;
@@ -142,7 +144,6 @@ void CRaceBoss::Action(_float fTimeDelta)
 	case ENTRANCE:
 		m_fTime += fTimeDelta * 0.98f;
 		m_pTransformCom->Set_State(CTransform::STATE_POSITION, m_pTransformCom->Lerp(m_vLerpStartPos, m_vLerpEndPos, m_fTime));
-
 		if (m_pTransformCom->Get_State(CTransform::STATE_POSITION)->z > 1200.f)
 		{
 			m_eState = SHOTREADY;
@@ -151,7 +152,7 @@ void CRaceBoss::Action(_float fTimeDelta)
 		break;
 
 	case SHOTREADY:
-		m_pTransformCom->Go_Straight(fTimeDelta);
+		//m_pTransformCom->Go_Straight(fTimeDelta);
 		m_fTime += fTimeDelta;
 		if (m_fTime > 1.f)
 		{
@@ -161,7 +162,7 @@ void CRaceBoss::Action(_float fTimeDelta)
 		break;
 
 	case SHOTHEADBULLET:
-		m_pTransformCom->Go_Straight(fTimeDelta);
+		//m_pTransformCom->Go_Straight(fTimeDelta);
 		m_fTime += fTimeDelta;
 		if (m_fTime > 0.02f)
 		{
@@ -175,7 +176,7 @@ void CRaceBoss::Action(_float fTimeDelta)
 		break;
 
 	case SHOTTAILBULLET:
-		m_pTransformCom->Go_Straight(fTimeDelta);
+		//m_pTransformCom->Go_Straight(fTimeDelta);
 		m_fTime += fTimeDelta;
 		if (m_fTime > 0.02f)
 		{
@@ -206,17 +207,18 @@ HRESULT CRaceBoss::Fire_Bullet(CRaceBossBullet::RBULLETTYPE eType, MUZZLEPOS ePo
 	CRaceBossBullet::DESC RaceBossBulletdesc{};
 	RaceBossBulletdesc.bAnimation = false;
 	RaceBossBulletdesc.iColliderID = CI_BOSS_GUIDBULLET;
-	RaceBossBulletdesc.fSpeedPerSec = 300.f;
+	RaceBossBulletdesc.fSpeedPerSec = 800.f;
 	RaceBossBulletdesc.fRotationPerSec = RADIAN(180.f);
-	RaceBossBulletdesc.vScale = { 20.f, 20.f, 20.f };
+	RaceBossBulletdesc.vScale = { 10.f, 10.f, 10.f };
 	RaceBossBulletdesc.vPosition = *m_pTransformCom->Get_State(CTransform::STATE_POSITION) + Calc_Muzzle_Position(ePos);
+	//RaceBossBulletdesc.vLook =
 
 	if (eType == CRaceBossBullet::HEAD)
 	{
 		//HEAD 총알은 플레이어를 향함
 		auto pPlayer = GET_PLAYER;
 		RaceBossBulletdesc.vLook = *GET_PLAYER_TRANSFORM->Get_State(CTransform::STATE_POSITION)
-			+ _float3(0.f, 0.f, 600.f);
+			+ _float3(0.f, 0.f, 100.f);
 		m_vBulletDiretion = RaceBossBulletdesc.vLook;
 	}
 

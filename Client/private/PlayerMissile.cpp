@@ -98,6 +98,7 @@ void CPlayerMissile::Update_TrailData(_float dt)
 	{
 		Trail.pTransform->Move({ 0.f,0.f,RACE_SPEED_PER_SEC }, dt);
 		Trail.pTransform->Go_Straight(dt);
+		//Trail.fRandomColor = m_pGameInstance->RandomFloat(0.f, 1.f);
 	}
 }
 
@@ -149,7 +150,7 @@ void CPlayerMissile::Trail_Billboard(_float4x4& matWorld) const
 void CPlayerMissile::Make_TrailData(_float InitScale)
 {
 	m_TrailDatas.resize(5);
-	// -Look 방향으로 5개 만들자. 간격은 2정도
+	// -Look 방향으로 5개 만들자.
 	_float3 vOffset = m_pTransformCom->Get_State(CTransform::STATE_LOOK)->Normalize() * -7.f;
 
 	for (_uint i = 0; i < 5; ++i)
