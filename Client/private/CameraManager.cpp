@@ -153,6 +153,11 @@ void CCameraManager::Start_CutScene(vector<_float3>* pMovePoints, vector<_float3
 	static_cast<CCutScene_Camera*>(m_Cameras[CUTSCENE])->Start_CutScene(pMovePoints, pLookPoints, fCameraSpeed, pEndFlag);
 }
 
+void CCameraManager::Start_CutScene(const _float3& vPos, const _float3& vLook)
+{
+	static_cast<CCutScene_Camera*>(m_Cameras[CUTSCENE])->Start_CutScene(vPos, vLook);
+}
+
 CCameraManager* CCameraManager::Create()
 {
 	CCameraManager* pInstance = new CCameraManager();

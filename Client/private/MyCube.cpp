@@ -72,7 +72,7 @@ EVENT CMyCube::Update(_float fTimeDelta)
 
 void CMyCube::Late_Update(_float fTimeDelta)
 {
-	m_pCollider->Update_Collider();
+	m_pColliderCom->Update_Collider();
 	__super::Late_Update(fTimeDelta);
 }
 
@@ -97,7 +97,7 @@ HRESULT CMyCube::Ready_Components(void* pArg)
 
 	/* For.Com_Collider */			
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Collider_AABB_Cube"),
-		TEXT("Com_Collider"), reinterpret_cast<CComponent**>(&m_pCollider), &ColliderDesc)))
+		TEXT("Com_Collider"), reinterpret_cast<CComponent**>(&m_pColliderCom), &ColliderDesc)))
 		return E_FAIL;
 
 	return S_OK;
@@ -132,5 +132,5 @@ CGameObject* CMyCube::Clone(void* pArg)
 void CMyCube::Free()
 {
 	__super::Free();
-	Safe_Release(m_pCollider);
+	Safe_Release(m_pColliderCom);
 }

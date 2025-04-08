@@ -87,6 +87,12 @@ HRESULT CCutScene_Camera::Render()
 	return S_OK;
 }
 
+void CCutScene_Camera::Start_CutScene(const _float3& vPos, const _float3& vLook)
+{
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION, vPos);
+	m_pTransformCom->LookAt(vPos + vLook);
+}
+
 void CCutScene_Camera::Start_CutScene(vector<_float3>* pMovePoints, vector<_float3>* pLookPoints, _float fCameraSpeed, _bool* _Out_ pEndFlag)
 {
 	if (pMovePoints->size() < 2 || 
@@ -101,8 +107,8 @@ void CCutScene_Camera::Start_CutScene(vector<_float3>* pMovePoints, vector<_floa
 		return;
 	}
 
-	m_bEndFlag = pEndFlag;
-	*m_bEndFlag = FALSE;
+	m_pEndFlag = pEndFlag;
+	*m_pEndFlag = FALSE;
 
 	m_fTimeAcc = 0.f;
 	m_pMovePoints = pMovePoints;
@@ -217,8 +223,11 @@ void CCutScene_Camera::Update_Camera_Shake(_float fTimedelta)
 
 void CCutScene_Camera::CutSceneEnd()
 {
-	if (m_bEndFlag)
-		*m_bEndFlag = TRUE;
+	if (m_pEndFlag)
+	{
+		*m_pEndFlag = TRUE;	
+		m_pEndFlag = nullptr;
+	}
 
 	Safe_Delete(m_pMovePoints);
 	Safe_Delete(m_pLookPoints);

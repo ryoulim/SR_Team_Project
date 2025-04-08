@@ -34,12 +34,16 @@ private:
 	virtual HRESULT Ready_Components(void* pArg)override;
 	void Move_Frame(_float fTimeDelta);
 	void Im_Broken(_float fTimeDelta);
+	void Start_CutScene();
 
 private:
 	_float m_fMaxFrame = {};
 	_float m_fMinFrame = {};
 	_bool  m_bUpFrame = { true };
 	_bool  m_bBroken = { false };
+	_bool m_bCutSceneEnd1{ false };
+
+	//_float	m_fCameraTimer{};
 
 public:
 	static CGenerator* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
