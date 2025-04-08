@@ -1,5 +1,5 @@
-// ≥ª ≈¨∑°Ω∫ ¿Ã∏ß : Door
-// ∫Œ∏ ≈¨∑°Ω∫ ¿Ã∏ß : Interactive_Block
+Ôªø// ÎÇ¥ ÌÅ¥ÎûòÏä§ Ïù¥Î¶Ñ : Door
+// Î∂ÄÎ™® ÌÅ¥ÎûòÏä§ Ïù¥Î¶Ñ : Interactive_Block
 
 #include "Door.h"
 #include "GameInstance.h"
@@ -22,10 +22,13 @@ HRESULT CDoor::Initialize_Prototype()
 HRESULT CDoor::Initialize(void* pArg)
 {
 	m_szTextureID = TEXT("Test");
-	m_szBufferType = TEXT("Rect");
+	m_szBufferType = TEXT("Cube");
 
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
+
+    if (1.f <= static_cast<DESC*>(pArg)->fRotationPerSec)
+        m_bSecurity = true;
 
 	return S_OK;
 }
@@ -37,6 +40,22 @@ void CDoor::Priority_Update(_float fTimeDelta)
 
 EVENT CDoor::Update(_float fTimeDelta)
 {
+    if (m_bSecurity)
+        return EVN_NONE;
+
+    if (m_bPicked)
+    {
+        if (KEY_DOWN(DIK_F))
+            m_bOpen = true;
+    }
+
+    if (m_bOpen)
+    {
+        m_fTimeAcc += fTimeDelta;
+        Open_The_Door(fTimeDelta);
+        if (m_fTimeAcc >= 1.7f)
+            m_bOpen = false;
+    }
 	return __super::Update(fTimeDelta);
 }
 
@@ -52,14 +71,83 @@ HRESULT CDoor::Render()
 
 void CDoor::On_Collision(_uint MyColliderID, _uint OtherColliderID)
 {
-	/* ∂»∂» ø≠∑¡∂Û ¬¸±˙ */
+    switch (OtherColliderID)
+    {
+    case CI_PICKING_RAY:
+        /* Press USE [E] to interact with the world. */
+        m_bPicked = !m_bPicked;
+        break;
+    }
 }
 
 HRESULT CDoor::Ready_Components(void* pArg)
 {
 	__super::Ready_Components(pArg);
 
-	return S_OK;
+    DESC* pDesc = static_cast<DESC*>(pArg);
+
+    if (nullptr != pArg)
+    {
+        /* For.Com_Collider */
+        if (pDesc->bCollision)
+        {
+            CCollider::DESC ColliderDesc{};
+            ColliderDesc.pTransform = m_pTransformCom;
+            ColliderDesc.vScale = m_pTransformCom->Compute_Scaled();
+            ColliderDesc.pOwner = this;
+            ColliderDesc.iColliderGroupID = CG_INTERACTIVE;
+            ColliderDesc.iColliderID = CI_INTERACTIVE_DOOR;
+
+            auto& vAngle = static_cast<DESC*>(pArg)->vAngle;
+
+            const _float rightAngles[] = {
+                0.f,
+                0.5f * PI,
+                1.0f * PI,
+                1.5f * PI
+            };
+            _bool isRightX = false, isRightY = false, isRightZ = false;
+            _bool isZeroX = fabsf(vAngle.x) < FLT_EPSILON;
+            _bool isZeroY = fabsf(vAngle.y) < FLT_EPSILON;
+            _bool isZeroZ = fabsf(vAngle.z) < FLT_EPSILON;
+
+            // ÏßÅÍ∞Å Í∞ÅÎèÑÏù∏ÏßÄ Ï≤¥ÌÅ¨
+            for (_uint i = 0; i < 4; ++i)
+            {
+                if (fabsf(vAngle.x - rightAngles[i]) < FLT_EPSILON) isRightX = true;
+                if (fabsf(vAngle.y - rightAngles[i]) < FLT_EPSILON) isRightY = true;
+                if (fabsf(vAngle.z - rightAngles[i]) < FLT_EPSILON) isRightZ = true;
+            }
+
+            _bool isAllZero = isZeroX && isZeroY && isZeroZ;
+            _bool isAllRightAngle = isRightX && isRightY && isRightZ;
+
+            if (isAllRightAngle)
+            {
+                if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Collider_AABB_Cube"),
+                    TEXT("Com_Collider"), reinterpret_cast<CComponent**>(&m_pColliderCom), &ColliderDesc)))
+                    return E_FAIL;
+
+                if (!isAllZero)
+                {
+                    static_cast<CCollider_AABB_Cube*>(m_pColliderCom)->Update_Rotation(vAngle);
+                }
+            }
+            else
+            {
+                if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Collider_OBB_Cube"),
+                    TEXT("Com_Collider"), reinterpret_cast<CComponent**>(&m_pColliderCom), &ColliderDesc)))
+                    return E_FAIL;
+            }
+        }
+    }
+    return S_OK;
+}
+
+void CDoor::Open_The_Door(_float fTimeDelta)
+{
+    m_pTransformCom->Go_Up(fTimeDelta);
+    m_pColliderCom->Update_Collider();
 }
 
 CDoor* CDoor::Create(LPDIRECT3DDEVICE9 pGraphic_Device)

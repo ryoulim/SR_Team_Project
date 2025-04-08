@@ -9,7 +9,7 @@
 #define OUTDOORSCALE 10.f
 
 #define BOSSITEMSCALE 22.f
-#define INDOORITEMSCALE 14.f
+#define INDOORITEMSCALE 20.f
 #define OUTDOORITEMSCALE 20.f
 
 BEGIN(Engine)
@@ -52,6 +52,12 @@ public:
 
 protected:
 	virtual HRESULT Ready_Components(void* pArg);
+
+public: /* [ ºŒ¿Ã¥ı∏¶ »∞øÎ«— ∑ª¥ı∏µ ] */
+	virtual HRESULT DefaultShaderRender();
+	virtual HRESULT MultiShaderRender(_float _fTexNum, _int _iSetting);
+	virtual HRESULT MultiTextureShaderRender(int _iNums);
+	virtual HRESULT BillboardShaderRender();
 
 protected:
 	LEVEL m_eLevelID = { LEVEL_END };

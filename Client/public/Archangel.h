@@ -70,7 +70,7 @@ private:
 
 	queue<TRAILDATA> m_TrailDataQueue;
 	_float			 m_fTrailDuration = 0.5f; // 잔상이 사라지는 시간	
-	_float			 m_fTrailTimer = {};	  // 잔상 생성 딜레이
+	_float			 m_fTrailTimer = { 0.5f };	  // 잔상 생성 딜레이
 
 private:
 	/* 잔상 시간 업데이트 */

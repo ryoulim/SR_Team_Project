@@ -409,27 +409,27 @@ void CMonster::Debug_Output()
 		switch (m_eState)
 		{
 		case Client::CMonster::MODE_IDLE:
-			cout << "IDLE";
+			//cout << "IDLE";
 			break;
 		case Client::CMonster::MODE_READY:
 			break;
 		case Client::CMonster::MODE_BATTLE:
-			cout << "BATTLE";
+			//cout << "BATTLE";
 			break;
 		case Client::CMonster::MODE_DETECTIVE:
-			cout << "DETECTIVE";
+			//cout << "DETECTIVE";
 			break;
 		case Client::CMonster::MODE_RETURN:
-			cout << "RETURN";
+			//cout << "RETURN";
 			break;
 		case Client::CMonster::MODE_END:
-			cout << "UNKNOWN";
+			//cout << "UNKNOWN";
 			break;
 		default:
-			cout << "UNKNOWN";
+			//cout << "UNKNOWN";
 			break;
 		}
-		cout << endl;
+		//cout << endl;
 		g_LastLogTime = now;
 	}
 }

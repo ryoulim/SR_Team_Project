@@ -158,7 +158,7 @@
     </Link>
     <PostBuildEvent>
       <Command>CD $(SolutionDir)
-CALL $(SolutionDir)\UpdateLib.bat</Command>
+ CALL $(SolutionDir)\UpdateLib.bat</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>

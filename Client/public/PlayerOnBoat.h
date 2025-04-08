@@ -5,22 +5,11 @@
 #include "Pawn.h"
 
 BEGIN(Client)
-class CPBState;
-END
-
-BEGIN(Client)
 
 class CPlayerOnBoat final : public CPawn
 {
 public:
 	enum STATE { DECEL, NORMAL, LERP, ACCEL, NON };
-
-public:
-	typedef struct tagPlayerOnBoatDesc : public CPawn::DESC
-	{
-		_float			fMouseSensor;
-	}DESC;
-
 private:
 	CPlayerOnBoat(LPDIRECT3DDEVICE9 pGraphic_Device);
 	CPlayerOnBoat(const CPlayerOnBoat& Prototype);
@@ -36,6 +25,12 @@ public:
 
 	virtual void On_Collision(_uint MyColliderID, _uint OtherColliderID) override;
 
+private:
+	friend class CPBState_Accel;
+	friend class CPBState_Decel;
+	friend class CPBState_Lerp;
+	friend class CPBState_Normal;
+
 	//상태패턴
 	void			Set_State(STATE eState);
 	void			Go_Straight(_float fTimeDelta);
@@ -48,19 +43,30 @@ public:
 	_float			GetSlidingSpeed();
 	void			SpawnWaterParticle(_float fWaterSpeed);
 
+	void			Create_Bullet();
+
 private:
 	class CCameraManager*	m_pCameraManager = { nullptr };
+	// 3인칭 카메라를 소유하게 하고, 카메라에 댐핑 함수를 만들자
 	CTransform*				m_pCameraTransform = { nullptr };
+
 	CGameObject*			m_pWaterBoatEffect_01 = nullptr;
 	CGameObject*			m_pWaterBoatEffect_02 = nullptr;
 	CGameObject*			m_pWaterBoatEffect_03 = nullptr;
+
 	STATE					m_ePreState = { NON };
 	STATE					m_eCurState = { NORMAL };
-	CPBState*				m_pCurState = { nullptr };
-	CPBState*				m_pState[NON] = { nullptr };
+	class CPBState*			m_pCurState = { nullptr };
+	class CPBState*			m_pState[NON] = { nullptr };
 	_float					m_fSlidingSpeed = {};
 	_float					m_fWaterSpeed = {};
 
+	// 플레이어 움직임과 기울기에 감속 넣기 위함
+	_float					m_fKeyTimer{};
+	_float					m_fCurrentLean{};
+
+	// 총알 쿨타임
+	_float					m_fBulletTimer{};
 private:
 	void			Init_Camera_Link();
 	void			Update_Camera_Link();

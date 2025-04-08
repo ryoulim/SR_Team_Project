@@ -22,9 +22,9 @@ public:
 		const _tchar* szBufferType;
 		_float3 vInitPos;
 		_float3 vScale;
-		LEVEL	eLevelID;
 		_float	fTextureNum;
 		COLLIDER_ID eColID;
+		LEVEL	eLevelID;
 	}DESC;
 
 protected:

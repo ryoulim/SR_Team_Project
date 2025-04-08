@@ -40,6 +40,7 @@
 #include "Weapon_Chaingun.h"
 #include "Weapon_Dispenser.h"
 #include "GrenadeBullet.h"
+#include "PlayerMissile.h"
 
 //파티클 인클루드
 #include "Explosion.h"
@@ -79,6 +80,7 @@
 #include "BossHPBar.h"
 #include "ItemDialog.h"
 #include "Font_Racing.h"
+#include "InteractPromptUI.h"
 
 //맵 인클루드
 #include "Block.h"
@@ -98,6 +100,8 @@
 #include "GarbageBag.h"
 #include "FirePlug.h"
 #include "HydroPump.h"
+#include "Door.h"
+#include "DoorSecurity.h"
 
 //전시용 플랫폼
 #include "Flatform.h"
@@ -122,7 +126,7 @@
 #include "Trigger.h"
 
 /* 맵툴에서 넘어오는 텍스쳐 갯수, 건들지 말아주세요 감사합니다 */
-#define NUMMAPTEX 188
+#define NUMMAPTEX 190
 
 
 CLoader::CLoader(LPDIRECT3DDEVICE9 pGraphic_Device)
@@ -289,6 +293,7 @@ HRESULT CLoader::Loding_For_Static()
 	ADD_TEXTURE(LeftHand, "../Bin/Resources/Textures/Weapon/LeftHand/LeftHand%d.PNG", 2);
 	ADD_TEXTURE(Weapon_Chaingun, "../Bin/Resources/Textures/Weapon/ChainGun/ChainGun%d.PNG", 16);
 	ADD_TEXTURE(Weapon_Dispenser, "../Bin/Resources/Textures/Weapon/Dispenser/Dispenser%d.PNG", 60);
+	ADD_TEXTURE(PlayerMissile, "../Bin/Resources/Textures/Bullet/PlayerMissile/PlayerMissile%d.PNG", 8);
 #pragma endregion
 
 	ADD_PRTOBJ(Trigger);
@@ -309,6 +314,7 @@ HRESULT CLoader::Loding_For_Static()
 	ADD_PRTOBJ(Weapon_Dispenser);
 	ADD_PRTOBJ(GrenadeBullet);
 	ADD_PRTOBJ(PlayerOnBoat);
+	ADD_PRTOBJ(PlayerMissile);
 #pragma endregion
 	m_fLoadPercent = 0.7f;
 
@@ -955,6 +961,7 @@ HRESULT CLoader::Loading_For_RaceFirst()/**/
 	ADD_PRTOBJ(BuildingV);
 	ADD_PRTOBJ(BuildingW);
 	ADD_PRTOBJ(RaceCylinder);
+
 	
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_RACEFIRST, TEXT("Prototype_GameObject_StreetLampHead"),
 		CStreetLampHead::Create(m_pGraphic_Device))))
@@ -1230,8 +1237,13 @@ HRESULT CLoader::Loading_For_Indoor()
 	ADD_TEXTURE(BuildingV, "../Bin/Resources/Textures/Object/BuildingV/BuildingV.PNG", 1);
 	ADD_TEXTURE(BuildingU, "../Bin/Resources/Textures/Object/BuildingU/BuildingU.PNG", 1);
 
+	ADD_TEXTURE(DoorSecurity, "../Bin/Resources/Textures/Map/DoorSecurity/DoorSecurity%d.png", 6);
+
 	//아이템
 	ADD_TEXTURE(Item_Ammo, "../Bin/Resources/Textures/Item/Ammo%d.PNG", 4);
+	ADD_TEXTURE(Item_Healkit, "../Bin/Resources/Textures/Item/Healkit.PNG", 1);
+	ADD_TEXTURE(Item_Armor, "../Bin/Resources/Textures/Item/Armor%d.PNG", 2);
+	ADD_TEXTURE(Item_Cardkey, "../Bin/Resources/Textures/Item/CardKey.PNG", 1);
 
 	lstrcpy(m_szLoadingText, TEXT("모델을(를) 로딩중입니다."));
 	Load_For_Terrain(TEXT("NormalMapData.txt"));
@@ -1256,6 +1268,8 @@ HRESULT CLoader::Loading_For_Indoor()
 	ADD_PRTOBJ(InvisibleBlock);
 	ADD_PRTOBJ(TriangularPillar);
 	ADD_PRTOBJ(Picture);
+	ADD_PRTOBJ(Door);
+	ADD_PRTOBJ(DoorSecurity);
 
 	//아이템
 	if (FAILED(m_pGameInstance->Add_Prototype(m_eNextLevelID, TEXT("Prototype_GameObject_Item_Ammo_Chaingun"),
@@ -1273,6 +1287,13 @@ HRESULT CLoader::Loading_For_Indoor()
 	if (FAILED(m_pGameInstance->Add_Prototype(m_eNextLevelID, TEXT("Prototype_GameObject_Item_Ammo_LoverBoy"),
 		CItem::Create(m_pGraphic_Device))))
 		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(m_eNextLevelID, TEXT("Prototype_GameObject_Item_Cardkey"),
+		CItem::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	/* UI */
+	ADD_PRTOBJ(InteractPromptUI);
 
 	lstrcpy(m_szLoadingText, TEXT("사운드을(를) 로딩중입니다."));
 

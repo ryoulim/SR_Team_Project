@@ -99,7 +99,7 @@ void CPSystem::FrameUpdateAge(float timeDelta, float& fAnimation, float& age)
 	if (fAnimation < m_fAnimationMaxFrame)
 		fAnimation = age * m_fNum;
 
-	if (fAnimation > m_fAnimationMaxFrame)
+	if (fAnimation >= m_fAnimationMaxFrame)
 		fAnimation = m_fAnimationMaxFrame - 1;
 }
 
@@ -161,9 +161,7 @@ void CPSystem::Late_Update(_float fTimeDelta)
 
 HRESULT CPSystem::SetUp_RenderState()
 {
-
 	//기본 셋팅
-	//m_pGraphic_Device->SetRenderState(D3DRS_LIGHTING, false);
 	m_pGraphic_Device->SetRenderState(D3DRS_ZWRITEENABLE, false);
 	m_pGraphic_Device->SetRenderState(D3DRS_POINTSPRITEENABLE, true);
 	m_pGraphic_Device->SetRenderState(D3DRS_POINTSCALEENABLE, true);
@@ -172,7 +170,6 @@ HRESULT CPSystem::SetUp_RenderState()
 	m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 
 	//거리에 따른 파티클 크기조절
-	//m_pGraphic_Device->SetRenderState(D3DRS_POINTSCALEENABLE, FALSE);
 	m_pGraphic_Device->SetRenderState(D3DRS_POINTSCALE_A, FtoDW(1.0f)); 
 	m_pGraphic_Device->SetRenderState(D3DRS_POINTSCALE_B, FtoDW(0.1f)); 
 	m_pGraphic_Device->SetRenderState(D3DRS_POINTSCALE_C, FtoDW(0.05f));

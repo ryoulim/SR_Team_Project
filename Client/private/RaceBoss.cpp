@@ -1,4 +1,5 @@
 #include "RaceBoss.h"
+#include "Skull.h"
 
 CRaceBoss::CRaceBoss(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CGameObject { pGraphic_Device }
@@ -29,6 +30,12 @@ HRESULT CRaceBoss::Initialize(void* pArg)
 	m_pTransformCom->Scaling(m_vScale);
 	m_eState = ENTRANCE;
 
+	Init_Skull();
+
+	m_pPlayerTransformCom = GET_PLAYER_TRANSFORM;
+	Safe_AddRef(m_pPlayerTransformCom);
+	m_pPlayerpos = m_pPlayerTransformCom->Get_State(CTransform::STATE_POSITION);
+
 	return S_OK;
 }
 
@@ -43,7 +50,7 @@ EVENT CRaceBoss::Update(_float fTimeDelta)
 		return EVN_DEAD;
 
 	Action(fTimeDelta);
-
+	Update_Skull(fTimeDelta);
 	return EVN_NONE;
 }
 
@@ -53,6 +60,9 @@ void CRaceBoss::Late_Update(_float fTimeDelta)
 
 	if (m_pTransformCom->Get_State(CTransform::STATE_POSITION)->z > 9500.f)
 		m_eState = LEAVE;
+
+	if (m_bSkullActive)
+		m_pSkull->Late_Update(fTimeDelta);
 
 	if (FAILED(m_pGameInstance->Add_RenderGroup(CRenderer::RG_NONBLEND, this)))
 		return;
@@ -156,7 +166,7 @@ void CRaceBoss::Action(_float fTimeDelta)
 		if (m_fTime > 0.02f)
 		{
 			if (m_ePos == POSEND)
-				m_ePos = static_cast<MUZZLEPOS>(rand() % 4);
+				m_ePos = static_cast<MUZZLEPOS>(rand() % 5);
 
 			Fire_Bullet(CRaceBossBullet::HEAD, m_ePos);
 			m_eState = SHOTTAILBULLET;
@@ -193,38 +203,13 @@ void CRaceBoss::Action(_float fTimeDelta)
 
 HRESULT CRaceBoss::Fire_Bullet(CRaceBossBullet::RBULLETTYPE eType, MUZZLEPOS ePos)
 {
-	_float3 vAdjustPos = {};
-
-	switch (ePos)
-	{
-	case LSIDE:
-		vAdjustPos = { -m_vScale.x * 1.625f, m_vScale.y * 0.25f, -m_vScale.z * 2.f };
-		break;
-
-	case LMIDDLE:
-		vAdjustPos = { -m_vScale.x * 0.875f, m_vScale.y * 0.f, -m_vScale.z * 2.f };
-		break;
-
-	case RMIDDLE:
-		vAdjustPos = { m_vScale.x * 0.875f, m_vScale.y * 0.f, -m_vScale.z * 2.f };
-		break;
-
-	case RSIDE:
-		vAdjustPos = { m_vScale.x * 1.625f, m_vScale.y * 0.25f, -m_vScale.z * 2.f };
-		break;
-
-	default:
-		return E_FAIL;
-		break;
-	}
-
 	CRaceBossBullet::DESC RaceBossBulletdesc{};
 	RaceBossBulletdesc.bAnimation = false;
 	RaceBossBulletdesc.iColliderID = CI_BOSS_GUIDBULLET;
 	RaceBossBulletdesc.fSpeedPerSec = 300.f;
 	RaceBossBulletdesc.fRotationPerSec = RADIAN(180.f);
 	RaceBossBulletdesc.vScale = { 20.f, 20.f, 20.f };
-	RaceBossBulletdesc.vPosition = *m_pTransformCom->Get_State(CTransform::STATE_POSITION) + vAdjustPos;
+	RaceBossBulletdesc.vPosition = *m_pTransformCom->Get_State(CTransform::STATE_POSITION) + Calc_Muzzle_Position(ePos);
 
 	if (eType == CRaceBossBullet::HEAD)
 	{
@@ -246,6 +231,92 @@ HRESULT CRaceBoss::Fire_Bullet(CRaceBossBullet::RBULLETTYPE eType, MUZZLEPOS ePo
 		return E_FAIL;
 
 	return S_OK;
+}
+
+_float3 CRaceBoss::Calc_Muzzle_Position(MUZZLEPOS eMuzzle)
+{
+	_float3 vAdjustPos = {};
+
+	switch (eMuzzle)
+	{
+	case LSIDE:
+		vAdjustPos = { -m_vScale.x * 1.625f, m_vScale.y * 0.25f, -m_vScale.z * 2.f };
+		break;
+
+	case LMIDDLE:
+		vAdjustPos = { -m_vScale.x * 0.875f, m_vScale.y * 0.f, -m_vScale.z * 2.f };
+		break;
+
+	case MIDDLE:
+		vAdjustPos = { 0.f, m_vScale.y * 0.25f, -m_vScale.z * 2.f };
+		break;
+
+	case RMIDDLE:
+		vAdjustPos = { m_vScale.x * 0.875f, m_vScale.y * 0.f, -m_vScale.z * 2.f };
+		break;
+
+	case RSIDE:
+		vAdjustPos = { m_vScale.x * 1.625f, m_vScale.y * 0.25f, -m_vScale.z * 2.f };
+		break;
+
+	default:
+		break;
+	}
+
+	return vAdjustPos;
+}
+
+void CRaceBoss::Init_Skull()
+{
+	CSkull::DESC SkullDesc{};
+	SkullDesc.eLevelID = LEVEL_STATIC;
+	SkullDesc.vScale = { 1.f,1.f,1.f };
+
+	m_pSkull = static_cast<CSkull*>(m_pGameInstance->Clone_Prototype(
+		PROTOTYPE::TYPE_GAMEOBJECT, LEVEL_STATIC,
+		TEXT("Prototype_GameObject_Skull"), &SkullDesc));
+}
+
+void CRaceBoss::Update_Skull(_float fTimeDelta)
+{
+	// АЃАн = 54,
+
+	//enum MUZZLEPOS { LSIDE, LMIDDLE, MIDDLE, RMIDDLE, RSIDE, POSEND };
+
+	if (m_pPlayerpos->x >= 315.f && m_pPlayerpos->x < 369.f)
+	{
+		Render_Skull(LSIDE);
+	}
+	else if (m_pPlayerpos->x >= 369.f && m_pPlayerpos->x < 423.f)
+	{
+		Render_Skull(LMIDDLE);
+	}
+	else if (m_pPlayerpos->x >= 423.f && m_pPlayerpos->x < 477.f)
+	{
+		Render_Skull(MIDDLE);
+	}
+	else if (m_pPlayerpos->x >= 477.f && m_pPlayerpos->x < 531.f)
+	{
+		Render_Skull(RMIDDLE);
+	}
+	else if (m_pPlayerpos->x >= 531.f && m_pPlayerpos->x <= 585.f)
+	{
+		Render_Skull(RSIDE);
+	}
+
+	if (m_bSkullActive)
+		m_pSkull->Update(*m_pTransformCom->Get_State(CTransform::STATE_POSITION) + m_vSkullPos, fTimeDelta);
+}
+
+void CRaceBoss::Render_Skull(MUZZLEPOS eMuzzle)
+{
+	if (m_eSkullMuzzlePos == eMuzzle)
+		return;
+
+	m_eSkullMuzzlePos = eMuzzle;
+	m_bSkullActive = TRUE;
+	m_pSkull->TimeReset();
+	m_vSkullPos = Calc_Muzzle_Position(eMuzzle);
 }
 
 CRaceBoss* CRaceBoss::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
@@ -282,4 +353,7 @@ void CRaceBoss::Free()
 	Safe_Release(m_pVIBufferCom);
 	Safe_Release(m_pTransformCom);
 	Safe_Release(m_pCollider);
+
+	Safe_Release(m_pPlayerTransformCom);
+	Safe_Release(m_pSkull);
 }

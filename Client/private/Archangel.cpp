@@ -129,7 +129,7 @@ void CArchangel::Late_Update(_float fTimeDelta)
 	if (m_bDead) // ��ü �ݶ��̴� �����ϸ� ĸ���̶� ����� ���ϰ� �ȸ���..
 	{
 		_float3 vOrigSize = {};
-		m_pTextureMap[m_iState][m_iDegree]->Get_TextureSize(_uint(m_fAnimationFrame), &vOrigSize);
+		m_pTextureMap[m_iState][m_iDegree]->Get_TextureSize(static_cast<_uint>(m_fAnimationFrame), &vOrigSize);
 		_float fComputedSizeYFromOrig = -vOrigSize.y * 0.5f + 20.f;
 		auto newY = m_vScale.y - 20.f;
 		//m_pCollider->Update_OffSet({ 0.f, -10.f, 0.f });

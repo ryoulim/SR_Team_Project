@@ -1,4 +1,5 @@
 #include "Pawn.h"
+#include "FXMgr.h"
 
 CPawn::CPawn(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CGameObject{ pGraphic_Device }
@@ -33,8 +34,29 @@ void CPawn::Priority_Update(_float fTimeDelta)
 
 EVENT CPawn::Update(_float fTimeDelta)
 {
+	/* [ 포그 컨트롤 ] */
 	if (KEY_DOWN(DIK_I))
-		m_bFog = !m_bFog;
+	{
+		g_FogTrigger = !g_FogTrigger;
+		if (!g_FogTrigger)
+		{
+			m_bFogAnimation = false;
+			g_FogCustom = 2000.f;
+		}
+	}
+	if (KEY_DOWN(DIK_O))
+		m_bFogAnimation = true;
+
+	if (m_bFogAnimation)
+	{
+		// 빠르게 0으로 감소
+		float fSpeed = 1000.f;
+		g_FogCustom -= fSpeed * fTimeDelta;
+
+		// 0 이하로 내려가지 않도록
+		if (g_FogCustom < 0.f)
+			g_FogCustom = 0.f;
+	}
 
 	return EVN_NONE;
 }

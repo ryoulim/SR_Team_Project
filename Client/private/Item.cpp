@@ -28,7 +28,7 @@ HRESULT CItem::Initialize(void* pArg)
 
 	DESC* Desc = static_cast<DESC*>(pArg);
 
-	m_fStdHeight = Desc->vInitPos.y - (Desc->vScale.y * 0.5f);
+	m_fStdHeight = Desc->vInitPos.y;
 
 	return S_OK;
 }
@@ -61,6 +61,9 @@ HRESULT CItem::Render()
 {
 	//if (FAILED(m_pTransformCom->Bind_Resource()))
 	//	return E_FAIL;
+	m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
+	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAREF, 40);
+	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER);
 
 	m_pGraphic_Device->SetTransform(D3DTS_WORLD, &m_pTransformCom->Billboard());
 
@@ -72,6 +75,8 @@ HRESULT CItem::Render()
 
 	if (FAILED(m_pVIBufferCom->Render()))
 		return E_FAIL;
+
+	m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
 
 	return S_OK;
 }

@@ -421,18 +421,6 @@
     <Filter Include="02.GameObjects\Pawn\PlayerOnBoat\PBState">
       <UniqueIdentifier>{d271f4e8-7a83-4fd9-b606-963f509fc12a}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\Pawn\PlayerOnBoat\PBState\Normal">
-      <UniqueIdentifier>{c7d95076-a309-4a35-9934-64b7122ea0fd}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Pawn\PlayerOnBoat\PBState\Lerp">
-      <UniqueIdentifier>{094f8087-7b91-4350-a43d-41d306321b6d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Pawn\PlayerOnBoat\PBState\Accel">
-      <UniqueIdentifier>{b2a5e843-0d39-4564-9c01-f58678239d9a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\Pawn\PlayerOnBoat\PBState\Decel">
-      <UniqueIdentifier>{1e5a2d16-c1de-4c16-9f97-e4af5cea9f52}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02.GameObjects\RaceBoss">
       <UniqueIdentifier>{a35d5e83-4b67-4ff4-8763-bd9f3d28f8ba}</UniqueIdentifier>
     </Filter>
@@ -477,6 +465,15 @@
     </Filter>
     <Filter Include="02.GameObjects\UI\Font\Font_Racing">
       <UniqueIdentifier>{4b438393-50be-4b89-82eb-82379fd32208}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Map\Door\DoorSecurity">
+      <UniqueIdentifier>{8ee1653a-232a-4db2-a7fa-ae602516307c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\GamePlayUI\InteractPromptUI">
+      <UniqueIdentifier>{eaa5ed9c-f296-4c86-b720-0286ca6926d2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Weapon\Bullet\PlayerMissile">
+      <UniqueIdentifier>{ea67d519-7dbb-4e84-ad9e-c3728d296089}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -882,19 +879,6 @@
     <ClInclude Include="..\public\PBState.h">
       <Filter>02.GameObjects\Pawn\PlayerOnBoat\PBState</Filter>
     </ClInclude>
-    <ClInclude Include="..\public\PBState_Normal.h">
-      <Filter>02.GameObjects\Pawn\PlayerOnBoat\PBState\Normal</Filter>
-    </ClInclude>
-    <ClInclude Include="..\public\PBState_Decel.h">
-      <Filter>02.GameObjects\Pawn\PlayerOnBoat\PBState\Decel</Filter>
-    </ClInclude>
-    <ClInclude Include="..\public\PBState_Lerp.h">
-      <Filter>02.GameObjects\Pawn\PlayerOnBoat\State\Lerp</Filter>
-      <Filter>02.GameObjects\Statue\Rock</Filter>
-    </ClInclude>
-    <ClInclude Include="..\public\PBState_Accel.h">
-      <Filter>02.GameObjects\Pawn\PlayerOnBoat\PBState\Accel</Filter>
-    </ClInclude>
     <ClInclude Include="..\public\Ladder.h">
       <Filter>02.GameObjects\Map\Interactive_Block\Ladder</Filter>
     </ClInclude>
@@ -965,6 +949,15 @@
     </ClInclude>
     <ClInclude Include="..\public\Font_Racing.h">
       <Filter>02.GameObjects\UI\Font\Font_Racing</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\PlayerMissile.h">
+      <Filter>02.GameObjects\Weapon\Bullet\PlayerMissile</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\DoorSecurity.h">
+      <Filter>02.GameObjects\Map\Door\DoorSecurity</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\InteractPromptUI.h">
+      <Filter>02.GameObjects\UI\GamePlayUI\InteractPromptUI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1224,9 +1217,6 @@
     <ClCompile Include="..\private\Wenteko.cpp">
       <Filter>02.GameObjects\Monster\Wenteko</Filter>
     </ClCompile>
-    <ClCompile Include="..\private\FXMgr.cpp">
-      <Filter>02.GameObjects\Particle</Filter>
-    </ClCompile>
     <ClCompile Include="..\private\RaceTerrain.cpp">
       <Filter>02.GameObjects\Map\Race</Filter>
     </ClCompile>
@@ -1353,21 +1343,6 @@
     <ClCompile Include="..\private\Forest.cpp">
       <Filter>02.GameObjects\Statue\Forest</Filter>
     </ClCompile>
-    <ClCompile Include="..\private\PBState_Accel.cpp">
-      <Filter>02.GameObjects\Pawn\PlayerOnBoat\PBState\Accel</Filter>
-    </ClCompile>
-    <ClCompile Include="..\private\PBState.cpp">
-      <Filter>02.GameObjects\Pawn\PlayerOnBoat\PBState</Filter>
-    </ClCompile>
-    <ClCompile Include="..\private\PBState_Decel.cpp">
-      <Filter>02.GameObjects\Pawn\PlayerOnBoat\PBState\Decel</Filter>
-    </ClCompile>
-    <ClCompile Include="..\private\PBState_Lerp.cpp">
-      <Filter>02.GameObjects\Pawn\PlayerOnBoat\PBState\Lerp</Filter>
-    </ClCompile>
-    <ClCompile Include="..\private\PBState_Normal.cpp">
-      <Filter>02.GameObjects\Pawn\PlayerOnBoat\PBState\Normal</Filter>
-    </ClCompile>
     <ClCompile Include="..\private\Rock.cpp">
       <Filter>02.GameObjects\Statue\Rock</Filter>
     </ClCompile>
@@ -1436,6 +1411,15 @@
     </ClCompile>
     <ClCompile Include="..\private\Font_Racing.cpp">
       <Filter>02.GameObjects\UI\Font\Font_Racing</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\PlayerMissile.cpp">
+      <Filter>02.GameObjects\Weapon\Bullet\PlayerMissile</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\DoorSecurity.cpp">
+      <Filter>02.GameObjects\Map\Door\DoorSecurity</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\InteractPromptUI.cpp">
+      <Filter>02.GameObjects\UI\GamePlayUI\InteractPromptUI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

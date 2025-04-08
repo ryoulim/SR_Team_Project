@@ -25,6 +25,13 @@ public:
 	virtual void Late_Update(_float fTimeDelta) override;
 	virtual HRESULT Render() override;
 
+	void	Smooth_Damping(_float3 vTargetPos,_float fSmoothTime);
+
+private: 
+	_float3			m_vTargetPos{};
+	_float3			m_vCurrentVelocity{};
+	_float			m_fOmega{};
+
 private:
 	virtual void		Update_Projection_Matrix() override;
 	virtual HRESULT		Ready_Components(void* pArg) override;

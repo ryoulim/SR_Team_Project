@@ -1,7 +1,7 @@
 #include "Particle_Define.h"
 #include <random>
 
-const DWORD Particle::FVF = D3DFVF_XYZ | D3DFVF_DIFFUSE;
+const DWORD Particle::FVF = D3DFVF_XYZ | D3DFVF_DIFFUSE | D3DFVF_TEX1;
 
 void GetRandomVector(D3DXVECTOR3* out, D3DXVECTOR3* min, D3DXVECTOR3* max)
 {

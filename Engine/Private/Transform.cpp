@@ -10,6 +10,8 @@ CTransform::CTransform(LPDIRECT3DDEVICE9 pGraphic_Device)
 CTransform::CTransform(const CTransform& Prototype)
 	: CComponent(Prototype)
 	, m_WorldMatrix{ Prototype.m_WorldMatrix }
+	, m_fSpeedPerSec{ Prototype.m_fSpeedPerSec }
+	, m_fRotationPerSec{ Prototype.m_fRotationPerSec }
 {
 }
 

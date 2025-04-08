@@ -1,5 +1,6 @@
 #include "MonsterMissile.h"
 #include "GameInstance.h"
+#include <unordered_map>
 
 CMonsterMissile::CMonsterMissile(LPDIRECT3DDEVICE9 pGraphicDev, wstring _strObjName)
 	:CPSystem(pGraphicDev, _strObjName)
@@ -81,8 +82,8 @@ void CMonsterMissile::resetParticle(Attribute* attribute)
 	attribute->_Age = 0.f;
 	attribute->_Color = WHITE;
 	attribute->_ColorFade = WHITE;
-	attribute->_LifeTime = GetRandomFloat(0.1f, 10.f);
-
+	attribute->_LifeTime = GetRandomFloat(0.1f, 1.f);
+	//attribute->_Animation = GetRandomFloat(0.f, 19.f);
 }
 
 EVENT CMonsterMissile::Update(_float timeDelta)
@@ -94,8 +95,8 @@ EVENT CMonsterMissile::Update(_float timeDelta)
 		if (i->_isAlive)
 		{
 			/* [ 파티클 개인의 애니메이션 적용 ] */
-			FrameUpdateAge(timeDelta, i->_Animation, i->_Age);
-
+			//FrameUpdateAge(timeDelta, i->_Animation, i->_Age);
+				
 			i->_Velocity += i->_Accelerator * timeDelta;
 			i->_Position += i->_Velocity * timeDelta;
 
@@ -110,7 +111,6 @@ EVENT CMonsterMissile::Update(_float timeDelta)
 
 	if (m_bDead)
 	{
-		int a = 0;
 		return EVN_DEAD;
 	}
 
@@ -123,68 +123,76 @@ HRESULT CMonsterMissile::Render()
 	{
 		//렌더 상태를 지정한다.
 		SetUp_RenderState();
-
-		m_pGraphic_Device->SetFVF(Particle::FVF);
-		m_pGraphic_Device->SetStreamSource(0, m_pVB, 0, sizeof(Particle));
-
-		//버텍스 버퍼를 벗어날 경우 처음부터 시작한다.
-		if (m_vbOffset >= m_vbSize)
-			m_vbOffset = 0;
-
-		Particle* v = 0;
-
-		m_pVB->Lock(
-			m_vbOffset * sizeof(Particle),
-			m_vbBatchSize * sizeof(Particle),
-			(void**)&v,
-			m_vbOffset ? D3DLOCK_NOOVERWRITE : D3DLOCK_DISCARD);
-
-
-		DWORD numParticlesInBatch = 0;
-
-		//모든 파티클이 렌더될 때 까지
 		m_pShaderCom->Begin(CShader::SMOKE);
-		list<Attribute>::iterator i;
-		for (i = m_Particles.begin(); i != m_Particles.end(); i++)
+
+		// [1] 파티클을 프레임 기준으로 그룹화
+		unordered_map<_uint, vector<Attribute*>> groupedParticles;
+
+		for (auto& particle : m_Particles)
 		{
-			/* [ 파티클 개인의 애니메이션 적용 ] */
-			m_pTextureCom->Bind_Resource((_uint)i->_Animation);
+			if (!particle._isAlive)
+				continue;
+
+			_uint frame = static_cast<_uint>(particle._Animation);
+			groupedParticles[frame].push_back(&particle);
+		}
+
+		// [2] 그룹 단위로 처리
+		for (auto& group : groupedParticles)
+		{
+			_uint frame = group.first;
+			auto& particles = group.second;
+
+			// 텍스처 바인딩 (프레임별로 1번만)
+			m_pTextureCom->Bind_Shader_To_Texture(m_pShaderCom, "g_Paricle", frame);
+
+			// 셰이더 상수 설정 (뷰 행렬, 블러, etc)
+			_float4x4 matView, matProj, matViewProj;
+			m_pGraphic_Device->GetTransform(D3DTS_VIEW, &matView);
+			m_pGraphic_Device->GetTransform(D3DTS_PROJECTION, &matProj);
+			matViewProj = matView * matProj;
+			m_pShaderCom->Bind_Matrix("g_ViewMatrix", &matViewProj);
 
 			D3DXVECTOR4 texelSize(1.0f / 64.f, 1.0f / 64.f, 0.0f, 0.0f);
-			m_pTextureCom->Bind_Shader_To_Texture(m_pShaderCom, "g_Texture", (_uint)i->_Animation);
 			m_pShaderCom->SetVector("g_vTexelSize", &texelSize);
+			m_pShaderCom->SetFloat("g_fBlurAmount", 2.0f);
 
-			//블러 세기
-			float fBlurAmount = 1.f;
-			m_pShaderCom->SetFloat("g_fBlurAmount", fBlurAmount);
+			// 버텍스 버퍼 셋업
+			m_pGraphic_Device->SetFVF(Particle::FVF);
+			m_pGraphic_Device->SetStreamSource(0, m_pVB, 0, sizeof(Particle));
 
-			//나이에 따른 투명도
-			float age = i->_Age;
-			float maxAge = i->_LifeTime;
-			float fLifeRatio = 1.0f - (age / maxAge);
-			m_pShaderCom->SetFloat("g_fLifeRatio", fLifeRatio);
+			if (m_vbOffset >= m_vbSize)
+				m_vbOffset = 0;
 
-			if (i->_isAlive)
+			Particle* v = nullptr;
+			m_pVB->Lock(
+				m_vbOffset * sizeof(Particle),
+				m_vbBatchSize * sizeof(Particle),
+				(void**)&v,
+				m_vbOffset ? D3DLOCK_NOOVERWRITE : D3DLOCK_DISCARD);
+
+			DWORD numParticlesInBatch = 0;
+
+			for (auto& p : particles)
 			{
-				//한 단계의 세그먼트에서 생존한 파티클을 다음 버텍스 버퍼 세그먼트로 복사한다.
-				v->_Position = i->_Position;
-				v->_Color = (D3DCOLOR)i->_Color;
-				v->_Size = i->_Size;
+				float age = p->_Age;
+				float maxAge = p->_LifeTime;
+				float fLifeRatio = 1.0f - (age / maxAge);
+				//m_pShaderCom->SetFloat("g_fLifeRatio", fLifeRatio);
+
+				v->_Position = p->_Position;
+				v->_Color = (D3DCOLOR)p->_Color;
+				v->_Size = p->_Size;
 				v++;
 				numParticlesInBatch++;
 
-				//현재 단계의 버텍스버퍼가 모두 채워져있는가?
 				if (numParticlesInBatch == m_vbBatchSize)
 				{
-					//버텍스 버퍼로 복사된 마지막 단계의 파티클을 그린다.
 					m_pVB->Unlock();
 
 					m_pGraphic_Device->DrawPrimitive(D3DPT_POINTLIST, m_vbOffset, m_vbBatchSize);
 
-					//단계가 그려지는 동안 다음 단계를 파티클로 채운다.
 					m_vbOffset += m_vbBatchSize;
-
-					//버텍스 버퍼의 경계를 넘는 메모리로 오프셋 설정X , 넘을 경우 처음부터
 					if (m_vbOffset >= m_vbSize)
 						m_vbOffset = 0;
 
@@ -194,22 +202,18 @@ HRESULT CMonsterMissile::Render()
 						(void**)&v,
 						m_vbOffset ? D3DLOCK_NOOVERWRITE : D3DLOCK_DISCARD);
 
-					numParticlesInBatch = 0; //다음 단계를 위한 리셋
+					numParticlesInBatch = 0;
 				}
 			}
+
+			m_pVB->Unlock();
+
+			if (numParticlesInBatch)
+			{
+				m_pGraphic_Device->DrawPrimitive(D3DPT_POINTLIST, m_vbOffset, numParticlesInBatch);
+				m_vbOffset += m_vbBatchSize;
+			}
 		}
-
-		m_pVB->Unlock();
-
-		//마지막 단계가 렌더링되지않는 경우의 예외처리
-
-		if (numParticlesInBatch)
-		{
-			m_pGraphic_Device->DrawPrimitive(D3DPT_POINTLIST, m_vbOffset, numParticlesInBatch);
-		}
-
-		//다음블록
-		m_vbOffset += m_vbBatchSize;
 
 	}
 

@@ -74,7 +74,7 @@ private:
 	HRESULT	Initialize_Font();
 	
 private:
-	class CFont*						m_Fonts[CFont::FONT_END] = {nullptr,};
+	class CFont*						m_Fonts[CFont::FONT_END] = {nullptr};
 	array<class CGameObject*, GUI_END>	m_GameUIs = { nullptr };
 	class CPawn*						m_pPlayer = { nullptr };
 	

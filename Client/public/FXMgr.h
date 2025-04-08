@@ -15,6 +15,8 @@ class CObjectPool;
 END
 
 BEGIN(Client)
+extern bool g_FogTrigger;
+extern float g_FogCustom;
 
 class CCameraSprite;
 class CFXMgr : public CBase
@@ -91,7 +93,7 @@ public:
 	virtual void Free() override;
 
 private: /* 번개의 위치를 들고 있자 */
-	_float3 m_vThunderPos = { 0.f, 0.f, 0.f };
+	_float3 m_vThunderPos = { 0.f, 10000.f, 0.f };
 
 };
 
