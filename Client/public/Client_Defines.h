@@ -10,7 +10,7 @@
 #define START_LEVEL LEVEL_RACEFIRST
 
 // 레이스 맵 플레이어의 이동속도 : 보정때메 여기저기서 써야함
-#define RACE_SPEED_PER_SEC 300.f
+#define RACE_SPEED_PER_SEC 400.f
 
 #ifdef _IMGUI
 #include "imgui.h"

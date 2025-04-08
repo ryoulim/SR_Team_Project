@@ -1,5 +1,4 @@
 #pragma once
-
 #include "Base.h"
 #include "Client_Defines.h"
 #include "PlayerOnBoat.h"

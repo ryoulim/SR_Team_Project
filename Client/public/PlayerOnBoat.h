@@ -47,10 +47,13 @@ private:
 
 private:
 	class CCameraManager*	m_pCameraManager = { nullptr };
+	// 3인칭 카메라를 소유하게 하고, 카메라에 댐핑 함수를 만들자
 	CTransform*				m_pCameraTransform = { nullptr };
+
 	CGameObject*			m_pWaterBoatEffect_01 = nullptr;
 	CGameObject*			m_pWaterBoatEffect_02 = nullptr;
 	CGameObject*			m_pWaterBoatEffect_03 = nullptr;
+
 	STATE					m_ePreState = { NON };
 	STATE					m_eCurState = { NORMAL };
 	class CPBState*			m_pCurState = { nullptr };
