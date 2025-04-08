@@ -92,6 +92,8 @@ HRESULT CBossHPBar::Render()
 	//	0.01f });
 
 	m_pTransformCom->Scaling(m_vBarSize);
+	if (FAILED(m_pTransformCom->Bind_Resource()))
+		return E_FAIL;
 	m_pTextureCom->Bind_Shader_To_Texture(m_pShaderCom, "Tex", 1);
 	m_pShaderCom->SetFloat("HPPercent", fHPPercent);
 	m_pShaderCom->Begin(CShader::HPMASKING);

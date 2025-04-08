@@ -496,4 +496,6 @@ void CRaceBoss::Free()
 	Safe_Release(m_pTransformCom);
 	Safe_Release(m_pCollider);
 	Safe_Release(m_pSkull);
+	for (size_t i = WAITFORPLAYER; i < NON; ++i)
+		Safe_Release(m_pState[i]);
 }
