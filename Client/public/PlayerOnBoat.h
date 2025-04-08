@@ -62,6 +62,7 @@ private:
 	_float					m_fWaterSpeed = {};
 
 	// 플레이어 움직임과 기울기에 감속 넣기 위함
+	_float					m_fSpeedRatio{};
 	_float					m_fKeyTimer{};
 	_float					m_fCurrentLean{};
 

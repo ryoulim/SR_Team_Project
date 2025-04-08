@@ -233,7 +233,7 @@ HRESULT CLevel_RaceFirst::Ready_Layer_Pawn(const _wstring& strLayerTag)
 		m_pGameInstance->Release_Layer(LEVEL_STATIC,strLayerTag);
 
 	CPlayerOnBoat::DESC PlayerOnBoatDesc = {};
-	PlayerOnBoatDesc.vInitPos = { 450.f, 17.f, 0.f };
+	PlayerOnBoatDesc.vInitPos = { 450.f, 17.f, -1000.f };
 	PlayerOnBoatDesc.vScale = _float3{ 223.f, 137.f, 223.f } * 0.15f;
 	PlayerOnBoatDesc.fRotationPerSec = RADIAN(180.f);
 	PlayerOnBoatDesc.fSpeedPerSec = RACE_SPEED_PER_SEC;
