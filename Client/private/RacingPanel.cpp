@@ -22,21 +22,46 @@ HRESULT CRacingPanel::Initialize_Prototype()
 
 HRESULT CRacingPanel::Initialize(void* pArg)
 {
-	m_eLevelID = LEVEL_STATIC;
 	m_szTextureID = TEXT("RacingPanel");
 	m_szBufferType = TEXT("Rect");
 
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
 
-	CFont::DESC Desc = {};
 	CGameObject* pObj = { nullptr };
+	CUI::DESC Desc{};
+	Desc.eLevelID = LEVEL_STATIC;
+	Desc.fDepth = _float(UI_FONT);
+	Desc.vScale = _float3(1.f, 1.f, 1.f);
+	Desc.vInitPos = _float3(0.1f, 0.1f, 0.1f);
 	if (FAILED(m_pGameInstance->Add_GameObjectReturn(LEVEL_STATIC, TEXT("Prototype_GameObject_Font_Racing"),
 		LEVEL_STATIC, TEXT("Layer_UI"), &pObj, &Desc)))
 		return E_FAIL;
-
+	m_iCurSpeed = 140;
+	m_iOrigSpeed = 140;
+	m_iTargetSpeed = 140;
 	m_pFont_Racing = dynamic_cast<CFont_Racing*>(pObj);
 	if (nullptr == m_pFont_Racing)
+		return E_FAIL;
+
+	return S_OK;
+}
+
+HRESULT CRacingPanel::Ready_Components(void* pArg)
+{
+	/* For.Com_Texture */
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, _wstring(TEXT("Prototype_Component_Texture_")) + m_szTextureID,
+		TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
+		return E_FAIL;
+
+	/* For.Com_VIBuffer */
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, _wstring(TEXT("Prototype_Component_VIBuffer_")) + m_szBufferType,
+		TEXT("Com_VIBuffer"), reinterpret_cast<CComponent**>(&m_pVIBufferCom))))
+		return E_FAIL;
+
+	/* For.Com_Transform */
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Transform"),
+		TEXT("Com_Transform"), reinterpret_cast<CComponent**>(&m_pTransformCom), pArg)))
 		return E_FAIL;
 
 	return S_OK;
@@ -49,18 +74,49 @@ void CRacingPanel::Priority_Update(_float fTimeDelta)
 
 EVENT CRacingPanel::Update(_float fTimeDelta)
 {
+	Acc_CurSpeed(fTimeDelta);
 	return __super::Update(fTimeDelta);
 }
 
 void CRacingPanel::Late_Update(_float fTimeDelta)
 {
+	Calculate_ArrowAngle();
 	__super::Late_Update(fTimeDelta);
 }
 
 HRESULT CRacingPanel::Render()
 {
-	m_pFont_Racing->Render_Number(140);
-	return __super::Render();
+	__super::Render();
+	//m_pGraphic_Device->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
+	//m_pGraphic_Device->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
+	//m_pGraphic_Device->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
+	m_pFont_Racing->Render_Number(m_iCurSpeed);
+	//m_pGraphic_Device->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
+
+	Render_Boosts();
+
+	return S_OK;
+}
+
+void CRacingPanel::Render_Boosts()
+{
+
+}
+
+void CRacingPanel::Calculate_ArrowAngle()
+{
+	// 회전 각도 계산
+	if (m_iCurSpeed > 250.f)
+		m_fArrowAngle = 180.f;
+	else if (m_iCurSpeed < 0.f)	
+		m_fArrowAngle = 0.f;
+	else
+		m_fArrowAngle = (m_iCurSpeed / 250.f) * 180.f;
+}
+
+void CRacingPanel::Acc_CurSpeed(_float fTimeDelta)
+{
+	m_iCurSpeed += _int((m_iTargetSpeed - m_iCurSpeed) * fTimeDelta * 15.f);
 }
 
 CRacingPanel* CRacingPanel::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
@@ -91,5 +147,5 @@ CGameObject* CRacingPanel::Clone(void* pArg)
 
 void CRacingPanel::Free()
 {
-	__super::Free();
+	__super::Free(); 
 }

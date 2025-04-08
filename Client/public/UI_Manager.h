@@ -41,7 +41,7 @@ private:
 #pragma endregion
 		
 public:
-	enum GAMEUI { GUI_AIM, GUI_PORTRAIT, GUI_ARMOR, GUI_AMMO, GUI_END };
+	enum GAMEUI { GUI_AIM, GUI_PORTRAIT, GUI_ARMOR, GUI_AMMO, GUI_RACING, GUI_END };
 public:
 	HRESULT Initialize() ;
 	void Priority_Update(_float fTimeDelta) ;
@@ -63,11 +63,14 @@ public:
 	/* 연동 함수 */
 public:
 	HRESULT Initialize_GamePlayUI(LEVEL eLevelID);
+	HRESULT Initialize_RacingUI(LEVEL eLevelID);
 	HRESULT Initialize_Player();
 	HRESULT Clear_GamePlayUI();
 	HRESULT Change_Weapon(const CWeapon::AMMOINFO* pAmmoInfo);
 	HRESULT Init_UI_To_Player(const CPawn::INFO* pPlayerInfo);
-	HRESULT	Set_Face(CPortrait::PORTRAITSTATUS eStatus); 
+	HRESULT	Set_Face(CPortrait::PORTRAITSTATUS eStatus);
+	HRESULT Set_RacingSpeed(_int iSpeed);
+	HRESULT Set_RacingSpeedUp() {};
 
 	/* 폰트 생성 및 들고댕기기 */
 private:
@@ -77,6 +80,7 @@ private:
 	class CFont*						m_Fonts[CFont::FONT_END] = {nullptr};
 	array<class CGameObject*, GUI_END>	m_GameUIs = { nullptr };
 	class CPawn*						m_pPlayer = { nullptr };
+	class CGameObject*					m_pRacingUI = { nullptr };
 	
 private: // 좌상단 텍스트 다이얼로그 관리 (아이템 습득 등)
 	CGameObject* m_pDialog = { nullptr };

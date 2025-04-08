@@ -1421,6 +1421,7 @@
     <ClCompile Include="..\private\InteractPromptUI.cpp">
       <Filter>02.GameObjects\UI\GamePlayUI\InteractPromptUI</Filter>
     </ClCompile>
+    <ClCompile Include="..\private\FXMgr.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />

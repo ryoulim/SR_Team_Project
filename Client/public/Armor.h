@@ -25,7 +25,6 @@ public:
 	virtual void Late_Update(_float fTimeDelta) override;
 	virtual HRESULT Render() override;
 
-
 private:
 	_uint*					m_pArmor = {};
 	_uint					m_uiArmor = {};

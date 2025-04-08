@@ -61,10 +61,12 @@ float3 origColor =  float3(60.0 / 255.0, 70.0 / 255.0, 160.0 / 255.0);
 // ColorChange
 float hueShift = 0.5; // 원하는 색조 값 (0.0 ~ 1.0 범위)
 
-// Masking
+// Masking_Center(AIM)
 float maskingDistance = 0.1f;
+// Masking_HPBar
+float HPPercent = 0.5f;
 
-// AlphaChange
+// AlphaChange & Sandevistan(alpha + color)
 float opacity = 0.8f; // 지정하고 싶은 alpha opacity 값 전달
 
 // ShadeChange
@@ -88,6 +90,7 @@ PS_OUT PS_AlphaChangeWithVS(PS_IN In) : COLOR
 }
 #endif
 
+
 float4 PS_AlphaChange(float2 texCoord : TEXCOORD0) : COLOR {
     float4 color = tex2D(SamplerTex, texCoord);
 
@@ -100,9 +103,6 @@ float4 PS_AlphaChange(float2 texCoord : TEXCOORD0) : COLOR {
 
     return color;
 }
-
-
-
 
 float4 PS_ColorPickingChange(float2 texCoord : TEXCOORD0) : COLOR {
     float4 color = tex2D(SamplerTex, texCoord);
@@ -132,7 +132,7 @@ float4 PS_ColorPickingChange(float2 texCoord : TEXCOORD0) : COLOR {
     return color;
 }
 
-float4 PS_ImageMasking(float2 texCoord : TEXCOORD0) : COLOR
+float4 PS_ImageMasking_Center(float2 texCoord : TEXCOORD0) : COLOR
 {
     float4 color = tex2D(SamplerTex, texCoord);
 
@@ -143,10 +143,28 @@ float4 PS_ImageMasking(float2 texCoord : TEXCOORD0) : COLOR
     float distance = length(texCoord - center);
 
     // 특정 반경 밖의 픽셀 제거
-	if (distance > maskingDistance && color.r > 0.9 && color.g > 0.9 && color.b > 0.9)
+    if (distance > maskingDistance && color.r > 0.9 && color.g > 0.9 && color.b > 0.9)
     {
         // discard; // 흰색 픽셀 제거
-		color.a = 0.3;
+        color.a = 0.3;
+    }
+
+    return color;
+}
+float4 PS_ImageMasking_HPBar(float2 texCoord : TEXCOORD0) : COLOR
+{
+    float4 color = tex2D(SamplerTex, texCoord);
+
+    // 텍스처 좌측 좌표
+    float2 left = float2(0.f, 0.5f);
+
+    // 중심으로부터의 거리 계산
+    float distance = length(texCoord.x - left.x);
+
+    // 특정 반경 밖의 픽셀 제거
+    if (distance > HPPercent)
+    {
+        discard; 
     }
 
     return color;
@@ -254,7 +272,7 @@ technique Technique1 {
         #ifdef MAKE_VS
         VertexShader = compile vs_3_0 VS_MAIN();
         #endif
-        PixelShader = compile ps_2_0 PS_ImageMasking();
+        PixelShader = compile ps_2_0 PS_ImageMasking_Center();
 	}
 	pass P3 {
         #ifdef MAKE_VS
@@ -268,4 +286,10 @@ technique Technique1 {
         #endif
         PixelShader = compile ps_2_0 PS_Sandevistan();
 	}
+    pass P5 {
+        #ifdef MAKE_VS
+        VertexShader = compile vs_3_0 VS_MAIN();
+        #endif
+        PixelShader = compile ps_2_0 PS_ImageMasking_HPBar();
+    }
 }

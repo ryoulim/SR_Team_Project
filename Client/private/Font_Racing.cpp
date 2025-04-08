@@ -73,10 +73,10 @@ HRESULT CFont_Racing::Render_Number(const _uint _Val)
 		m_fTextureNum = _float(iNum);
 		if (FAILED(m_pTextureCom->Get_TextureSize(static_cast<_uint>(m_fTextureNum), &m_vSize)))
 			return E_FAIL;
-		m_vSize *= m_fSizeMultiplier;
-		m_pTransformCom->Set_State(CTransform::STATE_POSITION, _float3(startPosX, g_iWinSizeY * -0.5f + 20.f, 0.5f));
+		m_vSize *= 1.25;
+		m_pTransformCom->Set_State(CTransform::STATE_POSITION, _float3(startPosX, g_iWinSizeY * -0.5f + 45.f, 0.5f));
 		Render();
-		startPosX -= 12.f;
+		startPosX -= m_vSize.x;
 		iCopy /= 10;
 	}
 

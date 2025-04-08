@@ -10,6 +10,7 @@
 #include "Armor.h"
 #include <Aim.h>
 #include <ItemDialog.h>
+#include <RacingPanel.h>
 
 CUI_Manager* CUI_Manager::m_pInstance = nullptr;
 
@@ -125,6 +126,14 @@ HRESULT CUI_Manager::Initialize_GamePlayUI(LEVEL eLevelID)
 	return S_OK;
 }
 
+HRESULT CUI_Manager::Initialize_RacingUI(LEVEL eLevelID)
+{
+	m_pRacingUI = m_pGameInstance->Find_Object(eLevelID, L"Layer_UI", GUI_RACING);
+	if (m_pRacingUI == nullptr)
+		return E_FAIL;	
+	return S_OK;
+}
+
 HRESULT CUI_Manager::Initialize_Player()
 {
 	m_pPlayer = dynamic_cast<CPawn*>(GET_PLAYER);
@@ -167,6 +176,14 @@ HRESULT CUI_Manager::Init_UI_To_Player(const CPawn::INFO* pPlayerInfo)
 HRESULT CUI_Manager::Set_Face(CPortrait::PORTRAITSTATUS eStatus)
 {
 	static_cast<CPortrait*>(m_GameUIs[GUI_PORTRAIT])->Set_Face(eStatus);
+	return S_OK;
+}
+
+HRESULT CUI_Manager::Set_RacingSpeed(_int iSpeed)
+{
+	if (m_pRacingUI == nullptr)
+		return E_FAIL;
+	static_cast<CRacingPanel*>(m_pRacingUI)->Set_TargetSpeed(iSpeed);
 	return S_OK;
 }
 

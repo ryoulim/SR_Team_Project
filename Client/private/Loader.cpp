@@ -81,6 +81,7 @@
 #include "ItemDialog.h"
 #include "Font_Racing.h"
 #include "InteractPromptUI.h"
+#include "RacingPanel.h"
 
 //맵 인클루드
 #include "Block.h"
@@ -284,6 +285,7 @@ HRESULT CLoader::Loding_For_Static()
 	ADD_TEXTURE(Skull, "../Bin/Resources/Textures/UI/On_Hit/Skull.PNG", 1);
 	ADD_TEXTURE(BossHPBar, "../Bin/Resources/Textures/UI/BossHPBar/bosshpbar%d.PNG", 2);
 	ADD_TEXTURE(Font_Racing, "../Bin/Resources/Textures/UI/Font/Font_Racing/%d.PNG", 10);
+	ADD_TEXTURE(RacingPanel, "../Bin/Resources/Textures/UI/Racing/%d.PNG", 3);
 	
 #pragma region PLAYER
 	ADD_TEXTURE(PlayerOnBoat, "../Bin/Resources/Textures/Player/PlayerOnBoat/Tile15947.PNG", 1);
@@ -306,6 +308,7 @@ HRESULT CLoader::Loding_For_Static()
 	ADD_PRTOBJ(BossHPBar);
 	ADD_PRTOBJ(ItemDialog);
 	ADD_PRTOBJ(Font_Racing);
+	ADD_PRTOBJ(RacingPanel);
 
 #pragma region PLAYER
 	ADD_PRTOBJ(Player);
