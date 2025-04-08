@@ -17,7 +17,7 @@ BEGIN(Client)
 class CRaceBoss final : public CGameObject
 {
 public:
-	enum STATE { ENTRANCE, SHOTREADY, SHOTHEADBULLET, SHOTTAILBULLET, LEAVE, NON };
+	enum STATE { WAITFORPLAYER, ENTRANCE, SHOTREADY, SHOTHEADBULLET, SHOTTAILBULLET, LEAVE, NON };
 	enum MUZZLEPOS { LSIDE, LMIDDLE, MIDDLE, RMIDDLE, RSIDE, POSEND };
 
 public:
@@ -51,12 +51,8 @@ private:
 	HRESULT Ready_Components(void* pArg);
 	void Action(_float fTimeDelta);
 	HRESULT Fire_Bullet(CRaceBossBullet::RBULLETTYPE eType, MUZZLEPOS ePos);
-	_float3 Calc_Muzzle_Position(MUZZLEPOS eMuzzle);
-
-	void Init_Skull();
-	void Update_Skull(_float fTimeDelta);
-	// 이 위치에 스컬을 온 해라, off는 m_bSkullActive를 끄시오
-	void Render_Skull(MUZZLEPOS eMuzzle);
+	void ShuffleandPop();
+	_float3 CatmulRomPos(_float3& v0, _float3& vStartPos, _float3& vEndPos, _float3& v3, _float fTimeAcc);
 
 private:
 	CTexture* m_pTextureCom = { nullptr };
@@ -67,23 +63,23 @@ private:
 	CTransform* m_pPlayerTransformCom = { nullptr };
 	const _float3* m_pPlayerpos = { nullptr };
 
+	
+
 	STATE		m_eState = { NON };
 	LEVEL		m_eLevelID = { LEVEL_END };
 	_bool		m_bDead = { false };
 	_float3		m_vScale = {};
 	_uint		m_iHp = {};
 	_float		m_fTime = {};
-	_uint		m_iBulletCount = {};
+	_uint		m_iTailBulletCount = {};
+	_uint		m_iHeadBulletCount = {};
 	_float3		m_vBulletDiretion = {};
 	MUZZLEPOS	m_ePos = { POSEND };
 	_float3		m_vLerpStartPos = { 0.f, 250.f, 0.f };
 	_float3		m_vLerpEndPos = { 450.f, 250.f, 1200.f };
-
-	///// 해골바가지
-	class CSkull* m_pSkull = { nullptr };
-	_float3 m_vSkullPos{};
-	MUZZLEPOS	m_eSkullMuzzlePos{ POSEND };
-	_bool m_bSkullActive{};
+	vector<MUZZLEPOS> m_VecBulletPos;
+	CGameObject* m_pPlayer = { nullptr };
+	_float3 m_vPlayerPos = {};
 
 public:
 	static CRaceBoss* Create(LPDIRECT3DDEVICE9 pGraphic_Device);

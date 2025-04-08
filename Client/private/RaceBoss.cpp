@@ -1,5 +1,4 @@
 #include "RaceBoss.h"
-#include "Skull.h"
 
 CRaceBoss::CRaceBoss(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CGameObject { pGraphic_Device }
@@ -29,12 +28,7 @@ HRESULT CRaceBoss::Initialize(void* pArg)
 	//450,250,1000
 	m_pTransformCom->Scaling(m_vScale);
 	m_eState = ENTRANCE;
-
-	Init_Skull();
-
-	m_pPlayerTransformCom = GET_PLAYER_TRANSFORM;
-	Safe_AddRef(m_pPlayerTransformCom);
-	m_pPlayerpos = m_pPlayerTransformCom->Get_State(CTransform::STATE_POSITION);
+	m_pPlayer = GET_PLAYER;
 
 	return S_OK;
 }
@@ -49,8 +43,14 @@ EVENT CRaceBoss::Update(_float fTimeDelta)
 	if (m_bDead)
 		return EVN_DEAD;
 
+#ifdef _CONSOL
+	_float3 vPos = *m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+	printf("보스 위치 : { %f, %f, %f }\n", vPos.x, vPos.y, vPos.z);
+	printf("보스 상태 : %d\n", m_eState);
+#endif
+
 	Action(fTimeDelta);
-	Update_Skull(fTimeDelta);
+
 	return EVN_NONE;
 }
 
@@ -60,9 +60,6 @@ void CRaceBoss::Late_Update(_float fTimeDelta)
 
 	if (m_pTransformCom->Get_State(CTransform::STATE_POSITION)->z > 9500.f)
 		m_eState = LEAVE;
-
-	if (m_bSkullActive)
-		m_pSkull->Late_Update(fTimeDelta);
 
 	if (FAILED(m_pGameInstance->Add_RenderGroup(CRenderer::RG_NONBLEND, this)))
 		return;
@@ -137,13 +134,24 @@ HRESULT CRaceBoss::Ready_Components(void* pArg)
 
 void CRaceBoss::Action(_float fTimeDelta)
 {
+	_float3 v0 = { 0.f, 1750.f, -1300.f };
+	_float3 vStartPos = { 0.f, 1000.f, -500.f };
+	_float3 vEndPos = { 450.f, 250.f, 1300.f };
+	_float3 v3 = { 450.f, 2000.f, 2000.f };
+
 	switch (m_eState)
 	{
+	case WAITFORPLAYER:
+		m_vPlayerPos = *static_cast<CTransform*>(m_pPlayer->Find_Component(TEXT("Com_Transform")))->Get_State(CTransform::STATE_POSITION);
+		if (m_vPlayerPos.z > 0.f)
+			m_eState = ENTRANCE;
+		break;
+		
 	case ENTRANCE:
-		m_fTime += fTimeDelta * 0.98f;
-		m_pTransformCom->Set_State(CTransform::STATE_POSITION, m_pTransformCom->Lerp(m_vLerpStartPos, m_vLerpEndPos, m_fTime));
+		m_fTime += (1.f - m_fTime) * fTimeDelta;
+		m_pTransformCom->Set_State(CTransform::STATE_POSITION, CatmulRomPos(v0, vStartPos, vEndPos, v3, m_fTime));
 
-		if (m_pTransformCom->Get_State(CTransform::STATE_POSITION)->z > 1200.f)
+		if (m_pTransformCom->Get_State(CTransform::STATE_POSITION)->z >= 1200.f)
 		{
 			m_eState = SHOTREADY;
 			m_fTime = 0.f;
@@ -153,7 +161,7 @@ void CRaceBoss::Action(_float fTimeDelta)
 	case SHOTREADY:
 		m_pTransformCom->Go_Straight(fTimeDelta);
 		m_fTime += fTimeDelta;
-		if (m_fTime > 1.f)
+		if (m_fTime > 3.f)
 		{
 			m_eState = SHOTHEADBULLET; //일정 주기마다 한 번씩 발사
 			m_fTime = 0.f;
@@ -162,16 +170,10 @@ void CRaceBoss::Action(_float fTimeDelta)
 
 	case SHOTHEADBULLET:
 		m_pTransformCom->Go_Straight(fTimeDelta);
-		m_fTime += fTimeDelta;
-		if (m_fTime > 0.02f)
-		{
-			if (m_ePos == POSEND)
-				m_ePos = static_cast<MUZZLEPOS>(rand() % 5);
-
-			Fire_Bullet(CRaceBossBullet::HEAD, m_ePos);
-			m_eState = SHOTTAILBULLET;
-			m_fTime = 0.f;
-		}
+		ShuffleandPop();
+		Fire_Bullet(CRaceBossBullet::HEAD, m_ePos);
+		++m_iHeadBulletCount;
+		m_eState = SHOTTAILBULLET;
 		break;
 
 	case SHOTTAILBULLET:
@@ -180,15 +182,23 @@ void CRaceBoss::Action(_float fTimeDelta)
 		if (m_fTime > 0.02f)
 		{
 			Fire_Bullet(CRaceBossBullet::TAIL, m_ePos);
-			++m_iBulletCount;
+			++m_iTailBulletCount;
 			m_fTime = 0.f;
 		}
 
-		if (m_iBulletCount > 3)
+		if (m_iTailBulletCount > 3)
 		{
-			m_eState = SHOTREADY;
-			m_iBulletCount = 0;
-			m_ePos = POSEND;
+			m_iTailBulletCount = 0;
+
+			if (m_iHeadBulletCount > 4)
+			{
+				m_iHeadBulletCount = 0;
+				m_eState = SHOTREADY;
+			}
+				
+			else
+				m_eState = SHOTHEADBULLET;
+				
 		}
 		break;
 
@@ -203,41 +213,9 @@ void CRaceBoss::Action(_float fTimeDelta)
 
 HRESULT CRaceBoss::Fire_Bullet(CRaceBossBullet::RBULLETTYPE eType, MUZZLEPOS ePos)
 {
-	CRaceBossBullet::DESC RaceBossBulletdesc{};
-	RaceBossBulletdesc.bAnimation = false;
-	RaceBossBulletdesc.iColliderID = CI_BOSS_GUIDBULLET;
-	RaceBossBulletdesc.fSpeedPerSec = 300.f;
-	RaceBossBulletdesc.fRotationPerSec = RADIAN(180.f);
-	RaceBossBulletdesc.vScale = { 20.f, 20.f, 20.f };
-	RaceBossBulletdesc.vPosition = *m_pTransformCom->Get_State(CTransform::STATE_POSITION) + Calc_Muzzle_Position(ePos);
-
-	if (eType == CRaceBossBullet::HEAD)
-	{
-		//HEAD 총알은 플레이어를 향함
-		auto pPlayer = GET_PLAYER;
-		RaceBossBulletdesc.vLook = *GET_PLAYER_TRANSFORM->Get_State(CTransform::STATE_POSITION)
-			+ _float3(0.f, 0.f, 600.f);
-		m_vBulletDiretion = RaceBossBulletdesc.vLook;
-	}
-
-	if (eType == CRaceBossBullet::TAIL)
-	{
-		//TAIL 총알은 HEAD 총알을 향함
-		RaceBossBulletdesc.vLook = m_vBulletDiretion;
-	}
-	
-	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_RaceBossBullet"),
-		m_eLevelID, L"Layer_RaceBossBullet", &RaceBossBulletdesc)))
-		return E_FAIL;
-
-	return S_OK;
-}
-
-_float3 CRaceBoss::Calc_Muzzle_Position(MUZZLEPOS eMuzzle)
-{
 	_float3 vAdjustPos = {};
 
-	switch (eMuzzle)
+	switch (ePos)
 	{
 	case LSIDE:
 		vAdjustPos = { -m_vScale.x * 1.625f, m_vScale.y * 0.25f, -m_vScale.z * 2.f };
@@ -260,63 +238,63 @@ _float3 CRaceBoss::Calc_Muzzle_Position(MUZZLEPOS eMuzzle)
 		break;
 
 	default:
+		return E_FAIL;
 		break;
 	}
 
-	return vAdjustPos;
+	CRaceBossBullet::DESC RaceBossBulletdesc{};
+	RaceBossBulletdesc.bAnimation = false;
+	RaceBossBulletdesc.iColliderID = CI_BOSS_GUIDBULLET;
+	RaceBossBulletdesc.fSpeedPerSec = 300.f;
+	RaceBossBulletdesc.fRotationPerSec = RADIAN(180.f);
+	RaceBossBulletdesc.vScale = { 20.f, 20.f, 20.f };
+	RaceBossBulletdesc.vPosition = *m_pTransformCom->Get_State(CTransform::STATE_POSITION) + vAdjustPos;
+
+	if (eType == CRaceBossBullet::HEAD)
+	{
+		//HEAD 총알은 플레이어를 향함
+		RaceBossBulletdesc.vLook = *static_cast<CTransform*>(m_pPlayer->Find_Component(TEXT("Com_Transform")))->Get_State(CTransform::STATE_POSITION)
+			+ _float3(0.f, 0.f, 650.f);
+		m_vBulletDiretion = RaceBossBulletdesc.vLook;
+	}
+
+	if (eType == CRaceBossBullet::TAIL)
+	{
+		//TAIL 총알은 HEAD 총알을 향함
+		RaceBossBulletdesc.vLook = m_vBulletDiretion;
+	}
+	
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_RaceBossBullet"),
+		m_eLevelID, L"Layer_RaceBossBullet", &RaceBossBulletdesc)))
+		return E_FAIL;
+
+	return S_OK;
 }
 
-void CRaceBoss::Init_Skull()
+_float3 CRaceBoss::CatmulRomPos(_float3& v0, _float3& vStartPos, _float3& vEndPos, _float3& v3, _float fTimeAcc)
 {
-	CSkull::DESC SkullDesc{};
-	SkullDesc.eLevelID = LEVEL_STATIC;
-	SkullDesc.vScale = { 1.f,1.f,1.f };
+	_uint iTimeAcc = static_cast<_uint>(fTimeAcc);
+	_float t = fTimeAcc - iTimeAcc;
 
-	m_pSkull = static_cast<CSkull*>(m_pGameInstance->Clone_Prototype(
-		PROTOTYPE::TYPE_GAMEOBJECT, LEVEL_STATIC,
-		TEXT("Prototype_GameObject_Skull"), &SkullDesc));
+	_float3 vResult = {};
+	D3DXVec3CatmullRom(&vResult, &v0, &vStartPos, &vEndPos, &v3, t);
+
+	return vResult;
 }
 
-void CRaceBoss::Update_Skull(_float fTimeDelta)
+void CRaceBoss::ShuffleandPop()
 {
-	// 간격 = 54,
-
-	//enum MUZZLEPOS { LSIDE, LMIDDLE, MIDDLE, RMIDDLE, RSIDE, POSEND };
-
-	if (m_pPlayerpos->x >= 315.f && m_pPlayerpos->x < 369.f)
+	if (m_VecBulletPos.empty())
 	{
-		Render_Skull(LSIDE);
-	}
-	else if (m_pPlayerpos->x >= 369.f && m_pPlayerpos->x < 423.f)
-	{
-		Render_Skull(LMIDDLE);
-	}
-	else if (m_pPlayerpos->x >= 423.f && m_pPlayerpos->x < 477.f)
-	{
-		Render_Skull(MIDDLE);
-	}
-	else if (m_pPlayerpos->x >= 477.f && m_pPlayerpos->x < 531.f)
-	{
-		Render_Skull(RMIDDLE);
-	}
-	else if (m_pPlayerpos->x >= 531.f && m_pPlayerpos->x <= 585.f)
-	{
-		Render_Skull(RSIDE);
+		m_VecBulletPos = { LSIDE, LMIDDLE, MIDDLE, RMIDDLE, RSIDE };
+		random_shuffle(m_VecBulletPos.begin(), m_VecBulletPos.end());
 	}
 
-	if (m_bSkullActive)
-		m_pSkull->Update(*m_pTransformCom->Get_State(CTransform::STATE_POSITION) + m_vSkullPos, fTimeDelta);
-}
-
-void CRaceBoss::Render_Skull(MUZZLEPOS eMuzzle)
-{
-	if (m_eSkullMuzzlePos == eMuzzle)
-		return;
-
-	m_eSkullMuzzlePos = eMuzzle;
-	m_bSkullActive = TRUE;
-	m_pSkull->TimeReset();
-	m_vSkullPos = Calc_Muzzle_Position(eMuzzle);
+	if (!m_VecBulletPos.empty())
+	{
+		m_ePos = m_VecBulletPos.back();
+		m_VecBulletPos.pop_back();
+	}
 }
 
 CRaceBoss* CRaceBoss::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
@@ -353,7 +331,4 @@ void CRaceBoss::Free()
 	Safe_Release(m_pVIBufferCom);
 	Safe_Release(m_pTransformCom);
 	Safe_Release(m_pCollider);
-
-	Safe_Release(m_pPlayerTransformCom);
-	Safe_Release(m_pSkull);
 }
