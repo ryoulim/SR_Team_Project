@@ -23,6 +23,7 @@ public:
 	virtual void Late_Update(_float fTimeDelta) override;
 	virtual HRESULT Render() override;
 
+
 	virtual void On_Collision(_uint MyColliderID, _uint OtherColliderID) override;
 
 	_float3		GetVelocityPerSecond(_float fTimeDelta) const {
@@ -51,6 +52,8 @@ private:
 	void			Create_Bullet();
 
 private:
+	class CShader* m_pShaderCom = { nullptr };
+
 	class CCameraManager*	m_pCameraManager = { nullptr };
 	// 3인칭 카메라를 소유하게 하고, 카메라에 댐핑 함수를 만들자
 	CTransform*				m_pCameraTransform = { nullptr };

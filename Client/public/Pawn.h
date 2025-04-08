@@ -53,7 +53,7 @@ protected:
 	_bool	m_bFogAnimation{ false };
 
 	_float						m_fInitSpeed{};
-
+	
 	//_bool	m_bDead{ FALSE };
 
 public:

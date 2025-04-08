@@ -26,8 +26,12 @@ public:
 	virtual void Late_Update(_float fTimeDelta) override;
 	virtual HRESULT Render() override;
 
+public: /* [ ¿Ã∆Â∆Æ º“»Ø ] */
+	HRESULT SpawnEffect();
+
 private:
 	CShader*		m_pShaderCom{ nullptr };
+	CGameObject*	m_pEffect{ nullptr };
 
 private:
 	virtual HRESULT Ready_Components(void* pArg);

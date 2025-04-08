@@ -959,6 +959,12 @@
     <ClInclude Include="..\public\InteractPromptUI.h">
       <Filter>02.GameObjects\UI\GamePlayUI\InteractPromptUI</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\WaterBoat.h">
+      <Filter>02.GameObjects\Particle\WaterBoat</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\CutSceneSmoke.h">
+      <Filter>02.GameObjects\Particle\_BossMobSkill\CutSceenEffect</Filter>
+    </ClInclude>
     <ClInclude Include="..\public\Generator.h">
       <Filter>02.GameObjects\Map\Generator</Filter>
     </ClInclude>

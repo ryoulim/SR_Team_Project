@@ -2,6 +2,8 @@
 // 부모 클래스 이름 : Bullet
 
 #include "PlayerMissile.h"
+#include "PSystem.h"
+#include "MonsterMissile.h"
 
 CPlayerMissile::CPlayerMissile(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CBullet{ pGraphic_Device }
@@ -28,7 +30,7 @@ HRESULT CPlayerMissile::Initialize(void* pArg)
 		return E_FAIL;
 
 	Make_TrailData(static_cast<DESC*>(pArg)->vScale.x);
-
+	SpawnEffect();
 	return S_OK;
 }
 
@@ -45,6 +47,21 @@ EVENT CPlayerMissile::Update(_float fTimeDelta)
 	Update_TrailData(fTimeDelta);
 
 	FrameUpdate(fTimeDelta, 7.f, 40.f, true);
+
+	if (m_pEffect)
+		static_cast<CMonsterMissile*>(m_pEffect)->SetPosition(*m_pTransformCom->Get_State(CTransform::STATE_POSITION));
+
+	if (m_bDead)
+	{
+		if (m_pEffect)
+		{
+			static_cast<CMonsterMissile*>(m_pEffect)->SetDead();
+			m_pEffect = nullptr;
+		}
+
+		return EVN_DEAD;
+	}
+
 	return EVN_NONE;
 }
 
@@ -56,10 +73,35 @@ void CPlayerMissile::Late_Update(_float fTimeDelta)
 
 HRESULT CPlayerMissile::Render()
 {
+	m_pGraphic_Device->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
+	m_pGraphic_Device->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
+	m_pGraphic_Device->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
+	m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
+
 	__super::Render();
 
 	Render_TrailData();
 
+	return S_OK;
+}
+
+HRESULT CPlayerMissile::SpawnEffect()
+{
+	CPSystem::DESC Missile_iDesc{};
+	Missile_iDesc.vPosition = { 0.f, 0.f, 0.f };
+	Missile_iDesc.szTextureTag = TEXT("PC_Small_Smoke");
+	Missile_iDesc.iParticleNums = 100;
+	Missile_iDesc.fSize = 5.f;
+	Missile_iDesc.fMaxFrame = 20.f;
+	Missile_iDesc.fNum = 60.f;
+
+	CGameObject* pObject = nullptr;
+	CGameObject** ppOut = &pObject;
+	if (FAILED(m_pGameInstance->Add_GameObjectReturn(LEVEL_STATIC, TEXT("Prototype_GameObject_PC_MonsterMissile"),
+		LEVEL_GAMEPLAY, L"Layer_Particle", ppOut, &Missile_iDesc)))
+		return E_FAIL;
+
+	m_pEffect = *ppOut;
 	return S_OK;
 }
 
