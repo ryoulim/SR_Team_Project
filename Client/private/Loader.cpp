@@ -717,7 +717,7 @@ HRESULT CLoader::Loading_For_Logo()
 #pragma region SOUND
 	lstrcpy(m_szLoadingText, TEXT("사운드을(를) 로딩중입니다."));
 
-	m_pGameInstance->LoadSound("../Bin/Resources/Sounds/Music/");
+	m_pGameInstance->LoadSound("../Bin/Resources/Sounds/Music/", false, true);
 
 #pragma endregion
 	
@@ -851,7 +851,6 @@ HRESULT CLoader::Loading_For_GamePlay()
 	lstrcpy(m_szLoadingText, TEXT("사운드을(를) 로딩중입니다.")); 
 	ADD_SOUND(Ttakkeun_i, "../Bin/Resources/Sounds/Boss/");
 	ADD_SOUND(Bridge, "../Bin/Resources/Sounds/Bridge/");
-	m_pGameInstance->LoadSound("../Bin/Resources/Sounds/Music/", false, true);
 	m_pGameInstance->LoadSound("../Bin/Resources/Sounds/Env/", false, true);
 #pragma endregion
 
