@@ -224,6 +224,7 @@
     <ClInclude Include="..\public\FPS_Camera.h" />
     <ClInclude Include="..\public\FXMgr.h" />
     <ClInclude Include="..\public\GarbageBag.h" />
+    <ClInclude Include="..\public\Generator.h" />
     <ClInclude Include="..\public\Greater.h" />
     <ClInclude Include="..\public\HitBox.h" />
     <ClInclude Include="..\public\HydroPump.h" />
@@ -383,6 +384,7 @@
     <ClCompile Include="..\private\FPS_Camera.cpp" />
     <ClCompile Include="..\private\FXMgr.cpp" />
     <ClCompile Include="..\private\GarbageBag.cpp" />
+    <ClCompile Include="..\private\Generator.cpp" />
     <ClCompile Include="..\private\Greater.cpp" />
     <ClCompile Include="..\private\GrenadeBullet.cpp" />
     <ClCompile Include="..\private\HitBox.cpp" />

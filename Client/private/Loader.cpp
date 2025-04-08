@@ -101,6 +101,7 @@
 #include "HydroPump.h"
 #include "Door.h"
 #include "DoorSecurity.h"
+#include "Generator.h"
 
 //전시용 플랫폼
 #include "Flatform.h"
@@ -1328,6 +1329,7 @@ HRESULT CLoader::Loading_For_Outdoor()
 	ADD_TEXTURE(GarbageBag, "../Bin/Resources/Textures/Map/GarbageBag/GarbageBag%d.png", 3);
 	ADD_TEXTURE(FirePlug, "../Bin/Resources/Textures/Map/FirePlug/FirePlug%d.png", 6);
 	ADD_TEXTURE(HydroPump, "../Bin/Resources/Textures/Map/FirePlug/HydroPump/HydroPump%d.png", 25);
+	ADD_TEXTURE(Generator, "../Bin/Resources/Textures/Map/Generator/Generator%d.PNG", 17);
 
 	/* 빌딩 */
 	ADD_TEXTURE(BuildingH, "../Bin/Resources/Textures/Object/BuildingH/BuildingH%d.PNG", 4);
@@ -1371,6 +1373,7 @@ HRESULT CLoader::Loading_For_Outdoor()
 	ADD_PRTOBJ(GarbageBag);
 	ADD_PRTOBJ(FirePlug);
 	ADD_PRTOBJ(HydroPump);
+	ADD_PRTOBJ(Generator);
 	
 #pragma region 아이템
 	/* 아이템 */

@@ -45,6 +45,7 @@ private:
 private:
 	_float m_fMaxFrame = {};
 	_float m_fLockTimeAcc = {};
+	_float m_fOpenTimeAcc = {};
 	_bool  m_bPicked = { false };
 
 private:

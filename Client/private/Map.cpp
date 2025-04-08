@@ -450,7 +450,6 @@ void CMap::On_Collision(_uint MyColliderID, _uint OtherColliderID)
 		/* [ 충돌한 면의 노말 벡터 ] */
 		_float3 vLook = CCollider::Get_Last_Collision_Depth().Normalize();
 
-
 		/* 콘크리트 총알 자국_0 */
 		if (m_fTextureIdx == 98 || m_fTextureIdx == 62)
 		{
