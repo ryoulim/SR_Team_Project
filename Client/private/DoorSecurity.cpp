@@ -96,6 +96,7 @@ void CDoorSecurity::Late_Update(_float fTimeDelta)
     {
         m_pGameInstance->Add_RenderGroup(CRenderer::RG_UI, m_pInteractPromptUI);
     }
+
 	__super::Late_Update(fTimeDelta);
 }
 

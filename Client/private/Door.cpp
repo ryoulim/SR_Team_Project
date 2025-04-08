@@ -1,5 +1,5 @@
-// ³» Å¬·¡½º ÀÌ¸§ : Door
-// ºÎ¸ğ Å¬·¡½º ÀÌ¸§ : Interactive_Block
+ï»¿// ë‚´ í´ë˜ìŠ¤ ì´ë¦„ : Door
+// ë¶€ëª¨ í´ë˜ìŠ¤ ì´ë¦„ : Interactive_Block
 
 #include "Door.h"
 #include "GameInstance.h"
@@ -43,8 +43,11 @@ EVENT CDoor::Update(_float fTimeDelta)
     if (m_bSecurity)
         return EVN_NONE;
 
-    if (KEY_DOWN(DIK_F))
-        m_bOpen = true;
+    if (m_bPicked)
+    {
+        if (KEY_DOWN(DIK_F))
+            m_bOpen = true;
+    }
 
     if (m_bOpen)
     {
@@ -108,7 +111,7 @@ HRESULT CDoor::Ready_Components(void* pArg)
             _bool isZeroY = fabsf(vAngle.y) < FLT_EPSILON;
             _bool isZeroZ = fabsf(vAngle.z) < FLT_EPSILON;
 
-            // Á÷°¢ °¢µµÀÎÁö Ã¼Å©
+            // ì§ê° ê°ë„ì¸ì§€ ì²´í¬
             for (_uint i = 0; i < 4; ++i)
             {
                 if (fabsf(vAngle.x - rightAngles[i]) < FLT_EPSILON) isRightX = true;
