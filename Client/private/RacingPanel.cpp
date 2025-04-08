@@ -86,19 +86,22 @@ void CRacingPanel::Late_Update(_float fTimeDelta)
 
 HRESULT CRacingPanel::Render()
 {
-	__super::Render();
-	//m_pGraphic_Device->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
-	//m_pGraphic_Device->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
-	//m_pGraphic_Device->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
-	m_pFont_Racing->Render_Number(m_iCurSpeed);
-	//m_pGraphic_Device->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
+	__super::Render();							// 계기판 배경
 
-	Render_Boosts();
+	m_pFont_Racing->Render_Number(m_iCurSpeed); // 숫자
+
+	Render_Arrow();								// 계기판 바늘 	
+	Render_Boosts();							// 잘 모름 밑에 화살표..
 
 	return S_OK;
 }
 
 void CRacingPanel::Render_Boosts()
+{
+
+}
+
+void CRacingPanel::Render_Arrow()
 {
 
 }

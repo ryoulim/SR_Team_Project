@@ -81,6 +81,13 @@ HRESULT CUI_Manager::Render_Text(const _int _val, CFont::FONTTYPE _type, CFont::
 	return m_Fonts[_type]->Render_Text(_val, _align, _posX, _posY, vSizeMul, pShader);
 }
 
+HRESULT CUI_Manager::Render_Text_Colored(const string& _text, CFont::FONTTYPE _type, CFont::FONTALIGN _align, _float _posX, _float _posY, _float _hueShift, _float vSizeMul)
+{
+	if (m_Fonts[_type] == nullptr)
+		return E_FAIL;
+	return m_Fonts[_type]->Render_Text_Colored(_text, _align, _posX, _posY, _hueShift, vSizeMul);
+}
+
 void CUI_Manager::Fade_In()
 {
 	CFadeUI::DESC desc;

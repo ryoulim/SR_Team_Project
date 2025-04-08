@@ -113,6 +113,47 @@ HRESULT CFont::Render_Text(const _int _val, FONTALIGN _align, _float _posX, _flo
 	return S_OK;
 }
 
+HRESULT CFont::Render_Text_Colored(const string& _text, FONTALIGN _align, _float _posX, _float _posY, _float _hueShift, _float vSizeMul)
+{
+	m_uiTextWidth = static_cast<_uint>(_text.length());
+
+	_float startPosX = {};
+	if (_align == LEFT)
+		startPosX = _posX;
+	else if (_align == CENTER)
+		startPosX = _posX - m_uiTextWidth / 2.f * 14.f;
+	_float fontWidth{};
+	for (auto ch : _text)
+	{
+		if (ch != L' ')
+		{
+			m_fTextureNum = static_cast<_float>(toascii(ch) - 33);
+			if (FAILED(m_pTextureCom->Get_TextureSize(static_cast<_uint>(m_fTextureNum), &m_vSize)))
+				return E_FAIL;
+			m_vSize *= vSizeMul;
+			fontWidth += m_vSize.x * 0.5f;
+
+			if (_posY < -200)
+				int a = 0;
+			m_pTransformCom->Set_State(CTransform::STATE_POSITION, _float3(startPosX + fontWidth, _posY, 0.5f));
+			if (m_pShaderCom != nullptr)
+			{
+				m_pTextureCom->Bind_Shader_To_Texture(m_pShaderCom, "Tex", static_cast<_uint>(m_fTextureNum));
+				m_pShaderCom->SetFloat("hueShift", _hueShift);
+				m_pShaderCom->Begin(CShader::COLOR);
+			}
+			Render();
+			if (m_pShaderCom != nullptr)
+				m_pShaderCom->End();
+			fontWidth += m_vSize.x * 0.5f + 1.f;
+		}
+		else
+			fontWidth += 10.f;
+	}
+
+	return S_OK;
+}
+
 HRESULT CFont::Bind_Texture_To_Transform()
 {
 	//if (m_pShaderCom == nullptr)

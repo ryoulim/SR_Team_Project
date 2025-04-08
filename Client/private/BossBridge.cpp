@@ -6,6 +6,7 @@
 #include "CameraManager.h"
 #include "Ttakkeun_i.h"
 #include "FXMgr.h"
+#include <BossHPBar.h>
 
 CBossBridge::CBossBridge(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CMap{ pGraphic_Device }
@@ -173,10 +174,14 @@ void CBossBridge::BossMap_CutScene2()
 	/* [ 배우 입장하실게요 ] */
 	CGameObject* LeftBoss = CGameInstance::Get_Instance()->Find_Object(LEVEL_GAMEPLAY, L"Layer_Boss", 0);
 	CGameObject* RightBoss = CGameInstance::Get_Instance()->Find_Object(LEVEL_GAMEPLAY, L"Layer_Boss", 1);
-	if (LeftBoss && RightBoss)
+	CGameObject* BossHPUI = CGameInstance::Get_Instance()->Find_Object(LEVEL_GAMEPLAY, L"Layer_UI", 4);
+	if (LeftBoss && RightBoss && BossHPUI)
 	{
 		static_cast<CTtakkeun_i*>(LeftBoss)->SetCutScene();
+		static_cast<CBossHPBar*>(BossHPUI)->Set_BossHP(static_cast<CMonster*>(LeftBoss)->Get_HP());
 		static_cast<CTtakkeun_i*>(RightBoss)->SetCutScene();
+		static_cast<CBossHPBar*>(BossHPUI)->Set_BossHP_T2(static_cast<CMonster*>(RightBoss)->Get_HP());
+		static_cast<CBossHPBar*>(BossHPUI)->Set_BossMaxHP(static_cast<CMonster*>(LeftBoss)->Get_MaxHP());
 	}
 }
 

@@ -27,18 +27,26 @@ public:
 	virtual EVENT Update(_float fTimeDelta) override;
 	virtual void Late_Update(_float fTimeDelta) override;
 	virtual HRESULT Render() override;
-	void Render_FirstTime();
-
+	HRESULT Render_FirstTime();
+	HRESULT Render_Ttakkeun_I();
+	HRESULT Render_RacingBoss();
 
 public:
-	void Set_BossHP(_int* pBossHP) { m_pBossHP = pBossHP; }
-	void Set_BossMaxHP(_int iBossMaxHP) { m_iBossMaxHP = iBossMaxHP; }
+	void Set_BossHP(_int* pBossHP) { m_pBossHP[0] = pBossHP; }
+	void Set_BossHP_T2(_int* pBossHP) { m_pBossHP[1] = pBossHP; }
+	void Set_BossMaxHP(_int iBossMaxHP) {
+		m_iBossMaxHP = iBossMaxHP; 
+	}
+	void Set_RenderStart() { m_eIsFirstTime = FIRST_RENDER; }
 
 private:
-	_int	m_iBossMaxHP = {};
-	_int*	m_pBossHP = { nullptr };
-	_float3 m_vBarSize = {};
-	_float3 m_vBackSize = {};
+	array<_int*, 2>	m_pBossHP = { nullptr };
+	_int			m_iBossMaxHP = {};
+	_float3			m_vBarSize = {};
+	_float3			m_vBackSize = {};
+	_bool			m_bIsFirst = { false };
+	enum RENDERSTATE { DONT_RENDER, FIRST_RENDER, DONE };
+	RENDERSTATE			m_eIsFirstTime = { DONT_RENDER };
 
 public:
 	static CBossHPBar* Create(LPDIRECT3DDEVICE9 pGraphic_Device);

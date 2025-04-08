@@ -27,6 +27,7 @@ public:
 
 private:
 	void Render_Boosts();
+	void Render_Arrow();
 	void Calculate_ArrowAngle();
 	void Acc_CurSpeed(_float fTimeDelta);
 

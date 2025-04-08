@@ -7,6 +7,7 @@
 #include "MonsterGuidBullet.h"
 #include "Sprite.h"
 #include "HitBox.h"
+#include <BossHPBar.h>
 
 CTtakkeun_i::CTtakkeun_i(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CMonster{ pGraphic_Device }
@@ -1217,6 +1218,9 @@ void CTtakkeun_i::CutSceneAction(_float dt)
 			m_pTransformCom->Set_State(CTransform::STATE_POSITION, vPos);
 			m_fAttackTimer = 0.0f;
 			m_bIsLink = true;
+			CGameObject* BossHPUI = CGameInstance::Get_Instance()->Find_Object(LEVEL_GAMEPLAY, L"Layer_UI", 4);
+			if (BossHPUI)
+				static_cast<CBossHPBar*>(BossHPUI)->Set_RenderStart();
 		}
 	}
 	if (m_bIsLink)
