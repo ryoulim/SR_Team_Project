@@ -475,6 +475,9 @@
     <Filter Include="02.GameObjects\Weapon\Bullet\PlayerMissile">
       <UniqueIdentifier>{ea67d519-7dbb-4e84-ad9e-c3728d296089}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\RaceBoss\RBState">
+      <UniqueIdentifier>{fe88ccf8-9934-49f7-97e3-0a044eb9531b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -959,6 +962,9 @@
     <ClInclude Include="..\public\WaterBoat.h">
       <Filter>02.GameObjects\Particle\WaterBoat</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\RBState.h">
+      <Filter>02.GameObjects\RaceBoss\RBState</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -1423,6 +1429,9 @@
     </ClCompile>
     <ClCompile Include="..\private\FXMgr.cpp">
       <Filter>02.GameObjects\Particle</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\RBState.cpp">
+      <Filter>02.GameObjects\RaceBoss\RBState</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

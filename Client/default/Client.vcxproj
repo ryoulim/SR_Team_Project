@@ -272,6 +272,7 @@
     <ClInclude Include="..\public\RaceTerrain.h" />
     <ClInclude Include="..\public\RacingPanel.h" />
     <ClInclude Include="..\public\Rain.h" />
+    <ClInclude Include="..\public\RBState.h" />
     <ClInclude Include="..\public\Rock.h" />
     <ClInclude Include="..\public\ScreenDust.h" />
     <ClInclude Include="..\public\ScreenSprite.h" />
@@ -430,6 +431,7 @@
     <ClCompile Include="..\private\RaceTerrain.cpp" />
     <ClCompile Include="..\private\RacingPanel.cpp" />
     <ClCompile Include="..\private\Rain.cpp" />
+    <ClCompile Include="..\private\RBState.cpp" />
     <ClCompile Include="..\private\Rock.cpp" />
     <ClCompile Include="..\private\ScreenDust.cpp" />
     <ClCompile Include="..\private\ScreenSprite.cpp" />
