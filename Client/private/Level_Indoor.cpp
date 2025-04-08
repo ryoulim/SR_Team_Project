@@ -34,7 +34,7 @@ HRESULT CLevel_Indoor::Initialize(CLevelData* pLevelData)
 	if (FAILED(Ready_Layer_Pawn(TEXT("Layer_Pawn"))))
 		return E_FAIL;
 
-	CUI_Manager::Get_Instance()->Initialize_Player();
+	//CUI_Manager::Get_Instance()->Initialize_Player();
 
 	if (FAILED(Ready_Layer_Trigger(TEXT("Layer_Trigger"))))
 		return E_FAIL;

@@ -27,6 +27,10 @@ public:
 	virtual void Late_Update(_float fTimeDelta) override;
 	virtual HRESULT Render() override;
 
+private:
+	class CFont_Racing* m_pFont_Racing = { nullptr };
+
+
 public:
 	static CRacingPanel* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
 	virtual CGameObject* Clone(void* pArg) override;

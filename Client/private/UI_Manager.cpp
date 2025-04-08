@@ -129,7 +129,7 @@ HRESULT CUI_Manager::Initialize_GamePlayUI(LEVEL eLevelID)
 
 HRESULT CUI_Manager::Initialize_Player()
 {
-	m_pPlayer = dynamic_cast<CPlayer*>(GET_PLAYER);
+	m_pPlayer = dynamic_cast<CPawn*>(GET_PLAYER);
 	if (nullptr == m_pPlayer)
 		return E_FAIL;
 	//Safe_AddRef(m_pPlayer);
@@ -157,9 +157,10 @@ HRESULT CUI_Manager::Change_Weapon(const CWeapon::AMMOINFO* pAmmoInfo)
 	return S_OK;
 }
 
-HRESULT CUI_Manager::Init_UI_To_Player(const CPlayer::INFO* pPlayerInfo)
+HRESULT CUI_Manager::Init_UI_To_Player(const CPawn::INFO* pPlayerInfo)
 {
 	/* 플레이어 합치고 다시 키기 */
+	/* Info를 Pawn으로 옮길 것 */
 	static_cast<CPortrait*>(m_GameUIs[GUI_PORTRAIT])->Set_Info(pPlayerInfo);
 	static_cast<CArmor*>(m_GameUIs[GUI_ARMOR])->Set_Info(pPlayerInfo);
 	return S_OK;

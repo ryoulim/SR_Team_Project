@@ -78,6 +78,7 @@
 #include "Skull.h"
 #include "BossHPBar.h"
 #include "ItemDialog.h"
+#include "Font_Racing.h"
 
 //맵 인클루드
 #include "Block.h"
@@ -299,7 +300,7 @@ HRESULT CLoader::Loding_For_Static()
 	ADD_PRTOBJ(Skull);
 	ADD_PRTOBJ(BossHPBar);
 	ADD_PRTOBJ(ItemDialog);
-	//ADD_PRTOBJ(Font_Racing);
+	ADD_PRTOBJ(Font_Racing);
 
 #pragma region PLAYER
 	ADD_PRTOBJ(Player);

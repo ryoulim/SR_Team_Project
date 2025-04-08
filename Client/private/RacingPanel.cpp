@@ -3,6 +3,7 @@
 
 #include "RacingPanel.h"
 #include "GameInstance.h"
+#include "Font_Racing.h"
 
 CRacingPanel::CRacingPanel(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CUI{ pGraphic_Device }
@@ -28,6 +29,16 @@ HRESULT CRacingPanel::Initialize(void* pArg)
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
 
+	CFont::DESC Desc = {};
+	CGameObject* pObj = { nullptr };
+	if (FAILED(m_pGameInstance->Add_GameObjectReturn(LEVEL_STATIC, TEXT("Prototype_GameObject_Font_Racing"),
+		LEVEL_STATIC, TEXT("Layer_UI"), &pObj, &Desc)))
+		return E_FAIL;
+
+	m_pFont_Racing = dynamic_cast<CFont_Racing*>(pObj);
+	if (nullptr == m_pFont_Racing)
+		return E_FAIL;
+
 	return S_OK;
 }
 
@@ -48,6 +59,7 @@ void CRacingPanel::Late_Update(_float fTimeDelta)
 
 HRESULT CRacingPanel::Render()
 {
+	m_pFont_Racing->Render_Number(140);
 	return __super::Render();
 }
 

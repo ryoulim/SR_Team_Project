@@ -10,7 +10,7 @@ BEGIN(Client)
 class CFont : public CUI
 {
 public:
-	enum FONTTYPE { MEDIUMBLUE, TINYBLUE, NEONLIGHTS, THICKNEONLIGHTS, BIGORANGE, BIGSILVER, GRAFFITI, FONT_END };
+	enum FONTTYPE { MEDIUMBLUE, TINYBLUE, BIGORANGE, BIGSILVER, RACING, FONT_END };
 	enum FONTALIGN { LEFT, CENTER, RIGHT };
 
 protected:
@@ -43,7 +43,8 @@ protected:
 	_uint		m_uiTextWidth = {};
 	FONTTYPE	m_eFontType = { FONT_END };
 	_float		m_fShadeVal = {1.f};
-
+	FONTALIGN	m_eAlign = { LEFT };
+	_float		m_fSizeMultiplier = { 1.f };
 
 public:
 	virtual void Free();

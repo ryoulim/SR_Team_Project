@@ -15,7 +15,11 @@ public:
 		_float3 vScale;
 		LEVEL	eLevelID;
 	}DESC;
-
+public:
+	typedef struct tagPlayerInfo {
+		_int	iHP;
+		_int	iArmor;
+	}INFO;
 protected:
 	CPawn(LPDIRECT3DDEVICE9 pGraphic_Device);
 	CPawn(const CPawn& Prototype);
@@ -55,6 +59,8 @@ protected:
 	_bool	m_bFog{ TRUE };
 
 	_float						m_fInitSpeed{};
+
+	INFO						m_tInfo{};
 
 	//_bool	m_bDead{ FALSE };
 

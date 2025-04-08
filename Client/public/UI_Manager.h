@@ -30,7 +30,7 @@ private:
 	CUI_Manager(const CUI_Manager&) = delete;				
 	CUI_Manager& operator=(const CUI_Manager&) = delete;						
 
-public:												
+public:
 	static CUI_Manager* Get_Instance();
 	static unsigned int Destroy_Instance();	
 
@@ -66,7 +66,7 @@ public:
 	HRESULT Initialize_Player();
 	HRESULT Clear_GamePlayUI();
 	HRESULT Change_Weapon(const CWeapon::AMMOINFO* pAmmoInfo);
-	HRESULT Init_UI_To_Player(const CPlayer::INFO* pPlayerInfo);
+	HRESULT Init_UI_To_Player(const CPawn::INFO* pPlayerInfo);
 	HRESULT	Set_Face(CPortrait::PORTRAITSTATUS eStatus); 
 
 	/* 폰트 생성 및 들고댕기기 */
@@ -76,7 +76,7 @@ private:
 private:
 	class CFont*						m_Fonts[CFont::FONT_END] = {nullptr,};
 	array<class CGameObject*, GUI_END>	m_GameUIs = { nullptr };
-	class CPlayer*						m_pPlayer = { nullptr };
+	class CPawn*						m_pPlayer = { nullptr };
 	
 private: // 좌상단 텍스트 다이얼로그 관리 (아이템 습득 등)
 	CGameObject* m_pDialog = { nullptr };

@@ -164,8 +164,8 @@ HRESULT CMonster::Render()
 	if (m_bDebug)
 		Render_DebugFOV();
 
-	if (!m_bRotateAnimation)
-		m_iDegree = 0;
+	//if (!m_bRotateAnimation)
+	//	m_iDegree = 0;
 
 	if (FAILED(m_pTextureMap[m_iState][m_iDegree]->Bind_Resource(static_cast<_uint>(m_fAnimationFrame))))
 		return E_FAIL;
