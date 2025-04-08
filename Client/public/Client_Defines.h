@@ -7,7 +7,7 @@
 
 //#define _CONSOL
 //#define _IMGUI
-#define START_LEVEL LEVEL_INDOOR
+#define START_LEVEL LEVEL_RACEFIRST
 
 // 레이스 맵 플레이어의 이동속도 : 보정때메 여기저기서 써야함 이만큼 미쇼
 #define RACE_SPEED_PER_SEC 400.f
