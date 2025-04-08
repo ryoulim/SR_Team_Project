@@ -114,7 +114,7 @@ private:
 	_float					m_fRotationPerSec = {};
 	static _float4x4		m_Return;
 	_float					m_fHarmonicTime = {};
-
+	
 private:
 	_float3 RotateVectorByQuaternion(const _float3& v, const D3DXQUATERNION& q);
 

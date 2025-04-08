@@ -93,7 +93,7 @@ HRESULT CLevel_RaceFirst::Ready_Layer_Statue(const _wstring& strLayerTag)
 	CStatue::DESC desc = {};
 
 	desc.vAngle		= _float3(D3DXToRadian(0.f), D3DXToRadian(0.f), D3DXToRadian(0.f));
-	desc.vInitPos	= _float3(250.f, 36.f, 0.f);
+	desc.vInitPos	= _float3(250.f, 36.f, -2000.f);
 	desc.vScale		= _float3(72.f, 120.f, 72.f);
 	desc.eLevelID = LEVEL_RACEFIRST;
 	
@@ -109,13 +109,13 @@ HRESULT CLevel_RaceFirst::Ready_Layer_Statue(const _wstring& strLayerTag)
 		LEVEL_RACEFIRST, strLayerTag, &desc)))
 		return E_FAIL;
 
-	/*desc.vAngle		= _float3(D3DXToRadian(0.f), D3DXToRadian(0.f), D3DXToRadian(0.f));
+	desc.vAngle		= _float3(D3DXToRadian(0.f), D3DXToRadian(0.f), D3DXToRadian(0.f));
 	desc.vInitPos	= _float3(450.f, 250.f, 700.f);
 	desc.vScale		= _float3(950.f, 500.f, 720.f);
 
 	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_RACEFIRST, TEXT("Prototype_GameObject_BuildingH"),
 		LEVEL_RACEFIRST, strLayerTag, &desc)))
-		return E_FAIL;*/
+		return E_FAIL;
 
 	desc.vAngle		= _float3(D3DXToRadian(0.f), D3DXToRadian(0.f), D3DXToRadian(0.f));
 	desc.vInitPos	= _float3(1100.f, 250.f, 2200.f);

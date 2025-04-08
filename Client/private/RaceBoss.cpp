@@ -1,6 +1,8 @@
 #include "RaceBoss.h"
 #include "PlayerOnBoat.h"
 #include "Skull.h"
+#include "RBState.h"
+
 
 CRaceBoss::CRaceBoss(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CGameObject { pGraphic_Device }
@@ -30,6 +32,8 @@ HRESULT CRaceBoss::Initialize(void* pArg)
 	//450,250,1000
 	m_pTransformCom->Scaling(m_vScale);
 	m_eState = ENTRANCE;
+
+	ReadyForState();
 
 	m_pPlayer = static_cast<CPlayerOnBoat*>(GET_PLAYER);
 	m_pPlayerpos = static_cast<CTransform*>(m_pPlayer->Find_Component(TEXT("Com_Transform")))->Get_State(CTransform::STATE_POSITION);
@@ -192,6 +196,23 @@ HRESULT CRaceBoss::Ready_Components(void* pArg)
 		return E_FAIL;
 
 	return S_OK;
+}
+
+void CRaceBoss::ReadyForState()
+{
+
+	//m_pState[WAITFORPLAYER] = new CPBState_Decel(this);
+	//m_pState[ENTRANCE] = new CPBState_Normal(this);
+	m_pState[READYBOMB] = new CRBState_ReadyBombing(this);
+	m_pState[DRAWINGRADIUS] = new CRBState_DrawingRadius(this);
+	m_pState[BOMBING] = new CRBState_Bombing(this);
+	m_pState[COMEBACK] = new CRBState_Comeback(this);
+	//m_pState[SHOTREADY] = new CPBState_Lerp(this);
+	//m_pState[SHOTHEADBULLET] = new CPBState_Accel(this);
+	//m_pState[SHOTTAILBULLET] = new CPBState_Accel(this);
+	//m_pState[LEAVE] = new CPBState_Accel(this);
+
+	m_pCurState = m_pState[READYBOMB];
 }
 
 void CRaceBoss::Action(_float fTimeDelta)

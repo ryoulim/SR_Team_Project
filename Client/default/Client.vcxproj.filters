@@ -475,9 +475,6 @@
     <Filter Include="02.GameObjects\Weapon\Bullet\PlayerMissile">
       <UniqueIdentifier>{ea67d519-7dbb-4e84-ad9e-c3728d296089}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\Map\Generator">
-      <UniqueIdentifier>{6ec4d89a-7d9b-4bd6-a003-a99cf09aed29}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -971,6 +968,9 @@
     <ClInclude Include="..\public\WaterBoat.h">
       <Filter>02.GameObjects\Particle\WaterBoat</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\RBState.h">
+      <Filter>02.GameObjects\RaceBoss\RBState</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -1439,6 +1439,9 @@
     <ClCompile Include="..\private\FXMgr.cpp" />
     <ClCompile Include="..\private\Generator.cpp">
       <Filter>02.GameObjects\Map\Generator</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\RBState.cpp">
+      <Filter>02.GameObjects\RaceBoss\RBState</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

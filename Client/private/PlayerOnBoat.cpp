@@ -55,11 +55,8 @@ void CPlayerOnBoat::Priority_Update(_float fTimeDelta)
 	//Key_Input(fTimeDelta);
 
 #ifdef _CONSOL
-	if (KEY_DOWN(DIK_LCONTROL))
-	{
-		_float3 vPosition = *m_pTransformCom->Get_State(CTransform::STATE_POSITION);
-		printf("플레이어 좌표 : { %.2f, %.2f, %.2f }\n", vPosition.x, vPosition.y, vPosition.z);
-	}
+	_float3 vPosition = *m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+	printf("플레이어 좌표 : { %.2f, %.2f, %.2f }\n", vPosition.x, vPosition.y, vPosition.z);
 #endif
 
 	//이전 상태와 현재 상태가 다르다면 Enter 실행

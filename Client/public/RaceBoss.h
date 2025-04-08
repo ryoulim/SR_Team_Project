@@ -17,7 +17,11 @@ BEGIN(Client)
 class CRaceBoss final : public CGameObject
 {
 public:
-	enum STATE { WAITFORPLAYER, ENTRANCE, SHOTREADY, SHOTHEADBULLET, SHOTTAILBULLET, LEAVE, NON };
+	enum STATE { WAITFORPLAYER, ENTRANCE,
+		READYBOMB, DRAWINGRADIUS, BOMBING, COMEBACK, 
+		SHOTREADY, SHOTHEADBULLET, SHOTTAILBULLET, 
+		LEAVE, NON };
+
 	enum MUZZLEPOS { LSIDE, LMIDDLE, MIDDLE, RMIDDLE, RSIDE, POSEND };
 
 public:
@@ -54,6 +58,7 @@ public:
 	}
 private:
 	HRESULT Ready_Components(void* pArg);
+	void ReadyForState();
 	void Action(_float fTimeDelta);
 	HRESULT Fire_Bullet(CRaceBossBullet::RBULLETTYPE eType, MUZZLEPOS ePos, _float fTimeDelta);
 	_float3 Calc_Muzzle_Position(MUZZLEPOS eMuzzle);
@@ -67,6 +72,20 @@ private:
 	void Update_Skull(_float fTimeDelta);
 	_bool Judge_Skull(const _float3& vColliderPos, _float vColliderRadius, _float fTimedelta);
 	void Render_Skull(MUZZLEPOS eMuzzlePos);
+
+private:
+	friend class CRBState_ReadyShot;
+	friend class CRBState_ShotHeadBullet;
+	friend class CRBState_ShotTailBullet;
+	friend class CRBState_ReadyBombing;
+	friend class CRBState_DrawingRadius;
+	friend class CRBState_Bombing;
+	friend class CRBState_Comeback;
+
+	STATE					m_ePreState = { NON };
+	STATE					m_eCurState = { ENTRANCE };
+	class CRBState* m_pCurState = { nullptr };
+	class CRBState* m_pState[NON] = { nullptr };
 
 private:
 	CTexture* m_pTextureCom = { nullptr };

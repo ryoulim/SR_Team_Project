@@ -10,6 +10,7 @@ class CPlayerOnBoat final : public CPawn
 {
 public:
 	enum STATE { DECEL, NORMAL, LERP, ACCEL, NON };
+
 private:
 	CPlayerOnBoat(LPDIRECT3DDEVICE9 pGraphic_Device);
 	CPlayerOnBoat(const CPlayerOnBoat& Prototype);
