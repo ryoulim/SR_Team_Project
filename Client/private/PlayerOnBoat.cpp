@@ -231,25 +231,32 @@ HRESULT CPlayerOnBoat::Ready_Components(void* pArg)
 
 void CPlayerOnBoat::Key_Input(_float fTimeDelta)
 {
+	if (KEY_PRESSING(DIK_W))
+	{
+		m_fSpeedRatio += fTimeDelta;
+		m_fSpeedRatio = min(m_fSpeedRatio, 2.f); // 최대 2
+		m_pTransformCom->Set_SpeedPerSec(m_fSpeedRatio * RACE_SPEED_PER_SEC);
+	}
+	else if (KEY_PRESSING(DIK_S))
+	{
+		m_fSpeedRatio -= fTimeDelta;
+		m_fSpeedRatio = max(m_fSpeedRatio, -0.3f); // 최소 -0.3
+		m_pTransformCom->Set_SpeedPerSec(m_fSpeedRatio * RACE_SPEED_PER_SEC);
+	}
+	else
+	{
+		// 자연스럽게 0으로 수렴
+		m_fSpeedRatio *= powf(0.5f, fTimeDelta * 2.f); // 감쇠율 조절 가능
+		if (fabsf(m_fSpeedRatio) < 0.01f)
+			m_fSpeedRatio = 0.f;
+		m_pTransformCom->Set_SpeedPerSec(m_fSpeedRatio * RACE_SPEED_PER_SEC);
+	}
+
+
 	// 키 타이머 -> 왼쪽 = 음수, 오른쪽 = 양수
 	_float fAccelRate = 2.5f; // 클수록 더 빠르게 가속됨
 	_float fSpeed = 0.f;
 
-
-	if (KEY_PRESSING(DIK_W))
-	{
-		m_fSpeedRatio += fTimeDelta;
-		m_fSpeedRatio = max(m_fSpeedRatio, 1.f); // 최소 -1
-		m_pTransformCom->Set_SpeedPerSec(m_fSpeedRatio * RACE_SPEED_PER_SEC);
-	}
-	if (KEY_PRESSING(DIK_S))
-	{
-		m_fSpeedRatio *= powf(0.5f, fTimeDelta * 5.f); // 감쇠율 조절 가능
-		if (fabsf(m_fSpeedRatio) < 0.05f)
-			m_fSpeedRatio = 0.05f;
-
-		m_pTransformCom->Set_SpeedPerSec(m_fSpeedRatio * RACE_SPEED_PER_SEC);
-	}
 	if (KEY_PRESSING(DIK_A))
 	{
 		m_fKeyTimer -= fTimeDelta;
