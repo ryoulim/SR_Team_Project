@@ -51,7 +51,7 @@ HRESULT CBossHPBar::Render()
 {
 	__super::Render();
 
-	_float fHPPercent = *m_pBossHP / m_iBossMaxHP;
+	_float fHPPercent = *m_pBossHP / static_cast<_float>(m_iBossMaxHP);
 	if (fHPPercent >= 1.f)
 		fHPPercent = 1.f;
 	_float fsize = HPBARMAX * fHPPercent;
