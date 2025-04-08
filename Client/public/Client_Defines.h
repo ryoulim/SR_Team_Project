@@ -12,6 +12,19 @@
 // 레이스 맵 플레이어의 이동속도 : 보정때메 여기저기서 써야함
 #define RACE_SPEED_PER_SEC 400.f
 
+/* [ 레벨별 안개정도 ] */
+#define INDOOR_START_FOG 300.f;
+#define INDOOR_END_FOG 1500.f;
+
+#define OUTDOOR_START_FOG 2000.f;
+#define OUTDOOR_END_FOG 2700.f;
+
+#define GAMEPLAY_START_FOG 2500.f;
+#define GAMEPLAY_END_FOG 3500.f;
+/* ↑START_FOG = 플레이어 기준 안개시작 지점↑ */
+/* ↑END_FOG   = 안개가 제일 찐하게 먹는 지점↑ */
+
+
 #ifdef _IMGUI
 #include "imgui.h"
 #include "imgui_impl_dx9.h"

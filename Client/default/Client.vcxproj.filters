@@ -1217,9 +1217,6 @@
     <ClCompile Include="..\private\Wenteko.cpp">
       <Filter>02.GameObjects\Monster\Wenteko</Filter>
     </ClCompile>
-    <ClCompile Include="..\private\FXMgr.cpp">
-      <Filter>02.GameObjects\Particle</Filter>
-    </ClCompile>
     <ClCompile Include="..\private\RaceTerrain.cpp">
       <Filter>02.GameObjects\Map\Race</Filter>
     </ClCompile>

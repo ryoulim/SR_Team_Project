@@ -45,7 +45,7 @@ HRESULT CMonsterGuidBullet::Initialize(void* pArg)
 	CPSystem::DESC Missile_iDesc{};
 	Missile_iDesc.vPosition = { 0.f, 0.f, 0.f };
 	Missile_iDesc.szTextureTag = TEXT("PC_Small_Smoke");
-	Missile_iDesc.iParticleNums = 1000;
+	Missile_iDesc.iParticleNums = 100;
 	Missile_iDesc.fSize = 12.f;
 	Missile_iDesc.fMaxFrame = 20.f;
 	Missile_iDesc.fNum = 40.f;

@@ -40,12 +40,13 @@ HRESULT CLevel_OutDoor::Initialize(CLevelData* pLevelData)
 	CUI_Manager::Get_Instance()->Initialize_Player();
 
 	FX_MGR->SpawnRain(LEVEL_OUTDOOR);
+
 	return S_OK;
 }
 #include "Level_Loading.h"
 void CLevel_OutDoor::Update(_float fTimeDelta)
 {
-	if (static_cast<CPlayer*>(GET_PLAYER)->GetbFog())
+	if (g_FogCustom < 151.f)
 		FX_MGR->SpawnMultipleThunder(fTimeDelta, LEVEL_OUTDOOR);
 
 	Check_Collision();

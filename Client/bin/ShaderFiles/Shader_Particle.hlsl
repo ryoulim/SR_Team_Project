@@ -5,7 +5,7 @@ matrix g_WorldMatrix, g_ViewMatrix, g_ProjMatrix, g_Billboard;
 float g_fBlurAmount, g_fLifeRatio, g_fEmissivePower, g_fTime, g_fOpacity;
 
 /* [ 텍스처 바인딩 변수 ] */
-texture g_Texture;
+texture g_Texture, g_Paricle;
 float2 g_vTexelSize;
 
 bool g_bUseTexture;
@@ -21,10 +21,18 @@ float3 g_LightningPos;
 float g_LightRange;
 float g_FlashIntensity;
 
-
 sampler LinearSampler = sampler_state
 {
     texture = g_Texture;
+
+    minfilter = linear;
+    magfilter = linear;
+    mipfilter = linear;
+};
+
+sampler ParticleSampler = sampler_state
+{
+    texture = g_Paricle;
 
     minfilter = linear;
     magfilter = linear;
@@ -51,11 +59,10 @@ struct PS_IN
     float4 vWorldPos : TEXCOORD1;
 };
 
-struct PS_IN_T
+struct PS_IN_PARTICLE
 {
-    float4 vPosition : POSITIONT;
     float2 vTexcoord : TEXCOORD0;
-    float4 vWorldPos : TEXCOORD1;
+    float4 vColor : COLOR0;
 };
 
 struct PS_OUT
@@ -80,33 +87,59 @@ VS_OUT VS_MAIN(VS_IN In)
     return Out;
 }
 
+/* [ 파티클 정점 ] */
+struct VS_PARTICLE_IN
+{
+    float4 Pos : POSITION;
+    float4 Color : COLOR0;
+    float2 UV : TEXCOORD0;
+};
+
+struct VS_PARTICLE_OUT
+{
+    float4 Pos : POSITION;
+    float4 Color : COLOR0;
+    float2 UV : TEXCOORD0;
+};
+
+/* [ 파티클 정점셰이더 ] */
+VS_PARTICLE_OUT VS_MAIN_PARTICLE(VS_PARTICLE_IN input)
+{
+    VS_PARTICLE_OUT output;
+    output.Pos = mul(input.Pos, g_ViewMatrix); // ViewProj만 곱해도 됨
+    output.Color = input.Color;
+    output.UV = input.UV; // 그대로 넘김!
+    return output;
+    
+}
+
 /* [ 픽셀셰이더 ] 연기 */
-PS_OUT PS_MAIN_SMOKE(PS_IN_T IN)
+PS_OUT PS_MAIN_SMOKE(PS_IN_PARTICLE IN)
 {
     PS_OUT Out;
-
+    
     float2 offset = g_vTexelSize * g_fBlurAmount;
     float4 sum = float4(0, 0, 0, 0);
-
+    
     // 3x3 커널 샘플링
     for (int y = -1; y <= 1; ++y)
     {
         for (int x = -1; x <= 1; ++x)
         {
-            sum += tex2D(LinearSampler, IN.vTexcoord + float2(x, y) * offset);
+            sum += tex2D(ParticleSampler, IN.vTexcoord + float2(x, y) * offset);
         }
     }
     sum /= 9.0f;
     
     Out.vColor = sum;
-    Out.vColor.a *= g_fLifeRatio;
-    Out.vColor.a *= 0.3f;
+    //Out.vColor.a *= g_fLifeRatio;
+    Out.vColor.a *= 0.1f;
 
     return Out;
 }
 
 /* [ 픽셀셰이더 ] 화염공격 */
-PS_OUT PS_MAIN_FIREATTACK(PS_IN_T IN)
+PS_OUT PS_MAIN_FIREATTACK(PS_IN_PARTICLE IN)
 {
     PS_OUT Out;
     
@@ -169,7 +202,8 @@ PS_OUT PS_MAIN_DEBUG(PS_IN IN)
     PS_OUT Out;
     
     Out.vColor = float4(1, 0, 0, 1); // 빨간색으로 출력
-    
+    //Out.vColor = tex2D(ParticleSampler, IN.vTexcoord);
+    //Out.vColor = float4(IN.vTexcoord.xy, 0.0f, 1.0f); 
     return Out;
 }
 
@@ -209,7 +243,7 @@ PS_OUT PS_MAIN_HEAL(PS_IN IN)
 }
 
 /* [ 픽셀셰이더 ] 워터용 */
-PS_OUT PS_MAIN_WATER(PS_IN_T IN)
+PS_OUT PS_MAIN_WATER(PS_IN_PARTICLE IN)
 {
     PS_OUT Out;
 
@@ -264,6 +298,7 @@ technique DefaultTechnique
 {
     pass SMOKEPass
     {
+        //VertexShader = compile vs_3_0 VS_MAIN_PARTICLE();
         PixelShader = compile ps_3_0 PS_MAIN_SMOKE();
     }
 

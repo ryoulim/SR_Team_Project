@@ -44,27 +44,7 @@ void CRaceGate::Late_Update(_float fTimeDelta)
 
 HRESULT CRaceGate::Render()
 {
-	//__super::LightOn();
-	m_fTextureNum = 0.f;
-
-	if (FAILED(__super::Render()))
-		return E_FAIL;
-
-	m_fTextureNum = 1.f;
-
-	if (FAILED(m_pTextureCom->Bind_Resource(static_cast<_uint>(m_fTextureNum))))
-		return E_FAIL;
-
-	if (FAILED(m_pVIBufferCom->Render(CVIBuffer_RaceGate::MIDDLE)))
-		return E_FAIL;
-
-	m_fTextureNum = 2.f;
-
-	if (FAILED(m_pTextureCom->Bind_Resource(static_cast<_uint>(m_fTextureNum))))
-		return E_FAIL;
-
-	if (FAILED(m_pVIBufferCom->Render(CVIBuffer_RaceGate::DOWN)))
-		return E_FAIL;
+	MultiTextureShaderRender(3);
 
 	return S_OK;
 }

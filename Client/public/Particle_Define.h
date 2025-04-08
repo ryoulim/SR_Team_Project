@@ -9,6 +9,8 @@ struct Particle
 {
 	D3DXVECTOR3	_Position;
 	D3DCOLOR	_Color;
+	float       u = 0.f;
+	float		v = 0.f;
 	float		_Size;
 	static const DWORD FVF;
 };

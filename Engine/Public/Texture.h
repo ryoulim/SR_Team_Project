@@ -25,6 +25,7 @@ public:
 	//HRESULT Bind_Shader_To_Texture(LPD3DXEFFECT pEffect, D3DXHANDLE hTexParameter, _uint iIndex);
 	HRESULT Bind_Shader_To_Texture(CShader* pShader, D3DXHANDLE hTexParameter, _uint iIndex);
 	HRESULT Bind_Shader_To_Reset(CShader* pShader, D3DXHANDLE hTexParameter);
+	IDirect3DBaseTexture9* Get_Texture(_uint iIndex){return m_Textures[iIndex];}
 
 private:
 	_uint							m_iNumTextures = { };
