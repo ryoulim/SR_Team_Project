@@ -1,4 +1,6 @@
 #include "RaceBoss.h"
+#include "PlayerOnBoat.h"
+#include "Skull.h"
 
 CRaceBoss::CRaceBoss(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CGameObject { pGraphic_Device }
@@ -28,7 +30,11 @@ HRESULT CRaceBoss::Initialize(void* pArg)
 	//450,250,1000
 	m_pTransformCom->Scaling(m_vScale);
 	m_eState = ENTRANCE;
-	m_pPlayer = GET_PLAYER;
+
+	m_pPlayer = static_cast<CPlayerOnBoat*>(GET_PLAYER);
+	m_pPlayerpos = static_cast<CTransform*>(m_pPlayer->Find_Component(TEXT("Com_Transform")))->Get_State(CTransform::STATE_POSITION);
+
+	Init_Skull();
 
 	return S_OK;
 }
@@ -49,7 +55,7 @@ EVENT CRaceBoss::Update(_float fTimeDelta)
 	printf("보스 상태 : %d\n", m_eState);
 #endif
 
-	//m_pTransformCom->Move({ 0.f,0.f,RACE_SPEED_PER_SEC }, fTimeDelta);
+	Update_Skull(fTimeDelta);
 
 	Action(fTimeDelta);
 
@@ -60,11 +66,18 @@ void CRaceBoss::Late_Update(_float fTimeDelta)
 {
 	m_pCollider->Update_Collider();
 
-	if (m_pTransformCom->Get_State(CTransform::STATE_POSITION)->z > 9500.f)
+	const _float3& vPos = *m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+
+	if (vPos.z > 9500.f)
 		m_eState = LEAVE;
+
+	m_vPrePos = vPos;
 
 	if (FAILED(m_pGameInstance->Add_RenderGroup(CRenderer::RG_NONBLEND, this)))
 		return;
+
+	if (m_bSkullActive)
+		m_pSkull->Late_Update(fTimeDelta);
 }
 
 HRESULT CRaceBoss::Render()
@@ -100,6 +113,53 @@ HRESULT CRaceBoss::Render()
 		return E_FAIL;
 
 	return S_OK;
+}
+
+_bool CRaceBoss::Judge_Skull(const _float3& vColliderPos, _float vColliderRadius,_float fTimedelta)
+{
+	m_pPlayerpos;
+
+	RACE_PBULLET_DIR;
+	RACE_PBULLET_SPEED;
+
+	const _float3& vPos = *m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+	_float3 vVelocity = GetVelocityPerSecond(fTimedelta);
+
+	const _float3 bulletVelocity = RACE_PBULLET_DIR * RACE_PBULLET_SPEED;
+
+	// 상대 위치/속도
+	const _float3 relativePos = vColliderPos - *m_pPlayerpos;
+	const _float3 relativeVelocity = vVelocity - bulletVelocity;
+
+	// 거리^2 가 반지름^2 이하가 되는 최소 t 계산
+	const _float a = relativeVelocity.Dot(relativeVelocity);
+	const _float b = 2.0f * relativePos.Dot(relativeVelocity);
+	const _float c = relativePos.Dot(relativePos) - SQUARE(vColliderRadius);
+
+	const _float discriminant = b * b - 4 * a * c;
+
+	// 교차하지 않음 (충돌할 수 없음)
+	if (discriminant < 0.0f)
+		return FALSE;
+
+	const _float sqrtDisc = sqrtf(discriminant);
+	const _float t1 = (-b - sqrtDisc) / (2 * a);
+	const _float t2 = (-b + sqrtDisc) / (2 * a);
+
+	// t1, t2는 충돌 가능한 시간 범위
+	// 과거(t < 0)는 무시하고 미래에 교차가 있는지 확인
+	return (t2 >= 0.0f);
+}
+
+void CRaceBoss::Render_Skull(MUZZLEPOS eMuzzle)
+{
+	if (m_eSkullMuzzlePos == eMuzzle)
+		return;
+
+	m_eSkullMuzzlePos = eMuzzle;
+	m_bSkullActive = TRUE;
+	m_pSkull->TimeReset();
+	m_vSkullPos = Calc_Muzzle_Position(eMuzzle);
 }
 
 HRESULT CRaceBoss::Ready_Components(void* pArg)
@@ -144,8 +204,7 @@ void CRaceBoss::Action(_float fTimeDelta)
 	switch (m_eState)
 	{
 	case WAITFORPLAYER:
-		m_vPlayerPos = *static_cast<CTransform*>(m_pPlayer->Find_Component(TEXT("Com_Transform")))->Get_State(CTransform::STATE_POSITION);
-		if (m_vPlayerPos.z > 0.f)
+		if (m_pPlayerpos->z > 0.f)
 			m_eState = ENTRANCE;
 		break;
 		
@@ -173,7 +232,7 @@ void CRaceBoss::Action(_float fTimeDelta)
 	case SHOTHEADBULLET:
 		m_pTransformCom->Go_Straight(fTimeDelta);
 		ShuffleandPop();
-		Fire_Bullet(CRaceBossBullet::HEAD, m_ePos);
+		Fire_Bullet(CRaceBossBullet::HEAD, m_ePos, fTimeDelta);
 		++m_iHeadBulletCount;
 		m_eState = SHOTTAILBULLET;
 		break;
@@ -183,7 +242,7 @@ void CRaceBoss::Action(_float fTimeDelta)
 		m_fTime += fTimeDelta;
 		if (m_fTime > 0.02f)
 		{
-			Fire_Bullet(CRaceBossBullet::TAIL, m_ePos);
+			Fire_Bullet(CRaceBossBullet::TAIL, m_ePos, fTimeDelta);
 			++m_iTailBulletCount;
 			m_fTime = 0.f;
 		}
@@ -213,12 +272,12 @@ void CRaceBoss::Action(_float fTimeDelta)
 	}
 }
 
-HRESULT CRaceBoss::Fire_Bullet(CRaceBossBullet::RBULLETTYPE eType, MUZZLEPOS ePos)
+HRESULT CRaceBoss::Fire_Bullet(CRaceBossBullet::RBULLETTYPE eType, MUZZLEPOS ePos, _float fTimeDelta)
 {
 	CRaceBossBullet::DESC RaceBossBulletdesc{};
 	RaceBossBulletdesc.bAnimation = false;
 	RaceBossBulletdesc.iColliderID = CI_BOSS_GUIDBULLET;
-	RaceBossBulletdesc.fSpeedPerSec = 300.f;
+	RaceBossBulletdesc.fSpeedPerSec = 1000.f;
 	RaceBossBulletdesc.fRotationPerSec = RADIAN(180.f);
 	RaceBossBulletdesc.vScale = { 20.f, 20.f, 20.f };
 	RaceBossBulletdesc.vPosition = *m_pTransformCom->Get_State(CTransform::STATE_POSITION) + Calc_Muzzle_Position(ePos);
@@ -227,8 +286,7 @@ HRESULT CRaceBoss::Fire_Bullet(CRaceBossBullet::RBULLETTYPE eType, MUZZLEPOS ePo
 	{
 		//HEAD 총알은 플레이어를 향함
 		auto pPlayer = GET_PLAYER;
-		RaceBossBulletdesc.vLook = *GET_PLAYER_TRANSFORM->Get_State(CTransform::STATE_POSITION)
-			+ _float3(0.f, 0.f, 600.f);
+		RaceBossBulletdesc.vLook = CalcBulletLook(RaceBossBulletdesc.vPosition, RaceBossBulletdesc.fSpeedPerSec, fTimeDelta);
 		m_vBulletDiretion = RaceBossBulletdesc.vLook;
 	}
 
@@ -275,33 +333,6 @@ _float3 CRaceBoss::Calc_Muzzle_Position(MUZZLEPOS eMuzzle)
 		break;
 	}
 	return vAdjustPos;
-	//CRaceBossBullet::DESC RaceBossBulletdesc{};
-	//RaceBossBulletdesc.bAnimation = false;
-	//RaceBossBulletdesc.iColliderID = CI_BOSS_GUIDBULLET;
-	//RaceBossBulletdesc.fSpeedPerSec = 300.f;
-	//RaceBossBulletdesc.fRotationPerSec = RADIAN(180.f);
-	//RaceBossBulletdesc.vScale = { 20.f, 20.f, 20.f };
-	//RaceBossBulletdesc.vPosition = *m_pTransformCom->Get_State(CTransform::STATE_POSITION) + vAdjustPos;
-
-	//if (eType == CRaceBossBullet::HEAD)
-	//{
-	//	//HEAD 총알은 플레이어를 향함
-	//	RaceBossBulletdesc.vLook = *static_cast<CTransform*>(m_pPlayer->Find_Component(TEXT("Com_Transform")))->Get_State(CTransform::STATE_POSITION)
-	//		+ _float3(0.f, 0.f, 650.f);
-	//	m_vBulletDiretion = RaceBossBulletdesc.vLook;
-	//}
-
-	//if (eType == CRaceBossBullet::TAIL)
-	//{
-	//	//TAIL 총알은 HEAD 총알을 향함
-	//	RaceBossBulletdesc.vLook = m_vBulletDiretion;
-	//}
-	//
-	//if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_RaceBossBullet"),
-	//	m_eLevelID, L"Layer_RaceBossBullet", &RaceBossBulletdesc)))
-	//	return E_FAIL;
-
-	//return S_OK;
 }
 
 _float3 CRaceBoss::CatmulRomPos(_float3& v0, _float3& vStartPos, _float3& vEndPos, _float3& v3, _float fTimeAcc)
@@ -313,6 +344,85 @@ _float3 CRaceBoss::CatmulRomPos(_float3& v0, _float3& vStartPos, _float3& vEndPo
 	D3DXVec3CatmullRom(&vResult, &v0, &vStartPos, &vEndPos, &v3, t);
 
 	return vResult;
+}
+
+_float3 CRaceBoss::CalcBulletLook(const _float3& vBulletStartPos, _float fBulletSpeed, _float fTimeDelta)
+{
+	// 플레이어 속도 (Z축만 사용)
+	_float3 vTargetVelocity = m_pPlayer->GetVelocityPerSecond(fTimeDelta);
+	vTargetVelocity.x = 0.0f;
+	vTargetVelocity.y = 0.0f;
+
+	// Z축 예측을 유도하기 위해 z+100 오프셋 추가
+	_float3 vOffsetTargetPos = *m_pPlayerpos + _float3{ 0.f, 0.f, 100.f };
+	_float3 toTarget = vOffsetTargetPos - vBulletStartPos;
+
+	const _float fBulletSpeedSq = SQUARE(fBulletSpeed);
+	const _float a = vTargetVelocity.Dot(vTargetVelocity) - fBulletSpeedSq;
+	const _float b = 2.0f * toTarget.Dot(vTargetVelocity);
+	const _float c = toTarget.Dot(toTarget);
+
+	const _float discriminant = b * b - 4 * a * c;
+
+	// 예외 처리: 해가 없거나 선형 방정식 형태에 가까울 경우
+	if (discriminant < 0.0f || fabsf(a) < 1e-5f)
+		return toTarget.Normalize();
+
+	const _float sqrtDisc = sqrtf(discriminant);
+	const _float inv2a = 0.5f / a; // (2a)^-1 계산을 한 번만
+	const _float t1 = (-b + sqrtDisc) * inv2a;
+	const _float t2 = (-b - sqrtDisc) * inv2a;
+
+	_float t = (t1 > 0.0f && t2 > 0.0f) ? min(t1, t2) : max(t1, t2);
+	if (t < 0.0f)
+		return toTarget.Normalize();
+
+	const _float3 predictedPos = *m_pPlayerpos + vTargetVelocity * t;
+	return (predictedPos - vBulletStartPos).Normalize();
+}
+
+void CRaceBoss::Init_Skull()
+{
+	CSkull::DESC SkullDesc{};
+	SkullDesc.eLevelID = LEVEL_STATIC;
+	SkullDesc.vScale = { 1.f,1.f,1.f };
+
+	m_pSkull = static_cast<CSkull*>(m_pGameInstance->Clone_Prototype(
+		PROTOTYPE::TYPE_GAMEOBJECT, LEVEL_STATIC,
+		TEXT("Prototype_GameObject_Skull"), &SkullDesc));
+}
+
+void CRaceBoss::Update_Skull(_float fTimeDelta)
+{
+	_float3 vPos = *m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+	if (Judge_Skull(vPos + Calc_Muzzle_Position(LSIDE),20.f,fTimeDelta))
+	{
+		Render_Skull(LSIDE);
+	}
+	else if (Judge_Skull(vPos + Calc_Muzzle_Position(LMIDDLE), 20.f, fTimeDelta))
+	{
+		Render_Skull(LMIDDLE);
+	}
+	else if (Judge_Skull(vPos + Calc_Muzzle_Position(MIDDLE), 20.f, fTimeDelta))
+	{
+		Render_Skull(MIDDLE);
+	}
+	else if (Judge_Skull(vPos + Calc_Muzzle_Position(RMIDDLE), 20.f, fTimeDelta))
+	{
+		Render_Skull(RMIDDLE);
+	}
+	else if (Judge_Skull(vPos + Calc_Muzzle_Position(RSIDE), 20.f, fTimeDelta))
+	{
+		Render_Skull(RSIDE);
+	}
+	else
+	{
+		m_bSkullActive = FALSE;
+		m_eSkullMuzzlePos = POSEND;
+	}
+
+	if (m_bSkullActive)
+		m_pSkull->Update(*m_pTransformCom->Get_State(CTransform::STATE_POSITION) + m_vSkullPos, fTimeDelta);
 }
 
 void CRaceBoss::ShuffleandPop()
@@ -364,4 +474,5 @@ void CRaceBoss::Free()
 	Safe_Release(m_pVIBufferCom);
 	Safe_Release(m_pTransformCom);
 	Safe_Release(m_pCollider);
+	Safe_Release(m_pSkull);
 }

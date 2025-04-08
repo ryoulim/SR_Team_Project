@@ -51,7 +51,7 @@ public:
 
 		m_fAccelSpeed *= 1.01f;
 
-		m_pOwner->Go_Straight(m_fAccelSpeed * fTimeDelta);
+		m_pOwner->Go_Straight(m_fAccelSpeed);
 
 		if (m_fPosZ > -5600.f && m_fPosZ < -5500.f)
 			Exit();
@@ -95,7 +95,7 @@ public:
 
 		m_fDecelSpeed *= 0.98f;
 
-		m_pOwner->Go_Straight(m_fDecelSpeed * fTimeDelta);
+		m_pOwner->Go_Straight(m_fDecelSpeed);
 
 		if (m_fPosZ > -300.f)
 			Exit();

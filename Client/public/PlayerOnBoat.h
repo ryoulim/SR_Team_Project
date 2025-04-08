@@ -25,6 +25,11 @@ public:
 
 	virtual void On_Collision(_uint MyColliderID, _uint OtherColliderID) override;
 
+	_float3		GetVelocityPerSecond(_float fTimeDelta) const {
+		const _float3& vPos = *m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+		return (vPos - m_vPrePos) / fTimeDelta;
+	}
+
 private:
 	friend class CPBState_Accel;
 	friend class CPBState_Decel;
@@ -53,6 +58,8 @@ private:
 	CGameObject*			m_pWaterBoatEffect_01 = nullptr;
 	CGameObject*			m_pWaterBoatEffect_02 = nullptr;
 	CGameObject*			m_pWaterBoatEffect_03 = nullptr;
+
+	_float3					m_vPrePos{}; // 이전 프레임의 포지션
 
 	STATE					m_ePreState = { NON };
 	STATE					m_eCurState = { NORMAL };

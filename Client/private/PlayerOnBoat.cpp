@@ -108,8 +108,12 @@ EVENT CPlayerOnBoat::Update(_float fTimeDelta)
 
 void CPlayerOnBoat::Late_Update(_float fTimeDelta)
 {
-	if (m_pTransformCom->Get_State(CTransform::STATE_POSITION)->z > 13000.f)
+	const _float3& vPos = *m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+
+	if (vPos.z > 13000.f)
 		Change_Level();
+
+	m_vPrePos = vPos;
 
 	m_pCollider->Update_Collider();
 
@@ -151,8 +155,8 @@ void CPlayerOnBoat::Key_Input(_float fTimeDelta)
 	if (KEY_PRESSING(DIK_S))
 	{
 		m_fSpeedRatio *= powf(0.5f, fTimeDelta * 5.f); // 감쇠율 조절 가능
-		if (fabsf(m_fSpeedRatio) < 0.01f)
-			m_fSpeedRatio = 0.f;
+		if (fabsf(m_fSpeedRatio) < 0.05f)
+			m_fSpeedRatio = 0.05f;
 
 		m_pTransformCom->Set_SpeedPerSec(m_fSpeedRatio * RACE_SPEED_PER_SEC);
 	}
@@ -317,11 +321,11 @@ void CPlayerOnBoat::Create_Bullet()
 		return;
 
 	CPlayerMissile::DESC MissileDesc{};
-	MissileDesc.fSpeedPerSec = 750.f;
+	MissileDesc.fSpeedPerSec = RACE_PBULLET_SPEED;
 	MissileDesc.vPosition = *m_pTransformCom->Get_State(CTransform::STATE_POSITION);
 	MissileDesc.vScale = { 20.f,20.f,20.f };
 	MissileDesc.iColliderID = CI_MISSILE;
-	MissileDesc.vLook = { 0.f,0.35f,1.f };
+	MissileDesc.vLook = RACE_PBULLET_DIR;
 
 	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_PlayerMissile"),
 		m_eLevelID, TEXT("Layer_Bullet"), &MissileDesc)))

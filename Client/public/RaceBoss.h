@@ -47,13 +47,26 @@ public:
 		m_eState = eState;
 	}
 
+public:
+	_float3		GetVelocityPerSecond(_float fTimeDelta) const {
+		const _float3& vPos = *m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+		return (vPos - m_vPrePos) / fTimeDelta;
+	}
 private:
 	HRESULT Ready_Components(void* pArg);
 	void Action(_float fTimeDelta);
-	HRESULT Fire_Bullet(CRaceBossBullet::RBULLETTYPE eType, MUZZLEPOS ePos);
+	HRESULT Fire_Bullet(CRaceBossBullet::RBULLETTYPE eType, MUZZLEPOS ePos, _float fTimeDelta);
 	_float3 Calc_Muzzle_Position(MUZZLEPOS eMuzzle);
 	void ShuffleandPop();
 	_float3 CatmulRomPos(_float3& v0, _float3& vStartPos, _float3& vEndPos, _float3& v3, _float fTimeAcc);
+
+	//플레이어를 맞추려면 어디로 쏴야하는지 플레이어 Z 이동속도에 따라 예측해주는 놈 
+	_float3 CalcBulletLook(const _float3& vBulletStartPos, _float fBulletSpeed, _float fTimeDelta);
+
+	void Init_Skull();
+	void Update_Skull(_float fTimeDelta);
+	_bool Judge_Skull(const _float3& vColliderPos, _float vColliderRadius, _float fTimedelta);
+	void Render_Skull(MUZZLEPOS eMuzzlePos);
 
 private:
 	CTexture* m_pTextureCom = { nullptr };
@@ -61,10 +74,10 @@ private:
 	CTransform* m_pTransformCom = { nullptr };
 	CCollider* m_pCollider = { nullptr };
 	
-	CTransform* m_pPlayerTransformCom = { nullptr };
+	class CPlayerOnBoat* m_pPlayer = { nullptr };
 	const _float3* m_pPlayerpos = { nullptr };
 
-	
+	_float3		m_vPrePos{}; // 이전 프레임의 포지션
 
 	STATE		m_eState = { NON };
 	LEVEL		m_eLevelID = { LEVEL_END };
@@ -79,8 +92,12 @@ private:
 	_float3		m_vLerpStartPos = { 0.f, 250.f, 0.f };
 	_float3		m_vLerpEndPos = { 450.f, 250.f, 1200.f };
 	vector<MUZZLEPOS> m_VecBulletPos;
-	CGameObject* m_pPlayer = { nullptr };
-	_float3 m_vPlayerPos = {};
+
+	///// 해골바가지
+	class CSkull* m_pSkull = { nullptr };
+	_float3 m_vSkullPos{};
+	MUZZLEPOS	m_eSkullMuzzlePos{ POSEND };
+	_bool m_bSkullActive{};
 
 public:
 	static CRaceBoss* Create(LPDIRECT3DDEVICE9 pGraphic_Device);

@@ -36,7 +36,6 @@ EVENT CRaceBossBullet::Update(_float fTimeDelta)
 		return EVN_DEAD;
 
 	m_pTransformCom->Go_Straight(fTimeDelta);
-	m_pTransformCom->Move({ 0.f,0.f,RACE_SPEED_PER_SEC }, fTimeDelta);
 	
 	return __super::Update(fTimeDelta);
 }
@@ -97,7 +96,7 @@ HRESULT CRaceBossBullet::Ready_Components(void* pArg)
 		DESC* pDesc = static_cast<DESC*>(pArg);
 		m_pTransformCom->Set_State(CTransform::STATE_POSITION, pDesc->vPosition);
 		m_pTransformCom->Scaling(pDesc->vScale);
-		m_pTransformCom->LookAt(pDesc->vLook);
+		m_pTransformCom->LookAt(pDesc->vPosition + pDesc->vLook);
 	}
 
 	DESC* pDesc = static_cast<DESC*>(pArg);

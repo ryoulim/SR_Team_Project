@@ -9,8 +9,12 @@
 //#define _IMGUI
 #define START_LEVEL LEVEL_RACEFIRST
 
-// 레이스 맵 플레이어의 이동속도 : 보정때메 여기저기서 써야함 이만큼 미쇼
+// 레이스 맵 플레이어의 이동속도 : 보정때메 여기저기서 써야함 이제 안쓸듯
 #define RACE_SPEED_PER_SEC 400.f
+
+// 레이스 레벨의 고정된 플레이어 총알관련 계수 왔다갔다 하기 싫어서 일단 박아둠
+#define RACE_PBULLET_DIR	_float3{ 0.0f, 0.3304f, 0.9448f }
+#define RACE_PBULLET_SPEED	750.f
 
 /* [ 레벨별 안개정도 ] */
 #define INDOOR_START_FOG 300.f;
