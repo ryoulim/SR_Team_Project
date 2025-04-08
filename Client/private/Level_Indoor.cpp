@@ -389,9 +389,9 @@ HRESULT CLevel_Indoor::Ready_Layer_Pawn(const _wstring& strLayerTag)
 	//없으면 새로 생성해서 넣어줌
 	CPlayer::DESC PlayerDesc{};
 	PlayerDesc.vInitPos = vInitPosition;
-	PlayerDesc.vScale = { 20.f, 30.f, 20.f };
+	PlayerDesc.vScale = { 30.f, 50.f, 30.f };
 	PlayerDesc.fRotationPerSec = RADIAN(180.f);
-	PlayerDesc.fSpeedPerSec = RACE_SPEED_PER_SEC;
+	PlayerDesc.fSpeedPerSec = 150.f;
 	PlayerDesc.eLevelID = CurLevel;
 
 	// 최초 게임 입장할때 어디에서 입장하던 스태틱에 생성해준다.

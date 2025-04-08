@@ -446,7 +446,7 @@ HRESULT CLevel_OutDoor::Ready_Layer_Pawn(const _wstring& strLayerTag)
 	//없으면 새로 생성해서 넣어줌
 	CPlayer::DESC PlayerDesc{};
 	PlayerDesc.vInitPos = vInitPosition;
-	PlayerDesc.vScale = { 30.f, 40.f, 30.f };
+	PlayerDesc.vScale = { 30.f, 50.f, 30.f };
 	PlayerDesc.fRotationPerSec = RADIAN(180.f);
 	PlayerDesc.fSpeedPerSec = 150.f;
 	PlayerDesc.eLevelID = CurLevel;

@@ -308,7 +308,7 @@ HRESULT CLevel_GamePlay::Ready_Layer_Pawn(const _wstring& strLayerTag)
 
 	CPlayer::DESC PlayerDesc{};
 	PlayerDesc.vInitPos = { 1400.f, 150.f, 200.f }; //200.f;
-	PlayerDesc.vScale = { 30.f, 40.f, 30.f };
+	PlayerDesc.vScale = { 30.f, 50.f, 30.f };
 	PlayerDesc.fRotationPerSec = RADIAN(180.f);
 	PlayerDesc.fSpeedPerSec = 150.f;
 	PlayerDesc.eLevelID = CurLevel;
