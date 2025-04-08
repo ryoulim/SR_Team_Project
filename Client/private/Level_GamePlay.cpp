@@ -9,6 +9,7 @@
 #include "UI_Manager.h"
 #include "BossBridge.h"
 #include "Item.h"
+#include "Ttakkeun_i.h"
 
 #include "Trigger.h"
 #include "Map.h"
@@ -25,6 +26,10 @@ HRESULT CLevel_GamePlay::Initialize(class CLevelData* pLevelData)
 	m_pGameInstance->Release_Layer(LEVEL_STATIC, TEXT("Layer_RaceBoss"));
 	m_pGameInstance->Release_Layer(LEVEL_STATIC, TEXT("Layer_RaceBossBullet"));
 
+	/* [ 보글보글 좀 해보셨어? ] */
+	m_pEnv = m_pGameInstance->Get_Single_Sound("bubble_loop_01");
+	m_pEnv->Set_Volume(0.5f);
+	m_pEnv->Play();
 
 	if (FAILED(__super::Initialize(pLevelData)))
 		return E_FAIL;
@@ -77,6 +82,25 @@ HRESULT CLevel_GamePlay::Initialize(class CLevelData* pLevelData)
 
 void CLevel_GamePlay::Update(_float fTimeDelta)
 {
+	/* [ 보스 등장 시 사운드 재생 ] */
+	auto BossList = m_pGameInstance->Find_Objects(LEVEL_GAMEPLAY, L"Layer_Boss");
+	if (BossList)
+	{
+		if (static_cast<CTtakkeun_i*>(*BossList->begin())->GetbRender())
+			m_bBossStart = true;
+	}
+	
+	if(m_bBossStart && m_bBossEnd)
+	{
+		m_pBGM = m_pGameInstance->Get_Single_Sound("drumnboss");
+		m_pBGM->Set_Volume(0.5f);
+		m_pBGM->Play();
+	
+		m_pEnv->Set_Volume(0.1f);
+		m_bBossStart = false;
+		m_bBossEnd = false;
+	}
+
 	Check_Collision();
 
 	/* [ 실험실 ] */
@@ -121,14 +145,6 @@ void CLevel_GamePlay::Update(_float fTimeDelta)
 	/* [ 몬스터 테스트 소환 ] */
 	if (KEY_DOWN(DIK_M))
 	{
-		//SpawnDeacon(_float3{ 1250.f, 100.f, 1500.f }, true, LEVEL_GAMEPLAY);
-		//SpawnShotgunner(_float3{ 1300.f, 100.f, 1500.f }, true, LEVEL_GAMEPLAY);
-		//SpawnGreater(_float3{ 1450.f, 100.f, 1500.f }, true, LEVEL_GAMEPLAY);
-		//SpawnCultist(_float3{ 1350.f, 100.f, 1500.f }, true, LEVEL_GAMEPLAY);
-		//SpawnMechsect(_float3{ 1350.f, 100.f, 1500.f }, true, LEVEL_GAMEPLAY);
-		//SpawnArchangel(_float3{ 1350.f, 100.f, 1500.f }, true, LEVEL_GAMEPLAY);
-
-		
 		SpawnWenteko	(_float3{ 1250.f, 100.f, 1500.f }, true, LEVEL_GAMEPLAY);
 		SpawnShotgunner	(_float3{ 1300.f, 100.f, 1500.f }, true, LEVEL_GAMEPLAY);
 		SpawnNukemutant	(_float3{ 1350.f, 100.f, 1500.f }, true, LEVEL_GAMEPLAY);
@@ -329,20 +345,6 @@ HRESULT CLevel_GamePlay::Ready_Layer_Monster(const _wstring& strLayerTag)
 	SpawnTtakkeun_i(_float3{ 1200.f, 1000.f, 1500.f }, false, 0, LEVEL_GAMEPLAY);
 	SpawnTtakkeun_i(_float3{ 1600.f, 1000.f, 1500.f }, false, 1, LEVEL_GAMEPLAY);
 
-	//플렛폼 생성
-	//CFlatform::DESC FlatformDESC;
-	//FlatformDESC.vInitPos = _float3{ 250.f, 0.f, -200.f };
-	//FlatformDESC.vScale = _float3{ 500.f, 300.f, 1.f };
-	//FlatformDESC.bLoop = true;
-	//FlatformDESC.fMaxFrame = 1.f;
-	//FlatformDESC.fRotationPerSec = RADIAN(180.f);
-	//FlatformDESC.fSpeedPerSec = 100.f;
-	//FlatformDESC.szTextureTag = TEXT("MonsterFlatform");
-	//if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_GAMEPLAY, TEXT("Prototype_GameObject_Flatform"),
-	//	LEVEL_GAMEPLAY, TEXT("Layer_Flatform"), &FlatformDESC)))
-	//	return E_FAIL;	
-
-	//전시용 (게임플레이 이니셜)
 	//SpawnWenteko(_float3{ 1250.f, 100.f, 1500.f }, true, LEVEL_GAMEPLAY);
 	//SpawnDeacon(_float3{ 1250.f, 100.f, 1500.f }, true, LEVEL_GAMEPLAY);
 	//SpawnShotgunner(_float3{ 1300.f, 100.f, 1500.f }, true, LEVEL_GAMEPLAY);
@@ -870,6 +872,8 @@ void CLevel_GamePlay::Free()
 
 	//CUI_Manager::Get_Instance()->Clear_GamePlayUI();
 	Safe_Release(m_pCameraManager);
+	Safe_Release(m_pBGM);
+	Safe_Release(m_pEnv);
 
 	while (m_iIndex >= 0)
 	{

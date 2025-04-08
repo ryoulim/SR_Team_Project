@@ -99,11 +99,15 @@ EVENT CTtakkeun_i::Update(_float fTimeDelta)
 
 		if (m_fCallTimer >= 0.2f)
 		{
+			m_pSoundCom->SetVolume("explosion", 0.5f);
+			m_pSoundCom->Play("explosion");
 			FX_MGR->SpawnCustomExplosion(vPos, LEVEL_GAMEPLAY, _float3{ 60.f, 100.f, 1.f }, TEXT("Effect_Explorer"), 24);
 			m_fCallTimer = 0.f;
 		}
 		if (m_fTotalTime >= 3.f)
 		{
+			m_pSoundCom->SetVolume("Dead", 1.5f);
+			m_pSoundCom->Play("Dead");
 			_float3 vImpactPos = *m_pTransformCom->Get_State(CTransform::STATE_POSITION);
 			FX_MGR->SpawnCustomExplosion(vImpactPos, LEVEL_GAMEPLAY, _float3{ 200.f, 250.f, 1.f }, TEXT("Effect_Explor"), 32);
 			m_bDie = true;
@@ -196,6 +200,11 @@ HRESULT CTtakkeun_i::Render()
 HRESULT CTtakkeun_i::Ready_Components(void* pArg)
 {
 	if (FAILED(__super::Ready_Components(pArg)))
+		return E_FAIL;
+
+	/* [ 따끈이의 소리를 찾아서.. ] */
+	if (FAILED(__super::Add_Component(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Sound_Ttakkeun_i"),
+		TEXT("Com_Sound"), reinterpret_cast<CComponent**>(&m_pSoundCom))))
 		return E_FAIL;
 
 	Ready_Textures();
@@ -479,7 +488,12 @@ void CTtakkeun_i::DoIdle(_float dt)
 	{
 		m_eCurMonsterState = STATE_WALK;
 		m_fWanderElapsed += dt;
-
+		
+		if(!m_pSoundCom->IsPlaying("Walk"))
+		{
+			m_pSoundCom->SetVolume("Walk",0.2f);
+			m_pSoundCom->Play("Walk");
+		}
 		m_pTransformCom->Go_Straight(dt);
 
 		if (m_fWanderElapsed >= m_fWanderTime)
@@ -503,6 +517,11 @@ void CTtakkeun_i::DoIdle(_float dt)
 
 	case EIdlePhase::IDLE_TURN:
 	{
+		if (!m_pSoundCom->IsPlaying("Walk"))
+		{
+			m_pSoundCom->SetVolume("Walk", 0.2f);
+			m_pSoundCom->Play("Walk");
+		}
 		m_eCurMonsterState = STATE_WALK;
 		_float3 vLook = *m_pTransformCom->Get_State(CTransform::STATE_LOOK);
 
@@ -653,6 +672,8 @@ void CTtakkeun_i::MissileAttack(_float dt)
 	//미사일 발사
 	if (!m_bDoOnce)
 	{
+		m_pSoundCom->SetVolume("GuidMissile2", 0.3f);
+		m_pSoundCom->Play("GuidMissile2");
 		SpawnGuidMissile();
 		m_bDoOnce = true;
 	}
@@ -701,6 +722,9 @@ void CTtakkeun_i::SpawnAttack(_float dt)
 	//다콘 소환
 	if (!m_bDoOnce)
 	{
+		m_pSoundCom->SetVolume("Spawn", 0.3f);
+		m_pSoundCom->Play("Spawn");
+
 		for (int i = 0; i < 4; i++)
 		{
 			_float3 vRandomPos = *m_pTransformCom->Get_State(CTransform::STATE_POSITION);
@@ -727,6 +751,12 @@ void CTtakkeun_i::FireAttack(_float dt)
 		return;
 	}
 
+	if (!m_pSoundCom->IsPlaying("Walk"))
+	{
+		m_pSoundCom->SetVolume("Walk", 0.2f);
+		m_pSoundCom->Play("Walk");
+	}
+
 	/* 화염방사 패턴 */
 
 	/* 1. 플레이어에게 접근한다(조금 빠르게) */
@@ -745,6 +775,11 @@ void CTtakkeun_i::FireAttack(_float dt)
 	m_pTransformCom->ChaseCustom(vPlayerPos, dt, 100.f, 150.f);
 	/* 2. 화염을 발사한다! */
 	FX_MGR->FireAttack(vMyPos, LEVEL_GAMEPLAY, m_iNum);
+	if (!m_pSoundCom->IsPlaying("FireAttack"))
+	{
+		m_pSoundCom->SetVolume("FireAttack", 0.4f);
+		m_pSoundCom->Play("FireAttack");
+	}
 
 	/* [ 콜라이더 로직 ] */
 	if (!m_bDoOnce)
@@ -782,6 +817,12 @@ void CTtakkeun_i::FireAttack(_float dt)
 
 void CTtakkeun_i::BounceBall(_float dt)
 {
+	if (!m_pSoundCom->IsPlaying("Bounce"))
+	{
+		m_pSoundCom->SetVolume("Bounce", 0.2f);
+		m_pSoundCom->Play("Bounce");
+	}
+
 	/* 바운스볼 패턴 */
 
 	/* 1. 따끈이는 고정된 상태로 플레이어를 빌보드한다. */
@@ -844,6 +885,11 @@ void CTtakkeun_i::JumpAttack(_float dt)
 		m_bIsFly = m_pTransformCom->Go_UpCustom(dt, 400.f, 300.f);
 		if (!m_bIsFly)
 		{
+			if (!m_pSoundCom->IsPlaying("JumpAttack"))
+			{
+				m_pSoundCom->SetVolume("JumpAttack", 0.2f);
+				m_pSoundCom->Play("JumpAttack");
+			}
 			//고개를 돌린다.
 			_float3 vLook = *m_pTransformCom->Get_State(CTransform::STATE_LOOK);
 			bool bRotated = m_pTransformCom->RotateToDirection(vLook, vToPlayer, 60.f, dt);
@@ -873,6 +919,9 @@ void CTtakkeun_i::JumpAttack(_float dt)
 		}
 		else
 		{
+			m_pSoundCom->SetVolume("JumpAttack2", 0.4f);
+			m_pSoundCom->Play("JumpAttack2");
+
 			//이펙트 생성 && 카메라 쉐이킹
 			vPos.y = 30.f;
 			FX_MGR->JumpAttack(vPos, LEVEL_GAMEPLAY);
@@ -926,6 +975,11 @@ void CTtakkeun_i::FlyAttack(_float dt)
 	//몬스터가 공중으로 일정높이까지 날아오른다.
 	if (m_eCurMonsterState == STATE_FLY || m_eCurMonsterState == STATE_FLY_ATTACK)
 	{
+		if (!m_pSoundCom->IsPlaying("Fly"))
+		{
+			m_pSoundCom->SetVolume("Fly", 0.4f);
+			m_pSoundCom->Play("Fly");
+		}
 		isFly = m_pTransformCom->Go_UpCustom(dt, 100.f, 250.f);
 	}
 
@@ -1032,6 +1086,9 @@ void CTtakkeun_i::SpawnMissile(_float dt)
 
 	if (m_fSpawnMissile >= 0.2f)
 	{
+		m_pSoundCom->SetVolume("Missile", 0.4f);
+		m_pSoundCom->Play("Missile");
+
 		// 0.2초마다 발사
 		CMonsterBullet::DESC MonsterBullet_iDesc{};
 		MonsterBullet_iDesc.fSpeedPerSec = 60.f;
@@ -1206,6 +1263,9 @@ void CTtakkeun_i::CutSceneAction(_float dt)
 		}
 		else
 		{
+			m_pSoundCom->SetVolume("JumpAttack", 0.5f);
+			m_pSoundCom->Play("JumpAttack");
+
 			//이펙트 생성 && 카메라 쉐이킹
 			vPos.y = 30.f;
 			FX_MGR->JumpAttack(vPos, LEVEL_GAMEPLAY);
@@ -1366,4 +1426,5 @@ void CTtakkeun_i::Free()
 	__super::Free();
 
 	Safe_Release(m_pCamera);
+	Safe_Release(m_pSoundCom);
 }

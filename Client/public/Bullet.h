@@ -51,6 +51,7 @@ protected:
 	CTexture* m_pTextureCom = { nullptr };
 	CVIBuffer* m_pVIBufferCom = { nullptr };
 	CTransform* m_pTransformCom = { nullptr };
+	CSoundController* m_pSoundCom{ nullptr };
 	CCollider* m_pCollider = { nullptr };
 	_bool m_bDead{ FALSE };
 	_float m_fTimeAcc{};
