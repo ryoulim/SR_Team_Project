@@ -1,5 +1,5 @@
-// ³» Å¬·¡½º ÀÌ¸§ : DoorSecurity
-// ºÎ¸ğ Å¬·¡½º ÀÌ¸§ : Interactive_Block
+ï»¿// ë‚´ í´ë˜ìŠ¤ ì´ë¦„ : DoorSecurity
+// ë¶€ëª¨ í´ë˜ìŠ¤ ì´ë¦„ : Interactive_Block
 
 #include "DoorSecurity.h"
 #include "GameInstance.h"
@@ -57,8 +57,9 @@ EVENT CDoorSecurity::Update(_float fTimeDelta)
 {
     if (m_bPicked)
     {
-        if (KEY_DOWN(DIK_F))
+        if (KEY_DOWN(DIK_E))
         {
+            /* ì—¬ê¸°ì„œ ì¹´ë“œí‚¤ ë“¤ì–´ì˜¬ë¦¬ì„¸ìš© */
             if (dynamic_cast<CPlayer*>(GET_PLAYER)->Get_HaveCardKey())
                 m_eState = OPEN;
             else
@@ -72,7 +73,7 @@ EVENT CDoorSecurity::Update(_float fTimeDelta)
         Move_Frame(fTimeDelta);
         break;
     case LOCK:
-        /* ¸î ÃÊ µ¿¾È ÀÎµ¦½º º¯°æ */
+        /* ëª‡ ì´ˆ ë™ì•ˆ ì¸ë±ìŠ¤ ë³€ê²½ */
         m_fTextureIdx = 4.f;
 
         m_fLockTimeAcc += fTimeDelta;
@@ -83,10 +84,16 @@ EVENT CDoorSecurity::Update(_float fTimeDelta)
         }
         break;
     case OPEN:
-        m_fTextureIdx = 5.f;
-        dynamic_cast<CDoor*>(m_pDoor)->Security_Off();
+        m_fOpenTimeAcc += fTimeDelta;
+        if (m_fOpenTimeAcc >= 1.5f)
+        {
+            m_fTextureIdx = 5.f;
+            dynamic_cast<CDoor*>(m_pDoor)->Security_Off();
+            m_fOpenTimeAcc = 0.f;
+        }
         break;
     }
+
 	return __super::Update(fTimeDelta);
 }
 
@@ -149,7 +156,7 @@ HRESULT CDoorSecurity::Ready_Components(void* pArg)
             _bool isZeroY = fabsf(vAngle.y) < FLT_EPSILON;
             _bool isZeroZ = fabsf(vAngle.z) < FLT_EPSILON;
 
-            // Á÷°¢ °¢µµÀÎÁö Ã¼Å©
+            // ì§ê° ê°ë„ì¸ì§€ ì²´í¬
             for (_uint i = 0; i < 4; ++i)
             {
                 if (fabsf(vAngle.x - rightAngles[i]) < FLT_EPSILON) isRightX = true;

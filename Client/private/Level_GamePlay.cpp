@@ -440,6 +440,7 @@ void CLevel_GamePlay::Check_Collision()
 	m_pGameInstance->Intersect(CG_PAWN, CG_BLOCK);
 	m_pGameInstance->Intersect(CG_PAWN, CG_INTERACTIVE);
 	m_pGameInstance->Intersect(CG_PAWN, CG_MONSTER_BODY);
+	m_pGameInstance->Intersect(CG_PAWN, CG_TRIGGER);
 
 	/*PBULLET*/
 	m_pGameInstance->Intersect(CG_PBULLET, CG_MONSTER);

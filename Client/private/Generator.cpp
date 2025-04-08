@@ -1,86 +1,103 @@
-﻿// 내 클래스 이름 : Door
+﻿// 내 클래스 이름 : Generator
 // 부모 클래스 이름 : Interactive_Block
 
-#include "Door.h"
+#include "Generator.h"
 #include "GameInstance.h"
 
-CDoor::CDoor(LPDIRECT3DDEVICE9 pGraphic_Device)
+#include "FXMgr.h"
+
+CGenerator::CGenerator(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CInteractive_Block{ pGraphic_Device }
 {
 }
 
-CDoor::CDoor(const CDoor& Prototype)
-	: CInteractive_Block(Prototype)
+CGenerator::CGenerator(const CGenerator& Prototype)
+	: CInteractive_Block(Prototype),
+    m_fMaxFrame {Prototype.m_fMaxFrame}
 {
 }
 
-HRESULT CDoor::Initialize_Prototype()
+HRESULT CGenerator::Initialize_Prototype()
 {
+    /* 체력 설정 해줘라잇 */
+    m_fMaxFrame = 15.f;
+    m_iMaxHp = 30;
+    m_iHp = m_iMaxHp;
+
 	return S_OK;
 }
 
-HRESULT CDoor::Initialize(void* pArg)
+HRESULT CGenerator::Initialize(void* pArg)
 {
-	m_szTextureID = TEXT("Test");
+	m_szTextureID = TEXT("Generator");
 	m_szBufferType = TEXT("Cube");
 
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
 
-    if (1.f <= static_cast<DESC*>(pArg)->fRotationPerSec)
-        m_bSecurity = true;
-
+    m_fTextureIdx = 0.f;
 	return S_OK;
 }
 
-void CDoor::Priority_Update(_float fTimeDelta)
+void CGenerator::Priority_Update(_float fTimeDelta)
 {
 	__super::Priority_Update(fTimeDelta);
 }
 
-EVENT CDoor::Update(_float fTimeDelta)
+EVENT CGenerator::Update(_float fTimeDelta)
 {
-    if (m_bSecurity)
-        return EVN_NONE;
+    if (!m_bBroken)
+        Move_Frame(fTimeDelta);
+    else
+        Im_Broken(fTimeDelta);
 
-    if (m_bPicked)
+    if (10 >= m_iHp)
     {
-        if (KEY_DOWN(DIK_E))
-            m_bOpen = true;
+        m_bBroken = true;
+        m_fTextureIdx = 16.f;
     }
 
-    if (m_bOpen)
-    {
-        m_fTimeAcc += fTimeDelta;
-        Open_The_Door(fTimeDelta);
-        if (m_fTimeAcc >= 1.7f)
-            m_bOpen = false;
-    }
 	return __super::Update(fTimeDelta);
 }
 
-void CDoor::Late_Update(_float fTimeDelta)
+void CGenerator::Late_Update(_float fTimeDelta)
 {
 	__super::Late_Update(fTimeDelta);
 }
 
-HRESULT CDoor::Render()
+HRESULT CGenerator::Render()
 {
-	return __super::Render();
+    if (FAILED(m_pTransformCom->Bind_Resource()))
+        return E_FAIL;
+
+    m_pGraphic_Device->SetTextureStageState(0, D3DTSS_TEXCOORDINDEX, 0);
+
+    if (FAILED(m_pTextureCom->Bind_Resource(static_cast<_uint>(m_fTextureIdx))))
+        return E_FAIL;
+
+    if (FAILED(m_pVIBufferCom->Bind_Buffers()))
+        return E_FAIL;
+
+    if (FAILED(m_pVIBufferCom->Render()))
+        return E_FAIL;
+
+	//return __super::Render();
+    return S_OK;
 }
 
-void CDoor::On_Collision(_uint MyColliderID, _uint OtherColliderID)
+void CGenerator::On_Collision(_uint MyColliderID, _uint OtherColliderID)
 {
-    switch (OtherColliderID)
+	/* 충돌하면 체력 깎이고, 체력이 일정 이하로 떨어지면 16고정 후 안개쉐이더 쫙 깔기 */
+    if (CI_WEAPON(OtherColliderID))
     {
-    case CI_PICKING_RAY:
-        /* Press USE [E] to interact with the world. */
-        m_bPicked = !m_bPicked;
-        break;
+        m_iHp -= 5;
+
+        _float3 vLook = CCollider::Get_Last_Collision_Depth().Normalize();
+        FX_MGR->SpawnBulletMark(CCollider::Get_Last_Collision_Pos(), m_eLevelID, vLook, 0);
     }
 }
 
-HRESULT CDoor::Ready_Components(void* pArg)
+HRESULT CGenerator::Ready_Components(void* pArg)
 {
 	__super::Ready_Components(pArg);
 
@@ -96,7 +113,7 @@ HRESULT CDoor::Ready_Components(void* pArg)
             ColliderDesc.vScale = m_pTransformCom->Compute_Scaled();
             ColliderDesc.pOwner = this;
             ColliderDesc.iColliderGroupID = CG_INTERACTIVE;
-            ColliderDesc.iColliderID = CI_INTERACTIVE_DOOR;
+            ColliderDesc.iColliderID = CI_INTERACTIVE_GENERATOR;
 
             auto& vAngle = static_cast<DESC*>(pArg)->vAngle;
 
@@ -144,39 +161,62 @@ HRESULT CDoor::Ready_Components(void* pArg)
     return S_OK;
 }
 
-void CDoor::Open_The_Door(_float fTimeDelta)
+void CGenerator::Move_Frame(_float fTimeDelta)
 {
-    m_pTransformCom->Go_Up(fTimeDelta);
-    m_pColliderCom->Update_Collider();
+    if (m_bUpFrame)
+    {
+        m_fTextureIdx += m_fMaxFrame * fTimeDelta;
+
+        if (m_fMaxFrame <= m_fTextureIdx)
+            m_bUpFrame = false;
+    }
+    else
+    {
+        m_fTextureIdx -= m_fMaxFrame * fTimeDelta;
+
+        if (0 >= m_fTextureIdx)
+            m_bUpFrame = true;
+    }
 }
 
-CDoor* CDoor::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
+void CGenerator::Im_Broken(_float fTimeDelta)
 {
-	CDoor* pInstance = new CDoor(pGraphic_Device);
+    // 빠르게 0으로 감소
+    float fSpeed = 200.f;
+    g_FogCustom -= fSpeed * fTimeDelta;
+
+    // 0 이하로 내려가지 않도록
+    if (g_FogCustom < 0.f)
+        g_FogCustom = 0.f;
+}
+
+CGenerator* CGenerator::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
+{
+	CGenerator* pInstance = new CGenerator(pGraphic_Device);
 
 	if (FAILED(pInstance->Initialize_Prototype()))
 	{
-		MSG_BOX("Failed to Created : CDoor");
+		MSG_BOX("Failed to Created : CGenerator");
 		Safe_Release(pInstance);
 	}
 
 	return pInstance;
 }
 
-CGameObject* CDoor::Clone(void* pArg)
+CGameObject* CGenerator::Clone(void* pArg)
 {
-	CDoor* pInstance = new CDoor(*this);
+	CGenerator* pInstance = new CGenerator(*this);
 
 	if (FAILED(pInstance->Initialize(pArg)))
 	{
-		MSG_BOX("Failed to Clone : CDoor");
+		MSG_BOX("Failed to Clone : CGenerator");
 		Safe_Release(pInstance);
 	}
 
 	return pInstance;
 }
 
-void CDoor::Free()
+void CGenerator::Free()
 {
 	__super::Free();
 }

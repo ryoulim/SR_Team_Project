@@ -83,7 +83,7 @@ HRESULT CLevel_OutDoor::Load_Map(_uint iLevelIdx, const _wstring& FileName)
 	_int iNumTile{}, iNumBlock{}, iNumTriPil{}, iNumAniRect{}, iNumAniBlock{},
 		iNumInviBlock{}, iNumAlphaRect{}, iNumAlphaBlock{}, iNumWater{}, iNumLadder{},
 		iNumTelephonePole{}, iNumPicture{}, iNumTrashCan{}, iNumGarbageBag{}, iNumFirePlug{},
-		iNumDoor{};
+		iNumGenerator{};
 	/* 불러오기용 변수 */
 	_int iNumVertexX = {}, iNumVertexZ = {}, iLoadLength = {};
 	_uint iNumBackGround = {}, iNumModel = {};
@@ -319,9 +319,9 @@ HRESULT CLevel_OutDoor::Load_Map(_uint iLevelIdx, const _wstring& FileName)
 					}
 				}
 			}
-			else if (Prototype == TEXT("Prototype_GameObject_Door"))
+			else if (Prototype == TEXT("Prototype_GameObject_Generator"))
 			{
-				CGameObject* pGameObject = m_pGameInstance->Find_Object(iLevelIdx, Layertag, iNumDoor++);
+				CGameObject* pGameObject = m_pGameInstance->Find_Object(iLevelIdx, Layertag, iNumGenerator++);
 				if (nullptr != pGameObject)
 				{
 					if (FAILED(__super::Load_VertexBuffer(pGameObject, hFile, &dwByte)))
