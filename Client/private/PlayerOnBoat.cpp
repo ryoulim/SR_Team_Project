@@ -41,6 +41,12 @@ HRESULT CPlayerOnBoat::Initialize(void* pArg)
 
 	m_fWaterSpeed = static_cast<DESC*>(pArg)->fSpeedPerSec;
 
+
+	//ºŒ¿Ã¥ı ¿Â¬¯
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Shader_Particle"),
+		TEXT("Com_Shader"), reinterpret_cast<CComponent**>(&m_pShaderCom))))
+		return E_FAIL;
+
 	return S_OK;
 }
 
@@ -113,7 +119,7 @@ void CPlayerOnBoat::Late_Update(_float fTimeDelta)
 
 	m_pCollider->Update_Collider();
 
-	m_pGameInstance->Add_RenderGroup(CRenderer::RG_NONBLEND, this);
+	m_pGameInstance->Add_RenderGroup(CRenderer::RG_BLEND, this);
 
 	__super::Late_Update(fTimeDelta);
 }
@@ -124,9 +130,47 @@ HRESULT CPlayerOnBoat::Render()
 	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAREF, 254);
 	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER);
 
-	return __super::Render();
+	if (FAILED(m_pTransformCom->Bind_Resource()))
+		return E_FAIL;
+
+	if (FAILED(m_pTextureCom->Bind_Resource(0)))
+		return E_FAIL;
+
+	if (FAILED(m_pVIBufferCom->Bind_Buffers()))
+		return E_FAIL;
+
+	if (FAILED(m_pVIBufferCom->Render()))
+		return E_FAIL;
+
+	/* -----------------------±◊∏≤¿⁄----------------------------- */
+	
+	m_pGraphic_Device->SetRenderState(D3DRS_ALPHABLENDENABLE, true);
+	m_pGraphic_Device->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
+	m_pGraphic_Device->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
+	m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, false);
+
+	_float3 vPos = *m_pTransformCom->Get_State(CTransform::STATE_POSITION);	vPos.z += -30.f;
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION, vPos);
+	if (FAILED(m_pTransformCom->Bind_Resource()))
+		return E_FAIL;
+
+	if (FAILED(m_pTextureCom->Bind_Resource(1)))
+		return E_FAIL;
+
+	if (FAILED(m_pVIBufferCom->Bind_Buffers()))
+		return E_FAIL;
+
+	if (FAILED(m_pVIBufferCom->Render()))
+		return E_FAIL;
+
+	vPos.z += 30.f;
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION, vPos);
 
 	m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
+	m_pGraphic_Device->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_ONE);
+	m_pGraphic_Device->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_ZERO);
+
+	return S_OK;
 }
 
 void CPlayerOnBoat::On_Collision(_uint MyColliderID, _uint OtherColliderID)
@@ -246,7 +290,7 @@ void CPlayerOnBoat::SpawnWaterParticle(_float fWaterSpeed)
 	CPSystem::DESC WaterBoatDesc{};
 	WaterBoatDesc.vPosition = { 0.f, 0.f, 0.f };
 	WaterBoatDesc.szTextureTag = TEXT("WaterBoat");
-	WaterBoatDesc.iParticleNums = 50;
+	WaterBoatDesc.iParticleNums = 150;
 	WaterBoatDesc.fMaxFrame = 1.f;
 	WaterBoatDesc.fSize = 0.06f;
 	WaterBoatDesc.fNum = fWaterSpeed;
@@ -263,7 +307,7 @@ void CPlayerOnBoat::SpawnWaterParticle(_float fWaterSpeed)
 	CPSystem::DESC WaterBoatDesc2{};
 	WaterBoatDesc2.vPosition = { 0.f, 0.f, 0.f };
 	WaterBoatDesc2.szTextureTag = TEXT("WaterBoat");
-	WaterBoatDesc2.iParticleNums = 200;
+	WaterBoatDesc2.iParticleNums = 500;
 	WaterBoatDesc2.fMaxFrame = 1.f;
 	WaterBoatDesc2.fSize = 0.03f;
 	WaterBoatDesc2.fNum = fWaterSpeed;
@@ -379,6 +423,7 @@ void CPlayerOnBoat::Free()
 
 	Safe_Release(m_pCameraManager);
 	Safe_Release(m_pCameraTransform);
+	Safe_Release(m_pShaderCom);
 
 	for (size_t i = DECEL; i < NON; ++i)
 		Safe_Release(m_pState[i]);

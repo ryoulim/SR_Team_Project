@@ -927,12 +927,6 @@
     <ClInclude Include="..\public\HydroPump.h">
       <Filter>02.GameObjects\Effect\HydroPump</Filter>
     </ClInclude>
-    <ClInclude Include="..\public\WaterBoat.h">
-      <Filter>02.GameObjects\Particle\WaterBoat</Filter>
-    </ClInclude>
-    <ClInclude Include="..\public\CutSceneSmoke.h">
-      <Filter>02.GameObjects\Particle\_BossMobSkill\CutSceenEffect</Filter>
-    </ClInclude>
     <ClInclude Include="..\public\CutSceneSmoke.h" />
     <ClInclude Include="..\public\WaterBoat.h" />
     <ClInclude Include="..\public\Door.h">
@@ -958,6 +952,12 @@
     </ClInclude>
     <ClInclude Include="..\public\InteractPromptUI.h">
       <Filter>02.GameObjects\UI\GamePlayUI\InteractPromptUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\WaterBoat.h">
+      <Filter>02.GameObjects\Particle\WaterBoat</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\CutSceneSmoke.h">
+      <Filter>02.GameObjects\Particle\_BossMobSkill\CutSceenEffect</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1420,6 +1420,9 @@
     </ClCompile>
     <ClCompile Include="..\private\InteractPromptUI.cpp">
       <Filter>02.GameObjects\UI\GamePlayUI\InteractPromptUI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\FXMgr.cpp">
+      <Filter>02.GameObjects\Particle</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
