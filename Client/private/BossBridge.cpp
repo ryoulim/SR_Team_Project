@@ -33,6 +33,11 @@ HRESULT CBossBridge::Initialize(void* pArg)
 	m_fFallTime = 15.f;
 	m_pCameraManager = CAMERA_MANAGER;
 
+	/* [ 다리내려가는 소리 ] */
+	if (FAILED(__super::Add_Component(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Sound_Bridge"),
+		TEXT("Com_Sound"), reinterpret_cast<CComponent**>(&m_pSoundCom))))
+		return E_FAIL;
+
 	return S_OK;
 }
 
@@ -57,6 +62,8 @@ EVENT CBossBridge::Update(_float fTimeDelta)
 			//소용돌이(중앙)
 			FX_MGR->SpawnSpher(_float3{ 1430.f, 0.f, 1480.f }, LEVEL_GAMEPLAY);
 			m_bDoOnce = true;
+			m_pSoundCom->SetVolume(1.5f);
+			m_pSoundCom->Play("door_stone2");
 			BossMap_CutScene1();
 		}
 	}
@@ -209,4 +216,6 @@ CGameObject* CBossBridge::Clone(void* pArg)
 void CBossBridge::Free()
 {
 	__super::Free();
+
+	Safe_Release(m_pSoundCom);
 }

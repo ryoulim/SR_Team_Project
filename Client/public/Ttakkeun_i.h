@@ -72,7 +72,7 @@ private: //서포팅 함수들
 public: // 컷씬시작
 	void SetCutScene() { m_bCutScene = true; }
 	void CutSceneAction(_float dt);
-
+	_bool GetbRender() { return m_bRender; }
 
 private: //따끈이 전용 이펙트
 	void FlyEffect();

@@ -36,6 +36,9 @@ HRESULT CLevel_OutDoor::Initialize(CLevelData* pLevelData)
 
 	if (FAILED(Ready_Layer_Pawn(TEXT("Layer_Pawn"))))
 		return E_FAIL;
+	
+	if (FAILED(Ready_Layer_Monster(TEXT("Layer_Monster"))))
+		return E_FAIL;
 
 	CUI_Manager::Get_Instance()->Initialize_Player();
 
@@ -533,10 +536,10 @@ TEXT("Prototype_GameObject_Archangel"),						\
 level, L"Layer_Monster", &Archangel_iDesc)))				\
 return E_FAIL;												\
 
-	SPAWN_ARCHANGEL(513.f, 150.f, 325.f, LEVEL_OUTDOOR);
-	SPAWN_NUKEMUTANT(1186.f, 150.f, 333.f, LEVEL_OUTDOOR);
-	SPAWN_MECHSECT(1917.f, 150.f, 329.f, LEVEL_OUTDOOR);
-	SPAWN_WENTEKO(1773.f, 150.f, 1544.f, LEVEL_OUTDOOR);
+	//SPAWN_ARCHANGEL(513.f, 150.f, 325.f, LEVEL_OUTDOOR);
+	//SPAWN_NUKEMUTANT(1186.f, 150.f, 333.f, LEVEL_OUTDOOR);
+	//SPAWN_MECHSECT(1917.f, 150.f, 329.f, LEVEL_OUTDOOR);
+	//SPAWN_WENTEKO(1773.f, 150.f, 1544.f, LEVEL_OUTDOOR);
 
 	return S_OK;
 

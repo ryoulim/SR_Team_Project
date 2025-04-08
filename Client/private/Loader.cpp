@@ -675,6 +675,7 @@ HRESULT CLoader::Loding_For_Static()
 #pragma region 사운드
 	ADD_SOUND(LoverBoy, "../Bin/Resources/Sounds/Weapons/Loverboy/");
 	ADD_SOUND(Dispenser, "../Bin/Resources/Sounds/Weapons/Dispenser/");
+	ADD_SOUND(Explorsion, "../Bin/Resources/Sounds/Explorsion/");
 #pragma endregion
 
 
@@ -843,6 +844,10 @@ HRESULT CLoader::Loading_For_GamePlay()
 
 #pragma region SOUND
 	lstrcpy(m_szLoadingText, TEXT("사운드을(를) 로딩중입니다.")); 
+	ADD_SOUND(Ttakkeun_i, "../Bin/Resources/Sounds/Boss/");
+	ADD_SOUND(Bridge, "../Bin/Resources/Sounds/Bridge/");
+	m_pGameInstance->LoadSound("../Bin/Resources/Sounds/Music/", false, true);
+	m_pGameInstance->LoadSound("../Bin/Resources/Sounds/Env/", false, true);
 #pragma endregion
 
 #pragma region PRTOBJ
