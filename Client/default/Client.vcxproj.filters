@@ -475,6 +475,9 @@
     <Filter Include="02.GameObjects\Weapon\Bullet\PlayerMissile">
       <UniqueIdentifier>{ea67d519-7dbb-4e84-ad9e-c3728d296089}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\Map\Interactive_Block\Generator">
+      <UniqueIdentifier>{52e1f85f-6d13-46c6-b00b-6df5cf3eaad2}</UniqueIdentifier>
+    </Filter>
     <Filter Include="02.GameObjects\RaceBoss\RBState">
       <UniqueIdentifier>{70d9b4a1-5a3b-4c15-bb6b-548789b6f768}</UniqueIdentifier>
     </Filter>
@@ -971,6 +974,9 @@
     <ClInclude Include="..\public\Generator.h" />
     <ClInclude Include="..\public\RBState.h">
       <Filter>02.GameObjects\RaceBoss\RBState</Filter>
+    <ClInclude Include="..\public\RBState.h" />
+    <ClInclude Include="..\public\Generator.h">
+      <Filter>02.GameObjects\Map\Interactive_Block\Generator</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1439,6 +1445,10 @@
     </ClCompile>
     <ClCompile Include="..\private\FXMgr.cpp" />
     <ClCompile Include="..\private\Generator.cpp" />
+    <ClCompile Include="..\private\RBState.cpp" />
+    <ClCompile Include="..\private\Generator.cpp">
+      <Filter>02.GameObjects\Map\Interactive_Block\Generator</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
