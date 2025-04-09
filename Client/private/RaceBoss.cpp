@@ -1,6 +1,7 @@
 #include "RaceBoss.h"
 #include "PlayerOnBoat.h"
 #include "Skull.h"
+#include "BombRadius.h"
 #include "RBState.h"
 
 
@@ -40,6 +41,16 @@ HRESULT CRaceBoss::Initialize(void* pArg)
 
 void CRaceBoss::Priority_Update(_float fTimeDelta)
 {
+	//이전 상태와 현재 상태가 다르다면 Enter 실행
+	if (m_eCurState != m_ePreState)
+	{
+		m_pCurState->Enter(fTimeDelta);
+		m_ePreState = m_eCurState;
+	}
+
+	//Exectue는 무조건 실행
+	m_pCurState->Execute(fTimeDelta);
+
 	__super::Priority_Update(fTimeDelta);
 }
 
@@ -56,7 +67,8 @@ EVENT CRaceBoss::Update(_float fTimeDelta)
 
 	Update_Skull(fTimeDelta);
 
-	Action(fTimeDelta);
+	//매 프레임마다 일정 수치만큼 밀림
+	m_pTransformCom->Move({ 0.f,0.f,RACE_SPEED_PER_SEC }, fTimeDelta);
 
 	return EVN_NONE;
 }
@@ -167,6 +179,89 @@ void CRaceBoss::Render_Skull(MUZZLEPOS eMuzzle)
 	m_vSkullPos = Calc_Muzzle_Position(eMuzzle);
 }
 
+void CRaceBoss::Set_State(STATE eState)
+{
+	m_pCurState = m_pState[eState];
+	m_eCurState = eState;
+}
+
+void CRaceBoss::Go_Straight(_float fTimeDelta)
+{
+	m_pTransformCom->Go_Straight(fTimeDelta);
+}
+
+void CRaceBoss::Go_Up(_float fTimeDelta)
+{
+	m_pTransformCom->Go_Up(fTimeDelta);
+}
+
+void CRaceBoss::Go_Right(_float fTimeDelta)
+{
+	m_pTransformCom->Go_Right(fTimeDelta);
+}
+
+_float CRaceBoss::Compute_PosZ()
+{
+	return m_pTransformCom->Get_State(CTransform::STATE_POSITION)->z;
+}
+
+void CRaceBoss::MoveCatMullRom(_float3& v0, _float3& vStartPos, _float3& vEndPos, _float3& v3, _float fTimeAcc)
+{
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION, CatmulRomPos(v0, vStartPos, vEndPos, v3, fTimeAcc));
+}
+
+void CRaceBoss::Fire_HeadBullet(_float fTimeDelta)
+{
+	Fire_Bullet(CRaceBossBullet::HEAD, m_ePos, fTimeDelta);
+	++m_iHeadBulletCount;
+}
+
+void CRaceBoss::Fire_TailBullet(_float fTimeDelta)
+{
+	Fire_Bullet(CRaceBossBullet::TAIL, m_ePos, fTimeDelta);
+}
+
+_uint CRaceBoss::Get_HeadBulletCount()
+{
+	return m_iHeadBulletCount;
+}
+
+void CRaceBoss::Set_HeadBulletCountZero()
+{
+	m_iHeadBulletCount = 0;
+}
+
+HRESULT CRaceBoss::Draw_BombRadius()
+{
+	CStatue::DESC Bombdesc = {};
+
+	Bombdesc.vInitPos = { static_cast<CTransform*>(m_pPlayer->Find_Component(TEXT("Com_Transform")))->Get_State(CTransform::STATE_POSITION)->x,
+	1.f, static_cast<CTransform*>(m_pPlayer->Find_Component(TEXT("Com_Transform")))->Get_State(CTransform::STATE_POSITION)->z };
+
+	Bombdesc.vScale = { 100.f, 100.f, 0.f };
+	Bombdesc.eLevelID = LEVEL_RACEFIRST;
+	Bombdesc.vAngle = { D3DXToRadian(90.f), 0.f, 0.f };
+
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_RACEFIRST, TEXT("Prototype_GameObject_BombRadius"),
+		m_eLevelID, L"Layer_RaceBossPattern", &Bombdesc)))
+		return E_FAIL;
+}
+
+void CRaceBoss::ShuffleandPop()
+{
+	if (m_VecBulletPos.empty())
+	{
+		m_VecBulletPos = { LSIDE, LMIDDLE, MIDDLE, RMIDDLE, RSIDE };
+		random_shuffle(m_VecBulletPos.begin(), m_VecBulletPos.end());
+	}
+
+	if (!m_VecBulletPos.empty())
+	{
+		m_ePos = m_VecBulletPos.back();
+		m_VecBulletPos.pop_back();
+	}
+}
+
 HRESULT CRaceBoss::Ready_Components(void* pArg)
 {
 	/* For.Com_Texture */
@@ -213,97 +308,23 @@ HRESULT CRaceBoss::Ready_Components(void* pArg)
 
 void CRaceBoss::ReadyForState()
 {
-
-	//m_pState[WAITFORPLAYER] = new CPBState_Decel(this);
-	//m_pState[ENTRANCE] = new CPBState_Normal(this);
+	m_pState[WAITFORPLAYER] = new CRBState_WaitPlayer(this);
+	m_pState[ENTRANCE] = new CRBState_Entrance(this);
+	m_pState[IDLE] = new CRBState_IDLE(this);
 	m_pState[READYBOMB] = new CRBState_ReadyBombing(this);
 	m_pState[DRAWINGRADIUS] = new CRBState_DrawingRadius(this);
 	m_pState[BOMBING] = new CRBState_Bombing(this);
 	m_pState[COMEBACK] = new CRBState_Comeback(this);
-	//m_pState[SHOTREADY] = new CPBState_Lerp(this);
-	//m_pState[SHOTHEADBULLET] = new CPBState_Accel(this);
-	//m_pState[SHOTTAILBULLET] = new CPBState_Accel(this);
-	//m_pState[LEAVE] = new CPBState_Accel(this);
+	m_pState[SHOTREADY] = new CRBState_ReadyShot(this);
+	m_pState[SHOTHEADBULLET] = new CRBState_ShotHeadBullet(this);
+	m_pState[SHOTTAILBULLET] = new CRBState_ShotTailBullet(this);
+	m_pState[LEAVE] = new CRBState_Leave(this);
 
-	m_pCurState = m_pState[READYBOMB];
-}
+	//계속 터지길래 시작부터 값 채워놓음
+	m_VecBulletPos = { LSIDE, LMIDDLE, MIDDLE, RMIDDLE, RSIDE };
+	random_shuffle(m_VecBulletPos.begin(), m_VecBulletPos.end());
 
-void CRaceBoss::Action(_float fTimeDelta)
-{
-	_float3 v0 = { 0.f, 1750.f, -1300.f };
-	_float3 vStartPos = { 0.f, 1000.f, -500.f };
-	_float3 vEndPos = { 450.f, 250.f, 1300.f };
-	_float3 v3 = { 450.f, 2000.f, 2000.f };
-
-	switch (m_eState)
-	{
-	case WAITFORPLAYER:
-		if (m_pPlayerpos->z > 0.f)
-			m_eState = ENTRANCE;
-		break;
-		
-	case ENTRANCE:
-		m_fTime += (1.f - m_fTime) * fTimeDelta;
-		m_pTransformCom->Set_State(CTransform::STATE_POSITION, CatmulRomPos(v0, vStartPos, vEndPos, v3, m_fTime));
-
-		if (m_pTransformCom->Get_State(CTransform::STATE_POSITION)->z >= 1200.f)
-		{
-			m_eState = SHOTREADY;
-			m_fTime = 0.f;
-		}
-		break;
-
-	case SHOTREADY:
-		m_pTransformCom->Go_Straight(fTimeDelta);
-		m_fTime += fTimeDelta;
-		if (m_fTime > 3.f)
-		{
-			m_eState = SHOTHEADBULLET; //일정 주기마다 한 번씩 발사
-			m_fTime = 0.f;
-		}
-		break;
-
-	case SHOTHEADBULLET:
-		m_pTransformCom->Go_Straight(fTimeDelta);
-		ShuffleandPop();
-		Fire_Bullet(CRaceBossBullet::HEAD, m_ePos, fTimeDelta);
-		++m_iHeadBulletCount;
-		m_eState = SHOTTAILBULLET;
-		break;
-
-	case SHOTTAILBULLET:
-		m_pTransformCom->Go_Straight(fTimeDelta);
-		m_fTime += fTimeDelta;
-		if (m_fTime > 0.02f)
-		{
-			Fire_Bullet(CRaceBossBullet::TAIL, m_ePos, fTimeDelta);
-			++m_iTailBulletCount;
-			m_fTime = 0.f;
-		}
-
-		if (m_iTailBulletCount > 3)
-		{
-			m_iTailBulletCount = 0;
-
-			if (m_iHeadBulletCount > 4)
-			{
-				m_iHeadBulletCount = 0;
-				m_eState = SHOTREADY;
-			}
-				
-			else
-				m_eState = SHOTHEADBULLET;
-				
-		}
-		break;
-
-	case LEAVE:
-		m_pTransformCom->Go_Up(fTimeDelta);
-		break;
-
-	default:
-		break;
-	}
+	m_pCurState = m_pState[ENTRANCE];
 }
 
 HRESULT CRaceBoss::Fire_Bullet(CRaceBossBullet::RBULLETTYPE eType, MUZZLEPOS ePos, _float fTimeDelta)
@@ -459,21 +480,6 @@ void CRaceBoss::Update_Skull(_float fTimeDelta)
 		m_pSkull->Update(*m_pTransformCom->Get_State(CTransform::STATE_POSITION) + m_vSkullPos, fTimeDelta);
 }
 
-void CRaceBoss::ShuffleandPop()
-{
-	if (m_VecBulletPos.empty())
-	{
-		m_VecBulletPos = { LSIDE, LMIDDLE, MIDDLE, RMIDDLE, RSIDE };
-		random_shuffle(m_VecBulletPos.begin(), m_VecBulletPos.end());
-	}
-
-	if (!m_VecBulletPos.empty())
-	{
-		m_ePos = m_VecBulletPos.back();
-		m_VecBulletPos.pop_back();
-	}
-}
-
 CRaceBoss* CRaceBoss::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 {
 	CRaceBoss* pInstance = new CRaceBoss(pGraphic_Device);
@@ -512,5 +518,5 @@ void CRaceBoss::Free()
 	for(auto& Collider : m_ColliderComs)
 		Safe_Release(Collider);
 	for (size_t i = WAITFORPLAYER; i < NON; ++i)
-		Safe_Release(m_pState[i]);
+		Safe_Delete(m_pState[i]);
 }
