@@ -296,17 +296,16 @@ HRESULT CLevel_RaceFirst::Ready_Layer_UI(const _wstring& strLayerTag)
 		Desc.eLevelID, strLayerTag, &Desc)))
 		return E_FAIL;
 
+
+
 	Desc.vScale = _float3(131.25f, 95.f, 1.f); // 1.25배됨
 	Desc.vInitPos = _float3(0.f, g_iWinSizeY * -0.5f + 50.f, 0.1f);
 	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_RacingPanel"),
 		Desc.eLevelID, strLayerTag, &Desc)))
 		return E_FAIL;
-
 	CUI_Manager::Get_Instance()->Initialize_RacingUI(CurLevel);
 
-	//if (FAILED(m_pGameInstance->Add_GameObject(Desc.eLevelID, TEXT("Prototype_GameObject_InteractPromptUI"),
-	//	Desc.eLevelID, strLayerTag, &Desc)))
-	//	return E_FAIL;
+
 
 	/* ui생성 순서 중요, player 생성 이후 호출 중요  */
 	// 과거의 나야 미안해 

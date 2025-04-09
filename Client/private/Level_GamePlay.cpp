@@ -389,7 +389,7 @@ HRESULT CLevel_GamePlay::Ready_Layer_UI(const _wstring& strLayerTag)
 	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_BossHPBar"),
 		Desc.eLevelID, strLayerTag, &Desc)))
 		return E_FAIL;
-
+	CUI_Manager::Get_Instance()->Initialize_BossHPUI(CurLevel);
 	/* ui생성 순서 중요, player 생성 이후 호출 중요  */
 	// 과거의 나야 미안해 
 	return S_OK;
