@@ -20,6 +20,10 @@ CLevel_Indoor::CLevel_Indoor(LPDIRECT3DDEVICE9 pGraphic_Device)
 
 HRESULT CLevel_Indoor::Initialize(CLevelData* pLevelData)
 {	
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_Sky"),
+		CurLevel, TEXT("Layer_Sky"))))
+		return E_FAIL;
+
 	if (FAILED(Ready_Layer_Camera(TEXT("Layer_Camera"))))
 		return E_FAIL;
 
