@@ -23,7 +23,6 @@ HRESULT CRaceBoss::Initialize_Prototype()
 HRESULT CRaceBoss::Initialize(void* pArg)
 {
 	m_eLevelID = static_cast<DESC*>(pArg)->eLevelID;
-	m_iHp = 100;
 
 	Ready_Components(pArg);
 
@@ -61,20 +60,18 @@ EVENT CRaceBoss::Update(_float fTimeDelta)
 		return EVN_DEAD;
 
 #ifdef _CONSOL
-	_float3 vPos = *m_pTransformCom->Get_State(CTransform::STATE_POSITION);
-	printf("보스 위치 : { %f, %f, %f }\n", vPos.x, vPos.y, vPos.z);
-	printf("보스 상태 : %d\n", m_eState);
+	//_float3 vPos = *m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+	//printf("보스 위치 : { %f, %f, %f }\n", vPos.x, vPos.y, vPos.z);
+	//printf("보스 상태 : %d\n", m_eState);
 #endif
-
-	Update_Skull(fTimeDelta);
 
 	//매 프레임마다 일정 수치만큼 밀림
 	m_pTransformCom->Move({ 0.f,0.f,RACE_SPEED_PER_SEC }, fTimeDelta);
 
+	Update_Skull(fTimeDelta); // 이 함수 반드시 보스의 움직임을 모두 업데이트 마친 다음에 호출해야 합니다.
 
 	/// 아래는 테스트
 	static _float fTimeAcc{};
-
 	fTimeAcc += fTimeDelta;
 	if (fTimeAcc > 1.f)
 	{
@@ -120,17 +117,17 @@ HRESULT CRaceBoss::Render()
 	if (FAILED(m_pVIBufferCom->Render()))
 		return E_FAIL;
 
-	m_fTextureNum = 1.f;
+	// 총구
+	for (_uint i = 0; i < 4; ++i)
+	{
+		if (FAILED(m_pTextureCom->Bind_Resource(static_cast<_uint>(m_iTextureID[i]))))
+			return E_FAIL;
 
-	if (FAILED(m_pTextureCom->Bind_Resource(static_cast<_uint>(m_fTextureNum))))
-		return E_FAIL;
+		m_pVIBufferCom->Render(CVIBuffer_RaceBoss::MUZZLE1 + i);
+	}
 
-	if (FAILED(m_pVIBufferCom->Render(CVIBuffer_RaceBoss::MUZZLE)))
-		return E_FAIL;
-
-	m_fTextureNum = 2.f;
-
-	if (FAILED(m_pTextureCom->Bind_Resource(static_cast<_uint>(m_fTextureNum))))
+	//가운데
+	if (FAILED(m_pTextureCom->Bind_Resource(static_cast<_uint>(m_iTextureID[4]))))
 		return E_FAIL;
 
 	if (FAILED(m_pVIBufferCom->Render(CVIBuffer_RaceBoss::MIDDLE)))
@@ -146,11 +143,6 @@ HRESULT CRaceBoss::Render()
 
 _bool CRaceBoss::Judge_Skull(const _float3& vColliderPos, _float vColliderRadius,_float fTimedelta)
 {
-	m_pPlayerpos;
-
-	RACE_PBULLET_DIR;
-	RACE_PBULLET_SPEED;
-
 	const _float3& vPos = *m_pTransformCom->Get_State(CTransform::STATE_POSITION);
 	_float3 vVelocity = GetVelocityPerSecond(fTimedelta);
 
@@ -276,6 +268,13 @@ void CRaceBoss::ShuffleandPop()
 	}
 }
 
+#include "FXMgr.h"
+void CRaceBoss::On_Collision(_uint MyColliderID, _uint OtherColliderID)
+{
+	On_Hit((MUZZLEPOS)MyColliderID, 10);
+	//FX_MGR->SpawnExplosion2(CCollider::Get_Last_Collision_Pos(), m_eLevelID); 안나와서 주석처리
+}
+
 HRESULT CRaceBoss::Ready_Components(void* pArg)
 {
 	/* For.Com_Texture */
@@ -303,18 +302,20 @@ HRESULT CRaceBoss::Ready_Components(void* pArg)
 	ColliderDesc.vScale = {20.f,1.f,1.f};
 	ColliderDesc.pOwner = this;
 	ColliderDesc.iColliderGroupID = CG_MONSTER; //임시로 몬스터
-	ColliderDesc.iColliderID = CI_MON_BODY;
+	ColliderDesc.iColliderID = LSIDE;
 
 	m_ColliderComs.resize(5);
 	_wstring Key = TEXT("Com_Collider");
 	for (_uint i = 0; i < 5; ++i)
 	{
-		ColliderDesc.vOffSet = Calc_Muzzle_Position((MUZZLEPOS)i);
+		ColliderDesc.vOffSet = Calc_Muzzle_Position((MUZZLEPOS)(LSIDE + i));
 
 		/* For.Com_Collider */
 		if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Collider_Sphere"),
 			Key + to_wstring(i), reinterpret_cast<CComponent**>(&m_ColliderComs[i]), &ColliderDesc)))
 			return E_FAIL;
+
+		ColliderDesc.iColliderID++;
 	}
 
 	return S_OK;
@@ -492,6 +493,39 @@ void CRaceBoss::Update_Skull(_float fTimeDelta)
 
 	if (m_bSkullActive)
 		m_pSkull->Update(*m_pTransformCom->Get_State(CTransform::STATE_POSITION) + m_vSkullPos, fTimeDelta);
+}
+
+void CRaceBoss::On_Hit(MUZZLEPOS HitPos, _int iDamage)
+{
+	_int iIndex = HitPos - LSIDE;
+	if (m_iMuzzleHp[iIndex] == 0)
+		return;
+
+	m_iMuzzleHp[iIndex] -= iDamage;
+	m_iHp -= iDamage;
+
+	//부위파괴
+	if (m_iMuzzleHp[iIndex] <= 0)
+	{
+		m_iMuzzleHp[iIndex] = 0;
+
+		if (iIndex == 4) // 몸통이다
+			;
+		else
+			m_iTextureID[iIndex] = 3;
+		// 이곳에 부위파괴시에 할 것을 쓰시오.
+	}
+
+	//아예죽음
+	if (m_iHp < 0)
+	{
+		m_iHp = 0;
+		m_bDead = true;
+	}
+
+#ifdef _CONSOL
+	printf("보스 힛! 현재 체력 : { %d / %d, %d, %d, %d, %d  }\n", m_iHp, m_iMuzzleHp[0], m_iMuzzleHp[1], m_iMuzzleHp[4], m_iMuzzleHp[2], m_iMuzzleHp[3]);
+#endif#endif
 }
 
 CRaceBoss* CRaceBoss::Create(LPDIRECT3DDEVICE9 pGraphic_Device)

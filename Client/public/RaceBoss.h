@@ -22,7 +22,8 @@ public:
 		READYBOMB, DRAWINGRADIUS, BOMBING, COMEBACK, 
 		LEAVE, NON };
 
-	enum MUZZLEPOS { LSIDE, LMIDDLE, MIDDLE, RMIDDLE, RSIDE, POSEND };
+	// 콜라이더 떄문에 아이디랑 통일해 두겠습니다, 부위파괴 로직때문에 순서 좀만 조정하겠습니다.
+	enum MUZZLEPOS { LSIDE = CI_RACEBOSS_MUZZLE1, LMIDDLE, RMIDDLE, RSIDE, MIDDLE, POSEND = 5 };
 
 public:
 	typedef struct tagRaceBossDesc : public CTransform::DESC
@@ -50,6 +51,8 @@ public:
 	void Set_StartState(STATE eState) {
 		m_eState = eState;
 	}
+
+	virtual void On_Collision(_uint MyColliderID, _uint OtherColliderID) override;
 
 public:
 	_float3		GetVelocityPerSecond(_float fTimeDelta) const {
@@ -117,7 +120,6 @@ private:
 	LEVEL		m_eLevelID = { LEVEL_END };
 	_bool		m_bDead = { false };
 	_float3		m_vScale = {};
-	_uint		m_iHp = {};
 	_float		m_fTime = {};
 	_uint		m_iHeadBulletCount = {};
 	_float3		m_vBulletDiretion = {};
@@ -129,6 +131,14 @@ private:
 	_float3 m_vSkullPos{};
 	MUZZLEPOS	m_eSkullMuzzlePos{ POSEND };
 	_bool m_bSkullActive{};
+
+
+private: // 보스 피격과 부위파괴 관련
+	_int		m_iHp = {400};
+	_int		m_iMuzzleHp[5]{ 80 ,80 ,80 ,80 ,80 };
+	_uint		m_iTextureID[5]{1,1,1,1,2};
+	
+	void On_Hit(MUZZLEPOS HitPos, _int iDamage);
 
 public:
 	static CRaceBoss* Create(LPDIRECT3DDEVICE9 pGraphic_Device);

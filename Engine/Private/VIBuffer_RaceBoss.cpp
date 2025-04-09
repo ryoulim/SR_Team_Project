@@ -260,8 +260,20 @@ HRESULT CVIBuffer_RaceBoss::Render(_uint Surface)
 		iNumber = 0;
 		break;
 
-	case MUZZLE:
+	case MUZZLE1:
 		iNumber = 192;
+		break;
+
+	case MUZZLE2:
+		iNumber = 198;
+		break;
+
+	case MUZZLE3:
+		iNumber = 204;
+		break;
+
+	case MUZZLE4:
+		iNumber = 210;
 		break;
 
 	case MIDDLE:

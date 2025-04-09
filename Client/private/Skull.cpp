@@ -71,7 +71,6 @@ EVENT CSkull::Update(const _float3& vPosition, _float fTimeDelta)
 	else
 		m_pTransformCom->Scaling(SkullScale2);
 
-
 	return EVN_NONE;
 }
 

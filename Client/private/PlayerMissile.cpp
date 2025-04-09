@@ -43,7 +43,7 @@ EVENT CPlayerMissile::Update(_float fTimeDelta)
 {
 	m_fTimeAcc += fTimeDelta;
 
-	m_pTransformCom->Move({ 0.f,0.f,RACE_SPEED_PER_SEC }, fTimeDelta);
+	//m_pTransformCom->Move({ 0.f,0.f,RACE_SPEED_PER_SEC }, fTimeDelta);
 	m_pTransformCom->Go_Straight(fTimeDelta);
 
 	Update_TrailData(fTimeDelta);
@@ -140,7 +140,7 @@ void CPlayerMissile::Update_TrailData(_float dt)
 {
 	for (auto& Trail : m_TrailDatas)
 	{
-		Trail.pTransform->Move({ 0.f,0.f,RACE_SPEED_PER_SEC }, dt);
+		//Trail.pTransform->Move({ 0.f,0.f,RACE_SPEED_PER_SEC }, dt);
 		Trail.pTransform->Go_Straight(dt);
 		//Trail.fRandomColor = m_pGameInstance->RandomFloat(0.f, 1.f);
 	}

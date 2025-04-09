@@ -56,8 +56,8 @@ void CPlayerOnBoat::Priority_Update(_float fTimeDelta)
 	//Key_Input(fTimeDelta);
 
 #ifdef _CONSOL
-	_float3 vPosition = *m_pTransformCom->Get_State(CTransform::STATE_POSITION);
-	printf("플레이어 좌표 : { %.2f, %.2f, %.2f }\n", vPosition.x, vPosition.y, vPosition.z);
+	//_float3 vPosition = *m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+	//printf("플레이어 좌표 : { %.2f, %.2f, %.2f }\n", vPosition.x, vPosition.y, vPosition.z);
 #endif
 
 	//이전 상태와 현재 상태가 다르다면 Enter 실행
@@ -110,7 +110,10 @@ EVENT CPlayerOnBoat::Update(_float fTimeDelta)
 
 	Update_Frame(fTimeDelta);
 
-	CUI_Manager::Get_Instance()->Set_RacingSpeed(static_cast<_uint>(GetVelocityPerSecond(fTimeDelta).Length() * 0.3f) - 3);
+	_uint RPM = static_cast<_uint>(GetVelocityPerSecond(fTimeDelta).Length() * 0.3f);
+	if (RPM > 999)
+		RPM = 999;
+	CUI_Manager::Get_Instance()->Set_RacingSpeed(RPM);
 
 	return __super::Update(fTimeDelta);
 }
@@ -252,7 +255,7 @@ void CPlayerOnBoat::Key_Input(_float fTimeDelta)
 	if (KEY_PRESSING(DIK_W))
 	{
 		m_fSpeedRatio += fTimeDelta;
-		m_fSpeedRatio = min(m_fSpeedRatio, 2.f); // 최대 2
+		m_fSpeedRatio = min(m_fSpeedRatio, 1.5f); // 최대 1.5
 		m_pTransformCom->Set_SpeedPerSec(m_fSpeedRatio * RACE_SPEED_PER_SEC);
 	}
 	else if (KEY_PRESSING(DIK_S))
