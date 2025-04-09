@@ -972,11 +972,12 @@
       <Filter>02.GameObjects\Particle\WaterBoat</Filter>
     </ClInclude>
     <ClInclude Include="..\public\Generator.h" />
-    <ClInclude Include="..\public\RBState.h">
-      <Filter>02.GameObjects\RaceBoss\RBState</Filter>
     <ClInclude Include="..\public\RBState.h" />
     <ClInclude Include="..\public\Generator.h">
       <Filter>02.GameObjects\Map\Interactive_Block\Generator</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\RBState.h">
+      <Filter>02.GameObjects\RaceBoss\RBState</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1440,14 +1441,13 @@
     <ClCompile Include="..\private\InteractPromptUI.cpp">
       <Filter>02.GameObjects\UI\GamePlayUI\InteractPromptUI</Filter>
     </ClCompile>
-    <ClCompile Include="..\private\FXMgr.cpp">
-      <Filter>02.GameObjects\Particle</Filter>
-    </ClCompile>
     <ClCompile Include="..\private\FXMgr.cpp" />
     <ClCompile Include="..\private\Generator.cpp" />
-    <ClCompile Include="..\private\RBState.cpp" />
     <ClCompile Include="..\private\Generator.cpp">
       <Filter>02.GameObjects\Map\Interactive_Block\Generator</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\FXMgr.cpp">
+      <Filter>02.GameObjects\Particle</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
