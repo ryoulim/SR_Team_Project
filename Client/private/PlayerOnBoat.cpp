@@ -7,6 +7,7 @@
 #include "TPS_Camera.h"
 
 #define BULLET_COOLTIME 0.5f
+#define ANGLE_COEF 13.f
 
 CPlayerOnBoat::CPlayerOnBoat(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CPawn { pGraphic_Device }
@@ -257,6 +258,8 @@ void CPlayerOnBoat::Key_Input(_float fTimeDelta)
 	_float fSpeed = 0.f;
 
 
+#define TILT_TIME 0.4f
+
 	if (KEY_DOWN(DIK_A))
 	{
 		m_fAngleTimer = 0;
@@ -275,7 +278,7 @@ void CPlayerOnBoat::Key_Input(_float fTimeDelta)
 		m_fKeyTimer = max(m_fKeyTimer, -1.f); // ÃÖ¼Ò -1
 
 		m_fAngleTimer++;
-		if (m_fAngleTimer > 0.1)
+		if (m_fAngleTimer > TILT_TIME)
 		{
 			Tilt(FALSE);
 			m_fAngleTimer = 0.f;
@@ -288,7 +291,7 @@ void CPlayerOnBoat::Key_Input(_float fTimeDelta)
 
 
 		m_fAngleTimer++;
-		if (m_fAngleTimer > 0.1)
+		if (m_fAngleTimer > TILT_TIME)
 		{
 			Tilt(TRUE);
 			m_fAngleTimer = 0.f;
@@ -301,11 +304,11 @@ void CPlayerOnBoat::Key_Input(_float fTimeDelta)
 		if (fabsf(m_fKeyTimer) < 0.01f)
 			m_fKeyTimer = 0.f;
 
-		if (m_iTiltIndex != 2)
+		if (m_byTiltIndex != 2)
 		{
-			if (m_fAngleTimer > 0.1)
+			if (m_fAngleTimer > TILT_TIME)
 			{
-				if (m_iTiltIndex > 2)
+				if (m_byTiltIndex > 2)
 					Tilt(FALSE);
 				else
 					Tilt(TRUE);
@@ -476,18 +479,20 @@ void CPlayerOnBoat::Tilt(_bool Right)
 {
 	if (Right)
 	{
-		if (m_iTiltIndex >= 4)
+		if (m_byTiltIndex >= 4)
 			return;
-		m_iTiltIndex++;
+		m_byTiltIndex++;
 	}
 	else
 	{
-		if (m_iTiltIndex <= 0)
+		if (m_byTiltIndex <= 0)
 			return;
-		m_iTiltIndex--;
+		m_byTiltIndex--;
 	}
 
-	m_pTransformCom->Quaternion_Rotation({ 0.f,0.f, RADIAN(m_ftiltSteps[m_iTiltIndex]) });
+	_float fAngle = RADIAN((m_byTiltIndex - 2) * ANGLE_COEF * 0.5f);
+
+	m_pTransformCom->Quaternion_Rotation({ 0.f,0.f, fAngle });
 }
 
 void CPlayerOnBoat::Set_State(STATE eState)
