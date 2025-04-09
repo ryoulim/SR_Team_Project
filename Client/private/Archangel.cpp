@@ -121,7 +121,8 @@ void CArchangel::Late_Update(_float fTimeDelta)
 	//if (m_bSkullActive)
 	//	m_pSkull->Late_Update(fTimeDelta);
 
-
+	_float3	vTemp = *m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+	CGameObject::Compute_ViewZ(&vTemp);
 
 	PlayerDistance();
 	CalculateVectorToPlayer();
@@ -169,17 +170,41 @@ void CArchangel::Late_Update(_float fTimeDelta)
 
 HRESULT CArchangel::Render()
 {
-	if (KEY_DOWN(DIK_LCONTROL))
+	if (m_bDebug)
+		Render_DebugFOV();
+
+	//if (!m_bRotateAnimation)
+	//	m_iDegree = 0;
+
+	if (FAILED(m_pTextureMap[m_iState][m_iDegree]->Bind_Resource(static_cast<_uint>(m_fAnimationFrame))))
+		return E_FAIL;
+
+	if (!m_bCW || m_iDegree == 0 || m_iDegree == 180.f / m_fDivOffset)
 	{
-		int a = 0;
+		if (m_pGraphic_Device->SetTransform(D3DTS_WORLD, &m_pTransformCom->Billboard()))
+			return E_FAIL;
 	}
-	__super::Render();
+	else
+	{
+		if (m_pGraphic_Device->SetTransform(D3DTS_WORLD, &m_pTransformCom->Billboard_Inverse()))
+			return E_FAIL;
+	}
+
+	if (FAILED(m_pVIBufferCom->Bind_Buffers()))
+		return E_FAIL;
+
+	SetUp_RenderState();
+	if (FAILED(m_pVIBufferCom->Render()))
+		return E_FAIL;
+	Release_RenderState();
+
+
+	//특별히 더 렌더링 할게 있는 경우 ↓
 	if (m_eState == MODE_READY || m_eState == MODE_BATTLE)
 	{
 		Render_TrailData(); 
 	}						
 	return S_OK;
-	//특별히 더 렌더링 할게 있는 경우 ↓
 
 }
 
@@ -467,26 +492,68 @@ void CArchangel::ChasePlayer(_float dt, _float fChaseDist)
 
 HRESULT CArchangel::Ready_Components(void* pArg)
 {
-	if (FAILED(__super::Ready_Components(pArg)))
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, _wstring(TEXT("Prototype_Component_VIBuffer_")) + m_szBufferType,
+		TEXT("Com_VIBuffer"), reinterpret_cast<CComponent**>(&m_pVIBufferCom))))
 		return E_FAIL;
 
-	Safe_Release(m_pCollider);
-	// 콜라이더 재할당 
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Transform"),
+		TEXT("Com_Transform"), reinterpret_cast<CComponent**>(&m_pTransformCom), pArg)))
+		return E_FAIL;
+
+	if (pArg != nullptr)
+	{
+		DESC* pDesc = static_cast<DESC*>(pArg);
+
+		m_pTransformCom->Set_State(CTransform::STATE_POSITION, pDesc->vPosition);
+		m_pTransformCom->Scaling(m_vScale);
+		m_bActive = pDesc->vActive;
+		m_vReturnPos = pDesc->vReturnPos;
+		m_iNum = pDesc->iNums;
+		m_eLevelID = pDesc->eLevel;
+		m_fAttackDistance = pDesc->fAttackDistance;
+	}
+
 	DESC* pDesc = static_cast<DESC*>(pArg);
 	CCollider_Capsule::DESC ColliderDesc{};
 	ColliderDesc.pTransform = m_pTransformCom;
+	//ColliderDesc.vOffSet = {0.f,10.f,0.f};
 	ColliderDesc.vScale = m_pTransformCom->Compute_Scaled();
 	ColliderDesc.pOwner = this;
 	ColliderDesc.iColliderGroupID = CG_MONSTER;
-	ColliderDesc.iColliderID = CI_MONSTER_ARCHANGELBODY;
+	ColliderDesc.iColliderID = CI_MON_BODY;
 
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Collider_Capsule"),
 		TEXT("Com_Collider"), reinterpret_cast<CComponent**>(&m_pCollider), &ColliderDesc)))
 		return E_FAIL;
 
+	if (m_bActive)
+	{
+		CGravity::DESC GravityDesc{};
+		GravityDesc.pTransformCom = m_pTransformCom;
+		GravityDesc.fTimeIncreasePerSec = 8.2f;
+		GravityDesc.fMaxFallSpeedPerSec = 840.f;
+		if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Gravity"),
+			TEXT("Com_Gravity"), reinterpret_cast<CComponent**>(&m_pGravityCom), &GravityDesc)))
+			return E_FAIL;
+	}
+	Safe_Release(m_pCollider);
+
+
+	// 콜라이더 재할당 
+	DESC* pDesc2 = static_cast<DESC*>(pArg);
+	CCollider_Capsule::DESC ColliderDesc2{};
+	ColliderDesc2.pTransform = m_pTransformCom;
+	ColliderDesc2.vScale = m_pTransformCom->Compute_Scaled();
+	ColliderDesc2.pOwner = this;
+	ColliderDesc2.iColliderGroupID = CG_MONSTER;
+	ColliderDesc2.iColliderID = CI_MONSTER_ARCHANGELBODY;
+
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Collider_Capsule"),
+		TEXT("Com_Collider"), reinterpret_cast<CComponent**>(&m_pCollider), &ColliderDesc2)))
+		return E_FAIL;
 
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Shader"),
-		TEXT("Com_Shader"), reinterpret_cast<CComponent**>(&m_pShaderCom))))
+		TEXT("Com_Shader"), reinterpret_cast<CComponent**>(&m_pArchShaderCom))))
 		return E_FAIL;
 
 	Ready_Textures();
@@ -665,9 +732,9 @@ void CArchangel::Render_TrailData()
 		m_pGraphic_Device->SetTransform(D3DTS_WORLD, &matWorld);
 
 		// 잔상 렌더링 (예: 반투명한 텍스처 사용)
-		m_pTextureMap[m_iState][m_iDegree]->Bind_Shader_To_Texture(m_pShaderCom, "Tex", static_cast<_uint>(m_fAnimationFrame));
+		m_pTextureMap[m_iState][m_iDegree]->Bind_Shader_To_Texture(m_pArchShaderCom, "Tex", static_cast<_uint>(m_fAnimationFrame));
 		//m_pTextureMap[m_iState][m_iDegree]->Bind_Resource(static_cast<_uint>(m_fAnimationFrame));
-		m_pShaderCom->SetFloat("opacity", 1.f - (trailData.timeElapsed / m_fTrailDuration));
+		m_pArchShaderCom->SetFloat("opacity", 1.f - (trailData.timeElapsed / m_fTrailDuration));
 
 		m_pVIBufferCom->Bind_Buffers();
 		SetUp_RenderState();
@@ -675,9 +742,9 @@ void CArchangel::Render_TrailData()
 		m_pGraphic_Device->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
 		m_pGraphic_Device->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
 		m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
-		m_pShaderCom->Begin(CShader::SANDEVISTAN);
+		m_pArchShaderCom->Begin(CShader::SANDEVISTAN);
 		m_pVIBufferCom->Render();
-		m_pShaderCom->End();
+		m_pArchShaderCom->End();
 		Release_RenderState();
 		m_pGraphic_Device->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
 	}
@@ -780,7 +847,7 @@ CGameObject* CArchangel::Clone(void* pArg)
 void CArchangel::Free()
 {
 	__super::Free();
-	Safe_Release(m_pShaderCom);
+	Safe_Release(m_pArchShaderCom);
 	
 	while (!m_TrailDataQueue.empty())
 		m_TrailDataQueue.pop();

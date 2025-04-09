@@ -81,7 +81,7 @@ private:
 	queue<TRAILDATA> Sorted_TrailData();
 
 private:
-	CShader* m_pShaderCom = { nullptr };
+	CShader* m_pArchShaderCom = { nullptr };
 
 public:
 	virtual void On_Collision(_uint MyColliderID, _uint OtherColliderID) override;

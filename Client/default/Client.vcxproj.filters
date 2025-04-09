@@ -172,9 +172,6 @@
     <Filter Include="02.GameObjects\Monster\Archangel">
       <UniqueIdentifier>{cba87238-e97b-47bc-a85a-d58d109760a7}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\Monster\Cultist">
-      <UniqueIdentifier>{58112894-05c1-49a0-8461-112bacee3953}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02.GameObjects\Monster\Deacon">
       <UniqueIdentifier>{7784ae78-96eb-4983-840d-142865d3dc10}</UniqueIdentifier>
     </Filter>
@@ -480,6 +477,9 @@
     </Filter>
     <Filter Include="02.GameObjects\Map\Generator">
       <UniqueIdentifier>{4df65ce4-6ae6-4efe-8b9c-2c7c118ac490}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Monster\Cultist">
+      <UniqueIdentifier>{58112894-05c1-49a0-8461-112bacee3953}</UniqueIdentifier>
     </Filter>
     <Filter Include="02.GameObjects\UI\GamePlayUI\WeaponUI">
       <UniqueIdentifier>{12e90892-da69-4e35-823d-ee7f5d5257a5}</UniqueIdentifier>

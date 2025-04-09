@@ -5,6 +5,7 @@
 #include "UI_Manager.h"
 #include "PlayerMissile.h"
 #include "TPS_Camera.h"
+#include "FXMgr.h"
 
 #define BULLET_COOLTIME 0.5f
 #define ANGLE_COEF 13.f
@@ -126,6 +127,7 @@ void CPlayerOnBoat::Late_Update(_float fTimeDelta)
 	m_pGameInstance->Add_RenderGroup(CRenderer::RG_BLEND, this);
 
 	__super::Late_Update(fTimeDelta);
+
 }
 
 HRESULT CPlayerOnBoat::Render()

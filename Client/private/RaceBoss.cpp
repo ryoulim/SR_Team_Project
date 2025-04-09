@@ -3,6 +3,7 @@
 #include "Skull.h"
 #include "BombRadius.h"
 #include "RBState.h"
+#include "FXMgr.h"
 
 
 CRaceBoss::CRaceBoss(LPDIRECT3DDEVICE9 pGraphic_Device)
@@ -58,6 +59,17 @@ EVENT CRaceBoss::Update(_float fTimeDelta)
 {
 	if (m_bDead)
 		return EVN_DEAD;
+
+	/* [ 파티클 실험실 ] */
+	_float3 vPos = *m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+	//FX_MGR->SpawnMultipleExplosionRaceBoss(fTimeDelta,vPos, m_eLevelID);
+	vPos.x += 70.f;
+	vPos.z += -100.f;
+	FX_MGR->SpawnMultipleExplosionRacePoint(fTimeDelta, vPos, m_eLevelID);
+
+
+
+
 
 #ifdef _CONSOL
 	//_float3 vPos = *m_pTransformCom->Get_State(CTransform::STATE_POSITION);
