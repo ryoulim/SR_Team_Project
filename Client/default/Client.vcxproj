@@ -179,6 +179,7 @@
     <ClInclude Include="..\public\BackGround.h" />
     <ClInclude Include="..\public\Block.h" />
     <ClInclude Include="..\public\Blood.h" />
+    <ClInclude Include="..\public\BombRadius.h" />
     <ClInclude Include="..\public\BossBridge.h" />
     <ClInclude Include="..\public\BossHPBar.h" />
     <ClInclude Include="..\public\BuildingH.h" />
@@ -341,6 +342,7 @@
     <ClCompile Include="..\Private\BackGround.cpp" />
     <ClCompile Include="..\private\Block.cpp" />
     <ClCompile Include="..\private\Blood.cpp" />
+    <ClCompile Include="..\private\BombRadius.cpp" />
     <ClCompile Include="..\private\BossBridge.cpp" />
     <ClCompile Include="..\private\BossHPBar.cpp" />
     <ClCompile Include="..\private\BuildingH.cpp" />
@@ -433,7 +435,6 @@
     <ClCompile Include="..\private\RaceTerrain.cpp" />
     <ClCompile Include="..\private\RacingPanel.cpp" />
     <ClCompile Include="..\private\Rain.cpp" />
-    <ClCompile Include="..\private\RBState.cpp" />
     <ClCompile Include="..\private\Rock.cpp" />
     <ClCompile Include="..\private\ScreenDust.cpp" />
     <ClCompile Include="..\private\ScreenSprite.cpp" />

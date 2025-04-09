@@ -475,6 +475,12 @@
     <Filter Include="02.GameObjects\Weapon\Bullet\PlayerMissile">
       <UniqueIdentifier>{ea67d519-7dbb-4e84-ad9e-c3728d296089}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\RaceBoss\RBState">
+      <UniqueIdentifier>{de71add9-0bf1-4628-ac4a-62b0e52355aa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Statue\RaceBossBombRadius">
+      <UniqueIdentifier>{f18a650f-2fda-4229-9e98-5f8ab7084f49}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -962,14 +968,15 @@
     <ClInclude Include="..\public\CutSceneSmoke.h">
       <Filter>02.GameObjects\Particle\_BossMobSkill\CutSceenEffect</Filter>
     </ClInclude>
-    <ClInclude Include="..\public\Generator.h">
-      <Filter>02.GameObjects\Map\Generator</Filter>
-    </ClInclude>
     <ClInclude Include="..\public\WaterBoat.h">
       <Filter>02.GameObjects\Particle\WaterBoat</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\Generator.h" />
     <ClInclude Include="..\public\RBState.h">
       <Filter>02.GameObjects\RaceBoss\RBState</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\BombRadius.h">
+      <Filter>02.GameObjects\Statue\RaceBossBombRadius</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1437,11 +1444,9 @@
       <Filter>02.GameObjects\Particle</Filter>
     </ClCompile>
     <ClCompile Include="..\private\FXMgr.cpp" />
-    <ClCompile Include="..\private\Generator.cpp">
-      <Filter>02.GameObjects\Map\Generator</Filter>
-    </ClCompile>
-    <ClCompile Include="..\private\RBState.cpp">
-      <Filter>02.GameObjects\RaceBoss\RBState</Filter>
+    <ClCompile Include="..\private\Generator.cpp" />
+    <ClCompile Include="..\private\BombRadius.cpp">
+      <Filter>02.GameObjects\Statue\RaceBossBombRadius</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
