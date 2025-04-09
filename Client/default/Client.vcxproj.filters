@@ -52,18 +52,6 @@
     <Filter Include="02.GameObjects\UI\MenuUI">
       <UniqueIdentifier>{17a3f522-58e3-4264-ba9a-2a4adb2d3cc9}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\UI\GamePlayUI\Portrait">
-      <UniqueIdentifier>{1f143357-a3b6-4a71-9cbc-224e93371894}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\UI\GamePlayUI\Aim">
-      <UniqueIdentifier>{0dbc93d8-f8a4-41c6-a1d1-63543326afe3}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\UI\GamePlayUI\Armor">
-      <UniqueIdentifier>{a7860868-7166-44f9-9da5-547dfe0e27fc}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\UI\GamePlayUI\Ammo">
-      <UniqueIdentifier>{6ac6bbd6-0b08-4490-b991-2038eb8d0333}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02.GameObjects\UI\Font">
       <UniqueIdentifier>{f5358a75-78d6-4a59-9a31-e6b08e83845b}</UniqueIdentifier>
     </Filter>
@@ -490,6 +478,24 @@
     <Filter Include="02.GameObjects\Map\Generator">
       <UniqueIdentifier>{4df65ce4-6ae6-4efe-8b9c-2c7c118ac490}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\UI\GamePlayUI\WeaponUI">
+      <UniqueIdentifier>{12e90892-da69-4e35-823d-ee7f5d5257a5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\GamePlayUI\PlayerUI">
+      <UniqueIdentifier>{25d5c1d2-d2ba-4985-a544-6ff38cbd825a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\GamePlayUI\PlayerUI\Aim">
+      <UniqueIdentifier>{0dbc93d8-f8a4-41c6-a1d1-63543326afe3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\GamePlayUI\PlayerUI\Ammo">
+      <UniqueIdentifier>{6ac6bbd6-0b08-4490-b991-2038eb8d0333}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\GamePlayUI\PlayerUI\Armor">
+      <UniqueIdentifier>{a7860868-7166-44f9-9da5-547dfe0e27fc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\GamePlayUI\PlayerUI\Portrait">
+      <UniqueIdentifier>{1f143357-a3b6-4a71-9cbc-224e93371894}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -544,7 +550,7 @@
       <Filter>02.GameObjects\Statue</Filter>
     </ClInclude>
     <ClInclude Include="..\public\Portrait.h">
-      <Filter>02.GameObjects\UI\GamePlayUI\Portrait</Filter>
+      <Filter>02.GameObjects\UI\GamePlayUI\PlayerUI\Portrait</Filter>
     </ClInclude>
     <ClInclude Include="..\public\Loader.h">
       <Filter>01.Levels\00. Loading\Loader</Filter>
@@ -577,13 +583,13 @@
       <Filter>02.GameObjects\UI\Font\Font_MediumBlue</Filter>
     </ClInclude>
     <ClInclude Include="..\public\Aim.h">
-      <Filter>02.GameObjects\UI\GamePlayUI\Aim</Filter>
+      <Filter>02.GameObjects\UI\GamePlayUI\PlayerUI\Aim</Filter>
     </ClInclude>
     <ClInclude Include="..\public\Armor.h">
-      <Filter>02.GameObjects\UI\GamePlayUI\Armor</Filter>
+      <Filter>02.GameObjects\UI\GamePlayUI\PlayerUI\Armor</Filter>
     </ClInclude>
     <ClInclude Include="..\public\Ammo.h">
-      <Filter>02.GameObjects\UI\GamePlayUI\Ammo</Filter>
+      <Filter>02.GameObjects\UI\GamePlayUI\PlayerUI\Ammo</Filter>
     </ClInclude>
     <ClInclude Include="..\public\Common_Shape.h">
       <Filter>02.GameObjects\Statue\Common_Shape</Filter>
@@ -994,6 +1000,9 @@
     <ClInclude Include="..\public\Generator.h">
       <Filter>02.GameObjects\Map\Generator</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\WeaponUI.h">
+      <Filter>02.GameObjects\UI\GamePlayUI\WeaponUI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -1046,7 +1055,7 @@
       <Filter>02.GameObjects\Statue</Filter>
     </ClCompile>
     <ClCompile Include="..\private\Portrait.cpp">
-      <Filter>02.GameObjects\UI\GamePlayUI\Portrait</Filter>
+      <Filter>02.GameObjects\UI\GamePlayUI\PlayerUI\Portrait</Filter>
     </ClCompile>
     <ClCompile Include="..\private\Effect.cpp">
       <Filter>02.GameObjects\Effect</Filter>
@@ -1076,13 +1085,13 @@
       <Filter>02.GameObjects\UI\Font\Font_MediumBlue</Filter>
     </ClCompile>
     <ClCompile Include="..\private\Aim.cpp">
-      <Filter>02.GameObjects\UI\GamePlayUI\Aim</Filter>
+      <Filter>02.GameObjects\UI\GamePlayUI\PlayerUI\Aim</Filter>
     </ClCompile>
     <ClCompile Include="..\private\Armor.cpp">
-      <Filter>02.GameObjects\UI\GamePlayUI\Armor</Filter>
+      <Filter>02.GameObjects\UI\GamePlayUI\PlayerUI\Armor</Filter>
     </ClCompile>
     <ClCompile Include="..\private\Ammo.cpp">
-      <Filter>02.GameObjects\UI\GamePlayUI\Ammo</Filter>
+      <Filter>02.GameObjects\UI\GamePlayUI\PlayerUI\Ammo</Filter>
     </ClCompile>
     <ClCompile Include="..\private\Common_Shape.cpp">
       <Filter>02.GameObjects\Statue\Common_Shape</Filter>
@@ -1469,6 +1478,9 @@
     </ClCompile>
     <ClCompile Include="..\private\Generator.cpp">
       <Filter>02.GameObjects\Map\Generator</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\WeaponUI.cpp">
+      <Filter>02.GameObjects\UI\GamePlayUI\WeaponUI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

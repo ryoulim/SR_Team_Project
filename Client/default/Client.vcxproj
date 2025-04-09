@@ -313,6 +313,7 @@
     <ClInclude Include="..\public\Water.h" />
     <ClInclude Include="..\public\WaterBoat.h" />
     <ClInclude Include="..\public\Weapon.h" />
+    <ClInclude Include="..\public\WeaponUI.h" />
     <ClInclude Include="..\public\Weapon_Chaingun.h" />
     <ClInclude Include="..\public\Weapon_Dispenser.h" />
     <ClInclude Include="..\public\Weapon_LoverBoy.h" />
@@ -470,6 +471,7 @@
     <ClCompile Include="..\private\Water.cpp" />
     <ClCompile Include="..\private\WaterBoat.cpp" />
     <ClCompile Include="..\private\Weapon.cpp" />
+    <ClCompile Include="..\private\WeaponUI.cpp" />
     <ClCompile Include="..\private\Weapon_Chaingun.cpp" />
     <ClCompile Include="..\private\Weapon_Dispenser.cpp" />
     <ClCompile Include="..\private\Weapon_LoverBoy.cpp" />

@@ -51,15 +51,6 @@ void CAmmo::Priority_Update(_float fTimeDelta)
 
 EVENT CAmmo::Update(_float fTimeDelta)
 {
-	//_uint tmp = m_eAmmoType;
-	//if (GetKeyState('3') & 0x8000)
-	//{
-	//	++tmp;
-	//	if (tmp > CWeapon::TYPE::CLUSTERPUCK)
-	//		tmp = 0;
-	//	m_eAmmoType = CWeapon::TYPE(tmp);
-	//}
-
 	m_fTextureNum = static_cast<_float>(m_eAmmoType) - CI_LOVERBOY;
 	switch (m_eAmmoType)
 	{
@@ -104,6 +95,14 @@ void CAmmo::Late_Update(_float fTimeDelta)
 
 HRESULT CAmmo::Render()
 {
+	if (LEVEL_RACING(m_eLevelID))
+	{
+		RENDER_TEXT_BOC("INF",
+			(g_iWinSizeX / 2.f) - m_vSize.x - 30.f,
+			-(g_iWinSizeY / 2.f) + m_vSize.y / 2.f + 9.f, 1.1f);
+		return S_OK;
+	}
+
 	if (m_pAmmoInfo != nullptr)
 	{
 		RENDER_TEXT_BOC(m_pAmmoInfo->iCurAmmo,

@@ -28,6 +28,9 @@ HRESULT CFont_Racing::Initialize(void* pArg)
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
 
+	m_pTextureCom->Get_TextureSize(static_cast<_uint>(0), &m_vSize);
+	m_vSize *= 1.42;
+
 
 	return S_OK;
 }
@@ -54,29 +57,26 @@ HRESULT CFont_Racing::Render()
 	return __super::Render();
 }
 
-HRESULT CFont_Racing::imsi_Render_Text(const string& _Text, _float3 vPos)
+HRESULT CFont_Racing::Render_Number(const _int _Val)
 {
-	//¾È½á
-	return S_OK;
-}
+	_int iCopy = _Val;
+	_float startPosX = m_vSize.x;
 
-HRESULT CFont_Racing::Render_Number(const _uint _Val)
-{
-	char buffer[64]{};
-	_itoa_s(_Val, buffer, 10);
-	string temp = buffer;
-
-	_uint iCopy = _Val;
-	_float startPosX = 12.f;
-	m_uiTextWidth = 0;
+	if (iCopy == 0)
+	{
+		_int iNum = iCopy % 10;
+		m_fTextureNum = _float(iNum);
+		m_pTransformCom->Set_State(CTransform::STATE_POSITION, _float3(startPosX, g_iWinSizeY * -0.5f + 53.f, 0.5f));
+		Render();
+		return S_OK;
+	}
+	else if (iCopy > 1000)
+		iCopy = 999;
 	while (iCopy)
 	{
-		_uint iNum = iCopy % 10;
+		_int iNum = iCopy % 10;
 		m_fTextureNum = _float(iNum);
-		if (FAILED(m_pTextureCom->Get_TextureSize(static_cast<_uint>(m_fTextureNum), &m_vSize)))
-			return E_FAIL;
-		m_vSize *= 1.25;
-		m_pTransformCom->Set_State(CTransform::STATE_POSITION, _float3(startPosX, g_iWinSizeY * -0.5f + 45.f, 0.5f));
+		m_pTransformCom->Set_State(CTransform::STATE_POSITION, _float3(startPosX, g_iWinSizeY * -0.5f + 53.f, 0.5f));
 		Render();
 		startPosX -= m_vSize.x;
 		iCopy /= 10;

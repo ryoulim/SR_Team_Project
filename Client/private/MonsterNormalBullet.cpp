@@ -190,29 +190,22 @@ void CMonsterNormalBullet::On_Collision(_uint MyColliderID, _uint OtherColliderI
 
 HRESULT CMonsterNormalBullet::Render()
 {
-	if (m_bFlesh)
-	{
-		m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
-		m_pGraphic_Device->SetRenderState(D3DRS_ALPHAREF, 200);
-		m_pGraphic_Device->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER);
-	}
+	m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
+	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAREF, 200);
+	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER);
 	if (m_bBlueFire)
 	{
 		m_pGraphic_Device->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
 		m_pGraphic_Device->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
 		m_pGraphic_Device->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
-		//m_pGraphic_Device->SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
 	}
 
 	__super::Render();
 	
 	if (m_bBlueFire)
-	{
 		m_pGraphic_Device->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
-		//m_pGraphic_Device->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);
-	}
-	if (m_bFlesh)
-		m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
+
+	m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
 
 	return S_OK;
 }

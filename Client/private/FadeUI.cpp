@@ -3,6 +3,7 @@
 
 #include "FadeUI.h"
 #include "GameInstance.h"
+#include "Level_Loading.h"
 
 CFadeUI::CFadeUI(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CUI{ pGraphic_Device }
@@ -37,10 +38,10 @@ HRESULT CFadeUI::Initialize(void* pArg)
 		{
 			m_isFadeOut = true;
 			m_fFadeOpacity = 0.f;
+			m_eNextLevelID = pDesc->eNextLevel;
 		}
 	}
 	m_isRenderOn = true;
-
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
 	__super::Ready_ShaderComponent();
@@ -73,7 +74,13 @@ EVENT CFadeUI::Update(_float fTimeDelta)
 		}
 	}
 	if (m_fAnimationFrame > 0.7f)
+	{
+		if (m_eNextLevelID != LEVEL_STATIC)
+		{
+			m_pGameInstance->Change_Level(m_eNextLevelID);
+		}
 		return EVN_DEAD;
+	}
 	return __super::Update(fTimeDelta);
 }
 

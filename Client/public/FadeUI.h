@@ -12,7 +12,9 @@ public:
 	typedef struct tagFadeUIDesc : public CUI::DESC
 	{
 		_bool	m_isFadeIn;
+		LEVEL	eNextLevel = LEVEL_STATIC;
 	}DESC;
+
 private:
 	CFadeUI(LPDIRECT3DDEVICE9 pGraphic_Device);
 	CFadeUI(const CFadeUI& Prototype);
@@ -33,7 +35,7 @@ private:
 	_bool		m_isRenderOn = { false };
 	_bool		m_isFadeIn = { false };
 	_bool		m_isFadeOut = { false };
-
+	LEVEL		m_eNextLevelID = LEVEL_STATIC;
 public:
 	static CFadeUI* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
 	virtual CGameObject* Clone(void* pArg) override;

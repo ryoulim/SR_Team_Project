@@ -53,7 +53,6 @@ void CLevel_RaceFirst::Update(_float fTimeDelta)
 		m_pGameInstance->Change_Level(LEVEL_LOADING,
 			CLevel_Loading::Create(m_pGraphic_Device, (LEVEL)m_iNextLevel));
 	}
-	//CUI_Manager::Get_Instance()->Set_RacingSpeed(static_cast<CPlayerOnBoat*>(GET_PLAYER)->GetVelocityPerSecond(fTimeDelta));
 }
 
 HRESULT CLevel_RaceFirst::Render()
@@ -304,8 +303,10 @@ HRESULT CLevel_RaceFirst::Ready_Layer_UI(const _wstring& strLayerTag)
 		return E_FAIL;
 	CUI_Manager::Get_Instance()->Initialize_BossHPUI(CurLevel);
 
-	Desc.vScale = _float3(131.25f, 95.f, 1.f); // 1.25น่ตส
-	Desc.vInitPos = _float3(0.f, g_iWinSizeY * -0.5f + 50.f, 0.1f);
+#define MULTIPLIER 1.5f
+	// 105 76
+	Desc.vScale = _float3(105.f * MULTIPLIER, 76.f * MULTIPLIER, 1.f); // 1.25น่ตส
+	Desc.vInitPos = _float3(0.f, g_iWinSizeY * -0.5f + 60.f, 0.1f);
 	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_RacingPanel"),
 		Desc.eLevelID, strLayerTag, &Desc)))
 		return E_FAIL;

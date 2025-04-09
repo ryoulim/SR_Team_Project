@@ -288,6 +288,7 @@ HRESULT CLoader::Loding_For_Static()
 	ADD_TEXTURE(BossHPBar, "../Bin/Resources/Textures/UI/BossHPBar/bosshpbar%d.PNG", 2);
 	ADD_TEXTURE(Font_Racing, "../Bin/Resources/Textures/UI/Font/Font_Racing/%d.PNG", 10);
 	ADD_TEXTURE(RacingPanel, "../Bin/Resources/Textures/UI/Racing/%d.PNG", 3);
+	ADD_TEXTURE(WeaponUI, "../Bin/Resources/Textures/UI/WeaponUI/%d.PNG", 3);
 	
 #pragma region PLAYER
 	ADD_TEXTURE(PlayerOnBoat, "../Bin/Resources/Textures/Player/PlayerOnBoat/BoatPlayer%d.PNG", 2);
