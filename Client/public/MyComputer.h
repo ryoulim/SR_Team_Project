@@ -23,7 +23,10 @@ public:
 
 private:
 	_bool		m_bPicked{};
+	_bool       m_bSwitch{};
+	CGameObject* m_pInteractPromptUI = { nullptr };
 	CCameraManager::ID m_CurCamera{ CCameraManager ::FPS };
+
 
 public:
 	static CMyComputer* Create(LPDIRECT3DDEVICE9 pGraphic_Device);

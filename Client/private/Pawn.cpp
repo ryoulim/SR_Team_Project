@@ -163,6 +163,9 @@ void CPawn::Change_Level()
 		eNextLevelID = LEVEL_RACETHIRD;
 		break;
 	case LEVEL_RACETHIRD:
+		eNextLevelID = LEVEL_UNDERGROUND;
+		break;
+	case LEVEL_UNDERGROUND:
 		eNextLevelID = LEVEL_GAMEPLAY;
 		break;
 	default:

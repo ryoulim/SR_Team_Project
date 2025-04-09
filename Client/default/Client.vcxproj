@@ -245,6 +245,7 @@
     <ClInclude Include="..\public\Level_RaceFirst.h" />
     <ClInclude Include="..\public\Level_RaceSecond.h" />
     <ClInclude Include="..\public\Level_RaceThird.h" />
+    <ClInclude Include="..\public\Level_UnderGround.h" />
     <ClInclude Include="..\public\LoadingMenu.h" />
     <ClInclude Include="..\public\Logo.h" />
     <ClInclude Include="..\public\MainMenu.h" />
@@ -407,6 +408,7 @@
     <ClCompile Include="..\private\Level_RaceFirst.cpp" />
     <ClCompile Include="..\private\Level_RaceSecond.cpp" />
     <ClCompile Include="..\private\Level_RaceThird.cpp" />
+    <ClCompile Include="..\private\Level_UnderGround.cpp" />
     <ClCompile Include="..\private\LoadingMenu.cpp" />
     <ClCompile Include="..\private\Logo.cpp" />
     <ClCompile Include="..\private\MainMenu.cpp" />

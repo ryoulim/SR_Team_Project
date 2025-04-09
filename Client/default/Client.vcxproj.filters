@@ -487,6 +487,9 @@
     <Filter Include="02.GameObjects\RaceBoss\RBState">
       <UniqueIdentifier>{70d9b4a1-5a3b-4c15-bb6b-548789b6f768}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01.Levels\06.UnderGround">
+      <UniqueIdentifier>{d6d83d37-45e0-4ff2-b6b8-2ec58bbf1106}</UniqueIdentifier>
+    </Filter>
     <Filter Include="02.GameObjects\Map\Generator">
       <UniqueIdentifier>{4df65ce4-6ae6-4efe-8b9c-2c7c118ac490}</UniqueIdentifier>
     </Filter>
@@ -988,6 +991,9 @@
     <ClInclude Include="..\public\RBState.h">
       <Filter>02.GameObjects\RaceBoss\RBState</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\Level_UnderGround.h">
+      <Filter>01.Levels\06.UnderGround</Filter>
+    </ClInclude>
     <ClInclude Include="..\public\BombRadius.h">
       <Filter>02.GameObjects\Statue\RaceBossBombRadius</Filter>
     </ClInclude>
@@ -1462,6 +1468,9 @@
     </ClCompile>
     <ClCompile Include="..\private\FXMgr.cpp">
       <Filter>02.GameObjects\Particle</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Level_UnderGround.cpp">
+      <Filter>01.Levels\06.UnderGround</Filter>
     </ClCompile>
     <ClCompile Include="..\private\Generator.cpp" />
     <ClCompile Include="..\private\BombRadius.cpp">

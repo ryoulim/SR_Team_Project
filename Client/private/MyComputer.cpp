@@ -24,6 +24,16 @@ HRESULT CMyComputer::Initialize(void* pArg)
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
 
+	if (m_eLevelID == LEVEL_INDOOR)
+	{
+		m_pInteractPromptUI = m_pGameInstance->Find_Object(m_eLevelID, TEXT("Layer_UI"), 4);
+
+		if (nullptr == m_pInteractPromptUI)
+			return E_FAIL;
+
+		Safe_AddRef(m_pInteractPromptUI);
+	}
+
 	return S_OK;
 }
 
@@ -42,10 +52,12 @@ EVENT CMyComputer::Update(_float fTimeDelta)
 			{
 				m_CurCamera = CCameraManager::CUTSCENE;
 				CAMERA_MANAGER->Start_CutScene({ 450.05f, 150.56f, 396.35f }, { 0.57f, -0.64f, -0.52f });
+				m_bSwitch = true;
 			}
 			else
 			{
 				m_CurCamera = CCameraManager::FPS;
+				m_bSwitch = false;
 			}
 
 			CAMERA_MANAGER->Switch(m_CurCamera);
@@ -57,6 +69,11 @@ EVENT CMyComputer::Update(_float fTimeDelta)
 
 void CMyComputer::Late_Update(_float fTimeDelta)
 {
+	if (m_bPicked && nullptr != m_pInteractPromptUI && !m_bSwitch)
+	{
+		m_pGameInstance->Add_RenderGroup(CRenderer::RG_UI, m_pInteractPromptUI);
+	}
+
 	__super::Late_Update(fTimeDelta);
 }
 
@@ -135,8 +152,13 @@ void CMyComputer::On_Collision(_uint MyColliderID, _uint OtherColliderID)
 	switch (OtherColliderID)
 	{
 	case CI_PICKING_RAY:
+	{
+		_float fDistance = 50.f;
+
 		/* Press USE [E] to interact with the world. */
 		m_bPicked = !m_bPicked;
+	}
+
 		break;
 	}
 }
@@ -170,4 +192,6 @@ CGameObject* CMyComputer::Clone(void* pArg)
 void CMyComputer::Free()
 {
 	__super::Free();
+
+	Safe_Release(m_pInteractPromptUI);
 }
