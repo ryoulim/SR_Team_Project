@@ -126,6 +126,8 @@ HRESULT CGameInstance::Change_Level(_uint iLevelIndex, CLevel* pNewLevel)
 {
 	return m_pLevel_Manager->Change_Level(iLevelIndex, pNewLevel);
 }
+
+FORCEINLINE
 void CGameInstance::Change_Level(_uint iLevelIndex)
 {
 	m_pLevel_Manager->Change_Level(iLevelIndex);
@@ -212,6 +214,7 @@ void CGameInstance::Delete_Collider(const CGameObject* pOwner)
 	m_pCollider_Manager->Delete_Collider(pOwner);
 }
 
+FORCEINLINE
 void CGameInstance::Clear_Collider()
 {
 	m_pCollider_Manager->Clear();

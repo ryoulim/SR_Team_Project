@@ -40,14 +40,6 @@ void CTPS_Camera::Priority_Update(_float fTimeDelta)
 
 	_float3 change = vPos - m_vTargetPos;
 
-	// 최대 이동 속도 제한
-	//_float maxChange = FLT_MAX;
-	//_float mag = sqrtf(change.x * change.x + change.y * change.y + change.z * change.z);
-	//if (mag > maxChange)
-	//{
-	//	change = change * (maxChange / mag);
-	//}
-
 	_float3 temp = (m_vCurrentVelocity + change * m_fOmega) * fTimeDelta;
 	m_vCurrentVelocity = (m_vCurrentVelocity - temp * m_fOmega) * fExp;
 
@@ -61,6 +53,8 @@ void CTPS_Camera::Priority_Update(_float fTimeDelta)
 		output = m_vTargetPos;
 		m_vCurrentVelocity = _float3(0, 0, 0);
 	}
+
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION, output);
 }
 
 EVENT CTPS_Camera::Update(_float fTimeDelta)
@@ -89,7 +83,7 @@ void CTPS_Camera::Smooth_Damping(_float3 vTargetPos, _float fSmoothTime)
 {
 	m_vTargetPos = vTargetPos;
 	fSmoothTime = max(0.0001f, fSmoothTime); // 0으로 나누는 거 방지
-	_float m_fOmega = 2.0f / fSmoothTime;
+	m_fOmega = 2.0f / fSmoothTime;
 }
 
 void CTPS_Camera::Update_Projection_Matrix()

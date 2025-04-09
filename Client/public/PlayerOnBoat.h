@@ -54,13 +54,15 @@ private:
 	void			SpawnWaterParticle(_float fWaterSpeed);
 
 	void			Create_Bullet();
+	void			Tilt(_bool Right);
 
 private:
 	class CShader* m_pShaderCom = { nullptr };
 
 	class CCameraManager*	m_pCameraManager = { nullptr };
 	// 3인칭 카메라를 소유하게 하고, 카메라에 댐핑 함수를 만들자
-	CTransform*				m_pCameraTransform = { nullptr };
+	class CTPS_Camera*		m_pTPS_Camera = { nullptr };
+	//CTransform*				m_pCameraTransform = { nullptr };
 
 	CGameObject*			m_pWaterBoatEffect_01 = nullptr;
 	CGameObject*			m_pWaterBoatEffect_02 = nullptr;
@@ -79,6 +81,11 @@ private:
 	_float					m_fSpeedRatio{1.f};
 	_float					m_fKeyTimer{};
 	_float					m_fCurrentLean{};
+
+	// 차체의 단계적인 기울어짐
+	const _float m_ftiltSteps[5] = { -11.0f, -5.5f, 0.0f, 5.5f, 11.0f };
+	_float					m_fAngleTimer{};
+	_uint 					m_iTiltIndex {3};
 
 	// 총알 쿨타임
 	_float					m_fBulletTimer{};

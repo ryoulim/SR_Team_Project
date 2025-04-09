@@ -719,6 +719,8 @@ HRESULT CLoader::Loading_For_Logo()
 #pragma region SOUND
 	lstrcpy(m_szLoadingText, TEXT("사운드을(를) 로딩중입니다."));
 
+	//프로토 타입으로 컴포넌트에 붙인거는 씬바뀌면 내려가는데
+	//이렇게 부른 사운드는 레벨 바뀌어도 안내려감
 	m_pGameInstance->LoadSound("../Bin/Resources/Sounds/Music/", false, true);
 
 #pragma endregion
@@ -854,6 +856,7 @@ HRESULT CLoader::Loading_For_GamePlay()
 	ADD_SOUND(Ttakkeun_i, "../Bin/Resources/Sounds/Boss/");
 	ADD_SOUND(Bridge, "../Bin/Resources/Sounds/Bridge/");
 	m_pGameInstance->LoadSound("../Bin/Resources/Sounds/Env/", false, true);
+
 #pragma endregion
 
 #pragma region PRTOBJ

@@ -140,7 +140,6 @@ void CPlayer::Late_Update(_float fTimeDelta)
 
 	m_pGameInstance->Add_RenderGroup(CRenderer::RG_UI, m_pLeftHand);
 
-
 	m_Weapons[m_iCurWeaponIndex]->Late_Update(fTimeDelta);
 	
 	m_pCollider->Update_Collider();
