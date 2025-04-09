@@ -103,6 +103,9 @@ void CCameraManager::Shake_Camera(_float fIntensity, _float fDuration, _float fS
 	case CUTSCENE:
 		static_cast<CCutScene_Camera*>(m_Cameras[m_eID])->StartShake(fIntensity, fDuration, fShakeFreqPos, fShakeFreqRot);
 		break;
+	case TPS:
+		static_cast<CTPS_Camera*>(m_Cameras[m_eID])->StartShake(fIntensity, fDuration, fShakeFreqPos, fShakeFreqRot);
+		break;
 	default:
 		break;
 	}

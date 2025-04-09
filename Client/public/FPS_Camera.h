@@ -56,8 +56,6 @@ private:
 	//_float3  m_vCurrentShakePos = { 0.f, 0.f, 0.f };
 	//_float3  m_vCurrentShakeRot = { 0.f, 0.f, 0.f };
 
-
-
 	//มÜภฮ มÜพฦฟ๔ ฐüทร
 	_bool	m_bZoom{ FALSE };
 	_float	m_fOriginFov{};

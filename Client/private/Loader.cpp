@@ -290,7 +290,7 @@ HRESULT CLoader::Loding_For_Static()
 	ADD_TEXTURE(RacingPanel, "../Bin/Resources/Textures/UI/Racing/%d.PNG", 3);
 	
 #pragma region PLAYER
-	ADD_TEXTURE(PlayerOnBoat, "../Bin/Resources/Textures/Player/PlayerOnBoat/BoatPlayer%d.PNG", 2);
+	ADD_TEXTURE(PlayerOnBoat, "../Bin/Resources/Textures/Player/PlayerOnBoat/BoatPlayer%d.PNG", 4);
 	ADD_TEXTURE(MyCube, "../Bin/Resources/Textures/Snow/Snow.png", 1);
 	ADD_TEXTURE(GrenadeBullet, "../Bin/Resources/Textures/Bullet/Grenade/GrenadeBullet.png", 1);
 	ADD_TEXTURE(Weapon_LoverBoy, "../Bin/Resources/Textures/Weapon/LoverBoy/LoverBoy%d.PNG", 15);

@@ -64,12 +64,15 @@ void CCutScene_Camera::Priority_Update(_float fTimeDelta)
 
 	_float3 vUp = vLook.Cross(vRight).Normalize();
 	m_pTransformCom->Set_State(CTransform::STATE_UP, vUp);
+
 }
 
 EVENT CCutScene_Camera::Update(_float fTimeDelta)
 {
 	if (!m_bActive)
 		return EVN_NONE;
+
+	m_pGameInstance->Set_Listener_Position(m_pTransformCom, {});
 
 	Update_View_Matrix();
 	Bind_Resource();

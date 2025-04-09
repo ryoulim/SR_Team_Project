@@ -63,6 +63,8 @@ EVENT CFPS_Camera::Update(_float fTimeDelta)
 {
 	if (!m_bActive)
 		return EVN_NONE;
+
+	m_pGameInstance->Set_Listener_Position(m_pTransformCom, {});
 	Update_View_Matrix();
 	Bind_Resource();
 	return EVN_NONE;

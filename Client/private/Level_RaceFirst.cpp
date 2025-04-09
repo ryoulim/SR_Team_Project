@@ -53,7 +53,6 @@ void CLevel_RaceFirst::Update(_float fTimeDelta)
 		m_pGameInstance->Change_Level(LEVEL_LOADING,
 			CLevel_Loading::Create(m_pGraphic_Device, (LEVEL)m_iNextLevel));
 	}
-	//CUI_Manager::Get_Instance()->Set_RacingSpeed(static_cast<CPlayerOnBoat*>(GET_PLAYER)->GetVelocityPerSecond(fTimeDelta));
 }
 
 HRESULT CLevel_RaceFirst::Render()

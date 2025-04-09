@@ -74,10 +74,6 @@ private:
 	// 사다리
 	_bool						m_bOnLadder{};
 
-	//히트 관련
-	_bool						m_bOnHit{};
-	_float						m_fOnHitTimer{};
-
 	//카드 키 관련
 	_bool						m_bHaveCardkey{ false };
 	_bool						m_bMoveLeftHand{};
@@ -95,8 +91,9 @@ private:
 	void			Update_Camera_Link();
 	void			Update_Dash(_float fTimeDelta);
 	void			Ladder(_float fTimeDelta);
-	void			On_Hit(_int iDamage);
 	void			On_Just_Dodge();
+
+	virtual void		On_Hit(_int iDamage) override;
 
 public:
 	static CPlayer* Create(LPDIRECT3DDEVICE9 pGraphic_Device);

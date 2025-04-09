@@ -60,7 +60,14 @@ protected:
 
 	INFO						m_tInfo{};
 
+	//히트 관련
+	_bool						m_bOnHit{};
+	_float						m_fOnHitTimer{};
+
 	//_bool	m_bDead{ FALSE };
+
+protected:
+	virtual void		On_Hit(_int iDamage);
 
 public:
 	virtual CGameObject* Clone(void* pArg) PURE;

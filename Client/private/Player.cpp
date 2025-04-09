@@ -22,7 +22,6 @@
 #define DODGE_TIMESCALE 0.1f
 
 // 무적시간
-#define INVINCIBILITY_FRAMES 0.4f
 
 CPlayer::CPlayer(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CPawn{ pGraphic_Device }
@@ -69,11 +68,7 @@ void CPlayer::Priority_Update(_float fTimeDelta)
 	if (!m_bActive)
 		return;
 
-	this;
-
 	//fTimeDelta = m_pGameInstance->Get_TimeDelta(TEXT("Timer_60"));
-
-	m_pGameInstance->Set_Listener_Position(m_pTransformCom, *m_pTransformCom->Get_State(CTransform::STATE_POSITION) - m_vPrePosition);
 
 	if (m_bDash)
 	{
@@ -109,15 +104,6 @@ EVENT CPlayer::Update(_float fTimeDelta)
 	//fTimeDelta = m_pGameInstance->Get_TimeDelta(TEXT("Timer_60"));
 
 	// 피격 후 무적시간 계산
-	if (m_bOnHit)
-	{
-		m_fOnHitTimer += fTimeDelta;
-		if (m_fOnHitTimer > DASH_COOLTIME)
-		{
-			m_bOnHit = FALSE;
-			m_fOnHitTimer = 0.f;
-		}
-	}
 	if (m_bMoveLeftHand)
 	{
 		if (m_pLeftHand->Move(fTimeDelta))
@@ -571,33 +557,6 @@ void CPlayer::Ladder(_float fTimeDelta)
 	}
 }
 
-void CPlayer::On_Hit(_int iDamage)
-{
-	if (m_bOnHit)
-		return;
-
-	if (m_bDash &&
-		m_fDashTimer < JUST_DASH_TIME)
-	{
-		On_Just_Dodge();
-		m_bOnHit = TRUE;
-		return;
-	}
-
-	m_bOnHit = TRUE;
-	m_tInfo.iArmor -= iDamage;
-	FX_MGR->SpawnHitEffect(m_eLevelID);
-	CUI_Manager::Get_Instance()->Set_Face(CPortrait::PORTRAIT_ANGER);
-
-	if (m_tInfo.iArmor <= 0)
-	{
-		// 음수니까 더해줘야겠지
-		m_tInfo.iHP += m_tInfo.iArmor;
-		m_tInfo.iArmor = 0;
-		//플레이어는 안죽는다
-	}
-}
-
 void CPlayer::On_Just_Dodge()
 {
 	// 1 = 회피중
@@ -611,6 +570,34 @@ void CPlayer::On_Just_Dodge()
 	m_fJustDodgeTimer = 0.f;
 	m_pGameInstance->Set_TimeScale(TEXT("Timer_60"), DODGE_TIMESCALE);
 	CUI_Manager::Get_Instance()->Set_Face(CPortrait::PORTRAIT_HYPER);
+}
+
+void CPlayer::On_Hit(_int iDamage)
+{
+	if (m_bOnHit)
+		return;
+
+	if (m_bDash &&
+		m_fDashTimer < JUST_DASH_TIME)
+	{
+		On_Just_Dodge();
+		m_bOnHit = TRUE;
+		return;
+	}
+
+	m_tInfo.iArmor -= iDamage;
+	FX_MGR->SpawnHitEffect(m_eLevelID);
+	CUI_Manager::Get_Instance()->Set_Face(CPortrait::PORTRAIT_ANGER);
+
+	if (m_tInfo.iArmor <= 0)
+	{
+		// 음수니까 더해줘야겠지
+		m_tInfo.iHP += m_tInfo.iArmor;
+		m_tInfo.iArmor = 0;
+		//플레이어는 안죽는다
+	}
+
+	m_bOnHit = TRUE;
 }
 
 CPlayer* CPlayer::Create(LPDIRECT3DDEVICE9 pGraphic_Device)

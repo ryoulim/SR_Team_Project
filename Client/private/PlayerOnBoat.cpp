@@ -43,7 +43,6 @@ HRESULT CPlayerOnBoat::Initialize(void* pArg)
 
 	m_fWaterSpeed = static_cast<DESC*>(pArg)->fSpeedPerSec;
 
-
 	//셰이더 장착
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Shader_Particle"),
 		TEXT("Com_Shader"), reinterpret_cast<CComponent**>(&m_pShaderCom))))
@@ -108,6 +107,11 @@ void CPlayerOnBoat::Priority_Update(_float fTimeDelta)
 EVENT CPlayerOnBoat::Update(_float fTimeDelta)
 {
 	m_fBulletTimer += fTimeDelta;
+
+	Update_Frame(fTimeDelta);
+
+	CUI_Manager::Get_Instance()->Set_RacingSpeed(static_cast<_uint>(GetVelocityPerSecond(fTimeDelta).Length() * 0.3f) - 3);
+
 	return __super::Update(fTimeDelta);
 }
 
@@ -136,7 +140,7 @@ HRESULT CPlayerOnBoat::Render()
 	if (FAILED(m_pTransformCom->Bind_Resource()))
 		return E_FAIL;
 
-	if (FAILED(m_pTextureCom->Bind_Resource(0)))
+	if (FAILED(m_pTextureCom->Bind_Resource(static_cast<_uint>(m_fTextureNum))))
 		return E_FAIL;
 
 	if (FAILED(m_pVIBufferCom->Bind_Buffers()))
@@ -161,7 +165,7 @@ HRESULT CPlayerOnBoat::Render()
 	if (FAILED(m_pTransformCom->Bind_Resource()))
 		return E_FAIL;
 
-	if (FAILED(m_pTextureCom->Bind_Resource(1)))
+	if (FAILED(m_pTextureCom->Bind_Resource(3)))
 		return E_FAIL;
 
 	if (FAILED(m_pVIBufferCom->Bind_Buffers()))
@@ -184,6 +188,12 @@ void CPlayerOnBoat::On_Collision(_uint MyColliderID, _uint OtherColliderID)
 {
 	if (OtherColliderID == CI_TRIGGER)
 		Change_Level();
+
+	if (OtherColliderID == CI_BOSS_GUIDBULLET)
+	{
+		On_Hit(7);
+		m_pCameraManager->Shake_Camera(0.3f,0.5f);
+	}
 }
 
 HRESULT CPlayerOnBoat::Ready_Components(void* pArg)
@@ -215,9 +225,9 @@ HRESULT CPlayerOnBoat::Ready_Components(void* pArg)
 	CCollider_Capsule::DESC ColliderDesc{};
 	ColliderDesc.pTransform = m_pTransformCom;
 	ColliderDesc.vScale = pDesc->vScale;
-	ColliderDesc.vScale.x *= 0.5f;
+	ColliderDesc.vScale.x *= 0.4f;
 	ColliderDesc.vScale.y *= 0.8f;
-	ColliderDesc.vScale.z *= 0.5f;
+	ColliderDesc.vScale.z *= 0.4f;
 	ColliderDesc.pOwner = this;
 	ColliderDesc.iColliderGroupID = CG_PAWN;
 	ColliderDesc.iColliderID = CI_PLAYER;
@@ -228,6 +238,13 @@ HRESULT CPlayerOnBoat::Ready_Components(void* pArg)
 		return E_FAIL;
 
 	return S_OK;
+}
+
+void CPlayerOnBoat::Update_Frame(_float fTimeDelta)
+{
+	m_fTextureNum += fTimeDelta * 50.f;
+	if (m_fTextureNum > 3.f)
+		m_fTextureNum = 0.f;
 }
 
 void CPlayerOnBoat::Key_Input(_float fTimeDelta)
@@ -318,8 +335,7 @@ void CPlayerOnBoat::Key_Input(_float fTimeDelta)
 		}
 	}
 
-
-	CUI_Manager::Get_Instance()->Set_RacingSpeed(_int(fabsf(m_fKeyTimer) * 30));
+	//CUI_Manager::Get_Instance()->Set_RacingSpeed(_int(fabsf(m_fKeyTimer) * 30));
 
 	// 지수 함수: y = sign(x) * (1 - e^(-a * |x|)) 
 	_float fSign = (m_fKeyTimer >= 0.f) ? 1.f : -1.f;

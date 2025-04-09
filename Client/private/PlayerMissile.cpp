@@ -41,6 +41,8 @@ void CPlayerMissile::Priority_Update(_float fTimeDelta)
 
 EVENT CPlayerMissile::Update(_float fTimeDelta)
 {
+	m_fTimeAcc += fTimeDelta;
+
 	m_pTransformCom->Move({ 0.f,0.f,RACE_SPEED_PER_SEC }, fTimeDelta);
 	m_pTransformCom->Go_Straight(fTimeDelta);
 
@@ -50,7 +52,8 @@ EVENT CPlayerMissile::Update(_float fTimeDelta)
 	if (m_pEffect)
 		static_cast<CMonsterMissile*>(m_pEffect)->SetPosition(*m_pTransformCom->Get_State(CTransform::STATE_POSITION));
 
-	if (m_bDead)
+	if (m_fTimeAcc > 3.f || 
+		m_bDead)
 	{
 		if (m_pEffect)
 		{

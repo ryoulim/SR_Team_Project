@@ -51,6 +51,8 @@ EVENT CDynamic_Camera::Update(_float fTimeDelta)
 	if (!m_bActive)
 		return EVN_NONE;
 
+	m_pGameInstance->Set_Listener_Position(m_pTransformCom, {});
+
 #ifdef _CONSOL
 
 	if (KEY_DOWN(DIK_Z))

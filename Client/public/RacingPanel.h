@@ -23,7 +23,7 @@ public:
 	virtual HRESULT Render() override;
 
 public:
-	void Set_TargetSpeed(_int iTargetSpeed) { m_iTargetSpeed = iTargetSpeed + m_iOrigSpeed; }
+	void Set_TargetSpeed(_int iTargetSpeed) { m_iTargetSpeed = iTargetSpeed; }
 
 private:
 	void Render_Boosts();

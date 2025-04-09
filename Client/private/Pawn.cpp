@@ -1,6 +1,8 @@
 #include "Pawn.h"
 #include "FXMgr.h"
 
+#define INVINCIBILITY_FRAMES 0.8f
+
 CPawn::CPawn(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CGameObject{ pGraphic_Device }
 {
@@ -34,28 +36,38 @@ void CPawn::Priority_Update(_float fTimeDelta)
 
 EVENT CPawn::Update(_float fTimeDelta)
 {
-	/* [ 포그 컨트롤 ] */
-	if (KEY_DOWN(DIK_I))
+	///* [ 포그 컨트롤 ] */
+	//if (KEY_DOWN(DIK_I))
+	//{
+	//	g_FogTrigger = !g_FogTrigger;
+	//	if (!g_FogTrigger)
+	//	{
+	//		m_bFogAnimation = false;
+	//		g_FogCustom = 2000.f;
+	//	}
+	//}
+	//if (KEY_DOWN(DIK_O))
+	//	m_bFogAnimation = true;
+
+	//if (m_bFogAnimation)
+	//{
+	//	// 빠르게 0으로 감소
+	//	float fSpeed = 1000.f;
+	//	g_FogCustom -= fSpeed * fTimeDelta;
+
+	//	// 0 이하로 내려가지 않도록
+	//	if (g_FogCustom < 0.f)
+	//		g_FogCustom = 0.f;
+	//}
+
+	if (m_bOnHit)
 	{
-		g_FogTrigger = !g_FogTrigger;
-		if (!g_FogTrigger)
+		m_fOnHitTimer += fTimeDelta;
+		if (m_fOnHitTimer > INVINCIBILITY_FRAMES)
 		{
-			m_bFogAnimation = false;
-			g_FogCustom = 2000.f;
+			m_bOnHit = FALSE;
+			m_fOnHitTimer = 0.f;
 		}
-	}
-	if (KEY_DOWN(DIK_O))
-		m_bFogAnimation = true;
-
-	if (m_bFogAnimation)
-	{
-		// 빠르게 0으로 감소
-		float fSpeed = 1000.f;
-		g_FogCustom -= fSpeed * fTimeDelta;
-
-		// 0 이하로 내려가지 않도록
-		if (g_FogCustom < 0.f)
-			g_FogCustom = 0.f;
 	}
 
 	return EVN_NONE;
@@ -158,6 +170,26 @@ void CPawn::Change_Level()
 	}
 
 	m_pGameInstance->Change_Level(eNextLevelID);
+}
+
+#include "UI_Manager.h"
+void CPawn::On_Hit(_int iDamage)
+{
+	if (m_bOnHit)
+		return;
+
+	m_bOnHit = TRUE;
+	m_tInfo.iArmor -= iDamage;
+	FX_MGR->SpawnHitEffect(m_eLevelID);
+	CUI_Manager::Get_Instance()->Set_Face(CPortrait::PORTRAIT_ANGER);
+
+	if (m_tInfo.iArmor <= 0)
+	{
+		// 음수니까 더해줘야겠지
+		m_tInfo.iHP += m_tInfo.iArmor;
+		m_tInfo.iArmor = 0;
+		//플레이어는 안죽는다
+	}
 }
 
 void CPawn::Free()

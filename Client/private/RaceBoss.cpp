@@ -32,6 +32,7 @@ HRESULT CRaceBoss::Initialize(void* pArg)
 	ReadyForState();
 
 	m_pPlayer = static_cast<CPlayerOnBoat*>(GET_PLAYER);
+	Safe_AddRef(m_pPlayer);
 	m_pPlayerpos = static_cast<CTransform*>(m_pPlayer->Find_Component(TEXT("Com_Transform")))->Get_State(CTransform::STATE_POSITION);
 
 	Init_Skull();
@@ -69,6 +70,17 @@ EVENT CRaceBoss::Update(_float fTimeDelta)
 
 	//매 프레임마다 일정 수치만큼 밀림
 	m_pTransformCom->Move({ 0.f,0.f,RACE_SPEED_PER_SEC }, fTimeDelta);
+
+
+	/// 아래는 테스트
+	static _float fTimeAcc{};
+
+	fTimeAcc += fTimeDelta;
+	if (fTimeAcc > 1.f)
+	{
+		Fire_HeadBullet(fTimeDelta);
+		fTimeAcc = 0.f;
+	}
 
 	return EVN_NONE;
 }
@@ -342,7 +354,7 @@ HRESULT CRaceBoss::Fire_Bullet(CRaceBossBullet::RBULLETTYPE eType, MUZZLEPOS ePo
 	if (eType == CRaceBossBullet::HEAD)
 	{
 		//HEAD 총알은 플레이어를 향함
-		auto pPlayer = GET_PLAYER;
+		//auto pPlayer = GET_PLAYER;
 		RaceBossBulletdesc.vLook = CalcBulletLook(RaceBossBulletdesc.vPosition, RaceBossBulletdesc.fSpeedPerSec, fTimeDelta);
 		m_vBulletDiretion = RaceBossBulletdesc.vLook;
 	}
@@ -515,6 +527,7 @@ void CRaceBoss::Free()
 	Safe_Release(m_pTextureCom);
 	Safe_Release(m_pVIBufferCom);
 	Safe_Release(m_pTransformCom);
+	Safe_Release(m_pPlayer);
 	Safe_Release(m_pSkull);
 
 	for(auto& Collider : m_ColliderComs)

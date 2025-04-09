@@ -24,7 +24,6 @@ public:
 	virtual void Late_Update(_float fTimeDelta) override;
 	virtual HRESULT Render() override;
 
-
 	virtual void On_Collision(_uint MyColliderID, _uint OtherColliderID) override;
 
 	_float3		GetVelocityPerSecond(_float fTimeDelta) const {
@@ -34,6 +33,7 @@ public:
 
 private:
 	virtual HRESULT Ready_Components(void* pArg)override;
+	void Update_Frame(_float fTimeDelta);
 
 private:
 	friend class CPBState_Accel;

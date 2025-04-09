@@ -42,6 +42,7 @@ public:
 public:
 	virtual void Enter(_float fTimeDelta) override
 	{
+		static_cast<CTransform*>(m_pOwner->Find_Component(TEXT("Com_Transform")))->Set_SpeedPerSec(RACE_SPEED_PER_SEC);
 		//초기 속도 설정
 		m_fAccelSpeed = fTimeDelta * 5.f;
 	}
