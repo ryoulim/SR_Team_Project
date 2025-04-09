@@ -68,7 +68,7 @@ HRESULT CLevel_GamePlay::Initialize(class CLevelData* pLevelData)
 	//if(FAILED(Ready_Light()))
 	//	return E_FAIL;
 
-	if (FAILED(Load_Map(LEVEL_GAMEPLAY, TEXT("MapData.txt"))))
+	if (FAILED(Load_Map(LEVEL_GAMEPLAY, TEXT("BossMapData.txt"))))
 		return E_FAIL;
 
 	if (FAILED(Ready_Layer_Trigger(TEXT("Layer_Trigger"))))
@@ -86,8 +86,11 @@ void CLevel_GamePlay::Update(_float fTimeDelta)
 	auto BossList = m_pGameInstance->Find_Objects(LEVEL_GAMEPLAY, L"Layer_Boss");
 	if (BossList)
 	{
-		if (static_cast<CTtakkeun_i*>(*BossList->begin())->GetbRender())
-			m_bBossStart = true;
+		if (!BossList->empty())
+		{
+			if (static_cast<CTtakkeun_i*>(*BossList->begin())->GetbRender())
+				m_bBossStart = true;
+		}
 	}
 	
 	if(m_bBossStart && m_bBossEnd)

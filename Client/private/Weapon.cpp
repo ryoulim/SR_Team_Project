@@ -266,7 +266,12 @@ void CWeapon::Mouse_Over()
 		m_iPickedColliderID == CI_INTERACTIVE_SECURITY || 
 		m_iPickedColliderID == CI_INTERACTIVE_COMPUTER)
 	{
-		m_pPickedCollider->Get_Owner()->On_Collision(m_iPickedColliderID, CI_PICKING_RAY);
+		const _float3& vPickedPos = m_pPickedCollider->Get_Pos();
+		const _float3& vPlayerPos = *m_pPlayerTransform->Get_State(CTransform::STATE_POSITION);
+		_float fDistance = (vPickedPos - vPlayerPos).Length();
+
+		if (fDistance < 150.f)
+			m_pPickedCollider->Get_Owner()->On_Collision(m_iPickedColliderID, CI_PICKING_RAY);
 	}
 
 	if (m_iPrePickedColliderID == CI_MON_HEAD)

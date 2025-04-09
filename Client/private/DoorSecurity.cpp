@@ -8,6 +8,7 @@
 #include "Door.h"
 
 #include "UI_Manager.h"
+#include "InteractPromptUI.h"
 
 CDoorSecurity::CDoorSecurity(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CInteractive_Block{ pGraphic_Device }
@@ -104,6 +105,8 @@ EVENT CDoorSecurity::Update(_float fTimeDelta)
 
 void CDoorSecurity::Late_Update(_float fTimeDelta)
 {
+    static_cast<CInteractPromptUI*>(m_pInteractPromptUI)->Render_Start(fTimeDelta, m_bPicked);
+
     if (m_bPicked)
     {
         m_pGameInstance->Add_RenderGroup(CRenderer::RG_UI, m_pInteractPromptUI);
@@ -119,10 +122,14 @@ HRESULT CDoorSecurity::Render()
 
 void CDoorSecurity::On_Collision(_uint MyColliderID, _uint OtherColliderID)
 {
+
+
     switch (OtherColliderID)
     {
     case CI_PICKING_RAY:
+    {
         m_bPicked = !m_bPicked;
+    }
         break;
     default:
         break;
@@ -212,7 +219,7 @@ HRESULT CDoorSecurity::Link_Door()
     _float fMinDistance = FLT_MAX;
     for (auto pDoor : *pDoorList)
     {
-        _float3 vDoorPos = *dynamic_cast<CTransform*>(pDoor->Find_Component(TEXT("Com_Transform")))->Get_State(CTransform::STATE_POSITION);
+        _float3 vDoorPos = *static_cast<CTransform*>(pDoor->Find_Component(TEXT("Com_Transform")))->Get_State(CTransform::STATE_POSITION);
         _float3 vDistance = vDoorPos - vPosition;
         _float fDoorDistance = vDistance.Length();
 

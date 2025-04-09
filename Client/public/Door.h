@@ -38,6 +38,7 @@ private:
 	void Open_The_Door(_float fTimeDelta);
 
 private:
+	class CGameObject* m_pInteractPromptUI = { nullptr };
 	_bool m_bOpen = { false };
 	_bool m_bSecurity = { false };
 	_bool m_bPicked = { false };

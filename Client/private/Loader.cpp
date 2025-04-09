@@ -846,7 +846,7 @@ HRESULT CLoader::Loading_For_GamePlay()
 
 #pragma region MODEL
 	lstrcpy(m_szLoadingText, TEXT("모델을(를) 로딩중입니다."));
-	Load_For_Terrain(TEXT("MapData.txt"));
+	Load_For_Terrain(TEXT("BossMapData.txt"));
 #pragma endregion
 
 #pragma region SOUND

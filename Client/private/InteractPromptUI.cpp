@@ -30,6 +30,8 @@ HRESULT CInteractPromptUI::Initialize(void* pArg)
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
 
+	Ready_ShaderComponent();
+
 	return S_OK;
 }
 
@@ -60,12 +62,16 @@ void CInteractPromptUI::Late_Update(_float fTimeDelta)
 
 HRESULT CInteractPromptUI::Render()
 {
+	m_pShaderCom->SetFloat("opacity", m_fOpacity);
+
 	CUI_Manager::Get_Instance()->Render_Text(
-		"Press USE [E] to unlock terminal with Access Card.",
+		"Press USE [E] to interact with the world.",
 		CFont::MEDIUMBLUE,
 		CFont::CENTER,
 		(float)(0.f),
-		(float)(-100.f));
+		(float)(-100.f),
+		1.f,
+		m_pShaderCom);
 
 	if (FAILED(m_pTransformCom->Bind_Resource()))
 		return E_FAIL;
@@ -77,6 +83,17 @@ HRESULT CInteractPromptUI::Render()
 		return E_FAIL;
 
 	return S_OK;
+}
+
+void CInteractPromptUI::Render_Start(_float fTimeDelta, _bool bPicked)
+{
+	m_fOpacity += fTimeDelta;
+
+	if (1.f <= m_fOpacity)
+		m_fOpacity = 1.f;
+
+	if (!bPicked)
+		m_fOpacity = 0.f;
 }
 
 CInteractPromptUI* CInteractPromptUI::Create(LPDIRECT3DDEVICE9 pGraphic_Device)

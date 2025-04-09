@@ -4,6 +4,10 @@
 #include "Door.h"
 #include "GameInstance.h"
 
+#include "UI_Manager.h"
+#define UIMGR CUI_Manager::Get_Instance()
+#define PRINT_DIALOG(Message) UIMGR->Insert_DialogQueue(Message)
+
 CDoor::CDoor(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CInteractive_Block{ pGraphic_Device }
 {
@@ -29,6 +33,17 @@ HRESULT CDoor::Initialize(void* pArg)
 
     if (1.f <= static_cast<DESC*>(pArg)->fRotationPerSec)
         m_bSecurity = true;
+
+    if (m_eLevelID == LEVEL_INDOOR)
+    {
+        m_pInteractPromptUI = m_pGameInstance->Find_Object(m_eLevelID, TEXT("Layer_UI"), 4);
+
+        if (nullptr == m_pInteractPromptUI)
+            return E_FAIL;
+
+        Safe_AddRef(m_pInteractPromptUI);
+    }
+
 
 	return S_OK;
 }
@@ -61,6 +76,11 @@ EVENT CDoor::Update(_float fTimeDelta)
 
 void CDoor::Late_Update(_float fTimeDelta)
 {
+    if (m_bPicked && nullptr != m_pInteractPromptUI)
+    {
+        m_pGameInstance->Add_RenderGroup(CRenderer::RG_UI, m_pInteractPromptUI);
+    }
+
 	__super::Late_Update(fTimeDelta);
 }
 
@@ -179,4 +199,5 @@ CGameObject* CDoor::Clone(void* pArg)
 void CDoor::Free()
 {
 	__super::Free();
+    Safe_Release(m_pInteractPromptUI);
 }
