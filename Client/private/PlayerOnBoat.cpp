@@ -107,13 +107,7 @@ void CPlayerOnBoat::Priority_Update(_float fTimeDelta)
 EVENT CPlayerOnBoat::Update(_float fTimeDelta)
 {
 	m_fBulletTimer += fTimeDelta;
-
-	Update_Frame(fTimeDelta);
-
-	_uint RPM = static_cast<_uint>(GetVelocityPerSecond(fTimeDelta).Length() * 0.3f);
-	if (RPM > 999)
-		RPM = 999;
-	CUI_Manager::Get_Instance()->Set_RacingSpeed(RPM);
+	CUI_Manager::Get_Instance()->Set_RacingSpeed(GetVelocityPerSecond(fTimeDelta).Length() * 0.3f);
 
 	return __super::Update(fTimeDelta);
 }

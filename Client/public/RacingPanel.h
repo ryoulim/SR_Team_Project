@@ -23,7 +23,11 @@ public:
 	virtual HRESULT Render() override;
 
 public:
-	void Set_TargetSpeed(_int iTargetSpeed) { m_iTargetSpeed = iTargetSpeed; }
+	void Set_TargetSpeed(_int iTargetSpeed) { 
+		m_iTargetSpeed = iTargetSpeed; 
+		if (iTargetSpeed > 300)
+			m_iTargetSpeed = 300 + _int((iTargetSpeed - 300) * 0.3f); // 계기판 최대 속도 이상일 때 속도 증가량을 좀 감소시켰음
+	}
 
 private:
 	void Render_Boosts();
@@ -38,6 +42,7 @@ private:
 	_int	m_iTargetSpeed = {};
 	_int	m_iOrigSpeed = {};
 	_float	m_fArrowAngle = {};
+	CTransform* m_pArrowTransformCom = { nullptr };
 
 public:
 	static CRacingPanel* Create(LPDIRECT3DDEVICE9 pGraphic_Device);

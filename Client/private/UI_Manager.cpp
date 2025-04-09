@@ -103,7 +103,7 @@ void CUI_Manager::Fade_In()
 		return;
 }
 
-void CUI_Manager::Fade_Out()
+void CUI_Manager::Fade_Out(LEVEL eLevelID)
 {
 	CFadeUI::DESC desc;
 	desc.eLevelID = LEVEL_STATIC;
@@ -112,6 +112,7 @@ void CUI_Manager::Fade_Out()
 	desc.vInitPos = { 0.f,0.f,0.f };
 	desc.vScale = { 1280.f,720.f,1.f };
 	desc.m_isFadeIn = false;
+	desc.eNextLevel = eLevelID;
 	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_FadeUI"),
 		LEVEL_STATIC, L"Layer_FadeUI", &desc)))
 		return;

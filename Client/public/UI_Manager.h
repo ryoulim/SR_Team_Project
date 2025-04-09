@@ -59,7 +59,7 @@ public:
 	/* 페이드 인 아웃 */
 public:
 	void	Fade_In();
-	void	Fade_Out();
+	void	Fade_Out(LEVEL eLevelID = LEVEL_STATIC);
 
 	/* 연동 함수 */
 public:
