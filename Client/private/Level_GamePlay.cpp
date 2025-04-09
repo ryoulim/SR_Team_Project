@@ -38,12 +38,8 @@ HRESULT CLevel_GamePlay::Initialize(class CLevelData* pLevelData)
 	if (FAILED(Ready_Layer_UI(TEXT("Layer_UI"))))
 		return E_FAIL;
 
-	CUI_Manager::Get_Instance()->Initialize_GamePlayUI(CurLevel);
-
 	if (FAILED(Ready_Layer_Pawn(TEXT("Layer_Pawn"))))
 		return E_FAIL;
-
-	CUI_Manager::Get_Instance()->Initialize_Player();
 
 	if (FAILED(Ready_Layer_Monster(TEXT("Layer_Monster"))))
 		return E_FAIL;
@@ -383,6 +379,8 @@ HRESULT CLevel_GamePlay::Ready_Layer_UI(const _wstring& strLayerTag)
 	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_Ammo"),
 		Desc.eLevelID, strLayerTag, &Desc)))
 		return E_FAIL;
+
+	CUI_Manager::Get_Instance()->Initialize_GamePlayUI(CurLevel);
 
 	Desc.vScale = _float3(240.f, 42.f, 1.f);
 	Desc.vInitPos = _float3(0.f, g_iWinSizeY * 0.5f - 44.f, 0.1f);

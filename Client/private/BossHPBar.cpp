@@ -98,7 +98,7 @@ HRESULT CBossHPBar::Render()
 		{
 			Render_Ttakkeun_I();
 		}
-		else if (m_eLevelID == LEVEL_RACEFIRST || m_eLevelID == LEVEL_RACESECOND || m_eLevelID == LEVEL_RACETHIRD)
+		else if (LEVEL_RACING(m_eLevelID))
 		{
 			Render_RacingBoss();
 		}

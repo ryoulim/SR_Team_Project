@@ -86,3 +86,120 @@ _float3 vCameraPos = { matCamWorld._41, matCamWorld._42, matCamWorld._43 };
 #define MOUSE_UP		m_pGameInstance->Mouse_Up
 
 #pragma endregion
+
+#pragma region 몬스터 생성 매크로
+
+#define SPAWN_CULTIST(x,y,z, level)							\
+{CMonster::DESC Cultist_iDesc{};							\
+Cultist_iDesc.fSpeedPerSec = 60.f;							\
+Cultist_iDesc.fRotationPerSec = RADIAN(180.f);				\
+Cultist_iDesc.vActive = true;								\
+Cultist_iDesc.eLevel = level;								\
+Cultist_iDesc.fAttackDistance = 400.f;						\
+Cultist_iDesc.fDetectiveDistance = 500.f;					\
+_float3 Pos = { x, y, z };									\
+Cultist_iDesc.vPosition = Pos;								\
+Cultist_iDesc.vReturnPos = Pos;								\
+if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC,	\
+TEXT("Prototype_GameObject_Cultist"),						\
+level, L"Layer_Monster", &Cultist_iDesc)))					\
+return E_FAIL;}												\
+
+#define SPAWN_SHOTGUNNER(x,y,z, level)						\
+{CMonster::DESC Shotgunner_iDesc{};							\
+Shotgunner_iDesc.fSpeedPerSec = 60.f;						\
+Shotgunner_iDesc.fRotationPerSec = RADIAN(180.f);			\
+Shotgunner_iDesc.vActive = true;							\
+Shotgunner_iDesc.eLevel = level;							\
+Shotgunner_iDesc.fAttackDistance = 300.f;					\
+Shotgunner_iDesc.fDetectiveDistance = 500.f; 				\
+_float3 Pos = { x, y, z };									\
+Shotgunner_iDesc.vPosition = Pos;							\
+Shotgunner_iDesc.vReturnPos = Pos;							\
+if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC,	\
+TEXT("Prototype_GameObject_Shotgunner"),					\
+level, L"Layer_Monster", &Shotgunner_iDesc)))				\
+return E_FAIL;}												\
+
+#define SPAWN_GREATER(x,y,z, level)							\
+{CMonster::DESC Greater_iDesc{};							\
+Greater_iDesc.fSpeedPerSec = 60.f;							\
+Greater_iDesc.fRotationPerSec = RADIAN(180.f);				\
+Greater_iDesc.vActive = true;								\
+Greater_iDesc.eLevel = level;								\
+Greater_iDesc.fAttackDistance = 400.f;						\
+Greater_iDesc.fDetectiveDistance = 500.f; 					\
+_float3 Pos = { x, y, z };									\
+Greater_iDesc.vPosition = Pos;								\
+Greater_iDesc.vReturnPos = Pos;								\
+if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC,	\
+TEXT("Prototype_GameObject_Greater"),						\
+level, L"Layer_Monster", &Greater_iDesc)))					\
+return E_FAIL;}												\
+
+#define SPAWN_WENTEKO(x,y,z, level)							\
+{CMonster::DESC Wenteko_iDesc{};							\
+Wenteko_iDesc.fSpeedPerSec = 60.f;							\
+Wenteko_iDesc.fRotationPerSec = RADIAN(180.f);				\
+Wenteko_iDesc.vActive = true;								\
+Wenteko_iDesc.eLevel = level;								\
+Wenteko_iDesc.fAttackDistance = 400.f;						\
+Wenteko_iDesc.fDetectiveDistance = 500.f;					\
+_float3 Pos = { x, y, z };									\
+Wenteko_iDesc.vPosition = Pos;								\
+Wenteko_iDesc.vReturnPos = Pos;								\
+if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC,	\
+TEXT("Prototype_GameObject_Wenteko"),						\
+level, L"Layer_Monster", &Wenteko_iDesc)))					\
+return E_FAIL;}												\
+
+#define SPAWN_NUKEMUTANT(x,y,z, level)						\
+{CMonster::DESC Nukemutant_iDesc{};							\
+Nukemutant_iDesc.fSpeedPerSec = 60.f;						\
+Nukemutant_iDesc.fRotationPerSec = RADIAN(180.f);			\
+Nukemutant_iDesc.vActive = true;							\
+Nukemutant_iDesc.eLevel = level;							\
+Nukemutant_iDesc.fAttackDistance = 400.f;					\
+Nukemutant_iDesc.fDetectiveDistance = 500.f; 				\
+_float3 Pos = { x, y, z };									\
+Nukemutant_iDesc.vPosition = Pos;							\
+Nukemutant_iDesc.vReturnPos = Pos;							\
+if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC,	\
+TEXT("Prototype_GameObject_Nukemutant"),					\
+level, L"Layer_Monster", &Nukemutant_iDesc)))				\
+return E_FAIL;}												\
+
+#define SPAWN_MECHSECT(x,y,z, level)						\
+{CMonster::DESC Mechsect_iDesc{};							\
+Mechsect_iDesc.fSpeedPerSec = 60.f;							\
+Mechsect_iDesc.fRotationPerSec = RADIAN(180.f);				\
+Mechsect_iDesc.vActive = true;								\
+Mechsect_iDesc.eLevel = level;								\
+Mechsect_iDesc.fAttackDistance = 300.f;						\
+Mechsect_iDesc.fDetectiveDistance = 600.f; 					\
+_float3 Pos = { x, y, z };									\
+Mechsect_iDesc.vPosition = Pos;								\
+Mechsect_iDesc.vReturnPos = Pos;							\
+if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC,	\
+TEXT("Prototype_GameObject_Mechsect"),						\
+level, L"Layer_Monster", &Mechsect_iDesc)))					\
+return E_FAIL;}												\
+
+#define SPAWN_ARCHANGEL(x,y,z, level)						\
+{CMonster::DESC Archangel_iDesc{};							\
+Archangel_iDesc.fSpeedPerSec = 60.f;						\
+Archangel_iDesc.fRotationPerSec = RADIAN(180.f);			\
+Archangel_iDesc.vActive = true;								\
+Archangel_iDesc.eLevel = level;								\
+Archangel_iDesc.fAttackDistance = 600.f;					\
+Archangel_iDesc.fDetectiveDistance = 800.f; 				\
+_float3 Pos = { x, y, z };									\
+Archangel_iDesc.vPosition = Pos;							\
+Archangel_iDesc.vReturnPos = Pos;							\
+if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC,	\
+TEXT("Prototype_GameObject_Archangel"),						\
+level, L"Layer_Monster", &Archangel_iDesc)))				\
+return E_FAIL;}												\
+
+
+#pragma endregion

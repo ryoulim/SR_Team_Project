@@ -22,6 +22,7 @@ private:
 	HRESULT Ready_Layer_Statue(const _wstring& strLayerTag);
 	HRESULT Ready_Layer_Pawn(const _wstring& strLayerTag);
 	HRESULT Ready_Layer_RaceBoss(const _wstring& strLayerTag);
+	HRESULT Ready_Layer_UI(const _wstring& strLayerTag);
 
 	void Check_Collision();
 
