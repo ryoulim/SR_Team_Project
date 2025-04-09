@@ -12,6 +12,7 @@
 #include "EmptyBullet.h"
 #include "BulletMark.h"
 #include "ScreenSprite.h"
+#include "RaceSprite.h"
 #include "Rain.h"
 #include <iostream>
 
@@ -731,6 +732,62 @@ void CFXMgr::SpawnMultipleExplosions3(_float fTimeDelta, LEVEL eLevel)
 		fTimer = 0.0f;
 	}
 }
+
+void CFXMgr::SpawnRaceExplosion(_float3 _vPosition, _float3 _vPosOffset , LEVEL eLevel, _float3 Size, const TCHAR* szTextureTag, _float Maxframe)
+{
+	CRaceSprite::DESC ExplosionDesc{};
+	ExplosionDesc.vInitPos = {0.f, 0.f, 0.f};
+	ExplosionDesc.vPosOffset = _vPosOffset;
+	ExplosionDesc.vScale = Size;
+	ExplosionDesc.bLoop = false;
+	ExplosionDesc.fMaxFrame = Maxframe;
+	ExplosionDesc.fRotationPerSec = RADIAN(180.f);
+	ExplosionDesc.fSpeedPerSec = 100.f;
+	ExplosionDesc.szTextureTag = szTextureTag;
+
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_RaceSprite"),
+		eLevel, L"Layer_Effect", &ExplosionDesc)))
+		return;
+
+	CPSystem::DESC FireworkDesc{};
+	FireworkDesc.vPosition = _vPosition;
+	FireworkDesc.fMaxFrame = 14;
+	FireworkDesc.szTextureTag = TEXT("PC_Small_Fire");
+	FireworkDesc.iParticleNums = 5;
+	FireworkDesc.fSize = 1.f;
+
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_PC_Firework"),
+		LEVEL_GAMEPLAY, L"Layer_Particle", &FireworkDesc)))
+		return;
+
+	CPSystem::DESC FireworkDesc2{};
+	FireworkDesc2.vPosition = _vPosition;
+	FireworkDesc2.fMaxFrame = 1;
+	FireworkDesc2.szTextureTag = TEXT("PC_Generic");
+	FireworkDesc2.iParticleNums = 2;
+	FireworkDesc2.fSize = 0.5f;
+
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_PC_Firework"),
+		LEVEL_GAMEPLAY, L"Layer_Particle", &FireworkDesc)))
+		return;
+
+	CSmoke::DESC SmokeDesc{};
+	SmokeDesc.vPosition = _vPosition;
+	SmokeDesc.vPosition.y += -10.f;
+	SmokeDesc.fMaxFrame = 20;
+	SmokeDesc.szTextureTag = TEXT("PC_Small_Smoke");
+	SmokeDesc.iParticleNums = 5;
+	SmokeDesc.fVelocity = 100.f;
+	SmokeDesc.vecMinDirection = _float3(-2.f, 0.f, -2.f);
+	SmokeDesc.vecMaxDirection = _float3(3.f, 1.5f, 3.f);
+	SmokeDesc.fLifeTime = m_pGameInstance->RandomFloat(0.5, 1.5f);
+	SmokeDesc.fSize = 3.f;
+
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_PC_Smoke"),
+		LEVEL_GAMEPLAY, L"Layer_Particle", &SmokeDesc)))
+		return;
+}
+
 void CFXMgr::SpawnMultipleExplosionRaceBoss(_float fTimeDelta, _float3 _Position , LEVEL eLevel)
 {
 	static float fTimer = 0.0f;

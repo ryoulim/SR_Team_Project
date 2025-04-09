@@ -60,17 +60,6 @@ EVENT CRaceBoss::Update(_float fTimeDelta)
 	if (m_bDead)
 		return EVN_DEAD;
 
-	/* [ 파티클 실험실 ] */
-	_float3 vPos = *m_pTransformCom->Get_State(CTransform::STATE_POSITION);
-	//FX_MGR->SpawnMultipleExplosionRaceBoss(fTimeDelta,vPos, m_eLevelID);
-	vPos.x += 70.f;
-	vPos.z += -100.f;
-	FX_MGR->SpawnMultipleExplosionRacePoint(fTimeDelta, vPos, m_eLevelID);
-
-
-
-
-
 #ifdef _CONSOL
 	//_float3 vPos = *m_pTransformCom->Get_State(CTransform::STATE_POSITION);
 	//printf("보스 위치 : { %f, %f, %f }\n", vPos.x, vPos.y, vPos.z);
@@ -516,6 +505,15 @@ void CRaceBoss::On_Hit(MUZZLEPOS HitPos, _int iDamage)
 	m_iMuzzleHp[iIndex] -= iDamage;
 	m_iHp -= iDamage;
 
+
+	
+	/* [ 포신 정중앙 ] */
+	_float3 vCenterPos = *m_pTransformCom->Get_State(CTransform::STATE_POSITION) + Calc_Muzzle_Position(HitPos);
+	_float3 vPosition = *m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+	
+	/* [ 가로 200 / 세로 37.5 / 깊이 400 ] */
+	FX_MGR->SpawnRaceExplosion(vCenterPos, {75.f, 20.f, -205.f}, m_eLevelID, { 60.f, 80.f, 1.f }, TEXT("PC_Explosion"), 13.f);
+
 	//부위파괴
 	if (m_iMuzzleHp[iIndex] <= 0)
 	{
@@ -526,11 +524,13 @@ void CRaceBoss::On_Hit(MUZZLEPOS HitPos, _int iDamage)
 		else
 			m_iTextureID[iIndex] = 3;
 
-		// 총구의 위치 아는 방법이
-		_float3 vPos = *m_pTransformCom->Get_State(CTransform::STATE_POSITION) + Calc_Muzzle_Position(HitPos); // 이게 총구 위치
+		/* [ 포신 정중앙 ] */
+		_float3 vPos = *m_pTransformCom->Get_State(CTransform::STATE_POSITION) + Calc_Muzzle_Position(HitPos);
 
-		//아니면 라스트 콜리전 해도됨
 		// 이곳에 부위파괴시에 할 것을 쓰시오.
+		//FX_MGR->SpawnMultipleExplosionRacePoint(fTimeDelta, vPos, m_eLevelID);
+		//FX_MGR->SpawnMultipleExplosionRaceBoss(fTimeDelta,vPos, m_eLevelID);
+
 	}
 
 	//아예죽음

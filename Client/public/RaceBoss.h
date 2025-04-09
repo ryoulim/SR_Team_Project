@@ -137,7 +137,7 @@ private: // 보스 피격과 부위파괴 관련
 	_int		m_iHp = {400}; // 총체력
 	_int		m_iMuzzleHp[5]{ 80 ,80 ,80 ,80 ,80 }; // 부위별 체력인데 마지막이 센터
 	_uint		m_iTextureID[5]{1,1,1,1,2};
-	
+		
 	void On_Hit(MUZZLEPOS HitPos, _int iDamage);
 
 public:
