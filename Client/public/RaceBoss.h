@@ -4,6 +4,8 @@
 #include "Pawn.h"
 #include "GameInstance.h"
 #include "RaceBossBullet.h"
+#include "RaceBossBomb.h"
+#include "BombRadius.h"
 
 BEGIN(Engine)
 class CTexture;
@@ -60,6 +62,7 @@ private:
 	HRESULT Ready_Components(void* pArg);
 	void ReadyForState();
 	HRESULT Fire_Bullet(CRaceBossBullet::RBULLETTYPE eType, MUZZLEPOS ePos, _float fTimeDelta);
+	HRESULT Fire_Bomb();
 	_float3 Calc_Muzzle_Position(MUZZLEPOS eMuzzle);
 	void ShuffleandPop();
 	_float3 CatmulRomPos(_float3& v0, _float3& vStartPos, _float3& vEndPos, _float3& v3, _float fTimeAcc);
@@ -71,6 +74,7 @@ private:
 	void Update_Skull(_float fTimeDelta);
 	_bool Judge_Skull(const _float3& vColliderPos, _float vColliderRadius, _float fTimedelta);
 	void Render_Skull(MUZZLEPOS eMuzzlePos);
+	HRESULT Draw_BombRadius(_float PosX, _float PosZ);
 
 private:
 	friend class CRBState_WaitPlayer;
@@ -92,15 +96,20 @@ private:
 
 	void Set_State(STATE eState);
 	void Go_Straight(_float fTimeDelta);
+	void Go_Backward(_float fTimeDelta);
 	void Go_Up(_float fTimeDelta);
 	void Go_Right(_float fTimeDelta);
 	_float Compute_PosZ();
+	_float Compute_PozY();
 	void MoveCatMullRom(_float3& v0, _float3& vStartPos, _float3& vEndPos, _float3& v3, _float fTimeAcc);
 	void Fire_HeadBullet(_float fTimeDelta);
 	void Fire_TailBullet(_float fTimeDelta);
 	_uint Get_HeadBulletCount();
 	void Set_HeadBulletCountZero();
-	HRESULT Draw_BombRadius();
+	void SelectAndDrawRadius();
+	void Bombing();
+	_bool Comeback(_float fTimeDelta);
+	bool m_bDown = { false };
 	
 private:
 	CTexture* m_pTextureCom = { nullptr };
@@ -123,6 +132,8 @@ private:
 	_float3		m_vBulletDiretion = {};
 	MUZZLEPOS	m_ePos = { POSEND };
 	vector<MUZZLEPOS> m_VecBulletPos;
+	_float		m_fBombPosX[2] = {};
+	_float		m_fBombPosZ	= {};
 
 	///// ÇØ°ñ¹Ù°¡Áö
 	class CSkull* m_pSkull = { nullptr };

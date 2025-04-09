@@ -23,7 +23,10 @@ HRESULT CBombRadius::Initialize(void* pArg)
 
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
-	
+
+	m_pPlayer = GET_PLAYER;
+	Safe_AddRef(m_pPlayer);
+
 	return S_OK;
 }
 
@@ -34,9 +37,11 @@ void CBombRadius::Priority_Update(_float fTimeDelta)
 
 EVENT CBombRadius::Update(_float fTimeDelta)
 {
-	//매 프레임마다 일정 수치만큼 밀림
-	m_pTransformCom->Move({ 0.f,0.f,RACE_SPEED_PER_SEC }, fTimeDelta);
-
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION,
+		_float3(m_pTransformCom->Get_State(CTransform::STATE_POSITION)->x,
+			1.f,
+			static_cast<CTransform*>(m_pPlayer->Find_Component(TEXT("Com_Transform")))->Get_State(CTransform::STATE_POSITION)->z));
+	
 	return __super::Update(fTimeDelta);
 }
 
@@ -80,4 +85,6 @@ CGameObject* CBombRadius::Clone(void* pArg)
 void CBombRadius::Free()
 {
 	__super::Free();
+
+	Safe_Release(m_pPlayer);
 }

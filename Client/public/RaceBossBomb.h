@@ -2,24 +2,26 @@
 
 #include "Bullet.h"
 
-class CRaceBossBullet final : public CBullet
+class CRaceBossBomb final : public CBullet
 {
 public:
-	enum RBULLETTYPE { HEAD, TAIL, NON };
+	enum RBOMBTTYPE { FIRST, SECOND, THIRD, FOURTH, FIFTH, NON };
 
 public:
-	typedef struct tagRaceBossBulletDesc : public CBullet::DESC
+	typedef struct tagRaceBossBombDesc : public CBullet::DESC
 	{
 		_bool bAnimation = false;
 		_float3 vLook;
-		_float fMaxBulletSize;
 		COLLIDER_GROUP ColliderGroup;
+		//LERP를 위한 시작점과 끝점
+		_float3 fStartPoint;
+		_float3 fEndPoint;
 	}DESC;
 
 private:
-	CRaceBossBullet(LPDIRECT3DDEVICE9 pGraphic_Device);
-	CRaceBossBullet(const CRaceBossBullet& Prototype);
-	virtual ~CRaceBossBullet() = default;
+	CRaceBossBomb(LPDIRECT3DDEVICE9 pGraphic_Device);
+	CRaceBossBomb(const CRaceBossBomb& Prototype);
+	virtual ~CRaceBossBomb() = default;
 
 public:
 	virtual HRESULT Initialize_Prototype() override;
@@ -36,10 +38,12 @@ private:
 
 private:
 	_float m_fScale = { 1.f };
-	_float m_fMaxScale = {};
+	_float3 m_fStartPoint = {};
+	_float3 m_fEndPoint = {};
+	_float m_fTimeAcc = {};
 	
 public:
-	static CRaceBossBullet* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
+	static CRaceBossBomb* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
 	virtual CGameObject* Clone(void* pArg) override;
 	virtual void Free();
 };

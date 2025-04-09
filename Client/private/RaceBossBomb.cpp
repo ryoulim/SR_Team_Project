@@ -1,66 +1,66 @@
-#include "RaceBossBullet.h"
+#include "RaceBossBomb.h"
 
-CRaceBossBullet::CRaceBossBullet(LPDIRECT3DDEVICE9 pGraphic_Device)
+CRaceBossBomb::CRaceBossBomb(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CBullet { pGraphic_Device }
 {
 }
 
-CRaceBossBullet::CRaceBossBullet(const CRaceBossBullet& Prototype)
+CRaceBossBomb::CRaceBossBomb(const CRaceBossBomb& Prototype)
 	: CBullet(Prototype)
 {
 }
 
-HRESULT CRaceBossBullet::Initialize_Prototype()
+HRESULT CRaceBossBomb::Initialize_Prototype()
 {
 	return S_OK;
 }
 
-HRESULT CRaceBossBullet::Initialize(void* pArg)
+HRESULT CRaceBossBomb::Initialize(void* pArg)
 {
-	m_szTextureID = TEXT("RaceBossBullet");
+	m_szTextureID = TEXT("RaceBossBomb");
 	m_szBufferType = TEXT("Rect");
 
 	Ready_Components(pArg);
 
-	DESC* pDesc = static_cast<DESC*>(pArg);
+	//DESC* pDesc = static_cast<DESC*>(pArg);
 
-	m_fMaxScale = pDesc->fMaxBulletSize;
+	//m_fStartPoint = pDesc->fStartPoint;
+	//m_fEndPoint = pDesc->fEndPoint;
 
 	return S_OK;
 }
 
-void CRaceBossBullet::Priority_Update(_float fTimeDelta)
+void CRaceBossBomb::Priority_Update(_float fTimeDelta)
 {
 	__super::Priority_Update(fTimeDelta);
 }
 
-EVENT CRaceBossBullet::Update(_float fTimeDelta)
+EVENT CRaceBossBomb::Update(_float fTimeDelta)
 {
-	if (m_bDead)
-		return EVN_DEAD;
-	
-	//m_pTransformCom->Move({ 0.f,0.f,RACE_SPEED_PER_SEC }, fTimeDelta);
-	m_pTransformCom->Go_Straight(fTimeDelta);
-	
-	m_fScale += 1.f;
+	/*if (m_bDead)
+		return EVN_DEAD;*/
 
-	if (m_fScale > m_fMaxScale)
-		m_fScale = 2.f;
+	m_pTransformCom->Move({ 0.f,0.f,RACE_SPEED_PER_SEC }, fTimeDelta);
+	m_pTransformCom->Go_Down(fTimeDelta);
+	/*m_fTimeAcc += fTimeDelta;
 
+	_uint iTimeAcc = static_cast<_uint>(m_fTimeAcc);
+	_float t = m_fTimeAcc - iTimeAcc;
+;
+	m_pTransformCom->Lerp(m_fStartPoint, m_fEndPoint, m_fTimeAcc);*/
+	
 	return __super::Update(fTimeDelta);
 }
 
-void CRaceBossBullet::Late_Update(_float fTimeDelta)
+void CRaceBossBomb::Late_Update(_float fTimeDelta)
 {
-	m_pTransformCom->Scaling(_float3(m_fScale, m_fScale, m_fScale));
-
 	if (FAILED(m_pGameInstance->Add_RenderGroup(CRenderer::RG_NONBLEND, this)))
 		return;
 
 	__super::Late_Update(fTimeDelta);
 }
 
-HRESULT CRaceBossBullet::Render()
+HRESULT CRaceBossBomb::Render()
 {
 	/*if (FAILED(m_pTransformCom->Bind_Resource()))
 		return E_FAIL;*/
@@ -79,12 +79,12 @@ HRESULT CRaceBossBullet::Render()
 	return S_OK;
 }
  
-void CRaceBossBullet::On_Collision(_uint MyColliderID, _uint OtherColliderID)
+void CRaceBossBomb::On_Collision(_uint MyColliderID, _uint OtherColliderID)
 {
 	m_bDead = true;
 }
 
-HRESULT CRaceBossBullet::Ready_Components(void* pArg)
+HRESULT CRaceBossBomb::Ready_Components(void* pArg)
 {
 	/* For.Com_Texture */
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, _wstring(TEXT("Prototype_Component_Texture_")) + m_szTextureID,
@@ -126,33 +126,33 @@ HRESULT CRaceBossBullet::Ready_Components(void* pArg)
 	return S_OK;
 }
 
-CRaceBossBullet* CRaceBossBullet::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
+CRaceBossBomb* CRaceBossBomb::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 {
-	CRaceBossBullet* pInstance = new CRaceBossBullet(pGraphic_Device);
+	CRaceBossBomb* pInstance = new CRaceBossBomb(pGraphic_Device);
 
 	if (FAILED(pInstance->Initialize_Prototype()))
 	{
-		MSG_BOX("Failed to Created : CRaceBossBullet");
+		MSG_BOX("Failed to Created : CRaceBossBomb");
 		Safe_Release(pInstance);
 	}
 
 	return pInstance;
 }
 
-CGameObject* CRaceBossBullet::Clone(void* pArg)
+CGameObject* CRaceBossBomb::Clone(void* pArg)
 {
-	CRaceBossBullet* pInstance = new CRaceBossBullet(*this);
+	CRaceBossBomb* pInstance = new CRaceBossBomb(*this);
 
 	if (FAILED(pInstance->Initialize(pArg)))
 	{
-		MSG_BOX("Failed to Clone : CRaceBossBullet");
+		MSG_BOX("Failed to Clone : CRaceBossBomb");
 		Safe_Release(pInstance);
 	}
 
 	return pInstance;
 }
 
-void CRaceBossBullet::Free()
+void CRaceBossBomb::Free()
 {
 	__super::Free();
 }

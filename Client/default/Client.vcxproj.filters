@@ -994,6 +994,9 @@
     <ClInclude Include="..\public\Generator.h">
       <Filter>02.GameObjects\Map\Generator</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\RaceBossBomb.h">
+      <Filter>02.GameObjects\Weapon\Bullet\RaceBossBullet</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -1469,6 +1472,9 @@
     </ClCompile>
     <ClCompile Include="..\private\Generator.cpp">
       <Filter>02.GameObjects\Map\Generator</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\RaceBossBomb.cpp">
+      <Filter>02.GameObjects\Weapon\Bullet\RaceBossBullet</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

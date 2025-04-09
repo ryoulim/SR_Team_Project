@@ -1,3 +1,4 @@
+#pragma once
 #include "Statue.h"
 
 BEGIN(Client)
@@ -16,6 +17,9 @@ public:
 	virtual EVENT Update(_float fTimeDelta) override;
 	virtual void Late_Update(_float fTimeDelta) override;
 	virtual HRESULT Render() override;
+
+private:
+	CGameObject* m_pPlayer = { nullptr };
 
 public:
 	static CBombRadius* Create(LPDIRECT3DDEVICE9 pGraphic_Device);

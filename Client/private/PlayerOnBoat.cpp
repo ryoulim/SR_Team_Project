@@ -401,6 +401,11 @@ _float CPlayerOnBoat::GetSlidingSpeed()
 	return m_fSlidingSpeed;
 }
 
+void CPlayerOnBoat::Set_Speed(_float fSpeed)
+{
+	m_pTransformCom->Set_SpeedPerSec(fSpeed);
+}
+
 void CPlayerOnBoat::SpawnWaterParticle(_float fWaterSpeed)
 {
 	/* [ 물보라 파티클 01번 ] */

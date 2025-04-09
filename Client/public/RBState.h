@@ -28,6 +28,7 @@ protected:
 	const _float3*	m_pPlayerpos = { nullptr };
 	_float			m_fTime = {};
 	_float			m_fPosZ = {};
+	_float			m_fPozY = {};
 
 public:
 	virtual void Free()
@@ -85,6 +86,7 @@ public:
 	{
 		m_fTime = 0.f;
 		//·£´ýÇÑ ÆÐÅÏÀ¸·Î ÀÌ¾îÁü
+		//m_pOwner->Set_State(CRaceBoss::SHOTREADY);
 		m_pOwner->Set_State(CRaceBoss::READYBOMB);
 	}
 
@@ -237,10 +239,13 @@ public:
 	virtual void Execute(_float fTimeDelta) override
 	{
 		m_fTime += fTimeDelta;
-		if (m_fTime > 1.f)
+		if (m_fTime > 0.5f)
 		{
+			m_fPozY = m_pOwner->Compute_PozY();
 			m_pOwner->Go_Up(fTimeDelta);
-			Exit();
+
+			if (m_fPozY > 400.f)
+				Exit();
 		}
 		else
 			m_pOwner->Go_Straight(fTimeDelta);
@@ -265,12 +270,12 @@ public:
 	}
 	virtual void Execute(_float fTimeDelta) override
 	{
-		m_pOwner->Draw_BombRadius();
+		m_pOwner->SelectAndDrawRadius();
 		Exit();
 	}
 	virtual void Exit() override
 	{
-		m_pOwner->Set_State(CRaceBoss::IDLE);
+		m_pOwner->Set_State(CRaceBoss::BOMBING);
 	}
 };
 
@@ -287,11 +292,26 @@ public:
 	}
 	virtual void Execute(_float fTimeDelta) override
 	{
-		//ÆøÅºÀ» ¶³±º´Ù.
+		m_pOwner->Go_Backward(fTimeDelta * 2.f);
+		m_fTime += fTimeDelta;
+		m_fEndTime += fTimeDelta;
+		if (m_fTime > 0.05f)
+		{
+			m_pOwner->Bombing();
+			m_fTime = 0.f;
+		}
+		
+		if (m_fEndTime > 3.f)
+			Exit();
 	}
 	virtual void Exit() override
 	{
+		m_fEndTime = 0.f;
+		m_pOwner->Set_State(CRaceBoss::COMEBACK);
 	}
+
+private:
+	_float m_fEndTime = {};
 };
 
 class CRBState_Comeback final : public CRBState
@@ -308,9 +328,12 @@ public:
 	virtual void Execute(_float fTimeDelta) override
 	{
 		//¿ø·¡ À§Ä¡·Î º¹±ÍÇÑ´Ù.
+		if (m_pOwner->Comeback(fTimeDelta))
+			Exit();
 	}
 	virtual void Exit() override
 	{
+		m_pOwner->Set_State(CRaceBoss::IDLE);
 	}
 };
 #pragma endregion

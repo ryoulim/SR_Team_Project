@@ -51,6 +51,7 @@ private:
 	void			Move_Lerp(_float fStartPosX, _float fTime);
 	void			StoreSlidingSpeed(_float fSpeed);
 	_float			GetSlidingSpeed();
+	void			Set_Speed(_float fSpeed);
 	void			SpawnWaterParticle(_float fWaterSpeed);
 
 	void			Create_Bullet();
