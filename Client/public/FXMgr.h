@@ -37,6 +37,9 @@ public: //Æø¹ß
 	void SpawnMultipleExplosions2(_float fTimeDelta, LEVEL eLevel);
 	void SpawnMultipleExplosions3(_float fTimeDelta, LEVEL eLevel);
 
+	void SpawnMultipleExplosionRaceBoss(_float fTimeDelta, _float3 _Position, LEVEL eLevel);
+	void SpawnMultipleExplosionRacePoint(_float fTimeDelta, _float3 _Position, LEVEL eLevel);
+
 public: //ºñ
 	void SpawnRain(LEVEL eLevel);
 	void SpawnThunder(_float3 _vPosition, LEVEL eLevel);

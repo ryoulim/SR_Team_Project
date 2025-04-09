@@ -96,6 +96,9 @@ EVENT CMonster::Update(_float fTimeDelta)
 
 void CMonster::Late_Update(_float fTimeDelta)
 {
+	_float3	vTemp = *m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+	CGameObject::Compute_ViewZ(&vTemp);
+
 	//�÷��̾� ���� ������Ʈ
 	PlayerDistance();
 	CalculateVectorToPlayer();
@@ -129,11 +132,13 @@ void CMonster::Late_Update(_float fTimeDelta)
 	Set_TextureType();
 
 	//�����׷� ������Ʈ
-	if (FAILED(m_pGameInstance->Add_RenderGroup(CRenderer::RG_NONBLEND, this)))
+	if (FAILED(m_pGameInstance->Add_RenderGroup(CRenderer::RG_BLEND, this)))
 		return;
 
 	if (m_bSkullActive)
 		m_pSkull->Late_Update(fTimeDelta);
+
+	
 }
 
 void CMonster::Render_Skull(_bool bOn)
@@ -152,40 +157,170 @@ HRESULT CMonster::SetUp_RenderState()
 
 	m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 
-	m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
-	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAREF, 254);
-	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER);
+	m_pGraphic_Device->SetRenderState(D3DRS_ALPHABLENDENABLE, true);
+	m_pGraphic_Device->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
+	m_pGraphic_Device->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
+	//m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
+	//m_pGraphic_Device->SetRenderState(D3DRS_ALPHAREF, 254);
+	//m_pGraphic_Device->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER);
+
+	return S_OK;
+}
+
+HRESULT CMonster::BillboardShaderRender()
+{
+	if (!g_FogTrigger)
+	{
+		if (m_bDebug)
+			Render_DebugFOV();
+
+		//if (!m_bRotateAnimation)
+		//	m_iDegree = 0;
+
+		if (FAILED(m_pTextureMap[m_iState][m_iDegree]->Bind_Resource(static_cast<_uint>(m_fAnimationFrame))))
+			return E_FAIL;
+
+		if (!m_bCW || m_iDegree == 0 || m_iDegree == 180.f / m_fDivOffset) 
+		{
+			if (m_pGraphic_Device->SetTransform(D3DTS_WORLD, &m_pTransformCom->Billboard()))
+				return E_FAIL;
+		}
+		else 
+		{
+			if (m_pGraphic_Device->SetTransform(D3DTS_WORLD, &m_pTransformCom->Billboard_Inverse()))
+				return E_FAIL;
+		}
+
+		if (FAILED(m_pVIBufferCom->Bind_Buffers()))
+			return E_FAIL;
+
+		SetUp_RenderState();
+		if (FAILED(m_pVIBufferCom->Render()))
+			return E_FAIL;
+		Release_RenderState();
+
+		return S_OK;
+	}
+	else
+	{
+		SetUp_RenderState();
+
+		/* [ 텍스처 셰이더로 넘기기 ] */
+		if (FAILED(m_pTextureMap[m_iState][m_iDegree]->Bind_Shader_To_Texture(m_pShaderCom, "g_Texture", static_cast<_uint>(m_fAnimationFrame))))
+			return E_FAIL;
+
+		/* [ 메트릭스 셰이더로 넘기기 ] */
+		_float4x4 maxView, maxProj;
+
+		m_pGraphic_Device->GetTransform(D3DTS_VIEW, &maxView);
+		m_pGraphic_Device->GetTransform(D3DTS_PROJECTION, &maxProj);
+
+		_float4x4 matBillboard;
+		if (!m_bCW || m_iDegree == 0 || m_iDegree == 180.f / m_fDivOffset) 
+		{
+			matBillboard = m_pTransformCom->Billboard();
+		}
+		else 
+		{
+			matBillboard = m_pTransformCom->Billboard_Inverse();
+		}
+
+		if (FAILED(m_pShaderCom->Bind_Matrix("g_WorldMatrix", &matBillboard)))
+			return E_FAIL;
+		if (FAILED(m_pShaderCom->Bind_Matrix("g_ViewMatrix", &maxView)))
+			return E_FAIL;
+		if (FAILED(m_pShaderCom->Bind_Matrix("g_ProjMatrix", &maxProj)))
+			return E_FAIL;
+
+		/* [ 카메라 위치 넘기기 ] */
+		_float3 vCamPos;
+		_float4x4 invView;
+		D3DXMatrixInverse(&invView, nullptr, &maxView);
+		vCamPos = *(_float3*)&invView._41;
+
+		if (FAILED(m_pShaderCom->SetFloatArray("g_CameraPos", (_float*)&vCamPos, 3)))
+			return E_FAIL;
+
+		/* [ 안개 거리 설정 ] */
+		_float fFogStart = 0.f;
+		_float fFogEnd = 0.f;
+
+		if (m_eLevelID == LEVEL_INDOOR)
+		{
+			fFogStart = INDOOR_START_FOG;
+			fFogEnd = INDOOR_END_FOG;
+		}
+		else if (m_eLevelID == LEVEL_OUTDOOR)
+		{
+			fFogStart = OUTDOOR_START_FOG;
+			fFogEnd = OUTDOOR_END_FOG;
+			if (g_FogCustom <= 1995.f)
+			{
+				/* g_FogCustom 은 0까지 줄어든다 */
+				fFogStart = g_FogCustom;
+				fFogEnd = g_FogCustom + 700;
+			}
+		}
+		else if (m_eLevelID == LEVEL_GAMEPLAY)
+		{
+			fFogStart = GAMEPLAY_START_FOG;
+			fFogEnd = GAMEPLAY_END_FOG;
+		}
+		else
+		{
+			fFogStart = 10000.f;
+			fFogEnd = 15000.f;
+		}
+
+		if (FAILED(m_pShaderCom->SetFloat("g_FogStart", fFogStart)))
+			return E_FAIL;
+		if (FAILED(m_pShaderCom->SetFloat("g_FogEnd", fFogEnd)))
+			return E_FAIL;
+
+		m_fShaderTime += m_pGameInstance->Get_Scaled_TimeDelta(TEXT("Timer_60"));
+		if (FAILED(m_pShaderCom->SetFloat("g_fTime", m_fShaderTime)))
+			return E_FAIL;
+
+		D3DXVECTOR4 ThunderPos = { FX_MGR->GetThunderPos(), 0.f };
+		if (m_eLevelID != LEVEL_OUTDOOR)
+			ThunderPos = { 0.f, 10000.f, 0.f, 0.f };
+		if (FAILED(m_pShaderCom->SetVector("g_LightningPos", &ThunderPos)))
+			return E_FAIL;
+		if (FAILED(m_pShaderCom->SetFloat("g_FlashIntensity", 0.5f)))
+			return E_FAIL;
+		if (FAILED(m_pShaderCom->SetFloat("g_LightRange", 600.f)))
+			return E_FAIL;
+
+		/* [ 안개 색상 설정 ] */
+		_float4 vFogColor = _float4(0.059f, 0.067f, 0.082f, 1.f);
+		if (FAILED(m_pShaderCom->SetVector("g_FogColor", &vFogColor)))
+			return E_FAIL;
+
+		//셰이더 시작
+		m_pShaderCom->Begin(CShader::FOG);
+
+		if (FAILED(m_pVIBufferCom->Bind_Buffers()))
+			return E_FAIL;
+
+
+		/* ------------------------------------------------------------------------- */
+
+		if (FAILED(m_pVIBufferCom->Render()))
+			return E_FAIL;
+
+		/* ------------------------------------------------------------------------- */
+
+		m_pShaderCom->End();
+		Release_RenderState();
+	}
 
 	return S_OK;
 }
 
 HRESULT CMonster::Render()
 {
-	if (m_bDebug)
-		Render_DebugFOV();
+	BillboardShaderRender();
 
-	//if (!m_bRotateAnimation)
-	//	m_iDegree = 0;
-
-	if (FAILED(m_pTextureMap[m_iState][m_iDegree]->Bind_Resource(static_cast<_uint>(m_fAnimationFrame))))
-		return E_FAIL;
-
-	if (!m_bCW || m_iDegree == 0 || m_iDegree == 180.f / m_fDivOffset) {
-		if (m_pGraphic_Device->SetTransform(D3DTS_WORLD, &m_pTransformCom->Billboard()))
-			return E_FAIL; 
-	}
-	else {
-		if (m_pGraphic_Device->SetTransform(D3DTS_WORLD, &m_pTransformCom->Billboard_Inverse()))
-			return E_FAIL;
-	}
-
-	if (FAILED(m_pVIBufferCom->Bind_Buffers()))
-		return E_FAIL;
-
-	SetUp_RenderState();
-	if (FAILED(m_pVIBufferCom->Render()))
-		return E_FAIL;
-	Release_RenderState();
 
 #ifdef _COLLIDERRENDER
 	if (m_pCollider != nullptr)
@@ -201,7 +336,8 @@ HRESULT CMonster::Release_RenderState()
 {
 	m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
 	m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
-
+	m_pGraphic_Device->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_ONE);
+	m_pGraphic_Device->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_ZERO);
 
 	return S_OK;
 }
@@ -237,6 +373,11 @@ HRESULT CMonster::Ready_Components(void* pArg)
 	/* Ʈ������ ������Ʈ */
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Transform"),
 		TEXT("Com_Transform"), reinterpret_cast<CComponent**>(&m_pTransformCom), pArg)))
+		return E_FAIL;
+
+	//셰이더 장착
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Shader_Particle"),
+		TEXT("Com_Shader"), reinterpret_cast<CComponent**>(&m_pShaderCom))))
 		return E_FAIL;
 
 	/* ��ġ, ������ �ʱ�ȭ */
@@ -533,6 +674,7 @@ void CMonster::Free()
 	Safe_Release(m_pTargetPlayer);
 	Safe_Release(m_pGravityCom);
 	Safe_Release(m_pSkull);
+	Safe_Release(m_pShaderCom);
 	for (auto pair : m_pTextureMap)
 	{
 		for (auto otherpair : pair.second)

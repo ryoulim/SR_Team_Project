@@ -3,6 +3,7 @@
 
 #include "Door.h"
 #include "GameInstance.h"
+#include "Monster.h"
 
 CDoor::CDoor(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CInteractive_Block{ pGraphic_Device }
@@ -54,7 +55,30 @@ EVENT CDoor::Update(_float fTimeDelta)
         m_fTimeAcc += fTimeDelta;
         Open_The_Door(fTimeDelta);
         if (m_fTimeAcc >= 1.7f)
+        {
+            CMonster::DESC Archangel_iDesc{};
+            Archangel_iDesc.fSpeedPerSec = 60.f;
+            Archangel_iDesc.fRotationPerSec = RADIAN(180.f);
+            Archangel_iDesc.vActive = true;
+            Archangel_iDesc.eLevel = LEVEL_OUTDOOR;
+            Archangel_iDesc.fAttackDistance = 600.f;
+            Archangel_iDesc.fDetectiveDistance = 800.f;
+            _float3 Pos = { 1186.f, 200.f, 333.f };
+            Archangel_iDesc.vPosition = Pos;
+            Archangel_iDesc.vReturnPos = Pos;
+            if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_Archangel"),
+                LEVEL_OUTDOOR, L"Layer_Monster", &Archangel_iDesc)))
+                return EVN_NONE;
+
+            Pos = { 2111.f, 200.f, 470.f };
+            Archangel_iDesc.vPosition = Pos;
+            Archangel_iDesc.vReturnPos = Pos;
+            if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_Archangel"),
+                LEVEL_OUTDOOR, L"Layer_Monster", &Archangel_iDesc)))
+                return EVN_NONE;
+
             m_bOpen = false;
+        }
     }
 	return __super::Update(fTimeDelta);
 }

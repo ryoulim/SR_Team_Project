@@ -731,6 +731,44 @@ void CFXMgr::SpawnMultipleExplosions3(_float fTimeDelta, LEVEL eLevel)
 		fTimer = 0.0f;
 	}
 }
+void CFXMgr::SpawnMultipleExplosionRaceBoss(_float fTimeDelta, _float3 _Position , LEVEL eLevel)
+{
+	static float fTimer = 0.0f;
+	const float fInterval = 0.4f; //반복주기
+
+	fTimer += fTimeDelta;
+	if (fTimer >= fInterval)
+	{
+		_float3 vPosition = { 
+			m_pGameInstance->RandomFloat(_Position.x - 100.f, _Position.x + 100.f) ,
+			m_pGameInstance->RandomFloat(_Position.y - 18.7f, _Position.y + 18.7f) ,
+			m_pGameInstance->RandomFloat(_Position.z - 100.f, _Position.z - 120.f) };
+		SpawnExplosion2(vPosition, eLevel);
+
+		fTimer = 0.0f;
+	}
+}
+
+void CFXMgr::SpawnMultipleExplosionRacePoint(_float fTimeDelta, _float3 _Position, LEVEL eLevel)
+{
+	static float fTimer = 0.0f;
+	const float fInterval = 0.5f; //반복주기
+
+	fTimer += fTimeDelta;
+	if (fTimer >= fInterval)
+	{
+		_float3 vPosition = {
+			m_pGameInstance->RandomFloat(_Position.x - 20.f, _Position.x + 20.f) ,
+			m_pGameInstance->RandomFloat(_Position.y - 6.f, _Position.y + 6.f) ,
+			m_pGameInstance->RandomFloat(_Position.z - 10.f, _Position.z - 10.f) };
+
+
+		SpawnCustomExplosion(vPosition, eLevel, {30.f, 50.f, 1.f}, TEXT("PC_Explosion"), 13.f);
+
+		fTimer = 0.0f;
+	}
+}
+
 void CFXMgr::SpawnEmptyBullet(_float3 _vPosition, LEVEL eLevel)
 {
 	CPSystem::DESC EmptyBulletDesc{};

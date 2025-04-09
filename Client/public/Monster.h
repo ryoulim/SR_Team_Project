@@ -11,6 +11,7 @@ BEGIN(Engine)
 class CTexture;
 class CVIBuffer_Rect;
 class CTransform;
+class CShader;
 END
 
 BEGIN(Client)
@@ -53,6 +54,7 @@ public: //상태변환
 
 protected:
 	virtual HRESULT SetUp_RenderState();
+	virtual HRESULT BillboardShaderRender();
 	virtual HRESULT Render();
 	virtual HRESULT Release_RenderState();
 
@@ -155,6 +157,7 @@ protected: //컴포넌트
 	CVIBuffer* m_pVIBufferCom = { nullptr };
 	CTransform* m_pTransformCom = { nullptr };
 	CGravity* m_pGravityCom = { nullptr };
+	CShader* m_pShaderCom = { nullptr };
 	CSoundController* m_pSoundCom{ nullptr };
 
 protected: //충돌	
@@ -207,6 +210,7 @@ protected: // 애니메이션
 
 protected:
 	// 배회 이동 관련
+	_float  m_fShaderTime = 0.f;
 	_float  m_fWanderTime = 0.f;
 	_float  m_fWanderElapsed = 0.f;
 	_float3 m_vReturnPos = { 0.f, 0.f, 0.f };

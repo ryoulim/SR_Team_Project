@@ -20,7 +20,7 @@ HRESULT CFirework::Initialize(void* pArg)
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
 
-	m_fFrame = GetRandomFloat(0.f, m_fAnimationMaxFrame);
+	m_fAnimationFrame = GetRandomFloat(0.f, 5.f);
 
 
 	return S_OK;
@@ -68,16 +68,6 @@ HRESULT CFirework::Ready_Components(void* pArg)
 void CFirework::resetParticle(Attribute* attribute)
 {
 	attribute->_isAlive = true;
-	
-#pragma region 폭죽로직
-	//attribute->_Position = m_vPosition;
-	//_float3 min = { -1.0f, -1.0f, -1.0f };
-	//_float3 max = { 1.0f, 1.0f, 1.0f };
-	//GetRandomVector(&attribute->_Velocity, &min, &max);
-	//D3DXVec3Normalize(&attribute->_Velocity, &attribute->_Velocity);
-	//attribute->_Velocity *= 15.f;
-#pragma endregion
-
 
 	//분수형 폭팔 로직
 	attribute->_Position = m_vPosition;
@@ -94,9 +84,6 @@ void CFirework::resetParticle(Attribute* attribute)
  	attribute->_Color = WHITE;							// 색상
  	attribute->_ColorFade = WHITE;						// 디졸브색상
 	attribute->_LifeTime = 2.f;							// 라이프타임
-
-	//파티클 개별 사이즈는 그래픽 카드에서 지원안함 gg
-	attribute->_Size = GetRandomFloat(m_fSize - 3.f, m_fSize + 3.f);
 
 }
 
