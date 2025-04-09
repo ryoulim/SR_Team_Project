@@ -19,6 +19,7 @@ public:
 	virtual void Late_Update(_float fTimeDelta) override;
 	virtual HRESULT Render() override;
 
+	void		Start_CutScene(const _float3& vPos, const _float3& vLook);
 	void		Start_CutScene(vector<_float3>* pMovePoints, vector<_float3>* pLookPoints, _float fCameraSpeed, _bool* _Out_ pEndFlag);
 	void		StartShake(_float fIntensity, _float fDuration, _float fShakeFreqPos, _float fShakeFreqRot);
 	void		CutSceneEnd();
@@ -30,7 +31,7 @@ private:
 	_float				m_fTimeAcc{};
 	_float				m_fCameraSpeed{};
 
-	_bool*				m_bEndFlag{ nullptr };
+	_bool*				m_pEndFlag{ nullptr };
 
 	// 카메라 쉐이크 관련
 	_bool  m_bShake = FALSE;

@@ -5,6 +5,7 @@
 #include "GameInstance.h"
 
 #include "FXMgr.h"
+#include "CameraManager.h"
 
 CGenerator::CGenerator(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CInteractive_Block{ pGraphic_Device }
@@ -47,14 +48,27 @@ void CGenerator::Priority_Update(_float fTimeDelta)
 EVENT CGenerator::Update(_float fTimeDelta)
 {
     if (!m_bBroken)
+    {
         Move_Frame(fTimeDelta);
+        if (10 >= m_iHp 
+            || KEY_DOWN(DIK_7))
+        {
+            m_bBroken = true;
+            m_fTextureIdx = 16.f;
+            Start_CutScene();
+        }
+    }
     else
         Im_Broken(fTimeDelta);
 
-    if (10 >= m_iHp)
+    if (m_bCutSceneEnd1)
     {
-        m_bBroken = true;
-        m_fTextureIdx = 16.f;
+     /*   m_fCameraTimer += fTimeDelta;
+        if (m_fCameraTimer > 1.f)
+        {*/
+            CAMERA_MANAGER->Switch(CCameraManager::FPS);
+            m_bCutSceneEnd1 = FALSE;
+        //}
     }
 
 	return __super::Update(fTimeDelta);
@@ -182,12 +196,32 @@ void CGenerator::Move_Frame(_float fTimeDelta)
 void CGenerator::Im_Broken(_float fTimeDelta)
 {
     // 빠르게 0으로 감소
-    float fSpeed = 200.f;
+    _float fSpeed = 500.f;
     g_FogCustom -= fSpeed * fTimeDelta;
 
     // 0 이하로 내려가지 않도록
     if (g_FogCustom < 0.f)
         g_FogCustom = 0.f;
+}
+
+void CGenerator::Start_CutScene()
+{
+    auto Cameramanager = CAMERA_MANAGER;
+    Cameramanager->Switch(CCameraManager::CUTSCENE);
+
+    vector<_float3>* pMoveVector = new vector<_float3>;
+    vector<_float3>* pLookVector = new vector<_float3>;
+
+    pMoveVector->push_back({ 1391.90f, 896.50f, -312.51f });
+    pLookVector->push_back(_float3{ -0.07f, -0.36f, 0.93f }.Normalize());
+
+    pMoveVector->push_back({ 1615.84f, 894.59f, -267.09f });
+    pLookVector->push_back(_float3{ -0.33f, -0.38f, 0.86f }.Normalize());
+
+    pMoveVector->push_back({ 1615.84f, 894.59f, -267.09f });
+    pLookVector->push_back(_float3{ -0.33f, -0.38f, 0.86f }.Normalize());
+
+    Cameramanager->Start_CutScene(pMoveVector, pLookVector, 0.2f, &m_bCutSceneEnd1);
 }
 
 CGenerator* CGenerator::Create(LPDIRECT3DDEVICE9 pGraphic_Device)

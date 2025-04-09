@@ -34,6 +34,24 @@ void CMyComputer::Priority_Update(_float fTimeDelta)
 
 EVENT CMyComputer::Update(_float fTimeDelta)
 {
+	if (m_bPicked)
+	{
+		if (KEY_DOWN(DIK_E))
+		{
+			if (m_CurCamera == CCameraManager::FPS)
+			{
+				m_CurCamera = CCameraManager::CUTSCENE;
+				CAMERA_MANAGER->Start_CutScene({ 450.05f, 150.56f, 396.35f }, { 0.57f, -0.64f, -0.52f });
+			}
+			else
+			{
+				m_CurCamera = CCameraManager::FPS;
+			}
+
+			CAMERA_MANAGER->Switch(m_CurCamera);
+		}
+	}
+
 	return __super::Update(fTimeDelta);
 }
 
@@ -47,6 +65,80 @@ HRESULT CMyComputer::Render()
 	MultiTextureShaderRender(3);
 
 	return S_OK;
+}
+
+HRESULT CMyComputer::Ready_Components(void* pArg)
+{
+	__super::Ready_Components(pArg);
+
+	DESC* pDesc = static_cast<DESC*>(pArg);
+
+	if (nullptr != pArg)
+	{
+		/* For.Com_Collider */
+
+		CCollider::DESC ColliderDesc{};
+		ColliderDesc.pTransform = m_pTransformCom;
+		ColliderDesc.vScale = m_pTransformCom->Compute_Scaled();
+		ColliderDesc.pOwner = this;
+		ColliderDesc.iColliderGroupID = CG_BLOCK;
+		ColliderDesc.iColliderID = CI_INTERACTIVE_COMPUTER;
+
+		auto& vAngle = static_cast<DESC*>(pArg)->vAngle;
+
+		const _float rightAngles[] = {
+			0.f,
+			0.5f * PI,
+			1.0f * PI,
+			1.5f * PI
+		};
+		_bool isRightX = false, isRightY = false, isRightZ = false;
+		_bool isZeroX = fabsf(vAngle.x) < FLT_EPSILON;
+		_bool isZeroY = fabsf(vAngle.y) < FLT_EPSILON;
+		_bool isZeroZ = fabsf(vAngle.z) < FLT_EPSILON;
+
+		// 직각 각도인지 체크
+		for (_uint i = 0; i < 4; ++i)
+		{
+			if (fabsf(vAngle.x - rightAngles[i]) < FLT_EPSILON) isRightX = true;
+			if (fabsf(vAngle.y - rightAngles[i]) < FLT_EPSILON) isRightY = true;
+			if (fabsf(vAngle.z - rightAngles[i]) < FLT_EPSILON) isRightZ = true;
+		}
+
+		_bool isAllZero = isZeroX && isZeroY && isZeroZ;
+		_bool isAllRightAngle = isRightX && isRightY && isRightZ;
+
+		if (isAllRightAngle)
+		{
+			if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Collider_AABB_Cube"),
+				TEXT("Com_Collider"), reinterpret_cast<CComponent**>(&m_pColliderCom), &ColliderDesc)))
+				return E_FAIL;
+
+			if (!isAllZero)
+			{
+				static_cast<CCollider_AABB_Cube*>(m_pColliderCom)->Update_Rotation(vAngle);
+			}
+		}
+		else
+		{
+			if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Collider_OBB_Cube"),
+				TEXT("Com_Collider"), reinterpret_cast<CComponent**>(&m_pColliderCom), &ColliderDesc)))
+				return E_FAIL;
+		}
+	}
+
+	return S_OK;
+}
+
+void CMyComputer::On_Collision(_uint MyColliderID, _uint OtherColliderID)
+{
+	switch (OtherColliderID)
+	{
+	case CI_PICKING_RAY:
+		/* Press USE [E] to interact with the world. */
+		m_bPicked = !m_bPicked;
+		break;
+	}
 }
 
 CMyComputer* CMyComputer::Create(LPDIRECT3DDEVICE9 pGraphic_Device)

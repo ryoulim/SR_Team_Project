@@ -45,6 +45,8 @@ HRESULT CDoorSecurity::Initialize(void* pArg)
 
     Safe_AddRef(m_pInteractPromptUI);
 
+    m_pPlayer = static_cast<CPlayer*>(GET_PLAYER);
+
 	return S_OK;
 }
 
@@ -59,9 +61,12 @@ EVENT CDoorSecurity::Update(_float fTimeDelta)
     {
         if (KEY_DOWN(DIK_E))
         {
-            /* 여기서 카드키 들어올리세용 */
-            if (dynamic_cast<CPlayer*>(GET_PLAYER)->Get_HaveCardKey())
+            if (m_pPlayer->Get_HaveCardKey())
+            {
+                /* 여기서 카드키 들어올리세용 */
                 m_eState = OPEN;
+                m_pPlayer->Start_Move_LeftHand();
+            }           
             else
                 m_eState = LOCK;
         }

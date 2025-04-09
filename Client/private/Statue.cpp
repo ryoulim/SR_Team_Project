@@ -22,15 +22,6 @@ HRESULT CStatue::Initialize(void* pArg)
 	if (FAILED(Ready_Components(pArg)))
 		return E_FAIL;
 
-	if (pArg != nullptr)
-	{
-		DESC* pDesc = static_cast<DESC*>(pArg);
-		m_pTransformCom->Set_State(CTransform::STATE_POSITION, pDesc->vInitPos);
-		m_pTransformCom->Scaling(pDesc->vScale);
-		m_pTransformCom->QurternionRotation(pDesc->vAngle);
-		m_eShadingLevel = pDesc->eLevelID;
-	}
-
 	return S_OK;
 }
 
@@ -455,6 +446,15 @@ HRESULT CStatue::Ready_Components(void* pArg)
 		TEXT("Com_Shader"), reinterpret_cast<CComponent**>(&m_pShaderCom))))
 		return E_FAIL;
 
+	if (pArg != nullptr)
+	{
+		DESC* pDesc = static_cast<DESC*>(pArg);
+		m_pTransformCom->Set_State(CTransform::STATE_POSITION, pDesc->vInitPos);
+		m_pTransformCom->Scaling(pDesc->vScale);
+		m_pTransformCom->QurternionRotation(pDesc->vAngle);
+		m_eShadingLevel = pDesc->eLevelID;
+	}
+
 	return S_OK;
 }
 
@@ -510,4 +510,5 @@ void CStatue::Free()
 	Safe_Release(m_pTextureCom);
 	Safe_Release(m_pTransformCom);
 	Safe_Release(m_pShaderCom);
+	Safe_Release(m_pColliderCom);
 }

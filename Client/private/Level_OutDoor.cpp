@@ -34,6 +34,9 @@ HRESULT CLevel_OutDoor::Initialize(CLevelData* pLevelData)
 
 	if (FAILED(Ready_Layer_Pawn(TEXT("Layer_Pawn"))))
 		return E_FAIL;
+	
+	if (FAILED(Ready_Layer_Monster(TEXT("Layer_Monster"))))
+		return E_FAIL;
 
 
 	FX_MGR->SpawnRain(LEVEL_OUTDOOR);

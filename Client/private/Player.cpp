@@ -57,6 +57,10 @@ HRESULT CPlayer::Initialize(void* pArg)
 
 	CUI_Manager::Get_Instance()->Init_UI_To_Player(&m_tInfo);
 
+	m_pLeftHand = new CLeftHand(m_pGraphic_Device);
+	if (FAILED(m_pLeftHand->Initialize(pArg)))
+		return E_FAIL;
+
 	return S_OK;
 }
 
@@ -112,6 +116,12 @@ EVENT CPlayer::Update(_float fTimeDelta)
 			m_fOnHitTimer = 0.f;
 		}
 	}
+	if (m_bMoveLeftHand)
+	{
+		if (m_pLeftHand->Move(fTimeDelta))
+			m_bMoveLeftHand = false;
+	}
+
 	m_Weapons[m_iCurWeaponIndex]->Update(fTimeDelta);
 
 	return __super::Update(fTimeDelta);
@@ -127,6 +137,9 @@ void CPlayer::Late_Update(_float fTimeDelta)
 	m_vPrePosition = *m_pTransformCom->Get_State(CTransform::STATE_POSITION);
 
 	m_pGameInstance->Add_RenderGroup(CRenderer::RG_NONBLEND, this);
+
+	m_pGameInstance->Add_RenderGroup(CRenderer::RG_UI, m_pLeftHand);
+
 
 	m_Weapons[m_iCurWeaponIndex]->Late_Update(fTimeDelta);
 	
@@ -145,6 +158,8 @@ void CPlayer::Late_Update(_float fTimeDelta)
 
 HRESULT CPlayer::Render()
 {
+	m_pLeftHand->Render();
+
 	if(m_bActive)
 		return m_Weapons[m_iCurWeaponIndex]->Render();
 	else
@@ -634,4 +649,104 @@ void CPlayer::Free()
 	Safe_Release(m_pGravityCom);
 	Safe_Release(m_pCameraManager);
 	Safe_Release(m_pCameraTransform);
+
+	Safe_Release(m_pLeftHand);
+}
+
+CPlayer::CLeftHand::CLeftHand(LPDIRECT3DDEVICE9 pGraphic_Device)
+	:CGameObject(pGraphic_Device)
+{
+
+}
+
+HRESULT CPlayer::CLeftHand::Initialize(void* pArg)
+{
+	// 여기서 컴포넌트 갖고오기 
+	m_pTextureCom = dynamic_cast<CTexture*>(m_pGameInstance->Clone_Prototype(PROTOTYPE::TYPE_COMPONENT,
+		LEVEL_STATIC, TEXT("Prototype_Component_Texture_LeftHandCard")));
+	if (nullptr == m_pTextureCom)
+		return E_FAIL;
+
+	m_pVIBufferCom = dynamic_cast<CVIBuffer*>(m_pGameInstance->Clone_Prototype(PROTOTYPE::TYPE_COMPONENT,
+		LEVEL_STATIC, TEXT("Prototype_Component_VIBuffer_Rect")));
+	if (nullptr == m_pVIBufferCom)
+		return E_FAIL;
+
+	m_pTransformCom = dynamic_cast<CTransform*>(m_pGameInstance->Clone_Prototype(PROTOTYPE::TYPE_COMPONENT,
+		LEVEL_STATIC, TEXT("Prototype_Component_Transform")));
+	if (nullptr == m_pTransformCom)
+		return E_FAIL;
+
+	m_pTransformCom->Set_SpeedPerSec(800.f);
+	m_pTransformCom->Scaling(_float3(105.f, 243.f, 1.f) * 1.6f);
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION, _float3(-350.f, -(g_iWinSizeY *  0.5f) - 200.f, 0.95f));
+	m_fDepth = UI_PLAYER;
+
+	return S_OK;
+}
+
+_bool CPlayer::CLeftHand::Move(_float fTimeDelta)
+{
+	/* 무브해라를 플레이어가 시켜주니까 폴스를 여기서 못해준다.*/
+	/* fTimeAcc도 초기화를 못시켜줌 */
+
+	/* byState == 0 올라가기, 1 멈춰있기, 2 내려가기 */
+
+	if(m_byState == 0)
+	{
+		m_pTransformCom->Go_Up(fTimeDelta);
+		if (m_pTransformCom->Get_State(CTransform::STATE_POSITION)->y >= -200.f)
+			m_byState = 1;
+	}	
+	else if(m_byState == 1)
+	{
+		m_fTimeAcc += fTimeDelta;
+
+		if (m_fTimeAcc >= 0.5f)
+			m_byState = 2;
+	}
+	else if (m_byState == 2)
+	{
+		m_pTransformCom->Go_Down(fTimeDelta);
+		if (m_pTransformCom->Get_State(CTransform::STATE_POSITION)->y <= -(g_iWinSizeY * 0.5f) - 200.f)
+		{
+			m_byState = 0;
+			m_fTimeAcc = 0.f;
+			return true;
+		}
+	}
+
+	return false;
+}
+
+HRESULT CPlayer::CLeftHand::Render()
+{
+	m_pGraphic_Device->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
+	m_pGraphic_Device->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
+	m_pGraphic_Device->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
+
+	if (FAILED(m_pTransformCom->Bind_Resource()))
+		return E_FAIL;
+
+	if (FAILED(m_pTextureCom->Bind_Resource(static_cast<_uint>(0))))
+		return E_FAIL;
+
+	if (FAILED(m_pVIBufferCom->Bind_Buffers()))
+		return E_FAIL;
+
+	if (FAILED(m_pVIBufferCom->Render()))
+		return E_FAIL;
+
+	m_pGraphic_Device->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
+
+	return S_OK;
+}
+
+void CPlayer::CLeftHand::Free()
+{
+	__super::Free();
+
+	Safe_Release(m_pTextureCom);
+	Safe_Release(m_pTransformCom);
+	Safe_Release(m_pVIBufferCom);
 }

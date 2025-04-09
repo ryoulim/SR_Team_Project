@@ -475,6 +475,12 @@
     <Filter Include="02.GameObjects\Weapon\Bullet\PlayerMissile">
       <UniqueIdentifier>{ea67d519-7dbb-4e84-ad9e-c3728d296089}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\Map\Interactive_Block\Generator">
+      <UniqueIdentifier>{52e1f85f-6d13-46c6-b00b-6df5cf3eaad2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\RaceBoss\RBState">
+      <UniqueIdentifier>{70d9b4a1-5a3b-4c15-bb6b-548789b6f768}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -962,11 +968,13 @@
     <ClInclude Include="..\public\CutSceneSmoke.h">
       <Filter>02.GameObjects\Particle\_BossMobSkill\CutSceenEffect</Filter>
     </ClInclude>
-    <ClInclude Include="..\public\Generator.h">
-      <Filter>02.GameObjects\Map\Generator</Filter>
-    </ClInclude>
     <ClInclude Include="..\public\WaterBoat.h">
       <Filter>02.GameObjects\Particle\WaterBoat</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Generator.h" />
+    <ClInclude Include="..\public\RBState.h" />
+    <ClInclude Include="..\public\Generator.h">
+      <Filter>02.GameObjects\Map\Interactive_Block\Generator</Filter>
     </ClInclude>
     <ClInclude Include="..\public\RBState.h">
       <Filter>02.GameObjects\RaceBoss\RBState</Filter>
@@ -1433,15 +1441,13 @@
     <ClCompile Include="..\private\InteractPromptUI.cpp">
       <Filter>02.GameObjects\UI\GamePlayUI\InteractPromptUI</Filter>
     </ClCompile>
+    <ClCompile Include="..\private\FXMgr.cpp" />
+    <ClCompile Include="..\private\Generator.cpp" />
+    <ClCompile Include="..\private\Generator.cpp">
+      <Filter>02.GameObjects\Map\Interactive_Block\Generator</Filter>
+    </ClCompile>
     <ClCompile Include="..\private\FXMgr.cpp">
       <Filter>02.GameObjects\Particle</Filter>
-    </ClCompile>
-    <ClCompile Include="..\private\FXMgr.cpp" />
-    <ClCompile Include="..\private\Generator.cpp">
-      <Filter>02.GameObjects\Map\Generator</Filter>
-    </ClCompile>
-    <ClCompile Include="..\private\RBState.cpp">
-      <Filter>02.GameObjects\RaceBoss\RBState</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

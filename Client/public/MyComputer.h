@@ -1,4 +1,5 @@
 #include "Statue.h"
+#include "CameraManager.h"
 
 BEGIN(Client)
 
@@ -16,6 +17,13 @@ public:
 	virtual EVENT Update(_float fTimeDelta) override;
 	virtual void Late_Update(_float fTimeDelta) override;
 	virtual HRESULT Render() override;
+
+	virtual HRESULT Ready_Components(void* pArg) override;
+	virtual void On_Collision(_uint MyColliderID, _uint OtherColliderID)override;
+
+private:
+	_bool		m_bPicked{};
+	CCameraManager::ID m_CurCamera{ CCameraManager ::FPS };
 
 public:
 	static CMyComputer* Create(LPDIRECT3DDEVICE9 pGraphic_Device);

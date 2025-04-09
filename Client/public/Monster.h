@@ -155,6 +155,7 @@ protected: //컴포넌트
 	CVIBuffer* m_pVIBufferCom = { nullptr };
 	CTransform* m_pTransformCom = { nullptr };
 	CGravity* m_pGravityCom = { nullptr };
+	CSoundController* m_pSoundCom{ nullptr };
 
 protected: //충돌	
 	CCollider* m_pCollider = { nullptr };

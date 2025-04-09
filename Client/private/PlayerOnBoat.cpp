@@ -143,6 +143,10 @@ HRESULT CPlayerOnBoat::Render()
 	if (FAILED(m_pVIBufferCom->Render()))
 		return E_FAIL;
 
+#ifdef _COLLIDERRENDER
+	m_pCollider->Render();
+#endif
+
 	/* -----------------------그림자----------------------------- */
 	
 	m_pGraphic_Device->SetRenderState(D3DRS_ALPHABLENDENABLE, true);
@@ -180,27 +184,79 @@ void CPlayerOnBoat::On_Collision(_uint MyColliderID, _uint OtherColliderID)
 		Change_Level();
 }
 
+HRESULT CPlayerOnBoat::Ready_Components(void* pArg)
+{
+	/* For.Com_Texture */
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, _wstring(TEXT("Prototype_Component_Texture_")) + m_szTextureID,
+		TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
+		return E_FAIL;
+
+	/* For.Com_VIBuffer */
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, _wstring(TEXT("Prototype_Component_VIBuffer_")) + m_szBufferType,
+		TEXT("Com_VIBuffer"), reinterpret_cast<CComponent**>(&m_pVIBufferCom))))
+		return E_FAIL;
+
+	/* For.Com_Transform */
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Transform"),
+		TEXT("Com_Transform"), reinterpret_cast<CComponent**>(&m_pTransformCom), pArg)))
+		return E_FAIL;
+
+	if (pArg != nullptr)
+	{
+		DESC* pDesc = static_cast<DESC*>(pArg);
+		m_pTransformCom->Set_State(CTransform::STATE_POSITION, pDesc->vInitPos);
+		m_pTransformCom->Scaling(pDesc->vScale);
+		m_fInitSpeed = pDesc->fSpeedPerSec;
+	}
+
+
+	DESC* pDesc = static_cast<DESC*>(pArg);
+	CCollider_Capsule::DESC ColliderDesc{};
+	ColliderDesc.pTransform = m_pTransformCom;
+	ColliderDesc.vScale = pDesc->vScale;
+	ColliderDesc.vScale.x *= 0.5f;
+	ColliderDesc.vScale.y *= 0.8f;
+	ColliderDesc.vScale.z *= 0.5f;
+	ColliderDesc.pOwner = this;
+	ColliderDesc.iColliderGroupID = CG_PAWN;
+	ColliderDesc.iColliderID = CI_PLAYER;
+
+	/* For.Com_Collider */
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Collider_Capsule"),
+		TEXT("Com_Collider"), reinterpret_cast<CComponent**>(&m_pCollider), &ColliderDesc)))
+		return E_FAIL;
+
+	return S_OK;
+}
+
 void CPlayerOnBoat::Key_Input(_float fTimeDelta)
 {
+	if (KEY_PRESSING(DIK_W))
+	{
+		m_fSpeedRatio += fTimeDelta;
+		m_fSpeedRatio = min(m_fSpeedRatio, 2.f); // 최대 2
+		m_pTransformCom->Set_SpeedPerSec(m_fSpeedRatio * RACE_SPEED_PER_SEC);
+	}
+	else if (KEY_PRESSING(DIK_S))
+	{
+		m_fSpeedRatio -= fTimeDelta;
+		m_fSpeedRatio = max(m_fSpeedRatio, -0.3f); // 최소 -0.3
+		m_pTransformCom->Set_SpeedPerSec(m_fSpeedRatio * RACE_SPEED_PER_SEC);
+	}
+	else
+	{
+		// 자연스럽게 0으로 수렴
+		m_fSpeedRatio *= powf(0.5f, fTimeDelta * 2.f); // 감쇠율 조절 가능
+		if (fabsf(m_fSpeedRatio) < 0.01f)
+			m_fSpeedRatio = 0.f;
+		m_pTransformCom->Set_SpeedPerSec(m_fSpeedRatio * RACE_SPEED_PER_SEC);
+	}
+
+
 	// 키 타이머 -> 왼쪽 = 음수, 오른쪽 = 양수
 	_float fAccelRate = 2.5f; // 클수록 더 빠르게 가속됨
 	_float fSpeed = 0.f;
 
-
-	if (KEY_PRESSING(DIK_W))
-	{
-		m_fSpeedRatio += fTimeDelta;
-		m_fSpeedRatio = max(m_fSpeedRatio, 1.f); // 최소 -1
-		m_pTransformCom->Set_SpeedPerSec(m_fSpeedRatio * RACE_SPEED_PER_SEC);
-	}
-	if (KEY_PRESSING(DIK_S))
-	{
-		m_fSpeedRatio *= powf(0.5f, fTimeDelta * 5.f); // 감쇠율 조절 가능
-		if (fabsf(m_fSpeedRatio) < 0.05f)
-			m_fSpeedRatio = 0.05f;
-
-		m_pTransformCom->Set_SpeedPerSec(m_fSpeedRatio * RACE_SPEED_PER_SEC);
-	}
 	if (KEY_PRESSING(DIK_A))
 	{
 		m_fKeyTimer -= fTimeDelta;

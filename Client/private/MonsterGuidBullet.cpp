@@ -82,6 +82,11 @@ HRESULT CMonsterGuidBullet::Ready_Components(void* pArg)
 		TEXT("Com_Shader"), reinterpret_cast<CComponent**>(&m_pShaderCom))))
 		return E_FAIL;
 
+	/* 폭발 사운드 */
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Sound_Explorsion"),
+		TEXT("Com_Sound"), reinterpret_cast<CComponent**>(&m_pSoundCom))))
+		return E_FAIL;
+
 	if (pArg != nullptr)
 	{
 		//값 가져올 것 있으면 여기서 ↓
@@ -162,6 +167,9 @@ void CMonsterGuidBullet::Late_Update(_float fTimeDelta)
 #include "FXMgr.h"
 void CMonsterGuidBullet::On_Collision(_uint MyColliderID, _uint OtherColliderID)
 {
+	m_pSoundCom->SetVolume("explosion_02", 0.8f);
+	m_pSoundCom->Play("explosion_02");
+
 	if (m_pMissile)
 	{
 		static_cast<CMonsterMissile*>(m_pMissile)->SetDead();
@@ -298,4 +306,5 @@ void CMonsterGuidBullet::Free()
 	Safe_Release(m_pTargetPlayer);
 	Safe_Release(m_pShaderCom);
 	Safe_Release(m_pCamera);
+	Safe_Release(m_pSoundCom);
 }

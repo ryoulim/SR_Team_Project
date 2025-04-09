@@ -296,7 +296,9 @@ HRESULT CLoader::Loding_For_Static()
 	ADD_TEXTURE(LeftHand, "../Bin/Resources/Textures/Weapon/LeftHand/LeftHand%d.PNG", 2);
 	ADD_TEXTURE(Weapon_Chaingun, "../Bin/Resources/Textures/Weapon/ChainGun/ChainGun%d.PNG", 16);
 	ADD_TEXTURE(Weapon_Dispenser, "../Bin/Resources/Textures/Weapon/Dispenser/Dispenser%d.PNG", 60);
-	ADD_TEXTURE(PlayerMissile, "../Bin/Resources/Textures/Bullet/PlayerMissile/PlayerMissile%d.PNG", 8);
+  	ADD_TEXTURE(PlayerMissile, "../Bin/Resources/Textures/Bullet/PlayerMissile/PlayerMissile%d.PNG", 8);
+	ADD_TEXTURE(LeftHandCard, "../Bin/Resources/Textures/Player/Card/Card0.PNG", 1);
+
 #pragma endregion
 
 	ADD_PRTOBJ(Trigger);
@@ -680,6 +682,7 @@ HRESULT CLoader::Loding_For_Static()
 #pragma region 사운드
 	ADD_SOUND(LoverBoy, "../Bin/Resources/Sounds/Weapons/Loverboy/");
 	ADD_SOUND(Dispenser, "../Bin/Resources/Sounds/Weapons/Dispenser/");
+	ADD_SOUND(Explorsion, "../Bin/Resources/Sounds/Explorsion/");
 #pragma endregion
 
 
@@ -716,7 +719,7 @@ HRESULT CLoader::Loading_For_Logo()
 #pragma region SOUND
 	lstrcpy(m_szLoadingText, TEXT("사운드을(를) 로딩중입니다."));
 
-	m_pGameInstance->LoadSound("../Bin/Resources/Sounds/Music/");
+	m_pGameInstance->LoadSound("../Bin/Resources/Sounds/Music/", false, true);
 
 #pragma endregion
 	
@@ -848,6 +851,9 @@ HRESULT CLoader::Loading_For_GamePlay()
 
 #pragma region SOUND
 	lstrcpy(m_szLoadingText, TEXT("사운드을(를) 로딩중입니다.")); 
+	ADD_SOUND(Ttakkeun_i, "../Bin/Resources/Sounds/Boss/");
+	ADD_SOUND(Bridge, "../Bin/Resources/Sounds/Bridge/");
+	m_pGameInstance->LoadSound("../Bin/Resources/Sounds/Env/", false, true);
 #pragma endregion
 
 #pragma region PRTOBJ

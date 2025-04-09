@@ -91,7 +91,8 @@ private:
 	CTexture* m_pTextureCom = { nullptr };
 	CVIBuffer* m_pVIBufferCom = { nullptr };
 	CTransform* m_pTransformCom = { nullptr };
-	CCollider* m_pCollider = { nullptr };
+
+	vector<CCollider*> m_ColliderComs = { nullptr };
 	
 	class CPlayerOnBoat* m_pPlayer = { nullptr };
 	const _float3* m_pPlayerpos = { nullptr };

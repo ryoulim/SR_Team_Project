@@ -33,6 +33,9 @@ public:
 	}
 
 private:
+	virtual HRESULT Ready_Components(void* pArg)override;
+
+private:
 	friend class CPBState_Accel;
 	friend class CPBState_Decel;
 	friend class CPBState_Lerp;
@@ -73,7 +76,7 @@ private:
 	_float					m_fWaterSpeed = {};
 
 	// 플레이어 움직임과 기울기에 감속 넣기 위함
-	_float					m_fSpeedRatio{};
+	_float					m_fSpeedRatio{1.f};
 	_float					m_fKeyTimer{};
 	_float					m_fCurrentLean{};
 

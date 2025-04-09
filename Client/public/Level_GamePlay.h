@@ -48,8 +48,12 @@ public: //몬스터소환(게임플레이)
 
 private:
 	class CCameraManager* m_pCameraManager{};
+	CSound_Core* m_pBGM = { nullptr };
+	CSound_Core* m_pEnv = { nullptr };
 	_int m_iIndex{-1};
 	_bool testbool = { false };
+	_bool m_bBossStart = { false };
+	_bool m_bBossEnd = { true };
 
 private:
 	virtual HRESULT Load_Map(_uint iLevelIdx, const _wstring& FileName) override;

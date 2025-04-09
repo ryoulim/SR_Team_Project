@@ -36,6 +36,7 @@ private:
 	_float m_fFallTime = {};
 
 	class CCameraManager* m_pCameraManager{ nullptr };
+	CSoundController* m_pSoundCom{ nullptr };
 
 private:
 	virtual HRESULT Ready_Components(void* pArg) override;
