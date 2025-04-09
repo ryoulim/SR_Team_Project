@@ -48,8 +48,7 @@ HRESULT CStatue::Render()
 
 HRESULT CStatue::DefaultShaderRender()
 {
-	if (!g_FogTrigger ||
-		m_eShadingLevel == LEVEL_RACEFIRST || m_eShadingLevel == LEVEL_RACESECOND || m_eShadingLevel == LEVEL_RACETHIRD)
+	if (!g_FogTrigger || LEVEL_RACING(m_eShadingLevel))
 	{
 		if (FAILED(m_pTransformCom->Bind_Resource()))
 			return E_FAIL;
@@ -171,8 +170,7 @@ HRESULT CStatue::DefaultShaderRender()
 }
 HRESULT CStatue::MultiShaderRender(_float _fTexNum, _int _iSetting)
 {
-	if (!g_FogTrigger ||
-		m_eShadingLevel == LEVEL_RACEFIRST || m_eShadingLevel == LEVEL_RACESECOND || m_eShadingLevel == LEVEL_RACETHIRD)
+	if (!g_FogTrigger || LEVEL_RACING(m_eShadingLevel))
 	{
 		if (FAILED(m_pTransformCom->Bind_Resource()))
 			return E_FAIL;
@@ -302,8 +300,7 @@ HRESULT CStatue::MultiTextureShaderRender(int _iNums)
 }
 HRESULT CStatue::BillboardShaderRender()
 {
-	if (!g_FogTrigger ||
-		m_eShadingLevel == LEVEL_RACEFIRST || m_eShadingLevel == LEVEL_RACESECOND || m_eShadingLevel == LEVEL_RACETHIRD)
+	if (!g_FogTrigger || LEVEL_RACING(m_eShadingLevel))
 	{
 		if (FAILED(m_pGraphic_Device->SetTransform(D3DTS_WORLD, &m_pTransformCom->Billboard())))
 			return E_FAIL;

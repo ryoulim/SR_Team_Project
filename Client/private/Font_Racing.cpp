@@ -44,6 +44,8 @@ EVENT CFont_Racing::Update(_float fTimeDelta)
 
 void CFont_Racing::Late_Update(_float fTimeDelta)
 {
+	if (!LEVEL_RACING(m_pGameInstance->Get_CurrentLevelIndex()))
+		return;
 	__super::Late_Update(fTimeDelta);
 }
 

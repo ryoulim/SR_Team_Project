@@ -34,8 +34,6 @@ HRESULT CLevel_RaceFirst::Initialize(CLevelData* pLevelData)
 	if (FAILED(Ready_Layer_UI(TEXT("Layer_UI"))))
 		return E_FAIL;
 
-	CUI_Manager::Get_Instance()->Initialize_GamePlayUI(CurLevel);
-
 	if (FAILED(Ready_Layer_Pawn(TEXT("Layer_Pawn"))))
 		return E_FAIL;
 
@@ -55,6 +53,7 @@ void CLevel_RaceFirst::Update(_float fTimeDelta)
 		m_pGameInstance->Change_Level(LEVEL_LOADING,
 			CLevel_Loading::Create(m_pGraphic_Device, (LEVEL)m_iNextLevel));
 	}
+	//CUI_Manager::Get_Instance()->Set_RacingSpeed(static_cast<CPlayerOnBoat*>(GET_PLAYER)->GetVelocityPerSecond(fTimeDelta));
 }
 
 HRESULT CLevel_RaceFirst::Render()
@@ -296,20 +295,26 @@ HRESULT CLevel_RaceFirst::Ready_Layer_UI(const _wstring& strLayerTag)
 		Desc.eLevelID, strLayerTag, &Desc)))
 		return E_FAIL;
 
+	CUI_Manager::Get_Instance()->Initialize_GamePlayUI(CurLevel);
+
+	Desc.vScale = _float3(240.f, 42.f, 1.f);
+	Desc.vInitPos = _float3(0.f, g_iWinSizeY * 0.5f - 44.f, 0.1f);
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_BossHPBar"),
+		Desc.eLevelID, strLayerTag, &Desc)))
+		return E_FAIL;
+	CUI_Manager::Get_Instance()->Initialize_BossHPUI(CurLevel);
+
 	Desc.vScale = _float3(131.25f, 95.f, 1.f); // 1.25배됨
 	Desc.vInitPos = _float3(0.f, g_iWinSizeY * -0.5f + 50.f, 0.1f);
 	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_RacingPanel"),
 		Desc.eLevelID, strLayerTag, &Desc)))
 		return E_FAIL;
-
 	CUI_Manager::Get_Instance()->Initialize_RacingUI(CurLevel);
 
-	//if (FAILED(m_pGameInstance->Add_GameObject(Desc.eLevelID, TEXT("Prototype_GameObject_InteractPromptUI"),
-	//	Desc.eLevelID, strLayerTag, &Desc)))
-	//	return E_FAIL;
 
-	/* ui생성 순서 중요, player 생성 이후 호출 중요  */
+	/* ui생성 순서 중요 */
 	// 과거의 나야 미안해 
+	// 안미안해꺼져
 	return S_OK;
 }
 void CLevel_RaceFirst::Check_Collision()

@@ -71,9 +71,7 @@ void CAim::Priority_Update(_float fTimeDelta)
 
 EVENT CAim::Update(_float fTimeDelta)
 {
-	if (m_eLevelID == LEVEL_RACEFIRST ||
-		m_eLevelID == LEVEL_RACESECOND ||
-		m_eLevelID == LEVEL_RACETHIRD)
+	if (LEVEL_RACING(m_eLevelID))
 		return EVN_NONE;
  	Calc_Magazine(m_pAmmoInfo->iMaxAmmo, m_pAmmoInfo->iReloadedAmmo);
 
@@ -82,9 +80,7 @@ EVENT CAim::Update(_float fTimeDelta)
 
 void CAim::Late_Update(_float fTimeDelta)
 {
-	if (m_eLevelID == LEVEL_RACEFIRST ||
-		m_eLevelID == LEVEL_RACESECOND ||
-		m_eLevelID == LEVEL_RACETHIRD)
+	if (LEVEL_RACING(m_eLevelID))
 		return;
 	__super::Late_Update(fTimeDelta);
 }

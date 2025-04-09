@@ -32,15 +32,12 @@ HRESULT CLevel_OutDoor::Initialize(CLevelData* pLevelData)
 	if (FAILED(Ready_Layer_UI(TEXT("Layer_UI"))))
 		return E_FAIL;
 
-	CUI_Manager::Get_Instance()->Initialize_GamePlayUI(CurLevel);
-
 	if (FAILED(Ready_Layer_Pawn(TEXT("Layer_Pawn"))))
 		return E_FAIL;
 	
 	if (FAILED(Ready_Layer_Monster(TEXT("Layer_Monster"))))
 		return E_FAIL;
 
-	CUI_Manager::Get_Instance()->Initialize_Player();
 
 	FX_MGR->SpawnRain(LEVEL_OUTDOOR);
 
@@ -414,6 +411,7 @@ HRESULT CLevel_OutDoor::Ready_Layer_UI(const _wstring& strLayerTag)
 		Desc.eLevelID, strLayerTag, &Desc)))
 		return E_FAIL;
 
+	CUI_Manager::Get_Instance()->Initialize_GamePlayUI(CurLevel);
 
 	/* ui생성 순서 중요, player 생성 이후 호출 중요  */
 	// 과거의 나야 미안해 
@@ -465,81 +463,11 @@ HRESULT CLevel_OutDoor::Ready_Layer_Pawn(const _wstring& strLayerTag)
 
 HRESULT CLevel_OutDoor::Ready_Layer_Monster(const _wstring& strLayerTag)
 {
-	_float3 Pos = {};
-	CMonster::DESC Wenteko_iDesc{};
-	Wenteko_iDesc.fSpeedPerSec = 60.f;
-	Wenteko_iDesc.fRotationPerSec = RADIAN(180.f);
-	Wenteko_iDesc.vActive = true;
-	Wenteko_iDesc.eLevel = LEVEL_OUTDOOR;
-	Wenteko_iDesc.fAttackDistance = 400.f;
-	Wenteko_iDesc.fDetectiveDistance = 500.f;
-	/******************************************/
-	CMonster::DESC Nukemutant_iDesc{};
-	Nukemutant_iDesc.fSpeedPerSec = 60.f;
-	Nukemutant_iDesc.fRotationPerSec = RADIAN(180.f);
-	Nukemutant_iDesc.vActive = true;
-	Nukemutant_iDesc.eLevel = LEVEL_OUTDOOR;
-	Nukemutant_iDesc.fAttackDistance = 400.f;
-	Nukemutant_iDesc.fDetectiveDistance = 500.f;
-	/******************************************/
-	CMonster::DESC Mechsect_iDesc{};
-	Mechsect_iDesc.fSpeedPerSec = 60.f;
-	Mechsect_iDesc.fRotationPerSec = RADIAN(180.f);
-	Mechsect_iDesc.vActive = true;
-	Mechsect_iDesc.eLevel = LEVEL_OUTDOOR;
-	Mechsect_iDesc.fAttackDistance = 300.f;
-	Mechsect_iDesc.fDetectiveDistance = 600.f;
-	/******************************************/
-	CMonster::DESC Archangel_iDesc{};
-	Archangel_iDesc.fSpeedPerSec = 60.f;
-	Archangel_iDesc.fRotationPerSec = RADIAN(180.f);
-	Archangel_iDesc.vActive = true;
-	Archangel_iDesc.eLevel = LEVEL_OUTDOOR;
-	Archangel_iDesc.fAttackDistance = 600.f;
-	Archangel_iDesc.fDetectiveDistance = 800.f;
-
-
-
-#define SPAWN_WENTEKO(x,y,z, level)							\
-Pos = _float3{ x, y, z };									\
-Wenteko_iDesc.vPosition = Pos;								\
-Wenteko_iDesc.vReturnPos = Pos;								\
-if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC,	\
-TEXT("Prototype_GameObject_Wenteko"),						\
-level, L"Layer_Monster", &Wenteko_iDesc)))					\
-return E_FAIL;												\
-
-#define SPAWN_NUKEMUTANT(x,y,z, level)						\
-Pos = _float3{ x, y, z };									\
-Nukemutant_iDesc.vPosition = Pos;							\
-Nukemutant_iDesc.vReturnPos = Pos;							\
-if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC,	\
-TEXT("Prototype_GameObject_Nukemutant"),					\
-level, L"Layer_Monster", &Nukemutant_iDesc)))				\
-return E_FAIL;												\
-
-#define SPAWN_MECHSECT(x,y,z, level)						\
-Pos = _float3{ x, y, z };									\
-Mechsect_iDesc.vPosition = Pos;								\
-Mechsect_iDesc.vReturnPos = Pos;							\
-if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC,	\
-TEXT("Prototype_GameObject_Mechsect"),						\
-level, L"Layer_Monster", &Mechsect_iDesc)))					\
-return E_FAIL;												\
-
-#define SPAWN_ARCHANGEL(x,y,z, level)						\
-Pos = _float3{ x, y, z };									\
-Archangel_iDesc.vPosition = Pos;							\
-Archangel_iDesc.vReturnPos = Pos;							\
-if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC,	\
-TEXT("Prototype_GameObject_Archangel"),						\
-level, L"Layer_Monster", &Archangel_iDesc)))				\
-return E_FAIL;												\
-
-	//SPAWN_ARCHANGEL(513.f, 150.f, 325.f, LEVEL_OUTDOOR);
-	//SPAWN_NUKEMUTANT(1186.f, 150.f, 333.f, LEVEL_OUTDOOR);
-	//SPAWN_MECHSECT(1917.f, 150.f, 329.f, LEVEL_OUTDOOR);
-	//SPAWN_WENTEKO(1773.f, 150.f, 1544.f, LEVEL_OUTDOOR);
+	SPAWN_ARCHANGEL(1711.f, 687.f, 479.f, LEVEL_OUTDOOR);
+	SPAWN_NUKEMUTANT(1711.f, 687.f, 479.f, LEVEL_OUTDOOR);
+	SPAWN_MECHSECT(1711.f, 687.f, 479.f, LEVEL_OUTDOOR);
+	SPAWN_WENTEKO(1711.f, 687.f, 479.f, LEVEL_OUTDOOR);
+	SPAWN_SHOTGUNNER(1711.f, 687.f, 479.f, LEVEL_OUTDOOR);
 
 	return S_OK;
 

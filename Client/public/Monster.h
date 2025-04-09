@@ -61,6 +61,11 @@ protected:
 protected:
 	virtual HRESULT Ready_Components(void* pArg);
 
+
+public: // 겟셋을 남용하는 행위
+	_int* Get_HP() { return &m_iHP; }
+	_int Get_MaxHP() { return m_iMaxHP; }
+
 protected: // 길찾기 및 디텍티브
 	virtual void PlayerDistance();
 	virtual void CalculateVectorToPlayer();

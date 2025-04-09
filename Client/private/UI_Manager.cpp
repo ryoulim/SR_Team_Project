@@ -11,6 +11,7 @@
 #include <Aim.h>
 #include <ItemDialog.h>
 #include <RacingPanel.h>
+#include <BossHPBar.h>
 
 CUI_Manager* CUI_Manager::m_pInstance = nullptr;
 
@@ -81,6 +82,13 @@ HRESULT CUI_Manager::Render_Text(const _int _val, CFont::FONTTYPE _type, CFont::
 	return m_Fonts[_type]->Render_Text(_val, _align, _posX, _posY, vSizeMul, pShader);
 }
 
+HRESULT CUI_Manager::Render_Text_Colored(const string& _text, CFont::FONTTYPE _type, CFont::FONTALIGN _align, _float _posX, _float _posY, _float _hueShift, _float vSizeMul)
+{
+	if (m_Fonts[_type] == nullptr)
+		return E_FAIL;
+	return m_Fonts[_type]->Render_Text_Colored(_text, _align, _posX, _posY, _hueShift, vSizeMul);
+}
+
 void CUI_Manager::Fade_In()
 {
 	CFadeUI::DESC desc;
@@ -134,6 +142,14 @@ HRESULT CUI_Manager::Initialize_RacingUI(LEVEL eLevelID)
 	return S_OK;
 }
 
+HRESULT CUI_Manager::Initialize_BossHPUI(LEVEL eLevelID)
+{
+	m_pBossHPUI = m_pGameInstance->Find_Object(eLevelID, L"Layer_UI", GUI_BOSSHP);
+	if (m_pBossHPUI == nullptr)
+		return E_FAIL;
+	return S_OK;
+}
+
 HRESULT CUI_Manager::Initialize_Player()
 {
 	m_pPlayer = dynamic_cast<CPawn*>(GET_PLAYER);
@@ -142,6 +158,7 @@ HRESULT CUI_Manager::Initialize_Player()
 	//Safe_AddRef(m_pPlayer);
 	return S_OK;
 }
+
 
 HRESULT CUI_Manager::Clear_GamePlayUI()
 {
@@ -184,6 +201,33 @@ HRESULT CUI_Manager::Set_RacingSpeed(_int iSpeed)
 	if (m_pRacingUI == nullptr)
 		return E_FAIL;
 	static_cast<CRacingPanel*>(m_pRacingUI)->Set_TargetSpeed(iSpeed);
+	return S_OK;
+}
+
+HRESULT CUI_Manager::Set_Ttakkeun_HP_Settings(_int* pBossHP, _int* pBossHP2, _int iBossMaxHP)
+{
+	if (m_pBossHPUI == nullptr)
+		return E_FAIL;
+	static_cast<CBossHPBar*>(m_pBossHPUI)->Set_BossHP(pBossHP);
+	static_cast<CBossHPBar*>(m_pBossHPUI)->Set_BossHP_T2(pBossHP2);
+	static_cast<CBossHPBar*>(m_pBossHPUI)->Set_BossMaxHP(iBossMaxHP);
+	return S_OK;
+}
+
+HRESULT CUI_Manager::Set_RacingBoss_HP_Settings(_int* pBossHP, _int iBossMaxHP)
+{
+	if (m_pBossHPUI == nullptr)
+		return E_FAIL;
+	static_cast<CBossHPBar*>(m_pBossHPUI)->Set_BossHP(pBossHP);
+	static_cast<CBossHPBar*>(m_pBossHPUI)->Set_BossMaxHP(iBossMaxHP);
+	return S_OK;
+}
+
+HRESULT CUI_Manager::Start_Rendering_BossHPUI()
+{
+	if (m_pBossHPUI == nullptr)
+		return E_FAIL;
+	static_cast<CBossHPBar*>(m_pBossHPUI)->Set_RenderStart();
 	return S_OK;
 }
 

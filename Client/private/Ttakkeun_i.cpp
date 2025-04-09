@@ -7,6 +7,7 @@
 #include "MonsterGuidBullet.h"
 #include "Sprite.h"
 #include "HitBox.h"
+#include "UI_Manager.h"
 
 CTtakkeun_i::CTtakkeun_i(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CMonster{ pGraphic_Device }
@@ -505,7 +506,7 @@ void CTtakkeun_i::DoIdle(_float dt)
 	}
 	case EIdlePhase::IDLE_WAIT:
 		m_fIdleWaitElapsed += dt;
-		//m_eCurMonsterState = STATE_STAY;
+		m_eCurMonsterState = STATE_STAY;
 
 		if (m_fIdleWaitElapsed >= m_fIdleWaitTime)
 		{
@@ -1277,6 +1278,7 @@ void CTtakkeun_i::CutSceneAction(_float dt)
 			m_pTransformCom->Set_State(CTransform::STATE_POSITION, vPos);
 			m_fAttackTimer = 0.0f;
 			m_bIsLink = true;
+			CUI_Manager::Get_Instance()->Start_Rendering_BossHPUI();
 		}
 	}
 	if (m_bIsLink)

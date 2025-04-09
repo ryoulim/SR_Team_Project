@@ -58,6 +58,8 @@ EVENT CItemDialog::Update(_float fTimeDelta)
 void CItemDialog::Late_Update(_float fTimeDelta)
 {
 	__super::Late_Update(fTimeDelta);
+	if (m_pGameInstance->Get_CurrentLevelIndex() == LEVEL_GAMEPLAY)
+		m_fPosY = g_iWinSizeY / 2.f - 60.f;
 }
 
 HRESULT CItemDialog::Render()

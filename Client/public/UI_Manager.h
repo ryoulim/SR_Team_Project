@@ -41,7 +41,7 @@ private:
 #pragma endregion
 		
 public:
-	enum GAMEUI { GUI_AIM, GUI_PORTRAIT, GUI_ARMOR, GUI_AMMO, GUI_RACING, GUI_END };
+	enum GAMEUI { GUI_AIM, GUI_PORTRAIT, GUI_ARMOR, GUI_AMMO, GUI_BOSSHP, GUI_RACING, GUI_END };
 public:
 	HRESULT Initialize() ;
 	void Priority_Update(_float fTimeDelta) ;
@@ -53,6 +53,7 @@ public:
 public:
 	HRESULT Render_Text(const string& _text, CFont::FONTTYPE _type, CFont::FONTALIGN _align, _float _posX, _float _posY, _float vSizeMul = 1.f, CShader* pShader = nullptr);
 	HRESULT Render_Text(const _int _val, CFont::FONTTYPE _type, CFont::FONTALIGN _align, _float _posX, _float _posY, _float vSizeMul = 1.f, CShader* pShader = nullptr);
+	HRESULT Render_Text_Colored(const string& _text, CFont::FONTTYPE _type, CFont::FONTALIGN _align, _float _posX, _float _posY, _float _hueShift, _float vSizeMul = 1.f);
 	void	Set_ButtonBrightness(_float val, CFont::FONTTYPE _type) { m_Fonts[_type]->Set_Brightness(val); }
 
 	/* 페이드 인 아웃 */
@@ -64,14 +65,19 @@ public:
 public:
 	HRESULT Initialize_GamePlayUI(LEVEL eLevelID);
 	HRESULT Initialize_RacingUI(LEVEL eLevelID);
-	HRESULT Initialize_Player();
-	HRESULT Clear_GamePlayUI();
+	HRESULT Initialize_BossHPUI(LEVEL eLevelID);
+	HRESULT Initialize_Player(); // 안쓰는중
+
 	HRESULT Change_Weapon(const CWeapon::AMMOINFO* pAmmoInfo);
 	HRESULT Init_UI_To_Player(const CPawn::INFO* pPlayerInfo);
 	HRESULT	Set_Face(CPortrait::PORTRAITSTATUS eStatus);
 	HRESULT Set_RacingSpeed(_int iSpeed);
 	HRESULT Set_RacingSpeedUp() {};
+	HRESULT Set_Ttakkeun_HP_Settings(_int* pBossHP, _int* pBossHP2, _int iBossMaxHP);
+	HRESULT Set_RacingBoss_HP_Settings(_int* pBossHP, _int iBossMaxHP);
+	HRESULT Start_Rendering_BossHPUI();
 
+	HRESULT Clear_GamePlayUI();
 	/* 폰트 생성 및 들고댕기기 */
 private:
 	HRESULT	Initialize_Font();
@@ -81,6 +87,7 @@ private:
 	array<class CGameObject*, GUI_END>	m_GameUIs = { nullptr };
 	class CPawn*						m_pPlayer = { nullptr };
 	class CGameObject*					m_pRacingUI = { nullptr };
+	class CGameObject*					m_pBossHPUI = { nullptr };
 	
 private: // 좌상단 텍스트 다이얼로그 관리 (아이템 습득 등)
 	CGameObject* m_pDialog = { nullptr };

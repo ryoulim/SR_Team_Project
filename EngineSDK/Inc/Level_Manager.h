@@ -21,6 +21,8 @@ public:
 	HRESULT Render();
 	
 	void Change_Level(_uint iLevelIndex);
+	_uint Get_CurrentLevelIndex() { return m_iCurrentLevelIndex; }
+
 private:
 	_uint					m_iCurrentLevelIndex = {};
 	class CLevel*			m_pCurrentLevel = { nullptr };

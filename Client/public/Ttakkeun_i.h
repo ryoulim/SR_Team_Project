@@ -81,6 +81,7 @@ private: //행동 오버라이딩
 	void DoReturn(_float dt);
 
 
+
 private:
 	MONSTER_STATE	m_eCurMonsterState = { MONSTER_STATE::STATE_WALK };
 	MONSTER_STATE	m_ePrevMonsterState = { MONSTER_STATE::STATE_WALK };

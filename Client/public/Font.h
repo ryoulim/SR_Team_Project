@@ -31,6 +31,7 @@ public:
 	virtual HRESULT Render_Text(const string& _text, FONTALIGN _align, _float _posX, _float _posY, _float vSizeMul = 1.f, CShader* pShader = nullptr);
 	// 숫자 출력 용
 	virtual HRESULT Render_Text(const _int _val, FONTALIGN _align, _float _posX, _float _posY, _float vSizeMul = 1.f, CShader* pShader = nullptr);
+	virtual HRESULT Render_Text_Colored(const string& _text, FONTALIGN _align, _float _posX, _float _posY, _float _hueShift, _float vSizeMul = 1.f);
 	void	Set_Brightness(_float val) { m_fShadeVal = val; }
 
 	virtual HRESULT Set_Font_Settings(FONTTYPE _eFontType, FONTALIGN _Align, CShader::TYPE _eShaderType, _tchar _ShaderVar, _float vSizeMultiplier = 1.f) { return S_OK; };

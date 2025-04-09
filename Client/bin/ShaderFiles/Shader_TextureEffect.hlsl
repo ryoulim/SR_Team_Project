@@ -90,6 +90,48 @@ PS_OUT PS_AlphaChangeWithVS(PS_IN In) : COLOR
 }
 #endif
 
+float3 AdjustHue(float3 rgb, float hueShift)
+{
+    // RGB에서 색상 최대/최소값 계산
+    float maxRGB = max(rgb.r, max(rgb.g, rgb.b));
+    float minRGB = min(rgb.r, min(rgb.g, rgb.b));
+    float delta = maxRGB - minRGB;
+
+    // 원본 Hue 계산
+    float hue = 0.0;
+    if (delta > 0.0) {
+        if (maxRGB == rgb.r) {
+            hue = (rgb.g - rgb.b) / delta;
+        } else if (maxRGB == rgb.g) {
+            hue = 2.0 + (rgb.b - rgb.r) / delta;
+        } else {
+            hue = 4.0 + (rgb.r - rgb.g) / delta;
+        }
+    }
+    hue = frac(hue / 6.0 + hueShift); // 색조 변경 적용
+
+    // RGB 재계산
+    float c = delta; // 채도 값 대체
+    float x = c * (1.0 - abs(fmod(hue * 6.0, 2.0) - 1.0));
+    float3 result;
+    if (hue < 1.0 / 6.0) {
+        result = float3(c, x, 0.0);
+    } else if (hue < 2.0 / 6.0) {
+        result = float3(x, c, 0.0);
+    } else if (hue < 3.0 / 6.0) {
+        result = float3(0.0, c, x);
+    } else if (hue < 4.0 / 6.0) {
+        result = float3(0.0, x, c);
+    } else if (hue < 5.0 / 6.0) {
+        result = float3(x, 0.0, c);
+    } else {
+        result = float3(c, 0.0, x);
+    }
+
+    // 밝기 조정
+    float m = minRGB; // 최소 밝기 유지
+    return result + m;
+}
 
 float4 PS_AlphaChange(float2 texCoord : TEXCOORD0) : COLOR {
     float4 color = tex2D(SamplerTex, texCoord);
@@ -151,21 +193,26 @@ float4 PS_ImageMasking_Center(float2 texCoord : TEXCOORD0) : COLOR
 
     return color;
 }
+
 float4 PS_ImageMasking_HPBar(float2 texCoord : TEXCOORD0) : COLOR
 {
     float4 color = tex2D(SamplerTex, texCoord);
 
-    // 텍스처 좌측 좌표
-    float2 left = float2(0.f, 0.5f);
-
     // 중심으로부터의 거리 계산
-    float distance = length(texCoord.x - left.x);
-
+    float distance = length(texCoord.x - 0);
+    float hue = 0;
     // 특정 반경 밖의 픽셀 제거
-    if (distance > HPPercent)
+    if (distance >= HPPercent)
     {
         discard; 
     }
+    if (HPPercent <= 0.2f && HPPercent > 0.f)
+        hue = 0.7;
+    else if (HPPercent <= 0.4f && HPPercent > 0.2f)
+        hue = 0.8;
+
+    color.rgb = AdjustHue(color.rgb, hue);
+    color.a *= 0.9f;
 
     return color;
 }
@@ -181,49 +228,6 @@ float4 PS_ShadeChange(float2 texCoord : TEXCOORD0) : COLOR {
     color.rgb *= darknessFactor;
 
     return color;
-}
-
-float3 AdjustHue(float3 rgb, float hueShift)
-{
-    // RGB에서 색상 최대/최소값 계산
-    float maxRGB = max(rgb.r, max(rgb.g, rgb.b));
-    float minRGB = min(rgb.r, min(rgb.g, rgb.b));
-    float delta = maxRGB - minRGB;
-
-    // 원본 Hue 계산
-    float hue = 0.0;
-    if (delta > 0.0) {
-        if (maxRGB == rgb.r) {
-            hue = (rgb.g - rgb.b) / delta;
-        } else if (maxRGB == rgb.g) {
-            hue = 2.0 + (rgb.b - rgb.r) / delta;
-        } else {
-            hue = 4.0 + (rgb.r - rgb.g) / delta;
-        }
-    }
-    hue = frac(hue / 6.0 + hueShift); // 색조 변경 적용
-
-    // RGB 재계산
-    float c = delta; // 채도 값 대체
-    float x = c * (1.0 - abs(fmod(hue * 6.0, 2.0) - 1.0));
-    float3 result;
-    if (hue < 1.0 / 6.0) {
-        result = float3(c, x, 0.0);
-    } else if (hue < 2.0 / 6.0) {
-        result = float3(x, c, 0.0);
-    } else if (hue < 3.0 / 6.0) {
-        result = float3(0.0, c, x);
-    } else if (hue < 4.0 / 6.0) {
-        result = float3(0.0, x, c);
-    } else if (hue < 5.0 / 6.0) {
-        result = float3(x, 0.0, c);
-    } else {
-        result = float3(c, 0.0, x);
-    }
-
-    // 밝기 조정
-    float m = minRGB; // 최소 밝기 유지
-    return result + m;
 }
 
 float4 PS_ColorChange(float2 texCoord : TEXCOORD0) : COLOR

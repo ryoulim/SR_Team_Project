@@ -6,6 +6,7 @@
 #include "CameraManager.h"
 #include "Ttakkeun_i.h"
 #include "FXMgr.h"
+#include "UI_Manager.h"
 
 CBossBridge::CBossBridge(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CMap{ pGraphic_Device }
@@ -184,6 +185,7 @@ void CBossBridge::BossMap_CutScene2()
 	{
 		static_cast<CTtakkeun_i*>(LeftBoss)->SetCutScene();
 		static_cast<CTtakkeun_i*>(RightBoss)->SetCutScene();
+		CUI_Manager::Get_Instance()->Set_Ttakkeun_HP_Settings(static_cast<CMonster*>(LeftBoss)->Get_HP(), static_cast<CMonster*>(RightBoss)->Get_HP(), 1500);
 	}
 }
 
