@@ -17,9 +17,9 @@ BEGIN(Client)
 class CRaceBoss final : public CGameObject
 {
 public:
-	enum STATE { WAITFORPLAYER, ENTRANCE,
+	enum STATE { WAITFORPLAYER, ENTRANCE, IDLE,
+		SHOTREADY, SHOTHEADBULLET, SHOTTAILBULLET,
 		READYBOMB, DRAWINGRADIUS, BOMBING, COMEBACK, 
-		SHOTREADY, SHOTHEADBULLET, SHOTTAILBULLET, 
 		LEAVE, NON };
 
 	enum MUZZLEPOS { LSIDE, LMIDDLE, MIDDLE, RMIDDLE, RSIDE, POSEND };
@@ -59,7 +59,6 @@ public:
 private:
 	HRESULT Ready_Components(void* pArg);
 	void ReadyForState();
-	void Action(_float fTimeDelta);
 	HRESULT Fire_Bullet(CRaceBossBullet::RBULLETTYPE eType, MUZZLEPOS ePos, _float fTimeDelta);
 	_float3 Calc_Muzzle_Position(MUZZLEPOS eMuzzle);
 	void ShuffleandPop();
@@ -74,6 +73,9 @@ private:
 	void Render_Skull(MUZZLEPOS eMuzzlePos);
 
 private:
+	friend class CRBState_WaitPlayer;
+	friend class CRBState_Entrance;
+	friend class CRBState_IDLE;
 	friend class CRBState_ReadyShot;
 	friend class CRBState_ShotHeadBullet;
 	friend class CRBState_ShotTailBullet;
@@ -81,12 +83,25 @@ private:
 	friend class CRBState_DrawingRadius;
 	friend class CRBState_Bombing;
 	friend class CRBState_Comeback;
+	friend class CRBState_Leave;
 
 	STATE					m_ePreState = { NON };
 	STATE					m_eCurState = { ENTRANCE };
 	class CRBState* m_pCurState = { nullptr };
 	class CRBState* m_pState[NON] = { nullptr };
 
+	void Set_State(STATE eState);
+	void Go_Straight(_float fTimeDelta);
+	void Go_Up(_float fTimeDelta);
+	void Go_Right(_float fTimeDelta);
+	_float Compute_PosZ();
+	void MoveCatMullRom(_float3& v0, _float3& vStartPos, _float3& vEndPos, _float3& v3, _float fTimeAcc);
+	void Fire_HeadBullet(_float fTimeDelta);
+	void Fire_TailBullet(_float fTimeDelta);
+	_uint Get_HeadBulletCount();
+	void Set_HeadBulletCountZero();
+	HRESULT Draw_BombRadius();
+	
 private:
 	CTexture* m_pTextureCom = { nullptr };
 	CVIBuffer* m_pVIBufferCom = { nullptr };
@@ -98,19 +113,15 @@ private:
 	const _float3* m_pPlayerpos = { nullptr };
 
 	_float3		m_vPrePos{}; // 이전 프레임의 포지션
-
 	STATE		m_eState = { NON };
 	LEVEL		m_eLevelID = { LEVEL_END };
 	_bool		m_bDead = { false };
 	_float3		m_vScale = {};
 	_uint		m_iHp = {};
 	_float		m_fTime = {};
-	_uint		m_iTailBulletCount = {};
 	_uint		m_iHeadBulletCount = {};
 	_float3		m_vBulletDiretion = {};
 	MUZZLEPOS	m_ePos = { POSEND };
-	_float3		m_vLerpStartPos = { 0.f, 250.f, 0.f };
-	_float3		m_vLerpEndPos = { 450.f, 250.f, 1200.f };
 	vector<MUZZLEPOS> m_VecBulletPos;
 
 	///// 해골바가지

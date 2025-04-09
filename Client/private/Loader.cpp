@@ -25,6 +25,7 @@
 //레이싱 보스
 #include "RaceBoss.h"
 #include "RaceBossBullet.h"
+#include "BombRadius.h"
 
 //아이템
 #include "Item.h"
@@ -719,6 +720,8 @@ HRESULT CLoader::Loading_For_Logo()
 #pragma region SOUND
 	lstrcpy(m_szLoadingText, TEXT("사운드을(를) 로딩중입니다."));
 
+	//프로토 타입으로 컴포넌트에 붙인거는 씬바뀌면 내려가는데
+	//이렇게 부른 사운드는 레벨 바뀌어도 안내려감
 	m_pGameInstance->LoadSound("../Bin/Resources/Sounds/Music/", false, true);
 
 #pragma endregion
@@ -854,6 +857,7 @@ HRESULT CLoader::Loading_For_GamePlay()
 	ADD_SOUND(Ttakkeun_i, "../Bin/Resources/Sounds/Boss/");
 	ADD_SOUND(Bridge, "../Bin/Resources/Sounds/Bridge/");
 	m_pGameInstance->LoadSound("../Bin/Resources/Sounds/Env/", false, true);
+
 #pragma endregion
 
 #pragma region PRTOBJ
@@ -945,6 +949,7 @@ HRESULT CLoader::Loading_For_RaceFirst()/**/
 	ADD_TEXTURE(BuildingU, "../Bin/Resources/Textures/Object/BuildingU/BuildingU.PNG", 1);
 	ADD_TEXTURE(RaceGate, "../Bin/Resources/Textures/Object/RaceGate/RaceGate%d.PNG", 3);
 	ADD_TEXTURE(RaceCylinder, "../Bin/Resources/Textures/Object/RaceCylinder/RaceCylinder%d.PNG", 3);
+	ADD_TEXTURE(BombRadius, "../Bin/Resources/Textures/RaceBoss/Bomb/BombRadius.PNG", 1);
 
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_RACEFIRST, TEXT("Prototype_Component_Texture_StreetLampHead"),
 		CTexture::Create(m_pGraphic_Device, TEXT("../Bin/Resources/Textures/Object/StreetLamp/StreetLampHead.PNG"), 1))))
@@ -971,8 +976,8 @@ HRESULT CLoader::Loading_For_RaceFirst()/**/
 	ADD_PRTOBJ(BuildingV);
 	ADD_PRTOBJ(BuildingW);
 	ADD_PRTOBJ(RaceCylinder);
+	ADD_PRTOBJ(BombRadius);
 
-	
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_RACEFIRST, TEXT("Prototype_GameObject_StreetLampHead"),
 		CStreetLampHead::Create(m_pGraphic_Device))))
 		return E_FAIL;

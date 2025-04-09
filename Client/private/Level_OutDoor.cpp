@@ -52,6 +52,7 @@ void CLevel_OutDoor::Update(_float fTimeDelta)
 	Check_Collision();
 	if (m_iNextLevel)
 	{
+		m_pGameInstance->Clear_Collider();
 		m_pGameInstance->Change_Level(LEVEL_LOADING,
 			CLevel_Loading::Create(m_pGraphic_Device, (LEVEL)m_iNextLevel));
 	}

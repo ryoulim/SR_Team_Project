@@ -69,6 +69,8 @@ void CPlayer::Priority_Update(_float fTimeDelta)
 	if (!m_bActive)
 		return;
 
+	this;
+
 	//fTimeDelta = m_pGameInstance->Get_TimeDelta(TEXT("Timer_60"));
 
 	m_pGameInstance->Set_Listener_Position(m_pTransformCom, *m_pTransformCom->Get_State(CTransform::STATE_POSITION) - m_vPrePosition);
@@ -139,7 +141,6 @@ void CPlayer::Late_Update(_float fTimeDelta)
 	m_pGameInstance->Add_RenderGroup(CRenderer::RG_NONBLEND, this);
 
 	m_pGameInstance->Add_RenderGroup(CRenderer::RG_UI, m_pLeftHand);
-
 
 	m_Weapons[m_iCurWeaponIndex]->Late_Update(fTimeDelta);
 	

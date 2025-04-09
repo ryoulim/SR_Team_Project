@@ -4,8 +4,10 @@
 #include "WaterBoat.h"
 #include "UI_Manager.h"
 #include "PlayerMissile.h"
+#include "TPS_Camera.h"
 
 #define BULLET_COOLTIME 0.5f
+#define ANGLE_COEF 13.f
 
 CPlayerOnBoat::CPlayerOnBoat(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CPawn { pGraphic_Device }
@@ -209,7 +211,6 @@ HRESULT CPlayerOnBoat::Ready_Components(void* pArg)
 		m_fInitSpeed = pDesc->fSpeedPerSec;
 	}
 
-
 	DESC* pDesc = static_cast<DESC*>(pArg);
 	CCollider_Capsule::DESC ColliderDesc{};
 	ColliderDesc.pTransform = m_pTransformCom;
@@ -252,22 +253,49 @@ void CPlayerOnBoat::Key_Input(_float fTimeDelta)
 		m_pTransformCom->Set_SpeedPerSec(m_fSpeedRatio * RACE_SPEED_PER_SEC);
 	}
 
-
 	// 키 타이머 -> 왼쪽 = 음수, 오른쪽 = 양수
 	_float fAccelRate = 2.5f; // 클수록 더 빠르게 가속됨
 	_float fSpeed = 0.f;
+
+
+#define TILT_TIME 0.4f
+
+	if (KEY_DOWN(DIK_A))
+	{
+		m_fAngleTimer = 0;
+		Tilt(FALSE);
+	}
+	else if (KEY_DOWN(DIK_D))
+	{
+		m_fAngleTimer = 0;
+		Tilt(TRUE);
+	}
+
 
 	if (KEY_PRESSING(DIK_A))
 	{
 		m_fKeyTimer -= fTimeDelta;
 		m_fKeyTimer = max(m_fKeyTimer, -1.f); // 최소 -1
-		m_pTransformCom->Rotation({ 0.f,0.f,1.f }, RADIAN(11.f));
+
+		m_fAngleTimer++;
+		if (m_fAngleTimer > TILT_TIME)
+		{
+			Tilt(FALSE);
+			m_fAngleTimer = 0.f;
+		}
 	}
 	else if (KEY_PRESSING(DIK_D))
 	{
 		m_fKeyTimer += fTimeDelta;
 		m_fKeyTimer = min(m_fKeyTimer, 1.f); // 최대 1
-		m_pTransformCom->Rotation({ 0.f,0.f,1.f }, RADIAN(-11.f));
+
+
+		m_fAngleTimer++;
+		if (m_fAngleTimer > TILT_TIME)
+		{
+			Tilt(TRUE);
+			m_fAngleTimer = 0.f;
+		}
 	}
 	else
 	{
@@ -275,8 +303,22 @@ void CPlayerOnBoat::Key_Input(_float fTimeDelta)
 		m_fKeyTimer *= powf(0.5f, fTimeDelta * 5.f); // 감쇠율 조절 가능
 		if (fabsf(m_fKeyTimer) < 0.01f)
 			m_fKeyTimer = 0.f;
-		m_pTransformCom->Rotation({ 0.f,0.f,1.f }, 0.f);
+
+		if (m_byTiltIndex != 2)
+		{
+			if (m_fAngleTimer > TILT_TIME)
+			{
+				if (m_byTiltIndex > 2)
+					Tilt(FALSE);
+				else
+					Tilt(TRUE);
+				m_fAngleTimer = 0.f;
+			}
+			m_fAngleTimer++;
+		}
 	}
+
+
 	CUI_Manager::Get_Instance()->Set_RacingSpeed(_int(fabsf(m_fKeyTimer) * 30));
 
 	// 지수 함수: y = sign(x) * (1 - e^(-a * |x|)) 
@@ -433,6 +475,26 @@ void CPlayerOnBoat::Create_Bullet()
 	m_fBulletTimer = 0.f;
 }
 
+void CPlayerOnBoat::Tilt(_bool Right)
+{
+	if (Right)
+	{
+		if (m_byTiltIndex >= 4)
+			return;
+		m_byTiltIndex++;
+	}
+	else
+	{
+		if (m_byTiltIndex <= 0)
+			return;
+		m_byTiltIndex--;
+	}
+
+	_float fAngle = RADIAN((m_byTiltIndex - 2) * ANGLE_COEF * 0.5f);
+
+	m_pTransformCom->Quaternion_Rotation({ 0.f,0.f, fAngle });
+}
+
 void CPlayerOnBoat::Set_State(STATE eState)
 {
 	m_pCurState = m_pState[eState];
@@ -451,19 +513,20 @@ void CPlayerOnBoat::Init_Camera_Link()
 	Safe_AddRef(m_pCameraManager);
 
 	// TPS 카매라 뺴옴
-	auto TPS_Camera = m_pCameraManager->Get_Camera(CCameraManager::TPS);
+	m_pTPS_Camera = static_cast<CTPS_Camera*>(m_pCameraManager->Get_Camera(CCameraManager::TPS));
 
 	// TPS 카메라의 트랜스폼 정보를 받아둠
-	m_pCameraTransform = static_cast<CTransform*>(TPS_Camera->Find_Component(TEXT("Com_Transform")));
-	Safe_AddRef(m_pCameraTransform);
+	//m_pCameraTransform = static_cast<CTransform*>(TPS_Camera->Find_Component(TEXT("Com_Transform")));
+	//Safe_AddRef(m_pCameraTransform);
 }
 
 void CPlayerOnBoat::Update_Camera_Link()
 {	
 	//카메라의 위치를 (플레이어 위치 + @)
-	m_pCameraTransform->Set_State(CTransform::STATE_POSITION,
-		*m_pTransformCom->Get_State(CTransform::STATE_POSITION) 
-		+ _float3(0.f, 20.f, -80.f));// -20 50
+	auto vTargetPos = *m_pTransformCom->Get_State(CTransform::STATE_POSITION) 
+		+ _float3(0.f, 20.f, -80.f);// -20 50
+
+	m_pTPS_Camera->Smooth_Damping(vTargetPos, 0.02f);
 }
 
 CPlayerOnBoat* CPlayerOnBoat::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
@@ -497,7 +560,7 @@ void CPlayerOnBoat::Free()
 	__super::Free();
 
 	Safe_Release(m_pCameraManager);
-	Safe_Release(m_pCameraTransform);
+	//Safe_Release(m_pCameraTransform);
 	Safe_Release(m_pShaderCom);
 
 	for (size_t i = DECEL; i < NON; ++i)
