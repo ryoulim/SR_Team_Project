@@ -487,6 +487,9 @@
     <Filter Include="02.GameObjects\RaceBoss\RBState">
       <UniqueIdentifier>{70d9b4a1-5a3b-4c15-bb6b-548789b6f768}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\Map\Generator">
+      <UniqueIdentifier>{4df65ce4-6ae6-4efe-8b9c-2c7c118ac490}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -977,7 +980,6 @@
     <ClInclude Include="..\public\WaterBoat.h">
       <Filter>02.GameObjects\Particle\WaterBoat</Filter>
     </ClInclude>
-    <ClInclude Include="..\public\Generator.h" />
     <ClInclude Include="..\public\RBState.h" />
     <ClInclude Include="..\public\Generator.h">
       <Filter>02.GameObjects\Map\Interactive_Block\Generator</Filter>
@@ -988,6 +990,9 @@
     </ClInclude>
     <ClInclude Include="..\public\BombRadius.h">
       <Filter>02.GameObjects\Statue\RaceBossBombRadius</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Generator.h">
+      <Filter>02.GameObjects\Map\Generator</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1452,15 +1457,18 @@
       <Filter>02.GameObjects\UI\GamePlayUI\InteractPromptUI</Filter>
     </ClCompile>
     <ClCompile Include="..\private\FXMgr.cpp" />
-    <ClCompile Include="..\private\Generator.cpp" />
     <ClCompile Include="..\private\Generator.cpp">
       <Filter>02.GameObjects\Map\Interactive_Block\Generator</Filter>
     </ClCompile>
     <ClCompile Include="..\private\FXMgr.cpp">
       <Filter>02.GameObjects\Particle</Filter>
+    </ClCompile>
     <ClCompile Include="..\private\Generator.cpp" />
     <ClCompile Include="..\private\BombRadius.cpp">
       <Filter>02.GameObjects\Statue\RaceBossBombRadius</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Generator.cpp">
+      <Filter>02.GameObjects\Map\Generator</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

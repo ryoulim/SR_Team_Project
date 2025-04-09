@@ -245,6 +245,8 @@ HRESULT CRaceBoss::Draw_BombRadius()
 	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_RACEFIRST, TEXT("Prototype_GameObject_BombRadius"),
 		m_eLevelID, L"Layer_RaceBossPattern", &Bombdesc)))
 		return E_FAIL;
+
+	return S_OK;
 }
 
 void CRaceBoss::ShuffleandPop()
