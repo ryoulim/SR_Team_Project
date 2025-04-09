@@ -268,6 +268,7 @@
     <ClInclude Include="..\public\Portrait.h" />
     <ClInclude Include="..\public\PSystem.h" />
     <ClInclude Include="..\public\RaceBoss.h" />
+    <ClInclude Include="..\public\RaceBossBomb.h" />
     <ClInclude Include="..\public\RaceBossBullet.h" />
     <ClInclude Include="..\public\RaceCylinder.h" />
     <ClInclude Include="..\public\RaceGate.h" />
@@ -431,6 +432,7 @@
     <ClCompile Include="..\private\Portrait.cpp" />
     <ClCompile Include="..\private\PSystem.cpp" />
     <ClCompile Include="..\private\RaceBoss.cpp" />
+    <ClCompile Include="..\private\RaceBossBomb.cpp" />
     <ClCompile Include="..\private\RaceBossBullet.cpp" />
     <ClCompile Include="..\private\RaceCylinder.cpp" />
     <ClCompile Include="..\private\RaceGate.cpp" />

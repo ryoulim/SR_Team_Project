@@ -1,10 +1,8 @@
 #include "RaceBoss.h"
 #include "PlayerOnBoat.h"
 #include "Skull.h"
-#include "BombRadius.h"
 #include "RBState.h"
 #include "FXMgr.h"
-
 
 CRaceBoss::CRaceBoss(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CGameObject { pGraphic_Device }
@@ -206,6 +204,11 @@ void CRaceBoss::Go_Straight(_float fTimeDelta)
 	m_pTransformCom->Go_Straight(fTimeDelta);
 }
 
+void CRaceBoss::Go_Backward(_float fTimeDelta)
+{
+	m_pTransformCom->Go_Backward(fTimeDelta);
+}
+
 void CRaceBoss::Go_Up(_float fTimeDelta)
 {
 	m_pTransformCom->Go_Up(fTimeDelta);
@@ -219,6 +222,11 @@ void CRaceBoss::Go_Right(_float fTimeDelta)
 _float CRaceBoss::Compute_PosZ()
 {
 	return m_pTransformCom->Get_State(CTransform::STATE_POSITION)->z;
+}
+
+_float CRaceBoss::Compute_PozY()
+{
+	return m_pTransformCom->Get_State(CTransform::STATE_POSITION)->y;
 }
 
 void CRaceBoss::MoveCatMullRom(_float3& v0, _float3& vStartPos, _float3& vEndPos, _float3& v3, _float fTimeAcc)
@@ -247,18 +255,65 @@ void CRaceBoss::Set_HeadBulletCountZero()
 	m_iHeadBulletCount = 0;
 }
 
-HRESULT CRaceBoss::Draw_BombRadius()
+void CRaceBoss::SelectAndDrawRadius()
 {
-	CStatue::DESC Bombdesc = {};
+	vector<_float> m_VecPosX = { 350.f, 450.f, 550.f };
+	random_shuffle(m_VecPosX.begin(), m_VecPosX.end());
+	
+	m_fBombPosX[0] = m_VecPosX.back();
+	m_VecPosX.pop_back();
+	m_fBombPosZ = 0.f;
+	Draw_BombRadius(m_fBombPosX[0], m_fBombPosZ);
 
-	Bombdesc.vInitPos = { static_cast<CTransform*>(m_pPlayer->Find_Component(TEXT("Com_Transform")))->Get_State(CTransform::STATE_POSITION)->x,
-	1.f, static_cast<CTransform*>(m_pPlayer->Find_Component(TEXT("Com_Transform")))->Get_State(CTransform::STATE_POSITION)->z };
+	m_fBombPosX[1] = m_VecPosX.back();
+	m_VecPosX.pop_back();
+	m_fBombPosZ = 0.f;
+	Draw_BombRadius(m_fBombPosX[1], m_fBombPosZ);
 
-	Bombdesc.vScale = { 100.f, 100.f, 0.f };
-	Bombdesc.eLevelID = LEVEL_RACEFIRST;
+	m_VecPosX.clear();
+	m_VecPosX.shrink_to_fit();
+}
+
+void CRaceBoss::Bombing()
+{
+	Fire_Bomb();
+}
+
+_bool CRaceBoss::Comeback(_float fTimeDelta)
+{
+	m_pTransformCom->Go_Straight(fTimeDelta * 5.f);
+	m_pTransformCom->Go_Down(fTimeDelta * 0.1f);
+
+	_float3 fMyPos = *m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+	_float3 fPlayerPos = *static_cast<CTransform*>(m_pPlayer->Find_Component(TEXT("Com_Transform")))->Get_State(CTransform::STATE_POSITION);
+
+	if (fMyPos.z > fPlayerPos.z + 1000.f)
+	{
+		m_pTransformCom->Set_State(CTransform::STATE_POSITION,
+			_float3(450.f, 250.f, fPlayerPos.z + 1300.f)
+		);
+		return true;
+	}
+		
+
+	return false;
+}
+
+HRESULT CRaceBoss::Draw_BombRadius(_float PosX, _float PosZ)
+{
+	CBombRadius::DESC Bombdesc = {};
+
+	//Bombdesc.vInitPos = { static_cast<CTransform*>(m_pPlayer->Find_Component(TEXT("Com_Transform")))->Get_State(CTransform::STATE_POSITION)->x,
+	//1.f, static_cast<CTransform*>(m_pPlayer->Find_Component(TEXT("Com_Transform")))->Get_State(CTransform::STATE_POSITION)->z };
+
+	Bombdesc.vInitPos = { PosX, 1.f, 
+		static_cast<CTransform*>(m_pPlayer->Find_Component(TEXT("Com_Transform")))->Get_State(CTransform::STATE_POSITION)->z };
+
+	Bombdesc.vScale = { 100.f, 1000.f, 0.f };
+	Bombdesc.eLevelID = m_eLevelID;
 	Bombdesc.vAngle = { D3DXToRadian(90.f), 0.f, 0.f };
 
-	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_RACEFIRST, TEXT("Prototype_GameObject_BombRadius"),
+	if (FAILED(m_pGameInstance->Add_GameObject(m_eLevelID, TEXT("Prototype_GameObject_BombRadius"),
 		m_eLevelID, L"Layer_RaceBossPattern", &Bombdesc)))
 		return E_FAIL;
 
@@ -369,6 +424,7 @@ HRESULT CRaceBoss::Fire_Bullet(CRaceBossBullet::RBULLETTYPE eType, MUZZLEPOS ePo
 		//HEAD 총알은 플레이어를 향함
 		//auto pPlayer = GET_PLAYER;
 		RaceBossBulletdesc.vLook = CalcBulletLook(RaceBossBulletdesc.vPosition, RaceBossBulletdesc.fSpeedPerSec, fTimeDelta);
+		RaceBossBulletdesc.fMaxBulletSize = 20.f;
 		m_vBulletDiretion = RaceBossBulletdesc.vLook;
 	}
 
@@ -376,10 +432,64 @@ HRESULT CRaceBoss::Fire_Bullet(CRaceBossBullet::RBULLETTYPE eType, MUZZLEPOS ePo
 	{
 		//TAIL 총알은 HEAD 총알을 향함
 		RaceBossBulletdesc.vLook = m_vBulletDiretion;
+		RaceBossBulletdesc.fMaxBulletSize = 10.f;
 	}
 	
 	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_RaceBossBullet"),
 		m_eLevelID, L"Layer_RaceBossBullet", &RaceBossBulletdesc)))
+		return E_FAIL;
+
+	return S_OK;
+}
+
+HRESULT CRaceBoss::Fire_Bomb()
+{
+	CRaceBossBomb::DESC RaceBossBombdesc{};
+	RaceBossBombdesc.bAnimation = false;
+	RaceBossBombdesc.iColliderID = CI_BOSS_FIRE;
+	RaceBossBombdesc.fSpeedPerSec = 1000.f;
+	RaceBossBombdesc.fRotationPerSec = RADIAN(180.f);
+	RaceBossBombdesc.vScale = { 25.f, 25.f, 25.f };
+	RaceBossBombdesc.vLook = _float3(RaceBossBombdesc.vPosition.x, RaceBossBombdesc.vPosition.y, RaceBossBombdesc.vPosition.z + 1.f);
+	
+	RaceBossBombdesc.vPosition = _float3(
+		m_fBombPosX[0] - 25.f,
+		m_pTransformCom->Get_State(CTransform::STATE_POSITION)->y,
+		m_pTransformCom->Get_State(CTransform::STATE_POSITION)->z
+	);
+		
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_RaceBossBomb"),
+		m_eLevelID, L"Layer_RaceBossBullet", &RaceBossBombdesc)))
+		return E_FAIL;
+
+	RaceBossBombdesc.vPosition = _float3(
+		m_fBombPosX[1] - 25.f,
+		m_pTransformCom->Get_State(CTransform::STATE_POSITION)->y,
+		m_pTransformCom->Get_State(CTransform::STATE_POSITION)->z
+	);
+
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_RaceBossBomb"),
+		m_eLevelID, L"Layer_RaceBossBullet", &RaceBossBombdesc)))
+		return E_FAIL;
+
+	RaceBossBombdesc.vPosition = _float3(
+		m_fBombPosX[0] + 25.f,
+		m_pTransformCom->Get_State(CTransform::STATE_POSITION)->y,
+		m_pTransformCom->Get_State(CTransform::STATE_POSITION)->z
+	);
+
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_RaceBossBomb"),
+		m_eLevelID, L"Layer_RaceBossBullet", &RaceBossBombdesc)))
+		return E_FAIL;
+
+	RaceBossBombdesc.vPosition = _float3(
+		m_fBombPosX[1] + 25.f,
+		m_pTransformCom->Get_State(CTransform::STATE_POSITION)->y,
+		m_pTransformCom->Get_State(CTransform::STATE_POSITION)->z
+	);
+
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_RaceBossBomb"),
+		m_eLevelID, L"Layer_RaceBossBullet", &RaceBossBombdesc)))
 		return E_FAIL;
 
 	return S_OK;
@@ -580,6 +690,7 @@ void CRaceBoss::Free()
 	Safe_Release(m_pTransformCom);
 	Safe_Release(m_pPlayer);
 	Safe_Release(m_pSkull);
+	Safe_Release(m_pPlayer);
 
 	for(auto& Collider : m_ColliderComs)
 		Safe_Release(Collider);

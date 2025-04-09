@@ -25,6 +25,7 @@
 //레이싱 보스
 #include "RaceBoss.h"
 #include "RaceBossBullet.h"
+#include "RaceBossBomb.h"
 #include "BombRadius.h"
 
 //아이템
@@ -479,8 +480,10 @@ HRESULT CLoader::Loding_For_Static()
 #pragma region 레이싱 보스
 	ADD_TEXTURE(RaceBoss, "../Bin/Resources/Textures/RaceBoss/RaceBoss%d.PNG", 5);
 	ADD_TEXTURE(RaceBossBullet, "../Bin/Resources/Textures/Bullet/RaceBossBullet/RaceBossBullet.PNG", 1);
+	ADD_TEXTURE(RaceBossBomb, "../Bin/Resources/Textures/Bullet/RaceBossBomb/RaceBossBomb.PNG", 1);
 	ADD_PRTOBJ(RaceBoss);
 	ADD_PRTOBJ(RaceBossBullet);
+	ADD_PRTOBJ(RaceBossBomb);
 #pragma endregion
 	m_fLoadPercent = 0.8f;
 

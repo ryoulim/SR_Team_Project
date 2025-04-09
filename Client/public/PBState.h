@@ -44,6 +44,7 @@ public:
 	{
 		//초기 속도 설정
 		m_fAccelSpeed = fTimeDelta * 5.f;
+		m_pOwner->Set_Speed(RACE_SPEED_PER_SEC);
 	}
 	virtual void Execute(_float fTimeDelta) override
 	{
