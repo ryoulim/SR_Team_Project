@@ -525,6 +525,11 @@ void CRaceBoss::On_Hit(MUZZLEPOS HitPos, _int iDamage)
 			;
 		else
 			m_iTextureID[iIndex] = 3;
+
+		// 총구의 위치 아는 방법이
+		_float3 vPos = *m_pTransformCom->Get_State(CTransform::STATE_POSITION) + Calc_Muzzle_Position(HitPos); // 이게 총구 위치
+
+		//아니면 라스트 콜리전 해도됨
 		// 이곳에 부위파괴시에 할 것을 쓰시오.
 	}
 
