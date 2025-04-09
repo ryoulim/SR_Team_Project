@@ -481,6 +481,9 @@
     <Filter Include="02.GameObjects\RaceBoss\RBState">
       <UniqueIdentifier>{70d9b4a1-5a3b-4c15-bb6b-548789b6f768}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01.Levels\06.UnderGround">
+      <UniqueIdentifier>{d6d83d37-45e0-4ff2-b6b8-2ec58bbf1106}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -979,6 +982,9 @@
     <ClInclude Include="..\public\RBState.h">
       <Filter>02.GameObjects\RaceBoss\RBState</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\Level_UnderGround.h">
+      <Filter>01.Levels\06.UnderGround</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -1448,6 +1454,9 @@
     </ClCompile>
     <ClCompile Include="..\private\FXMgr.cpp">
       <Filter>02.GameObjects\Particle</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Level_UnderGround.cpp">
+      <Filter>01.Levels\06.UnderGround</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

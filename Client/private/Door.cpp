@@ -34,7 +34,7 @@ HRESULT CDoor::Initialize(void* pArg)
     if (1.f <= static_cast<DESC*>(pArg)->fRotationPerSec)
         m_bSecurity = true;
 
-    if (m_eLevelID == LEVEL_INDOOR)
+    if (m_eLevelID == LEVEL_INDOOR || m_eLevelID == LEVEL_UNDERGROUND)
     {
         m_pInteractPromptUI = m_pGameInstance->Find_Object(m_eLevelID, TEXT("Layer_UI"), 4);
 

@@ -62,16 +62,23 @@ void CInteractPromptUI::Late_Update(_float fTimeDelta)
 
 HRESULT CInteractPromptUI::Render()
 {
-	m_pShaderCom->SetFloat("opacity", m_fOpacity);
+	//m_pShaderCom->SetFloat("opacity", m_fOpacity);
+
+	//CUI_Manager::Get_Instance()->Render_Text(
+	//	"Press USE [E] to interact with the world.",
+	//	CFont::MEDIUMBLUE,
+	//	CFont::CENTER,
+	//	(float)(0.f),
+	//	(float)(-100.f),
+	//	1.f,
+	//	m_pShaderCom);
 
 	CUI_Manager::Get_Instance()->Render_Text(
 		"Press USE [E] to interact with the world.",
 		CFont::MEDIUMBLUE,
 		CFont::CENTER,
 		(float)(0.f),
-		(float)(-100.f),
-		1.f,
-		m_pShaderCom);
+		(float)(-100.f));
 
 	if (FAILED(m_pTransformCom->Bind_Resource()))
 		return E_FAIL;

@@ -7,6 +7,7 @@
 #define BOSSSCALE 22.f
 #define INDOORSCALE 14.f
 #define OUTDOORSCALE 10.f
+#define UNDERGROUNDSCALE 20.f
 
 #define BOSSITEMSCALE 22.f
 #define INDOORITEMSCALE 20.f

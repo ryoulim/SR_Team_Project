@@ -128,7 +128,7 @@
 #include "Trigger.h"
 
 /* 맵툴에서 넘어오는 텍스쳐 갯수, 건들지 말아주세요 감사합니다 */
-#define NUMMAPTEX 190
+#define NUMMAPTEX 198
 
 
 CLoader::CLoader(LPDIRECT3DDEVICE9 pGraphic_Device)
@@ -207,6 +207,9 @@ HRESULT CLoader::Loading()
 
 	case LEVEL_OUTDOOR:
 		hr = Loading_For_Outdoor();
+		break;
+	case LEVEL_UNDERGROUND:
+		hr = Loading_For_UnderGround();
 		break;
 	}
 
@@ -1420,6 +1423,125 @@ HRESULT CLoader::Loading_For_Outdoor()
 		CItem::Create(m_pGraphic_Device))))
 		return E_FAIL;
 #pragma endregion
+
+	lstrcpy(m_szLoadingText, TEXT("사운드을(를) 로딩중입니다."));
+
+	lstrcpy(m_szLoadingText, TEXT("데이터를 읽어들이는 중입니다."));
+
+	lstrcpy(m_szLoadingText, TEXT("로딩이 완료되었습니다."));
+	m_isFinished = true;
+	m_fLoadPercent = 1.f;
+
+	return S_OK;
+}
+
+HRESULT CLoader::Loading_For_UnderGround()
+{
+	lstrcpy(m_szLoadingText, TEXT("텍스쳐을(를) 로딩중입니다."));
+
+	ADD_TEXTURE(Test, "../Bin/Resources/Textures/TileTest/tile%d.PNG", NUMMAPTEX);
+	ADD_TEXTURE(BackGround, "../Bin/Resources/Textures/Default%d.jpg", 2);
+	ADD_TEXTURE(Terrain, "../Bin/Resources/Textures/Check_Tile.PNG", 1);
+	ADD_TEXTURE(Water, "../Bin/Resources/Textures/Map/Water/Water%d.png", 16);
+
+	/* 맵, 스태츄 */
+	ADD_TEXTURE(MyCube, "../Bin/Resources/Textures/Snow/Snow.png", 1);
+	ADD_TEXTURE(Portrait, "../Bin/Resources/Textures/UI/Portrait/portrait%d.PNG", 25);
+	ADD_TEXTURE(Box, "../Bin/Resources/Textures/Object/Box/tile6628.png", 1);
+	ADD_TEXTURE(Cabinet, "../Bin/Resources/Textures/Object/Cabinet/Cabinet%d.png", 3);
+	ADD_TEXTURE(Trapezoid, "../Bin/Resources/Textures/Object/Trapezoid/Trapezoid%d.png", 2);
+	ADD_TEXTURE(Stall, "../Bin/Resources/Textures/Object/Stall/Stall%d.png", 2);
+	ADD_TEXTURE(Signboard, "../Bin/Resources/Textures/Object/Signboard/Signboard%d.png", 5);
+	ADD_TEXTURE(MyComputer, "../Bin/Resources/Textures/Object/Computer/Computer%d.png", 3);
+	ADD_TEXTURE(Canopy, "../Bin/Resources/Textures/Object/Canopy/Canopy%d.png", 2);
+	ADD_TEXTURE(TrashCan, "../Bin/Resources/Textures/Map/TrashCan/TrashCan%d.png", 2);
+	ADD_TEXTURE(GarbageBag, "../Bin/Resources/Textures/Map/GarbageBag/GarbageBag%d.png", 3);
+	ADD_TEXTURE(FirePlug, "../Bin/Resources/Textures/Map/FirePlug/FirePlug%d.png", 6);
+	ADD_TEXTURE(HydroPump, "../Bin/Resources/Textures/Map/FirePlug/HydroPump/HydroPump%d.png", 25);
+	ADD_TEXTURE(Generator, "../Bin/Resources/Textures/Map/Generator/Generator%d.PNG", 17);
+
+	/* 빌딩 */
+	ADD_TEXTURE(BuildingH, "../Bin/Resources/Textures/Object/BuildingH/BuildingH%d.PNG", 4);
+	ADD_TEXTURE(BuildingW, "../Bin/Resources/Textures/Object/BuildingW/BuildingW.PNG", 1);
+	ADD_TEXTURE(BuildingV, "../Bin/Resources/Textures/Object/BuildingV/BuildingV.PNG", 1);
+	ADD_TEXTURE(BuildingU, "../Bin/Resources/Textures/Object/BuildingU/BuildingU.PNG", 1);
+
+	/* 아이템 */
+	ADD_TEXTURE(Item_Ammo, "../Bin/Resources/Textures/Item/Ammo%d.PNG", 4);
+	ADD_TEXTURE(Item_Healkit, "../Bin/Resources/Textures/Item/Healkit.PNG", 1);
+	ADD_TEXTURE(Item_Armor, "../Bin/Resources/Textures/Item/Armor%d.PNG", 2);
+	ADD_TEXTURE(Item_Cardkey, "../Bin/Resources/Textures/Item/CardKey.PNG", 1);
+
+	lstrcpy(m_szLoadingText, TEXT("모델을(를) 로딩중입니다."));
+	Load_For_Terrain(TEXT("UnderGroundMapData.txt"));
+
+	lstrcpy(m_szLoadingText, TEXT("원형객체을(를) 로딩중입니다."));
+	ADD_PRTOBJ(Terrain);
+
+	ADD_PRTOBJ(Portrait);
+	ADD_PRTOBJ(Trapezoid);
+	ADD_PRTOBJ(Stall);
+	ADD_PRTOBJ(Cabinet);
+	ADD_PRTOBJ(Signboard);
+	ADD_PRTOBJ(MyComputer);
+	ADD_PRTOBJ(Canopy);
+
+	ADD_PRTOBJ(Block);
+	ADD_PRTOBJ(BackGround);
+	ADD_PRTOBJ(AnimeRect);
+	ADD_PRTOBJ(AnimeBlock);
+	ADD_PRTOBJ(AlphaRect);
+	ADD_PRTOBJ(AlphaBlock);
+	ADD_PRTOBJ(InvisibleBlock);
+	ADD_PRTOBJ(TriangularPillar);
+	ADD_PRTOBJ(Water);
+	ADD_PRTOBJ(Ladder);
+	ADD_PRTOBJ(TelephonePole);
+	ADD_PRTOBJ(Picture);
+	ADD_PRTOBJ(TrashCan);
+	ADD_PRTOBJ(GarbageBag);
+	ADD_PRTOBJ(FirePlug);
+	ADD_PRTOBJ(HydroPump);
+	ADD_PRTOBJ(Generator);
+	ADD_PRTOBJ(Door);
+
+#pragma region 아이템
+	/* 아이템 */
+	if (FAILED(m_pGameInstance->Add_Prototype(m_eNextLevelID, TEXT("Prototype_GameObject_Item_Ammo_Chaingun"),
+		CItem::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(m_eNextLevelID, TEXT("Prototype_GameObject_Item_Ammo_Dispenser_Scatter"),
+		CItem::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(m_eNextLevelID, TEXT("Prototype_GameObject_Item_Ammo_Dispenser_Cannon"),
+		CItem::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(m_eNextLevelID, TEXT("Prototype_GameObject_Item_Ammo_LoverBoy"),
+		CItem::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+
+	if (FAILED(m_pGameInstance->Add_Prototype(m_eNextLevelID, TEXT("Prototype_GameObject_Item_Healkit"),
+		CItem::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(m_eNextLevelID, TEXT("Prototype_GameObject_Item_Armor_Piece"),
+		CItem::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(m_eNextLevelID, TEXT("Prototype_GameObject_Item_Armor_Full"),
+		CItem::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(m_eNextLevelID, TEXT("Prototype_GameObject_Item_Cardkey"),
+		CItem::Create(m_pGraphic_Device))))
+		return E_FAIL;
+#pragma endregion
+	/* UI */
+	ADD_PRTOBJ(InteractPromptUI);
 
 	lstrcpy(m_szLoadingText, TEXT("사운드을(를) 로딩중입니다."));
 

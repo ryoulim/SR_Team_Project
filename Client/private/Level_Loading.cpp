@@ -3,6 +3,7 @@
 #include "Level_GamePlay.h"
 #include "Level_RaceFirst.h"
 #include "Level_RaceSecond.h"
+#include "Level_UnderGround.h"
 #include "Level_RaceThird.h"
 #include "Level_Indoor.h"
 #include "Level_OutDoor.h"
@@ -127,6 +128,9 @@ void CLevel_Loading::Update(_float fTimeDelta)
 
 				case LEVEL_OUTDOOR:
 					pLevel = CLevel_OutDoor::Create(m_pGraphic_Device, m_pLoader->Get_LevelData());
+					break;
+				case LEVEL_UNDERGROUND:
+					pLevel = CLevel_UnderGround::Create(m_pGraphic_Device, m_pLoader->Get_LevelData());
 					break;
 				}
 
