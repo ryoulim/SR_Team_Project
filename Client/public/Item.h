@@ -19,7 +19,6 @@ public:
 	typedef struct tagItemDesc : public CTransform::DESC
 	{
 		const _tchar* szTextureID;
-		const _tchar* szBufferType;
 		_float3 vInitPos;
 		_float3 vScale;
 		_float	fTextureNum;

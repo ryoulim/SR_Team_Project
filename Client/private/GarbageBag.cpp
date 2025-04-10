@@ -179,7 +179,6 @@ void CGarbageBag::Create_Item()
     ItemDesc.fRotationPerSec = RADIAN(0.f);
     ItemDesc.fSpeedPerSec = 300.f;
     ItemDesc.eLevelID = m_eLevelID;
-    ItemDesc.szBufferType = TEXT("Rect");
     ItemDesc.szTextureID = TEXT("Item_Ammo");
     /* 밑으로 3개 랜드 돌려야겠는데 */
     _wstring strPrototypeName;

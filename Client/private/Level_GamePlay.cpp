@@ -213,7 +213,6 @@ HRESULT CLevel_GamePlay::Ready_Layer_Item(const _wstring& strLayerTag)
 	ItemDesc.fRotationPerSec = RADIAN(0.f);
 	ItemDesc.fSpeedPerSec = 300.f;
 	ItemDesc.eLevelID = CurLevel;
-	ItemDesc.szBufferType = TEXT("Rect");
 	ItemDesc.szTextureID = TEXT("Item_Ammo");
 	ItemDesc.fTextureNum = 0.f;
 	ItemDesc.eColID = COLLIDER_ID::CI_ITEM_AMMO_CHAINGUN;
