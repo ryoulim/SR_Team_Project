@@ -149,6 +149,14 @@ HRESULT CLevel_RaceThird::Ready_Layer_Statue(const _wstring& strLayerTag)
 		LEVEL_RACETHIRD, strLayerTag, &desc)))
 		return E_FAIL;
 
+	desc.vAngle = _float3(D3DXToRadian(0.f), D3DXToRadian(0.f), D3DXToRadian(0.f));
+	desc.vInitPos = _float3(450.f, 30.f, 12480.f);//12480
+	desc.vScale = _float3(30.f, 30.f, 5000.f);
+
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_RACETHIRD, TEXT("Prototype_GameObject_RaceCylinder"),
+		LEVEL_RACETHIRD, strLayerTag, &desc)))
+		return E_FAIL;
+
 	return S_OK;
 }
 
@@ -173,6 +181,7 @@ HRESULT CLevel_RaceThird::Ready_Layer_Pawn(const _wstring& strLayerTag)
 			static_cast<CTransform*>(pPlayer->Find_Component(TEXT("Com_Transform")))
 				->Set_State(CTransform::STATE_POSITION, vInitPosition);
 			static_cast<CPawn*>(pPlayer)->Set_Level(CurLevel);
+			static_cast<CPlayerOnBoat*>(pPlayer)->Set_StartState(CPlayerOnBoat::ACCEL);
 			return S_OK;
 		}
 	}

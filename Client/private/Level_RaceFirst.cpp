@@ -204,9 +204,17 @@ HRESULT CLevel_RaceFirst::Ready_Layer_Statue(const _wstring& strLayerTag)
 		LEVEL_RACEFIRST, strLayerTag, &desc)))
 		return E_FAIL;
 
-	desc.vAngle		= _float3(D3DXToRadian(0.f), D3DXToRadian(0.f), D3DXToRadian(0.f));
-	desc.vInitPos	= _float3(450.f, 30.f, 12480.f);//12480
-	desc.vScale		= _float3(30.f, 30.f, 5000.f);
+	desc.vAngle = _float3(D3DXToRadian(0.f), D3DXToRadian(0.f), D3DXToRadian(0.f));
+	desc.vInitPos = _float3(450.f, 30.f, -8000.f);
+	desc.vScale = _float3(30.f, 30.f, 10000.f);
+
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_RACEFIRST, TEXT("Prototype_GameObject_RaceCylinder"),
+		LEVEL_RACEFIRST, strLayerTag, &desc)))
+		return E_FAIL;
+
+	desc.vAngle = _float3(D3DXToRadian(0.f), D3DXToRadian(0.f), D3DXToRadian(0.f));
+	desc.vInitPos = _float3(450.f, 30.f, 12480.f);//12480
+	desc.vScale = _float3(30.f, 30.f, 5000.f);
 
 	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_RACEFIRST, TEXT("Prototype_GameObject_RaceCylinder"),
 		LEVEL_RACEFIRST, strLayerTag, &desc)))
@@ -231,6 +239,7 @@ HRESULT CLevel_RaceFirst::Ready_Layer_Statue2(const _wstring& strLayerTag)
 	return S_OK;
 }
 
+#include "PlayerOnBoat.h"
 HRESULT CLevel_RaceFirst::Ready_Layer_Pawn(const _wstring& strLayerTag)
 {
 	// 이 레벨 플레이어 생성위치 
@@ -249,11 +258,11 @@ HRESULT CLevel_RaceFirst::Ready_Layer_Pawn(const _wstring& strLayerTag)
 		// 만약 플레이어가 보트라면 위치만 바꾸어준다.
 		else
 		{
+			vInitPosition = { 450.f, 17.f, -10000.f };
 			static_cast<CTransform*>(pPlayer->Find_Component(TEXT("Com_Transform")))
 				->Set_State(CTransform::STATE_POSITION, vInitPosition);
 			static_cast<CPawn*>(pPlayer)->Set_Level(CurLevel);
-			return S_OK;
-
+			static_cast<CPlayerOnBoat*>(pPlayer)->Set_StartState(CPlayerOnBoat::ACCEL);
 			return S_OK;
 		}
 	}
@@ -280,8 +289,20 @@ HRESULT CLevel_RaceFirst::Ready_Layer_Pawn(const _wstring& strLayerTag)
 	return S_OK;
 }
 
+#include "RaceBoss.h"
 HRESULT CLevel_RaceFirst::Ready_Layer_RaceBoss(const _wstring& strLayerTag)
 {
+	_float3 vInitPosition = { 0.f, 1000.f, -500.f };
+
+	auto pBoss = static_cast<CRaceBoss*>(m_pGameInstance->Find_Object(LEVEL_STATIC, TEXT("Layer_RaceBoss")));
+	if (pBoss)
+	{
+		static_cast<CTransform*>(pBoss->Find_Component(TEXT("Com_Transform")))
+			->Set_State(CTransform::STATE_POSITION, vInitPosition);
+		pBoss->Set_StartState(CRaceBoss::ENTRANCE);
+		return S_OK;
+	}
+
 	CRaceBoss::DESC RaceBossDesc = {};
 	RaceBossDesc.fRotationPerSec = RADIAN(180.f);
 	RaceBossDesc.fSpeedPerSec = RACE_SPEED_PER_SEC;

@@ -30,7 +30,7 @@ public:
 		const _float3& vPos = *m_pTransformCom->Get_State(CTransform::STATE_POSITION);
 		return (vPos - m_vPrePos) / fTimeDelta;
 	}
-
+	void Set_StartState(STATE eState);
 private:
 	virtual HRESULT Ready_Components(void* pArg)override;
 	void Update_Frame(_float fTimeDelta);

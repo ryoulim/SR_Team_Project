@@ -286,9 +286,6 @@
     <Filter Include="01.Levels\04. Race">
       <UniqueIdentifier>{27f94f0c-0863-4cd2-b493-30a0998805a9}</UniqueIdentifier>
     </Filter>
-    <Filter Include="01.Levels\05. Boss">
-      <UniqueIdentifier>{fb67a493-7c28-490a-9c62-08f4fccbf0d7}</UniqueIdentifier>
-    </Filter>
     <Filter Include="01.Levels\99. GamePlay">
       <UniqueIdentifier>{efb49076-2627-4a87-abf5-c51f865b5c61}</UniqueIdentifier>
     </Filter>
@@ -454,9 +451,6 @@
     <Filter Include="02.GameObjects\RaceBoss\RBState">
       <UniqueIdentifier>{70d9b4a1-5a3b-4c15-bb6b-548789b6f768}</UniqueIdentifier>
     </Filter>
-    <Filter Include="01.Levels\06.UnderGround">
-      <UniqueIdentifier>{d6d83d37-45e0-4ff2-b6b8-2ec58bbf1106}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02.GameObjects\Map\Generator">
       <UniqueIdentifier>{4df65ce4-6ae6-4efe-8b9c-2c7c118ac490}</UniqueIdentifier>
     </Filter>
@@ -528,6 +522,12 @@
     </Filter>
     <Filter Include="02.GameObjects\Monster\Boat">
       <UniqueIdentifier>{3271f0c9-8209-4788-9d80-7a979894cad3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Levels\05.UnderGround">
+      <UniqueIdentifier>{d6d83d37-45e0-4ff2-b6b8-2ec58bbf1106}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Levels\06. Boss">
+      <UniqueIdentifier>{fb67a493-7c28-490a-9c62-08f4fccbf0d7}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -904,7 +904,7 @@
       <Filter>02.GameObjects\Weapon\Bullet\MonsterNormalBullet</Filter>
     </ClInclude>
     <ClInclude Include="..\public\Level_Boss.h">
-      <Filter>01.Levels\05. Boss</Filter>
+      <Filter>01.Levels\06. Boss</Filter>
     </ClInclude>
     <ClInclude Include="..\public\Level_RaceFirst.h">
       <Filter>01.Levels\04. Race\01 .First</Filter>
@@ -1028,7 +1028,7 @@
       <Filter>02.GameObjects\RaceBoss\RBState</Filter>
     </ClInclude>
     <ClInclude Include="..\public\Level_UnderGround.h">
-      <Filter>01.Levels\06.UnderGround</Filter>
+      <Filter>01.Levels\05.UnderGround</Filter>
     </ClInclude>
     <ClInclude Include="..\public\BombRadius.h">
       <Filter>02.GameObjects\Statue\RaceBossBombRadius</Filter>
@@ -1415,7 +1415,7 @@
       <Filter>02.GameObjects\Statue\StreetLamp\Head</Filter>
     </ClCompile>
     <ClCompile Include="..\private\Level_Boss.cpp">
-      <Filter>01.Levels\05. Boss</Filter>
+      <Filter>01.Levels\06. Boss</Filter>
     </ClCompile>
     <ClCompile Include="..\private\MonsterGuidBullet.cpp">
       <Filter>02.GameObjects\Weapon\Bullet\MonsterGuidBullet</Filter>
@@ -1530,7 +1530,7 @@
       <Filter>02.GameObjects\Particle</Filter>
     </ClCompile>
     <ClCompile Include="..\private\Level_UnderGround.cpp">
-      <Filter>01.Levels\06.UnderGround</Filter>
+      <Filter>01.Levels\05.UnderGround</Filter>
     </ClCompile>
     <ClCompile Include="..\private\Boat.cpp">
       <Filter>02.GameObjects\Monster\Boat</Filter>

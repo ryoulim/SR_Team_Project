@@ -64,15 +64,15 @@ void CBossHPBar::Priority_Update(_float fTimeDelta)
 
 EVENT CBossHPBar::Update(_float fTimeDelta)
 {
-	if (KEY_DOWN(DIK_Z))
-	{
-		*m_pBossHP[0] -= 5;
-	}
-	if (KEY_DOWN(DIK_X))
-	{
-		if (m_eLevelID == LEVEL_GAMEPLAY)
-			*m_pBossHP[1] -= 5;
-	}
+	//if (KEY_DOWN(DIK_Z))
+	//{
+	//	*m_pBossHP[0] -= 5;
+	//}
+	//if (KEY_DOWN(DIK_X))
+	//{
+	//	if (m_eLevelID == LEVEL_GAMEPLAY)
+	//		*m_pBossHP[1] -= 5;
+	//}
 
 	return __super::Update(fTimeDelta);
 }

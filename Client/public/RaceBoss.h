@@ -50,9 +50,7 @@ public:
 		m_eLevelID = ID;
 	}
 
-	void Set_StartState(STATE eState) {
-		m_eState = eState;
-	}
+	void Set_StartState(STATE eState);
 
 	virtual void On_Collision(_uint MyColliderID, _uint OtherColliderID) override;
 
@@ -60,6 +58,9 @@ public:
 	_float3		GetVelocityPerSecond(_float fTimeDelta) const {
 		const _float3& vPos = *m_pTransformCom->Get_State(CTransform::STATE_POSITION);
 		return (vPos - m_vPrePos) / fTimeDelta;
+	}
+	_bool		IsDead() { 
+		return m_bDead; 
 	}
 private:
 	HRESULT Ready_Components(void* pArg);
@@ -92,6 +93,7 @@ private:
 	friend class CRBState_Comeback;
 	friend class CRBState_Leave;
 
+	STATE					m_eState = { NON };
 	STATE					m_ePreState = { NON };
 	STATE					m_eCurState = { ENTRANCE };
 	class CRBState* m_pCurState = { nullptr };
@@ -125,7 +127,6 @@ private:
 	const _float3* m_pPlayerpos = { nullptr };
 
 	_float3		m_vPrePos{}; // 이전 프레임의 포지션
-	STATE		m_eState = { NON };
 	LEVEL		m_eLevelID = { LEVEL_END };
 	_bool		m_bDead = { false };
 	_float3		m_vScale = {};

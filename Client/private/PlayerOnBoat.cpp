@@ -58,8 +58,11 @@ void CPlayerOnBoat::Priority_Update(_float fTimeDelta)
 	//Key_Input(fTimeDelta);
 
 #ifdef _CONSOL
-	//_float3 vPosition = *m_pTransformCom->Get_State(CTransform::STATE_POSITION);
-	//printf("플레이어 좌표 : { %.2f, %.2f, %.2f }\n", vPosition.x, vPosition.y, vPosition.z);
+	if (KEY_DOWN(DIK_Z))
+	{
+		_float3 vPosition = *m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+		printf("플레이어 좌표 : { %.2f, %.2f, %.2f }\n", vPosition.x, vPosition.y, vPosition.z);
+	}
 #endif
 
 	//이전 상태와 현재 상태가 다르다면 Enter 실행
@@ -109,6 +112,8 @@ void CPlayerOnBoat::Priority_Update(_float fTimeDelta)
 EVENT CPlayerOnBoat::Update(_float fTimeDelta)
 {
 	m_fBulletTimer += fTimeDelta;
+
+	Update_Frame(fTimeDelta);
 	CUI_Manager::Get_Instance()->Set_RacingSpeed((int)GetVelocityPerSecond(fTimeDelta).Length());
 
 	return __super::Update(fTimeDelta);
@@ -194,6 +199,18 @@ void CPlayerOnBoat::On_Collision(_uint MyColliderID, _uint OtherColliderID)
 		On_Hit(7);
 		m_pCameraManager->Shake_Camera(0.3f,0.5f);
 	}
+}
+
+void CPlayerOnBoat::Set_StartState(STATE eState)
+{
+	if (eState == m_eCurState)
+		return;
+
+	if (m_pCurState)
+		m_pCurState->Exit();
+
+	m_pCurState = m_pState[eState];
+	m_eCurState = eState;
 }
 
 HRESULT CPlayerOnBoat::Ready_Components(void* pArg)

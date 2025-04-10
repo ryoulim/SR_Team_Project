@@ -49,13 +49,11 @@ EVENT CPawn::Update(_float fTimeDelta)
 	//}
 	//if (KEY_DOWN(DIK_O))
 	//	m_bFogAnimation = true;
-
 	//if (m_bFogAnimation)
 	//{
 	//	// 빠르게 0으로 감소
 	//	float fSpeed = 1000.f;
 	//	g_FogCustom -= fSpeed * fTimeDelta;
-
 	//	// 0 이하로 내려가지 않도록
 	//	if (g_FogCustom < 0.f)
 	//		g_FogCustom = 0.f;
@@ -153,8 +151,10 @@ HRESULT CPawn::Ready_Components(void* pArg)
 
 	return S_OK;
 }
-#include "Level_Loading.h"
 
+
+#include "Level_Loading.h"
+#include "RaceBoss.h"
 void CPawn::Change_Level()
 {
 	LEVEL eNextLevelID{};
@@ -168,14 +168,32 @@ void CPawn::Change_Level()
 		eNextLevelID = LEVEL_RACEFIRST;
 		break;
 	case LEVEL_RACEFIRST:
-		eNextLevelID = LEVEL_RACESECOND;
-		break;
-	case LEVEL_RACESECOND:
-		eNextLevelID = LEVEL_RACETHIRD;
-		break;
-	case LEVEL_RACETHIRD:
+	{
+		auto RaceBoss = m_pGameInstance->Find_Object(LEVEL_STATIC, TEXT("Layer_RaceBoss"));
+	if (!RaceBoss || static_cast<CRaceBoss*>(RaceBoss)->IsDead())
 		eNextLevelID = LEVEL_UNDERGROUND;
-		break;
+	else
+		eNextLevelID = rand() % 2 == 0 ? LEVEL_RACESECOND : LEVEL_RACETHIRD;
+	}
+	break;
+	case LEVEL_RACESECOND:
+	{
+		auto RaceBoss = m_pGameInstance->Find_Object(LEVEL_STATIC, TEXT("Layer_RaceBoss"));
+		if (!RaceBoss || static_cast<CRaceBoss*>(RaceBoss)->IsDead())
+			eNextLevelID = LEVEL_UNDERGROUND;
+		else
+			eNextLevelID = rand() % 2 == 0 ? LEVEL_RACEFIRST : LEVEL_RACETHIRD;
+	}
+	break;
+	case LEVEL_RACETHIRD:
+	{
+		auto RaceBoss = m_pGameInstance->Find_Object(LEVEL_STATIC, TEXT("Layer_RaceBoss"));
+		if (!RaceBoss || static_cast<CRaceBoss*>(RaceBoss)->IsDead())
+			eNextLevelID = LEVEL_UNDERGROUND;
+		else
+			eNextLevelID = rand() % 2 == 0 ? LEVEL_RACEFIRST : LEVEL_RACESECOND;
+	}
+	break;
 	case LEVEL_UNDERGROUND:
 		eNextLevelID = LEVEL_GAMEPLAY;
 		break;

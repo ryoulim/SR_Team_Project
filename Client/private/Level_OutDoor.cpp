@@ -573,5 +573,8 @@ CLevel_OutDoor* CLevel_OutDoor::Create(LPDIRECT3DDEVICE9 pGraphic_Device, CLevel
 
 void CLevel_OutDoor::Free()
 {
+	//CCameraManager* Cameramanager = CAMERA_MANAGER;
+	//if (Cameramanager)
+	//	Cameramanager->Switch(CCameraManager::DYNAMIC);
 	__super::Free();
 }

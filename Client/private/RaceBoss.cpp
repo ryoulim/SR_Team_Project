@@ -80,12 +80,13 @@ EVENT CRaceBoss::Update(_float fTimeDelta)
 
 	/* -------------------------------------------------------------------- */
 
-
-
 #ifdef _CONSOL
-	//_float3 vPos = *m_pTransformCom->Get_State(CTransform::STATE_POSITION);
-	//printf("보스 위치 : { %f, %f, %f }\n", vPos.x, vPos.y, vPos.z);
-	//printf("보스 상태 : %d\n", m_eState);
+	if (KEY_DOWN(DIK_X))
+	{
+		_float3 vPos = *m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+		printf("보스 위치 : { %f, %f, %f }\n", vPos.x, vPos.y, vPos.z);
+		printf("보스 상태 : %d\n", m_eState);
+	}
 #endif
 
 	//매 프레임마다 일정 수치만큼 밀림
@@ -101,6 +102,11 @@ EVENT CRaceBoss::Update(_float fTimeDelta)
 		Fire_HeadBullet(fTimeDelta);
 		fTimeAcc = 0.f;
 	}
+
+	if (KEY_DOWN(DIK_COMMA))
+		m_bDead = TRUE;
+	///
+
 
 	return EVN_NONE;
 }
@@ -346,6 +352,15 @@ void CRaceBoss::ShuffleandPop()
 		m_ePos = m_VecBulletPos.back();
 		m_VecBulletPos.pop_back();
 	}
+}
+
+void CRaceBoss::Set_StartState(STATE eState)
+{
+	if (m_pCurState)
+		m_pCurState->Exit();
+
+	m_pCurState = m_pState[eState];
+	m_eCurState = eState;
 }
 
 #include "FXMgr.h"
@@ -762,7 +777,6 @@ void CRaceBoss::Free()
 	Safe_Release(m_pTransformCom);
 	Safe_Release(m_pPlayer);
 	Safe_Release(m_pSkull);
-	Safe_Release(m_pPlayer);
 
 	for(auto& Collider : m_ColliderComs)
 		Safe_Release(Collider);
