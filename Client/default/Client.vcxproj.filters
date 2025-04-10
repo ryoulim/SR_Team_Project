@@ -484,6 +484,9 @@
     <Filter Include="01.Levels\06.UnderGround">
       <UniqueIdentifier>{d6d83d37-45e0-4ff2-b6b8-2ec58bbf1106}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\Monster\Boat">
+      <UniqueIdentifier>{3271f0c9-8209-4788-9d80-7a979894cad3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -985,6 +988,9 @@
     <ClInclude Include="..\public\Level_UnderGround.h">
       <Filter>01.Levels\06.UnderGround</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\Boat.h">
+      <Filter>02.GameObjects\Monster\Boat</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -1457,6 +1463,9 @@
     </ClCompile>
     <ClCompile Include="..\private\Level_UnderGround.cpp">
       <Filter>01.Levels\06.UnderGround</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Boat.cpp">
+      <Filter>02.GameObjects\Monster\Boat</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
