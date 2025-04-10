@@ -70,6 +70,9 @@ protected:
 	virtual void		On_Hit(_int iDamage);
 
 public:
+	INFO* Get_Info() { return &m_tInfo; }
+
+public:
 	virtual CGameObject* Clone(void* pArg) PURE;
 	virtual void Free();
 };

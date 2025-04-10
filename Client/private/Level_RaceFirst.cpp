@@ -37,6 +37,7 @@ HRESULT CLevel_RaceFirst::Initialize(CLevelData* pLevelData)
 	if (FAILED(Ready_Layer_Pawn(TEXT("Layer_Pawn"))))
 		return E_FAIL;
 
+
 	if (FAILED(Ready_Layer_RaceBoss(TEXT("Layer_RaceBoss"))))
 		return E_FAIL;
 
@@ -247,6 +248,8 @@ HRESULT CLevel_RaceFirst::Ready_Layer_Pawn(const _wstring& strLayerTag)
 	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_PlayerOnBoat"),
 		LEVEL_STATIC, strLayerTag, &PlayerOnBoatDesc)))
 		return E_FAIL;
+
+	CUI_Manager::Get_Instance()->Init_UI_To_Player(static_cast<CPawn*>(GET_PLAYER)->Get_Info());
 
 	return S_OK;
 }

@@ -17,7 +17,6 @@ HRESULT CUI::Initialize_Prototype()
 
 HRESULT CUI::Initialize(void* pArg)
 {
-	m_eLevelID = static_cast<DESC*>(pArg)->eLevelID;
 
 	if (FAILED(Ready_Components(pArg)))
 		return E_FAIL;
@@ -25,6 +24,7 @@ HRESULT CUI::Initialize(void* pArg)
 	if (pArg != nullptr)
 	{
 		DESC* pDesc = static_cast<DESC*>(pArg);
+		m_eLevelID = pDesc->eLevelID;
 		m_vPos = pDesc->vInitPos;
 		m_vPos.z = 0.99f; // 혹시라도 위치z값에 0이나 1 넣는 불상사를 방지하기 위해...
 		m_vSize = pDesc->vScale;
@@ -32,6 +32,8 @@ HRESULT CUI::Initialize(void* pArg)
 		m_pTransformCom->Set_State(CTransform::STATE_POSITION, m_vPos);
 		m_pTransformCom->Scaling(m_vSize);
 	}
+	else
+		MSG_BOX("UI에도 Desc를 넣어주라");
 
 	return S_OK;
 }

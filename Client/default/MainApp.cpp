@@ -176,6 +176,7 @@ HRESULT CMainApp::Ready_Component_For_Static()
 	ADD_MODEL(Rect);
 	ADD_PRTCOM(Transform);
 	ADD_TEXTURE(LevelLoadingMenu, "../Bin/Resources/Textures/UI/Loading/lvlloading%d.png", 4);
+	ADD_TEXTURE(LoadingCutscene, "../Bin/Resources/Textures/UI/LoadingCutscene/%d.png", 5);
 
 	ADD_TEXTURE(Font_MediumBlue, "../Bin/Resources/Textures/UI/Font/Font_MediumBlue/font%d.PNG", 94);
 	ADD_TEXTURE(Font_BigOrange, "../Bin/Resources/Textures/UI/Font/Font_BigOrange/font%d.PNG", 46);
@@ -252,9 +253,9 @@ HRESULT CMainApp::Open_Level(LEVEL eLevelID)
 
 HRESULT CMainApp::Ready_Default_Setting()
 {
-	m_pGraphic_Device->SetSamplerState(0, D3DSAMP_MINFILTER, D3DTEXF_LINEAR);
-	m_pGraphic_Device->SetSamplerState(0, D3DSAMP_MAGFILTER, D3DTEXF_LINEAR);
-	m_pGraphic_Device->SetSamplerState(0, D3DSAMP_MIPFILTER, D3DTEXF_LINEAR);
+	m_pGraphic_Device->SetSamplerState(0, D3DSAMP_MINFILTER, D3DTEXF_POINT);
+	m_pGraphic_Device->SetSamplerState(0, D3DSAMP_MAGFILTER, D3DTEXF_POINT);
+	m_pGraphic_Device->SetSamplerState(0, D3DSAMP_MIPFILTER, D3DTEXF_POINT);
 
 	m_pGraphic_Device->SetSamplerState(0, D3DSAMP_ADDRESSU, D3DTADDRESS_WRAP);
 	m_pGraphic_Device->SetSamplerState(0, D3DSAMP_ADDRESSV, D3DTADDRESS_WRAP);
