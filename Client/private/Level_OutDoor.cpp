@@ -57,6 +57,7 @@ void CLevel_OutDoor::Update(_float fTimeDelta)
 		FX_MGR->SpawnMultipleThunder(fTimeDelta, LEVEL_OUTDOOR);
 
 	Check_Collision();
+
 	if (m_iNextLevel)
 	{
 		m_pGameInstance->Clear_Collider();

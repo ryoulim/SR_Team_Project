@@ -315,8 +315,8 @@ void CPlayer::On_Collision(_uint MyColliderID, _uint OtherColliderID)
 
 void CPlayer::Set_Level(LEVEL ID)
 {
-	m_eLevelID = ID;
-	CUI_Manager::Get_Instance()->Init_UI_To_Player(&m_tInfo);
+	__super::Set_Level(ID);
+
 	if(!m_Weapons.empty()) 
 		CUI_Manager::Get_Instance()->Change_Weapon(m_Weapons[m_iCurWeaponIndex]->Get_Info());
 }

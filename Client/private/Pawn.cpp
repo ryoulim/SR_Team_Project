@@ -98,6 +98,11 @@ HRESULT CPawn::Render()
 inline void CPawn::Set_Level(LEVEL ID) {
 	m_eLevelID = ID;
 	CUI_Manager::Get_Instance()->Init_UI_To_Player(&m_tInfo);
+
+	if(m_pCollider)
+		m_pGameInstance->Add_Collider(m_pCollider, CG_PAWN);
+	if(m_pPrePosCollider)
+		m_pGameInstance->Add_Collider(m_pPrePosCollider, CG_PAWN_PRE);
 }
 
 HRESULT CPawn::Ready_Components(void* pArg)
