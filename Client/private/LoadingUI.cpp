@@ -80,10 +80,10 @@ HRESULT CLoadingUI::Initialize_LoadingCutscene(void* pArg)
 	pDesc.fDepth = m_fDepth;
 	pDesc.vInitPos = m_vPos;
 	pDesc.vScale = m_vSize;
-	pDesc.eLevelID = m_eLevelID;
+	pDesc.eLevelID = m_eNextLevel;
 
 	if (FAILED(m_pGameInstance->Add_GameObjectReturn(LEVEL_STATIC, _wstring(L"Prototype_GameObject_Loading_") + strCutsceneType,
-		m_eLevelID, L"Layer_LoadingUI", &pObj, &pDesc)))
+		LEVEL_LOADING, L"Layer_LoadingUI", &pObj, &pDesc)))
 		return E_FAIL;
 	m_pLoadingCutscene = dynamic_cast<CLoadingCutscene*>(pObj);
 	if (m_pLoadingCutscene != nullptr)

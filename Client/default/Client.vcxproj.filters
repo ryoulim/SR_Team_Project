@@ -529,6 +529,9 @@
     <Filter Include="02.GameObjects\Monster\Boat">
       <UniqueIdentifier>{3271f0c9-8209-4788-9d80-7a979894cad3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\UI\MenuUI\LoadingUI\Loading_Cutscene\Loading_ToUnderground">
+      <UniqueIdentifier>{a3c2badb-db4f-4d26-a6e9-05fca91a0787}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -1075,6 +1078,9 @@
     <ClInclude Include="..\public\Loading_ToOut.h">
       <Filter>02.GameObjects\UI\MenuUI\LoadingUI\Loading_Cutscene\Loading_ToOut</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\Loading_ToUnderground.h">
+      <Filter>02.GameObjects\UI\MenuUI\LoadingUI\Loading_Cutscene\Loading_ToUnderground</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -1592,6 +1598,9 @@
     </ClCompile>
     <ClCompile Include="..\private\Loading_ToRace.cpp">
       <Filter>02.GameObjects\UI\MenuUI\LoadingUI\Loading_Cutscene\Loading_ToRace</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Loading_ToUnderground.cpp">
+      <Filter>02.GameObjects\UI\MenuUI\LoadingUI\Loading_Cutscene\Loading_ToUnderground</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -235,17 +235,18 @@ void CLoader::Output_LoadingText()
 {
 	SetWindowText(g_hWnd, m_szLoadingText);
 
-	if (m_eNextLevelID == LEVEL_LOGO ||
-		m_eNextLevelID == LEVEL_STATIC)
-	{
+	//if (m_eNextLevelID == LEVEL_LOGO ||
+	//	m_eNextLevelID == LEVEL_STATIC)
+	//{
 		auto LoadingMenu = m_pGameInstance->Find_Object(LEVEL_LOADING, TEXT("Layer_UI"));
+		//dynamic_cast<CLoadingMenu*>(LoadingMenu)->Set_LoadingGauge(m_fLoadPercent);
 		dynamic_cast<CLoadingUI*>(LoadingMenu)->Set_LoadingGauge(m_fLoadPercent);
-	}
-	else
-	{
-		auto LevelLoadingMenu = m_pGameInstance->Find_Object(LEVEL_LOADING, TEXT("Layer_UI"));
-		dynamic_cast<CLevelLoadingMenu*>(LevelLoadingMenu)->Set_LoadingGauge(m_fLoadPercent);
-	}
+	//}
+	//else
+	//{
+	//	auto LevelLoadingMenu = m_pGameInstance->Find_Object(LEVEL_LOADING, TEXT("Layer_UI"));
+	//	dynamic_cast<CLevelLoadingMenu*>(LevelLoadingMenu)->Set_LoadingGauge(m_fLoadPercent);
+	//}
 }
 
 void CLoader::Clear_MapData()
@@ -301,11 +302,12 @@ HRESULT CLoader::Loding_For_Static()
 	ADD_TEXTURE(Font_Racing, "../Bin/Resources/Textures/UI/Font/Font_Racing/%d.PNG", 10);
 	ADD_TEXTURE(RacingPanel, "../Bin/Resources/Textures/UI/Racing/%d.PNG", 3);
 	ADD_TEXTURE(WeaponUI, "../Bin/Resources/Textures/UI/WeaponUI/%d.PNG", 3);
-	ADD_TEXTURE(Loading_OnRacing, "../Bin/Resources/Textures/UI/LoadingCutscene/ToLogo/%d.PNG", 11);
-	ADD_TEXTURE(Loading_ToBoss, "../Bin/Resources/Textures/UI/LoadingCutscene/ToLogo/%d.PNG", 11);
-	ADD_TEXTURE(Loading_ToIn, "../Bin/Resources/Textures/UI/LoadingCutscene/ToLogo/%d.PNG", 11);
-	ADD_TEXTURE(Loading_ToOut, "../Bin/Resources/Textures/UI/LoadingCutscene/ToLogo/%d.PNG", 11);
-	ADD_TEXTURE(Loading_ToRace, "../Bin/Resources/Textures/UI/LoadingCutscene/ToLogo/%d.PNG", 11);
+	ADD_TEXTURE(Loading_OnRacing, "../Bin/Resources/Textures/UI/LoadingCutscene/OnRacing/%d.PNG", 1);
+	ADD_TEXTURE(Loading_ToBoss, "../Bin/Resources/Textures/UI/LoadingCutscene/ToBoss/%d.PNG", 17);
+	ADD_TEXTURE(Loading_ToIn, "../Bin/Resources/Textures/UI/LoadingCutscene/ToIn/%d.PNG", 4);
+	ADD_TEXTURE(Loading_ToOut, "../Bin/Resources/Textures/UI/LoadingCutscene/ToOut/%d.PNG", 6);
+	ADD_TEXTURE(Loading_ToRace, "../Bin/Resources/Textures/UI/LoadingCutscene/ToRace/%d.PNG", 2);
+	ADD_TEXTURE(Loading_ToUnderground, "../Bin/Resources/Textures/UI/LoadingCutscene/ToUnderground/%d.PNG", 1);
 
 #pragma endregion
 	
@@ -786,7 +788,7 @@ HRESULT CLoader::Loading_For_Logo()
 
 	lstrcpy(m_szLoadingText, TEXT("로딩이 완료되었습니다."));
 	m_isFinished = true;
-	m_fLoadPercent = 1.f;
+	m_fLoadPercent = 1.2f;
 	return S_OK;
 }
 

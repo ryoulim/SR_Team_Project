@@ -257,6 +257,7 @@
     <ClInclude Include="..\public\Loading_ToMain.h" />
     <ClInclude Include="..\public\Loading_ToOut.h" />
     <ClInclude Include="..\public\Loading_ToRace.h" />
+    <ClInclude Include="..\public\Loading_ToUnderground.h" />
     <ClInclude Include="..\public\Logo.h" />
     <ClInclude Include="..\public\MainMenu.h" />
     <ClInclude Include="..\public\Map.h" />
@@ -433,6 +434,7 @@
     <ClCompile Include="..\private\Loading_ToMain.cpp" />
     <ClCompile Include="..\private\Loading_ToOut.cpp" />
     <ClCompile Include="..\private\Loading_ToRace.cpp" />
+    <ClCompile Include="..\private\Loading_ToUnderground.cpp" />
     <ClCompile Include="..\private\Logo.cpp" />
     <ClCompile Include="..\private\MainMenu.cpp" />
     <ClCompile Include="..\private\Map.cpp" />

@@ -8,6 +8,30 @@ BEGIN(Client)
 
 class CLoading_ToBoss final : public CLoadingCutscene
 {
+public:
+	enum TEXNUM {
+		TEX_SMALLNOISE = 0,
+		TEX_SMALLNOISE_END = 3,
+
+		TEX_SMALLBREAKINGNEWS = 4,
+
+		TEX_SMALLNEWS = 5,
+		TEX_SMALLNEWS_END = 8,
+
+		TEX_SMALLREDBOSS = 9,
+
+		TEX_SMALLBROKEN = 10,
+
+		TEX_WIDENOISE = 11,
+		TEX_WIDENOISE_END = 14,
+
+		TEX_WIDEBOSS = 15,
+
+		TEX_WIDEREDBOSS = 16
+	};
+
+
+
 private:
 	CLoading_ToBoss(LPDIRECT3DDEVICE9 pGraphic_Device);
 	CLoading_ToBoss(const CLoading_ToBoss& Prototype);
