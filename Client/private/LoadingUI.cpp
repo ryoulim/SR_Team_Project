@@ -91,6 +91,7 @@ HRESULT CLoadingUI::Initialize_LoadingCutscene(void* pArg)
 		m_pLoadingCutscene = static_cast<CLoadingCutscene*>(pObj);
 		Safe_AddRef(m_pLoadingCutscene);
 	}
+	// 주석 
 	else
 	{
 		MSG_BOX("바보래요"); // 이게 진짜 걸리다니 
