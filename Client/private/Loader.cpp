@@ -85,6 +85,11 @@
 #include "Font_Racing.h"
 #include "InteractPromptUI.h"
 #include "RacingPanel.h"
+#include "Loading_ToIn.h"
+#include "Loading_OnRacing.h"
+#include "Loading_ToBoss.h"
+#include "Loading_ToOut.h"
+#include "Loading_ToRace.h"
 
 //맵 인클루드
 #include "Block.h"
@@ -286,16 +291,23 @@ HRESULT CLoader::Loding_For_Static()
 
 	ADD_TEXTURE_EX(Sky, "../Bin/Resources/Textures/SkyBox/Sky_%d.dds", 1, CTexture::TYPE_CUBE); 
 
-	// UI텍스쳐
-	ADD_TEXTURE(Aim, "../Bin/Resources/Textures/Aim/aim0.PNG", 1);						
-	ADD_TEXTURE(Armor, "../Bin/Resources/Textures/UI/Armor/armor%d.PNG", 3);			
-	ADD_TEXTURE(Ammo, "../Bin/Resources/Textures/UI/Ammo/ammo%d.PNG", 8);				
-	ADD_TEXTURE(Portrait, "../Bin/Resources/Textures/UI/Portrait/portrait%d.PNG", 25);	
+#pragma region UI_TEXTURES
+	ADD_TEXTURE(Aim, "../Bin/Resources/Textures/Aim/aim0.PNG", 1);
+	ADD_TEXTURE(Armor, "../Bin/Resources/Textures/UI/Armor/armor%d.PNG", 3);
+	ADD_TEXTURE(Ammo, "../Bin/Resources/Textures/UI/Ammo/ammo%d.PNG", 8);
+	ADD_TEXTURE(Portrait, "../Bin/Resources/Textures/UI/Portrait/portrait%d.PNG", 25);
 	ADD_TEXTURE(Skull, "../Bin/Resources/Textures/UI/On_Hit/Skull.PNG", 1);
 	ADD_TEXTURE(BossHPBar, "../Bin/Resources/Textures/UI/BossHPBar/bosshpbar%d.PNG", 2);
 	ADD_TEXTURE(Font_Racing, "../Bin/Resources/Textures/UI/Font/Font_Racing/%d.PNG", 10);
 	ADD_TEXTURE(RacingPanel, "../Bin/Resources/Textures/UI/Racing/%d.PNG", 3);
 	ADD_TEXTURE(WeaponUI, "../Bin/Resources/Textures/UI/WeaponUI/%d.PNG", 3);
+	ADD_TEXTURE(Loading_OnRacing, "../Bin/Resources/Textures/UI/LoadingCutscene/ToLogo/%d.PNG", 11);
+	ADD_TEXTURE(Loading_ToBoss, "../Bin/Resources/Textures/UI/LoadingCutscene/ToLogo/%d.PNG", 11);
+	ADD_TEXTURE(Loading_ToIn, "../Bin/Resources/Textures/UI/LoadingCutscene/ToLogo/%d.PNG", 11);
+	ADD_TEXTURE(Loading_ToOut, "../Bin/Resources/Textures/UI/LoadingCutscene/ToLogo/%d.PNG", 11);
+	ADD_TEXTURE(Loading_ToRace, "../Bin/Resources/Textures/UI/LoadingCutscene/ToLogo/%d.PNG", 11);
+
+#pragma endregion
 	
 #pragma region PLAYER
 	ADD_TEXTURE(PlayerOnBoat, "../Bin/Resources/Textures/Player/PlayerOnBoat/BoatPlayer%d.PNG", 4);
@@ -310,6 +322,7 @@ HRESULT CLoader::Loding_For_Static()
 
 #pragma endregion
 
+#pragma region UI_PROTOTYPES
 	ADD_PRTOBJ(Trigger);
 	ADD_PRTOBJ(Sky);
 	ADD_PRTOBJ(Aim);
@@ -321,6 +334,12 @@ HRESULT CLoader::Loding_For_Static()
 	ADD_PRTOBJ(ItemDialog);
 	ADD_PRTOBJ(Font_Racing);
 	ADD_PRTOBJ(RacingPanel);
+	ADD_PRTOBJ(Loading_OnRacing);
+	ADD_PRTOBJ(Loading_ToBoss);
+	ADD_PRTOBJ(Loading_ToIn);
+	ADD_PRTOBJ(Loading_ToOut);
+	ADD_PRTOBJ(Loading_ToRace);
+#pragma endregion
 
 #pragma region PLAYER
 	ADD_PRTOBJ(Player);

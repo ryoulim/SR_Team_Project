@@ -251,7 +251,12 @@
     <ClInclude Include="..\public\LoadingCutscene.h" />
     <ClInclude Include="..\public\LoadingMenu.h" />
     <ClInclude Include="..\public\LoadingUI.h" />
+    <ClInclude Include="..\public\Loading_OnRacing.h" />
+    <ClInclude Include="..\public\Loading_ToBoss.h" />
+    <ClInclude Include="..\public\Loading_ToIn.h" />
     <ClInclude Include="..\public\Loading_ToMain.h" />
+    <ClInclude Include="..\public\Loading_ToOut.h" />
+    <ClInclude Include="..\public\Loading_ToRace.h" />
     <ClInclude Include="..\public\Logo.h" />
     <ClInclude Include="..\public\MainMenu.h" />
     <ClInclude Include="..\public\Map.h" />
@@ -422,7 +427,12 @@
     <ClCompile Include="..\private\LoadingCutscene.cpp" />
     <ClCompile Include="..\private\LoadingMenu.cpp" />
     <ClCompile Include="..\private\LoadingUI.cpp" />
+    <ClCompile Include="..\private\Loading_OnRacing.cpp" />
+    <ClCompile Include="..\private\Loading_ToBoss.cpp" />
+    <ClCompile Include="..\private\Loading_ToIn.cpp" />
     <ClCompile Include="..\private\Loading_ToMain.cpp" />
+    <ClCompile Include="..\private\Loading_ToOut.cpp" />
+    <ClCompile Include="..\private\Loading_ToRace.cpp" />
     <ClCompile Include="..\private\Logo.cpp" />
     <ClCompile Include="..\private\MainMenu.cpp" />
     <ClCompile Include="..\private\Map.cpp" />

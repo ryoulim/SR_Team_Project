@@ -1060,6 +1060,21 @@
     <ClInclude Include="..\public\Loading_ToMain.h">
       <Filter>02.GameObjects\UI\MenuUI\LoadingUI\Loading_Cutscene\Loading_ToMain</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\Loading_ToIn.h">
+      <Filter>02.GameObjects\UI\MenuUI\LoadingUI\Loading_Cutscene\Loading_ToIn</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Loading_OnRacing.h">
+      <Filter>02.GameObjects\UI\MenuUI\LoadingUI\Loading_Cutscene\Loading_OnRacing</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Loading_ToBoss.h">
+      <Filter>02.GameObjects\UI\MenuUI\LoadingUI\Loading_Cutscene\Loading_ToBoss</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Loading_ToRace.h">
+      <Filter>02.GameObjects\UI\MenuUI\LoadingUI\Loading_Cutscene\Loading_ToRace</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Loading_ToOut.h">
+      <Filter>02.GameObjects\UI\MenuUI\LoadingUI\Loading_Cutscene\Loading_ToOut</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -1562,6 +1577,21 @@
     </ClCompile>
     <ClCompile Include="..\private\Loading_ToMain.cpp">
       <Filter>02.GameObjects\UI\MenuUI\LoadingUI\Loading_Cutscene\Loading_ToMain</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Loading_ToIn.cpp">
+      <Filter>02.GameObjects\UI\MenuUI\LoadingUI\Loading_Cutscene\Loading_ToIn</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Loading_OnRacing.cpp">
+      <Filter>02.GameObjects\UI\MenuUI\LoadingUI\Loading_Cutscene\Loading_OnRacing</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Loading_ToBoss.cpp">
+      <Filter>02.GameObjects\UI\MenuUI\LoadingUI\Loading_Cutscene\Loading_ToBoss</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Loading_ToOut.cpp">
+      <Filter>02.GameObjects\UI\MenuUI\LoadingUI\Loading_Cutscene\Loading_ToOut</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Loading_ToRace.cpp">
+      <Filter>02.GameObjects\UI\MenuUI\LoadingUI\Loading_Cutscene\Loading_ToRace</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -72,7 +72,6 @@ HRESULT CLevel_Loading::Initialize(LEVEL eNextLevelID)
 			return E_FAIL;
 	}
 	
-
 	return S_OK;
 }
 

@@ -22,18 +22,6 @@
 
 #include "LoadingUI.h"
 #include "Loading_ToMain.h"
-//#include "Loading_ToIn.h"
-//#include "Loading_OnRacing.h"
-//#include "Loading_ToBoss.h"
-//#include "Loading_ToOut.h"
-//#include "Loading_ToRace.h"
-
-
-
-
-
-
-
 
 #include "DebugMode.h"
 
@@ -238,11 +226,7 @@ HRESULT CMainApp::Ready_Protype_Object_For_Static()
 
 	ADD_PRTOBJ(LoadingUI);
 	ADD_PRTOBJ(Loading_ToMain);
-	//ADD_PRTOBJ(Loading_OnRacing);
-	//ADD_PRTOBJ(Loading_ToBoss);
-	//ADD_PRTOBJ(Loading_ToIn);
-	//ADD_PRTOBJ(Loading_ToOut);
-	//ADD_PRTOBJ(Loading_ToRace);
+
 
 
 	return S_OK;
