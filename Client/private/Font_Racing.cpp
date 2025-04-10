@@ -29,7 +29,7 @@ HRESULT CFont_Racing::Initialize(void* pArg)
 		return E_FAIL;
 
 	m_pTextureCom->Get_TextureSize(static_cast<_uint>(0), &m_vSize);
-	m_vSize *= 1.42;
+	m_vSize *= 1.42f;
 
 
 	return S_OK;
@@ -54,7 +54,8 @@ void CFont_Racing::Late_Update(_float fTimeDelta)
 
 HRESULT CFont_Racing::Render()
 {
-	return __super::Render();
+	//return __super::Render();
+	return S_OK;
 }
 
 HRESULT CFont_Racing::Render_Number(const _int _Val)

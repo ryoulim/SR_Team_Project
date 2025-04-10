@@ -26,7 +26,6 @@ HRESULT CLevelLoadingMenu::Initialize(void* pArg)
 	m_szTextureID = TEXT("LevelLoadingMenu");
 	m_szBufferType = TEXT("Rect");
 
-
 	/* For.Com_Texture */
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, _wstring(TEXT("Prototype_Component_Texture_")) + m_szTextureID,
 		TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
@@ -41,7 +40,6 @@ HRESULT CLevelLoadingMenu::Initialize(void* pArg)
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Transform"),
 		TEXT("Com_Transform"), reinterpret_cast<CComponent**>(&m_pTransformCom), pArg)))
 		return E_FAIL;
-
 
 	if (pArg != nullptr)
 	{

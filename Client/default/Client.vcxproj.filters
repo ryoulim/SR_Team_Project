@@ -424,15 +424,6 @@
     <Filter Include="02.GameObjects\Map\Door">
       <UniqueIdentifier>{da89019a-0b76-4ef7-b96f-64af9287f2f5}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\UI\MenuUI\LoadingUI">
-      <UniqueIdentifier>{1f7ad30a-3122-493c-9573-3f07de951b2a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\UI\MenuUI\LoadingUI\LoadingMenu">
-      <UniqueIdentifier>{dd5a48aa-1696-4a1d-ab26-6e5a44c91854}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\UI\MenuUI\LoadingUI\LevelLoadingMenu">
-      <UniqueIdentifier>{f9967e05-e098-4fcc-b1ea-218980f9bbda}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02.GameObjects\UI\GamePlayUI\BossHPBar">
       <UniqueIdentifier>{bec1c7fb-d793-4711-824d-bd23f689a699}</UniqueIdentifier>
     </Filter>
@@ -489,6 +480,36 @@
     </Filter>
     <Filter Include="02.GameObjects\UI\GamePlayUI\PlayerUI\Portrait">
       <UniqueIdentifier>{1f143357-a3b6-4a71-9cbc-224e93371894}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\MenuUI\LoadingUI">
+      <UniqueIdentifier>{1f7ad30a-3122-493c-9573-3f07de951b2a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\MenuUI\LoadingUI\LevelLoadingMenu">
+      <UniqueIdentifier>{f9967e05-e098-4fcc-b1ea-218980f9bbda}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\MenuUI\LoadingUI\LoadingMenu">
+      <UniqueIdentifier>{dd5a48aa-1696-4a1d-ab26-6e5a44c91854}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\MenuUI\LoadingUI\Loading_Cutscene">
+      <UniqueIdentifier>{66dfbe9a-166d-48ae-8e8f-d08462213570}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\MenuUI\LoadingUI\Loading_Cutscene\Loading_ToMain">
+      <UniqueIdentifier>{1715ce57-9ec5-46b6-9473-b80f82dcb0df}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\MenuUI\LoadingUI\Loading_Cutscene\Loading_ToBoss">
+      <UniqueIdentifier>{29f2dedd-ed24-4e73-9725-3cb8881941b5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\MenuUI\LoadingUI\Loading_Cutscene\Loading_ToIn">
+      <UniqueIdentifier>{fa5d3a39-cc9d-45ca-909e-820944a432b8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\MenuUI\LoadingUI\Loading_Cutscene\Loading_ToOut">
+      <UniqueIdentifier>{d8dcefb8-06eb-4ffd-ae4f-da0b9bcc4c24}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\MenuUI\LoadingUI\Loading_Cutscene\Loading_ToRace">
+      <UniqueIdentifier>{dcbf9e98-f0f5-4331-8eaf-ce8ef526b0a4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\MenuUI\LoadingUI\Loading_Cutscene\Loading_OnRacing">
+      <UniqueIdentifier>{ef640b04-18cf-4249-8aa0-c36634699cbd}</UniqueIdentifier>
     </Filter>
     <Filter Include="02.GameObjects\Effect\RaceSprite">
       <UniqueIdentifier>{ae58f861-7dfd-4709-8cf2-099e6969554a}</UniqueIdentifier>
@@ -1009,6 +1030,24 @@
     <ClInclude Include="..\public\Level_UnderGround.h">
       <Filter>01.Levels\06.UnderGround</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\BombRadius.h">
+      <Filter>02.GameObjects\Statue\RaceBossBombRadius</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Generator.h">
+      <Filter>02.GameObjects\Map\Generator</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\WeaponUI.h">
+      <Filter>02.GameObjects\UI\GamePlayUI\WeaponUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\LoadingCutscene.h">
+      <Filter>02.GameObjects\UI\MenuUI\LoadingUI\Loading_Cutscene</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\LoadingUI.h">
+      <Filter>02.GameObjects\UI\MenuUI\LoadingUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Loading_ToIn.h">
+      <Filter>02.GameObjects\UI\MenuUI\LoadingUI\Loading_Cutscene\Loading_ToIn</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -1496,6 +1535,15 @@
     </ClCompile>
     <ClCompile Include="..\private\WeaponUI.cpp">
       <Filter>02.GameObjects\UI\GamePlayUI\WeaponUI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\LoadingCutscene.cpp">
+      <Filter>02.GameObjects\UI\MenuUI\LoadingUI\Loading_Cutscene</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\LoadingUI.cpp">
+      <Filter>02.GameObjects\UI\MenuUI\LoadingUI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Loading_ToIn.cpp">
+      <Filter>02.GameObjects\UI\MenuUI\LoadingUI\Loading_Cutscene\Loading_ToIn</Filter>
     </ClCompile>
     <ClCompile Include="..\private\Level_RaceEnd.cpp">
       <Filter>01.Levels\04. Race\99.End</Filter>

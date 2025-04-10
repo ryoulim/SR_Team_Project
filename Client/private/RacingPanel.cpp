@@ -125,7 +125,7 @@ HRESULT CRacingPanel::Render()
 
 	m_pShaderCom->End();
 
-	m_pFont_Racing->Render_Number(m_iCurSpeed); // 숫자
+	//m_pFont_Racing->Render_Number(m_iCurSpeed); // 숫자
 
 	Render_Arrow();								// 계기판 바늘 	
 	m_pGraphic_Device->SetRenderState(D3DRS_ALPHABLENDENABLE, false);

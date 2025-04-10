@@ -37,6 +37,7 @@ HRESULT CLevel_RaceFirst::Initialize(CLevelData* pLevelData)
 	if (FAILED(Ready_Layer_Pawn(TEXT("Layer_Pawn"))))
 		return E_FAIL;
 
+
 	if (FAILED(Ready_Layer_RaceBoss(TEXT("Layer_RaceBoss"))))
 		return E_FAIL;
 

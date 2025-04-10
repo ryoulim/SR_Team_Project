@@ -218,8 +218,6 @@ HRESULT CLevel_RaceSecond::Ready_Layer_RaceBoss(const _wstring& strLayerTag)
 	return S_OK;
 }
 
-
-
 HRESULT CLevel_RaceSecond::Ready_Layer_UI(const _wstring& strLayerTag)
 {
 	CUI::DESC Desc{};
@@ -248,6 +246,7 @@ HRESULT CLevel_RaceSecond::Ready_Layer_UI(const _wstring& strLayerTag)
 	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_Ammo"),
 		Desc.eLevelID, strLayerTag, &Desc)))
 		return E_FAIL;
+	CUI_Manager::Get_Instance()->Initialize_GamePlayUI(CurLevel);
 
 	Desc.vScale = _float3(240.f, 42.f, 1.f);
 	Desc.vInitPos = _float3(0.f, g_iWinSizeY * 0.5f - 44.f, 0.1f);
@@ -261,6 +260,7 @@ HRESULT CLevel_RaceSecond::Ready_Layer_UI(const _wstring& strLayerTag)
 	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_RacingPanel"),
 		Desc.eLevelID, strLayerTag, &Desc)))
 		return E_FAIL;
+
 	CUI_Manager::Get_Instance()->Initialize_RacingUI(CurLevel);
 
 

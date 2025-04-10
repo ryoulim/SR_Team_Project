@@ -201,7 +201,7 @@ HRESULT CUI_Manager::Set_RacingSpeed(_int iSpeed)
 {
 	if (m_pRacingUI == nullptr)
 		return E_FAIL;
-	static_cast<CRacingPanel*>(m_pRacingUI)->Set_TargetSpeed(iSpeed);
+	static_cast<CRacingPanel*>(m_pRacingUI)->Set_TargetSpeed(_int(iSpeed * 0.3f));
 	return S_OK;
 }
 
