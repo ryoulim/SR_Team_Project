@@ -20,6 +20,21 @@
 #include "FadeUI.h"
 #include "FXMgr.h"
 
+#include "LoadingUI.h"
+#include "Loading_ToMain.h"
+//#include "Loading_ToIn.h"
+//#include "Loading_OnRacing.h"
+//#include "Loading_ToBoss.h"
+//#include "Loading_ToOut.h"
+//#include "Loading_ToRace.h"
+
+
+
+
+
+
+
+
 #include "DebugMode.h"
 
 #include "Sky.h"
@@ -186,6 +201,7 @@ HRESULT CMainApp::Ready_Component_For_Static()
 	ADD_TEXTURE(Loading_BarBack, "../Bin/Resources/Textures/UI/Loading/loadingbar0.PNG", 1);
 	ADD_TEXTURE(Loading_Bar, "../Bin/Resources/Textures/UI/Loading/loadingbar1.PNG", 1);
 
+/**/ADD_TEXTURE(Loading_ToMain, "../Bin/Resources/Textures/UI/LoadingCutscene/ToLogo/%d.PNG", 11);
 
 	ADD_TEXTURE(FadeUI, "../Bin/Resources/Textures/UI/black.PNG", 1);
 
@@ -219,6 +235,15 @@ HRESULT CMainApp::Ready_Protype_Object_For_Static()
 	ADD_PRTOBJ(Font_BigOrange);
 	ADD_PRTOBJ(LoadingMenu);
 	ADD_PRTOBJ(FadeUI);
+
+	ADD_PRTOBJ(LoadingUI);
+	ADD_PRTOBJ(Loading_ToMain);
+	//ADD_PRTOBJ(Loading_OnRacing);
+	//ADD_PRTOBJ(Loading_ToBoss);
+	//ADD_PRTOBJ(Loading_ToIn);
+	//ADD_PRTOBJ(Loading_ToOut);
+	//ADD_PRTOBJ(Loading_ToRace);
+
 
 	return S_OK;
 }

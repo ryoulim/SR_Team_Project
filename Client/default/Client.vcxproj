@@ -251,7 +251,7 @@
     <ClInclude Include="..\public\LoadingCutscene.h" />
     <ClInclude Include="..\public\LoadingMenu.h" />
     <ClInclude Include="..\public\LoadingUI.h" />
-    <ClInclude Include="..\public\Loading_ToIn.h" />
+    <ClInclude Include="..\public\Loading_ToMain.h" />
     <ClInclude Include="..\public\Logo.h" />
     <ClInclude Include="..\public\MainMenu.h" />
     <ClInclude Include="..\public\Map.h" />
@@ -422,7 +422,7 @@
     <ClCompile Include="..\private\LoadingCutscene.cpp" />
     <ClCompile Include="..\private\LoadingMenu.cpp" />
     <ClCompile Include="..\private\LoadingUI.cpp" />
-    <ClCompile Include="..\private\Loading_ToIn.cpp" />
+    <ClCompile Include="..\private\Loading_ToMain.cpp" />
     <ClCompile Include="..\private\Logo.cpp" />
     <ClCompile Include="..\private\MainMenu.cpp" />
     <ClCompile Include="..\private\Map.cpp" />

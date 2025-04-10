@@ -130,6 +130,7 @@
 #include "Sky.h"
 
 #include "Trigger.h"
+#include <LoadingUI.h>
 
 /* 맵툴에서 넘어오는 텍스쳐 갯수, 건들지 말아주세요 감사합니다 */
 #define NUMMAPTEX 199
@@ -233,7 +234,7 @@ void CLoader::Output_LoadingText()
 		m_eNextLevelID == LEVEL_STATIC)
 	{
 		auto LoadingMenu = m_pGameInstance->Find_Object(LEVEL_LOADING, TEXT("Layer_UI"));
-		dynamic_cast<CLoadingMenu*>(LoadingMenu)->Set_LoadingGauge(m_fLoadPercent);
+		dynamic_cast<CLoadingUI*>(LoadingMenu)->Set_LoadingGauge(m_fLoadPercent);
 	}
 	else
 	{
@@ -766,7 +767,7 @@ HRESULT CLoader::Loading_For_Logo()
 
 	lstrcpy(m_szLoadingText, TEXT("로딩이 완료되었습니다."));
 	m_isFinished = true;
-	m_fLoadPercent = 1.19f;
+	m_fLoadPercent = 1.f;
 	return S_OK;
 }
 

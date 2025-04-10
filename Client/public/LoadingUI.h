@@ -38,6 +38,10 @@ private:
 	_bool					m_isFinished = { false };
 
 public:
+	_bool IsLoadingComplete();
+	void Set_LoadingGauge(const _float percent);
+
+public:
 	static CLoadingUI* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
 	virtual CGameObject* Clone(void* pArg) override;
 	virtual void Free();

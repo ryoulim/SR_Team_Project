@@ -26,12 +26,12 @@ HRESULT CLoadingUI::Initialize(void* pArg)
 	m_szTextureID = TEXT("LoadingUI");
 	m_szBufferType = TEXT("Rect");
 
-	if (FAILED(__super::Initialize(pArg)))
-		return E_FAIL;
 	DESC* pDesc = static_cast<DESC*>(pArg);
 	m_eNextLevel = pDesc->eNextLevel;
 	m_eCurLevel = pDesc->eCurLevel;
-
+	m_fDepth = pDesc->fDepth;
+	m_vPos = pDesc->vInitPos;
+	m_vSize = pDesc->vScale;
 	Initialize_LoadingCutscene(pArg);
 
 	return S_OK;
@@ -43,7 +43,7 @@ HRESULT CLoadingUI::Initialize_LoadingCutscene(void* pArg)
 	switch (m_eNextLevel)
 	{
 	case Client::LEVEL_LOGO:
-		strCutsceneType = L"ToLogo";
+		strCutsceneType = L"ToMain";
 		break;
 	case Client::LEVEL_GAMEPLAY:
 		strCutsceneType = L"ToBoss";
@@ -77,10 +77,15 @@ HRESULT CLoadingUI::Initialize_LoadingCutscene(void* pArg)
 
 	CGameObject* pObj = { nullptr };
 	CUI::DESC pDesc = {};
+	pDesc.fDepth = m_fDepth;
+	pDesc.vInitPos = m_vPos;
+	pDesc.vScale = m_vSize;
+	pDesc.eLevelID = m_eLevelID;
 
 	if (FAILED(m_pGameInstance->Add_GameObjectReturn(LEVEL_STATIC, _wstring(L"Prototype_GameObject_Loading_") + strCutsceneType,
 		m_eLevelID, L"Layer_LoadingUI", &pObj, &pDesc)))
 		return E_FAIL;
+	m_pLoadingCutscene = dynamic_cast<CLoadingCutscene*>(pObj);
 	if (m_pLoadingCutscene != nullptr)
 	{
 		m_pLoadingCutscene = static_cast<CLoadingCutscene*>(pObj);
@@ -88,7 +93,7 @@ HRESULT CLoadingUI::Initialize_LoadingCutscene(void* pArg)
 	}
 	else
 	{
-		MSG_BOX("바보래요");
+		MSG_BOX("바보래요"); // 이게 진짜 걸리다니 
 		return E_FAIL;
 	}
 
@@ -119,6 +124,16 @@ HRESULT CLoadingUI::Render()
 	if (m_pLoadingCutscene != nullptr)
 		return m_pLoadingCutscene->Render();
 	return S_OK;
+}
+
+_bool CLoadingUI::IsLoadingComplete()
+{
+	return m_pLoadingCutscene->IsLoadingComplete();
+}
+
+void CLoadingUI::Set_LoadingGauge(const _float percent)
+{
+	m_pLoadingCutscene->Set_LoadingGauge(percent);
 }
 
 CLoadingUI* CLoadingUI::Create(LPDIRECT3DDEVICE9 pGraphic_Device)

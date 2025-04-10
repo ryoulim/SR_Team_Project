@@ -29,6 +29,17 @@ public:
 	virtual HRESULT Render() override;
 
 public:
+	void Set_LoadingGauge(const _float percent) { m_fCurLoadingGauge = percent; }
+	_bool IsLoadingComplete() { return m_isReadyToChangeLevel; }
+
+protected:
+	_float		m_fLoadingGauge{ 0.01f };
+	_float		m_fCurLoadingGauge{ 0.f };
+	_bool		m_isLoadingFinished{ false };
+	_float 		m_fFinished_WaitingTime{0.f};
+	_bool		m_isReadyToChangeLevel{ false };
+
+public:
 	static CLoadingCutscene* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
 	virtual CGameObject* Clone(void* pArg) override;
 	virtual void Free();
