@@ -94,7 +94,7 @@ private:
 	void			Ladder(_float fTimeDelta);
 	void			On_Just_Dodge();
 
-	virtual void		On_Hit(_int iDamage) override;
+	virtual void	On_Hit(_int iDamage) override;
 
 public:
 	static CPlayer* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
