@@ -69,6 +69,8 @@ protected: // 애니메이션
 	_float	m_fAnimationFrame = 0;
 	_float	m_fAnimationMaxFrame = 0;
 	_float	m_fAnimationSpeed = 0;
+
+	bool	m_bDead = false;
 };
 
 END

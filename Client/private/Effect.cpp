@@ -51,6 +51,9 @@ void CEffect::Late_Update(_float fTimeDelta)
 
 HRESULT CEffect::SetUp_RenderState()
 {
+
+	m_pGraphic_Device->SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
+
 	m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 	m_pGraphic_Device->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
 	m_pGraphic_Device->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
@@ -85,6 +88,7 @@ HRESULT CEffect::Release_RenderState()
 {
 	m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
 	m_pGraphic_Device->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
+	m_pGraphic_Device->SetRenderState(D3DRS_ZWRITEENABLE, true);
 
 	return S_OK;
 }

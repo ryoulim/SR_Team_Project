@@ -274,6 +274,7 @@
     <ClInclude Include="..\public\RaceCylinder.h" />
     <ClInclude Include="..\public\RaceGate.h" />
     <ClInclude Include="..\public\RaceLandscape.h" />
+    <ClInclude Include="..\public\RaceSprite.h" />
     <ClInclude Include="..\public\RaceTerrain.h" />
     <ClInclude Include="..\public\RacingPanel.h" />
     <ClInclude Include="..\public\Rain.h" />
@@ -439,6 +440,7 @@
     <ClCompile Include="..\private\RaceCylinder.cpp" />
     <ClCompile Include="..\private\RaceGate.cpp" />
     <ClCompile Include="..\private\RaceLandscape.cpp" />
+    <ClCompile Include="..\private\RaceSprite.cpp" />
     <ClCompile Include="..\private\RaceTerrain.cpp" />
     <ClCompile Include="..\private\RacingPanel.cpp" />
     <ClCompile Include="..\private\Rain.cpp" />

@@ -37,8 +37,9 @@ public: //Æø¹ß
 	void SpawnMultipleExplosions2(_float fTimeDelta, LEVEL eLevel);
 	void SpawnMultipleExplosions3(_float fTimeDelta, LEVEL eLevel);
 
-	void SpawnMultipleExplosionRaceBoss(_float fTimeDelta, _float3 _Position, LEVEL eLevel);
-	void SpawnMultipleExplosionRacePoint(_float fTimeDelta, _float3 _Position, LEVEL eLevel);
+	void SpawnRaceExplosion(_float3 _vPosition, _float3 _vPosOffset, LEVEL eLevel, _float3 Size, const TCHAR* szTextureTag, _float Maxframe);
+	void SpawnMultipleExplosionRacePoint(_float fTimeDelta, _float3 _vPosition, _float3 _vPosOffset, LEVEL eLevel, _float3 Size, const TCHAR* szTextureTag, _float Maxframe);
+	void SpawnMultipleExplosionRaceBoss(_float3 _Position, LEVEL eLevel);
 
 public: //ºñ
 	void SpawnRain(LEVEL eLevel);

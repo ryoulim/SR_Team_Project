@@ -3,6 +3,7 @@
 #include "Skull.h"
 #include "RBState.h"
 #include "FXMgr.h"
+#include "CameraManager.h"
 
 CRaceBoss::CRaceBoss(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CGameObject { pGraphic_Device }
@@ -58,14 +59,26 @@ EVENT CRaceBoss::Update(_float fTimeDelta)
 	if (m_bDead)
 		return EVN_DEAD;
 
-	/* [ 파티클 실험실 ] */
+	/*  --------------------[ 부위 파괴 시 지속 폭발 ]----------------------- */
 	_float3 vPos = *m_pTransformCom->Get_State(CTransform::STATE_POSITION);
-	//FX_MGR->SpawnMultipleExplosionRaceBoss(fTimeDelta,vPos, m_eLevelID);
-	vPos.x += 70.f;
-	vPos.z += -100.f;
-	FX_MGR->SpawnMultipleExplosionRacePoint(fTimeDelta, vPos, m_eLevelID);
 
+	if (KEY_DOWN(DIK_0))
+		fill(std::begin(m_bPartDead), std::end(m_bPartDead), true);
+	if (KEY_DOWN(DIK_9))
+		FX_MGR->SpawnMultipleExplosionRaceBoss(vPos, m_eLevelID);
 
+	if (m_bPartDead[0])
+		FX_MGR->SpawnMultipleExplosionRacePoint(fTimeDelta, vPos, { -85.f, 15.f, -205.f }, m_eLevelID, { 50.f, 50.f, 1.f }, TEXT("RaceBossHit"), 13.f);
+	if (m_bPartDead[1])
+		FX_MGR->SpawnMultipleExplosionRacePoint(fTimeDelta, vPos, { -165.f, 25.f, -205.f }, m_eLevelID, { 50.f, 50.f, 1.f }, TEXT("RaceBossHit"), 13.f);
+	if (m_bPartDead[2])
+		FX_MGR->SpawnMultipleExplosionRacePoint(fTimeDelta, vPos, { 0.f, 25.f, -205.f }, m_eLevelID, { 50.f, 50.f, 1.f }, TEXT("RaceBossHit"), 13.f);
+	if (m_bPartDead[3])
+		FX_MGR->SpawnMultipleExplosionRacePoint(fTimeDelta, vPos, { 85.f, 15.f, -205.f }, m_eLevelID, { 50.f, 50.f, 1.f }, TEXT("RaceBossHit"), 13.f);
+	if (m_bPartDead[4])
+		FX_MGR->SpawnMultipleExplosionRacePoint(fTimeDelta, vPos, { 165.f, 25.f, -205.f }, m_eLevelID, { 50.f, 50.f, 1.f }, TEXT("RaceBossHit"), 13.f);
+
+	/* -------------------------------------------------------------------- */
 
 
 
@@ -626,6 +639,41 @@ void CRaceBoss::On_Hit(MUZZLEPOS HitPos, _int iDamage)
 	m_iMuzzleHp[iIndex] -= iDamage;
 	m_iHp -= iDamage;
 
+
+	
+	/* [ 포신 정중앙 ] */
+	_float3 vCenterPos = *m_pTransformCom->Get_State(CTransform::STATE_POSITION) + Calc_Muzzle_Position(HitPos);
+	_float3 vPosition = *m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+	
+	/* [ 가로 200 / 세로 37.5 / 깊이 400 ] */
+
+	/* [ 포신 어디에 맞았나요? ] */ 
+	switch (HitPos)
+	{
+	case LMIDDLE:
+		// 왼쪽 1칸
+		FX_MGR->SpawnRaceExplosion(vCenterPos, { -85.f, 15.f, -205.f }, m_eLevelID, { 30.f, 30.f, 1.f }, TEXT("RaceBossHit"), 13.f);
+		break;
+	case LSIDE:
+		// 왼쪽 2칸
+		FX_MGR->SpawnRaceExplosion(vCenterPos, { -165.f, 25.f, -205.f }, m_eLevelID, { 30.f, 30.f, 1.f }, TEXT("RaceBossHit"), 13.f);
+		break;
+	case MIDDLE:
+		// 정 중 앙
+		FX_MGR->SpawnRaceExplosion(vCenterPos, { 0.f, 25.f, -205.f }, m_eLevelID, { 30.f, 30.f, 1.f }, TEXT("RaceBossHit"), 13.f);
+		break;
+	case RMIDDLE:
+		// 오른쪽 1칸
+		FX_MGR->SpawnRaceExplosion(vCenterPos, { 85.f, 15.f, -205.f }, m_eLevelID, { 30.f, 30.f, 1.f }, TEXT("RaceBossHit"), 13.f);
+		break;
+	case RSIDE:
+		// 오른쪽 2칸
+		FX_MGR->SpawnRaceExplosion(vCenterPos, { 165.f, 25.f, -205.f }, m_eLevelID, { 30.f, 30.f, 1.f }, TEXT("RaceBossHit"), 13.f);
+		break;
+	default:
+		break;
+	}
+
 	//부위파괴
 	if (m_iMuzzleHp[iIndex] <= 0)
 	{
@@ -636,11 +684,35 @@ void CRaceBoss::On_Hit(MUZZLEPOS HitPos, _int iDamage)
 		else
 			m_iTextureID[iIndex] = 3;
 
-		// 총구의 위치 아는 방법이
-		_float3 vPos = *m_pTransformCom->Get_State(CTransform::STATE_POSITION) + Calc_Muzzle_Position(HitPos); // 이게 총구 위치
-
-		//아니면 라스트 콜리전 해도됨
-		// 이곳에 부위파괴시에 할 것을 쓰시오.
+		/* [ 포신 어디가 파괴되었나요? ] */
+		switch (HitPos)
+		{
+		case LMIDDLE:
+			FX_MGR->SpawnRaceExplosion(vCenterPos, { -100.f, 50.f, -220.f }, m_eLevelID, { 130.f, 140.f, 1.f }, TEXT("Effect_Explor"), 32.f);
+			CAMERA_MANAGER->Shake_Camera(0.5f, 0.5f);
+			m_bPartDead[0] = true;
+			break;
+		case LSIDE:
+			FX_MGR->SpawnRaceExplosion(vCenterPos, { -200.f, 50.f, -220.f }, m_eLevelID, { 130.f, 140.f, 1.f }, TEXT("Effect_Explor"), 32.f);
+			CAMERA_MANAGER->Shake_Camera(0.5f, 0.5f);
+			m_bPartDead[1] = true;
+			break;
+		case MIDDLE:
+			FX_MGR->SpawnRaceExplosion(vCenterPos, { 0.f, 50.f, -220.f }, m_eLevelID, { 130.f, 140.f, 1.f }, TEXT("Effect_Explor"), 32.f);
+			CAMERA_MANAGER->Shake_Camera(0.5f, 0.5f);
+			m_bPartDead[2] = true;
+			break;
+		case RMIDDLE:
+			FX_MGR->SpawnRaceExplosion(vCenterPos, { 100.f, 50.f, -220.f }, m_eLevelID, { 130.f, 140.f, 1.f }, TEXT("Effect_Explor"), 32.f);
+			CAMERA_MANAGER->Shake_Camera(0.5f, 0.5f);
+			m_bPartDead[3] = true;
+			break;
+		case RSIDE:
+			FX_MGR->SpawnRaceExplosion(vCenterPos, { 200.f, 50.f, -220.f }, m_eLevelID, { 130.f, 140.f, 1.f }, TEXT("Effect_Explor"), 32.f);
+			CAMERA_MANAGER->Shake_Camera(0.5f, 0.5f);
+			m_bPartDead[4] = true;
+			break;
+		}
 	}
 
 	//아예죽음

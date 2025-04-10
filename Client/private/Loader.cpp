@@ -27,6 +27,7 @@
 #include "RaceBossBullet.h"
 #include "RaceBossBomb.h"
 #include "BombRadius.h"
+#include "RaceSprite.h"
 
 //아이템
 #include "Item.h"
@@ -490,6 +491,9 @@ HRESULT CLoader::Loding_For_Static()
 #pragma region 파티클 준비물(스테틱)
 	
 	/* [ 스프라이트 ] */
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_GameObject_RaceSprite"),
+		CRaceSprite::Create(m_pGraphic_Device))))
+		return E_FAIL;
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_GameObject_ScreenSprite"),
 		CScreenSprite::Create(m_pGraphic_Device))))
 		return E_FAIL;
@@ -563,6 +567,9 @@ HRESULT CLoader::Loding_For_Static()
 		return E_FAIL;
 
 	/* [ 텍스쳐 ] */
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_RaceBossHit"),
+		CTexture::Create(m_pGraphic_Device, TEXT("../Bin/Resources/Textures/Particle/RaceBossHit%d.PNG"), 18))))
+		return E_FAIL;
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_Thunderbolt"),
 		CTexture::Create(m_pGraphic_Device, TEXT("../Bin/Resources/Textures/Particle/Thunderbolt%d.PNG"), 11))))
 		return E_FAIL;

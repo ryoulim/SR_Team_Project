@@ -490,6 +490,9 @@
     <Filter Include="02.GameObjects\UI\GamePlayUI\PlayerUI\Portrait">
       <UniqueIdentifier>{1f143357-a3b6-4a71-9cbc-224e93371894}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\Effect\RaceSprite">
+      <UniqueIdentifier>{ae58f861-7dfd-4709-8cf2-099e6969554a}</UniqueIdentifier>
+    </Filter>
     <Filter Include="01.Levels\04. Race\99.End">
       <UniqueIdentifier>{42bb834f-4abf-4775-89e7-4e145391a8e2}</UniqueIdentifier>
     </Filter>
@@ -1018,6 +1021,9 @@
     <ClInclude Include="..\public\Level_RaceEnd.h">
       <Filter>01.Levels\04. Race\99.End</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\RaceSprite.h">
+      <Filter>02.GameObjects\Effect\RaceSprite</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -1505,6 +1511,9 @@
     </ClCompile>
     <ClCompile Include="..\private\Level_RaceEnd.cpp">
       <Filter>01.Levels\04. Race\99.End</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\RaceSprite.cpp">
+      <Filter>02.GameObjects\Effect\RaceSprite</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
