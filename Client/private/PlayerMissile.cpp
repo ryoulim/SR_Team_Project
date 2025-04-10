@@ -47,7 +47,7 @@ EVENT CPlayerMissile::Update(_float fTimeDelta)
 	m_pTransformCom->Go_Straight(fTimeDelta);
 
 	Update_TrailData(fTimeDelta);
-	FrameUpdate(fTimeDelta, 7.f, 40.f, true);
+	FrameUpdate(fTimeDelta, 6.f, 40.f, true);
 
 	if (m_pEffect)
 		static_cast<CMonsterMissile*>(m_pEffect)->SetPosition(*m_pTransformCom->Get_State(CTransform::STATE_POSITION));

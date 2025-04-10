@@ -26,6 +26,7 @@ public:
 	virtual void Priority_Update(_float fTimeDelta) override;
 	virtual EVENT Update(_float fTimeDelta) override;
 	virtual void Late_Update(_float fTimeDelta) override;
+	HRESULT SpawnEffect();
 	virtual HRESULT Render() override;
 
 public:
@@ -36,6 +37,7 @@ public:
 private:
 	bool		m_bLoop = false;
 	_float3		m_vPosOffset = { 0.f, 0.f, 0.f };
+	CGameObject* m_pEffect = nullptr;
 };
 
 END

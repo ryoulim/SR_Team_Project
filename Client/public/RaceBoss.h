@@ -125,6 +125,7 @@ private:
 	_float3		m_vBulletDiretion = {};
 	MUZZLEPOS	m_ePos = { POSEND };
 	vector<MUZZLEPOS> m_VecBulletPos;
+	_bool		m_bPartDead[5] = {};
 
 	///// 해골바가지
 	class CSkull* m_pSkull = { nullptr };

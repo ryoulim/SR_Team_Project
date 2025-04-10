@@ -48,6 +48,9 @@ void CSprite::Priority_Update(_float fTimeDelta)
 
 EVENT CSprite::Update(_float fTimeDelta)
 {
+	if (m_bDead)
+		return EVN_DEAD;
+
 	FrameUpdate(fTimeDelta, m_fAnimationMaxFrame, 15.f, m_bLoop);
 	return __super::Update(fTimeDelta);
 }
@@ -67,6 +70,7 @@ HRESULT CSprite::Render()
 	{
 		if (m_fAnimationFrame > m_fAnimationMaxFrame)
 		{
+			m_bDead = true;
 			return EVN_NONE;
 		}
 		return __super::Render();

@@ -14,7 +14,8 @@
 #include "ScreenSprite.h"
 #include "RaceSprite.h"
 #include "Rain.h"
-#include <iostream>
+#include "CameraManager.h"
+
 
 namespace Client
 {
@@ -788,39 +789,71 @@ void CFXMgr::SpawnRaceExplosion(_float3 _vPosition, _float3 _vPosOffset , LEVEL 
 		return;
 }
 
-void CFXMgr::SpawnMultipleExplosionRaceBoss(_float fTimeDelta, _float3 _Position , LEVEL eLevel)
+void CFXMgr::SpawnMultipleExplosionRaceBoss(_float3 _Position , LEVEL eLevel)
 {
-	static float fTimer = 0.0f;
-	const float fInterval = 0.4f; //반복주기
+	// 각 포지션 세팅
+	_float3 vExplorerPos[5] = {
+		{ _Position.x + 200.f, _Position.y + 10.f, _Position.z - 220.f },
+		{ _Position.x + 100.f, _Position.y + 10.f, _Position.z - 222.f },
+		{ _Position.x + 0.f, _Position.y + 10.f, _Position.z - 224.f },
+		{ _Position.x - 100.f, _Position.y + 10.f, _Position.z - 226.f },
+		{ _Position.x - 200.f, _Position.y + 10.f, _Position.z - 228.f }
+	};
 
-	fTimer += fTimeDelta;
-	if (fTimer >= fInterval)
+	// 폭발 인덱스 0~4
+	std::vector<int> indices = { 0, 1, 2, 3, 4 };
+
+	// 랜덤 셔플
+	std::random_device rd;
+	std::mt19937 gen(rd());
+	std::shuffle(indices.begin(), indices.end(), gen);
+
+	// 랜덤 개수 정하기 (예: 2~5개 사이)
+	int iSpawnCount = 1 + rand() % 2;
+
+	for (int i = 0; i < iSpawnCount; ++i)
 	{
-		_float3 vPosition = { 
-			m_pGameInstance->RandomFloat(_Position.x - 100.f, _Position.x + 100.f) ,
-			m_pGameInstance->RandomFloat(_Position.y - 18.7f, _Position.y + 18.7f) ,
-			m_pGameInstance->RandomFloat(_Position.z - 100.f, _Position.z - 120.f) };
-		SpawnExplosion2(vPosition, eLevel);
-
-		fTimer = 0.0f;
+		int idx = indices[i];
+		SpawnRaceExplosion(vExplorerPos[idx],{ vExplorerPos[idx].x - _Position.x, 50.f, vExplorerPos[idx].z - _Position.z},
+			eLevel,
+			{ 130.f, 140.f, 1.f },
+			TEXT("Effect_Explor"),
+			32.f
+		);
 	}
+
+	CAMERA_MANAGER->Shake_Camera(0.5f, 0.5f);
 }
 
-void CFXMgr::SpawnMultipleExplosionRacePoint(_float fTimeDelta, _float3 _Position, LEVEL eLevel)
+void CFXMgr::SpawnMultipleExplosionRacePoint(_float fTimeDelta, _float3 _vPosition, _float3 _vPosOffset, LEVEL eLevel, _float3 Size, const TCHAR* szTextureTag, _float Maxframe)
 {
 	static float fTimer = 0.0f;
-	const float fInterval = 0.5f; //반복주기
+	const float fInterval = 0.1f; //반복주기
 
 	fTimer += fTimeDelta;
 	if (fTimer >= fInterval)
 	{
-		_float3 vPosition = {
-			m_pGameInstance->RandomFloat(_Position.x - 20.f, _Position.x + 20.f) ,
-			m_pGameInstance->RandomFloat(_Position.y - 6.f, _Position.y + 6.f) ,
-			m_pGameInstance->RandomFloat(_Position.z - 10.f, _Position.z - 10.f) };
+		_float3 vParticlePos;
+		vParticlePos.x = _vPosition.x + _vPosOffset.x;
+		vParticlePos.y = _vPosition.y + _vPosOffset.y;
+		vParticlePos.z = _vPosition.z + _vPosOffset.z;
 
+		_float3 vParticlePosion = {
+			m_pGameInstance->RandomFloat(vParticlePos.x - 40.f, vParticlePos.x + 40.f) ,
+			m_pGameInstance->RandomFloat(vParticlePos.y - 40.f, vParticlePos.y + 40.f) ,
+			m_pGameInstance->RandomFloat(vParticlePos.z - 100.f, vParticlePos.z + 150.f) };
 
-		SpawnCustomExplosion(vPosition, eLevel, {30.f, 50.f, 1.f}, TEXT("PC_Explosion"), 13.f);
+		_float3 vPosOffset = {
+			m_pGameInstance->RandomFloat(_vPosOffset.x - 40.f, _vPosOffset.x + 40.f) ,
+			m_pGameInstance->RandomFloat(_vPosOffset.y - 40.f, _vPosOffset.y + 40.f) ,
+			m_pGameInstance->RandomFloat(_vPosOffset.z - 100.f, _vPosOffset.z + 150.f) };
+
+		//월드에서의 거리 , 중점에서의 거리
+
+		const TCHAR* szEffectNames[] = {TEXT("Effect_Explor"),TEXT("PC_Explosion"),	TEXT("Effect_Explorer")	};
+		int iRandom = rand() % 3;
+
+		SpawnRaceExplosion(vParticlePosion, vPosOffset, eLevel, {30.f, 50.f, 1.f}, szEffectNames[iRandom], 13.f);
 
 		fTimer = 0.0f;
 	}

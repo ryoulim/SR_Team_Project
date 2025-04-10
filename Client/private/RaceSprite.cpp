@@ -2,6 +2,8 @@
 #include "GameInstance.h"
 #include "Particle_Define.h"
 #include "RaceBoss.h"
+#include "PSystem.h"
+#include "MonsterMissile.h"
 
 CRaceSprite::CRaceSprite(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CEffect{ pGraphic_Device }
@@ -36,6 +38,8 @@ HRESULT CRaceSprite::Initialize(void* pArg)
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
 
+	SpawnEffect();
+
 	return S_OK;
 }
 
@@ -60,6 +64,24 @@ EVENT CRaceSprite::Update(_float fTimeDelta)
 	/* [ 위치를 따라갑니다 ] */
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, vBossPos);
 
+
+
+
+	/* [ 연기추가 ] */
+	if (m_pEffect)
+		static_cast<CMonsterMissile*>(m_pEffect)->SetPosition(*m_pTransformCom->Get_State(CTransform::STATE_POSITION));
+
+	/* [ 연기제거 ] */
+	if (m_bDead)
+	{
+		if (m_pEffect)
+		{
+			static_cast<CMonsterMissile*>(m_pEffect)->SetDead();
+			m_pEffect = nullptr;
+		}
+		return EVN_DEAD;
+	}
+
 	return __super::Update(fTimeDelta);
 }
 
@@ -68,6 +90,27 @@ void CRaceSprite::Late_Update(_float fTimeDelta)
 
 	__super::Late_Update(fTimeDelta);
 }
+
+HRESULT CRaceSprite::SpawnEffect()
+{
+	CPSystem::DESC Missile_iDesc{};
+	Missile_iDesc.vPosition = { 0.f, 0.f, 0.f };
+	Missile_iDesc.szTextureTag = TEXT("PC_Small_Smoke");
+	Missile_iDesc.iParticleNums = 50;
+	Missile_iDesc.fSize = 13.f;
+	Missile_iDesc.fMaxFrame = 20.f;
+	Missile_iDesc.fNum = 60.f;
+
+	CGameObject* pObject = nullptr;
+	CGameObject** ppOut = &pObject;
+	if (FAILED(m_pGameInstance->Add_GameObjectReturn(LEVEL_STATIC, TEXT("Prototype_GameObject_PC_MonsterMissile"),
+		LEVEL_GAMEPLAY, L"Layer_Particle", ppOut, &Missile_iDesc)))
+		return E_FAIL;
+
+	m_pEffect = *ppOut;
+	return S_OK;
+}
+
 
 HRESULT CRaceSprite::Render()
 {
@@ -79,6 +122,7 @@ HRESULT CRaceSprite::Render()
 	{
 		if (m_fAnimationFrame > m_fAnimationMaxFrame)
 		{
+			m_bDead = true;
 			return EVN_NONE;
 		}
 		return __super::Render();
