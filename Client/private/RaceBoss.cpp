@@ -653,8 +653,6 @@ void CRaceBoss::On_Hit(MUZZLEPOS HitPos, _int iDamage)
 
 	m_iMuzzleHp[iIndex] -= iDamage;
 	m_iHp -= iDamage;
-
-
 	
 	/* [ Æ÷½Å Á¤Áß¾Ó ] */
 	_float3 vCenterPos = *m_pTransformCom->Get_State(CTransform::STATE_POSITION) + Calc_Muzzle_Position(HitPos);

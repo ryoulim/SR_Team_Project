@@ -112,6 +112,11 @@ void CWeapon_LoverBoy::Set_State(STATE State)
 		m_fEndFrame = 6.f;
 		break;
 	case ST_S_ATK:
+		if (m_tAmmoInfo.iCurAmmo < 3)
+		{
+			m_eState = ST_IDLE;
+			break;
+		}
 		m_LeftHand.pTransformCom->Set_State(CTransform::STATE_POSITION, { 0.f,-600.f,0.1f });
 		m_eState = ST_S_ATK;
 		m_vCenter = { 250.f,-245.f,0.1f };
@@ -243,7 +248,6 @@ void CWeapon_LoverBoy::Opening(_float fTimeDelta)
 
 void CWeapon_LoverBoy::Search_Target()
 {
-	// 몬스터 그룹 나중에 헤드로 바꿔야함
 	auto MonsterList = m_pGameInstance->Get_Colliders(CG_MONSTER_HEAD);
 	const auto& vCameraPosition = *m_pCameraTransform->Get_State(CTransform::STATE_POSITION);
 	const auto& vCameraLook = m_pCameraTransform->Get_State(CTransform::STATE_LOOK)->Normalize();
@@ -261,7 +265,7 @@ void CWeapon_LoverBoy::Search_Target()
 	for (auto Monster : *MonsterList)
 	{
 		vDirectionVector = (Monster->Get_Pos() - vCameraPosition).Normalize();
-		if (vCameraLook.Dot(vDirectionVector) >= cosFovHalf)
+		if (vCameraLook.Dot(vDirectionVector) >= cosFovHalf && Monster->Get_MaxLength() != 0)
 		{
 			m_TargetMonsters.emplace(vDirectionVector.Length(), Monster);
 		}
@@ -275,7 +279,8 @@ void CWeapon_LoverBoy::Search_Target()
 	for (auto Iter = m_TargetMonsters.begin(); 
 		Iter != m_TargetMonsters.end();)
 	{
-		if (m_pGameInstance->RaycastBetweenPoints(vCameraPosition, Iter->second->Get_Pos(), CG_BLOCK))
+		// 3개 잡았으면 이후 필요없음
+		if (iCount >= 3 || m_pGameInstance->RaycastBetweenPoints(vCameraPosition, Iter->second->Get_Pos(), CG_BLOCK))
 		{
 			Iter = m_TargetMonsters.erase(Iter);
 			continue;
@@ -284,9 +289,7 @@ void CWeapon_LoverBoy::Search_Target()
 		Safe_AddRef(Iter->second);
 		Iter->second->Get_Owner()->AddRef();
 		Iter++;
-		// 3개 잡았으면 이후 필요없음
-		if (++iCount > 3)
-			break;
+		iCount++;
 	}
 
 	if (!m_TargetMonsters.empty())
