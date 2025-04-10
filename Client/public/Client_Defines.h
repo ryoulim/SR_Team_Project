@@ -7,7 +7,7 @@
 
 #define _CONSOL
 //#define _IMGUI
-#define START_LEVEL LEVEL_INDOOR
+#define START_LEVEL LEVEL_OUTDOOR
 
 // 레이스 맵 플레이어의 이동속도 : 보정때메 여기저기서 써야함 이제 안쓸듯
 #define RACE_SPEED_PER_SEC 400.f
@@ -25,6 +25,9 @@
 
 #define GAMEPLAY_START_FOG 2500.f;
 #define GAMEPLAY_END_FOG 3500.f;
+
+#define UNDERGROUND_START_FOG 0.f;
+#define UNDERGROUND_END_FOG 350.f;
 /* ↑START_FOG = 플레이어 기준 안개시작 지점↑ */
 /* ↑END_FOG   = 안개가 제일 찐하게 먹는 지점↑ */
 

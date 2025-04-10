@@ -15,6 +15,7 @@ float3 g_CameraPos;
 float g_FogStart;
 float g_FogEnd;
 float4 g_FogColor;
+float4 g_FlashColor;
 
 /* [ 번개를 위한 변수 ] */
 float3 g_LightningPos;
@@ -276,8 +277,12 @@ float4 PS_MAIN_FOG(float2 Texcoord : TEXCOORD0, float3 WorldPos : TEXCOORD1) : C
     float4 texColor = tex2D(LinearSampler, Texcoord);
 
     float dist = distance(g_CameraPos, WorldPos);
-    float fogFactor = saturate((dist - g_FogStart) / (g_FogEnd - g_FogStart));
-
+    float rawFogFactor = saturate((dist - g_FogStart) / (g_FogEnd - g_FogStart));
+    
+    // 최대 덮이는 정도 제한 (예: 60%)
+    float maxFogFactor = 0.9f;
+    float fogFactor = rawFogFactor * maxFogFactor;
+    
     float4 finalColor = lerp(texColor, g_FogColor, fogFactor);
     float4 MainColor = float4(finalColor.r, finalColor.g, finalColor.b, texColor.a);
     
@@ -286,7 +291,7 @@ float4 PS_MAIN_FOG(float2 Texcoord : TEXCOORD0, float3 WorldPos : TEXCOORD1) : C
     float lightningFactor = saturate(1 - distToLightning / g_LightRange);
     float flash = abs(sin(g_fTime * 20)) * g_FlashIntensity;
 
-    float3 flashColor = float3(0.486, 0.584, 0.918);
+    float3 flashColor = float3(g_FlashColor.r, g_FlashColor.g, g_FlashColor.b);
     MainColor.rgb += flashColor * lightningFactor * flash;
     
     return MainColor;

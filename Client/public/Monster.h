@@ -243,6 +243,8 @@ protected: // 일반 몬스터 행동 용 변수
 	_float			m_fBulletCooldown = {};
 	_float			m_fAttackTime = {};
 	_bool			m_bKnockBack = false;
+	_float4         m_vFogColor = { 1.f, 1.f, 1.f, 1.f };
+	_float4			m_vFlashColor = { 0.486f, 0.584f, 0.918f , 1.f };
 
 protected: // 몬스터 해골 띄우기용
 	_bool		m_bSkullActive{};
