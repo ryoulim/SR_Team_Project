@@ -124,7 +124,6 @@ CLevel_Logo* CLevel_Logo::Create(LPDIRECT3DDEVICE9 pGraphic_Device, class CLevel
 void CLevel_Logo::Free()
 {
 	__super::Free();
-
 	m_pBGM->Stop();
 	Safe_Release(m_pBGM);
 }

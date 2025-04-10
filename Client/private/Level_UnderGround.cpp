@@ -20,6 +20,9 @@ CLevel_UnderGround::CLevel_UnderGround(LPDIRECT3DDEVICE9 pGraphic_Device)
 
 HRESULT CLevel_UnderGround::Initialize(CLevelData* pLevelData)
 {
+	m_pGameInstance->Release_Layer(LEVEL_STATIC, TEXT("Layer_RaceBoss"));
+	m_pGameInstance->Release_Layer(LEVEL_STATIC, TEXT("Layer_RaceBossBullet"));
+
 	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_Sky"),
 		CurLevel, TEXT("Layer_Sky"))))
 		return E_FAIL;
@@ -32,13 +35,14 @@ HRESULT CLevel_UnderGround::Initialize(CLevelData* pLevelData)
 
 	CUI_Manager::Get_Instance()->Initialize_GamePlayUI(CurLevel);
 
+	if (FAILED(Load_Map(CurLevel, TEXT("UnderGroundMapData.txt"))))
+		return E_FAIL;
+
 	if (FAILED(Ready_Layer_Pawn(TEXT("Layer_Pawn"))))
 		return E_FAIL;
 
 	CUI_Manager::Get_Instance()->Initialize_Player();
 
-	if (FAILED(Load_Map(CurLevel, TEXT("UnderGroundMapData.txt"))))
-		return E_FAIL;
 
 	return S_OK;
 }
@@ -442,19 +446,43 @@ HRESULT CLevel_UnderGround::Ready_Layer_Pawn(const _wstring& strLayerTag)
 	//이 레벨의 플레이어 생성위치
 	_float3 vInitPosition = { 500.f, 200.f, 100.f };
 
-	//// 플레이어가 있는지 체크하고 있으면 위치만 변경해줌.
-	//auto pPlayer = GET_PLAYER;
-	//if (pPlayer)
-	//{
-	//	static_cast<CTransform*>(pPlayer->Find_Component(TEXT("Com_Transform")))
-	//		->Set_State(CTransform::STATE_POSITION, vInitPosition);
-	//	static_cast<CPawn*>(pPlayer)->Set_LevelID(CurLevel);
-	//	return S_OK;
-	//}
+	// 만약 플레이어가 있다면? 플레이어를 리스트에서 빼서
+	auto pPlayer1 = static_cast<CPawn*>(m_pGameInstance->Find_Object(LEVEL_STATIC, L"Layer_Pawn",0));
+	auto pPlayer2 = static_cast<CPawn*>(m_pGameInstance->Find_Object(LEVEL_STATIC, L"Layer_Pawn",1));
 
-	auto pPlayer = static_cast<CPawn*>(GET_PLAYER);
-	if (pPlayer)
-		m_pGameInstance->Release_Layer(LEVEL_STATIC, strLayerTag);
+	if (pPlayer1)
+	{
+		// 만약 플레이어가 보트라면 죽여라
+		if (pPlayer1->Get_Type() == CPawn::BOAT)
+		{
+			pPlayer2->Link_Player_Data(*pPlayer1);
+
+			pPlayer1->AddRef(); // 랜더러 이슈로 하드코딩함 ㅋ
+			if (pPlayer2)
+				pPlayer2->AddRef();
+			m_pGameInstance->Release_Layer(LEVEL_STATIC, strLayerTag);
+			m_pGameInstance->Push_GameObject(pPlayer2, LEVEL_STATIC, strLayerTag);
+		}
+		else // 왜인진 모르겠지만 1번이 컴먼일경우
+		{
+			static_cast<CTransform*>(pPlayer1->Find_Component(TEXT("Com_Transform")))
+				->Set_State(CTransform::STATE_POSITION, vInitPosition);
+			static_cast<CPawn*>(pPlayer1)->Set_Level(CurLevel);
+		}
+
+		if (pPlayer2)
+		{
+			// 만약 플레이어가 컴먼이라면 위치만 바꾸어준다
+			static_cast<CTransform*>(pPlayer2->Find_Component(TEXT("Com_Transform")))
+				->Set_State(CTransform::STATE_POSITION, vInitPosition);
+			static_cast<CGravity*>(pPlayer2->Find_Component(TEXT("Com_Gravity")))
+				->Stop_Jump();
+			static_cast<CPawn*>(pPlayer2)->Set_Level(CurLevel);
+			pPlayer2->Set_Active(TRUE);
+		}
+
+		return S_OK;
+	}
 
 	//없으면 새로 생성해서 넣어줌
 	CPlayer::DESC PlayerDesc{};

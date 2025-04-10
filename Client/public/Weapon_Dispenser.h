@@ -28,6 +28,13 @@ public:
 	virtual HRESULT Render() override;
 
 	virtual const AMMOINFO* Get_Info();
+	const AMMOINFO* Get_Shell_Info() {
+		return &m_tAmmoInfo;
+	}
+	const AMMOINFO* Get_Grenade_Info() {
+		return &m_tGrenadeInfo;
+	}
+
 
 private:
 	_bool m_bTrigger{};

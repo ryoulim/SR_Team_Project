@@ -23,9 +23,6 @@ CLevel_GamePlay::CLevel_GamePlay(LPDIRECT3DDEVICE9 pGraphic_Device)
 
 HRESULT CLevel_GamePlay::Initialize(class CLevelData* pLevelData)
 {
-	m_pGameInstance->Release_Layer(LEVEL_STATIC, TEXT("Layer_RaceBoss"));
-	m_pGameInstance->Release_Layer(LEVEL_STATIC, TEXT("Layer_RaceBossBullet"));
-
 	/* [ 보글보글 좀 해보셨어? ] */
 	m_pEnv = m_pGameInstance->Get_Single_Sound("bubble_loop_01");
 	m_pEnv->Set_Volume(0.5f);
@@ -317,17 +314,27 @@ HRESULT CLevel_GamePlay::Ready_Layer_Effect(const _wstring& strLayerTag)
 #include "Player.h"
 HRESULT CLevel_GamePlay::Ready_Layer_Pawn(const _wstring& strLayerTag)
 {
-	auto pPlayer = static_cast<CPawn*>(GET_PLAYER);
-	if (pPlayer)
-		m_pGameInstance->Release_Layer(LEVEL_STATIC, strLayerTag);
+	_float3 vInitPosition = { 1400.f, 150.f, 200.f }; //200.f;
 
+	// 플레이어가 있는지 체크하고 있으면 위치만 변경해줌.
+	auto pPlayer = GET_PLAYER;
+	if (pPlayer)
+	{
+		static_cast<CTransform*>(pPlayer->Find_Component(TEXT("Com_Transform")))
+			->Set_State(CTransform::STATE_POSITION, vInitPosition);
+		static_cast<CPawn*>(pPlayer)->Set_Level(CurLevel);
+		return S_OK;
+	}
+
+	//없으면 새로 생성해서 넣어줌
 	CPlayer::DESC PlayerDesc{};
-	PlayerDesc.vInitPos = { 1400.f, 150.f, 200.f }; //200.f;
+	PlayerDesc.vInitPos = vInitPosition;
 	PlayerDesc.vScale = { 30.f, 50.f, 30.f };
 	PlayerDesc.fRotationPerSec = RADIAN(180.f);
 	PlayerDesc.fSpeedPerSec = 150.f;
 	PlayerDesc.eLevelID = CurLevel;
 
+	// 최초 게임 입장할때 어디에서 입장하던 스태틱에 생성해준다.
 	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_Player"),
 		LEVEL_STATIC, strLayerTag, &PlayerDesc)))
 		return E_FAIL;

@@ -164,15 +164,40 @@ HRESULT CLevel_RaceSecond::Ready_Layer_Pawn(const _wstring& strLayerTag)
 	//이 레벨의 플레이어 생성위치
 	_float3 vInitPosition = { 450.f, 17.f, -10000.f };
 
-	// 플레이어가 있는지 체크하고 있으면 위치만 변경해줌.
+	// 만약 플레이어가 있다면? 플레이어를 리스트에서 빼서
 	auto pPlayer = static_cast<CPawn*>(GET_PLAYER);
 	if (pPlayer)
 	{
-		static_cast<CTransform*>(pPlayer->Find_Component(TEXT("Com_Transform")))
-			->Set_State(CTransform::STATE_POSITION, vInitPosition);
-		pPlayer->Set_LevelID(CurLevel);
-		return S_OK;
+		// 만약 플레이어가 컴먼이라면 뒤로 뺸다.
+		if (pPlayer->Get_Type() == CPawn::COMMON)
+		{
+			m_pGameInstance->Release_Layer(LEVEL_STATIC, strLayerTag);
+			pPlayer->Set_Active(FALSE);
+		}
+		// 만약 플레이어가 보트라면 위치만 바꾸어준다.
+		else
+		{
+			static_cast<CTransform*>(pPlayer->Find_Component(TEXT("Com_Transform")))
+				->Set_State(CTransform::STATE_POSITION, vInitPosition);
+			static_cast<CPawn*>(pPlayer)->Set_Level(CurLevel);
+			return S_OK;
+		}
 	}
+
+	/// 이 밑은 일반 플레이어 -> 보트 플레이어 전환시의 초기화 옵션
+	CPlayerOnBoat::DESC PlayerOnBoatDesc = {};
+	PlayerOnBoatDesc.vInitPos = vInitPosition;
+	PlayerOnBoatDesc.vScale = _float3{ 223.f, 137.f, 223.f } *0.15f;
+	PlayerOnBoatDesc.fRotationPerSec = RADIAN(180.f);
+	PlayerOnBoatDesc.fSpeedPerSec = RACE_SPEED_PER_SEC;
+	PlayerOnBoatDesc.eLevelID = CurLevel;
+
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_PlayerOnBoat"),
+		LEVEL_STATIC, strLayerTag, &PlayerOnBoatDesc)))
+		return E_FAIL;
+
+	Safe_AddRef(pPlayer);
+	m_pGameInstance->Push_GameObject(pPlayer, LEVEL_STATIC, strLayerTag);
 
 	return S_OK;
 }

@@ -54,6 +54,7 @@ public:
 	virtual HRESULT Render() override;
 	
 	virtual void On_Collision(_uint MyColliderID, _uint OtherColliderID) override;
+	virtual void Set_Level(LEVEL ID);
 
 private:
 	CGravity*					m_pGravityCom = { nullptr };

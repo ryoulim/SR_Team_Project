@@ -40,6 +40,7 @@ HRESULT CPlayer::Initialize_Prototype()
 
 HRESULT CPlayer::Initialize(void* pArg)
 {
+	m_eType = COMMON;
 	m_tInfo.iHP = 100;
 	m_tInfo.iArmor = 0;
 	m_fDashTimer = -DASH_COOLTIME;
@@ -53,8 +54,6 @@ HRESULT CPlayer::Initialize(void* pArg)
 	Init_Camera_Link();
 
 	Add_Weapons();
-
-	CUI_Manager::Get_Instance()->Init_UI_To_Player(&m_tInfo);
 
 	m_pLeftHand = new CLeftHand(m_pGraphic_Device);
 	if (FAILED(m_pLeftHand->Initialize(pArg)))
@@ -94,7 +93,7 @@ EVENT CPlayer::Update(_float fTimeDelta)
 		return EVN_NONE;
 
 #ifdef _CONSOL
-	if (KEY_DOWN(DIK_RCONTROL))
+	//if (KEY_DOWN(DIK_Z))
 	{
 		_float3 vPosition = *m_pTransformCom->Get_State(CTransform::STATE_POSITION);
 		printf("플레이어 좌표 : { %.2f, %.2f, %.2f }\n", vPosition.x, vPosition.y, vPosition.z);
@@ -314,6 +313,14 @@ void CPlayer::On_Collision(_uint MyColliderID, _uint OtherColliderID)
 	}
 }
 
+void CPlayer::Set_Level(LEVEL ID)
+{
+	m_eLevelID = ID;
+	CUI_Manager::Get_Instance()->Init_UI_To_Player(&m_tInfo);
+	if(!m_Weapons.empty()) 
+		CUI_Manager::Get_Instance()->Change_Weapon(m_Weapons[m_iCurWeaponIndex]->Get_Info());
+}
+
 HRESULT CPlayer::Ready_Components(void* pArg)
 {
 	if (FAILED(__super::Ready_Components(pArg)))
@@ -331,6 +338,7 @@ HRESULT CPlayer::Ready_Components(void* pArg)
 	return S_OK;
 }
 
+#include "Weapon_Dispenser.h"
 void CPlayer::Add_Weapons()
 {
 	CWeapon::DESC WeaponDesc{};
@@ -356,6 +364,13 @@ void CPlayer::Add_Weapons()
 			TEXT("Prototype_GameObject_Weapon_Dispenser"), &WeaponDesc)));
 
 	CUI_Manager::Get_Instance()->Change_Weapon(m_Weapons[m_iCurWeaponIndex]->Get_Info());
+
+
+	//////// 무기 탄약 정보들
+	m_Weapons[0]->Get_Info(); // Loverboy
+	m_Weapons[1]->Get_Info(); // ChainGun
+	static_cast<CWeapon_Dispenser*>(m_Weapons[2])->Get_Shell_Info(); // Dispensor_Shell
+	static_cast<CWeapon_Dispenser*>(m_Weapons[2])->Get_Grenade_Info(); // Dispensor_Grenade
 }
 
 void CPlayer::Key_Input(_float fTimeDelta)

@@ -9,6 +9,7 @@ BEGIN(Client)
 class CPawn abstract : public CGameObject
 {
 public:
+	enum TYPE {COMMON,BOAT};
 	typedef struct tagPawnDesc : public CTransform::DESC
 	{
 		_float3 vInitPos;
@@ -33,9 +34,9 @@ public:
 	virtual void Late_Update(_float fTimeDelta) override;
 	virtual HRESULT Render() override;
 
-	void Set_LevelID(LEVEL ID) {
-		m_eLevelID = ID;
-	}
+	void Link_Player_Data(const CPawn& Other) { m_tInfo = Other.m_tInfo; }
+	TYPE Get_Type() { return m_eType; }
+	virtual void Set_Level(LEVEL ID);
 	void Set_Active(_bool isActive) {
 		m_bActive = isActive;
 	}
@@ -43,8 +44,8 @@ protected:
 	virtual HRESULT Ready_Components(void* pArg);
 	void Change_Level();
 
-
 protected:
+	TYPE m_eType{};
 	LEVEL m_eLevelID = { LEVEL_END };
 	const _tchar* m_szTextureID = { nullptr };
 	const _tchar* m_szBufferType = { nullptr };

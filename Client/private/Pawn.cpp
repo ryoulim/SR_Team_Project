@@ -21,7 +21,7 @@ HRESULT CPawn::Initialize_Prototype()
 
 HRESULT CPawn::Initialize(void* pArg)
 {
-	m_eLevelID = static_cast<DESC*>(pArg)->eLevelID;
+	Set_Level(m_eLevelID = static_cast<DESC*>(pArg)->eLevelID);
 
 	if (FAILED(Ready_Components(pArg)))
 		return E_FAIL;
@@ -93,6 +93,11 @@ HRESULT CPawn::Render()
 		return E_FAIL;
 
 	return S_OK;
+}
+
+inline void CPawn::Set_Level(LEVEL ID) {
+	m_eLevelID = ID;
+	CUI_Manager::Get_Instance()->Init_UI_To_Player(&m_tInfo);
 }
 
 HRESULT CPawn::Ready_Components(void* pArg)

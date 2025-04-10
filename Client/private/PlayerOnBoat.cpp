@@ -29,6 +29,7 @@ HRESULT CPlayerOnBoat::Initialize(void* pArg)
 {
 	m_szTextureID = TEXT("PlayerOnBoat");
 	m_szBufferType = TEXT("Rect");
+	m_eType = BOAT;
 
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
@@ -546,7 +547,7 @@ void CPlayerOnBoat::Update_Camera_Link()
 	auto vTargetPos = *m_pTransformCom->Get_State(CTransform::STATE_POSITION) 
 		+ _float3(0.f, 20.f, -80.f);// -20 50
 
-	m_pTPS_Camera->Smooth_Damping(vTargetPos, 0.02f);
+	m_pTPS_Camera->Smooth_Damping(vTargetPos, 0.03f);
 }
 
 CPlayerOnBoat* CPlayerOnBoat::Create(LPDIRECT3DDEVICE9 pGraphic_Device)

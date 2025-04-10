@@ -378,7 +378,7 @@ HRESULT CLevel_Indoor::Ready_Layer_Pawn(const _wstring& strLayerTag)
 	{
 		static_cast<CTransform*>(pPlayer->Find_Component(TEXT("Com_Transform")))
 			->Set_State(CTransform::STATE_POSITION, vInitPosition);
-		static_cast<CPawn*>(pPlayer)->Set_LevelID(CurLevel);
+		static_cast<CPawn*>(pPlayer)->Set_Level(CurLevel);
 		return S_OK;
 	}
 
@@ -523,5 +523,6 @@ CLevel_Indoor* CLevel_Indoor::Create(LPDIRECT3DDEVICE9 pGraphic_Device,CLevelDat
 
 void CLevel_Indoor::Free()
 {
+	CAMERA_MANAGER->Switch(CCameraManager::DYNAMIC);
 	__super::Free();
 }

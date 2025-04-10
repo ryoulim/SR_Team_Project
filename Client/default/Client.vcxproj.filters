@@ -499,6 +499,9 @@
     <Filter Include="02.GameObjects\UI\GamePlayUI\PlayerUI\Portrait">
       <UniqueIdentifier>{1f143357-a3b6-4a71-9cbc-224e93371894}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01.Levels\04. Race\99.End">
+      <UniqueIdentifier>{42bb834f-4abf-4775-89e7-4e145391a8e2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -1012,6 +1015,9 @@
     <ClInclude Include="..\public\WeaponUI.h">
       <Filter>02.GameObjects\UI\GamePlayUI\WeaponUI</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\Level_RaceEnd.h">
+      <Filter>01.Levels\04. Race\99.End</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -1496,6 +1502,9 @@
     </ClCompile>
     <ClCompile Include="..\private\WeaponUI.cpp">
       <Filter>02.GameObjects\UI\GamePlayUI\WeaponUI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Level_RaceEnd.cpp">
+      <Filter>01.Levels\04. Race\99.End</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
