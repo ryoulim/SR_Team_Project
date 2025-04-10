@@ -498,5 +498,6 @@ CLevel_UnderGround* CLevel_UnderGround::Create(LPDIRECT3DDEVICE9 pGraphic_Device
 
 void CLevel_UnderGround::Free()
 {
+	CAMERA_MANAGER->Switch(CCameraManager::DYNAMIC);
 	__super::Free();
 }

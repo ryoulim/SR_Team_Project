@@ -18,13 +18,14 @@ HRESULT CUI::Initialize_Prototype()
 HRESULT CUI::Initialize(void* pArg)
 {
 
+	DESC* pDesc = static_cast<DESC*>(pArg);
+	m_eLevelID = pDesc->eLevelID;
+
 	if (FAILED(Ready_Components(pArg)))
 		return E_FAIL;
 
 	if (pArg != nullptr)
 	{
-		DESC* pDesc = static_cast<DESC*>(pArg);
-		m_eLevelID = pDesc->eLevelID;
 		m_vPos = pDesc->vInitPos;
 		m_vPos.z = 0.99f; // 혹시라도 위치z값에 0이나 1 넣는 불상사를 방지하기 위해...
 		m_vSize = pDesc->vScale;

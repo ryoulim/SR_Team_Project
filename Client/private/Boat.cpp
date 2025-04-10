@@ -97,6 +97,11 @@ HRESULT CBoat::Ready_Components(void* pArg)
 		TEXT("Com_Collider"), reinterpret_cast<CComponent**>(&m_pCollider), &ColliderDesc)))
 		return E_FAIL;
 
+	//ºŒ¿Ã¥ı ¿Â¬¯
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Shader_Particle"),
+		TEXT("Com_Shader"), reinterpret_cast<CComponent**>(&m_pShaderCom))))
+		return E_FAIL;
+
 	if (FAILED(Ready_Textures()))
 		return E_FAIL;
 

@@ -1048,6 +1048,18 @@
     <ClInclude Include="..\public\Loading_ToIn.h">
       <Filter>02.GameObjects\UI\MenuUI\LoadingUI\Loading_Cutscene\Loading_ToIn</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\RaceSprite.h">
+      <Filter>02.GameObjects\Effect\RaceSprite</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Boat.h">
+      <Filter>02.GameObjects\Monster\Boat</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Level_RaceEnd.h">
+      <Filter>01.Levels\04. Race\99.End</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\RaceBossBomb.h">
+      <Filter>02.GameObjects\Weapon\Bullet\RaceBossBullet</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
