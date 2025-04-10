@@ -266,6 +266,11 @@ HRESULT CMonster::BillboardShaderRender()
 			fFogStart = GAMEPLAY_START_FOG;
 			fFogEnd = GAMEPLAY_END_FOG;
 		}
+		else if (m_eLevelID == LEVEL_UNDERGROUND)
+		{
+			fFogStart = UNDERGROUND_START_FOG;
+			fFogEnd = UNDERGROUND_END_FOG;
+		}
 		else
 		{
 			fFogStart = 10000.f;
@@ -281,19 +286,53 @@ HRESULT CMonster::BillboardShaderRender()
 		if (FAILED(m_pShaderCom->SetFloat("g_fTime", m_fShaderTime)))
 			return E_FAIL;
 
+		/* [ 플래쉬 설정 ] */
 		D3DXVECTOR4 ThunderPos = { FX_MGR->GetThunderPos(), 0.f };
-		if (m_eLevelID != LEVEL_OUTDOOR)
+		if (m_eLevelID == LEVEL_UNDERGROUND)
+		{
+			if (FX_MGR->IsFlashing())
+			{
+				ThunderPos = { *GET_PLAYER_TRANSFORM->Get_State(CTransform::STATE_POSITION), 0.f };
+			}
+			else
+			{
+				ThunderPos = { 0.f, 10000.f, 0.f, 0.f };
+			}
+		}
+
+
+		if (m_eLevelID != LEVEL_OUTDOOR && m_eLevelID != LEVEL_UNDERGROUND)
 			ThunderPos = { 0.f, 10000.f, 0.f, 0.f };
+
+
 		if (FAILED(m_pShaderCom->SetVector("g_LightningPos", &ThunderPos)))
 			return E_FAIL;
-		if (FAILED(m_pShaderCom->SetFloat("g_FlashIntensity", 0.5f)))
+		
+		/* [ 조명 세기 설정 ] */
+		_float LigtIntensity = 0.5f;
+		if (m_eLevelID == LEVEL_UNDERGROUND)
+			LigtIntensity = 1.f;
+		if (FAILED(m_pShaderCom->SetFloat("g_FlashIntensity", LigtIntensity)))
 			return E_FAIL;
-		if (FAILED(m_pShaderCom->SetFloat("g_LightRange", 600.f)))
+
+
+		/* [ 조명 거리 설정 ] */
+		_float LigtRange = 600.f;
+		if (m_eLevelID == LEVEL_UNDERGROUND)
+			LigtRange = 350.f;
+		if (FAILED(m_pShaderCom->SetFloat("g_LightRange", LigtRange)))
 			return E_FAIL;
 
 		/* [ 안개 색상 설정 ] */
-		_float4 vFogColor = _float4(0.059f, 0.067f, 0.082f, 1.f);
-		if (FAILED(m_pShaderCom->SetVector("g_FogColor", &vFogColor)))
+		m_vFogColor = _float4(0.059f, 0.067f, 0.082f, 1.f);
+		if (m_eLevelID == LEVEL_UNDERGROUND)
+		{
+			m_vFogColor = _float4(0.10f, 0.11f, 0.13f, 1.f);
+			m_vFlashColor = _float4(1.0f, 0.75f, 0.3f, 1.f);
+		}
+		if (FAILED(m_pShaderCom->SetVector("g_FogColor", &m_vFogColor)))
+			return E_FAIL;
+		if (FAILED(m_pShaderCom->SetVector("g_FlashColor", &m_vFlashColor)))
 			return E_FAIL;
 
 		//셰이더 시작

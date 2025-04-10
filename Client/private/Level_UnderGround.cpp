@@ -10,6 +10,7 @@
 #include "FXMgr.h"
 #include "Monster.h"
 #include "Level_Loading.h"
+#include "Particle_Define.h"
 
 #define CurLevel LEVEL_UNDERGROUND
 
@@ -47,11 +48,15 @@ HRESULT CLevel_UnderGround::Initialize(CLevelData* pLevelData)
 	if (FAILED(Ready_Layer_Trigger(TEXT("Layer_Trigger"))))
 		return E_FAIL;
 
+	if (FAILED(Ready_Layer_Monster(TEXT("Layer_Monster"))))
+		return E_FAIL;
+
 	return S_OK;
 }
 
 void CLevel_UnderGround::Update(_float fTimeDelta)
 {
+	FX_MGR->Update(fTimeDelta);
 	Check_Collision();
 
 	if (m_iNextLevel)
@@ -444,6 +449,31 @@ HRESULT CLevel_UnderGround::Ready_Layer_Pawn(const _wstring& strLayerTag)
 
 HRESULT CLevel_UnderGround::Ready_Layer_Monster(const _wstring& strLayerTag)
 {
+	// 랜덤 범위
+	float minX = 170.f;
+	float maxX = 645.f;
+	float minZ = 330.f;
+	float maxZ = 5000.f;
+
+
+	/* [ 스마트하게 배치 ] */
+	for (int i = 0; i < 80; ++i)
+	{
+		float x = GetRandomFloat(minX, maxX);
+		float z = GetRandomFloat(minZ, maxZ);
+		float y = 75.f;
+	
+		// 몬스터 종류 랜덤 선택 (예시: 0~2)
+		int monsterType = rand() % 3;
+	
+		switch (monsterType)
+		{
+		case 0: SPAWN_MECHSECT(x, y, z, LEVEL_UNDERGROUND); break;
+		case 1: SPAWN_WENTEKO(x, y, z, LEVEL_UNDERGROUND); break;
+		case 2: SPAWN_NUKEMUTANT(x, y, z, LEVEL_UNDERGROUND); break;
+		}
+	}
+
 	return S_OK;
 }
 

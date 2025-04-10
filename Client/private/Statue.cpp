@@ -119,6 +119,11 @@ HRESULT CStatue::DefaultShaderRender()
 			fFogStart = GAMEPLAY_START_FOG;
 			fFogEnd = GAMEPLAY_END_FOG;
 		}
+		else if (m_eShadingLevel == LEVEL_UNDERGROUND)
+		{
+			fFogStart = UNDERGROUND_START_FOG;
+			fFogEnd = UNDERGROUND_END_FOG;
+		}
 		else
 		{
 			fFogStart = 10000.f;
@@ -135,7 +140,7 @@ HRESULT CStatue::DefaultShaderRender()
 			return E_FAIL;
 
 		D3DXVECTOR4 ThunderPos = { FX_MGR->GetThunderPos(), 0.f };
-		if (m_eLevelID != LEVEL_OUTDOOR)
+		if (m_eLevelID != LEVEL_OUTDOOR && m_eLevelID != LEVEL_UNDERGROUND)
 			ThunderPos = { 0.f, 10000.f, 0.f, 0.f };
 		if (FAILED(m_pShaderCom->SetVector("g_LightningPos", &ThunderPos)))
 			return E_FAIL;
@@ -145,8 +150,12 @@ HRESULT CStatue::DefaultShaderRender()
 			return E_FAIL;
 
 		/* [ 안개 색상 설정 ] */
-		_float4 vFogColor = _float4(0.059f, 0.067f, 0.082f, 1.f);
-		if (FAILED(m_pShaderCom->SetVector("g_FogColor", &vFogColor)))
+		m_vFogColor = _float4(0.059f, 0.067f, 0.082f, 1.f);
+		if (m_eLevelID == LEVEL_UNDERGROUND)
+			m_vFogColor = _float4(0.10f, 0.11f, 0.13f, 1.f);
+		if (FAILED(m_pShaderCom->SetVector("g_FogColor", &m_vFogColor)))
+			return E_FAIL;
+		if (FAILED(m_pShaderCom->SetVector("g_FlashColor", &m_vFlashColor)))
 			return E_FAIL;
 
 		//셰이더 시작
@@ -241,6 +250,11 @@ HRESULT CStatue::MultiShaderRender(_float _fTexNum, _int _iSetting)
 			fFogStart = GAMEPLAY_START_FOG;
 			fFogEnd = GAMEPLAY_END_FOG;
 		}
+		else if (m_eShadingLevel == LEVEL_UNDERGROUND)
+		{
+			fFogStart = UNDERGROUND_START_FOG;
+			fFogEnd = UNDERGROUND_END_FOG;
+		}
 		else
 		{
 			fFogStart = 10000.f;
@@ -257,7 +271,7 @@ HRESULT CStatue::MultiShaderRender(_float _fTexNum, _int _iSetting)
 			return E_FAIL;
 
 		D3DXVECTOR4 ThunderPos = { FX_MGR->GetThunderPos(), 0.f };
-		if (m_eLevelID != LEVEL_OUTDOOR)
+		if (m_eLevelID != LEVEL_OUTDOOR && m_eLevelID != LEVEL_UNDERGROUND)
 			ThunderPos = { 0.f, 10000.f, 0.f, 0.f };
 		if (FAILED(m_pShaderCom->SetVector("g_LightningPos", &ThunderPos)))
 			return E_FAIL;
@@ -267,8 +281,12 @@ HRESULT CStatue::MultiShaderRender(_float _fTexNum, _int _iSetting)
 			return E_FAIL;
 
 		/* [ 안개 색상 설정 ] */
-		_float4 vFogColor = _float4(0.059f, 0.067f, 0.082f, 1.f);
-		if (FAILED(m_pShaderCom->SetVector("g_FogColor", &vFogColor)))
+		m_vFogColor = _float4(0.059f, 0.067f, 0.082f, 1.f);
+		if (m_eLevelID == LEVEL_UNDERGROUND)
+			m_vFogColor = _float4(0.10f, 0.11f, 0.13f, 1.f);
+		if (FAILED(m_pShaderCom->SetVector("g_FogColor", &m_vFogColor)))
+			return E_FAIL;
+		if (FAILED(m_pShaderCom->SetVector("g_FlashColor", &m_vFlashColor)))
 			return E_FAIL;
 
 		//셰이더 시작
@@ -373,6 +391,11 @@ HRESULT CStatue::BillboardShaderRender()
 			fFogStart = GAMEPLAY_START_FOG;
 			fFogEnd = GAMEPLAY_END_FOG;
 		}
+		else if (m_eShadingLevel == LEVEL_UNDERGROUND)
+		{
+			fFogStart = UNDERGROUND_START_FOG;
+			fFogEnd = UNDERGROUND_END_FOG;
+		}
 		else
 		{
 			fFogStart = 10000.f;
@@ -389,7 +412,7 @@ HRESULT CStatue::BillboardShaderRender()
 			return E_FAIL;
 
 		D3DXVECTOR4 ThunderPos = { FX_MGR->GetThunderPos(), 0.f };
-		if (m_eLevelID != LEVEL_OUTDOOR)
+		if (m_eLevelID != LEVEL_OUTDOOR && m_eLevelID != LEVEL_UNDERGROUND)
 			ThunderPos = { 0.f, 10000.f, 0.f, 0.f };
 		if (FAILED(m_pShaderCom->SetVector("g_LightningPos", &ThunderPos)))
 			return E_FAIL;
@@ -399,8 +422,12 @@ HRESULT CStatue::BillboardShaderRender()
 			return E_FAIL;
 
 		/* [ 안개 색상 설정 ] */
-		_float4 vFogColor = _float4(0.059f, 0.067f, 0.082f, 1.f);
-		if (FAILED(m_pShaderCom->SetVector("g_FogColor", &vFogColor)))
+		m_vFogColor = _float4(0.059f, 0.067f, 0.082f, 1.f);
+		if (m_eLevelID == LEVEL_UNDERGROUND)
+			m_vFogColor = _float4(0.10f, 0.11f, 0.13f, 1.f);
+		if (FAILED(m_pShaderCom->SetVector("g_FogColor", &m_vFogColor)))
+			return E_FAIL;
+		if (FAILED(m_pShaderCom->SetVector("g_FlashColor", &m_vFlashColor)))
 			return E_FAIL;
 
 		//셰이더 시작

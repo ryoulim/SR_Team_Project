@@ -54,16 +54,18 @@ EVENT CRaceSprite::Update(_float fTimeDelta)
 
 	/* [ 이 스프라이트는 레이스 보스를 따라갑니다 ] */
 	auto RacingBoss = CGameInstance::Get_Instance()->Find_Object(m_eLevelID, L"Layer_RaceBoss", 0);
-	_float3 vBossPos = *static_cast<CTransform*>(RacingBoss->Find_Component(TEXT("Com_Transform")))->Get_State(CTransform::STATE_POSITION);
+	if (RacingBoss)
+	{
+		_float3 vBossPos = *static_cast<CTransform*>(RacingBoss->Find_Component(TEXT("Com_Transform")))->Get_State(CTransform::STATE_POSITION);
 
-	/* [ 오프셋을 이용하여 위치를 맞춰줍니다 ] */
-	vBossPos.x += m_vPosOffset.x;
-	vBossPos.y += m_vPosOffset.y;
-	vBossPos.z += m_vPosOffset.z;
+		/* [ 오프셋을 이용하여 위치를 맞춰줍니다 ] */
+		vBossPos.x += m_vPosOffset.x;
+		vBossPos.y += m_vPosOffset.y;
+		vBossPos.z += m_vPosOffset.z;
 
-	/* [ 위치를 따라갑니다 ] */
-	m_pTransformCom->Set_State(CTransform::STATE_POSITION, vBossPos);
-
+		/* [ 위치를 따라갑니다 ] */
+		m_pTransformCom->Set_State(CTransform::STATE_POSITION, vBossPos);
+	}
 
 
 

@@ -120,6 +120,24 @@ HRESULT CFXMgr::Initialize()
 	return S_OK;
 }
 
+HRESULT CFXMgr::Update(_float timeDelta)
+{
+	if (m_fFlashTimer > 0.f)
+		m_fFlashTimer -= timeDelta;
+
+	return S_OK;
+}
+
+bool CFXMgr::IsFlashing() const
+{
+	return m_fFlashTimer > 0.f;
+}
+
+void CFXMgr::TriggerFlash()
+{
+	m_fFlashTimer = m_fMaxFlashTime; // 타이머 시작
+}
+
 void CFXMgr::SpawnCustomExplosion(_float3 _vPosition, LEVEL eLevel, _float3 Size, const TCHAR* szTextureTag, _float Maxframe)
 {
 	CSprite::DESC ExplosionDesc{};
@@ -405,6 +423,7 @@ void CFXMgr::SpawnGunFire(_float3 _ScreenPos, LEVEL eLevel)
 		eLevel, L"Layer_Effect", ppOut, &SpriteDesc)))
 		return;
 
+	TriggerFlash();
 }
 
 void CFXMgr::SpawnShotGunFire(_float3 _ScreenPos, LEVEL eLevel)
@@ -427,6 +446,7 @@ void CFXMgr::SpawnShotGunFire(_float3 _ScreenPos, LEVEL eLevel)
 		eLevel, L"Layer_Effect", ppOut, &SpriteDesc)))
 		return;
 
+	TriggerFlash();
 }
 void CFXMgr::SpawnBulletTracer(_float3 _ScreenPos, LEVEL eLevel)
 {
@@ -448,8 +468,6 @@ void CFXMgr::SpawnBulletTracer(_float3 _ScreenPos, LEVEL eLevel)
 	if (FAILED(m_pGameInstance->Add_GameObjectReturn(LEVEL_STATIC, TEXT("Prototype_GameObject_PC_CameraSprite"),
 		eLevel, L"Layer_Effect", ppOut, &SpriteDesc)))
 		return;
-
-	//m_vecSceenEffect.push_back(dynamic_cast<CCameraSprite*>(*ppOut));
 }
 void CFXMgr::SpawnBulletTracerMachineGun(_float3 _ScreenPos, LEVEL eLevel)
 {
@@ -470,6 +488,8 @@ void CFXMgr::SpawnBulletTracerMachineGun(_float3 _ScreenPos, LEVEL eLevel)
 	if (FAILED(m_pGameInstance->Add_GameObjectReturn(LEVEL_STATIC, TEXT("Prototype_GameObject_PC_CameraSprite"),
 		eLevel, L"Layer_Effect", ppOut, &SpriteDesc)))
 		return;
+
+	TriggerFlash();
 }
 
 void CFXMgr::SpawnShotGunTracer(_float3 _ScreenPos, LEVEL eLevel)

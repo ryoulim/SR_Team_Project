@@ -27,6 +27,10 @@ private:
 
 public:
 	HRESULT		Initialize();
+	HRESULT		Update(_float timeDelta);
+
+	bool IsFlashing() const;
+	void TriggerFlash();
 
 public: //폭발
 	void SpawnCustomExplosion(_float3 _vPosition, LEVEL eLevel, _float3 Size, const TCHAR* szTextureTag, _float Maxframe);
@@ -89,6 +93,7 @@ public: //번개위치
 	_float3 GetThunderPos() { return m_vThunderPos; }
 	void SetThunderPos(_float3 _vPosition) { m_vThunderPos = _vPosition; }
 
+
 private:
 	class CGameInstance* m_pGameInstance;
 	unordered_map<_wstring, class CObjectPool*> m_ObjectPools;
@@ -99,6 +104,9 @@ public:
 private: /* 번개의 위치를 들고 있자 */
 	_float3 m_vThunderPos = { 0.f, 10000.f, 0.f };
 
+private: /* 너 총 쐇니? */
+	_float m_fFlashTimer = 0.f;
+	_float m_fMaxFlashTime = 0.1f;
 };
 
 END
