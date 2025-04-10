@@ -39,6 +39,12 @@ HRESULT CLevel_OutDoor::Initialize(CLevelData* pLevelData)
 		return E_FAIL;
 
 
+	if (FAILED(Ready_Layer_Boat(TEXT("Layer_Boat"))))
+		return E_FAIL;
+
+	if (FAILED(Ready_Layer_Statue(TEXT("Layer_Statue"))))
+		return E_FAIL;
+
 	FX_MGR->SpawnRain(LEVEL_OUTDOOR);
 
 	return S_OK;
@@ -493,6 +499,41 @@ HRESULT CLevel_OutDoor::Ready_Layer_Monster(const _wstring& strLayerTag)
 
 	return S_OK;
 
+}
+
+HRESULT CLevel_OutDoor::Ready_Layer_Boat(const _wstring& strLayerTag)
+{
+	CMonster::DESC BikeDesc = {};
+	BikeDesc.eLevel = CurLevel;
+	BikeDesc.vPosition = { 135.f, 15.f, 1085.f };
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_OUTDOOR, TEXT("Prototype_GameObject_Boat"),
+		CurLevel, strLayerTag, &BikeDesc)))
+		return E_FAIL;
+
+	return S_OK;
+}
+
+HRESULT CLevel_OutDoor::Ready_Layer_Statue(const _wstring& strLayerTag)
+{
+	CStatue::DESC desc = {};
+	desc.eLevelID = CurLevel;
+	desc.vAngle = _float3(D3DXToRadian(0.f), D3DXToRadian(270.f), D3DXToRadian(0.f));
+	desc.vInitPos = _float3(-100.f, 105.f, 800.f);
+	desc.vScale = _float3(350.f, 200.f, 200.f);
+
+	if (FAILED(m_pGameInstance->Add_GameObject(desc.eLevelID, TEXT("Prototype_GameObject_RaceGate"),
+		desc.eLevelID, strLayerTag, &desc)))
+		return E_FAIL;
+
+	desc.vAngle = _float3(D3DXToRadian(0.f), D3DXToRadian(270.f), D3DXToRadian(0.f));
+	desc.vInitPos = _float3(-125.f, 25.f, 800.f);//12480
+	desc.vScale = _float3(30.f, 30.f, 100.f);
+
+	if (FAILED(m_pGameInstance->Add_GameObject(desc.eLevelID, TEXT("Prototype_GameObject_RaceCylinder"),
+		desc.eLevelID, strLayerTag, &desc)))
+		return E_FAIL;
+
+	return S_OK;
 }
 
 void CLevel_OutDoor::Check_Collision()

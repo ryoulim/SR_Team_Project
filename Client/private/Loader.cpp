@@ -125,13 +125,14 @@
 #include "MonsterMissile.h"
 #include "LevelLoadingMenu.h"
 #include "HitBox.h"
+#include "Boat.h"
 
 #include "Sky.h"
 
 #include "Trigger.h"
 
 /* 맵툴에서 넘어오는 텍스쳐 갯수, 건들지 말아주세요 감사합니다 */
-#define NUMMAPTEX 198
+#define NUMMAPTEX 199
 
 
 CLoader::CLoader(LPDIRECT3DDEVICE9 pGraphic_Device)
@@ -1359,6 +1360,8 @@ HRESULT CLoader::Loading_For_Outdoor()
 	ADD_TEXTURE(FirePlug, "../Bin/Resources/Textures/Map/FirePlug/FirePlug%d.png", 6);
 	ADD_TEXTURE(HydroPump, "../Bin/Resources/Textures/Map/FirePlug/HydroPump/HydroPump%d.png", 25);
 	ADD_TEXTURE(Generator, "../Bin/Resources/Textures/Map/Generator/Generator%d.PNG", 17);
+	ADD_TEXTURE(RaceGate, "../Bin/Resources/Textures/Object/RaceGate/RaceGate%d.PNG", 3);
+	ADD_TEXTURE(RaceCylinder, "../Bin/Resources/Textures/Object/RaceCylinder/RaceCylinder%d.PNG", 3);
 
 	/* 빌딩 */
 	ADD_TEXTURE(BuildingH, "../Bin/Resources/Textures/Object/BuildingH/BuildingH%d.PNG", 4);
@@ -1371,6 +1374,17 @@ HRESULT CLoader::Loading_For_Outdoor()
 	ADD_TEXTURE(Item_Healkit, "../Bin/Resources/Textures/Item/Healkit.PNG", 1);
 	ADD_TEXTURE(Item_Armor, "../Bin/Resources/Textures/Item/Armor%d.PNG", 2);
 	ADD_TEXTURE(Item_Cardkey, "../Bin/Resources/Textures/Item/CardKey.PNG", 1);
+
+	/* 보트 */
+	ADD_TEXTURE(Boat_0,   "../bin/Resources/Textures/Object/Boat/Boat0.PNG", 1);
+	ADD_TEXTURE(Boat_22,  "../bin/Resources/Textures/Object/Boat/Boat1.PNG", 1);
+	ADD_TEXTURE(Boat_45,  "../bin/Resources/Textures/Object/Boat/Boat2.PNG", 1);
+	ADD_TEXTURE(Boat_67,  "../bin/Resources/Textures/Object/Boat/Boat3.PNG", 1);
+	ADD_TEXTURE(Boat_90,  "../bin/Resources/Textures/Object/Boat/Boat4.PNG", 1);
+	ADD_TEXTURE(Boat_112, "../bin/Resources/Textures/Object/Boat/Boat5.PNG", 1);
+	ADD_TEXTURE(Boat_135, "../bin/Resources/Textures/Object/Boat/Boat6.PNG", 1);
+	ADD_TEXTURE(Boat_157, "../bin/Resources/Textures/Object/Boat/Boat7.PNG", 1);
+	ADD_TEXTURE(Boat_180, "../bin/Resources/Textures/Object/Boat/Boat8.PNG", 1);
 
 	lstrcpy(m_szLoadingText, TEXT("모델을(를) 로딩중입니다."));
 	Load_For_Terrain(TEXT("OutDoorMapData.txt"));
@@ -1385,6 +1399,8 @@ HRESULT CLoader::Loading_For_Outdoor()
 	ADD_PRTOBJ(Signboard);
 	ADD_PRTOBJ(MyComputer);
 	ADD_PRTOBJ(Canopy);
+	ADD_PRTOBJ(RaceGate);
+	ADD_PRTOBJ(RaceCylinder);
 
 	ADD_PRTOBJ(Block);
 	ADD_PRTOBJ(BackGround);
@@ -1403,6 +1419,7 @@ HRESULT CLoader::Loading_For_Outdoor()
 	ADD_PRTOBJ(FirePlug);
 	ADD_PRTOBJ(HydroPump);
 	ADD_PRTOBJ(Generator);
+	ADD_PRTOBJ(Boat);
 	
 #pragma region 아이템
 	/* 아이템 */

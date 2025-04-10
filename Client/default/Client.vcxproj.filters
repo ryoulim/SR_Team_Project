@@ -505,6 +505,9 @@
     <Filter Include="01.Levels\04. Race\03. Third">
       <UniqueIdentifier>{ddbf0416-6761-4365-babd-545fed9fd109}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\Monster\Boat">
+      <UniqueIdentifier>{3271f0c9-8209-4788-9d80-7a979894cad3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -1006,24 +1009,6 @@
     <ClInclude Include="..\public\Level_UnderGround.h">
       <Filter>01.Levels\06.UnderGround</Filter>
     </ClInclude>
-    <ClInclude Include="..\public\BombRadius.h">
-      <Filter>02.GameObjects\Statue\RaceBossBombRadius</Filter>
-    </ClInclude>
-    <ClInclude Include="..\public\Generator.h">
-      <Filter>02.GameObjects\Map\Generator</Filter>
-    </ClInclude>
-    <ClInclude Include="..\public\RaceBossBomb.h">
-      <Filter>02.GameObjects\Weapon\Bullet\RaceBossBullet</Filter>
-    </ClInclude>
-    <ClInclude Include="..\public\WeaponUI.h">
-      <Filter>02.GameObjects\UI\GamePlayUI\WeaponUI</Filter>
-    </ClInclude>
-    <ClInclude Include="..\public\Level_RaceEnd.h">
-      <Filter>01.Levels\04. Race\99.End</Filter>
-    </ClInclude>
-    <ClInclude Include="..\public\RaceSprite.h">
-      <Filter>02.GameObjects\Effect\RaceSprite</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -1495,6 +1480,9 @@
     </ClCompile>
     <ClCompile Include="..\private\Level_UnderGround.cpp">
       <Filter>01.Levels\06.UnderGround</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Boat.cpp">
+      <Filter>02.GameObjects\Monster\Boat</Filter>
     </ClCompile>
     <ClCompile Include="..\private\Generator.cpp" />
     <ClCompile Include="..\private\BombRadius.cpp">

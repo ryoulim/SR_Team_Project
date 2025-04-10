@@ -44,6 +44,9 @@ HRESULT CLevel_UnderGround::Initialize(CLevelData* pLevelData)
 	CUI_Manager::Get_Instance()->Initialize_Player();
 
 
+	if (FAILED(Ready_Layer_Trigger(TEXT("Layer_Trigger"))))
+		return E_FAIL;
+
 	return S_OK;
 }
 
@@ -82,9 +85,8 @@ HRESULT CLevel_UnderGround::Load_Map(_uint iLevelIdx, const _wstring& FileName)
 	/* 배열로 선언할까 싶기도 했는데, 레벨마다 쓸 녀석과 안 쓸 녀석이 나뉘어질 거같기때문에,, */
 	/* 객체별로 레이어 나누지말걸 객체별로 레이어 나누지말걸 객체별로 레이어 나누지말걸 객체별로 레이어 나누지말걸*/
 	_int iNumTile{}, iNumBlock{}, iNumTriPil{}, iNumAniRect{}, iNumAniBlock{},
-		iNumInviBlock{}, iNumAlphaRect{}, iNumAlphaBlock{}, iNumWater{}, iNumLadder{},
-		iNumTelephonePole{}, iNumPicture{}, iNumTrashCan{}, iNumGarbageBag{}, iNumFirePlug{},
-		iNumGenerator{}, iNumDoor{};
+		iNumInviBlock{}, iNumAlphaRect{}, iNumAlphaBlock{}, iNumWater{},
+		iNumTrashCan{}, iNumGarbageBag{}, iNumDoor{};
 	/* 불러오기용 변수 */
 	_int iNumVertexX = {}, iNumVertexZ = {}, iLoadLength = {};
 	_uint iNumBackGround = {}, iNumModel = {};
@@ -248,42 +250,6 @@ HRESULT CLevel_UnderGround::Load_Map(_uint iLevelIdx, const _wstring& FileName)
 					}
 				}
 			}
-			else if (Prototype == TEXT("Prototype_GameObject_Ladder"))
-			{
-				CGameObject* pGameObject = m_pGameInstance->Find_Object(iLevelIdx, Layertag, iNumLadder++);
-				if (nullptr != pGameObject)
-				{
-					if (FAILED(__super::Load_VertexBuffer(pGameObject, hFile, &dwByte)))
-					{
-						MSG_BOX("버텍스 버퍼 로딩실패");
-						return E_FAIL;
-					}
-				}
-			}
-			else if (Prototype == TEXT("Prototype_GameObject_TelephonePole"))
-			{
-				CGameObject* pGameObject = m_pGameInstance->Find_Object(iLevelIdx, Layertag, iNumTelephonePole++);
-				if (nullptr != pGameObject)
-				{
-					if (FAILED(__super::Load_VertexBuffer(pGameObject, hFile, &dwByte)))
-					{
-						MSG_BOX("버텍스 버퍼 로딩실패");
-						return E_FAIL;
-					}
-				}
-			}
-			else if (Prototype == TEXT("Prototype_GameObject_Picture"))
-			{
-				CGameObject* pGameObject = m_pGameInstance->Find_Object(iLevelIdx, Layertag, iNumPicture++);
-				if (nullptr != pGameObject)
-				{
-					if (FAILED(__super::Load_VertexBuffer(pGameObject, hFile, &dwByte)))
-					{
-						MSG_BOX("버텍스 버퍼 로딩실패");
-						return E_FAIL;
-					}
-				}
-			}
 			else if (Prototype == TEXT("Prototype_GameObject_TrashCan"))
 			{
 				CGameObject* pGameObject = m_pGameInstance->Find_Object(iLevelIdx, Layertag, iNumTrashCan++);
@@ -299,30 +265,6 @@ HRESULT CLevel_UnderGround::Load_Map(_uint iLevelIdx, const _wstring& FileName)
 			else if (Prototype == TEXT("Prototype_GameObject_GarbageBag"))
 			{
 				CGameObject* pGameObject = m_pGameInstance->Find_Object(iLevelIdx, Layertag, iNumGarbageBag++);
-				if (nullptr != pGameObject)
-				{
-					if (FAILED(__super::Load_VertexBuffer(pGameObject, hFile, &dwByte)))
-					{
-						MSG_BOX("버텍스 버퍼 로딩실패");
-						return E_FAIL;
-					}
-				}
-			}
-			else if (Prototype == TEXT("Prototype_GameObject_FirePlug"))
-			{
-				CGameObject* pGameObject = m_pGameInstance->Find_Object(iLevelIdx, Layertag, iNumFirePlug++);
-				if (nullptr != pGameObject)
-				{
-					if (FAILED(__super::Load_VertexBuffer(pGameObject, hFile, &dwByte)))
-					{
-						MSG_BOX("버텍스 버퍼 로딩실패");
-						return E_FAIL;
-					}
-				}
-			}
-			else if (Prototype == TEXT("Prototype_GameObject_Generator"))
-			{
-				CGameObject* pGameObject = m_pGameInstance->Find_Object(iLevelIdx, Layertag, iNumGenerator++);
 				if (nullptr != pGameObject)
 				{
 					if (FAILED(__super::Load_VertexBuffer(pGameObject, hFile, &dwByte)))
@@ -502,6 +444,21 @@ HRESULT CLevel_UnderGround::Ready_Layer_Pawn(const _wstring& strLayerTag)
 
 HRESULT CLevel_UnderGround::Ready_Layer_Monster(const _wstring& strLayerTag)
 {
+	return S_OK;
+}
+
+HRESULT CLevel_UnderGround::Ready_Layer_Trigger(const _wstring& strLayerTag)
+{
+	CTrigger::DESC tDesc = {};
+	tDesc.fRotationPerSec = 0;
+	tDesc.fSpeedPerSec = 0;
+	tDesc.vAngle = { 0.f, 0.f, 0.f };
+	tDesc.vInitPos = { 420.f, 79.f, 5525.f };
+	tDesc.vScale = { 200.f, 100.f, 50.f };
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_Trigger"),
+		CurLevel, strLayerTag, &tDesc)))
+		return E_FAIL;
+
 	return S_OK;
 }
 
