@@ -244,7 +244,7 @@ public:
 			m_fPozY = m_pOwner->Compute_PozY();
 			m_pOwner->Go_Up(fTimeDelta);
 
-			if (m_fPozY > 400.f)
+			if (m_fPozY > 280.f)
 				Exit();
 		}
 		else
@@ -270,7 +270,7 @@ public:
 	}
 	virtual void Execute(_float fTimeDelta) override
 	{
-		m_pOwner->SelectAndDrawRadius();
+		m_pOwner->Set_BombRadius();
 		Exit();
 	}
 	virtual void Exit() override
@@ -289,29 +289,38 @@ public:
 public:
 	virtual void Enter(_float fTimeDelta) override
 	{
+
 	}
 	virtual void Execute(_float fTimeDelta) override
 	{
-		m_pOwner->Go_Backward(fTimeDelta * 2.f);
+		/*m_pOwner->Go_Backward(fTimeDelta * 3.f);
 		m_fTime += fTimeDelta;
 		m_fEndTime += fTimeDelta;
-		if (m_fTime > 0.05f)
+		if (m_fTime > 0.2f)
 		{
-			m_pOwner->Bombing();
+			m_pOwner->Fire_Bomb4(iBombIndex, fTimeDelta);
+			++iBombIndex;
 			m_fTime = 0.f;
-		}
-		
-		if (m_fEndTime > 3.f)
+		}*/
+
+		m_pOwner->Go_Backward(fTimeDelta * 3.f);
+
+		if (m_pOwner->Fire_Bomb4(iBombIndex, fTimeDelta))
+			++iBombIndex;
+
+		if(iBombIndex == 19)
 			Exit();
 	}
 	virtual void Exit() override
 	{
+		iBombIndex = 0;
 		m_fEndTime = 0.f;
 		m_pOwner->Set_State(CRaceBoss::COMEBACK);
 	}
 
 private:
 	_float m_fEndTime = {};
+	_uint iBombIndex = { 0 };
 };
 
 class CRBState_Comeback final : public CRBState
