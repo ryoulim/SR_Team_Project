@@ -403,8 +403,7 @@ HRESULT CLevel_UnderGround::Ready_Layer_Pawn(const _wstring& strLayerTag)
 		if (pPlayer1->Get_Type() == CPawn::BOAT)
 		{
 			pPlayer2->Link_Player_Data(*pPlayer1);
-
-			pPlayer1->AddRef(); // 랜더러 이슈로 하드코딩함 ㅋ
+				
 			if (pPlayer2)
 				pPlayer2->AddRef();
 			m_pGameInstance->Release_Layer(LEVEL_STATIC, strLayerTag);
