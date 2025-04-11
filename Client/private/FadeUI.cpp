@@ -79,6 +79,8 @@ EVENT CFadeUI::Update(_float fTimeDelta)
 		{
 			m_pGameInstance->Change_Level(m_eNextLevelID);
 		}
+		//if (m_isFadeIn)
+
 		return EVN_DEAD;
 	}
 	return __super::Update(fTimeDelta);

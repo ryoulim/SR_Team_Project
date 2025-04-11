@@ -45,7 +45,7 @@ HRESULT CLevel_Loading::Initialize(LEVEL eNextLevelID)
 	Desc.eCurLevel = LEVEL(m_pGameInstance->Get_PreviousLevelIndex());
 	Desc.eNextLevel = eNextLevelID;
 	if (FAILED(m_pGameInstance->Add_GameObjectReturn(LEVEL_STATIC, TEXT("Prototype_GameObject_LoadingUI"),
-		LEVEL_LOADING, TEXT("Layer_UI"), &m_pLoadingMenu, &Desc)))
+		LEVEL_LOADING, TEXT("Layer_LoadingUI"), &m_pLoadingMenu, &Desc)))
 		return E_FAIL;
 
 	return S_OK;

@@ -3,6 +3,7 @@
 
 #include "LoadingCutscene.h"
 #include "GameInstance.h"
+#include "UI_Manager.h"
 
 CLoadingCutscene::CLoadingCutscene(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CUI{ pGraphic_Device }
@@ -77,6 +78,7 @@ EVENT CLoadingCutscene::Update(_float fTimeDelta)
 	{
 		if (m_isLoadingFinished)
 		{
+			//CUI_Manager::Get_Instance()->Fade_In();
 			m_isReadyToChangeLevel = true;
 		}
 	}

@@ -481,24 +481,6 @@
     <Filter Include="02.GameObjects\UI\MenuUI\LoadingUI\Loading_Cutscene">
       <UniqueIdentifier>{66dfbe9a-166d-48ae-8e8f-d08462213570}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\UI\MenuUI\LoadingUI\Loading_Cutscene\Loading_ToMain">
-      <UniqueIdentifier>{1715ce57-9ec5-46b6-9473-b80f82dcb0df}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\UI\MenuUI\LoadingUI\Loading_Cutscene\Loading_ToBoss">
-      <UniqueIdentifier>{29f2dedd-ed24-4e73-9725-3cb8881941b5}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\UI\MenuUI\LoadingUI\Loading_Cutscene\Loading_ToIn">
-      <UniqueIdentifier>{fa5d3a39-cc9d-45ca-909e-820944a432b8}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\UI\MenuUI\LoadingUI\Loading_Cutscene\Loading_ToOut">
-      <UniqueIdentifier>{d8dcefb8-06eb-4ffd-ae4f-da0b9bcc4c24}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\UI\MenuUI\LoadingUI\Loading_Cutscene\Loading_ToRace">
-      <UniqueIdentifier>{dcbf9e98-f0f5-4331-8eaf-ce8ef526b0a4}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\UI\MenuUI\LoadingUI\Loading_Cutscene\Loading_OnRacing">
-      <UniqueIdentifier>{ef640b04-18cf-4249-8aa0-c36634699cbd}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02.GameObjects\Effect\RaceSprite">
       <UniqueIdentifier>{ae58f861-7dfd-4709-8cf2-099e6969554a}</UniqueIdentifier>
     </Filter>
@@ -517,9 +499,6 @@
     <Filter Include="02.GameObjects\Monster\Boat">
       <UniqueIdentifier>{3271f0c9-8209-4788-9d80-7a979894cad3}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\UI\MenuUI\LoadingUI\Loading_Cutscene\Loading_ToUnderground">
-      <UniqueIdentifier>{a3c2badb-db4f-4d26-a6e9-05fca91a0787}</UniqueIdentifier>
-    </Filter>
     <Filter Include="01.Levels\06. Boss">
       <UniqueIdentifier>{fb67a493-7c28-490a-9c62-08f4fccbf0d7}</UniqueIdentifier>
     </Filter>
@@ -537,6 +516,27 @@
     </Filter>
     <Filter Include="02.GameObjects\UI\MenuUI\Deprecated\LevelLoadingMenu_Deprecated">
       <UniqueIdentifier>{f9967e05-e098-4fcc-b1ea-218980f9bbda}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\MenuUI\LoadingUI\Loading_Cutscene\01. Loading_ToMain">
+      <UniqueIdentifier>{1715ce57-9ec5-46b6-9473-b80f82dcb0df}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\MenuUI\LoadingUI\Loading_Cutscene\02. Loading_ToIn">
+      <UniqueIdentifier>{fa5d3a39-cc9d-45ca-909e-820944a432b8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\MenuUI\LoadingUI\Loading_Cutscene\03. Loading_ToOut">
+      <UniqueIdentifier>{d8dcefb8-06eb-4ffd-ae4f-da0b9bcc4c24}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\MenuUI\LoadingUI\Loading_Cutscene\04. Loading_ToRace">
+      <UniqueIdentifier>{dcbf9e98-f0f5-4331-8eaf-ce8ef526b0a4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\MenuUI\LoadingUI\Loading_Cutscene\05. Loading_OnRacing">
+      <UniqueIdentifier>{ef640b04-18cf-4249-8aa0-c36634699cbd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\MenuUI\LoadingUI\Loading_Cutscene\06. Loading_ToUnderground">
+      <UniqueIdentifier>{a3c2badb-db4f-4d26-a6e9-05fca91a0787}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\MenuUI\LoadingUI\Loading_Cutscene\07. Loading_ToBoss">
+      <UniqueIdentifier>{29f2dedd-ed24-4e73-9725-3cb8881941b5}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -1064,25 +1064,25 @@
       <Filter>02.GameObjects\Weapon\Bullet\RaceBossBullet</Filter>
     </ClInclude>
     <ClInclude Include="..\public\Loading_ToMain.h">
-      <Filter>02.GameObjects\UI\MenuUI\LoadingUI\Loading_Cutscene\Loading_ToMain</Filter>
+      <Filter>02.GameObjects\UI\MenuUI\LoadingUI\Loading_Cutscene\01. Loading_ToMain</Filter>
     </ClInclude>
     <ClInclude Include="..\public\Loading_ToIn.h">
-      <Filter>02.GameObjects\UI\MenuUI\LoadingUI\Loading_Cutscene\Loading_ToIn</Filter>
+      <Filter>02.GameObjects\UI\MenuUI\LoadingUI\Loading_Cutscene\02. Loading_ToIn</Filter>
     </ClInclude>
     <ClInclude Include="..\public\Loading_OnRacing.h">
-      <Filter>02.GameObjects\UI\MenuUI\LoadingUI\Loading_Cutscene\Loading_OnRacing</Filter>
+      <Filter>02.GameObjects\UI\MenuUI\LoadingUI\Loading_Cutscene\05. Loading_OnRacing</Filter>
     </ClInclude>
     <ClInclude Include="..\public\Loading_ToBoss.h">
-      <Filter>02.GameObjects\UI\MenuUI\LoadingUI\Loading_Cutscene\Loading_ToBoss</Filter>
+      <Filter>02.GameObjects\UI\MenuUI\LoadingUI\Loading_Cutscene\07. Loading_ToBoss</Filter>
     </ClInclude>
     <ClInclude Include="..\public\Loading_ToRace.h">
-      <Filter>02.GameObjects\UI\MenuUI\LoadingUI\Loading_Cutscene\Loading_ToRace</Filter>
+      <Filter>02.GameObjects\UI\MenuUI\LoadingUI\Loading_Cutscene\04. Loading_ToRace</Filter>
     </ClInclude>
     <ClInclude Include="..\public\Loading_ToOut.h">
-      <Filter>02.GameObjects\UI\MenuUI\LoadingUI\Loading_Cutscene\Loading_ToOut</Filter>
+      <Filter>02.GameObjects\UI\MenuUI\LoadingUI\Loading_Cutscene\03. Loading_ToOut</Filter>
     </ClInclude>
     <ClInclude Include="..\public\Loading_ToUnderground.h">
-      <Filter>02.GameObjects\UI\MenuUI\LoadingUI\Loading_Cutscene\Loading_ToUnderground</Filter>
+      <Filter>02.GameObjects\UI\MenuUI\LoadingUI\Loading_Cutscene\06. Loading_ToUnderground</Filter>
     </ClInclude>
     <ClInclude Include="..\public\Button.h">
       <Filter>02.GameObjects\UI\Button\Deprecated</Filter>
@@ -1585,25 +1585,25 @@
       <Filter>02.GameObjects\Effect\RaceSprite</Filter>
     </ClCompile>
     <ClCompile Include="..\private\Loading_ToMain.cpp">
-      <Filter>02.GameObjects\UI\MenuUI\LoadingUI\Loading_Cutscene\Loading_ToMain</Filter>
+      <Filter>02.GameObjects\UI\MenuUI\LoadingUI\Loading_Cutscene\01. Loading_ToMain</Filter>
     </ClCompile>
     <ClCompile Include="..\private\Loading_ToIn.cpp">
-      <Filter>02.GameObjects\UI\MenuUI\LoadingUI\Loading_Cutscene\Loading_ToIn</Filter>
+      <Filter>02.GameObjects\UI\MenuUI\LoadingUI\Loading_Cutscene\02. Loading_ToIn</Filter>
     </ClCompile>
     <ClCompile Include="..\private\Loading_OnRacing.cpp">
-      <Filter>02.GameObjects\UI\MenuUI\LoadingUI\Loading_Cutscene\Loading_OnRacing</Filter>
+      <Filter>02.GameObjects\UI\MenuUI\LoadingUI\Loading_Cutscene\05. Loading_OnRacing</Filter>
     </ClCompile>
     <ClCompile Include="..\private\Loading_ToBoss.cpp">
-      <Filter>02.GameObjects\UI\MenuUI\LoadingUI\Loading_Cutscene\Loading_ToBoss</Filter>
+      <Filter>02.GameObjects\UI\MenuUI\LoadingUI\Loading_Cutscene\07. Loading_ToBoss</Filter>
     </ClCompile>
     <ClCompile Include="..\private\Loading_ToOut.cpp">
-      <Filter>02.GameObjects\UI\MenuUI\LoadingUI\Loading_Cutscene\Loading_ToOut</Filter>
+      <Filter>02.GameObjects\UI\MenuUI\LoadingUI\Loading_Cutscene\03. Loading_ToOut</Filter>
     </ClCompile>
     <ClCompile Include="..\private\Loading_ToRace.cpp">
-      <Filter>02.GameObjects\UI\MenuUI\LoadingUI\Loading_Cutscene\Loading_ToRace</Filter>
+      <Filter>02.GameObjects\UI\MenuUI\LoadingUI\Loading_Cutscene\04. Loading_ToRace</Filter>
     </ClCompile>
     <ClCompile Include="..\private\Loading_ToUnderground.cpp">
-      <Filter>02.GameObjects\UI\MenuUI\LoadingUI\Loading_Cutscene\Loading_ToUnderground</Filter>
+      <Filter>02.GameObjects\UI\MenuUI\LoadingUI\Loading_Cutscene\06. Loading_ToUnderground</Filter>
     </ClCompile>
     <ClCompile Include="..\private\Button.cpp">
       <Filter>02.GameObjects\UI\Button\Deprecated</Filter>

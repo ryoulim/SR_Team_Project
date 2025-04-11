@@ -236,7 +236,7 @@ void CLoader::Output_LoadingText()
 {
 	SetWindowText(g_hWnd, m_szLoadingText);
 
-	auto LoadingMenu = m_pGameInstance->Find_Object(LEVEL_LOADING, TEXT("Layer_UI"));
+	auto LoadingMenu = m_pGameInstance->Find_Object(LEVEL_LOADING, TEXT("Layer_LoadingUI"));
 	dynamic_cast<CLoadingUI*>(LoadingMenu)->Set_LoadingGauge(m_fLoadPercent);
 	dynamic_cast<CLoadingUI*>(LoadingMenu)->Set_IsLoaderFinished(m_isFinished);
 }
