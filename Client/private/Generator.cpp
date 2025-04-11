@@ -81,22 +81,7 @@ void CGenerator::Late_Update(_float fTimeDelta)
 
 HRESULT CGenerator::Render()
 {
-    if (FAILED(m_pTransformCom->Bind_Resource()))
-        return E_FAIL;
-
-    m_pGraphic_Device->SetTextureStageState(0, D3DTSS_TEXCOORDINDEX, 0);
-
-    if (FAILED(m_pTextureCom->Bind_Resource(static_cast<_uint>(m_fTextureIdx))))
-        return E_FAIL;
-
-    if (FAILED(m_pVIBufferCom->Bind_Buffers()))
-        return E_FAIL;
-
-    if (FAILED(m_pVIBufferCom->Render()))
-        return E_FAIL;
-
-	//return __super::Render();
-    return S_OK;
+	return __super::Render();
 }
 
 void CGenerator::On_Collision(_uint MyColliderID, _uint OtherColliderID)
