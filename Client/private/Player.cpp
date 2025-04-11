@@ -188,23 +188,23 @@ void CPlayer::On_Collision(_uint MyColliderID, _uint OtherColliderID)
 
 		/* ¾ÆÀÌÅÛ */
 	case CI_ITEM_AMMO_CHAINGUN:
-		m_Weapons[1]->Replenish_Ammo(50);
-		PRINT_DIALOG("ammo for Chaingun x 50");
+		m_Weapons[1]->Replenish_Ammo(100);
+		PRINT_DIALOG("ammo for Chaingun x 100");
 		break;
 		
 	case CI_ITEM_AMMO_DISPENSER_SCATTER:
-		m_Weapons[2]->Replenish_Ammo(5);
-		PRINT_DIALOG("shells for Disperser x 5");
+		m_Weapons[2]->Replenish_Ammo(10);
+		PRINT_DIALOG("shells for Disperser x 10");
 		break;
 
 	case CI_ITEM_AMMO_DISPENSER_CANNON:
-		m_Weapons[2]->Replenish_Ammo(5);
-		PRINT_DIALOG("grenades for Disperser x 5");
+		m_Weapons[2]->Replenish_Ammo(10);
+		PRINT_DIALOG("grenades for Disperser x 10");
 		break;
 
 	case CI_ITEM_AMMO_LOVERBOY:
-		m_Weapons[0]->Replenish_Ammo(5);
-		PRINT_DIALOG("ammo for LoverBoy x 5");
+		m_Weapons[0]->Replenish_Ammo(20);
+		PRINT_DIALOG("ammo for LoverBoy x 20");
 		break;
 
 	case CI_ITEM_HEALKIT:
