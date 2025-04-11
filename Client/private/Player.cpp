@@ -41,8 +41,6 @@ HRESULT CPlayer::Initialize_Prototype()
 HRESULT CPlayer::Initialize(void* pArg)
 {
 	m_eType = COMMON;
-	m_tInfo.iHP = 100;
-	m_tInfo.iArmor = 0;
 	m_fDashTimer = -DASH_COOLTIME;
 
 	m_szTextureID = TEXT("MyCube");
