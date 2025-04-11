@@ -22,10 +22,10 @@ HRESULT CRaceBossBomb::Initialize(void* pArg)
 
 	Ready_Components(pArg);
 
-	//DESC* pDesc = static_cast<DESC*>(pArg);
-
-	//m_fStartPoint = pDesc->fStartPoint;
-	//m_fEndPoint = pDesc->fEndPoint;
+	//자신의 속도와 시작지점을 저장해 놓는다.
+	DESC* pDesc = static_cast<DESC*>(pArg);
+	m_fSpeed = pDesc->fSpeedPerSec;
+	m_vStartPos = pDesc->vPosition;
 
 	return S_OK;
 }

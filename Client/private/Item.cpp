@@ -18,15 +18,18 @@ HRESULT CItem::Initialize_Prototype()
 HRESULT CItem::Initialize(void* pArg)
 {
 	m_szTextureID = static_cast<DESC*>(pArg)->szTextureID;
-	m_szBufferType = static_cast<DESC*>(pArg)->szBufferType;
 	m_eLevelID = static_cast<DESC*>(pArg)->eLevelID;
 	m_fTextureNum = static_cast<DESC*>(pArg)->fTextureNum;
 	m_eColID = static_cast<DESC*>(pArg)->eColID;
+
+	m_szBufferType = TEXT("Rect");
 
 	if (FAILED(Ready_Components(pArg)))
 		return E_FAIL;
 
 	DESC* Desc = static_cast<DESC*>(pArg);
+
+	m_pTransformCom->Set_SpeedPerSec(300.f);
 
 	m_fStdHeight = Desc->vInitPos.y;
 

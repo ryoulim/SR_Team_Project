@@ -1002,7 +1002,6 @@ HRESULT CLoader::Loading_For_RaceFirst()/**/
 	ADD_MODEL_EX(RaceTerrain, 10, 1500);
 	ADD_MODEL(Rect);
 	
-
 	lstrcpy(m_szLoadingText, TEXT("사운드을(를) 로딩중입니다."));
 
 
@@ -1300,7 +1299,6 @@ HRESULT CLoader::Loading_For_Indoor()
 	ADD_TEXTURE(Item_Cardkey, "../Bin/Resources/Textures/Item/CardKey.PNG", 1);
 
 	lstrcpy(m_szLoadingText, TEXT("모델을(를) 로딩중입니다."));
-	Load_For_Terrain(TEXT("NormalMapData.txt"));
 
 	lstrcpy(m_szLoadingText, TEXT("원형객체을(를) 로딩중입니다."));
 	ADD_PRTOBJ(Terrain);
@@ -1339,6 +1337,20 @@ HRESULT CLoader::Loading_For_Indoor()
 		return E_FAIL;
 
 	if (FAILED(m_pGameInstance->Add_Prototype(m_eNextLevelID, TEXT("Prototype_GameObject_Item_Ammo_LoverBoy"),
+		CItem::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+
+
+	if (FAILED(m_pGameInstance->Add_Prototype(m_eNextLevelID, TEXT("Prototype_GameObject_Item_Healkit"),
+		CItem::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(m_eNextLevelID, TEXT("Prototype_GameObject_Item_Armor_Piece"),
+		CItem::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(m_eNextLevelID, TEXT("Prototype_GameObject_Item_Armor_Full"),
 		CItem::Create(m_pGraphic_Device))))
 		return E_FAIL;
 

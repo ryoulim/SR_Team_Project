@@ -21,6 +21,9 @@ HRESULT CPawn::Initialize_Prototype()
 
 HRESULT CPawn::Initialize(void* pArg)
 {
+	m_tInfo.iHP = 100;
+	m_tInfo.iArmor = 0;
+
 	Set_Level(m_eLevelID = static_cast<DESC*>(pArg)->eLevelID);
 
 	if (FAILED(Ready_Components(pArg)))

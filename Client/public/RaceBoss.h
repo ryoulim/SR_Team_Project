@@ -52,6 +52,8 @@ public:
 
 	void Set_StartState(STATE eState);
 
+	_float GetRandomFloat(float lowBound, float highBound);
+
 	virtual void On_Collision(_uint MyColliderID, _uint OtherColliderID) override;
 
 public:
@@ -66,7 +68,14 @@ private:
 	HRESULT Ready_Components(void* pArg);
 	void ReadyForState();
 	HRESULT Fire_Bullet(CRaceBossBullet::RBULLETTYPE eType, MUZZLEPOS ePos, _float fTimeDelta);
-	HRESULT Fire_Bomb();
+	HRESULT Fire_Bomb(_float fTimeDelta);
+	HRESULT Fire_Bomb2();
+	HRESULT Fire_Bomb3();
+
+	
+
+	HRESULT Set_BombRadius();
+	_bool Fire_Bomb4(_uint iBombIndex, _float fTime);
 	_float3 Calc_Muzzle_Position(MUZZLEPOS eMuzzle);
 	void ShuffleandPop();
 	_float3 CatmulRomPos(_float3& v0, _float3& vStartPos, _float3& vEndPos, _float3& v3, _float fTimeAcc);
@@ -78,7 +87,7 @@ private:
 	void Update_Skull(_float fTimeDelta);
 	_bool Judge_Skull(const _float3& vColliderPos, _float vColliderRadius, _float fTimedelta);
 	void Render_Skull(MUZZLEPOS eMuzzlePos);
-	HRESULT Draw_BombRadius(_float PosX, _float PosZ);
+	HRESULT Draw_BombRadius(_float3 vBombingPos);
 
 private:
 	friend class CRBState_WaitPlayer;
@@ -111,8 +120,8 @@ private:
 	void Fire_TailBullet(_float fTimeDelta);
 	_uint Get_HeadBulletCount();
 	void Set_HeadBulletCountZero();
-	void SelectAndDrawRadius();
-	void Bombing();
+	//void SelectAndDrawRadius();
+	void Bombing(_float fTimeDelta);
 	_bool Comeback(_float fTimeDelta);
 	bool m_bDown = { false };
 	
@@ -129,15 +138,27 @@ private:
 	_float3		m_vPrePos{}; // 이전 프레임의 포지션
 	LEVEL		m_eLevelID = { LEVEL_END };
 	_bool		m_bDead = { false };
+	_bool		m_bPartDead[5]{};
 	_float3		m_vScale = {};
 	_float		m_fTime = {};
 	_uint		m_iHeadBulletCount = {};
 	_float3		m_vBulletDiretion = {};
 	MUZZLEPOS	m_ePos = { POSEND };
 	vector<MUZZLEPOS> m_VecBulletPos;
-	_bool		m_bPartDead[5] = {};
-	_float		m_fBombPosX[2] = {};
+
+	typedef struct tagBombPosdata
+	{
+		_float fPosX;
+		_float fPosZ;
+	}BOMBDATA;
+
+	vector<BOMBDATA> m_vecBombPos;
+
+	_float		m_fBombPosX = {};
+	_float		m_fBombPosX2[2] = {};
 	_float		m_fBombPosZ	= {};
+	_bool		m_bFireBomb[4] = { false };
+
 
 	///// 해골바가지
 	class CSkull* m_pSkull = { nullptr };

@@ -165,8 +165,12 @@ void CTtakkeun_i::Late_Update(_float fTimeDelta)
 	m_pCollider->Update_Collider();
 
 	//렌더그룹 업데이트
-	if (FAILED(m_pGameInstance->Add_RenderGroup(CRenderer::RG_NONBLEND, this)))
+	_float3	vTemp = *m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+	CGameObject::Compute_ViewZ(&vTemp);
+
+	if (FAILED(m_pGameInstance->Add_RenderGroup(CRenderer::RG_BLEND, this)))
 		return;
+
 	Set_TextureType();
 	if (m_bRotateAnimation == false)
 		m_iDegree = 0;
@@ -775,7 +779,8 @@ void CTtakkeun_i::FireAttack(_float dt)
 
 	m_pTransformCom->ChaseCustom(vPlayerPos, dt, 100.f, 150.f);
 	/* 2. 화염을 발사한다! */
-	FX_MGR->FireAttack(vMyPos, LEVEL_GAMEPLAY, m_iNum);
+	_float3 vFirePos = vMyPos + vDir * 50.f;
+	FX_MGR->FireAttack(vFirePos, LEVEL_GAMEPLAY, m_iNum);
 	if (!m_pSoundCom->IsPlaying("FireAttack"))
 	{
 		m_pSoundCom->SetVolume("FireAttack", 0.4f);

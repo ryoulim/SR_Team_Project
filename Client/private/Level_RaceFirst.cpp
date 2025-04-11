@@ -281,10 +281,12 @@ HRESULT CLevel_RaceFirst::Ready_Layer_Pawn(const _wstring& strLayerTag)
 
 	auto pBoatPlayer = static_cast<CPawn*>(GET_PLAYER);
 
-	pBoatPlayer->Link_Player_Data(*pPlayer);
-
-	Safe_AddRef(pPlayer);
-	m_pGameInstance->Push_GameObject(pPlayer, LEVEL_STATIC, strLayerTag);
+	if (pPlayer)
+	{
+		pBoatPlayer->Link_Player_Data(*pPlayer);
+		Safe_AddRef(pPlayer);
+		m_pGameInstance->Push_GameObject(pPlayer, LEVEL_STATIC, strLayerTag);
+	}
 
 	return S_OK;
 }

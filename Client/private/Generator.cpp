@@ -6,6 +6,7 @@
 
 #include "FXMgr.h"
 #include "CameraManager.h"
+#include "Monster.h"
 
 CGenerator::CGenerator(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CInteractive_Block{ pGraphic_Device }
@@ -81,22 +82,7 @@ void CGenerator::Late_Update(_float fTimeDelta)
 
 HRESULT CGenerator::Render()
 {
-    if (FAILED(m_pTransformCom->Bind_Resource()))
-        return E_FAIL;
-
-    m_pGraphic_Device->SetTextureStageState(0, D3DTSS_TEXCOORDINDEX, 0);
-
-    if (FAILED(m_pTextureCom->Bind_Resource(static_cast<_uint>(m_fTextureIdx))))
-        return E_FAIL;
-
-    if (FAILED(m_pVIBufferCom->Bind_Buffers()))
-        return E_FAIL;
-
-    if (FAILED(m_pVIBufferCom->Render()))
-        return E_FAIL;
-
-	//return __super::Render();
-    return S_OK;
+	return __super::Render();
 }
 
 void CGenerator::On_Collision(_uint MyColliderID, _uint OtherColliderID)
@@ -193,8 +179,43 @@ void CGenerator::Move_Frame(_float fTimeDelta)
     }
 }
 
-void CGenerator::Im_Broken(_float fTimeDelta)
+HRESULT CGenerator::Im_Broken(_float fTimeDelta)
 {
+    if(!m_bDoOnce)
+    {
+        SPAWN_CULTIST(1711.f, 740.f, 479.f, LEVEL_OUTDOOR);
+        SPAWN_CULTIST(1709.f, 640.f, 235.f, LEVEL_OUTDOOR);
+        SPAWN_CULTIST(1313.f, 670.f, -7.f, LEVEL_OUTDOOR);
+        SPAWN_NUKEMUTANT(1709.f, 640.f, 235.f, LEVEL_OUTDOOR);
+        SPAWN_NUKEMUTANT(1709.f, 640.f, 235.f, LEVEL_OUTDOOR);
+        SPAWN_NUKEMUTANT(1709.f, 640.f, 235.f, LEVEL_OUTDOOR);
+
+        SPAWN_SHOTGUNNER(1638.f, 770.f, -244.f, LEVEL_OUTDOOR);
+        SPAWN_SHOTGUNNER(1472.f, 540.f, 309.f, LEVEL_OUTDOOR);
+        SPAWN_SHOTGUNNER(1045.f, 440.f, 344.f, LEVEL_OUTDOOR);
+
+        SPAWN_GREATER(1281.f, 730.f, -173.f, LEVEL_OUTDOOR);
+        SPAWN_GREATER(1517.f, 530.f, 692.f, LEVEL_OUTDOOR);
+        SPAWN_GREATER(1201.f, 430.f, 986.f, LEVEL_OUTDOOR);
+        SPAWN_NUKEMUTANT(1201.f, 440.f, 986.f, LEVEL_OUTDOOR);
+        SPAWN_NUKEMUTANT(1201.f, 440.f, 986.f, LEVEL_OUTDOOR);
+        SPAWN_NUKEMUTANT(1201.f, 440.f, 986.f, LEVEL_OUTDOOR);
+
+        SPAWN_CULTIST(804.f, 430.f, 1217.f, LEVEL_OUTDOOR);
+        SPAWN_SHOTGUNNER(743.f, 380.f, 1617.f, LEVEL_OUTDOOR);  
+        SPAWN_GREATER(619.f, 200.f, 137.f, LEVEL_OUTDOOR);
+        SPAWN_CULTIST(590.f, 380.f, 1677.f, LEVEL_OUTDOOR);
+        SPAWN_SHOTGUNNER(426.f, 330.f, 1340.f, LEVEL_OUTDOOR);
+        SPAWN_GREATER(190.f, 180.f, 352.f, LEVEL_OUTDOOR);
+        SPAWN_CULTIST(599.f, 230.f, 757.f, LEVEL_OUTDOOR);
+
+        SPAWN_NUKEMUTANT(804.f, 440.f, 1217.f, LEVEL_OUTDOOR);
+        SPAWN_NUKEMUTANT(804.f, 440.f, 1217.f, LEVEL_OUTDOOR);
+        SPAWN_NUKEMUTANT(804.f, 440.f, 1217.f, LEVEL_OUTDOOR);
+
+        m_bDoOnce = true;
+    }
+
     // 빠르게 0으로 감소
     _float fSpeed = 500.f;
     g_FogCustom -= fSpeed * fTimeDelta;
@@ -202,6 +223,9 @@ void CGenerator::Im_Broken(_float fTimeDelta)
     // 0 이하로 내려가지 않도록
     if (g_FogCustom < 0.f)
         g_FogCustom = 0.f;
+
+
+    return S_OK;
 }
 
 void CGenerator::Start_CutScene()

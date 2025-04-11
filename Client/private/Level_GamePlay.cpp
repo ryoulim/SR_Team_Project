@@ -99,16 +99,6 @@ void CLevel_GamePlay::Update(_float fTimeDelta)
 
 	Check_Collision();
 
-	/* [ 실험실 ] */
-	if (KEY_DOWN(DIK_I))
-	{
-		FX_MGR->SpawnHitEffect(LEVEL_GAMEPLAY);
-	}
-	if (KEY_DOWN(DIK_O))
-	{
-		FX_MGR->SpawnHealEffect(LEVEL_GAMEPLAY);
-	}
-
 	if (KEY_DOWN(DIK_F11))
 	{
 		if (FAILED(m_pGameInstance->Change_Level(LEVEL_LOADING,
@@ -212,7 +202,6 @@ HRESULT CLevel_GamePlay::Ready_Layer_Item(const _wstring& strLayerTag)
 	ItemDesc.fRotationPerSec = RADIAN(0.f);
 	ItemDesc.fSpeedPerSec = 300.f;
 	ItemDesc.eLevelID = CurLevel;
-	ItemDesc.szBufferType = TEXT("Rect");
 	ItemDesc.szTextureID = TEXT("Item_Ammo");
 	ItemDesc.fTextureNum = 0.f;
 	ItemDesc.eColID = COLLIDER_ID::CI_ITEM_AMMO_CHAINGUN;
@@ -632,7 +621,7 @@ HRESULT CLevel_GamePlay::Load_Map(_uint iLevelIdx, const _wstring& FileName)
 		iNumInviBlock{}, iNumLava{}, iNumAlphaRect{}, iNumAlphaBlock{}, iNumBossBridge{};
 	/* 불러오기용 변수 */
 	_int iNumVertexX = {}, iNumVertexZ = {}, iLoadLength = {};
-	_uint iNumBackGround = {}, iNumModel = {};
+	_uint iNumBackGround = {}, iNumModel = {}, iNumItem = {}, iItemID = {};
 	_float fSpeedPerSec = {}, fRotationPerSec = {}, fTextureIdx = {};
 	_tchar szPrototypeTag[MAX_PATH] = {};;
 	_bool  bCollision = {};
@@ -845,6 +834,75 @@ HRESULT CLevel_GamePlay::Load_Map(_uint iLevelIdx, const _wstring& FileName)
 
 
 			if (FAILED(m_pGameInstance->Add_GameObject(iLevelIdx, Prototype, iLevelIdx, Layertag, &tDesc)))
+			{
+				MSG_BOX("객체 생성 실패");
+				return E_FAIL;
+			}
+
+			ZeroMemory(szPrototypeTag, sizeof(szPrototypeTag));
+		}
+
+		bResult = ReadFile(hFile, &iNumItem, sizeof(_uint), &dwByte, NULL);
+
+		for (_uint i = 0; i < iNumItem; i++)
+		{
+			bResult = ReadFile(hFile, &fSpeedPerSec, sizeof(_float), &dwByte, NULL);
+			bResult = ReadFile(hFile, &fRotationPerSec, sizeof(_float), &dwByte, NULL);
+			bResult = ReadFile(hFile, &vPosition, sizeof(_float3), &dwByte, NULL);
+			bResult = ReadFile(hFile, &vScale, sizeof(_float3), &dwByte, NULL);
+			bResult = ReadFile(hFile, &vAngle, sizeof(_float3), &dwByte, NULL);
+			bResult = ReadFile(hFile, &iLoadLength, sizeof(_int), &dwByte, NULL);
+			bResult = ReadFile(hFile, &szPrototypeTag, iLoadLength * sizeof(_tchar), &dwByte, NULL);
+			bResult = ReadFile(hFile, &iItemID, sizeof(_uint), &dwByte, NULL);
+			bResult = ReadFile(hFile, &fTextureIdx, sizeof(_float), &dwByte, NULL);
+
+			CItem::DESC tDesc = {};
+			tDesc.vInitPos = vPosition * INDOORSCALE;
+			tDesc.vScale = vScale * INDOORITEMSCALE;
+			tDesc.fRotationPerSec = fRotationPerSec;
+			tDesc.fSpeedPerSec = fSpeedPerSec;
+			tDesc.fTextureNum = fTextureIdx;
+			tDesc.eLevelID = static_cast<LEVEL>(iLevelIdx);
+
+			switch (iItemID)
+			{
+			case 0:
+				tDesc.eColID = COLLIDER_ID::CI_ITEM_AMMO_CHAINGUN;
+				tDesc.szTextureID = TEXT("Item_Ammo");
+				break;
+			case 1:
+				tDesc.eColID = COLLIDER_ID::CI_ITEM_AMMO_DISPENSER_SCATTER;
+				tDesc.szTextureID = TEXT("Item_Ammo");
+				break;
+			case 2:
+				tDesc.eColID = COLLIDER_ID::CI_ITEM_AMMO_DISPENSER_CANNON;
+				tDesc.szTextureID = TEXT("Item_Ammo");
+				break;
+			case 3:
+				tDesc.eColID = COLLIDER_ID::CI_ITEM_AMMO_LOVERBOY;
+				tDesc.szTextureID = TEXT("Item_Ammo");
+				break;
+			case 4:
+				tDesc.eColID = COLLIDER_ID::CI_ITEM_ARMOR_PIECE;
+				tDesc.szTextureID = TEXT("Item_Armor");
+				break;
+			case 5:
+				tDesc.eColID = COLLIDER_ID::CI_ITEM_ARMOR_FULL;
+				tDesc.szTextureID = TEXT("Item_Armor");
+				break;
+			case 6:
+				tDesc.eColID = COLLIDER_ID::CI_ITEM_HEALKIT;
+				tDesc.szTextureID = TEXT("Item_Healkit");
+				break;
+			case 7:
+				tDesc.eColID = COLLIDER_ID::CI_ITEM_CARDKEY;
+				tDesc.szTextureID = TEXT("Item_Cardkey");
+				break;
+			}
+
+			_wstring strKey = szPrototypeTag;
+
+			if (FAILED(m_pGameInstance->Add_GameObject(iLevelIdx, strKey, iLevelIdx, TEXT("Layer_Item"), &tDesc)))
 			{
 				MSG_BOX("객체 생성 실패");
 				return E_FAIL;
