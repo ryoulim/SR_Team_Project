@@ -21,9 +21,11 @@ public:
 	
 	void Change_Level(_uint iLevelIndex);
 	_uint Get_CurrentLevelIndex() { return m_iCurrentLevelIndex; }
+	_uint Get_PreviousLevelIndex() { return m_iPreviousLevelIndex; }
 
 private:
 	_uint					m_iCurrentLevelIndex = {};
+	_uint					m_iPreviousLevelIndex = {};
 	class CLevel*			m_pCurrentLevel = { nullptr };
 	class CGameInstance*	m_pGameInstance = { nullptr };
 

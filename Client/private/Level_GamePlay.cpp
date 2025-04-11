@@ -109,7 +109,6 @@ void CLevel_GamePlay::Update(_float fTimeDelta)
 		FX_MGR->SpawnHealEffect(LEVEL_GAMEPLAY);
 	}
 
-
 	if (KEY_DOWN(DIK_F11))
 	{
 		if (FAILED(m_pGameInstance->Change_Level(LEVEL_LOADING,

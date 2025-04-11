@@ -523,11 +523,14 @@
     <Filter Include="02.GameObjects\Monster\Boat">
       <UniqueIdentifier>{3271f0c9-8209-4788-9d80-7a979894cad3}</UniqueIdentifier>
     </Filter>
-    <Filter Include="01.Levels\05.UnderGround">
-      <UniqueIdentifier>{d6d83d37-45e0-4ff2-b6b8-2ec58bbf1106}</UniqueIdentifier>
+    <Filter Include="02.GameObjects\UI\MenuUI\LoadingUI\Loading_Cutscene\Loading_ToUnderground">
+      <UniqueIdentifier>{a3c2badb-db4f-4d26-a6e9-05fca91a0787}</UniqueIdentifier>
     </Filter>
     <Filter Include="01.Levels\06. Boss">
       <UniqueIdentifier>{fb67a493-7c28-490a-9c62-08f4fccbf0d7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Levels\05. UnderGround">
+      <UniqueIdentifier>{d6d83d37-45e0-4ff2-b6b8-2ec58bbf1106}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -1028,7 +1031,7 @@
       <Filter>02.GameObjects\RaceBoss\RBState</Filter>
     </ClInclude>
     <ClInclude Include="..\public\Level_UnderGround.h">
-      <Filter>01.Levels\05.UnderGround</Filter>
+      <Filter>01.Levels\05. UnderGround</Filter>
     </ClInclude>
     <ClInclude Include="..\public\BombRadius.h">
       <Filter>02.GameObjects\Statue\RaceBossBombRadius</Filter>
@@ -1045,9 +1048,6 @@
     <ClInclude Include="..\public\LoadingUI.h">
       <Filter>02.GameObjects\UI\MenuUI\LoadingUI</Filter>
     </ClInclude>
-    <ClInclude Include="..\public\Loading_ToIn.h">
-      <Filter>02.GameObjects\UI\MenuUI\LoadingUI\Loading_Cutscene\Loading_ToIn</Filter>
-    </ClInclude>
     <ClInclude Include="..\public\RaceSprite.h">
       <Filter>02.GameObjects\Effect\RaceSprite</Filter>
     </ClInclude>
@@ -1059,6 +1059,27 @@
     </ClInclude>
     <ClInclude Include="..\public\RaceBossBomb.h">
       <Filter>02.GameObjects\Weapon\Bullet\RaceBossBullet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Loading_ToMain.h">
+      <Filter>02.GameObjects\UI\MenuUI\LoadingUI\Loading_Cutscene\Loading_ToMain</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Loading_ToIn.h">
+      <Filter>02.GameObjects\UI\MenuUI\LoadingUI\Loading_Cutscene\Loading_ToIn</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Loading_OnRacing.h">
+      <Filter>02.GameObjects\UI\MenuUI\LoadingUI\Loading_Cutscene\Loading_OnRacing</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Loading_ToBoss.h">
+      <Filter>02.GameObjects\UI\MenuUI\LoadingUI\Loading_Cutscene\Loading_ToBoss</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Loading_ToRace.h">
+      <Filter>02.GameObjects\UI\MenuUI\LoadingUI\Loading_Cutscene\Loading_ToRace</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Loading_ToOut.h">
+      <Filter>02.GameObjects\UI\MenuUI\LoadingUI\Loading_Cutscene\Loading_ToOut</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Loading_ToUnderground.h">
+      <Filter>02.GameObjects\UI\MenuUI\LoadingUI\Loading_Cutscene\Loading_ToUnderground</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1530,7 +1551,7 @@
       <Filter>02.GameObjects\Particle</Filter>
     </ClCompile>
     <ClCompile Include="..\private\Level_UnderGround.cpp">
-      <Filter>01.Levels\05.UnderGround</Filter>
+      <Filter>01.Levels\05. UnderGround</Filter>
     </ClCompile>
     <ClCompile Include="..\private\Boat.cpp">
       <Filter>02.GameObjects\Monster\Boat</Filter>
@@ -1554,14 +1575,32 @@
     <ClCompile Include="..\private\LoadingUI.cpp">
       <Filter>02.GameObjects\UI\MenuUI\LoadingUI</Filter>
     </ClCompile>
-    <ClCompile Include="..\private\Loading_ToIn.cpp">
-      <Filter>02.GameObjects\UI\MenuUI\LoadingUI\Loading_Cutscene\Loading_ToIn</Filter>
-    </ClCompile>
     <ClCompile Include="..\private\Level_RaceEnd.cpp">
       <Filter>01.Levels\04. Race\99.End</Filter>
     </ClCompile>
     <ClCompile Include="..\private\RaceSprite.cpp">
       <Filter>02.GameObjects\Effect\RaceSprite</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Loading_ToMain.cpp">
+      <Filter>02.GameObjects\UI\MenuUI\LoadingUI\Loading_Cutscene\Loading_ToMain</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Loading_ToIn.cpp">
+      <Filter>02.GameObjects\UI\MenuUI\LoadingUI\Loading_Cutscene\Loading_ToIn</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Loading_OnRacing.cpp">
+      <Filter>02.GameObjects\UI\MenuUI\LoadingUI\Loading_Cutscene\Loading_OnRacing</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Loading_ToBoss.cpp">
+      <Filter>02.GameObjects\UI\MenuUI\LoadingUI\Loading_Cutscene\Loading_ToBoss</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Loading_ToOut.cpp">
+      <Filter>02.GameObjects\UI\MenuUI\LoadingUI\Loading_Cutscene\Loading_ToOut</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Loading_ToRace.cpp">
+      <Filter>02.GameObjects\UI\MenuUI\LoadingUI\Loading_Cutscene\Loading_ToRace</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Loading_ToUnderground.cpp">
+      <Filter>02.GameObjects\UI\MenuUI\LoadingUI\Loading_Cutscene\Loading_ToUnderground</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

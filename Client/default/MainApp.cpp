@@ -20,6 +20,9 @@
 #include "FadeUI.h"
 #include "FXMgr.h"
 
+#include "LoadingUI.h"
+#include "Loading_ToMain.h"
+
 #include "DebugMode.h"
 
 #include "Sky.h"
@@ -176,7 +179,6 @@ HRESULT CMainApp::Ready_Component_For_Static()
 	ADD_MODEL(Rect);
 	ADD_PRTCOM(Transform);
 	ADD_TEXTURE(LevelLoadingMenu, "../Bin/Resources/Textures/UI/Loading/lvlloading%d.png", 4);
-	ADD_TEXTURE(LoadingCutscene, "../Bin/Resources/Textures/UI/LoadingCutscene/%d.png", 5);
 
 	ADD_TEXTURE(Font_MediumBlue, "../Bin/Resources/Textures/UI/Font/Font_MediumBlue/font%d.PNG", 94);
 	ADD_TEXTURE(Font_BigOrange, "../Bin/Resources/Textures/UI/Font/Font_BigOrange/font%d.PNG", 46);
@@ -186,6 +188,7 @@ HRESULT CMainApp::Ready_Component_For_Static()
 	ADD_TEXTURE(Loading_BarBack, "../Bin/Resources/Textures/UI/Loading/loadingbar0.PNG", 1);
 	ADD_TEXTURE(Loading_Bar, "../Bin/Resources/Textures/UI/Loading/loadingbar1.PNG", 1);
 
+/**/ADD_TEXTURE(Loading_ToMain, "../Bin/Resources/Textures/UI/LoadingCutscene/ToLogo/%d.PNG", 11);
 
 	ADD_TEXTURE(FadeUI, "../Bin/Resources/Textures/UI/black.PNG", 1);
 
@@ -219,6 +222,11 @@ HRESULT CMainApp::Ready_Protype_Object_For_Static()
 	ADD_PRTOBJ(Font_BigOrange);
 	ADD_PRTOBJ(LoadingMenu);
 	ADD_PRTOBJ(FadeUI);
+
+	ADD_PRTOBJ(LoadingUI);
+	ADD_PRTOBJ(Loading_ToMain);
+
+
 
 	return S_OK;
 }

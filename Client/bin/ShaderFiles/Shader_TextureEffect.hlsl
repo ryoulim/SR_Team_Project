@@ -63,6 +63,10 @@ float hueShift = 0.5; // 원하는 색조 값 (0.0 ~ 1.0 범위)
 
 // Masking_Center(AIM)
 float maskingDistance = 0.1f;
+
+// Masking_LoadingBar
+float LoadPercent = 0.5f;
+
 // Masking_HPBar
 float HPPercent = 0.5f;
 
@@ -217,6 +221,23 @@ float4 PS_ImageMasking_HPBar(float2 texCoord : TEXCOORD0) : COLOR
     return color;
 }
 
+float4 PS_ImageMasking_LoadingBar(float2 texCoord : TEXCOORD0) : COLOR
+{
+    float4 color = tex2D(SamplerTex, texCoord);
+
+    // 중심으로부터의 거리 계산
+    float distance = length(texCoord.x - 0);
+    float hue = 0;
+    // 특정 반경 밖의 픽셀 제거
+    if (distance >= LoadPercent)
+    {
+        discard; 
+    }
+
+    return color;
+}
+
+
 float4 PS_ShadeChange(float2 texCoord : TEXCOORD0) : COLOR {
     float4 color = tex2D(SamplerTex, texCoord);
 
@@ -295,5 +316,11 @@ technique Technique1 {
         VertexShader = compile vs_3_0 VS_MAIN();
         #endif
         PixelShader = compile ps_2_0 PS_ImageMasking_HPBar();
+    }
+    pass P6 {
+        #ifdef MAKE_VS
+        VertexShader = compile vs_3_0 VS_MAIN();
+        #endif
+        PixelShader = compile ps_2_0 PS_ImageMasking_LoadingBar();
     }
 }

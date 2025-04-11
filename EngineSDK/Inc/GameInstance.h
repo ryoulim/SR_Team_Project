@@ -31,6 +31,7 @@ public:
 	HRESULT Change_Level(_uint iLevelIndex, class CLevel* pNewLevel);
 	void Change_Level(_uint iLevelIndex);
 	_uint Get_CurrentLevelIndex();
+	_uint Get_PreviousLevelIndex();
 #pragma endregion
 
 #pragma region PROTOTYPE_MANAGER

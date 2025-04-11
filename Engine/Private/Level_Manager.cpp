@@ -19,7 +19,7 @@ HRESULT CLevel_Manager::Change_Level(_uint iLevelIndex, CLevel* pNewLevel)
     }   
 
     m_pCurrentLevel = pNewLevel;
-
+	//m_iPreviousLevelIndex = m_iCurrentLevelIndex;
     m_iCurrentLevelIndex = iLevelIndex;
 
     return S_OK;
@@ -42,6 +42,9 @@ HRESULT CLevel_Manager::Render()
 void CLevel_Manager::Change_Level(_uint iLevelIndex)
 {
     m_pCurrentLevel->Change_Level(iLevelIndex);
+
+    m_iPreviousLevelIndex = m_iCurrentLevelIndex;
+    //m_iCurrentLevelIndex = iLevelIndex;
 }
 
 CLevel_Manager* CLevel_Manager::Create()

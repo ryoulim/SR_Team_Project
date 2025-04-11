@@ -138,6 +138,11 @@ _uint CGameInstance::Get_CurrentLevelIndex()
 {
 	return m_pLevel_Manager->Get_CurrentLevelIndex();
 }
+_uint CGameInstance::Get_PreviousLevelIndex()
+{
+	return m_pLevel_Manager->Get_PreviousLevelIndex();
+}
+
 #pragma endregion
 
 #pragma region PROTOTYPE_MANAGER
