@@ -670,7 +670,7 @@ HRESULT CRaceBoss::Set_BombRadius()
 _bool CRaceBoss::Fire_Bomb4(_uint iBombIndex, _float fTime)
 {
 	if (iBombIndex >= m_vecBombPos.size())
-		return E_FAIL;
+		return FALSE;
 
 	//z°ªÀÌ Å« °ÍºÎÅÍ ²¨³»¸ç ÆøÅºÀ» ½ð´Ù.
 	CRaceBossBomb::DESC RaceBossBombdesc{};
@@ -710,7 +710,7 @@ _bool CRaceBoss::Fire_Bomb4(_uint iBombIndex, _float fTime)
 	{
 		if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_RaceBossBomb"),
 			m_eLevelID, L"Layer_RaceBossBullet", &RaceBossBombdesc)))
-			return E_FAIL;
+			return FALSE;
 
 		m_vecBombPos.pop_back();
 

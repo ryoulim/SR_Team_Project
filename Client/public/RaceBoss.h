@@ -138,6 +138,7 @@ private:
 	_float3		m_vPrePos{}; // 이전 프레임의 포지션
 	LEVEL		m_eLevelID = { LEVEL_END };
 	_bool		m_bDead = { false };
+	_bool		m_bPartDead[5]{};
 	_float3		m_vScale = {};
 	_float		m_fTime = {};
 	_uint		m_iHeadBulletCount = {};
