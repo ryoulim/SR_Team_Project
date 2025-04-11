@@ -168,11 +168,13 @@ void CTrashCan::Create_Item()
     case LEVEL_OUTDOOR:
         fScale = OUTDOORITEMSCALE;
         break;
+    case LEVEL_UNDERGROUND:
+        fScale = UNDERGROUNDITEMSCALE;
+        break;
     default:
         fScale = OUTDOORITEMSCALE;
         break;
     }
-    ItemDesc.vScale = { fScale, fScale, fScale };
     ItemDesc.fRotationPerSec = RADIAN(0.f);
     ItemDesc.fSpeedPerSec = 300.f;
     ItemDesc.eLevelID = m_eLevelID;
@@ -182,36 +184,42 @@ void CTrashCan::Create_Item()
     switch (rand() % 5)
     {
     case 0:
+        ItemDesc.vScale = { fScale * 1.2f, fScale, fScale };
         ItemDesc.szTextureID = TEXT("Item_Healkit");
         ItemDesc.fTextureNum = 0.f;
         ItemDesc.eColID = COLLIDER_ID::CI_ITEM_HEALKIT;
         strPrototypeName = TEXT("Prototype_GameObject_Item_Healkit");
         break;
     case 1:
+        ItemDesc.vScale = { fScale * 1.2f, fScale, fScale };
         ItemDesc.szTextureID = TEXT("Item_Healkit");
         ItemDesc.fTextureNum = 0.f;
         ItemDesc.eColID = COLLIDER_ID::CI_ITEM_HEALKIT;
         strPrototypeName = TEXT("Prototype_GameObject_Item_Healkit");
         break;
     case 2:
+        ItemDesc.vScale = { fScale, fScale * 1.5f, fScale };
         ItemDesc.szTextureID = TEXT("Item_Armor");
         ItemDesc.fTextureNum = 1.f;
         ItemDesc.eColID = COLLIDER_ID::CI_ITEM_ARMOR_FULL;
         strPrototypeName = TEXT("Prototype_GameObject_Item_Armor_Full");
         break;
     case 3:
+        ItemDesc.vScale = { fScale, fScale * 1.5f, fScale };
         ItemDesc.szTextureID = TEXT("Item_Armor");
         ItemDesc.fTextureNum = 1.f;
         ItemDesc.eColID = COLLIDER_ID::CI_ITEM_ARMOR_FULL;
         strPrototypeName = TEXT("Prototype_GameObject_Item_Armor_Full");
         break;
     case 4:
+        ItemDesc.vScale = { fScale * 0.5f, fScale * 0.75f, fScale };
         ItemDesc.szTextureID = TEXT("Item_Armor");
         ItemDesc.fTextureNum = 0.f;
         ItemDesc.eColID = COLLIDER_ID::CI_ITEM_ARMOR_PIECE;
         strPrototypeName = TEXT("Prototype_GameObject_Item_Armor_Piece");
         break;
     default:
+        ItemDesc.vScale = { fScale * 0.5f, fScale * 0.75f, fScale };
         ItemDesc.szTextureID = TEXT("Item_Armor");
         ItemDesc.fTextureNum = 0.f;
         ItemDesc.eColID = COLLIDER_ID::CI_ITEM_ARMOR_PIECE;
