@@ -4,6 +4,11 @@
 #include "GameInstance.h"
 #include "GameObject.h"
 
+
+#define BOSSITEMSCALE 22.f
+#define INDOORITEMSCALE 15.f
+#define OUTDOORITEMSCALE 20.f
+
 BEGIN(Engine)
 class CTexture;
 class CVIBuffer_Rect;
