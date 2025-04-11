@@ -48,6 +48,33 @@ HRESULT CMechsect::Initialize(void* pArg)
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
 
+	/* 콜라이드 컴포넌트 - 대가리 */
+	CCollider::DESC ColliderDesc{};
+	ColliderDesc.pTransform = m_pTransformCom; // 50쯤
+	ColliderDesc.vOffSet = { 0.f, 0.f, 0.f };	// y길이 * 0.5 - 머리위치y좌표 + 반지름크기?
+	ColliderDesc.vScale = { 8.f, 0.f, 0.f };					// 반지름 크기
+	ColliderDesc.pOwner = this;
+	ColliderDesc.iColliderGroupID = CG_MONSTER_HEAD;
+	ColliderDesc.iColliderID = CI_MON_HEAD;
+
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Collider_Sphere"),
+		TEXT("Com_Collider_head"), reinterpret_cast<CComponent**>(&m_pHeadCollider), &ColliderDesc)))
+		return E_FAIL;
+
+	/* 콜라이드 컴포넌트  - 근접공격용 타격 범위 */
+	CCollider::DESC AttackColliderDesc{};
+	AttackColliderDesc.pTransform = m_pTransformCom;
+	AttackColliderDesc.vScale = m_pTransformCom->Compute_Scaled();
+	AttackColliderDesc.pOwner = this;
+	AttackColliderDesc.iColliderGroupID = CG_MONSTER_BODY;
+	AttackColliderDesc.iColliderID = CI_MONSTER_MECHSECT;
+
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Collider_Sphere"),
+		TEXT("Com_Collider_CloseAttack"), reinterpret_cast<CComponent**>(&m_pAttackCollider), &AttackColliderDesc)))
+		return E_FAIL;
+
+
+
 	m_fDivOffset = 45.f;
 	//애니메이션(수정예정)
 	m_fAnimationMaxFrame = 4.f;
@@ -299,62 +326,9 @@ void CMechsect::ChasePlayer(_float dt, _float fChaseDist)
 
 HRESULT CMechsect::Ready_Components(void* pArg)
 {
-	/* 렉트 버퍼 컴포넌트 */
-	if (FAILED(__super::Add_Component(LEVEL_STATIC, _wstring(TEXT("Prototype_Component_VIBuffer_")) + m_szBufferType,
-		TEXT("Com_VIBuffer"), reinterpret_cast<CComponent**>(&m_pVIBufferCom))))
-		return E_FAIL;
-
-	/* 트랜스폼 컴포넌트 */
-	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Transform"),
-		TEXT("Com_Transform"), reinterpret_cast<CComponent**>(&m_pTransformCom), pArg)))
-		return E_FAIL;
-
-	//셰이더 장착
-	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Shader_Particle"),
-		TEXT("Com_Shader"), reinterpret_cast<CComponent**>(&m_pShaderCom))))
-		return E_FAIL;
-
-	/* 위치, 스케일 초기화 */
-	if (pArg != nullptr)
-	{
-		DESC* pDesc = static_cast<DESC*>(pArg);
-
-		m_pTransformCom->Set_State(CTransform::STATE_POSITION, pDesc->vPosition);
-		m_pTransformCom->Scaling(m_vScale);
-		m_bActive = pDesc->vActive;
-		m_vReturnPos = pDesc->vReturnPos;
-		m_iNum = pDesc->iNums;
-		m_eLevelID = pDesc->eLevel;
-		m_fDetectiveDistance = pDesc->fDetectiveDistance;
-		m_fAttackDistance = pDesc->fAttackDistance;
-	}
-
-	/* 콜라이드 컴포넌트 */
-	DESC* pDesc = static_cast<DESC*>(pArg);
-	CCollider_Capsule::DESC ColliderDesc{};
-	ColliderDesc.pTransform = m_pTransformCom;
-	ColliderDesc.vOffSet = {};
-	ColliderDesc.vScale = m_pTransformCom->Compute_Scaled();
-	ColliderDesc.pOwner = this;
-	ColliderDesc.iColliderGroupID = CG_MONSTER_BODY;
-	ColliderDesc.iColliderID = CI_MONSTER_MECHSECT;
-
-	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Collider_Capsule"),
-		TEXT("Com_Collider"), reinterpret_cast<CComponent**>(&m_pCollider), &ColliderDesc)))
-		return E_FAIL;
-
-	if (m_bActive)
-	{
-		CGravity::DESC GravityDesc{};
-		GravityDesc.pTransformCom = m_pTransformCom;
-		GravityDesc.fTimeIncreasePerSec = 8.2f;
-		GravityDesc.fMaxFallSpeedPerSec = 840.f;
-		if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Gravity"),
-			TEXT("Com_Gravity"), reinterpret_cast<CComponent**>(&m_pGravityCom), &GravityDesc)))
-			return E_FAIL;
-	}
-
 	Ready_Textures();
+	if (FAILED(__super::Ready_Components(pArg)))
+		return E_FAIL;
 
 	return S_OK;
 }
@@ -446,20 +420,6 @@ HRESULT CMechsect::Animate_Monster(_float fTimeDelta)
 		m_bRotateAnimation = true;
 		break;
 	case Client::CMechsect::STATE_JUMP:
-	//	m_fAnimationFrame += fTimeDelta * m_fAnimationSpeed;
-	//	if (!m_pGravityCom->isJump())// && m_fAnimationSpeed < 1.f)
-	//	{
-	//		if(m_fAnimationFrame < 2.5f)
-	//			m_fAnimationFrame = 3.f;
-	//		//m_fAnimationFrame = m_fAnimationMaxFrame - 1.f; // 착지?
-	//		//m_bJumpEnd = true;
-	//	}
-	//	else if (m_fAnimationFrame >= 2.f)
-	//	{
-	//		m_fAnimationFrame = 2.f;
-	//		//m_fAnimationSpeed = 0.f;
-	//	}
-	//	m_bRotateAnimation = true;
 		break;
 	case Client::CMechsect::STATE_DEAD:
 		m_fAnimationFrame += fTimeDelta * m_fAnimationSpeed;
@@ -499,5 +459,6 @@ CGameObject* CMechsect::Clone(void* pArg)
 
 void CMechsect::Free()
 {
+	Safe_Release(m_pAttackCollider);
 	__super::Free();
 }

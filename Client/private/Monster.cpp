@@ -415,6 +415,7 @@ HRESULT CMonster::Ready_Components(void* pArg)
 		m_iNum = pDesc->iNums;
 		m_eLevelID = pDesc->eLevel;
 		m_fAttackDistance = pDesc->fAttackDistance;
+		m_fDetectiveDistance = pDesc->fDetectiveDistance;
 	}
 
 	DESC* pDesc = static_cast<DESC*>(pArg);

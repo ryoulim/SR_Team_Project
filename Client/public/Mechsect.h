@@ -53,6 +53,7 @@ private:
 	_bool			m_bJump = false;
 	_bool			m_bJumpEnd = false;
 	_float			m_fJumpFinished = {};
+	CCollider*		m_pAttackCollider = { nullptr };
 
 public:
 	virtual void On_Collision(_uint MyColliderID, _uint OtherColliderID) override;
