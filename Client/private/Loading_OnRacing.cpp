@@ -57,9 +57,6 @@ void CLoading_OnRacing::Late_Update(_float fTimeDelta)
 	if (m_fCurLoadingGauge >= 1.f)
 	{
 		m_isLoadingFinished = true;
-	}
-	if (m_isLoadingFinished)
-	{
 		m_isReadyToChangeLevel = true;
 	}
 	if (FAILED(m_pGameInstance->Add_RenderGroup(CRenderer::RG_UI, this)))

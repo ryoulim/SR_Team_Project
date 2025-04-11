@@ -137,6 +137,11 @@ void CLoadingUI::Set_LoadingGauge(const _float percent)
 	m_pLoadingCutscene->Set_LoadingGauge(percent);
 }
 
+void CLoadingUI::Set_IsLoaderFinished(const _bool isFinished)
+{
+	m_pLoadingCutscene->Set_IsLoaderFinished(isFinished);
+}
+
 CLoadingUI* CLoadingUI::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 {
 	CLoadingUI* pInstance = new CLoadingUI(pGraphic_Device);

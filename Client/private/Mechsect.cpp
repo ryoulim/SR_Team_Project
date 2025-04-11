@@ -64,7 +64,8 @@ HRESULT CMechsect::Initialize(void* pArg)
 	/* 콜라이드 컴포넌트  - 근접공격용 타격 범위 */
 	CCollider::DESC AttackColliderDesc{};
 	AttackColliderDesc.pTransform = m_pTransformCom;
-	AttackColliderDesc.vScale = m_pTransformCom->Compute_Scaled();
+	AttackColliderDesc.vScale = m_pTransformCom->Compute_Scaled() * 1.2f;
+	AttackColliderDesc.vOffSet = { 0.f, 0.f, 0.f };
 	AttackColliderDesc.pOwner = this;
 	AttackColliderDesc.iColliderGroupID = CG_MONSTER_BODY;
 	AttackColliderDesc.iColliderID = CI_MONSTER_MECHSECT;
@@ -100,6 +101,23 @@ EVENT CMechsect::Update(_float fTimeDelta)
 void CMechsect::Late_Update(_float fTimeDelta)
 {
 	__super::Late_Update(fTimeDelta);
+
+	if (m_eJumpState == JUMP_ING)
+	{
+		m_pAttackCollider->Update_OffSet({ 0.f, 0.f, 0.f });
+
+		m_pAttackCollider->Update_Collider();  // 근접 공격 시에만 콜라이더 업데이트 
+	}
+	else
+	{
+		m_pAttackCollider->Update_OffSet({ 0.f, -10000.f, 0.f });
+	}
+	if (m_bDead)
+	{
+		m_pAttackCollider->Update_Scale({ 0.f, 0.f, 0.f });
+		m_pAttackCollider->Update_OffSet({ 0.f, -10000.f, 0.f });
+	}
+
 	if (m_bRotateAnimation == false)
 		m_iDegree = 0;
 	Resize_Texture(0.4f);

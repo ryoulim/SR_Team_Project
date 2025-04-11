@@ -25,9 +25,28 @@ HRESULT CLoading_ToOut::Initialize(void* pArg)
 	m_szTextureID = TEXT("Loading_ToOut");
 	m_szBufferType = TEXT("Rect");
 
+	m_arrTexSizePos[0] = { { 297.f, 594.f, 1.f }, { iUIX + 188.f, iUIY + 594.f, 0.9f  } };
+	m_arrTexSizePos[1] = { { 241.f, 491.f, 1.f }, { iUIX + 705.f, iUIY - 245.f, 0.9f  } };
+	m_arrTexSizePos[2] = { { 375.f, 659.f, 1.f }, { iUIX + 1023.f, iUIY - 390.f - 100.f, 0.9f } };
+	m_arrTexSizePos[3] = { { 314.f, 293.f, 1.f }, { iUIX + 173.f, iUIY - 143.f, 0.9f  } };
+	m_arrTexSizePos[4] = { { 580.f, 561.f, 1.f }, { iUIX + 519.f, iUIY - 414.f, 0.9f  } };
+	m_arrTexSizePos[5] = { { 431.f, 1063.f, 1.f}, { iUIX + 995.f, iUIY - 188 - 1063.f, 0.9f  } };
+
+	m_arrTexLastPos[0] = { iUIX + 188.f, iUIY - 297.f, 0.9f  };
+	m_arrTexLastPos[1] = { iUIX + 705.f, iUIY - 245.f, 0.9f  };
+	m_arrTexLastPos[2] = { iUIX + 1023.f,iUIY - 390.f, 0.9f  };
+	m_arrTexLastPos[3] = { iUIX + 173.f, iUIY - 143.f, 0.9f  };
+	m_arrTexLastPos[4] = { iUIX + 519.f, iUIY - 414.f, 0.9f  };
+	m_arrTexLastPos[5] = { iUIX + 995.f, iUIY - 188.f, 0.9f  };
+
+	for (size_t i = 0; i < 6; i++)
+	{
+		m_bRenderOk[i] = false;
+	}
+
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
-	// Ready_ShaderComponent(); 필요할 시 추가
+	 Ready_ShaderComponent();
 
 	if (FAILED(m_pTextureCom->Get_TextureSize(0, &m_vSize)))
 		return E_FAIL;
@@ -38,7 +57,6 @@ HRESULT CLoading_ToOut::Initialize(void* pArg)
 	return S_OK;
 }
 
-
 void CLoading_ToOut::Priority_Update(_float fTimeDelta)
 {
 	__super::Priority_Update(fTimeDelta);
@@ -46,26 +64,35 @@ void CLoading_ToOut::Priority_Update(_float fTimeDelta)
 
 EVENT CLoading_ToOut::Update(_float fTimeDelta)
 {
-	//if (m_fLoadingGauge < m_fCurLoadingGauge)		// 실제 로딩 게이지 비례해 진행할 경우 사용
-	//	m_fLoadingGauge += fTimeDelta * 0.8f;
-
+	Set_CutPosition(fTimeDelta);
 	return __super::Update(fTimeDelta);
 }
 
 void CLoading_ToOut::Late_Update(_float fTimeDelta)
 {
-	__super::Late_Update(fTimeDelta);
+	CUI::Late_Update(fTimeDelta);
 }
 
 HRESULT CLoading_ToOut::Render()
 {
 	Render_Background();
+	if (m_iCurCut < 3)
+	{
+		Render_FirstCutscene();
+	}
+	else
+	{
+		Render_SecondCutscene();
+	}
 	return S_OK;
 }
 
 HRESULT CLoading_ToOut::Render_Background()
 {
-	if (FAILED(m_pTextureCom->Bind_Resource(_int(m_fTextureNum))))
+	m_pTransformCom->Scaling(_float3{1280.f, 720.f, 1.f});
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION, _float3{0.f, 0.f, 0.9f});
+
+	if (FAILED(m_pTextureCom->Bind_Resource(_int(6))))
 		return E_FAIL;
 
 	if (FAILED(m_pTransformCom->Bind_Resource()))
@@ -77,6 +104,153 @@ HRESULT CLoading_ToOut::Render_Background()
 	if (FAILED(m_pVIBufferCom->Render()))
 		return E_FAIL;
 	return S_OK;
+}
+
+HRESULT CLoading_ToOut::Render_FirstCutscene()
+{
+	m_pGraphic_Device->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
+	m_pGraphic_Device->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
+	m_pGraphic_Device->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
+
+	for (size_t i = 0; i < 3; i++)
+	{
+		if (m_bRenderOk[i] == false)
+			break;
+		if (FAILED(m_pTextureCom->Bind_Resource((i))))
+			return E_FAIL;
+
+		m_pTransformCom->Scaling(m_arrTexSizePos[i].vSize);
+		m_pTransformCom->Set_State(CTransform::STATE_POSITION, m_arrTexSizePos[i].vPos);
+
+		if (FAILED(m_pTransformCom->Bind_Resource()))
+			return E_FAIL;
+		m_pTextureCom->Bind_Shader_To_Texture(m_pShaderCom, "Tex", i); // 텍스쳐 바인딩
+		if (i == 2)
+		{
+			_float dist = fabsf(m_arrTexLastPos[i].y - m_arrTexSizePos[i].vPos.y);
+			m_pShaderCom->SetFloat("opacity", 1.f - dist / 100.f);
+		}
+		else
+			m_pShaderCom->SetFloat("opacity", 1.f);
+
+		m_pShaderCom->Begin(CShader::ALPHA);
+		if (FAILED(m_pVIBufferCom->Bind_Buffers()))
+			return E_FAIL;
+
+		if (FAILED(m_pVIBufferCom->Render()))
+			return E_FAIL;
+		m_pShaderCom->End();
+	}
+	m_pGraphic_Device->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
+
+	return S_OK;
+}
+
+HRESULT CLoading_ToOut::Render_SecondCutscene()
+{
+	for (size_t i = 3; i < 6; i++)
+	{
+		if (m_bRenderOk[i] == false)
+			break;
+		if (FAILED(m_pTextureCom->Bind_Resource((i))))
+			return E_FAIL;
+
+		m_pTransformCom->Scaling(m_arrTexSizePos[i].vSize);
+		m_pTransformCom->Set_State(CTransform::STATE_POSITION, m_arrTexSizePos[i].vPos);
+
+		if (FAILED(m_pTransformCom->Bind_Resource()))
+			return E_FAIL;
+
+		if (FAILED(m_pVIBufferCom->Bind_Buffers()))
+			return E_FAIL;
+
+		if (FAILED(m_pVIBufferCom->Render()))
+			return E_FAIL;
+	}
+	return S_OK;
+}
+
+void CLoading_ToOut::Set_CutPosition(_float fTimeDelta)
+{
+// 아 진심 실화냐? 이게뭐냐? 영상으로틀고싶다..
+
+#define CUTSPEED 500.f;
+
+
+	/* 컷씬 스킵 엔터 ㅋ */
+	if (KEY_DOWN(DIK_RETURN)) { m_arrTexSizePos[m_iCurCut].vPos.y = m_arrTexLastPos[m_iCurCut].y; m_fWaitForNextCut = 0.f; m_iCurCut++; if (m_iCurCut > 5) { m_iCurCut = 5; m_isReadyToChangeLevel = true; } }
+	
+	m_bRenderOk[m_iCurCut] = true; // 컷이 재생되기 시작함
+	switch (m_iCurCut)
+	{
+	case 0: // 0번째 컷
+		m_arrTexSizePos[m_iCurCut].vPos.y -= fTimeDelta * CUTSPEED; // 컷 이동시키기
+		if (m_arrTexSizePos[m_iCurCut].vPos.y <= m_arrTexLastPos[m_iCurCut].y) // 컷 이동 완료 시
+		{
+			m_arrTexSizePos[m_iCurCut].vPos.y = m_arrTexLastPos[m_iCurCut].y;
+			m_fWaitForNextCut += fTimeDelta; // 다음 컷 재생 까지 조금 기다림
+			if (m_fWaitForNextCut >= 2.f)
+			{
+				m_fWaitForNextCut = 0.f; // 다 기다렸으면 변수 초기화 후 
+				m_iCurCut = 1;			 // 다음 컷으로 이동	
+			}
+		}
+		break;
+	case 1: // 그걸졸라반복하기
+		m_fWaitForNextCut += fTimeDelta; // 다음 컷 재생 까지 조금 기다림
+		if (m_fWaitForNextCut >= 1.f)
+		{
+			m_fWaitForNextCut = 0.f; // 다 기다렸으면 변수 초기화 후 
+			m_iCurCut = 2;			 // 다음 컷으로 이동	
+		}
+		break;
+	case 2:
+		m_arrTexSizePos[m_iCurCut].vPos.y += fTimeDelta * 0.3f * CUTSPEED; // 컷 이동시키기
+		if (m_arrTexSizePos[m_iCurCut].vPos.y >= m_arrTexLastPos[m_iCurCut].y) // 컷 이동 완료 시
+		{
+			m_arrTexSizePos[m_iCurCut].vPos.y = m_arrTexLastPos[m_iCurCut].y;
+			m_fWaitForNextCut += fTimeDelta; // 다음 컷 재생 까지 조금 기다림
+			if (m_fWaitForNextCut >= 2.f)
+			{
+				m_fWaitForNextCut = 0.f; // 다 기다렸으면 변수 초기화 후 
+				m_iCurCut = 3;			 // 다음 컷으로 이동	
+			}
+		}
+		break;
+	case 3:
+		m_fWaitForNextCut += fTimeDelta; // 다음 컷 재생 까지 조금 기다림
+		if (m_fWaitForNextCut >= 1.5f)
+		{
+			m_fWaitForNextCut = 0.f; // 다 기다렸으면 변수 초기화 후 
+			m_iCurCut = 4;			 // 다음 컷으로 이동	
+		}
+		break;
+	case 4:
+		m_fWaitForNextCut += fTimeDelta; // 다음 컷 재생 까지 조금 기다림
+		if (m_fWaitForNextCut >= 1.5f)
+		{
+			m_fWaitForNextCut = 0.f; // 다 기다렸으면 변수 초기화 후 
+			m_iCurCut = 5;			 // 다음 컷으로 이동	
+		}
+		break;
+	case 5:
+		m_arrTexSizePos[m_iCurCut].vPos.y += fTimeDelta * 0.5f * CUTSPEED; // 컷 이동시키기
+		if (m_arrTexSizePos[m_iCurCut].vPos.y >= m_arrTexLastPos[m_iCurCut].y) // 컷 이동 완료 시
+		{
+			m_arrTexSizePos[m_iCurCut].vPos.y = m_arrTexLastPos[m_iCurCut].y;
+			m_fWaitForNextCut += fTimeDelta; // 다음 컷 재생 까지 조금 기다림
+			if (m_fWaitForNextCut >= 2.5f)
+			{
+				m_fWaitForNextCut = 0.f; // 다 기다렸으면 변수 초기화 후 
+				m_isReadyToChangeLevel = true;
+				m_iCurCut = 6;			 // 다음 컷으로 이동	
+			}
+		}
+		break;
+	default:
+		m_isReadyToChangeLevel = true;
+		return;
+	}
 }
 
 CLoading_ToOut* CLoading_ToOut::Create(LPDIRECT3DDEVICE9 pGraphic_Device)

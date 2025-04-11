@@ -73,6 +73,13 @@ void CLoadingCutscene::Priority_Update(_float fTimeDelta)
 
 EVENT CLoadingCutscene::Update(_float fTimeDelta)
 {
+	if (KEY_DOWN(DIK_SPACE))
+	{
+		if (m_isLoadingFinished)
+		{
+			m_isReadyToChangeLevel = true;
+		}
+	}
 	return __super::Update(fTimeDelta);
 }
 
@@ -84,9 +91,10 @@ void CLoadingCutscene::Late_Update(_float fTimeDelta)
 	}
 	if (m_isLoadingFinished)
 	{
-		m_fFinished_WaitingTime += fTimeDelta;
-		if (m_fFinished_WaitingTime >= 1.f)
+		m_fTextureNum += fTimeDelta * 1.f;
+		if (m_fTextureNum >= 4.f)
 		{
+			m_fTextureNum = 3.f;
 			m_isReadyToChangeLevel = true;
 		}
 	}

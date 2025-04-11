@@ -71,7 +71,7 @@ EVENT CMonster::Update(_float fTimeDelta)
 	if (m_bDead) // ��� üũ
 	{
 		m_fDeadBodyCounter += fTimeDelta;
-		if (m_fDeadBodyCounter > 5000.f)
+		if (m_fDeadBodyCounter > 10.f) // 여기부분 시체 남는 시간 조정용 
 			return EVN_DEAD;
 	}
 
@@ -110,7 +110,10 @@ void CMonster::Late_Update(_float fTimeDelta)
 		m_pCollider->Update_Scale({ vOrigSize.x * 0.5f, 3.f, 1.f });
 		
 		if (m_pHeadCollider != nullptr)
+		{
 			m_pHeadCollider->Update_Scale({ 0.f,0.f,0.f });
+			m_pHeadCollider->Update_OffSet({ -10000.f,-10000.f,-10000.f });
+		}
 	}
 
   	m_pCollider->Update_Collider();

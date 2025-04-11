@@ -30,6 +30,7 @@ public:
 
 public:
 	void Set_LoadingGauge(const _float percent) { m_fCurLoadingGauge = percent; }
+	void Set_IsLoaderFinished(const _bool isFinished) { m_isLoadingFinished = isFinished; }
 	_bool IsLoadingComplete() { return m_isReadyToChangeLevel; }
 
 protected:
