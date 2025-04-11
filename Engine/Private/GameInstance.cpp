@@ -85,6 +85,8 @@ void CGameInstance::Update_Engine(_float fTimeDelta)
 	m_pObject_Manager->Late_Update(fTimeDelta);
 
 	m_pLevel_Manager->Update(fTimeDelta);
+
+	
 }
 
 HRESULT CGameInstance::Draw()
@@ -415,8 +417,6 @@ CBase* CGameInstance::Find_Manager(const _wstring& strManagertag) const
 
 void CGameInstance::Release_Engine()
 {
-	Safe_Release(m_pManagement);
-
 	Safe_Release(m_pCollider_Manager);
 
 	Safe_Release(m_pCsv_Reader);
@@ -427,11 +427,13 @@ void CGameInstance::Release_Engine()
 
 	Safe_Release(m_pRenderer);
 
+	Safe_Release(m_pLevel_Manager);
+
 	Safe_Release(m_pObject_Manager);
 
 	Safe_Release(m_pPrototype_Manager);
 
-	Safe_Release(m_pLevel_Manager);
+	Safe_Release(m_pManagement);
 
 	Safe_Release(m_pSound_Device);
 

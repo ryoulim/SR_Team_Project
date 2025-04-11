@@ -876,6 +876,10 @@ CLevel_GamePlay* CLevel_GamePlay::Create(LPDIRECT3DDEVICE9 pGraphic_Device, clas
 void CLevel_GamePlay::Free()
 {
 	__super::Free();
+	CCameraManager* Cameramanager = CAMERA_MANAGER;
+	if (Cameramanager)
+		Cameramanager->Switch(CCameraManager::DYNAMIC);
+
 
 	//CUI_Manager::Get_Instance()->Clear_GamePlayUI();
 	Safe_Release(m_pCameraManager);

@@ -68,6 +68,8 @@ protected: /* [ 안개 셰이더 조절용 ] */
 	LEVEL m_eShadingLevel = LEVEL_END;
 	_float m_fShaderTime = 0.f;
 	_float m_fTextureIdx = {};
+	_float4 m_vFlashColor = { 0.486f, 0.584f, 0.918f , 1.f};
+	_float4 m_vFogColor = { 1.f, 1.f, 1.f, 1.f };
 };
 
 END

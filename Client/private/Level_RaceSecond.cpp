@@ -179,7 +179,8 @@ HRESULT CLevel_RaceSecond::Ready_Layer_Pawn(const _wstring& strLayerTag)
 		{
 			static_cast<CTransform*>(pPlayer->Find_Component(TEXT("Com_Transform")))
 				->Set_State(CTransform::STATE_POSITION, vInitPosition);
-			static_cast<CPawn*>(pPlayer)->Set_Level(CurLevel);
+			pPlayer->Set_Level(CurLevel);
+			static_cast<CPlayerOnBoat*>(pPlayer)->Set_StartState(CPlayerOnBoat::ACCEL);
 			return S_OK;
 		}
 	}

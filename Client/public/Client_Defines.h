@@ -25,6 +25,9 @@
 
 #define GAMEPLAY_START_FOG 2500.f;
 #define GAMEPLAY_END_FOG 3500.f;
+
+#define UNDERGROUND_START_FOG 0.f;
+#define UNDERGROUND_END_FOG 350.f;
 /* ↑START_FOG = 플레이어 기준 안개시작 지점↑ */
 /* ↑END_FOG   = 안개가 제일 찐하게 먹는 지점↑ */
 

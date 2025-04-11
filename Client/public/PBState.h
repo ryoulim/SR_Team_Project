@@ -98,7 +98,7 @@ public:
 
 		m_pOwner->Go_Straight(m_fDecelSpeed);
 
-		if (m_fPosZ > -300.f)
+		if (m_fPosZ > -300.f || m_fDecelSpeed < fTimeDelta)
 			Exit();
 	}
 	virtual void Exit() override
