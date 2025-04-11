@@ -478,12 +478,6 @@
     <Filter Include="02.GameObjects\UI\MenuUI\LoadingUI">
       <UniqueIdentifier>{1f7ad30a-3122-493c-9573-3f07de951b2a}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\UI\MenuUI\LoadingUI\LevelLoadingMenu">
-      <UniqueIdentifier>{f9967e05-e098-4fcc-b1ea-218980f9bbda}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObjects\UI\MenuUI\LoadingUI\LoadingMenu">
-      <UniqueIdentifier>{dd5a48aa-1696-4a1d-ab26-6e5a44c91854}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02.GameObjects\UI\MenuUI\LoadingUI\Loading_Cutscene">
       <UniqueIdentifier>{66dfbe9a-166d-48ae-8e8f-d08462213570}</UniqueIdentifier>
     </Filter>
@@ -531,6 +525,18 @@
     </Filter>
     <Filter Include="01.Levels\05. UnderGround">
       <UniqueIdentifier>{d6d83d37-45e0-4ff2-b6b8-2ec58bbf1106}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\Button\Deprecated">
+      <UniqueIdentifier>{28e712d3-90bd-4be8-ae9e-6a86f5bf197f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\MenuUI\Deprecated">
+      <UniqueIdentifier>{39feac38-d197-4a04-b07d-daf35be75cb5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\MenuUI\Deprecated\LoadingMenu_Deprecated">
+      <UniqueIdentifier>{dd5a48aa-1696-4a1d-ab26-6e5a44c91854}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\UI\MenuUI\Deprecated\LevelLoadingMenu_Deprecated">
+      <UniqueIdentifier>{f9967e05-e098-4fcc-b1ea-218980f9bbda}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -639,9 +645,6 @@
     <ClInclude Include="..\public\Level_GamePlay.h">
       <Filter>01.Levels\99. GamePlay</Filter>
     </ClInclude>
-    <ClInclude Include="..\public\Button.h">
-      <Filter>02.GameObjects\UI\Button</Filter>
-    </ClInclude>
     <ClInclude Include="..\public\PSystem.h">
       <Filter>02.GameObjects\Particle\System</Filter>
     </ClInclude>
@@ -676,7 +679,7 @@
       <Filter>02.GameObjects\UI\MenuUI\MainMenu</Filter>
     </ClInclude>
     <ClInclude Include="..\public\LoadingMenu.h">
-      <Filter>02.GameObjects\UI\MenuUI\LoadingUI\LoadingMenu</Filter>
+      <Filter>02.GameObjects\UI\MenuUI\Deprecated\LoadingMenu_Deprecated</Filter>
     </ClInclude>
     <ClInclude Include="..\public\Smoke.h">
       <Filter>02.GameObjects\Particle\Smoke</Filter>
@@ -829,7 +832,7 @@
       <Filter>02.GameObjects\Statue\BuildingH</Filter>
     </ClInclude>
     <ClInclude Include="..\public\LevelLoadingMenu.h">
-      <Filter>02.GameObjects\UI\MenuUI\LoadingUI\LevelLoadingMenu</Filter>
+      <Filter>02.GameObjects\UI\MenuUI\Deprecated\LevelLoadingMenu_Deprecated</Filter>
     </ClInclude>
     <ClInclude Include="..\public\BuildingW.h">
       <Filter>02.GameObjects\Statue\BuildingW</Filter>
@@ -1081,6 +1084,9 @@
     <ClInclude Include="..\public\Loading_ToUnderground.h">
       <Filter>02.GameObjects\UI\MenuUI\LoadingUI\Loading_Cutscene\Loading_ToUnderground</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\Button.h">
+      <Filter>02.GameObjects\UI\Button\Deprecated</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -1186,9 +1192,6 @@
     <ClCompile Include="..\private\Level_GamePlay.cpp">
       <Filter>01.Levels\99. GamePlay</Filter>
     </ClCompile>
-    <ClCompile Include="..\private\Button.cpp">
-      <Filter>02.GameObjects\UI\Button</Filter>
-    </ClCompile>
     <ClCompile Include="..\private\PSystem.cpp">
       <Filter>02.GameObjects\Particle\System</Filter>
     </ClCompile>
@@ -1223,7 +1226,7 @@
       <Filter>02.GameObjects\UI\MenuUI\MainMenu</Filter>
     </ClCompile>
     <ClCompile Include="..\private\LoadingMenu.cpp">
-      <Filter>02.GameObjects\UI\MenuUI\LoadingUI\LoadingMenu</Filter>
+      <Filter>02.GameObjects\UI\MenuUI\Deprecated\LoadingMenu_Deprecated</Filter>
     </ClCompile>
     <ClCompile Include="..\private\Smoke.cpp">
       <Filter>02.GameObjects\Particle\Smoke</Filter>
@@ -1364,7 +1367,7 @@
       <Filter>02.GameObjects\Monster\_Debug</Filter>
     </ClCompile>
     <ClCompile Include="..\private\LevelLoadingMenu.cpp">
-      <Filter>02.GameObjects\UI\MenuUI\LoadingUI\LevelLoadingMenu</Filter>
+      <Filter>02.GameObjects\UI\MenuUI\Deprecated\LevelLoadingMenu_Deprecated</Filter>
     </ClCompile>
     <ClCompile Include="..\private\BuildingW.cpp">
       <Filter>02.GameObjects\Statue\BuildingW</Filter>
@@ -1601,6 +1604,9 @@
     </ClCompile>
     <ClCompile Include="..\private\Loading_ToUnderground.cpp">
       <Filter>02.GameObjects\UI\MenuUI\LoadingUI\Loading_Cutscene\Loading_ToUnderground</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Button.cpp">
+      <Filter>02.GameObjects\UI\Button\Deprecated</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

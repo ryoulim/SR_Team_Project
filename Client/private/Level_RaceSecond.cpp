@@ -27,8 +27,8 @@ HRESULT CLevel_RaceSecond::Initialize(CLevelData* pLevelData)
 	if (FAILED(Ready_Layer_Terrain(TEXT("Layer_RaceTerrain"))))
 		return E_FAIL;
 
-	if (FAILED(Ready_Layer_UI(TEXT("Layer_UI"))))
-		return E_FAIL;
+	//if (FAILED(Ready_Layer_UI(TEXT("Layer_UI"))))
+	//	return E_FAIL;
 
 	if (FAILED(Ready_Layer_Pawn(TEXT("Layer_Pawn"))))
 		return E_FAIL;
