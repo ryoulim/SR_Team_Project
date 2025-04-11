@@ -1,6 +1,7 @@
 ﻿#include "Monster.h"
 #include "DebugDraw.h"
 #include "Skull.h"
+#include "FXMgr.h"
 
 CMonster::CMonster(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CGameObject{ pGraphic_Device }
@@ -26,7 +27,6 @@ CMonster::CMonster(const CMonster& Prototype)
 	, m_fCurDistance(Prototype.m_fCurDistance)
 	, m_fDetectiveDistance(Prototype.m_fDetectiveDistance)
 {
-	//ũ������Ʈ���� �ʱ�ȭ�Ǵ� ��� ���� �������ش�.
 }
 
 HRESULT CMonster::Initialize_Prototype()
@@ -36,21 +36,18 @@ HRESULT CMonster::Initialize_Prototype()
 
 HRESULT CMonster::Initialize(void* pArg)
 {
-	/* �÷��̾ �˰� �־�� */
 	m_pTargetPlayer = GET_PLAYER;
 	Safe_AddRef(m_pTargetPlayer);
 
-	/* �ؽ�ó, Ʈ������, ��Ʈ����, �ݶ��̴� ������Ʈ �غ�(��ġ�ʱ�ȭ) */
 	if (FAILED(Ready_Components(pArg)))
 		return E_FAIL;
-	m_fBulletCooldown = 0.2f; // �ӽ÷� ����, �ڽ����� ���� ���� (��԰� ��� ������ ������ ��)
+	m_fBulletCooldown = 0.2f;
 
 	CSkull::DESC SkullDesc{};
 	SkullDesc.eLevelID = LEVEL_STATIC;
 	SkullDesc.vScale = { 1.f,1.f,1.f };
 
 
-	//// ���� �ذ����� �ڵ�
 	m_pSkull = static_cast<CSkull*>(m_pGameInstance->Clone_Prototype(
 			PROTOTYPE::TYPE_GAMEOBJECT, LEVEL_STATIC,
 			TEXT("Prototype_GameObject_Skull"),&SkullDesc));
@@ -59,14 +56,12 @@ HRESULT CMonster::Initialize(void* pArg)
 	m_vSkullOffset.x = 0.f;
 	m_vSkullOffset.y *= 0.5f;
 	m_vSkullOffset.z = 0.f;
-	//////
 
 	return S_OK;
 }
 
 void CMonster::Priority_Update(_float fTimeDelta)
 {
-	//������ ������Ʈ
 	Set_Animation();
 	Animate_Monster(fTimeDelta);
 }
@@ -99,7 +94,6 @@ void CMonster::Late_Update(_float fTimeDelta)
 	_float3	vTemp = *m_pTransformCom->Get_State(CTransform::STATE_POSITION);
 	CGameObject::Compute_ViewZ(&vTemp);
 
-	//�÷��̾� ���� ������Ʈ
 	PlayerDistance();
 	CalculateVectorToPlayer();
 	
@@ -108,7 +102,7 @@ void CMonster::Late_Update(_float fTimeDelta)
 		_float3 vOrigSize = {};
 		m_pTextureMap[m_iState][m_iDegree]->Get_TextureSize(static_cast<_uint>(m_fAnimationFrame), &vOrigSize);
 		_float fComputedSizeYFromOrig = -vOrigSize.y*0.5f + 20.f;
-		// ���� ���� ���ݸ�ŭ ���� ���� ���α��̸�ŭ ���ϱ� 
+		
 		auto newY = m_vScale.y - 20.f;
 		//m_pCollider->Update_OffSet({ 0.f, -10.f, 0.f });
 		m_pCollider->Update_OffSet({ 0.f, -10.f, 0.f });
@@ -123,15 +117,11 @@ void CMonster::Late_Update(_float fTimeDelta)
 	if (m_pHeadCollider != nullptr)
   		m_pHeadCollider->Update_Collider();
 
-
-	//�׷���Ƽ ������Ʈ
 	m_pGravityCom->Update(fTimeDelta);
 
-	//���� ����������Ʈ
 	Compute_ViewAngle();
 	Set_TextureType();
 
-	//�����׷� ������Ʈ
 	if (FAILED(m_pGameInstance->Add_RenderGroup(CRenderer::RG_BLEND, this)))
 		return;
 
@@ -385,7 +375,6 @@ void CMonster::FrameUpdate(_float timeDelta, _float _MaxFrame, _float fSpeed, _b
 {
 	if (isLoop)
 	{
-		//���� �������� �ƽ������Ӻ��� ũ�� ? 0 ���� �ٲ��.
 		if (_MaxFrame <= m_fAnimationFrame)
 		{
 			m_fAnimationFrame -= _MaxFrame;
@@ -393,7 +382,6 @@ void CMonster::FrameUpdate(_float timeDelta, _float _MaxFrame, _float fSpeed, _b
 	}
 	else
 	{
-		//�ݺ��� �ƴϸ� �׳� ���� 
 		if (_MaxFrame <= m_fAnimationFrame)
 			return;
 	}
@@ -404,22 +392,18 @@ void CMonster::FrameUpdate(_float timeDelta, _float _MaxFrame, _float fSpeed, _b
 HRESULT CMonster::Ready_Components(void* pArg)
 {
 
-	/* ��Ʈ ���� ������Ʈ */
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, _wstring(TEXT("Prototype_Component_VIBuffer_")) + m_szBufferType,
 		TEXT("Com_VIBuffer"), reinterpret_cast<CComponent**>(&m_pVIBufferCom))))
 		return E_FAIL;
 
-	/* Ʈ������ ������Ʈ */
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Transform"),
 		TEXT("Com_Transform"), reinterpret_cast<CComponent**>(&m_pTransformCom), pArg)))
 		return E_FAIL;
 
-	//셰이더 장착
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Shader_Particle"),
 		TEXT("Com_Shader"), reinterpret_cast<CComponent**>(&m_pShaderCom))))
 		return E_FAIL;
 
-	/* ��ġ, ������ �ʱ�ȭ */
 	if (pArg != nullptr)
 	{
 		DESC* pDesc = static_cast<DESC*>(pArg);
@@ -433,7 +417,6 @@ HRESULT CMonster::Ready_Components(void* pArg)
 		m_fAttackDistance = pDesc->fAttackDistance;
 	}
 
-	/* �ݶ��̵� ������Ʈ */
 	DESC* pDesc = static_cast<DESC*>(pArg);
 	CCollider_Capsule::DESC ColliderDesc{};	
 	ColliderDesc.pTransform = m_pTransformCom;
@@ -471,7 +454,6 @@ void CMonster::Compute_ViewAngle()
 	_float3 vCurLook = *(m_pTransformCom->Get_State(CTransform::STATE_LOOK)) * -1.f;
 	vCurLook.y = 0.f;
 	vCurLook = *D3DXVec3Normalize(&vCurLook, &vCurLook);
-	// ���� ������ �Ųٷα淡 ����
 
 	_float3	vBillLook = {};
 	_float3 temp = *(m_pTransformCom->Get_State(CTransform::STATE_POSITION)) - vCameraPos;
@@ -480,16 +462,12 @@ void CMonster::Compute_ViewAngle()
 	
 	//vCurLook.y = vBillLook.y = 0.f;
 
-	// ������ ���� ���
 	float dotProduct = D3DXVec3Dot(&vCurLook, &vBillLook);
 
-	// �������� ���� cosTheta�� Ŭ���� (-1 <= cosTheta <= 1)
 	float cosTheta = max(-1.0f, min(1.0f, dotProduct));
 
-	// ������ �������� ���
 	float angleInRadians = acos(cosTheta);
 
-	// ������ ��(degree)�� ��ȯ
 	m_fPlayersViewAngle = D3DXToDegree(angleInRadians);
 
 	float crossProduct = vCurLook.x * vBillLook.z - vCurLook.z * vBillLook.x;
@@ -504,7 +482,7 @@ void CMonster::Resize_Texture(_float fSizePercent)
 {
 	_float3 vScale = { 0.f, 0.f, 0.f };
 	m_pTextureMap[m_iState][m_iDegree]->Get_TextureSize(static_cast<_uint>(m_fAnimationFrame), &vScale);
-	vScale.z = 1.f; // 0�� ���ͼ� �躤�Ͱ� �׾��������... 
+	vScale.z = 1.f;
 	m_pTransformCom->Scaling(vScale * fSizePercent);
 	m_vScale = m_vScale;
 }
@@ -513,7 +491,6 @@ void CMonster::On_Collision_NormalMonster(_uint MyColliderID, _uint OtherCollide
 {
 	CMonster::On_Collision(MyColliderID, OtherColliderID);
 
-	// �Ϲ� ���� On_Collision �Լ��� ���� ���ϵ� �� ���Ƽ� ������ ����.
 	if (CI_BLOCK(OtherColliderID))
 	{
 		Collision_With_Block();
@@ -532,13 +509,10 @@ void CMonster::Collision_With_Weapon()
 		m_eState = MODE::MODE_DETECTIVE;
 	}
 
-	//��ġŽ��
 	_float3 vImpactPos = CalculateEffectPos();
 
-	// ����Ʈ ����
 	FX_MGR->SpawnBlood(vImpactPos, LEVEL_GAMEPLAY);
 
-	//���� ���
 	if (0 >= m_iHP)
 	{
 		//FX_MGR->SpawnCustomExplosion(vImpactPos, LEVEL_GAMEPLAY, _float3{ 130.f, 160.f, 1.f }, TEXT("PC_Explosion"), 14);
@@ -547,7 +521,6 @@ void CMonster::Collision_With_Weapon()
 		_float3 TargetPos = *static_cast<CTransform*>(m_pTargetPlayer->Find_Component(L"Com_Transform"))->Get_State(CTransform::STATE_POSITION);
 		m_pTransformCom->LookAt(TargetPos);
 
-		// �ڷ� �˹�
 		//if (m_fAnimationFrame >= m_fAnimationMaxFrame - 1.f)
 			m_bKnockBack = true;
 
@@ -571,7 +544,6 @@ void CMonster::Collision_With_Block()
 
 _bool CMonster::IsMonsterAbleToAttack()
 {
-	// ���� ����ĳ�������� �÷��̾�� ���� ���� ��ֹ� ���� üũ
 	m_fRaycastTicker = 0.f;
 	if (m_fCurDistance > m_fAttackDistance)
 		return false;
@@ -616,10 +588,10 @@ void CMonster::Debug_Output()
 
 void CMonster::State_Change_IDLE(_float dt)
 {
-	if (IsPlayerDetected())	// ���� �Ÿ� ���� ���
+	if (IsPlayerDetected())
 	{
 		m_bFoundPlayer = true;
-		//�÷��̾� �߰� �� �ൿ
+		
 		if (IsMonsterAbleToAttack())
 			m_eState = MODE::MODE_DETECTIVE;
 	}
@@ -627,11 +599,10 @@ void CMonster::State_Change_IDLE(_float dt)
 
 void CMonster::State_Change_DETECTIVE(_float dt)
 {
-	//�÷��̾� ���� ������ �� ���� Ž��
 	m_fRaycastTicker += dt;
 	if (m_fRaycastTicker > 0.5f)
 	{
-		if (IsMonsterAbleToAttack())	// RayPicking���� �÷��̾�� ���� ���� ��ֹ� üũ
+		if (IsMonsterAbleToAttack())
 		{
 			m_bFoundPlayer = true;
 			m_eState = MODE::MODE_READY;
@@ -641,7 +612,6 @@ void CMonster::State_Change_DETECTIVE(_float dt)
 
 void CMonster::State_Change_READY(_float dt)
 {
-	//���� �� �غ�  ( ���� ���� ������ �ʿ� )
 	m_fRaycastTicker += dt;
 	if (m_fRaycastTicker > 0.5f)
 	{
@@ -651,7 +621,6 @@ void CMonster::State_Change_READY(_float dt)
 			return;
 		}
 	}
-	// �غ� ������
 	if (m_isReadyToAttack)
 		m_eState = MODE::MODE_BATTLE;
 }
@@ -685,7 +654,7 @@ HRESULT CMonster::Set_TextureType()
 	_float div = 0.f;
 	_float mod = modff(degree, &div);
 
-	m_iDegree = (_uint)div + (_uint)(mod > 0.5f ? 1 : 0); // ���� �������� +- �ϴ� ��
+	m_iDegree = (_uint)div + (_uint)(mod > 0.5f ? 1 : 0);
 
 	return S_OK;
 }
@@ -726,19 +695,14 @@ void CMonster::Free()
 
 void CMonster::PlayerDistance()
 {
-	//ī�޶��� ��ġ, //������ ��ġ // �� ������ �Ÿ�
 	_float4x4 matCamWorld;
 
-	//ī�޶��� ��ġ����
 	m_pGraphic_Device->GetTransform(D3DTS_VIEW, &matCamWorld);
 	D3DXMatrixInverse(&matCamWorld, NULL, &matCamWorld);
 	_float3 vCameraPos = { matCamWorld._41, matCamWorld._42, matCamWorld._43 };
 
-	//������ ��ġ
 	_float3 vMonsterPos = *m_pTransformCom->Get_State(CTransform::STATE_POSITION);
 
-
-	// �� �� ������ �Ÿ� ���
 	_float distance = sqrtf(
 		powf(vCameraPos.x - vMonsterPos.x, 2) +
 		powf(vCameraPos.y - vMonsterPos.y, 2) +
@@ -750,37 +714,34 @@ void CMonster::PlayerDistance()
 
 void CMonster::CalculateVectorToPlayer()
 {
-	//���� : ���Ϳ��� �÷��̾�� ���ϴ� ���⺤�͸� ���Ѵ�.
-
-	// ���� ��ġ
 	_float3 vMonsterPos = *m_pTransformCom->Get_State(CTransform::STATE_POSITION);
 
-	// �÷��̾� ��ġ
 	_float3 vPlayerPos = *static_cast<CTransform*>(m_pTargetPlayer->Find_Component(L"Com_Transform"))->Get_State(CTransform::STATE_POSITION);
 
-	// ���� ���� = Ÿ�� ��ġ - �� ��ġ
 	m_vToPlayer = vPlayerPos - vMonsterPos;
 
-	// ����ȭ�ؼ� ���⸸ ����� (���� 1)
 	D3DXVec3Normalize(&m_vToPlayer, &m_vToPlayer);
 	
 }
 
-bool CMonster::IsPlayerDetected() // �� �Լ� ���� ���� �ص� �ɱ�� 
+bool CMonster::IsPlayerDetected()
 {
 	if (m_fCurDistance < 100.f && m_fCurDistance > 0.f)
 		return true;
-	// �Ÿ� üũ (����Ÿ��� �����Ÿ����� ���� ��)
+
 	if (m_fCurDistance < m_fDetectiveDistance)
 	{
+		if (FX_MGR->IsFlashing())
+			return true;
+
 		_float3 vLook = *m_pTransformCom->Get_State(CTransform::STATE_LOOK);
 		vLook.Normalize();
 		m_vToPlayer.y = 0.f;
 		vLook.y = 0.f;
 
-		float fDot = D3DXVec3Dot(&m_vToPlayer, &vLook);  // 3. ���� ��
+		float fDot = D3DXVec3Dot(&m_vToPlayer, &vLook);
 
-		if (fDot > cosf(D3DXToRadian(30)))          // 4. ���� ���� �̳�
+		if (fDot > cosf(D3DXToRadian(30)))
 		{
 			return true;
 		}
@@ -790,29 +751,23 @@ bool CMonster::IsPlayerDetected() // �� �Լ� ���� ���� �
 
 void CMonster::Render_DebugFOV()
 {
-	//���� ������
 	_float3 vPos = *m_pTransformCom->Get_State(CTransform::STATE_POSITION);
 
-	//������ ����(�𷺼�)
 	_float3 vForward = *m_pTransformCom->Get_State(CTransform::STATE_LOOK);
 	vForward.y = 0.f;
 	D3DXVec3Normalize(&vForward, &vForward);
 
-	// �þ� ���� ���� (��: 60�� �þ� �� 30���� ����)
 	float fHalfFOV = D3DXToRadian(20.f / 2.0f);
 	float fLength = 100.0f;  // �þ� �Ÿ�
 
-	// ȸ�� ��� ���� (Y�� ���� ȸ��)
 	_float4x4 matRotLeft, matRotRight;
 	D3DXMatrixRotationY(&matRotLeft, -fHalfFOV);
 	D3DXMatrixRotationY(&matRotRight, fHalfFOV);
 
-	// ���� ���� ȸ��
 	_float3 vLeft, vRight;
 	D3DXVec3TransformNormal(&vLeft, &vForward, &matRotLeft);
 	D3DXVec3TransformNormal(&vRight, &vForward, &matRotRight);
 
-	// �� �� ���
 	_float3 vLeftEnd = vPos + vLeft * fLength;
 	_float3 vRightEnd = vPos + vRight * fLength;
 
@@ -825,9 +780,8 @@ void CMonster::Render_DebugFOV()
 	float fDot = D3DXVec3Dot(&vToMonster, &vCameraLook);
 
 
-	if (fDot > 0.5f) // 60�� �̳� ����
+	if (fDot > 0.5f)
 	{
-		// ����� �� �׸���
 		CDebugDraw::DrawLine(m_pGraphic_Device, vPos, vLeftEnd, D3DCOLOR_ARGB(255, 255, 255, 0));   // ��� ��
 		CDebugDraw::DrawLine(m_pGraphic_Device, vPos, vRightEnd, D3DCOLOR_ARGB(255, 255, 255, 0));  // ��� ��
 		CDebugDraw::DrawLine(m_pGraphic_Device, vLeftEnd, vRightEnd, D3DCOLOR_ARGB(100, 255, 255, 0)); // ��� ���ἱ
@@ -864,7 +818,6 @@ _bool CMonster::Raycast_Player()
 
 void CMonster::MonsterTick(_float fTimeDelta)
 {
-	//���º�ȭ
 	switch (m_eState)
 	{
 	case MODE::MODE_IDLE:
@@ -875,14 +828,11 @@ void CMonster::MonsterTick(_float fTimeDelta)
 		break;
 
 	case MODE::MODE_BATTLE:
-		//��Ʋ ���ÿ� �ൿ
 		break;
 	case MODE::MODE_RETURN:
-		//������ġ�� ���ư��� IDLE�� ���°� ���Ѵ�.
 		break;
 	}
 
-	// �����ൿ(�׼�)
 	switch (m_eState)
 	{
 	case MODE::MODE_IDLE:
@@ -918,9 +868,9 @@ void CMonster::DoIdle(_float dt)
 		m_fIdleWaitElapsed += dt;
 		if (m_fIdleWaitElapsed >= m_fIdleWaitTime)
 		{
-			SetRandomDirection();                  // ȸ���� ���� ����
+			SetRandomDirection();
 			m_fIdleWaitElapsed = 0.f;
-			m_eIdlePhase = EIdlePhase::IDLE_TURN; // ������ ȸ���Ϸ� ����
+			m_eIdlePhase = EIdlePhase::IDLE_TURN;
 		}
 		break;
 
@@ -929,7 +879,7 @@ void CMonster::DoIdle(_float dt)
 		_float3 vLook = *m_pTransformCom->Get_State(CTransform::STATE_LOOK);
 
 		bool bRotated = m_pTransformCom->RotateToDirection(vLook, m_vDirection, 5.f, dt);
-		if (bRotated)  // ȸ�� �Ϸ� ��ȣ
+		if (bRotated)
 		{
 			m_eIdlePhase = EIdlePhase::IDLE_MOVE;
 		}
@@ -940,54 +890,42 @@ void CMonster::DoIdle(_float dt)
 
 void CMonster::DoBattle(_float dt)
 {
-	// 1. �÷��̾���� �Ÿ� ���
 	_float fAttackRange = 250.f;
 	_float fChaseRange = 700.f;
 
-	// 2. �Ÿ� ���� �б�
 	if (m_fCurDistance < fAttackRange)
 	{
-		// ������ ����
 		AttackPattern(dt);
-		//cout << "������ ���� ��Ÿ� ���Դϴ�." << endl;
 	}
 	else if (m_fCurDistance < fChaseRange)
 	{
-		// �߰� �Ÿ��� ����
 		ChasePlayer(dt);
-		//cout << "���� �߰����Դϴ�!" << endl;
 	}
 	else
 	{
-		// �ʹ� �ָ� ���� ����
 		m_eState = MODE_RETURN;
 	}
 }
 
 void CMonster::DoReturn(_float dt)
 {
-	// ���� ��ġ
 	_float3 vMyPos = *m_pTransformCom->Get_State(CTransform::STATE_POSITION);
 
-	// ���� ���
 	_float3 vDir = m_vReturnPos - vMyPos;
 	float fDistance = vDir.Length();
 	vDir.Normalize();
 
-	//������������ ���ϱ�
 	_float3 vLook = *m_pTransformCom->Get_State(CTransform::STATE_LOOK);
 	bool bRotated = m_pTransformCom->RotateToDirection(vLook, vDir, 5.f, dt);
 
-	if (bRotated)  // ȸ�� �Ϸ� ��ȣ
+	if (bRotated)
 	{
-		// �ʹ� ������ �̵� ����
-		if (fDistance < 1.0f) // ���� ���� ���� ���
+		if (fDistance < 1.0f)
 		{
 			m_eState = MODE::MODE_IDLE;
 			return;
 		}
 
-		// �̵� ó�� (dt ����)
 		float fSpeed = m_fSpeed;
 		_float3 vMove = vDir * fSpeed * dt;
 
@@ -1022,19 +960,16 @@ void CMonster::DoDead(_float dt)
 
 void CMonster::SetRandomDirection()
 {
-	// 0 ~ 359�� ������ ���� ���� ����
-	float fAngle = D3DXToRadian(rand() % 360);  // rand() % 360 �� 0~359��
+	float fAngle = D3DXToRadian(rand() % 360); 
 
-	// �����κ��� ���� ���� ����
 	_float3 vDir = {
-		sinf(fAngle),   // x��
+		sinf(fAngle),
 		0.f,
-		cosf(fAngle)    // z��
+		cosf(fAngle)
 	};
 
 	m_vDirection = vDir;
 
-	// �̵� �ð� ����
 	m_fWanderTime = (rand() % 2000) / 1000.f + 1.f;
 	m_fWanderElapsed = 0.f;
 
@@ -1042,23 +977,18 @@ void CMonster::SetRandomDirection()
 
 void CMonster::AttackPattern(_float dt)
 {
-	//������ ���Ϳ� ���缭 ������ �������̵� �Ͻÿ�.
 }
 
 void CMonster::ChasePlayer(_float dt)
 {
-	//Ÿ���� 350�Ÿ����� �߰��Ѵ�.
 	_float3 TargetPos = *static_cast<CTransform*>(m_pTargetPlayer->Find_Component(L"Com_Transform"))->Get_State(CTransform::STATE_POSITION);
 
-	// ���� ��ġ
 	_float3 vMyPos = *m_pTransformCom->Get_State(CTransform::STATE_POSITION);
 
-	// ���� ���
 	_float3 vDir = TargetPos - vMyPos;
 	float fDistance = vDir.Length();
 	vDir.Normalize();
 
-	//������������ ���ϱ�
 	_float3 vLook = *m_pTransformCom->Get_State(CTransform::STATE_LOOK);
 	bool bRotated = m_pTransformCom->RotateToDirection(vLook, vDir, 5.f, dt);
 	m_pTransformCom->ChaseWithOutY(TargetPos, dt, 200.f,100.f);
@@ -1067,19 +997,15 @@ void CMonster::ChasePlayer(_float dt)
 
 _float3 CMonster::CalculateEffectPos()
 {
-	// �浹 ��ġ ��������
 	_float3 vImpactPos = m_pCollider->Get_Last_Collision_Pos();
 
-	// ī�޶��� Look ���� ��������
 	_float4x4 vCameraLook;
 	m_pGraphic_Device->GetTransform(D3DTS_VIEW, &vCameraLook);
 	vCameraLook.MakeInverseMat(vCameraLook);
 	_float3 vCameraPos = { vCameraLook._31, vCameraLook._32, vCameraLook._33 };
 
-	// Look ���� ����ȭ (ũ�� 1�� ����)
 	vCameraPos.Normalize();
 
-	// Look �������� �̵� (������ 1.0f ��ŭ �б�)
 	vImpactPos -= vCameraPos * 10.0f;
 	//vImpactPos.y += m_vScale.y / 2.f;
 
@@ -1088,45 +1014,31 @@ _float3 CMonster::CalculateEffectPos()
 
 void CMonster::On_Collision(_uint MyColliderID, _uint OtherColliderID)
 {
-	/* [ �÷��̾��� ���⿡ ���� ������ HP �� ���̵��� �������� ] */
-
-	/* �� �̰��� HP �� �����ϰ� ���� ����Ʈ�� �ؾ��� ó���� �������̵��ؼ� �Ͻÿ� ��  */
-
-	/* �Ӹ��� �¾��� ��� */
 	if (MyColliderID == CI_MON_HEAD)
-		m_iHeadMultiplier = 2; // ������ 2��
+		m_iHeadMultiplier = 2;
 	else
 		m_iHeadMultiplier = 1;
 
-	/* ���� */
 	if (OtherColliderID == CI_LOVERBOY)
 	{
 		m_iHP -= 20 * m_iHeadMultiplier;
 	}
 
-	/* ����� */
 	if (OtherColliderID == CI_CHAINGUN)
 	{
-		// 1�ʴ� 9�� == 27 ������
 		m_iHP -= 10 * m_iHeadMultiplier;
 	}
 
-	/* ���� */
 	if (OtherColliderID == CI_DISPENSOR_SHELL)
 	{
-		// 10���� ������ �Ÿ��� ��ź�� ����
 		m_iHP -= 5 * m_iHeadMultiplier;
 	}
 
-	/* ���ʺ� */
 	if (OtherColliderID == CI_DISPENSOR_GRENADE)
 	{
-		// 1���� �ؾ���
 		m_iHP -= 50 * m_iHeadMultiplier;
 	}
 
-
-	//���� ��� ����
 	if (OtherColliderID == CI_PICKING_RAY)
 	{
 		int a = 1;

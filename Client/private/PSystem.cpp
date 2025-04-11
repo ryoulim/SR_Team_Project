@@ -151,7 +151,7 @@ EVENT CPSystem::Update(_float timeDelta)
 
 void CPSystem::Late_Update(_float fTimeDelta)
 {
-	_float3	vTemp = *m_pTransForm->Get_State(CTransform::STATE_POSITION);
+ 	_float3	vTemp = *m_pTransForm->Get_State(CTransform::STATE_POSITION);
 	CGameObject::Compute_ViewZ(&vTemp);
 
 	//렌더그룹에 넣어준다.

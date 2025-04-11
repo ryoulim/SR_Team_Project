@@ -33,7 +33,7 @@ public:
 private:
 	virtual HRESULT Ready_Components(void* pArg)override;
 	void Move_Frame(_float fTimeDelta);
-	void Im_Broken(_float fTimeDelta);
+	HRESULT Im_Broken(_float fTimeDelta);
 	void Start_CutScene();
 
 private:
@@ -42,6 +42,7 @@ private:
 	_bool  m_bUpFrame = { true };
 	_bool  m_bBroken = { false };
 	_bool m_bCutSceneEnd1{ false };
+	_bool m_bDoOnce{ false };
 
 	//_float	m_fCameraTimer{};
 
