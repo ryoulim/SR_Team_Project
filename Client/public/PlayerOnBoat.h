@@ -31,6 +31,7 @@ public:
 		return (vPos - m_vPrePos) / fTimeDelta;
 	}
 	void Set_StartState(STATE eState);
+	void Set_RaceBossTransform(CTransform* BossTransform);
 private:
 	virtual HRESULT Ready_Components(void* pArg)override;
 	void Update_Frame(_float fTimeDelta);
@@ -56,6 +57,7 @@ private:
 
 	void			Create_Bullet();
 	void			Tilt(_bool Right);
+	void			Init_Aim();
 
 private:
 	class CShader* m_pShaderCom = { nullptr };
@@ -89,6 +91,11 @@ private:
 
 	// ÃÑ¾Ë ÄðÅ¸ÀÓ
 	_float					m_fBulletTimer{};
+
+	// ¿¡ÀÓ°ü·Ã
+	class CRaceAim*			m_pAim {};
+	CTransform*				m_pBossTransform{};
+	_float					m_fBossHalfScaleZ{};
 private:
 	void			Init_Camera_Link();
 	void			Update_Camera_Link();

@@ -50,6 +50,8 @@ public:
 	}
 	virtual void Execute(_float fTimeDelta) override
 	{
+		//매 프레임마다 일정 수치만큼 밀림
+		m_pOwner->m_pTransformCom->Move({ 0.f,0.f,RACE_SPEED_PER_SEC }, fTimeDelta);
 	}
 	virtual void Exit() override
 	{
@@ -66,19 +68,22 @@ public:
 public:
 	virtual void Enter(_float fTimeDelta) override
 	{
-		v0 = { 0.f, 1750.f, -1300.f };
-		vStartPos = { 0.f, 1000.f, -500.f };
-		vEndPos = { 450.f, 250.f, 1300.f };
-		v3 = { 450.f, 2000.f, 2000.f };
+		//m_fRealTime = 0.f;
+		v0 = { -1425.f, 1075.f, -600.f };
+		vStartPos = { -1000.f, 1000.f,    0.f };  // 시작점
+		vEndPos = { 450.f,  250.f, 1200.f };  // 끝점
+		v3 = { 1475.f, -425.f, 1800.f };
 	}
 
 	virtual void Execute(_float fTimeDelta) override
 	{
-		m_fTime += (1.f - m_fTime) * fTimeDelta;
+		//m_fRealTime += fTimeDelta;
+		m_fTime += (1.f - m_fTime) * fTimeDelta * 1.5f;
 		m_pOwner->MoveCatMullRom(v0, vStartPos, vEndPos, v3, m_fTime);
 
 		m_fPosZ = m_pOwner->Compute_PosZ();
-		if (m_fPosZ >= 1200.f)
+
+		if (m_fPosZ - m_pOwner->m_pPlayerpos->z > 1190.f)
 			Exit();
 	}
 
@@ -91,6 +96,7 @@ public:
 	}
 
 private:
+	_float m_fRealTime{};
 	_float3	v0 = {};
 	_float3	vStartPos = {};
 	_float3 vEndPos = {};
@@ -110,7 +116,20 @@ public:
 	}
 	virtual void Execute(_float fTimeDelta) override
 	{
-		//m_pOwner->Go_Straight(fTimeDelta);
+		m_fTime += fTimeDelta;
+
+		//매 프레임마다 일정 수치만큼 밀림
+		m_pOwner->m_pTransformCom->Move({ 0.f,0.f,RACE_SPEED_PER_SEC }, fTimeDelta);
+
+		if (m_pOwner->m_pPlayerpos->z > -3500.f &&
+			m_pOwner->m_pPlayerpos->z < -2500.f)
+			m_pOwner->Set_State(CRaceBoss::ENTRANCE);
+
+		if (m_fTime > 2.f)
+		{
+			m_pOwner->Set_State(CRaceBoss::SHOTREADY);
+			m_fTime = 0.f;
+		}
 	}
 	virtual void Exit() override
 	{
@@ -133,7 +152,10 @@ public:
 
 	virtual void Execute(_float fTimeDelta) override
 	{
-		m_pOwner->Go_Straight(fTimeDelta);
+		//매 프레임마다 일정 수치만큼 밀림
+		m_pOwner->m_pTransformCom->Move({ 0.f,0.f,RACE_SPEED_PER_SEC }, fTimeDelta);
+
+		//m_pOwner->Go_Straight(fTimeDelta);
 		m_fTime += fTimeDelta;
 		if (m_fTime > 2.f)
 			Exit();
@@ -161,7 +183,10 @@ public:
 
 	virtual void Execute(_float fTimeDelta) override
 	{
-		m_pOwner->Go_Straight(fTimeDelta);
+		//매 프레임마다 일정 수치만큼 밀림
+		m_pOwner->m_pTransformCom->Move({ 0.f,0.f,RACE_SPEED_PER_SEC * 1.5f }, fTimeDelta);
+
+		//m_pOwner->Go_Straight(fTimeDelta);
 		m_pOwner->ShuffleandPop();
 		m_pOwner->Fire_HeadBullet(fTimeDelta);
 		Exit();
@@ -188,7 +213,9 @@ public:
 
 	virtual void Execute(_float fTimeDelta) override
 	{
-		m_pOwner->Go_Straight(fTimeDelta);
+		//매 프레임마다 일정 수치만큼 밀림
+		m_pOwner->m_pTransformCom->Move({ 0.f,0.f,RACE_SPEED_PER_SEC * 1.5f }, fTimeDelta);
+
 		m_fTime += fTimeDelta;
 		if (m_fTime > 0.02f)
 		{
@@ -235,26 +262,56 @@ public:
 public:
 	virtual void Enter(_float fTimeDelta) override
 	{
+		m_fTime = 0.f;
+		// 현재의 Z 값 차이를 구한다.
+		m_fCurZDiff = m_pOwner->m_pTransformCom->Get_State(CTransform::STATE_POSITION)->z - m_pOwner->m_pPlayerpos->z;
+		// 초속 스피드 = (목표 거리 차이 - 현재 거리 차이) / 진행시간
+		m_fZSpeedPerSec = 1200 - m_fCurZDiff;
 	}
 	virtual void Execute(_float fTimeDelta) override
 	{
 		m_fTime += fTimeDelta;
-		if (m_fTime > 0.5f)
-		{
-			m_fPozY = m_pOwner->Compute_PozY();
-			m_pOwner->Go_Up(fTimeDelta);
 
-			if (m_fPozY > 280.f)
-				Exit();
-		}
-		else
-			m_pOwner->Go_Straight(fTimeDelta);
+		_float3 vPos = *m_pOwner->m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+
+		_float3	vTargetPos = *m_pOwner->m_pPlayerpos;
+		m_fCurZDiff += m_fZSpeedPerSec * fTimeDelta;
+
+		vTargetPos.x = vPos.x;
+		vTargetPos.y = vPos.y + 150 * fTimeDelta;
+		vTargetPos.z += m_fCurZDiff;
+
+		m_pOwner->m_pTransformCom->Set_State(CTransform::STATE_POSITION, vTargetPos);
+
+		// 준비하러 다가오는 시간 : 1초
+		if (m_fTime > 1.0f)
+			Exit();
+
+#pragma region 원래 코드
+		////매 프레임마다 일정 수치만큼 밀림
+		//m_pOwner->m_pTransformCom->Move({ 0.f,0.f,RACE_SPEED_PER_SEC }, fTimeDelta);
+
+
+		//m_fTime += fTimeDelta;
+		//if (m_fTime > 0.5f)
+		//{
+		//	m_fPozY = m_pOwner->Compute_PozY();
+		//	m_pOwner->Go_Up(fTimeDelta);
+
+		//	if (m_fPozY > 280.f)
+		//		Exit();
+		//}
+		//else
+		//	m_pOwner->Go_Straight(fTimeDelta);
+#pragma endregion
 	}
 	virtual void Exit() override
 	{
-		m_fTime = 0.f;
 		m_pOwner->Set_State(CRaceBoss::DRAWINGRADIUS);
 	}
+private:
+	_float		m_fZSpeedPerSec{};
+	_float		m_fCurZDiff{};
 };
 
 class CRBState_DrawingRadius final : public CRBState
@@ -270,6 +327,8 @@ public:
 	}
 	virtual void Execute(_float fTimeDelta) override
 	{
+		//매 프레임마다 일정 수치만큼 밀림
+		m_pOwner->m_pTransformCom->Move({ 0.f,0.f,RACE_SPEED_PER_SEC }, fTimeDelta);
 		m_pOwner->Set_BombRadius();
 		Exit();
 	}
@@ -289,38 +348,88 @@ public:
 public:
 	virtual void Enter(_float fTimeDelta) override
 	{
+		_float3 vPos = *m_pOwner->m_pTransformCom->Get_State(CTransform::STATE_POSITION);
 
+		m_fTime = 0.f;
+		m_fRealTime = 0.f;
+		//// Z는 값 차이로
+		vPos.z -= m_pOwner->m_pPlayerpos->z;
+
+		v0 = vPos + _float3{ 0.f, 1500.f, 500.f };
+		vStartPos = vPos;
+		vEndPos = { 450.f, 150.f, -500.f };
+		v3 = { 450.f, 200.f, -2000.f };
 	}
 	virtual void Execute(_float fTimeDelta) override
 	{
-		/*m_pOwner->Go_Backward(fTimeDelta * 3.f);
+		m_fRealTime += fTimeDelta;
+
 		m_fTime += fTimeDelta;
-		m_fEndTime += fTimeDelta;
-		if (m_fTime > 0.2f)
+
+		//if (m_fRealTime > 1.f)
+		//	m_fTime *= (1.f + fTimeDelta * 2.0f);
+		//else
+		//	m_fTime += (1.f - m_fTime) * fTimeDelta * 1.3f;
+			
+		if (m_fRealTime > 1.5f)
 		{
-			m_pOwner->Fire_Bomb4(iBombIndex, fTimeDelta);
-			++iBombIndex;
-			m_fTime = 0.f;
-		}*/
-
-		m_pOwner->Go_Backward(fTimeDelta * 3.f);
-
-		if (m_pOwner->Fire_Bomb4(iBombIndex, fTimeDelta))
-			++iBombIndex;
-
-		if(iBombIndex == 19)
 			Exit();
+			return;
+		}
+		else if (m_fRealTime > 1.f)
+			return;
+
+		m_pOwner->MoveCatMullRom(v0, vStartPos, vEndPos, v3, m_fTime);
+
+#pragma region 원래코드
+		//매 프레임마다 일정 수치만큼 밀림
+//m_pOwner->m_pTransformCom->Move({ 0.f,0.f,RACE_SPEED_PER_SEC }, fTimeDelta);
+
+
+/*m_pOwner->Go_Backward(fTimeDelta * 3.f);
+m_fTime += fTimeDelta;
+m_fEndTime += fTimeDelta;
+if (m_fTime > 0.2f)
+{
+	m_pOwner->Fire_Bomb4(iBombIndex, fTimeDelta);
+	++iBombIndex;
+	m_fTime = 0.f;
+}*/
+
+//m_pOwner->Go_Backward(fTimeDelta * 3.f);
+
+//if (m_pOwner->Fire_Bomb4(iBombIndex, fTimeDelta))
+//	++iBombIndex;
+
+//if(iBombIndex == 19)
+//	Exit();
+
+#pragma endregion
+
 	}
 	virtual void Exit() override
 	{
-		iBombIndex = 0;
-		m_fEndTime = 0.f;
+		vEndPos.z += m_pOwner->m_pPlayerpos->z;
+		vEndPos.y = 1000.f;
+		m_pOwner->m_pTransformCom->Set_State(CTransform::STATE_POSITION, vEndPos);
+
+		//iBombIndex = 0;
+		//m_fEndTime = 0.f;
 		m_pOwner->Set_State(CRaceBoss::COMEBACK);
 	}
 
 private:
-	_float m_fEndTime = {};
-	_uint iBombIndex = { 0 };
+	_float m_fRealTime{};
+
+	_float3	v0 = {};
+	_float3	vStartPos = {};
+	_float3 vEndPos = {};
+	_float3 v3 = {};
+
+	//_float m_fCurZDiff{};
+	//_float m_fZSpeedPerSec{};
+	//_float m_fEndTime = {};
+	//_uint iBombIndex = { 0 };
 };
 
 class CRBState_Comeback final : public CRBState
@@ -333,17 +442,33 @@ public:
 public:
 	virtual void Enter(_float fTimeDelta) override
 	{
+		m_fSpeedY = 600.f;
+		_float3 vPos = *m_pOwner->m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+		vPos.z = 1000.f + m_pOwner->m_pPlayerpos->z;
+
+		m_pOwner->m_pTransformCom->Set_State(CTransform::STATE_POSITION, vPos);
 	}
 	virtual void Execute(_float fTimeDelta) override
 	{
-		//원래 위치로 복귀한다.
-		if (m_pOwner->Comeback(fTimeDelta))
+		m_fSpeedY *= powf(0.5f, fTimeDelta);;
+
+		m_pOwner->m_pTransformCom->Move({ 0.f, -m_fSpeedY, RACE_SPEED_PER_SEC }, fTimeDelta);
+		_float3 vPos = *m_pOwner->m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+
+		if (vPos.y < 200)
 			Exit();
+		
+		//원래 위치로 복귀한다.
+		//if (m_pOwner->Comeback(fTimeDelta))
+		//	Exit();
 	}
 	virtual void Exit() override
 	{
 		m_pOwner->Set_State(CRaceBoss::IDLE);
 	}
+
+private:
+	_float	m_fSpeedY{};
 };
 #pragma endregion
 
@@ -357,12 +482,45 @@ public:
 public:
 	virtual void Enter(_float fTimeDelta) override
 	{
+		m_fSpeedY = 100.f;
 	}
 	virtual void Execute(_float fTimeDelta) override
 	{
+		m_fSpeedY *= powf(2.0f, fTimeDelta);
+		m_pOwner->m_pTransformCom->Move({ 0.f,m_fSpeedY,100.f }, fTimeDelta);
+
 	}
 	virtual void Exit() override
 	{
+	}
+private:
+	_float m_fSpeedY{};
+};
+
+class CRBState_Dead final : public CRBState
+{
+public:
+	CRBState_Dead(CRaceBoss* pOwner)
+		:CRBState(pOwner) {
+	}
+	virtual ~CRBState_Dead() = default;
+
+public:
+	virtual void Enter(_float fTimeDelta) override
+	{
+
+	}
+	virtual void Execute(_float fTimeDelta) override
+	{
+		//매 프레임마다 일정 수치만큼 밀림 +  왼쪽 아래로 꾸준히 떨어져라
+		m_pOwner->m_pTransformCom->Move({ -5.f,-100.f,RACE_SPEED_PER_SEC }, fTimeDelta);
+
+		if (m_pOwner->m_pTransformCom->Get_State(CTransform::STATE_POSITION)->y < -100.f)
+			Exit();
+	}
+	virtual void Exit() override
+	{
+		m_pOwner->m_bDead = TRUE;
 	}
 };
 

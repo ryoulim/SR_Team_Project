@@ -54,7 +54,7 @@ public:
 
 		m_pOwner->Go_Straight(m_fAccelSpeed);
 
-		if (m_fPosZ > -5600.f && m_fPosZ < -5500.f)
+		if (m_fPosZ > -5600.f && m_fPosZ < 0.f)
 			Exit();
 	}
 	virtual void Exit() override

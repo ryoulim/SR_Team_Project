@@ -532,6 +532,9 @@
     <Filter Include="01.Levels\05. UnderGround">
       <UniqueIdentifier>{d6d83d37-45e0-4ff2-b6b8-2ec58bbf1106}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\UI\GamePlayUI\RaceAim">
+      <UniqueIdentifier>{5275045d-2ced-40d5-973d-7ee1ed90d5cc}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -1081,6 +1084,9 @@
     <ClInclude Include="..\public\Loading_ToUnderground.h">
       <Filter>02.GameObjects\UI\MenuUI\LoadingUI\Loading_Cutscene\Loading_ToUnderground</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\RaceAim.h">
+      <Filter>02.GameObjects\UI\GamePlayUI\RaceAim</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -1601,6 +1607,9 @@
     </ClCompile>
     <ClCompile Include="..\private\Loading_ToUnderground.cpp">
       <Filter>02.GameObjects\UI\MenuUI\LoadingUI\Loading_Cutscene\Loading_ToUnderground</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\RaceAim.cpp">
+      <Filter>02.GameObjects\UI\GamePlayUI\RaceAim</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

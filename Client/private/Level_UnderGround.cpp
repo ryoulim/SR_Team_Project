@@ -471,12 +471,30 @@ HRESULT CLevel_UnderGround::Ready_Layer_Pawn(const _wstring& strLayerTag)
 		// 만약 플레이어가 보트라면 죽여라
 		if (pPlayer1->Get_Type() == CPawn::BOAT)
 		{
-			pPlayer2->Link_Player_Data(*pPlayer1);
-				
 			if (pPlayer2)
+			{
+				pPlayer2->Link_Player_Data(*pPlayer1);
 				pPlayer2->AddRef();
-			m_pGameInstance->Release_Layer(LEVEL_STATIC, strLayerTag);
-			m_pGameInstance->Push_GameObject(pPlayer2, LEVEL_STATIC, strLayerTag);
+				m_pGameInstance->Release_Layer(LEVEL_STATIC, strLayerTag);
+				m_pGameInstance->Push_GameObject(pPlayer2, LEVEL_STATIC, strLayerTag);
+			}
+			else
+			{
+				m_pGameInstance->Release_Layer(LEVEL_STATIC, strLayerTag);
+
+				//없으면 새로 생성해서 넣어줌
+				CPlayer::DESC PlayerDesc{};
+				PlayerDesc.vInitPos = vInitPosition;
+				PlayerDesc.vScale = { 30.f, 50.f, 30.f };
+				PlayerDesc.fRotationPerSec = RADIAN(180.f);
+				PlayerDesc.fSpeedPerSec = 150.f;
+				PlayerDesc.eLevelID = CurLevel;
+
+				// 최초 게임 입장할때 어디에서 입장하던 스태틱에 생성해준다.
+				if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_Player"),
+					LEVEL_STATIC, strLayerTag, &PlayerDesc)))
+					return E_FAIL;
+			}
 		}
 		else // 왜인진 모르겠지만 1번이 컴먼일경우
 		{

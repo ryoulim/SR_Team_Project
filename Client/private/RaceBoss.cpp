@@ -41,29 +41,46 @@ HRESULT CRaceBoss::Initialize(void* pArg)
 
 void CRaceBoss::Priority_Update(_float fTimeDelta)
 {
-	//이전 상태와 현재 상태가 다르다면 Enter 실행
-	if (m_eCurState != m_ePreState)
-	{
-		m_pCurState->Enter(fTimeDelta);
-		m_ePreState = m_eCurState;
-	}
-
-	//Exectue는 무조건 실행
-	m_pCurState->Execute(fTimeDelta);
-
 	__super::Priority_Update(fTimeDelta);
 }
 
 EVENT CRaceBoss::Update(_float fTimeDelta)
 {
+	// 몬스터는 업데이트 시점으로 와야함 
 	if (m_bDead)
 		return EVN_DEAD;
 
-	/*  --------------------[ 부위 파괴 시 지속 폭발 ]----------------------- */
+	if (m_eCurState != DEAD &&
+		m_pTransformCom->Get_State(CTransform::STATE_POSITION)->z > 9500)
+		Set_State(CRaceBoss::LEAVE);
+
 	_float3 vPos = *m_pTransformCom->Get_State(CTransform::STATE_POSITION);
 
+	//이전 상태와 현재 상태가 다르다면 Enter 실행
+	if (m_eCurState != m_ePreState)
+	{
+		m_pCurState->Enter(fTimeDelta);
+		m_ePreState = m_eCurState;
+
+#ifdef _CONSOL
+		_float3 vPos = *m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+		printf("보스 위치 : { %f, %f, %f }\n", vPos.x, vPos.y, vPos.z);
+		printf("보스 상태 : %s\n", Debug_State(m_eCurState));
+#endif
+
+	}
+
+	//Exectue는 무조건 실행
+	m_pCurState->Execute(fTimeDelta);
+
+	/*  --------------------[ 부위 파괴 시 지속 폭발 ]----------------------- */
+
+
 	if (KEY_DOWN(DIK_0))
+	{
+		Set_State(DEAD);
 		fill(std::begin(m_bPartDead), std::end(m_bPartDead), true);
+	}
 	if (KEY_DOWN(DIK_9))
 		FX_MGR->SpawnMultipleExplosionRaceBoss(vPos, m_eLevelID);
 
@@ -80,34 +97,16 @@ EVENT CRaceBoss::Update(_float fTimeDelta)
 
 	/* -------------------------------------------------------------------- */
 
-#ifdef _CONSOL
-	if (KEY_DOWN(DIK_X))
-	{
-		_float3 vPos = *m_pTransformCom->Get_State(CTransform::STATE_POSITION);
-		printf("보스 위치 : { %f, %f, %f }\n", vPos.x, vPos.y, vPos.z);
-		printf("보스 상태 : %d\n", m_eState);
-	}
-#endif
-
-	//매 프레임마다 일정 수치만큼 밀림
-	m_pTransformCom->Move({ 0.f,0.f,RACE_SPEED_PER_SEC }, fTimeDelta);
-
 	Update_Skull(fTimeDelta); // 이 함수 반드시 보스의 움직임을 모두 업데이트 마친 다음에 호출해야 합니다.
 
-	/// 아래는 테스트
-	static _float fTimeAcc{};
-	fTimeAcc += fTimeDelta;
-	if (fTimeAcc > 1.f)
-	{
-		Fire_HeadBullet(fTimeDelta);
-		fTimeAcc = 0.f;
-	}
-
-	if (KEY_DOWN(DIK_COMMA))
-		m_bDead = TRUE;
-	///
-
-
+	///// 아래는 테스트
+	//static _float fTimeAcc{};
+	//fTimeAcc += fTimeDelta;
+	//if (fTimeAcc > 1.f)
+	//{
+	//	Fire_HeadBullet(fTimeDelta);
+	//	fTimeAcc = 0.f;
+	//}
 	return EVN_NONE;
 }
 
@@ -170,6 +169,12 @@ HRESULT CRaceBoss::Render()
 	return S_OK;
 }
 
+void CRaceBoss::Add_Collider()
+{
+	for (auto Collider : m_ColliderComs)
+		m_pGameInstance->Add_Collider(Collider, CG_MONSTER);
+}
+
 _bool CRaceBoss::Judge_Skull(const _float3& vColliderPos, _float vColliderRadius,_float fTimedelta)
 {
 	const _float3& vPos = *m_pTransformCom->Get_State(CTransform::STATE_POSITION);
@@ -181,14 +186,17 @@ _bool CRaceBoss::Judge_Skull(const _float3& vColliderPos, _float vColliderRadius
 	const _float3 relativePos = vColliderPos - *m_pPlayerpos;
 	const _float3 relativeVelocity = vVelocity - bulletVelocity;
 
-	// 거리^2 가 반지름^2 이하가 되는 최소 t 계산
+	// ▶ bullet 반지름 추가
+	const _float bulletRadius = 10.f; // 플레이어 총알 반지름 10임
+	const _float totalRadius = vColliderRadius + bulletRadius;
+
+	// 거리^2 가 (합쳐진 반지름)^2 이하가 되는 최소 t 계산
 	const _float a = relativeVelocity.Dot(relativeVelocity);
 	const _float b = 2.0f * relativePos.Dot(relativeVelocity);
-	const _float c = relativePos.Dot(relativePos) - SQUARE(vColliderRadius);
+	const _float c = relativePos.Dot(relativePos) - SQUARE(totalRadius);
 
 	const _float discriminant = b * b - 4 * a * c;
 
-	// 교차하지 않음 (충돌할 수 없음)
 	if (discriminant < 0.0f)
 		return FALSE;
 
@@ -196,8 +204,7 @@ _bool CRaceBoss::Judge_Skull(const _float3& vColliderPos, _float vColliderRadius
 	const _float t1 = (-b - sqrtDisc) / (2 * a);
 	const _float t2 = (-b + sqrtDisc) / (2 * a);
 
-	// t1, t2는 충돌 가능한 시간 범위
-	// 과거(t < 0)는 무시하고 미래에 교차가 있는지 확인
+	// 미래에 충돌이 발생하는 경우만 TRUE
 	return (t2 >= 0.0f);
 }
 
@@ -376,6 +383,51 @@ _float CRaceBoss::GetRandomFloat(float lowBound, float highBound)
 	return (f * (highBound - lowBound)) + lowBound;
 }
 
+const char* CRaceBoss::Debug_State(STATE eState)
+{
+	switch (eState)
+	{
+	case WAITFORPLAYER:
+		return "WAITFORPLAYER";
+
+	case ENTRANCE:
+		return "ENTRANCE";
+
+	case IDLE:
+		return "IDLE";
+
+	case SHOTREADY:
+		return "SHOTREADY";
+
+	case SHOTHEADBULLET:
+		return "SHOTHEADBULLET";
+
+	case SHOTTAILBULLET:
+		return "SHOTTAILBULLET";
+
+	case READYBOMB:
+		return "READYBOMB";
+
+	case DRAWINGRADIUS:
+		return "DRAWINGRADIUS";
+
+	case BOMBING:
+		return "BOMBING";
+
+	case COMEBACK:
+		return "COMEBACK";
+
+	case LEAVE:
+		return "LEAVE";
+
+	case NON:
+		return "NON";
+
+	default:
+		return nullptr;
+	}
+}
+
 HRESULT CRaceBoss::Ready_Components(void* pArg)
 {
 	/* For.Com_Texture */
@@ -393,12 +445,12 @@ HRESULT CRaceBoss::Ready_Components(void* pArg)
 		TEXT("Com_Transform"), reinterpret_cast<CComponent**>(&m_pTransformCom), pArg)))
 		return E_FAIL;
 
-	m_vScale = _float3(100.f, 100.f, 100.f);
+	m_vScale = _float3(90.f, 90.f, 90.f);
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, _float3(0.f, 250.f, 0.f));
 	//450,250,1000
 	m_pTransformCom->Scaling(m_vScale);
 
-	CCollider_Capsule::DESC ColliderDesc{};
+	CCollider::DESC ColliderDesc{};
 	ColliderDesc.pTransform = m_pTransformCom;
 	ColliderDesc.vScale = {20.f,1.f,1.f};
 	ColliderDesc.pOwner = this;
@@ -435,6 +487,7 @@ void CRaceBoss::ReadyForState()
 	m_pState[SHOTHEADBULLET] = new CRBState_ShotHeadBullet(this);
 	m_pState[SHOTTAILBULLET] = new CRBState_ShotTailBullet(this);
 	m_pState[LEAVE] = new CRBState_Leave(this);
+	m_pState[DEAD] = new CRBState_Dead(this);
 
 	//계속 터지길래 시작부터 값 채워놓음
 	m_VecBulletPos = { LSIDE, LMIDDLE, MIDDLE, RMIDDLE, RSIDE };
@@ -875,6 +928,9 @@ _float3 CRaceBoss::CatmulRomPos(_float3& v0, _float3& vStartPos, _float3& vEndPo
 	_float3 vResult = {};
 	D3DXVec3CatmullRom(&vResult, &v0, &vStartPos, &vEndPos, &v3, t);
 
+	// 캣멀롬 구하고 Z는 플레이어의 포지션 더해서 넣어줘야함!!!!
+	vResult.z += m_pPlayerpos->z;
+
 	return vResult;
 }
 
@@ -1041,10 +1097,10 @@ void CRaceBoss::On_Hit(MUZZLEPOS HitPos, _int iDamage)
 	}
 
 	//아예죽음
-	if (m_iHp < 0)
+	if (m_iHp <= 0)
 	{
 		m_iHp = 0;
-		m_bDead = true;
+		Set_State(DEAD);
 	}
 
 #ifdef _CONSOL

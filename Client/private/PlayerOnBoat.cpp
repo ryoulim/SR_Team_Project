@@ -6,6 +6,7 @@
 #include "PlayerMissile.h"
 #include "TPS_Camera.h"
 #include "FXMgr.h"
+#include "RaceAim.h"
 
 #define BULLET_COOLTIME 0.5f
 #define ANGLE_COEF 13.f
@@ -50,6 +51,8 @@ HRESULT CPlayerOnBoat::Initialize(void* pArg)
 		TEXT("Com_Shader"), reinterpret_cast<CComponent**>(&m_pShaderCom))))
 		return E_FAIL;
 
+
+	Init_Aim();
 	return S_OK;
 }
 
@@ -113,7 +116,19 @@ EVENT CPlayerOnBoat::Update(_float fTimeDelta)
 {
 	m_fBulletTimer += fTimeDelta;
 
+	//_float3 vPos = *m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+
+	//_float3 vBossPos = *m_pBossTransform->Get_State(CTransform::STATE_POSITION);
+	//vBossPos.z += m_fBossHalfScaleZ;
+
+	//_float VectorLength = (vBossPos.z - vPos.z) / RACE_PBULLET_DIR.z;
+
+	//vPos += RACE_PBULLET_DIR * VectorLength;
+
+	//m_pAim->Update(vPos, fTimeDelta);
+
 	Update_Frame(fTimeDelta);
+
 	CUI_Manager::Get_Instance()->Set_RacingSpeed((int)GetVelocityPerSecond(fTimeDelta).Length());
 
 	return __super::Update(fTimeDelta);
@@ -131,6 +146,8 @@ void CPlayerOnBoat::Late_Update(_float fTimeDelta)
 	m_pCollider->Update_Collider();
 
 	m_pGameInstance->Add_RenderGroup(CRenderer::RG_BLEND, this);
+
+	//m_pAim->Late_Update(fTimeDelta);
 
 	__super::Late_Update(fTimeDelta);
 
@@ -211,6 +228,13 @@ void CPlayerOnBoat::Set_StartState(STATE eState)
 
 	m_pCurState = m_pState[eState];
 	m_eCurState = eState;
+}
+
+void CPlayerOnBoat::Set_RaceBossTransform(CTransform* BossTransform)
+{
+	m_pBossTransform = BossTransform;
+	Safe_AddRef(m_pBossTransform);
+	m_fBossHalfScaleZ = m_pBossTransform->Compute_Scaled().z; // 원본이 *2임
 }
 
 HRESULT CPlayerOnBoat::Ready_Components(void* pArg)
@@ -533,6 +557,18 @@ void CPlayerOnBoat::Tilt(_bool Right)
 	m_pTransformCom->Quaternion_Rotation({ 0.f,0.f, fAngle });
 }
 
+void CPlayerOnBoat::Init_Aim()
+{
+	// 에임
+	CRaceAim::DESC AimDesc{};
+	AimDesc.vScale = { 40.f,40.f,1.f };
+	AimDesc.eLevelID = LEVEL_STATIC;
+
+	m_pAim = static_cast<CRaceAim*>(m_pGameInstance->Clone_Prototype(
+		PROTOTYPE::TYPE_GAMEOBJECT, LEVEL_STATIC,
+		TEXT("Prototype_GameObject_RaceAim"), &AimDesc));
+}
+
 void CPlayerOnBoat::Set_State(STATE eState)
 {
 	m_pCurState = m_pState[eState];
@@ -598,8 +634,9 @@ void CPlayerOnBoat::Free()
 	__super::Free();
 
 	Safe_Release(m_pCameraManager);
-	//Safe_Release(m_pCameraTransform);
+	Safe_Release(m_pBossTransform);
 	Safe_Release(m_pShaderCom);
+	Safe_Release(m_pAim);
 
 	for (size_t i = DECEL; i < NON; ++i)
 		Safe_Release(m_pState[i]);

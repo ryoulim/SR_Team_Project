@@ -71,6 +71,7 @@
 
 //UI 인클루드
 #include "Aim.h"
+#include "RaceAim.h"
 #include "Logo.h"
 #include "Ammo.h"
 #include "Armor.h"
@@ -309,6 +310,7 @@ HRESULT CLoader::Loding_For_Static()
 	ADD_TEXTURE(Loading_ToOut, "../Bin/Resources/Textures/UI/LoadingCutscene/ToOut/%d.PNG", 6);
 	ADD_TEXTURE(Loading_ToRace, "../Bin/Resources/Textures/UI/LoadingCutscene/ToRace/%d.PNG", 2);
 	ADD_TEXTURE(Loading_ToUnderground, "../Bin/Resources/Textures/UI/LoadingCutscene/ToUnderground/%d.PNG", 1);
+	ADD_TEXTURE(RaceAim, "../Bin/Resources/Textures/Aim/RaceAim.PNG", 1);
 
 #pragma endregion
 	
@@ -329,6 +331,7 @@ HRESULT CLoader::Loding_For_Static()
 	ADD_PRTOBJ(Trigger);
 	ADD_PRTOBJ(Sky);
 	ADD_PRTOBJ(Aim);
+	ADD_PRTOBJ(RaceAim);
 	ADD_PRTOBJ(Ammo);
 	ADD_PRTOBJ(Portrait);
 	ADD_PRTOBJ(Armor);

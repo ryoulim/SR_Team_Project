@@ -41,7 +41,12 @@ HRESULT CLoading_OnRacing::Initialize(void* pArg)
 
 void CLoading_OnRacing::Priority_Update(_float fTimeDelta)
 {
-	__super::Priority_Update(fTimeDelta);
+	if (m_fCurLoadingGauge >= 1.f)
+	{
+		m_isLoadingFinished = true;
+		m_isReadyToChangeLevel = true;
+	}
+	//__super::Priority_Update(fTimeDelta);
 }
 
 EVENT CLoading_OnRacing::Update(_float fTimeDelta)

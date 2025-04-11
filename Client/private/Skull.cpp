@@ -83,31 +83,6 @@ HRESULT CSkull::Render()
 {
 
 	return __super::Render();
-
-	//m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
-	//m_pGraphic_Device->SetRenderState(D3DRS_ALPHAREF, 40);
-	//m_pGraphic_Device->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER);
-
-	//_float4x4 mat{};
-	//m_pGraphic_Device->GetTransform(D3DTS_PROJECTION, &mat);
-	//m_pGraphic_Device->SetTransform(D3DTS_PROJECTION,&m_Orthomat);
-	//	
-	//m_pTransformCom->Bind_Resource();
-
-	////if (FAILED(m_pGraphic_Device->SetTransform(D3DTS_WORLD, &m_pTransformCom->Billboard_Y())))
-	////	return E_FAIL;
-
-	//if (FAILED(m_pTextureCom->Bind_Resource(0)))
-	//	return E_FAIL;
-
-	//if (FAILED(m_pVIBufferCom->Bind_Buffers()))
-	//	return E_FAIL;
-
-	//if (FAILED(m_pVIBufferCom->Render()))
-	//	return E_FAIL;
-
-	//m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
-	//m_pGraphic_Device->SetTransform(D3DTS_PROJECTION, &mat);
 }
 
 CSkull* CSkull::Create(LPDIRECT3DDEVICE9 pGraphic_Device)

@@ -21,7 +21,7 @@ HRESULT CLevel_Logo::Initialize(class CLevelData* pLevelData)
 		return E_FAIL;
 
 	m_pBGM = m_pGameInstance->Get_Single_Sound("intro_af");
-	m_pBGM->Set_Volume(0.5f);
+	m_pBGM->Set_Volume(0.3f);
 	m_pBGM->Play();
 
 	ShowCursor(TRUE);

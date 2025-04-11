@@ -22,7 +22,7 @@ public:
 	enum STATE { WAITFORPLAYER, ENTRANCE, IDLE,
 		SHOTREADY, SHOTHEADBULLET, SHOTTAILBULLET,
 		READYBOMB, DRAWINGRADIUS, BOMBING, COMEBACK, 
-		LEAVE, NON };
+		LEAVE,DEAD, NON };
 
 	// 콜라이더 떄문에 아이디랑 통일해 두겠습니다, 부위파괴 로직때문에 순서 좀만 조정하겠습니다.
 	enum MUZZLEPOS { LSIDE = CI_RACEBOSS_MUZZLE1, LMIDDLE, RMIDDLE, RSIDE, MIDDLE, POSEND = 5 };
@@ -45,6 +45,7 @@ public:
 	virtual EVENT Update(_float fTimeDelta) override;
 	virtual void Late_Update(_float fTimeDelta) override;
 	virtual HRESULT Render() override;
+	void Add_Collider();
 	
 	void Set_LevelID(LEVEL ID) {
 		m_eLevelID = ID;
@@ -62,17 +63,19 @@ public:
 		return (vPos - m_vPrePos) / fTimeDelta;
 	}
 	_bool		IsDead() { 
-		return m_bDead; 
+		return m_eCurState == DEAD;
 	}
 private:
+
+	// 스태이트 캐릭터로 뽑아주는 디버그용
+	const char* Debug_State(STATE eState);
+
 	HRESULT Ready_Components(void* pArg);
 	void ReadyForState();
 	HRESULT Fire_Bullet(CRaceBossBullet::RBULLETTYPE eType, MUZZLEPOS ePos, _float fTimeDelta);
 	HRESULT Fire_Bomb(_float fTimeDelta);
 	HRESULT Fire_Bomb2();
 	HRESULT Fire_Bomb3();
-
-	
 
 	HRESULT Set_BombRadius();
 	_bool Fire_Bomb4(_uint iBombIndex, _float fTime);
@@ -101,6 +104,7 @@ private:
 	friend class CRBState_Bombing;
 	friend class CRBState_Comeback;
 	friend class CRBState_Leave;
+	friend class CRBState_Dead;
 
 	STATE					m_eState = { NON };
 	STATE					m_ePreState = { NON };
@@ -168,8 +172,8 @@ private:
 
 
 private: // 보스 피격과 부위파괴 관련
-	_int		m_iHp = {400}; // 총체력
-	_int		m_iMuzzleHp[5]{ 80 ,80 ,80 ,80 ,80 }; // 부위별 체력인데 마지막이 센터
+	_int		m_iHp = {250}; // 총체력
+	_int		m_iMuzzleHp[5]{ 50 ,50 ,50 ,50 ,50 }; // 부위별 체력인데 마지막이 센터
 	_uint		m_iTextureID[5]{1,1,1,1,2};
 		
 	void On_Hit(MUZZLEPOS HitPos, _int iDamage);

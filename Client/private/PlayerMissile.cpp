@@ -115,7 +115,7 @@ HRESULT CPlayerMissile::Ready_Components(void* pArg)
 	DESC* pDesc = static_cast<DESC*>(pArg);
 	CCollider_Line::DESC ColliderDesc{};
 	ColliderDesc.pTransform = m_pTransformCom;
-	ColliderDesc.vScale.x = pDesc->vScale.x;
+	ColliderDesc.vScale.x = pDesc->vScale.x * 0.5f;
 	ColliderDesc.pOwner = this;
 	ColliderDesc.iColliderGroupID = CG_PBULLET;
 	ColliderDesc.iColliderID = CI_MISSILE;

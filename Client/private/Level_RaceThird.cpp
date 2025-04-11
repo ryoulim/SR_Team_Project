@@ -214,7 +214,8 @@ HRESULT CLevel_RaceThird::Ready_Layer_RaceBoss(const _wstring& strLayerTag)
 	{
 		static_cast<CTransform*>(pBoss->Find_Component(TEXT("Com_Transform")))
 			->Set_State(CTransform::STATE_POSITION, vInitPosition);
-		pBoss->Set_StartState(CRaceBoss::ENTRANCE);
+		pBoss->Set_StartState(CRaceBoss::IDLE);
+		pBoss->Add_Collider();
 		return S_OK;
 	}
 
@@ -276,6 +277,7 @@ HRESULT CLevel_RaceThird::Ready_Layer_UI(const _wstring& strLayerTag)
 void CLevel_RaceThird::Check_Collision()
 {
 	m_pGameInstance->Intersect(CG_PAWN, CG_MBULLET);
+	m_pGameInstance->Intersect(CG_MONSTER, CG_PBULLET);
 }
 
 CLevel_RaceThird* CLevel_RaceThird::Create(LPDIRECT3DDEVICE9 pGraphic_Device, class CLevelData* pLevelData)
