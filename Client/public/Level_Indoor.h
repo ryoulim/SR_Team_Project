@@ -24,8 +24,6 @@ private:
 	HRESULT Ready_Layer_Camera(const _wstring& strLayerTag);
 	HRESULT Ready_Layer_Pawn(const _wstring& strLayerTag);
 	HRESULT Ready_Layer_Monster(const _wstring& strLayerTag);
-	HRESULT Ready_Layer_Item(const _wstring& strLayerTag);
-
 
 	void Check_Collision();
 

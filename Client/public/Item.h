@@ -5,9 +5,10 @@
 #include "GameObject.h"
 
 
-#define BOSSITEMSCALE 22.f
+#define BOSSITEMSCALE 18.f
 #define INDOORITEMSCALE 15.f
-#define OUTDOORITEMSCALE 20.f
+#define OUTDOORITEMSCALE 18.f
+#define UNDERGROUNDITEMSCALE 20.f
 
 BEGIN(Engine)
 class CTexture;

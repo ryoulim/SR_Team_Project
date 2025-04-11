@@ -185,6 +185,7 @@ void CGarbageBag::Create_Item()
     switch (rand() % 4)
     {
     case 0:
+        ItemDesc.vScale.x *= 1.2f;
         ItemDesc.fTextureNum = 0.f;
         ItemDesc.eColID = COLLIDER_ID::CI_ITEM_AMMO_CHAINGUN;
         strPrototypeName = TEXT("Prototype_GameObject_Item_Ammo_Chaingun");

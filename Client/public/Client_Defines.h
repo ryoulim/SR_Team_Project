@@ -5,9 +5,9 @@
 #include <Windows.h>
 #include <process.h>
 
-#define _CONSOL
+//#define _CONSOL
 //#define _IMGUI
-#define START_LEVEL LEVEL_RACEFIRST
+#define START_LEVEL LEVEL_UNDERGROUND
 
 // 레이스 맵 플레이어의 이동속도 : 보정때메 여기저기서 써야함 이제 안쓸듯
 #define RACE_SPEED_PER_SEC 400.f
@@ -16,7 +16,7 @@
 #define RACE_PBULLET_DIR	_float3{ 0.f, 0.164f, 0.986f }
 #define RACE_PBULLET_SPEED	1150.f
 
-/* [ 레벨별 안개정도 ] */
+/* [ 레벨별 안개정도 ] */	
 #define INDOOR_START_FOG 300.f;
 #define INDOOR_END_FOG 1500.f;
 

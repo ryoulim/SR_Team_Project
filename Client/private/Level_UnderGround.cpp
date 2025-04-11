@@ -94,7 +94,7 @@ HRESULT CLevel_UnderGround::Load_Map(_uint iLevelIdx, const _wstring& FileName)
 		iNumTrashCan{}, iNumGarbageBag{}, iNumDoor{};
 	/* 불러오기용 변수 */
 	_int iNumVertexX = {}, iNumVertexZ = {}, iLoadLength = {};
-	_uint iNumBackGround = {}, iNumModel = {}, iNumItem = {}, iItemID = {};
+	_uint iNumBackGround = {}, iNumItem = {}, iItemID = {};
 	_float fSpeedPerSec = {}, fRotationPerSec = {}, fTextureIdx = {};
 	_tchar szPrototypeTag[MAX_PATH] = {};;
 	_bool  bCollision = {};
@@ -295,47 +295,6 @@ HRESULT CLevel_UnderGround::Load_Map(_uint iLevelIdx, const _wstring& FileName)
 			ZeroMemory(szPrototypeTag, sizeof(szPrototypeTag));
 
 		}
-
-		bResult = ReadFile(hFile, &iNumModel, sizeof(_uint), &dwByte, NULL);
-
-		for (_uint i = 0; i < iNumModel; i++)
-		{
-			bResult = ReadFile(hFile, &fSpeedPerSec, sizeof(_float), &dwByte, NULL);
-			bResult = ReadFile(hFile, &fRotationPerSec, sizeof(_float), &dwByte, NULL);
-			bResult = ReadFile(hFile, &vPosition, sizeof(_float3), &dwByte, NULL);
-			bResult = ReadFile(hFile, &vScale, sizeof(_float3), &dwByte, NULL);
-			bResult = ReadFile(hFile, &vAngle, sizeof(_float3), &dwByte, NULL);
-			bResult = ReadFile(hFile, &iLoadLength, sizeof(_int), &dwByte, NULL);
-			bResult = ReadFile(hFile, &szPrototypeTag, (iLoadLength * sizeof(_tchar)), &dwByte, NULL);
-			bResult = ReadFile(hFile, &bCollision, sizeof(_bool), &dwByte, NULL);
-
-			CStatue::DESC tDesc = {};
-			tDesc.fSpeedPerSec = fSpeedPerSec;
-			tDesc.fRotationPerSec = fRotationPerSec;
-			tDesc.vInitPos = vPosition * UNDERGROUNDSCALE;
-			tDesc.vScale = vScale * UNDERGROUNDSCALE;
-			tDesc.vAngle = vAngle;
-			tDesc.bCollision = bCollision;
-			tDesc.eLevelID = static_cast<LEVEL>(iLevelIdx);
-
-			_wstring strKey = szPrototypeTag;
-
-			_wstring Prototype = strKey;
-
-			strKey = Compute_PrototypeName(strKey);
-
-			_wstring Layertag = TEXT("Layer_") + strKey;
-
-
-			if (FAILED(m_pGameInstance->Add_GameObject(iLevelIdx, Prototype, iLevelIdx, Layertag, &tDesc)))
-			{
-				MSG_BOX("객체 생성 실패");
-				return E_FAIL;
-			}
-
-			ZeroMemory(szPrototypeTag, sizeof(szPrototypeTag));
-		}
-
 		bResult = ReadFile(hFile, &iNumItem, sizeof(_uint), &dwByte, NULL);
 
 		for (_uint i = 0; i < iNumItem; i++)
@@ -351,8 +310,8 @@ HRESULT CLevel_UnderGround::Load_Map(_uint iLevelIdx, const _wstring& FileName)
 			bResult = ReadFile(hFile, &fTextureIdx, sizeof(_float), &dwByte, NULL);
 
 			CItem::DESC tDesc = {};
-			tDesc.vInitPos = vPosition * INDOORSCALE;
-			tDesc.vScale = vScale * INDOORITEMSCALE;
+			tDesc.vInitPos = vPosition * UNDERGROUNDSCALE;
+			tDesc.vScale = vScale * UNDERGROUNDITEMSCALE;
 			tDesc.fRotationPerSec = fRotationPerSec;
 			tDesc.fSpeedPerSec = fSpeedPerSec;
 			tDesc.fTextureNum = fTextureIdx;

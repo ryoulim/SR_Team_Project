@@ -401,8 +401,8 @@ HRESULT CLevel_OutDoor::Load_Map(_uint iLevelIdx, const _wstring& FileName)
 			bResult = ReadFile(hFile, &fTextureIdx, sizeof(_float), &dwByte, NULL);
 
 			CItem::DESC tDesc = {};
-			tDesc.vInitPos = vPosition * INDOORSCALE;
-			tDesc.vScale = vScale * INDOORITEMSCALE;
+			tDesc.vInitPos = vPosition * OUTDOORSCALE;
+			tDesc.vScale = vScale * OUTDOORITEMSCALE;
 			tDesc.fRotationPerSec = fRotationPerSec;
 			tDesc.fSpeedPerSec = fSpeedPerSec;
 			tDesc.fTextureNum = fTextureIdx;
@@ -576,7 +576,7 @@ HRESULT CLevel_OutDoor::Ready_Layer_Boat(const _wstring& strLayerTag)
 {
 	CMonster::DESC BikeDesc = {};
 	BikeDesc.eLevel = CurLevel;
-	BikeDesc.vPosition = { 135.f, 15.f, 1085.f };
+	BikeDesc.vPosition = { 65.f, 15.f, 885.f };
 	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_OUTDOOR, TEXT("Prototype_GameObject_Boat"),
 		CurLevel, strLayerTag, &BikeDesc)))
 		return E_FAIL;

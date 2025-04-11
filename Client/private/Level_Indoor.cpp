@@ -39,9 +39,6 @@ HRESULT CLevel_Indoor::Initialize(CLevelData* pLevelData)
 	if (FAILED(Ready_Layer_Monster(TEXT("Layer_Monster"))))
 		return E_FAIL;
 
-	if (FAILED(Ready_Layer_Item(TEXT("Layer_Item"))))
-		return E_FAIL;
-
 	if (FAILED(Load_Map(LEVEL_INDOOR, TEXT("InDoorMapData.txt"))))
 		return E_FAIL;
 
@@ -493,62 +490,6 @@ HRESULT CLevel_Indoor::Ready_Layer_Monster(const _wstring& strLayerTag)
 	SPAWN_NUKEMUTANT(2111.f, 200.f, 470.f, LEVEL_INDOOR);
 	SPAWN_MECHSECT(879.f, 200.f, 739.f, LEVEL_INDOOR);
 	SPAWN_MECHSECT(879.f, 200.f, 739.f, LEVEL_INDOOR);
-
-
-	return S_OK;
-}
-
-HRESULT CLevel_Indoor::Ready_Layer_Item(const _wstring& strLayerTag)
-{
-	CItem::DESC ItemDesc{};
-	ItemDesc.vInitPos = { 2100.f, 29.f, 1000.f };
-	ItemDesc.vScale = { INDOORITEMSCALE, INDOORITEMSCALE, INDOORITEMSCALE };
-	ItemDesc.fRotationPerSec = RADIAN(180.f);
-	ItemDesc.fSpeedPerSec = 300.f;
-	ItemDesc.eLevelID = CurLevel;
-	ItemDesc.szTextureID = TEXT("Item_Ammo");
-	ItemDesc.fTextureNum = 0.f;
-	ItemDesc.eColID = COLLIDER_ID::CI_ITEM_AMMO_CHAINGUN;
-
-	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_INDOOR, TEXT("Prototype_GameObject_Item_Ammo_Chaingun"),
-		LEVEL_INDOOR, strLayerTag, &ItemDesc)))
-		return E_FAIL;
-
-	ItemDesc.vInitPos = { 2175.f, 29.f, 430.f };
-	ItemDesc.fTextureNum = 1.f;
-	ItemDesc.eColID = COLLIDER_ID::CI_ITEM_AMMO_DISPENSER_SCATTER;
-
-	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_INDOOR, TEXT("Prototype_GameObject_Item_Ammo_Dispenser_Scatter"),
-		LEVEL_INDOOR, strLayerTag, &ItemDesc)))
-		return E_FAIL;
-
-
-	/*ItemDesc.vInitPos = { 1540.f, 30.f, 1035.f };
-	ItemDesc.vScale = { INDOORITEMSCALE, INDOORITEMSCALE, INDOORITEMSCALE };
-	ItemDesc.fTextureNum = 2.f;
-	ItemDesc.eColID = COLLIDER_ID::CI_ITEM_AMMO_DISPENSER_CANNON;
-
-	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_INDOOR, TEXT("Prototype_GameObject_Item_Ammo_Dispenser_Cannon"),
-		LEVEL_INDOOR, strLayerTag, &ItemDesc)))
-		return E_FAIL;*/
-
-
-	ItemDesc.vInitPos = { 1540.f, 29.f, 1035.f };
-	ItemDesc.fTextureNum = 3.f;
-	ItemDesc.eColID = COLLIDER_ID::CI_ITEM_AMMO_LOVERBOY;
-
-	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_INDOOR, TEXT("Prototype_GameObject_Item_Ammo_LoverBoy"),
-		LEVEL_INDOOR, strLayerTag, &ItemDesc)))
-		return E_FAIL;
-
-	ItemDesc.vInitPos = { 2114.f, 29.f, 995.f };
-	ItemDesc.szTextureID = TEXT("Item_Cardkey");
-	ItemDesc.fTextureNum = 0.f;
-	ItemDesc.eColID = COLLIDER_ID::CI_ITEM_CARDKEY;
-
-	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_INDOOR, TEXT("Prototype_GameObject_Item_Cardkey"),
-		LEVEL_INDOOR, strLayerTag, &ItemDesc)))
-		return E_FAIL;
 
 
 	return S_OK;
