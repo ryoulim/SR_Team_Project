@@ -10,6 +10,7 @@
 #include "FXMgr.h"
 #include "Monster.h"
 #include "Level_Loading.h"
+#include "Item.h"
 
 #define CurLevel LEVEL_UNDERGROUND
 
@@ -514,6 +515,7 @@ HRESULT CLevel_UnderGround::Ready_Layer_Pawn(const _wstring& strLayerTag)
 	return S_OK;
 }
 
+#include "Particle_Define.h"
 HRESULT CLevel_UnderGround::Ready_Layer_Monster(const _wstring& strLayerTag)
 {
 	// ·£´ý ¹üÀ§
