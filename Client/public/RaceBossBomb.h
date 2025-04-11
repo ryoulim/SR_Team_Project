@@ -35,11 +35,11 @@ public:
 
 private:
 	virtual HRESULT Ready_Components(void* pArg) override;
-
+	
 private:
 	_float m_fScale = { 1.f };
-	_float3 m_fStartPoint = {};
-	_float3 m_fEndPoint = {};
+	_float m_fSpeed = {};
+	_float3 m_vStartPos = {};
 	_float m_fTimeAcc = {};
 	
 public:

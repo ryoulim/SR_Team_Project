@@ -32,15 +32,19 @@ HRESULT CBombRadius::Initialize(void* pArg)
 
 void CBombRadius::Priority_Update(_float fTimeDelta)
 {
+	
+
 	__super::Priority_Update(fTimeDelta);
 }
 
 EVENT CBombRadius::Update(_float fTimeDelta)
 {
-	m_pTransformCom->Set_State(CTransform::STATE_POSITION,
+	/*m_pTransformCom->Set_State(CTransform::STATE_POSITION,
 		_float3(m_pTransformCom->Get_State(CTransform::STATE_POSITION)->x,
 			1.f,
-			static_cast<CTransform*>(m_pPlayer->Find_Component(TEXT("Com_Transform")))->Get_State(CTransform::STATE_POSITION)->z));
+			static_cast<CTransform*>(m_pPlayer->Find_Component(TEXT("Com_Transform")))->Get_State(CTransform::STATE_POSITION)->z));*/
+
+	m_pTransformCom->Move({ 0.f,0.f,RACE_SPEED_PER_SEC }, fTimeDelta);
 	
 	return __super::Update(fTimeDelta);
 }

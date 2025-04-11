@@ -1002,7 +1002,6 @@ HRESULT CLoader::Loading_For_RaceFirst()/**/
 	ADD_MODEL_EX(RaceTerrain, 10, 1500);
 	ADD_MODEL(Rect);
 	
-
 	lstrcpy(m_szLoadingText, TEXT("사운드을(를) 로딩중입니다."));
 
 
