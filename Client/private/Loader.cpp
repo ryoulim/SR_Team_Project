@@ -237,23 +237,13 @@ void CLoader::Output_LoadingText()
 {
 	SetWindowText(g_hWnd, m_szLoadingText);
 
-	//if (m_eNextLevelID == LEVEL_LOGO ||
-	//	m_eNextLevelID == LEVEL_STATIC)
-	//{
-		auto LoadingMenu = m_pGameInstance->Find_Object(LEVEL_LOADING, TEXT("Layer_UI"));
-		//dynamic_cast<CLoadingMenu*>(LoadingMenu)->Set_LoadingGauge(m_fLoadPercent);
-		dynamic_cast<CLoadingUI*>(LoadingMenu)->Set_LoadingGauge(m_fLoadPercent);
-	//}
-	//else
-	//{
-	//	auto LevelLoadingMenu = m_pGameInstance->Find_Object(LEVEL_LOADING, TEXT("Layer_UI"));
-	//	dynamic_cast<CLevelLoadingMenu*>(LevelLoadingMenu)->Set_LoadingGauge(m_fLoadPercent);
-	//}
+	auto LoadingMenu = m_pGameInstance->Find_Object(LEVEL_LOADING, TEXT("Layer_LoadingUI"));
+	dynamic_cast<CLoadingUI*>(LoadingMenu)->Set_LoadingGauge(m_fLoadPercent);
+	dynamic_cast<CLoadingUI*>(LoadingMenu)->Set_IsLoaderFinished(m_isFinished);
 }
 
 void CLoader::Clear_MapData()
 {
-	//m_pData->
 }
 
 HRESULT CLoader::Loding_For_Static()
@@ -307,7 +297,7 @@ HRESULT CLoader::Loding_For_Static()
 	ADD_TEXTURE(Loading_OnRacing, "../Bin/Resources/Textures/UI/LoadingCutscene/OnRacing/%d.PNG", 1);
 	ADD_TEXTURE(Loading_ToBoss, "../Bin/Resources/Textures/UI/LoadingCutscene/ToBoss/%d.PNG", 17);
 	ADD_TEXTURE(Loading_ToIn, "../Bin/Resources/Textures/UI/LoadingCutscene/ToIn/%d.PNG", 4);
-	ADD_TEXTURE(Loading_ToOut, "../Bin/Resources/Textures/UI/LoadingCutscene/ToOut/%d.PNG", 6);
+	ADD_TEXTURE(Loading_ToOut, "../Bin/Resources/Textures/UI/LoadingCutscene/ToOut/%d.PNG", 7);
 	ADD_TEXTURE(Loading_ToRace, "../Bin/Resources/Textures/UI/LoadingCutscene/ToRace/%d.PNG", 2);
 	ADD_TEXTURE(Loading_ToUnderground, "../Bin/Resources/Textures/UI/LoadingCutscene/ToUnderground/%d.PNG", 1);
 	ADD_TEXTURE(RaceAim, "../Bin/Resources/Textures/Aim/RaceAim.PNG", 1);

@@ -36,6 +36,7 @@ private:
 	_bool		m_isFadeIn = { false };
 	_bool		m_isFadeOut = { false };
 	LEVEL		m_eNextLevelID = LEVEL_STATIC;
+
 public:
 	static CFadeUI* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
 	virtual CGameObject* Clone(void* pArg) override;

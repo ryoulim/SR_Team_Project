@@ -83,7 +83,7 @@ HRESULT CLoadingUI::Initialize_LoadingCutscene(void* pArg)
 	pDesc.eLevelID = m_eNextLevel;
 
 	if (FAILED(m_pGameInstance->Add_GameObjectReturn(LEVEL_STATIC, _wstring(L"Prototype_GameObject_Loading_") + strCutsceneType,
-		LEVEL_LOADING, L"Layer_LoadingUI", &pObj, &pDesc)))
+		LEVEL_LOADING, L"Layer_LoadingCutscene", &pObj, &pDesc)))
 		return E_FAIL;
 	m_pLoadingCutscene = dynamic_cast<CLoadingCutscene*>(pObj);
 	if (m_pLoadingCutscene != nullptr)
@@ -135,6 +135,11 @@ _bool CLoadingUI::IsLoadingComplete()
 void CLoadingUI::Set_LoadingGauge(const _float percent)
 {
 	m_pLoadingCutscene->Set_LoadingGauge(percent);
+}
+
+void CLoadingUI::Set_IsLoaderFinished(const _bool isFinished)
+{
+	m_pLoadingCutscene->Set_IsLoaderFinished(isFinished);
 }
 
 CLoadingUI* CLoadingUI::Create(LPDIRECT3DDEVICE9 pGraphic_Device)

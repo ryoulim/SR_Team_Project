@@ -46,8 +46,6 @@ void CLoading_ToIn::Priority_Update(_float fTimeDelta)
 
 EVENT CLoading_ToIn::Update(_float fTimeDelta)
 {
-	//if (m_fLoadingGauge < m_fCurLoadingGauge)		// 실제 로딩 게이지 비례해 진행할 경우 사용
-	//	m_fLoadingGauge += fTimeDelta * 0.8f;
 
 	return __super::Update(fTimeDelta);
 }

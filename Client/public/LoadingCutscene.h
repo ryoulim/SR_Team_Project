@@ -30,15 +30,17 @@ public:
 
 public:
 	void Set_LoadingGauge(const _float percent) { m_fCurLoadingGauge = percent; }
+	void Set_IsLoaderFinished(const _bool isFinished) { m_isLoadingFinished = isFinished; }
 	_bool IsLoadingComplete() { return m_isReadyToChangeLevel; }
+	void Set_IsFadeInFinished(const _bool isFinished) { m_isFadeInFinished = isFinished; }
 
 protected:
 	_float		m_fLoadingGauge{ 0.01f };
 	_float		m_fCurLoadingGauge{ 0.f };
 	_bool		m_isLoadingFinished{ false };
+	_bool		m_isFadeInFinished{ false };
 	_float 		m_fFinished_WaitingTime{0.f};
 	_bool		m_isReadyToChangeLevel{ false };
-
 public:
 	static CLoadingCutscene* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
 	virtual CGameObject* Clone(void* pArg) override;

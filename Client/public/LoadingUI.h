@@ -40,6 +40,7 @@ private:
 public:
 	_bool IsLoadingComplete();
 	void Set_LoadingGauge(const _float percent);
+	void Set_IsLoaderFinished(const _bool isFinished);
 
 public:
 	static CLoadingUI* Create(LPDIRECT3DDEVICE9 pGraphic_Device);

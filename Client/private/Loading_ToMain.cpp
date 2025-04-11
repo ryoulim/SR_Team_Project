@@ -83,7 +83,19 @@ EVENT CLoading_ToMain::Update(_float fTimeDelta)
 
 void CLoading_ToMain::Late_Update(_float fTimeDelta)
 {
-	__super::Late_Update(fTimeDelta);
+	if (m_fCurLoadingGauge >= 1.f)
+	{
+		m_isLoadingFinished = true;
+	}
+	if (m_isLoadingFinished)
+	{
+		m_fFinished_WaitingTime += fTimeDelta;
+		if (m_fFinished_WaitingTime >= 1.f)
+		{
+			m_isReadyToChangeLevel = true;
+		}
+	}
+	CUI::Late_Update(fTimeDelta);
 }
 
 HRESULT CLoading_ToMain::Render()

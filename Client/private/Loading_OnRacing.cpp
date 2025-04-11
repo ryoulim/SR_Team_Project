@@ -59,7 +59,13 @@ EVENT CLoading_OnRacing::Update(_float fTimeDelta)
 
 void CLoading_OnRacing::Late_Update(_float fTimeDelta)
 {
-	__super::Late_Update(fTimeDelta);
+	if (m_fCurLoadingGauge >= 1.f)
+	{
+		m_isLoadingFinished = true;
+		m_isReadyToChangeLevel = true;
+	}
+	if (FAILED(m_pGameInstance->Add_RenderGroup(CRenderer::RG_UI, this)))
+		return;
 }
 
 HRESULT CLoading_OnRacing::Render()

@@ -3,6 +3,7 @@
 
 #include "LoadingCutscene.h"
 #include "GameInstance.h"
+#include "UI_Manager.h"
 
 CLoadingCutscene::CLoadingCutscene(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CUI{ pGraphic_Device }
@@ -67,28 +68,38 @@ HRESULT CLoadingCutscene::Ready_Components(void* pArg)
 
 void CLoadingCutscene::Priority_Update(_float fTimeDelta)
 {
+
+	__super::Priority_Update(fTimeDelta);
+}
+
+EVENT CLoadingCutscene::Update(_float fTimeDelta)
+{
+	if (KEY_DOWN(DIK_SPACE))
+	{
+		if (m_isLoadingFinished)
+		{
+			//CUI_Manager::Get_Instance()->Fade_In();
+			m_isReadyToChangeLevel = true;
+		}
+	}
+	return __super::Update(fTimeDelta);
+}
+
+void CLoadingCutscene::Late_Update(_float fTimeDelta)
+{
 	if (m_fCurLoadingGauge >= 1.f)
 	{
 		m_isLoadingFinished = true;
 	}
 	if (m_isLoadingFinished)
 	{
-		m_fFinished_WaitingTime += fTimeDelta;
-		if (m_fFinished_WaitingTime >= 1.5f)
+		m_fTextureNum += fTimeDelta * 1.f;
+		if (m_fTextureNum >= 4.f)
 		{
+			m_fTextureNum = 3.f;
 			m_isReadyToChangeLevel = true;
 		}
 	}
-	__super::Priority_Update(fTimeDelta);
-}
-
-EVENT CLoadingCutscene::Update(_float fTimeDelta)
-{
-	return __super::Update(fTimeDelta);
-}
-
-void CLoadingCutscene::Late_Update(_float fTimeDelta)
-{
 	__super::Late_Update(fTimeDelta);
 }
 

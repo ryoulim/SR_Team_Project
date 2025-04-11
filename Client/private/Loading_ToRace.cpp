@@ -35,6 +35,8 @@ HRESULT CLoading_ToRace::Initialize(void* pArg)
 	m_vSize.x *= g_iWinSizeY / m_vSize.y; m_vSize.y = g_iWinSizeY;
 	m_pTransformCom->Scaling(m_vSize);
 
+	m_fDepth = UI_PRIORITY;
+
 	return S_OK;
 }
 
@@ -46,15 +48,18 @@ void CLoading_ToRace::Priority_Update(_float fTimeDelta)
 
 EVENT CLoading_ToRace::Update(_float fTimeDelta)
 {
-	//if (m_fLoadingGauge < m_fCurLoadingGauge)		// 실제 로딩 게이지 비례해 진행할 경우 사용
-	//	m_fLoadingGauge += fTimeDelta * 0.8f;
-
 	return __super::Update(fTimeDelta);
 }
 
 void CLoading_ToRace::Late_Update(_float fTimeDelta)
 {
-	__super::Late_Update(fTimeDelta);
+	m_fTextureNum += fTimeDelta * 0.3f;
+	if (m_fTextureNum > 2.f)
+	{
+		m_fTextureNum = 1.f;
+		m_isReadyToChangeLevel = true;
+	}
+	CUI::Late_Update(fTimeDelta);
 }
 
 HRESULT CLoading_ToRace::Render()
