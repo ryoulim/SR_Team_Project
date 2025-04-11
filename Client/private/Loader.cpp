@@ -90,6 +90,7 @@
 #include "Loading_ToBoss.h"
 #include "Loading_ToOut.h"
 #include "Loading_ToRace.h"
+#include "Loading_ToUnderground.h"
 
 //맵 인클루드
 #include "Block.h"
@@ -341,6 +342,7 @@ HRESULT CLoader::Loding_For_Static()
 	ADD_PRTOBJ(Loading_ToIn);
 	ADD_PRTOBJ(Loading_ToOut);
 	ADD_PRTOBJ(Loading_ToRace);
+	ADD_PRTOBJ(Loading_ToUnderground);
 #pragma endregion
 
 #pragma region PLAYER

@@ -54,7 +54,7 @@ HRESULT CLevel_Loading::Initialize(LEVEL eNextLevelID)
 		Desc.vInitPos = { 0.f,0.f,0.9f };
 		Desc.vScale = { FWINCX, FWINCY, 1.f };
 		Desc.fDepth = _float(UI_BACKGROUND);
-		Desc.eCurLevel = LEVEL(m_pGameInstance->Get_CurrentLevelIndex());
+		Desc.eCurLevel = LEVEL(m_pGameInstance->Get_PreviousLevelIndex());
 		Desc.eNextLevel = eNextLevelID;
 		if (FAILED(m_pGameInstance->Add_GameObjectReturn(LEVEL_STATIC, TEXT("Prototype_GameObject_LoadingUI"),
 			LEVEL_LOADING, TEXT("Layer_UI"), &m_pLoadingMenu, &Desc)))
@@ -137,7 +137,6 @@ void CLevel_Loading::Update(_float fTimeDelta)
 					pLevel = CLevel_UnderGround::Create(m_pGraphic_Device, m_pLoader->Get_LevelData());
 					break;
 				}
-
 				if (nullptr == pLevel)
 					return;
 
@@ -146,56 +145,6 @@ void CLevel_Loading::Update(_float fTimeDelta)
 
 			}
 		}
-		//if (true == m_pLoader->isFinished())
-		//{
-		//	
-		//	CLevel* pLevel = { nullptr };
-		//	/* 클리어 함수에 콜라이더의 클리어를 넣으니까 이 멍청한 콜라이더 매니저가 
-		//	pLevel에서 만든 콜라이더까지 싹다 지워버리는 불상사가 생겨서 따로 뺴둠*/
-		//	m_pGameInstance->Clear_Collider();
-
-		//	switch (m_eNextLevelID)
-		//	{
-		//	case LEVEL_LOGO:
-		//		pLevel = CLevel_Logo::Create(m_pGraphic_Device, m_pLoader->Get_LevelData());
-		//		break;
-
-		//	case LEVEL_GAMEPLAY:
-		//		pLevel = CLevel_GamePlay::Create(m_pGraphic_Device, m_pLoader->Get_LevelData());
-		//		break;
-
-		//	case LEVEL_RACEFIRST:
-		//		pLevel = CLevel_RaceFirst::Create(m_pGraphic_Device, m_pLoader->Get_LevelData());
-		//		break;
-
-		//	case LEVEL_RACESECOND:
-		//		pLevel = CLevel_RaceSecond::Create(m_pGraphic_Device, m_pLoader->Get_LevelData());
-		//		break;
-
-		//	case LEVEL_RACETHIRD:
-		//		pLevel = CLevel_RaceThird::Create(m_pGraphic_Device, m_pLoader->Get_LevelData());
-		//		break;
-
-		//	case LEVEL_INDOOR:
-		//		pLevel = CLevel_Indoor::Create(m_pGraphic_Device, m_pLoader->Get_LevelData());
-		//		break;
-
-		//	case LEVEL_BOSS:
-		//		pLevel = CLevel_Boss::Create(m_pGraphic_Device, m_pLoader->Get_LevelData());
-		//		break;
-
-		//	case LEVEL_OUTDOOR:
-		//		pLevel = CLevel_OutDoor::Create(m_pGraphic_Device, m_pLoader->Get_LevelData());
-		//		break;
-		//	}
-
-		//	if (nullptr == pLevel)
-		//		return;
-
- 	//		if (FAILED(m_pGameInstance->Change_Level(m_eNextLevelID, pLevel)))
-		//		return;
-		//					
-		//}
 	}	
 }
 

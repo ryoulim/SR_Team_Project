@@ -179,7 +179,6 @@ HRESULT CMainApp::Ready_Component_For_Static()
 	ADD_MODEL(Rect);
 	ADD_PRTCOM(Transform);
 	ADD_TEXTURE(LevelLoadingMenu, "../Bin/Resources/Textures/UI/Loading/lvlloading%d.png", 4);
-	ADD_TEXTURE(LoadingCutscene, "../Bin/Resources/Textures/UI/LoadingCutscene/%d.png", 5);
 
 	ADD_TEXTURE(Font_MediumBlue, "../Bin/Resources/Textures/UI/Font/Font_MediumBlue/font%d.PNG", 94);
 	ADD_TEXTURE(Font_BigOrange, "../Bin/Resources/Textures/UI/Font/Font_BigOrange/font%d.PNG", 46);

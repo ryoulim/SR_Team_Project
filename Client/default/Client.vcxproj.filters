@@ -525,12 +525,12 @@
     </Filter>
     <Filter Include="02.GameObjects\UI\MenuUI\LoadingUI\Loading_Cutscene\Loading_ToUnderground">
       <UniqueIdentifier>{a3c2badb-db4f-4d26-a6e9-05fca91a0787}</UniqueIdentifier>
-	</Filter>
-	<Filter Include="01.Levels\05.UnderGround">
-      <UniqueIdentifier>{d6d83d37-45e0-4ff2-b6b8-2ec58bbf1106}</UniqueIdentifier>
     </Filter>
     <Filter Include="01.Levels\06. Boss">
       <UniqueIdentifier>{fb67a493-7c28-490a-9c62-08f4fccbf0d7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Levels\05. UnderGround">
+      <UniqueIdentifier>{d6d83d37-45e0-4ff2-b6b8-2ec58bbf1106}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -1031,7 +1031,7 @@
       <Filter>02.GameObjects\RaceBoss\RBState</Filter>
     </ClInclude>
     <ClInclude Include="..\public\Level_UnderGround.h">
-      <Filter>01.Levels\05.UnderGround</Filter>
+      <Filter>01.Levels\05. UnderGround</Filter>
     </ClInclude>
     <ClInclude Include="..\public\BombRadius.h">
       <Filter>02.GameObjects\Statue\RaceBossBombRadius</Filter>
@@ -1551,7 +1551,7 @@
       <Filter>02.GameObjects\Particle</Filter>
     </ClCompile>
     <ClCompile Include="..\private\Level_UnderGround.cpp">
-      <Filter>01.Levels\05.UnderGround</Filter>
+      <Filter>01.Levels\05. UnderGround</Filter>
     </ClCompile>
     <ClCompile Include="..\private\Boat.cpp">
       <Filter>02.GameObjects\Monster\Boat</Filter>

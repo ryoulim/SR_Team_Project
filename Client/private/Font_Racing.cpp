@@ -54,7 +54,7 @@ void CFont_Racing::Late_Update(_float fTimeDelta)
 
 HRESULT CFont_Racing::Render()
 {
-	//return __super::Render();
+	return __super::Render();
 	return S_OK;
 }
 
