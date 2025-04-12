@@ -57,9 +57,6 @@ HRESULT CPlayer::Initialize(void* pArg)
 	if (FAILED(m_pLeftHand->Initialize(pArg)))
 		return E_FAIL;
 
-	/* È®ÀÎ¿ë */
-	m_bHaveCardkey = true;
-
 	return S_OK;
 }
 
