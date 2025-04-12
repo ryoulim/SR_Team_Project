@@ -36,8 +36,8 @@ HRESULT CLevel_Indoor::Initialize(CLevelData* pLevelData)
 	if (FAILED(Ready_Layer_Trigger(TEXT("Layer_Trigger"))))
 		return E_FAIL;
 
-	//if (FAILED(Ready_Layer_Monster(TEXT("Layer_Monster"))))
-	//	return E_FAIL;
+	if (FAILED(Ready_Layer_Monster(TEXT("Layer_Monster"))))
+		return E_FAIL;
 
 	if (FAILED(Load_Map(LEVEL_INDOOR, TEXT("InDoorMapData.txt"))))
 		return E_FAIL;
