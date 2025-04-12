@@ -24,6 +24,7 @@ public:
 private:
 	_bool		m_bPicked{};
 	_bool       m_bSwitch{};
+	_bool       m_bDoOnce{};
 	CGameObject* m_pInteractPromptUI = { nullptr };
 	CCameraManager::ID m_CurCamera{ CCameraManager ::FPS };
 

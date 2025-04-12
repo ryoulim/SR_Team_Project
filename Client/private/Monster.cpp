@@ -415,6 +415,7 @@ HRESULT CMonster::Ready_Components(void* pArg)
 		m_iNum = pDesc->iNums;
 		m_eLevelID = pDesc->eLevel;
 		m_fAttackDistance = pDesc->fAttackDistance;
+		m_fDetectiveDistance = pDesc->fDetectiveDistance;
 	}
 
 	DESC* pDesc = static_cast<DESC*>(pArg);
@@ -592,7 +593,7 @@ void CMonster::State_Change_IDLE(_float dt)
 	{
 		m_bFoundPlayer = true;
 		
-		if (IsMonsterAbleToAttack())
+		if (IsMonsterAbleToAttack() && m_eState != MODE::MODE_BATTLE)
 			m_eState = MODE::MODE_DETECTIVE;
 	}
 }
@@ -732,7 +733,10 @@ bool CMonster::IsPlayerDetected()
 	if (m_fCurDistance < m_fDetectiveDistance)
 	{
 		if (FX_MGR->IsFlashing())
+		{
+			m_bFoundPlayer = true;
 			return true;
+		}
 
 		_float3 vLook = *m_pTransformCom->Get_State(CTransform::STATE_LOOK);
 		vLook.Normalize();
