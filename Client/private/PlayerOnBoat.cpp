@@ -41,7 +41,8 @@ HRESULT CPlayerOnBoat::Initialize(void* pArg)
 	m_pState[NORMAL] = new CPBState_Normal(this);
 	m_pState[LERP] = new CPBState_Lerp(this);
 	m_pState[ACCEL] = new CPBState_Accel(this);
-
+	m_pState[AWAY_FROM_BOSS] = new CPBState_Away_From_Boss(this);
+	
 	m_pCurState = m_pState[NORMAL];
 
 	m_fWaterSpeed = static_cast<DESC*>(pArg)->fSpeedPerSec;
@@ -225,7 +226,7 @@ void CPlayerOnBoat::Set_RaceBossTransform(CTransform* BossTransform)
 {
 	m_pBossTransform = BossTransform;
 	Safe_AddRef(m_pBossTransform);
-	m_fBossHalfScaleZ = m_pBossTransform->Compute_Scaled().z; // 원본이 *2임
+	m_fBossHalfScaleZ = m_pBossTransform->Compute_Scaled().z * 2.f ; // 원본이 *2임
 }
 
 HRESULT CPlayerOnBoat::Ready_Components(void* pArg)

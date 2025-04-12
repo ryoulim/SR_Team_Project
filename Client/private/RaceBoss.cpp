@@ -503,6 +503,7 @@ void CRaceBoss::ReadyForState()
 	m_pState[SHOTTAILBULLET] = new CRBState_ShotTailBullet(this);
 	m_pState[LEAVE] = new CRBState_Leave(this);
 	m_pState[DEAD] = new CRBState_Dead(this);
+	m_pState[CLOSE_TO_PLAYER] = new CRBState_CloseToPlayer(this);
 
 	//계속 터지길래 시작부터 값 채워놓음
 	m_VecBulletPos = { LSIDE, LMIDDLE, MIDDLE, RMIDDLE, RSIDE };
