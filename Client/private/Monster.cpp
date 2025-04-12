@@ -2,6 +2,7 @@
 #include "DebugDraw.h"
 #include "Skull.h"
 #include "FXMgr.h"
+#include "CameraManager.h"
 
 CMonster::CMonster(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CGameObject{ pGraphic_Device }
@@ -735,7 +736,7 @@ bool CMonster::IsPlayerDetected()
 
 	if (m_fCurDistance < m_fDetectiveDistance)
 	{
-		if (FX_MGR->IsFlashing())
+		if (FX_MGR->IsFlashing() && CAMERA_MANAGER->Get_CurCameraID() == CCameraManager::FPS)
 			return true;
 
 		_float3 vLook = *m_pTransformCom->Get_State(CTransform::STATE_LOOK);

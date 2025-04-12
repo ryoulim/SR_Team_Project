@@ -75,6 +75,8 @@ EVENT CDeacon::Update(_float fTimeDelta)
 void CDeacon::Late_Update(_float fTimeDelta)
 {
 	/* 중력 업데이트 없어서 그냥 오버라이딩 함 */
+	_float3	vTemp = *m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+	CGameObject::Compute_ViewZ(&vTemp);
 
 	PlayerDistance();
 	CalculateVectorToPlayer();
