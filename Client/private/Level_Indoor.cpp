@@ -36,10 +36,13 @@ HRESULT CLevel_Indoor::Initialize(CLevelData* pLevelData)
 	if (FAILED(Ready_Layer_Trigger(TEXT("Layer_Trigger"))))
 		return E_FAIL;
 
-	if (FAILED(Ready_Layer_Monster(TEXT("Layer_Monster"))))
-		return E_FAIL;
+	//if (FAILED(Ready_Layer_Monster(TEXT("Layer_Monster"))))
+	//	return E_FAIL;
 
 	if (FAILED(Load_Map(LEVEL_INDOOR, TEXT("InDoorMapData.txt"))))
+		return E_FAIL;
+
+	if (FAILED(Ready_Layer_Item(TEXT("Layer_Item"))))
 		return E_FAIL;
 
 	return S_OK;
@@ -492,6 +495,25 @@ HRESULT CLevel_Indoor::Ready_Layer_Monster(const _wstring& strLayerTag)
 	SPAWN_MECHSECT(879.f, 200.f, 739.f, LEVEL_INDOOR);
 
 
+	return S_OK;
+}
+
+HRESULT CLevel_Indoor::Ready_Layer_Item(const _wstring& strLayerTag)
+{
+	CItem::DESC tDesc = {};
+	tDesc.vInitPos = { 500.f, 55.f, 391.f };
+	tDesc.vScale = _float3( 135.f, 50.f, 1.f ) * 0.3f;
+	tDesc.eLevelID = CurLevel;
+	tDesc.fSpeedPerSec = 300.f;
+	tDesc.fTextureNum = 0.f;
+
+	tDesc.szTextureID = TEXT("Item_Weapon_Dispenser");
+	tDesc.eColID = CI_ITEM_DISPENSER;
+
+	if (FAILED(m_pGameInstance->Add_GameObject(tDesc.eLevelID, TEXT("Prototype_GameObject_Item_Dispenser"),
+		tDesc.eLevelID, strLayerTag, &tDesc)))
+		return E_FAIL;
+		
 	return S_OK;
 }
 
