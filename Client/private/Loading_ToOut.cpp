@@ -112,7 +112,7 @@ HRESULT CLoading_ToOut::Render_FirstCutscene()
 	m_pGraphic_Device->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
 	m_pGraphic_Device->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
 
-	for (size_t i = 0; i < 3; i++)
+	for (_uint i = 0; i < 3; i++)
 	{
 		if (m_bRenderOk[i] == false)
 			break;
@@ -148,7 +148,7 @@ HRESULT CLoading_ToOut::Render_FirstCutscene()
 
 HRESULT CLoading_ToOut::Render_SecondCutscene()
 {
-	for (size_t i = 3; i < 6; i++)
+	for (_uint i = 3; i < 6; i++)
 	{
 		if (m_bRenderOk[i] == false)
 			break;

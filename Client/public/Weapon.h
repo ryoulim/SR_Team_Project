@@ -84,10 +84,10 @@ protected:
 	CTransform* m_pCameraTransform{ nullptr };
 	CSoundController* m_pSoundCom{ nullptr };
 
-	_uint		m_iPrePickedColliderID{};
-	_uint		m_iPickedColliderID{};
-	CCollider* m_pPrePickedCollider{ nullptr };
-	CCollider* m_pPickedCollider{ nullptr };
+	static _uint		m_iPrePickedColliderID;
+	static _uint		m_iPickedColliderID;
+	static CCollider* m_pPrePickedCollider;
+	static CCollider* m_pPickedCollider;
 
 	AMMOINFO m_tAmmoInfo{};
 	_float m_fFrameSpeed{};
