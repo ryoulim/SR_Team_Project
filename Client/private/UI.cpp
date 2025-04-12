@@ -44,7 +44,7 @@ void CUI::Priority_Update(_float fTimeDelta)
 }
 
 EVENT CUI::Update(_float fTimeDelta)
-{
+{ 
 	return EVN_NONE;
 }
 

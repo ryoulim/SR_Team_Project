@@ -311,6 +311,7 @@
     <ClInclude Include="..\public\Level_Logo.h" />
     <ClInclude Include="..\public\Loader.h" />
     <ClInclude Include="..\public\MyCube.h" />
+    <ClInclude Include="..\public\StreetLampBody.h" />
     <ClInclude Include="..\public\StreetLampHead.h" />
     <ClInclude Include="..\public\TelephonePole.h" />
     <ClInclude Include="..\public\Terrain.h" />
@@ -484,6 +485,7 @@
     <ClCompile Include="..\Private\Level_Logo.cpp" />
     <ClCompile Include="..\private\Loader.cpp" />
     <ClCompile Include="..\private\MyCube.cpp" />
+    <ClCompile Include="..\private\StreetLampBody.cpp" />
     <ClCompile Include="..\private\StreetLampHead.cpp" />
     <ClCompile Include="..\private\TelephonePole.cpp" />
     <ClCompile Include="..\private\Terrain.cpp" />

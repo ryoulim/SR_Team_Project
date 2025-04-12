@@ -256,9 +256,6 @@
     <Filter Include="02.GameObjects\Statue\StreetLamp\Head">
       <UniqueIdentifier>{da0e366d-9c74-4eac-a0ec-2cb765238ef0}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\Statue\StreetLamp\NewFilter1">
-      <UniqueIdentifier>{2e57f387-a905-4917-874b-cda316e94fba}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02.GameObjects\Map\AlphaRect">
       <UniqueIdentifier>{60d0fe13-9f07-43e3-896e-3ed65200690c}</UniqueIdentifier>
     </Filter>
@@ -501,6 +498,9 @@
     </Filter>
     <Filter Include="01.Levels\05. UnderGround">
       <UniqueIdentifier>{d6d83d37-45e0-4ff2-b6b8-2ec58bbf1106}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Statue\StreetLamp\Body">
+      <UniqueIdentifier>{2e57f387-a905-4917-874b-cda316e94fba}</UniqueIdentifier>
     </Filter>
     <Filter Include="02.GameObjects\UI\GamePlayUI\RaceAim">
       <UniqueIdentifier>{5275045d-2ced-40d5-973d-7ee1ed90d5cc}</UniqueIdentifier>
@@ -1093,6 +1093,9 @@
     <ClInclude Include="..\public\RaceAim.h">
       <Filter>02.GameObjects\UI\GamePlayUI\RaceAim</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\StreetLampBody.h">
+      <Filter>02.GameObjects\Statue\StreetLamp\Body</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -1616,6 +1619,9 @@
     </ClCompile>
     <ClCompile Include="..\private\RaceAim.cpp">
       <Filter>02.GameObjects\UI\GamePlayUI\RaceAim</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\StreetLampBody.cpp">
+      <Filter>02.GameObjects\Statue\StreetLamp\Body</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

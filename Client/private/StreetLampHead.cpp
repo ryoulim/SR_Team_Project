@@ -24,18 +24,32 @@ HRESULT CStreetLampHead::Initialize(void* pArg)
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
 
+	Setting_LightDesc();
+
+	DESC* pDesc = static_cast<DESC*>(pArg);
+	m_iLightNumber = pDesc->iLightNumber;
+
 	return S_OK;
 }
 
 void CStreetLampHead::Priority_Update(_float fTimeDelta)
 {
-	m_pTransformCom->Billboard();
+	auto pPlayer = GET_PLAYER;
+	_float fPlayerPosZ = static_cast<CTransform*>(pPlayer->Find_Component(TEXT("Com_Transform")))->Get_State(CTransform::STATE_POSITION)->z;
+	_float fPosZ = m_pTransformCom->Get_State(CTransform::STATE_POSITION)->z;
+
+	//거리차이 2000나면 불 꺼!
+	if (fPlayerPosZ - fPosZ > 2000.f)
+		m_bLightOn = false;
 
 	__super::Priority_Update(fTimeDelta);
 }
 
 EVENT CStreetLampHead::Update(_float fTimeDelta)
 {
+	if (!m_bLightOn)
+		m_pGraphic_Device->LightEnable(m_iLightNumber, false);
+
 	return __super::Update(fTimeDelta);
 }
 
@@ -46,8 +60,53 @@ void CStreetLampHead::Late_Update(_float fTimeDelta)
 
 HRESULT CStreetLampHead::Render()
 {
-	//__super::LightOn();
+	if(m_bLightOn)
+		Turn_on_Light(m_iLightNumber);
+
 	return __super::Render();
+}
+
+void CStreetLampHead::Setting_LightDesc()
+{
+#pragma region 조명의 속성 정의
+	// 광원의 타입 : 점 광원
+	m_LightDesc.Type = D3DLIGHT_POINT;
+
+	// 광원의 위치
+	m_LightDesc.Position = *m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+
+	// 조명이 미치는 범위
+	m_LightDesc.Range = 650.f;
+
+	// 광원으로부터 멀어질 때의 감쇄값
+	m_LightDesc.Attenuation1 = 0.001f;
+
+	// 기본 설정
+	m_LightDesc.Diffuse = D3DXCOLOR(1.f, 1.f, 1.f, 1.f);
+	m_LightDesc.Ambient = D3DXCOLOR(1.f, 1.f, 1.f, 1.f);
+#pragma endregion
+
+#pragma region 재질 설정
+	D3DMATERIAL9		MtrlDesc{};
+	MtrlDesc.Diffuse = D3DXCOLOR(1.f, 1.f, 1.f, 1.f);
+	MtrlDesc.Ambient = D3DXCOLOR(0.3f, 0.3f, 0.3f, 1.f);
+#pragma endregion
+
+	// 장치에 재질을 설정한다
+	m_pGraphic_Device->SetMaterial(&MtrlDesc);
+}
+
+void CStreetLampHead::Turn_on_Light(_uint LightNumber)
+{
+	//m_pGraphic_Device->SetRenderState(D3DRS_LIGHTING, TRUE);
+
+#pragma region 조명 설치
+	// n번 광원을 설치한다.
+	m_pGraphic_Device->SetLight(LightNumber, &m_LightDesc);
+#pragma endregion
+
+	// n번 광원을 켠다
+	m_pGraphic_Device->LightEnable(LightNumber, true);
 }
 
 CStreetLampHead* CStreetLampHead::Create(LPDIRECT3DDEVICE9 pGraphic_Device)

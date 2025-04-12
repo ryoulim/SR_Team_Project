@@ -161,6 +161,20 @@ HRESULT CRaceBoss::Render()
 	if (FAILED(m_pVIBufferCom->Render(CVIBuffer_RaceBoss::MIDDLE)))
 		return E_FAIL;
 
+	//Å×µÎ¸®
+	if (FAILED(m_pTextureCom->Bind_Resource(5)))
+		return E_FAIL;
+
+	if (FAILED(m_pVIBufferCom->Render(CVIBuffer_RaceBoss::OUTLINE)))
+		return E_FAIL;
+
+	//»ï°¢Çü ¹«´Ì
+	if (FAILED(m_pTextureCom->Bind_Resource(6)))
+		return E_FAIL;
+
+	if (FAILED(m_pVIBufferCom->Render(CVIBuffer_RaceBoss::TRIANGLE)))
+		return E_FAIL;
+
 #ifdef _COLLIDERRENDER
 	for(auto& Collider : m_ColliderComs)
 		Collider->Render();
