@@ -738,7 +738,6 @@ bool CMonster::IsPlayerDetected()
 	{
 		if (FX_MGR->IsFlashing() && CAMERA_MANAGER->Get_CurCameraID() == CCameraManager::FPS)
 			return true;
-		}
 
 		_float3 vLook = *m_pTransformCom->Get_State(CTransform::STATE_LOOK);
 		vLook.Normalize();
