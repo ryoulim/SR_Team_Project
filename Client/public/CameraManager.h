@@ -44,6 +44,8 @@ public:
 		return static_cast<CGameObject*>(m_Cameras[_ID]);
 	}
 	void Switch(CCameraManager::ID _ID);
+	CCameraManager::ID Get_CurCameraID() { return m_eID; }
+
 private:
 	CGameInstance* m_pGameInstance{ nullptr };
 	CCameraManager::ID m_eID{ FPS };

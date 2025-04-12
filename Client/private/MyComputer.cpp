@@ -1,5 +1,6 @@
 #include "MyComputer.h"
 #include "GameInstance.h"
+#include "Monster.h"
 
 CMyComputer::CMyComputer(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CStatue(pGraphic_Device)
@@ -50,9 +51,66 @@ EVENT CMyComputer::Update(_float fTimeDelta)
 		{
 			if (m_CurCamera == CCameraManager::FPS)
 			{
+				if (!m_bDoOnce)
+				{
+					CMonster::DESC Archangel_iDesc{};
+					Archangel_iDesc.fSpeedPerSec = 60.f;
+					Archangel_iDesc.fRotationPerSec = RADIAN(180.f);
+					Archangel_iDesc.vActive = true;
+					Archangel_iDesc.eLevel = LEVEL_INDOOR;
+					Archangel_iDesc.fAttackDistance = 600.f;
+					Archangel_iDesc.fDetectiveDistance = 800.f;
+					_float3 Pos = { 1186.f, 200.f, 333.f };
+					Archangel_iDesc.vPosition = Pos;
+					Archangel_iDesc.vReturnPos = Pos;
+					if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_Archangel"),
+						LEVEL_INDOOR, L"Layer_Monster", &Archangel_iDesc)))
+						return EVN_NONE;
+
+					Pos = { 2111.f, 200.f, 470.f };
+					Archangel_iDesc.vPosition = Pos;
+					Archangel_iDesc.vReturnPos = Pos;
+					if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_Archangel"),
+						LEVEL_INDOOR, L"Layer_Monster", &Archangel_iDesc)))
+						return EVN_NONE;
+					m_bDoOnce = true;
+				}
 				m_CurCamera = CCameraManager::CUTSCENE;
 				CAMERA_MANAGER->Start_CutScene({ 450.05f, 150.56f, 396.35f }, { 0.57f, -0.64f, -0.52f });
 				m_bSwitch = true;
+
+				if (!m_bDoOnce)
+				{
+					CMonster::DESC Archangel_iDesc{};
+					Archangel_iDesc.fSpeedPerSec = 60.f;
+					Archangel_iDesc.fRotationPerSec = RADIAN(180.f);
+					Archangel_iDesc.vActive = true;
+					Archangel_iDesc.eLevel = LEVEL_INDOOR;
+					Archangel_iDesc.fAttackDistance = 600.f;
+					Archangel_iDesc.fDetectiveDistance = 800.f;
+					_float3 Pos = { 541.f, 200.f, 659.f };
+					Archangel_iDesc.vPosition = Pos;
+					Archangel_iDesc.vReturnPos = Pos;
+					if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_Archangel"),
+						LEVEL_INDOOR, L"Layer_Monster", &Archangel_iDesc)))
+						return EVN_NONE;
+
+					Pos = { 1200.f, 200.f, 570.f };
+					Archangel_iDesc.vPosition = Pos;
+					Archangel_iDesc.vReturnPos = Pos;
+					if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_Archangel"),
+						LEVEL_INDOOR, L"Layer_Monster", &Archangel_iDesc)))
+						return EVN_NONE;
+
+					Pos = { 1700.f, 200.f, 510.f };
+					Archangel_iDesc.vPosition = Pos;
+					Archangel_iDesc.vReturnPos = Pos;
+					if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_Archangel"),
+						LEVEL_INDOOR, L"Layer_Monster", &Archangel_iDesc)))
+						return EVN_NONE;
+
+					m_bDoOnce = true;
+				}
 			}
 			else
 			{

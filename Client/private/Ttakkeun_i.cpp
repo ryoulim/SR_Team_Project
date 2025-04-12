@@ -677,7 +677,7 @@ void CTtakkeun_i::MissileAttack(_float dt)
 	//미사일 발사
 	if (!m_bDoOnce)
 	{
-		m_pSoundCom->SetVolume("GuidMissile2", 0.3f);
+		m_pSoundCom->SetVolume("GuidMissile2", 0.7f);
 		m_pSoundCom->Play("GuidMissile2");
 		SpawnGuidMissile();
 		m_bDoOnce = true;

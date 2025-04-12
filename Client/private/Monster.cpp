@@ -2,6 +2,7 @@
 #include "DebugDraw.h"
 #include "Skull.h"
 #include "FXMgr.h"
+#include "CameraManager.h"
 
 CMonster::CMonster(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CGameObject{ pGraphic_Device }
@@ -596,7 +597,7 @@ void CMonster::State_Change_IDLE(_float dt)
 	{
 		m_bFoundPlayer = true;
 		
-		if (IsMonsterAbleToAttack())
+		if (IsMonsterAbleToAttack() && m_eState != MODE::MODE_BATTLE)
 			m_eState = MODE::MODE_DETECTIVE;
 	}
 }
@@ -735,8 +736,9 @@ bool CMonster::IsPlayerDetected()
 
 	if (m_fCurDistance < m_fDetectiveDistance)
 	{
-		if (FX_MGR->IsFlashing())
+		if (FX_MGR->IsFlashing() && CAMERA_MANAGER->Get_CurCameraID() == CCameraManager::FPS)
 			return true;
+		}
 
 		_float3 vLook = *m_pTransformCom->Get_State(CTransform::STATE_LOOK);
 		vLook.Normalize();

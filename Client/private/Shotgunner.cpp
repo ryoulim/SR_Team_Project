@@ -30,6 +30,8 @@ HRESULT CShotgunner::Initialize_Prototype()
 	m_vScale = { 34.5f, 66.2f, 1.f };
 	m_eState = MODE::MODE_IDLE;
 
+	m_fDetectiveDistance = 500.f;
+
 	//ºÎ¼Ó¼º
 	m_strDialogue = "Gun..Gun...";
 	m_strSound = "SoundFilePath";
