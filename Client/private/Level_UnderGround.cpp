@@ -51,6 +51,9 @@ HRESULT CLevel_UnderGround::Initialize(CLevelData* pLevelData)
 	if (FAILED(Ready_Layer_Monster(TEXT("Layer_Monster"))))
 		return E_FAIL;
 
+	if (FAILED(Ready_Layer_Item(TEXT("Layer_Item"))))
+		return E_FAIL;
+
 	return S_OK;
 }
 
@@ -419,7 +422,7 @@ HRESULT CLevel_UnderGround::Ready_Layer_Camera(const _wstring& strLayerTag)
 HRESULT CLevel_UnderGround::Ready_Layer_Pawn(const _wstring& strLayerTag)
 {
 	//이 레벨의 플레이어 생성위치
-	_float3 vInitPosition = { 500.f, 200.f, 100.f };
+	_float3 vInitPosition = { 430.f, 200.f, 16.f };
 
 	// 만약 플레이어가 있다면? 플레이어를 리스트에서 빼서
 	auto pPlayer1 = static_cast<CPawn*>(m_pGameInstance->Find_Object(LEVEL_STATIC, L"Layer_Pawn",0));
@@ -533,6 +536,25 @@ HRESULT CLevel_UnderGround::Ready_Layer_Trigger(const _wstring& strLayerTag)
 	tDesc.vScale = { 200.f, 100.f, 50.f };
 	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_Trigger"),
 		CurLevel, strLayerTag, &tDesc)))
+		return E_FAIL;
+
+	return S_OK;
+}
+
+HRESULT CLevel_UnderGround::Ready_Layer_Item(const _wstring& strLayerTag)
+{
+	CItem::DESC tDesc = {};
+	tDesc.vInitPos = { 400.f, 125.f, 110.f };
+	tDesc.vScale = _float3(145.f, 54.f, 1.f) * 0.3f;
+	tDesc.eLevelID = CurLevel;
+	tDesc.fSpeedPerSec = 300.f;
+	tDesc.fTextureNum = 0.f;
+
+	tDesc.szTextureID = TEXT("Item_Weapon_ChainGun");
+	tDesc.eColID = CI_ITEM_CHAINGUN;
+
+	if (FAILED(m_pGameInstance->Add_GameObject(tDesc.eLevelID, TEXT("Prototype_GameObject_Item_ChainGun"),
+		tDesc.eLevelID, strLayerTag, &tDesc)))
 		return E_FAIL;
 
 	return S_OK;

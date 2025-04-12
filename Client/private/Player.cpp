@@ -91,7 +91,7 @@ EVENT CPlayer::Update(_float fTimeDelta)
 		return EVN_NONE;
 
 #ifdef _CONSOL
-	//if (KEY_DOWN(DIK_Z))
+	if (KEY_DOWN(DIK_Z))
 	{
 		_float3 vPosition = *m_pTransformCom->Get_State(CTransform::STATE_POSITION);
 		printf("플레이어 좌표 : { %.2f, %.2f, %.2f }\n", vPosition.x, vPosition.y, vPosition.z);
@@ -177,7 +177,6 @@ void CPlayer::On_Collision(_uint MyColliderID, _uint OtherColliderID)
 		break;
 	}
 
-
 	case CI_BLOCK_INVISIBLE:
 		return;
 		break;
@@ -187,6 +186,17 @@ void CPlayer::On_Collision(_uint MyColliderID, _uint OtherColliderID)
 		break;
 
 		/* 아이템 */
+	case CI_ITEM_CHAINGUN:
+		/* 좀 그렇긴 하네 */
+		m_iMaxWeaponIndex = 2;
+		PRINT_DIALOG("picked up Chaingun");
+		break;
+
+	case CI_ITEM_DISPENSER:
+		++m_iMaxWeaponIndex;
+		PRINT_DIALOG("picked up Dispenser");
+		break;
+
 	case CI_ITEM_AMMO_CHAINGUN:
 		m_Weapons[1]->Replenish_Ammo(100);
 		PRINT_DIALOG("ammo for Chaingun x 100");
@@ -349,17 +359,17 @@ void CPlayer::Add_Weapons()
 			PROTOTYPE::TYPE_GAMEOBJECT, LEVEL_STATIC,
 			TEXT("Prototype_GameObject_Weapon_LoverBoy"), &WeaponDesc)));
 
-	WeaponDesc.fSpeedPerSec = 3000.f;
-	m_Weapons.push_back(
-		static_cast<CWeapon*>(m_pGameInstance->Clone_Prototype(
-			PROTOTYPE::TYPE_GAMEOBJECT, LEVEL_STATIC,
-			TEXT("Prototype_GameObject_Weapon_Chaingun"), &WeaponDesc)));
-
 	WeaponDesc.fSpeedPerSec = 2600.f;
 	m_Weapons.push_back(
 		static_cast<CWeapon*>(m_pGameInstance->Clone_Prototype(
 			PROTOTYPE::TYPE_GAMEOBJECT, LEVEL_STATIC,
 			TEXT("Prototype_GameObject_Weapon_Dispenser"), &WeaponDesc)));
+
+	WeaponDesc.fSpeedPerSec = 3000.f;
+	m_Weapons.push_back(
+		static_cast<CWeapon*>(m_pGameInstance->Clone_Prototype(
+			PROTOTYPE::TYPE_GAMEOBJECT, LEVEL_STATIC,
+			TEXT("Prototype_GameObject_Weapon_Chaingun"), &WeaponDesc)));
 
 	CUI_Manager::Get_Instance()->Change_Weapon(m_Weapons[m_iCurWeaponIndex]->Get_Info());
 
@@ -467,6 +477,9 @@ void CPlayer::Key_Input(_float fTimeDelta)
 		m_fDashTimer = 0.f;
 
 	}
+
+	if (0 == m_iMaxWeaponIndex)
+		return;
 
 	_int iMouseWheelZ = m_pGameInstance->Get_DIMMoveState(DIMM_WHEEL);
 

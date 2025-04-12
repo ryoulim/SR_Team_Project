@@ -315,8 +315,8 @@ HRESULT CLoader::Loding_For_Static()
 	ADD_TEXTURE(Weapon_Dispenser, "../Bin/Resources/Textures/Weapon/Dispenser/Dispenser%d.PNG", 60);
   	ADD_TEXTURE(PlayerMissile, "../Bin/Resources/Textures/Bullet/PlayerMissile/PlayerMissile%d.PNG", 8);
 	ADD_TEXTURE(LeftHandCard, "../Bin/Resources/Textures/Player/Card/Card0.PNG", 1);
-
 #pragma endregion
+
 
 #pragma region UI_PROTOTYPES
 	ADD_PRTOBJ(Trigger);
@@ -1287,10 +1287,14 @@ HRESULT CLoader::Loading_For_Indoor()
 	ADD_TEXTURE(DoorSecurity, "../Bin/Resources/Textures/Map/DoorSecurity/DoorSecurity%d.png", 6);
 
 	//아이템
+	ADD_TEXTURE(Item_Weapon_Dispenser, "../Bin/Resources/Textures/Item/Dispenser.PNG", 1);
+
 	ADD_TEXTURE(Item_Ammo, "../Bin/Resources/Textures/Item/Ammo%d.PNG", 4);
 	ADD_TEXTURE(Item_Healkit, "../Bin/Resources/Textures/Item/Healkit.PNG", 1);
 	ADD_TEXTURE(Item_Armor, "../Bin/Resources/Textures/Item/Armor%d.PNG", 2);
 	ADD_TEXTURE(Item_Cardkey, "../Bin/Resources/Textures/Item/CardKey.PNG", 1);
+
+
 
 	lstrcpy(m_szLoadingText, TEXT("모델을(를) 로딩중입니다."));
 
@@ -1318,6 +1322,10 @@ HRESULT CLoader::Loading_For_Indoor()
 	ADD_PRTOBJ(DoorSecurity);
 
 	//아이템
+	if (FAILED(m_pGameInstance->Add_Prototype(m_eNextLevelID, TEXT("Prototype_GameObject_Item_Dispenser"),
+		CItem::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
 	if (FAILED(m_pGameInstance->Add_Prototype(m_eNextLevelID, TEXT("Prototype_GameObject_Item_Ammo_Chaingun"),
 		CItem::Create(m_pGraphic_Device))))
 		return E_FAIL;
@@ -1530,6 +1538,8 @@ HRESULT CLoader::Loading_For_UnderGround()
 	ADD_TEXTURE(BuildingU, "../Bin/Resources/Textures/Object/BuildingU/BuildingU.PNG", 1);
 
 	/* 아이템 */
+	ADD_TEXTURE(Item_Weapon_ChainGun, "../Bin/Resources/Textures/Item/ChainGun.PNG", 1);
+
 	ADD_TEXTURE(Item_Ammo, "../Bin/Resources/Textures/Item/Ammo%d.PNG", 4);
 	ADD_TEXTURE(Item_Healkit, "../Bin/Resources/Textures/Item/Healkit.PNG", 1);
 	ADD_TEXTURE(Item_Armor, "../Bin/Resources/Textures/Item/Armor%d.PNG", 2);
@@ -1570,6 +1580,10 @@ HRESULT CLoader::Loading_For_UnderGround()
 
 #pragma region 아이템
 	/* 아이템 */
+	if (FAILED(m_pGameInstance->Add_Prototype(m_eNextLevelID, TEXT("Prototype_GameObject_Item_ChainGun"),
+		CItem::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
 	if (FAILED(m_pGameInstance->Add_Prototype(m_eNextLevelID, TEXT("Prototype_GameObject_Item_Ammo_Chaingun"),
 		CItem::Create(m_pGraphic_Device))))
 		return E_FAIL;
