@@ -8,6 +8,7 @@
 #include "CameraManager.h"
 #include "RaceBoss.h"
 #include "UI_Manager.h"
+#include "StreetLampHead.h"
 
 
 #define CurLevel LEVEL_RACEFIRST
@@ -41,6 +42,7 @@ HRESULT CLevel_RaceFirst::Initialize(CLevelData* pLevelData)
 	if (FAILED(Ready_Layer_RaceBoss(TEXT("Layer_RaceBoss"))))
 		return E_FAIL;
 
+	m_pGraphic_Device->SetRenderState(D3DRS_LIGHTING, TRUE);
 
 	return S_OK;
 }
@@ -180,19 +182,19 @@ HRESULT CLevel_RaceFirst::Ready_Layer_Statue(const _wstring& strLayerTag)
 		LEVEL_RACEFIRST, strLayerTag, &desc)))
 		return E_FAIL;
 
-	desc.vAngle		= _float3(D3DXToRadian(0.f), D3DXToRadian(-90.f), D3DXToRadian(0.f));
-	desc.vInitPos	= _float3(1100.f, 250.f, 8500.f);
-	desc.vScale		= _float3(800.f, 500.f, 720.f);
-
-	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_RACEFIRST, TEXT("Prototype_GameObject_BuildingW"),
-		LEVEL_RACEFIRST, strLayerTag, &desc)))
-		return E_FAIL;
-
 	desc.vAngle		= _float3(D3DXToRadian(0.f), D3DXToRadian(0.f), D3DXToRadian(0.f));
 	desc.vInitPos	= _float3(-200.f, 250.f, 8200.f);
 	desc.vScale		= _float3(800.f, 500.f, 720.f);
 
 	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_RACEFIRST, TEXT("Prototype_GameObject_BuildingU"),
+		LEVEL_RACEFIRST, strLayerTag, &desc)))
+		return E_FAIL;
+
+	desc.vAngle = _float3(D3DXToRadian(0.f), D3DXToRadian(-90.f), D3DXToRadian(0.f));
+	desc.vInitPos = _float3(1100.f, 250.f, 8500.f);
+	desc.vScale = _float3(800.f, 500.f, 720.f);
+
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_RACEFIRST, TEXT("Prototype_GameObject_BuildingW"),
 		LEVEL_RACEFIRST, strLayerTag, &desc)))
 		return E_FAIL;
 
@@ -220,6 +222,258 @@ HRESULT CLevel_RaceFirst::Ready_Layer_Statue(const _wstring& strLayerTag)
 		LEVEL_RACEFIRST, strLayerTag, &desc)))
 		return E_FAIL;
 
+
+#pragma region °¡·Îµî
+	CStreetLampHead::DESC StreetLampDesc = {};
+
+	StreetLampDesc.vAngle = _float3(D3DXToRadian(0.f), D3DXToRadian(0.f), D3DXToRadian(0.f));
+	StreetLampDesc.vInitPos = _float3(150.f, 180.f, 250.f);//1200
+	StreetLampDesc.vScale = _float3(15.f, 40.f, 0.f);
+	StreetLampDesc.eLevelID = LEVEL_RACEFIRST;
+	StreetLampDesc.iLightNumber = 0;
+
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_RACEFIRST, TEXT("Prototype_GameObject_StreetLampHead"),
+		LEVEL_RACEFIRST, strLayerTag, &StreetLampDesc)))
+		return E_FAIL;
+
+	StreetLampDesc.vAngle = _float3(D3DXToRadian(0.f), D3DXToRadian(0.f), D3DXToRadian(0.f));
+	StreetLampDesc.vInitPos = _float3(150.f, 80.f, 250.f);
+	StreetLampDesc.vScale = _float3(15.f, 160.f, 0.f);
+	StreetLampDesc.eLevelID = LEVEL_RACEFIRST;
+
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_RACEFIRST, TEXT("Prototype_GameObject_StreetLampBody"),
+		LEVEL_RACEFIRST, strLayerTag, &StreetLampDesc)))
+		return E_FAIL;
+
+	StreetLampDesc.vAngle = _float3(D3DXToRadian(0.f), D3DXToRadian(0.f), D3DXToRadian(0.f));
+	StreetLampDesc.vInitPos = _float3(900.f, 180.f, 1600.f);
+	StreetLampDesc.vScale = _float3(15.f, 40.f, 0.f);
+	StreetLampDesc.eLevelID = LEVEL_RACEFIRST;
+	StreetLampDesc.iLightNumber = 1;
+
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_RACEFIRST, TEXT("Prototype_GameObject_StreetLampHead"),
+		LEVEL_RACEFIRST, strLayerTag, &StreetLampDesc)))
+		return E_FAIL;
+
+	StreetLampDesc.vAngle = _float3(D3DXToRadian(0.f), D3DXToRadian(0.f), D3DXToRadian(0.f));
+	StreetLampDesc.vInitPos = _float3(900.f, 80.f, 1600.f);
+	StreetLampDesc.vScale = _float3(15.f, 160.f, 0.f);
+	StreetLampDesc.eLevelID = LEVEL_RACEFIRST;
+
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_RACEFIRST, TEXT("Prototype_GameObject_StreetLampBody"),
+		LEVEL_RACEFIRST, strLayerTag, &StreetLampDesc)))
+		return E_FAIL;
+
+	StreetLampDesc.vAngle = _float3(D3DXToRadian(0.f), D3DXToRadian(0.f), D3DXToRadian(0.f));
+	StreetLampDesc.vInitPos = _float3(0.f, 180.f, 2000.f);
+	StreetLampDesc.vScale = _float3(15.f, 40.f, 0.f);
+	StreetLampDesc.eLevelID = LEVEL_RACEFIRST;
+	StreetLampDesc.iLightNumber = 2;
+
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_RACEFIRST, TEXT("Prototype_GameObject_StreetLampHead"),
+		LEVEL_RACEFIRST, strLayerTag, &StreetLampDesc)))
+		return E_FAIL;
+
+	StreetLampDesc.vAngle = _float3(D3DXToRadian(0.f), D3DXToRadian(0.f), D3DXToRadian(0.f));
+	StreetLampDesc.vInitPos = _float3(0.f, 80.f, 2000.f);
+	StreetLampDesc.vScale = _float3(15.f, 160.f, 0.f);
+	StreetLampDesc.eLevelID = LEVEL_RACEFIRST;
+
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_RACEFIRST, TEXT("Prototype_GameObject_StreetLampBody"),
+		LEVEL_RACEFIRST, strLayerTag, &StreetLampDesc)))
+		return E_FAIL;
+
+	StreetLampDesc.vAngle = _float3(D3DXToRadian(0.f), D3DXToRadian(0.f), D3DXToRadian(0.f));
+	StreetLampDesc.vInitPos = _float3(900.f, 180.f, 2500.f);
+	StreetLampDesc.vScale = _float3(15.f, 40.f, 0.f);
+	StreetLampDesc.eLevelID = LEVEL_RACEFIRST;
+	StreetLampDesc.iLightNumber = 3;
+
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_RACEFIRST, TEXT("Prototype_GameObject_StreetLampHead"),
+		LEVEL_RACEFIRST, strLayerTag, &StreetLampDesc)))
+		return E_FAIL;
+
+	StreetLampDesc.vAngle = _float3(D3DXToRadian(0.f), D3DXToRadian(0.f), D3DXToRadian(0.f));
+	StreetLampDesc.vInitPos = _float3(900.f, 80.f, 2500.f);
+	StreetLampDesc.vScale = _float3(15.f, 160.f, 0.f);
+	StreetLampDesc.eLevelID = LEVEL_RACEFIRST;
+
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_RACEFIRST, TEXT("Prototype_GameObject_StreetLampBody"),
+		LEVEL_RACEFIRST, strLayerTag, &StreetLampDesc)))
+		return E_FAIL;
+
+	StreetLampDesc.vAngle = _float3(D3DXToRadian(0.f), D3DXToRadian(0.f), D3DXToRadian(0.f));
+	StreetLampDesc.vInitPos = _float3(150.f, 180.f, 3300.f);
+	StreetLampDesc.vScale = _float3(15.f, 40.f, 0.f);
+	StreetLampDesc.eLevelID = LEVEL_RACEFIRST;
+	StreetLampDesc.iLightNumber = 4;
+
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_RACEFIRST, TEXT("Prototype_GameObject_StreetLampHead"),
+		LEVEL_RACEFIRST, strLayerTag, &StreetLampDesc)))
+		return E_FAIL;
+
+	StreetLampDesc.vAngle = _float3(D3DXToRadian(0.f), D3DXToRadian(0.f), D3DXToRadian(0.f));
+	StreetLampDesc.vInitPos = _float3(150.f, 80.f, 3300.f);
+	StreetLampDesc.vScale = _float3(15.f, 160.f, 0.f);
+	StreetLampDesc.eLevelID = LEVEL_RACEFIRST;
+
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_RACEFIRST, TEXT("Prototype_GameObject_StreetLampBody"),
+		LEVEL_RACEFIRST, strLayerTag, &StreetLampDesc)))
+		return E_FAIL;
+
+	StreetLampDesc.vAngle = _float3(D3DXToRadian(0.f), D3DXToRadian(0.f), D3DXToRadian(0.f));
+	StreetLampDesc.vInitPos = _float3(900.f, 180.f, 3800.f);
+	StreetLampDesc.vScale = _float3(15.f, 40.f, 0.f);
+	StreetLampDesc.eLevelID = LEVEL_RACEFIRST;
+	StreetLampDesc.iLightNumber = 5;
+
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_RACEFIRST, TEXT("Prototype_GameObject_StreetLampHead"),
+		LEVEL_RACEFIRST, strLayerTag, &StreetLampDesc)))
+		return E_FAIL;
+
+	StreetLampDesc.vAngle = _float3(D3DXToRadian(0.f), D3DXToRadian(0.f), D3DXToRadian(0.f));
+	StreetLampDesc.vInitPos = _float3(900.f, 80.f, 3800.f);
+	StreetLampDesc.vScale = _float3(15.f, 160.f, 0.f);
+	StreetLampDesc.eLevelID = LEVEL_RACEFIRST;
+
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_RACEFIRST, TEXT("Prototype_GameObject_StreetLampBody"),
+		LEVEL_RACEFIRST, strLayerTag, &StreetLampDesc)))
+		return E_FAIL;
+
+	StreetLampDesc.vAngle = _float3(D3DXToRadian(0.f), D3DXToRadian(0.f), D3DXToRadian(0.f));
+	StreetLampDesc.vInitPos = _float3(0.f, 180.f, 4800.f);
+	StreetLampDesc.vScale = _float3(15.f, 40.f, 0.f);
+	StreetLampDesc.eLevelID = LEVEL_RACEFIRST;
+	StreetLampDesc.iLightNumber = 6;
+
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_RACEFIRST, TEXT("Prototype_GameObject_StreetLampHead"),
+		LEVEL_RACEFIRST, strLayerTag, &StreetLampDesc)))
+		return E_FAIL;
+
+	StreetLampDesc.vAngle = _float3(D3DXToRadian(0.f), D3DXToRadian(0.f), D3DXToRadian(0.f));
+	StreetLampDesc.vInitPos = _float3(0.f, 80.f, 4800.f);
+	StreetLampDesc.vScale = _float3(15.f, 160.f, 0.f);
+	StreetLampDesc.eLevelID = LEVEL_RACEFIRST;
+
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_RACEFIRST, TEXT("Prototype_GameObject_StreetLampBody"),
+		LEVEL_RACEFIRST, strLayerTag, &StreetLampDesc)))
+		return E_FAIL;
+
+	StreetLampDesc.vAngle = _float3(D3DXToRadian(0.f), D3DXToRadian(0.f), D3DXToRadian(0.f));
+	StreetLampDesc.vInitPos = _float3(900.f, 180.f, 5400.f);
+	StreetLampDesc.vScale = _float3(15.f, 40.f, 0.f);
+	StreetLampDesc.eLevelID = LEVEL_RACEFIRST;
+	StreetLampDesc.iLightNumber = 7;
+
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_RACEFIRST, TEXT("Prototype_GameObject_StreetLampHead"),
+		LEVEL_RACEFIRST, strLayerTag, &StreetLampDesc)))
+		return E_FAIL;
+
+	StreetLampDesc.vAngle = _float3(D3DXToRadian(0.f), D3DXToRadian(0.f), D3DXToRadian(0.f));
+	StreetLampDesc.vInitPos = _float3(900.f, 80.f, 5400.f);
+	StreetLampDesc.vScale = _float3(15.f, 160.f, 0.f);
+	StreetLampDesc.eLevelID = LEVEL_RACEFIRST;
+
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_RACEFIRST, TEXT("Prototype_GameObject_StreetLampBody"),
+		LEVEL_RACEFIRST, strLayerTag, &StreetLampDesc)))
+		return E_FAIL;
+
+	StreetLampDesc.vAngle = _float3(D3DXToRadian(0.f), D3DXToRadian(0.f), D3DXToRadian(0.f));
+	StreetLampDesc.vInitPos = _float3(100.f, 180.f, 6300.f);
+	StreetLampDesc.vScale = _float3(15.f, 40.f, 0.f);
+	StreetLampDesc.eLevelID = LEVEL_RACEFIRST;
+	StreetLampDesc.iLightNumber = 8;
+
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_RACEFIRST, TEXT("Prototype_GameObject_StreetLampHead"),
+		LEVEL_RACEFIRST, strLayerTag, &StreetLampDesc)))
+		return E_FAIL;
+
+	StreetLampDesc.vAngle = _float3(D3DXToRadian(0.f), D3DXToRadian(0.f), D3DXToRadian(0.f));
+	StreetLampDesc.vInitPos = _float3(100.f, 80.f, 6300.f);
+	StreetLampDesc.vScale = _float3(15.f, 160.f, 0.f);
+	StreetLampDesc.eLevelID = LEVEL_RACEFIRST;
+
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_RACEFIRST, TEXT("Prototype_GameObject_StreetLampBody"),
+		LEVEL_RACEFIRST, strLayerTag, &StreetLampDesc)))
+		return E_FAIL;
+
+	StreetLampDesc.vAngle = _float3(D3DXToRadian(0.f), D3DXToRadian(0.f), D3DXToRadian(0.f));
+	StreetLampDesc.vInitPos = _float3(0.f, 180.f, 7500.f);
+	StreetLampDesc.vScale = _float3(15.f, 40.f, 0.f);
+	StreetLampDesc.eLevelID = LEVEL_RACEFIRST;
+	StreetLampDesc.iLightNumber = 9;
+
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_RACEFIRST, TEXT("Prototype_GameObject_StreetLampHead"),
+		LEVEL_RACEFIRST, strLayerTag, &StreetLampDesc)))
+		return E_FAIL;
+
+	StreetLampDesc.vAngle = _float3(D3DXToRadian(0.f), D3DXToRadian(0.f), D3DXToRadian(0.f));
+	StreetLampDesc.vInitPos = _float3(0.f, 80.f, 7500.f);
+	StreetLampDesc.vScale = _float3(15.f, 160.f, 0.f);
+	StreetLampDesc.eLevelID = LEVEL_RACEFIRST;
+
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_RACEFIRST, TEXT("Prototype_GameObject_StreetLampBody"),
+		LEVEL_RACEFIRST, strLayerTag, &StreetLampDesc)))
+		return E_FAIL;
+
+	/*StreetLampDesc.vAngle = _float3(D3DXToRadian(0.f), D3DXToRadian(0.f), D3DXToRadian(0.f));
+	StreetLampDesc.vInitPos = _float3(900.f, 180.f, 7500.f);
+	StreetLampDesc.vScale = _float3(15.f, 40.f, 0.f);
+	StreetLampDesc.eLevelID = LEVEL_RACEFIRST;
+	StreetLampDesc.iLightNumber = 10;
+
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_RACEFIRST, TEXT("Prototype_GameObject_StreetLampHead"),
+		LEVEL_RACEFIRST, strLayerTag, &StreetLampDesc)))
+		return E_FAIL;
+
+	StreetLampDesc.vAngle = _float3(D3DXToRadian(0.f), D3DXToRadian(0.f), D3DXToRadian(0.f));
+	StreetLampDesc.vInitPos = _float3(900.f, 80.f, 7500.f);
+	StreetLampDesc.vScale = _float3(15.f, 160.f, 0.f);
+	StreetLampDesc.eLevelID = LEVEL_RACEFIRST;
+
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_RACEFIRST, TEXT("Prototype_GameObject_StreetLampBody"),
+		LEVEL_RACEFIRST, strLayerTag, &StreetLampDesc)))
+		return E_FAIL;
+
+	StreetLampDesc.vAngle = _float3(D3DXToRadian(0.f), D3DXToRadian(0.f), D3DXToRadian(0.f));
+	StreetLampDesc.vInitPos = _float3(0.f, 180.f, 9500.f);
+	StreetLampDesc.vScale = _float3(15.f, 40.f, 0.f);
+	StreetLampDesc.eLevelID = LEVEL_RACEFIRST;
+	StreetLampDesc.iLightNumber = 11;
+
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_RACEFIRST, TEXT("Prototype_GameObject_StreetLampHead"),
+		LEVEL_RACEFIRST, strLayerTag, &StreetLampDesc)))
+		return E_FAIL;
+
+	StreetLampDesc.vAngle = _float3(D3DXToRadian(0.f), D3DXToRadian(0.f), D3DXToRadian(0.f));
+	StreetLampDesc.vInitPos = _float3(0.f, 80.f, 9200.f);
+	StreetLampDesc.vScale = _float3(15.f, 160.f, 0.f);
+	StreetLampDesc.eLevelID = LEVEL_RACEFIRST;
+
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_RACEFIRST, TEXT("Prototype_GameObject_StreetLampBody"),
+		LEVEL_RACEFIRST, strLayerTag, &StreetLampDesc)))
+		return E_FAIL;
+
+	StreetLampDesc.vAngle = _float3(D3DXToRadian(0.f), D3DXToRadian(0.f), D3DXToRadian(0.f));
+	StreetLampDesc.vInitPos = _float3(900.f, 180.f, 9500.f);
+	StreetLampDesc.vScale = _float3(15.f, 40.f, 0.f);
+	StreetLampDesc.eLevelID = LEVEL_RACEFIRST;
+	StreetLampDesc.iLightNumber = 12;
+
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_RACEFIRST, TEXT("Prototype_GameObject_StreetLampHead"),
+		LEVEL_RACEFIRST, strLayerTag, &StreetLampDesc)))
+		return E_FAIL;
+
+	StreetLampDesc.vAngle = _float3(D3DXToRadian(0.f), D3DXToRadian(0.f), D3DXToRadian(0.f));
+	StreetLampDesc.vInitPos = _float3(900.f, 80.f, 9200.f);
+	StreetLampDesc.vScale = _float3(15.f, 160.f, 0.f);
+	StreetLampDesc.eLevelID = LEVEL_RACEFIRST;
+
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_RACEFIRST, TEXT("Prototype_GameObject_StreetLampBody"),
+		LEVEL_RACEFIRST, strLayerTag, &StreetLampDesc)))
+		return E_FAIL;*/
+#pragma endregion
+
 	return S_OK;
 }
 
@@ -228,11 +482,20 @@ HRESULT CLevel_RaceFirst::Ready_Layer_Statue2(const _wstring& strLayerTag)
 	CStatue::DESC desc = {};
 
 	desc.vAngle = _float3(D3DXToRadian(0.f), D3DXToRadian(0.f), D3DXToRadian(0.f));
-	desc.vInitPos = _float3(450.f, 10.f, 500.f);
+	desc.vInitPos = _float3(450.f, 115.f, 500.f);
 	desc.vScale = _float3(10.f, 30.f, 0.f);
 	desc.eLevelID = LEVEL_RACEFIRST;
 
 	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_RACEFIRST, TEXT("Prototype_GameObject_StreetLampHead"),
+		LEVEL_RACEFIRST, strLayerTag, &desc)))
+		return E_FAIL;
+
+	desc.vAngle = _float3(D3DXToRadian(0.f), D3DXToRadian(0.f), D3DXToRadian(0.f));
+	desc.vInitPos = _float3(450.f, 50.f, 500.f);
+	desc.vScale = _float3(10.f, 100.f, 0.f);
+	desc.eLevelID = LEVEL_RACEFIRST;
+
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_RACEFIRST, TEXT("Prototype_GameObject_StreetLampBody"),
 		LEVEL_RACEFIRST, strLayerTag, &desc)))
 		return E_FAIL;
 
@@ -392,4 +655,6 @@ CLevel_RaceFirst* CLevel_RaceFirst::Create(LPDIRECT3DDEVICE9 pGraphic_Device, cl
 void CLevel_RaceFirst::Free()
 {
 	__super::Free();
+
+	m_pGraphic_Device->SetRenderState(D3DRS_LIGHTING, FALSE);
 }

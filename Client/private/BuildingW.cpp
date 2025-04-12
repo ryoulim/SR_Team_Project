@@ -48,14 +48,14 @@ HRESULT CBuildingW::Render()
 	//__super::LightOn();
 	
 	/**************************************************************/
-	m_pShaderCom->Begin(CShader::COLOR);
+	/*m_pShaderCom->Begin(CShader::COLOR);
 	if (FAILED(__super::Render()))
 		return E_FAIL;
 	m_pShaderCom->End();
-	return S_OK;
+	return S_OK;*/
 	/**************************************************************/
 
-	//return __super::Render();
+	return __super::Render();
 }
 
 CBuildingW* CBuildingW::Create(LPDIRECT3DDEVICE9 pGraphic_Device)

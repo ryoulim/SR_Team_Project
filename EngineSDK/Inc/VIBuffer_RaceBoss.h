@@ -7,7 +7,7 @@ BEGIN(Engine)
 class ENGINE_DLL CVIBuffer_RaceBoss final : public CVIBuffer
 {
 public:
-	enum Surface { COMMON, MIDDLE, MUZZLE1, MUZZLE2, MUZZLE3, MUZZLE4};
+	enum Surface { COMMON, MUZZLE1, MUZZLE2, MUZZLE3, MUZZLE4, MIDDLE, OUTLINE, TRIANGLE };
 
 private:
 	CVIBuffer_RaceBoss(LPDIRECT3DDEVICE9 pGraphic_Device);

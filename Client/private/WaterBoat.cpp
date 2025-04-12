@@ -141,6 +141,9 @@ HRESULT CWaterBoat::SetUp_RenderState()
 	m_pGraphic_Device->SetRenderState(D3DRS_POINTSIZE_MIN, FtoDW(0.1f));
 	m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 
+	//김현석 : 레이싱 맵 조명 떄문에 넣었습니다.
+	//m_pGraphic_Device->SetRenderState(D3DRS_LIGHTING, FALSE);
+
 	//거리에 따른 파티클 크기조절
 	m_pGraphic_Device->SetRenderState(D3DRS_POINTSCALE_A, FtoDW(1.0f));
 	m_pGraphic_Device->SetRenderState(D3DRS_POINTSCALE_B, FtoDW(0.05f));

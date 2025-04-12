@@ -48,7 +48,7 @@ HRESULT CVIBuffer_RaceTerrain::Initialize_Prototype(_uint iTileNumVerticesX, _ui
 
 			pVertices[iIndex].vPosition = _float3((_float)j * 100.f, 0.f, (_float)i * 100.f - 3000.f);
 			pVertices[iIndex].vTexcoord = _float2(m_iNumVerticesX * j / (m_iNumVerticesX - 1.f) * 2.f, m_iNumVerticesZ * i / (m_iNumVerticesZ - 1.f) * 2.f);
-			pVertices[iIndex].vNormal = { 0.f, 0.f, 0.f };
+			pVertices[iIndex].vNormal = { 0.f, 1.f, 0.f };
 		}
 	}
 #pragma endregion

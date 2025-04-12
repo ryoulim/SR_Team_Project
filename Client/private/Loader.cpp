@@ -14,6 +14,7 @@
 #include "MyComputer.h"
 #include "Canopy.h"
 #include "StreetLampHead.h"
+#include "StreetLampBody.h"
 #include "BuildingH.h"
 #include "BuildingW.h"
 #include "BuildingV.h"
@@ -504,7 +505,7 @@ HRESULT CLoader::Loding_For_Static()
 #pragma endregion
 
 #pragma region 레이싱 보스
-	ADD_TEXTURE(RaceBoss, "../Bin/Resources/Textures/RaceBoss/RaceBoss%d.PNG", 5);
+	ADD_TEXTURE(RaceBoss, "../Bin/Resources/Textures/RaceBoss/RaceBoss%d.PNG", 7);
 	ADD_TEXTURE(RaceBossBullet, "../Bin/Resources/Textures/Bullet/RaceBossBullet/RaceBossBullet.PNG", 1);
 	ADD_TEXTURE(RaceBossBomb, "../Bin/Resources/Textures/Bullet/RaceBossBomb/RaceBossBomb.PNG", 1);
 	ADD_PRTOBJ(RaceBoss);
@@ -989,14 +990,16 @@ HRESULT CLoader::Loading_For_RaceFirst()/**/
 	ADD_TEXTURE(RaceGate, "../Bin/Resources/Textures/Object/RaceGate/RaceGate%d.PNG", 3);
 	ADD_TEXTURE(RaceCylinder, "../Bin/Resources/Textures/Object/RaceCylinder/RaceCylinder%d.PNG", 3);
 	ADD_TEXTURE(BombRadius, "../Bin/Resources/Textures/RaceBoss/Bomb/BombRadius.PNG", 1);
+	ADD_TEXTURE(StreetLampHead, "../Bin/Resources/Textures/Object/StreetLamp/StreetLampHead/StreetLampHead.PNG", 1);
+	ADD_TEXTURE(StreetLampBody, "../Bin/Resources/Textures/Object/StreetLamp/StreetLampBody/StreetLampBody.PNG", 1);
 
-	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_RACEFIRST, TEXT("Prototype_Component_Texture_StreetLampHead"),
+	/*if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_RACEFIRST, TEXT("Prototype_Component_Texture_StreetLampHead"),
 		CTexture::Create(m_pGraphic_Device, TEXT("../Bin/Resources/Textures/Object/StreetLamp/StreetLampHead.PNG"), 1))))
 		return E_FAIL;
 
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_RACEFIRST, TEXT("Prototype_Component_Texture_StreetLampPillar"),
 		CTexture::Create(m_pGraphic_Device, TEXT("../Bin/Resources/Textures/Object/StreetLamp/StreetLampPillar.PNG"), 1))))
-		return E_FAIL;
+		return E_FAIL;*/
 
 	lstrcpy(m_szLoadingText, TEXT("모델을(를) 로딩중입니다."));
 	ADD_MODEL_EX(RaceTerrain, 10, 1500);
@@ -1015,10 +1018,8 @@ HRESULT CLoader::Loading_For_RaceFirst()/**/
 	ADD_PRTOBJ(BuildingW);
 	ADD_PRTOBJ(RaceCylinder);
 	ADD_PRTOBJ(BombRadius);
-
-	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_RACEFIRST, TEXT("Prototype_GameObject_StreetLampHead"),
-		CStreetLampHead::Create(m_pGraphic_Device))))
-		return E_FAIL;
+	ADD_PRTOBJ(StreetLampHead);
+	ADD_PRTOBJ(StreetLampBody);
 
 	lstrcpy(m_szLoadingText, TEXT("데이터를 읽어들이는 중입니다."));
 	Add_Data(TEXT("GamePlayLevelData.csv"));

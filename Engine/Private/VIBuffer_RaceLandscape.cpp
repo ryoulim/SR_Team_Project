@@ -105,6 +105,36 @@ HRESULT CVIBuffer_RaceLandscape::Initialize_Prototype()
 		pIndices[BufferIndex++] = Index[6];
 		pIndices[BufferIndex++] = Index[3];
 		pIndices[BufferIndex++] = Index[2];
+
+		pVertices[Index[0]].vNormal += ComputeNormalVector(pVertices, Index[0], Index[1], Index[2]);
+		pVertices[Index[1]].vNormal += ComputeNormalVector(pVertices, Index[0], Index[1], Index[2]);
+		pVertices[Index[2]].vNormal += ComputeNormalVector(pVertices, Index[0], Index[1], Index[2]);
+		pVertices[Index[3]].vNormal += ComputeNormalVector(pVertices, Index[0], Index[2], Index[3]);
+
+		pVertices[Index[5]].vNormal += ComputeNormalVector(pVertices, Index[5], Index[4], Index[7]);
+		pVertices[Index[4]].vNormal += ComputeNormalVector(pVertices, Index[5], Index[4], Index[7]);
+		pVertices[Index[7]].vNormal += ComputeNormalVector(pVertices, Index[5], Index[4], Index[7]);
+		pVertices[Index[6]].vNormal += ComputeNormalVector(pVertices, Index[5], Index[7], Index[6]);
+
+		pVertices[Index[4]].vNormal += ComputeNormalVector(pVertices, Index[4], Index[0], Index[3]);
+		pVertices[Index[0]].vNormal += ComputeNormalVector(pVertices, Index[4], Index[0], Index[3]);
+		pVertices[Index[3]].vNormal += ComputeNormalVector(pVertices, Index[4], Index[0], Index[3]);
+		pVertices[Index[7]].vNormal += ComputeNormalVector(pVertices, Index[4], Index[3], Index[7]);
+
+		pVertices[Index[1]].vNormal += ComputeNormalVector(pVertices, Index[1], Index[5], Index[6]);
+		pVertices[Index[5]].vNormal += ComputeNormalVector(pVertices, Index[1], Index[5], Index[6]);
+		pVertices[Index[6]].vNormal += ComputeNormalVector(pVertices, Index[1], Index[5], Index[6]);
+		pVertices[Index[2]].vNormal += ComputeNormalVector(pVertices, Index[1], Index[6], Index[2]);
+
+		pVertices[Index[4]].vNormal += ComputeNormalVector(pVertices, Index[4], Index[5], Index[1]);
+		pVertices[Index[5]].vNormal += ComputeNormalVector(pVertices, Index[4], Index[5], Index[1]);
+		pVertices[Index[1]].vNormal += ComputeNormalVector(pVertices, Index[4], Index[5], Index[1]);
+		pVertices[Index[0]].vNormal += ComputeNormalVector(pVertices, Index[4], Index[1], Index[0]);
+
+		pVertices[Index[6]].vNormal += ComputeNormalVector(pVertices, Index[6], Index[7], Index[3]);
+		pVertices[Index[7]].vNormal += ComputeNormalVector(pVertices, Index[6], Index[7], Index[3]);
+		pVertices[Index[3]].vNormal += ComputeNormalVector(pVertices, Index[6], Index[7], Index[3]);
+		pVertices[Index[2]].vNormal += ComputeNormalVector(pVertices, Index[6], Index[3], Index[2]);
 	}
 	m_pVB->Unlock();
 	m_pIB->Unlock();

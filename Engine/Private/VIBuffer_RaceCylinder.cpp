@@ -84,6 +84,11 @@ HRESULT CVIBuffer_RaceCylinder::Initialize_Prototype()
 	{
 		pVertices[i].vNormal = _float3(0.f, 0.f, 0.f);
 	}
+
+	for (_uint i = 20; i < 28; i++)
+	{
+		pVertices[i].vNormal = _float3(0.f, 0.f, -1.f);
+	}
 #pragma endregion
 
 	m_pVB->Unlock();
