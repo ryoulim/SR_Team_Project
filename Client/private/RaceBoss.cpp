@@ -84,10 +84,11 @@ EVENT CRaceBoss::Update(_float fTimeDelta)
 	if (KEY_DOWN(DIK_9))
 		FX_MGR->SpawnMultipleExplosionRaceBoss(vPos, m_eLevelID);
 
+	// 순서 왼쪽부터임
 	if (m_bPartDead[0])
-		FX_MGR->SpawnMultipleExplosionRacePoint(fTimeDelta, vPos, { -85.f, 15.f, -205.f }, m_eLevelID, { 50.f, 50.f, 1.f }, TEXT("RaceBossHit"), 13.f);
-	if (m_bPartDead[1])
 		FX_MGR->SpawnMultipleExplosionRacePoint(fTimeDelta, vPos, { -165.f, 25.f, -205.f }, m_eLevelID, { 50.f, 50.f, 1.f }, TEXT("RaceBossHit"), 13.f);
+	if (m_bPartDead[1])
+		FX_MGR->SpawnMultipleExplosionRacePoint(fTimeDelta, vPos, { -85.f, 15.f, -205.f }, m_eLevelID, { 50.f, 50.f, 1.f }, TEXT("RaceBossHit"), 13.f);
 	if (m_bPartDead[2])
 		FX_MGR->SpawnMultipleExplosionRacePoint(fTimeDelta, vPos, { 0.f, 25.f, -205.f }, m_eLevelID, { 50.f, 50.f, 1.f }, TEXT("RaceBossHit"), 13.f);
 	if (m_bPartDead[3])
@@ -200,7 +201,7 @@ _bool CRaceBoss::Judge_Skull(const _float3& vColliderPos, _float vColliderRadius
 	const _float3 relativePos = vColliderPos - *m_pPlayerpos;
 	const _float3 relativeVelocity = vVelocity - bulletVelocity;
 
-	// ▶ bullet 반지름 추가
+	// bullet 반지름 추가
 	const _float bulletRadius = 10.f; // 플레이어 총알 반지름 10임
 	const _float totalRadius = vColliderRadius + bulletRadius;
 
@@ -997,23 +998,28 @@ void CRaceBoss::Init_Skull()
 void CRaceBoss::Update_Skull(_float fTimeDelta)
 {
 	_float3 vPos = *m_pTransformCom->Get_State(CTransform::STATE_POSITION);
-	if (Judge_Skull(vPos + Calc_Muzzle_Position(LSIDE),20.f,fTimeDelta))
+	if (!m_bPartDead[0] &&
+		Judge_Skull(vPos + Calc_Muzzle_Position(LSIDE),20.f,fTimeDelta))
 	{
 		Render_Skull(LSIDE);
 	}
-	else if (Judge_Skull(vPos + Calc_Muzzle_Position(LMIDDLE), 20.f, fTimeDelta))
+	else if (!m_bPartDead[1] &&
+		Judge_Skull(vPos + Calc_Muzzle_Position(LMIDDLE), 20.f, fTimeDelta))
 	{
 		Render_Skull(LMIDDLE);
 	}
-	else if (Judge_Skull(vPos + Calc_Muzzle_Position(MIDDLE), 20.f, fTimeDelta))
+	else if (!m_bPartDead[2] &&
+		Judge_Skull(vPos + Calc_Muzzle_Position(MIDDLE), 20.f, fTimeDelta))
 	{
 		Render_Skull(MIDDLE);
 	}
-	else if (Judge_Skull(vPos + Calc_Muzzle_Position(RMIDDLE), 20.f, fTimeDelta))
+	else if (!m_bPartDead[3] &&
+		Judge_Skull(vPos + Calc_Muzzle_Position(RMIDDLE), 20.f, fTimeDelta))
 	{
 		Render_Skull(RMIDDLE);
 	}
-	else if (Judge_Skull(vPos + Calc_Muzzle_Position(RSIDE), 20.f, fTimeDelta))
+	else if (!m_bPartDead[4] &&
+		Judge_Skull(vPos + Calc_Muzzle_Position(RSIDE), 20.f, fTimeDelta))
 	{
 		Render_Skull(RSIDE);
 	}
@@ -1045,13 +1051,13 @@ void CRaceBoss::On_Hit(MUZZLEPOS HitPos, _int iDamage)
 	/* [ 포신 어디에 맞았나요? ] */ 
 	switch (HitPos)
 	{
-	case LMIDDLE:
-		// 왼쪽 1칸
-		FX_MGR->SpawnRaceExplosion(vCenterPos, { -85.f, 15.f, -205.f }, m_eLevelID, { 30.f, 30.f, 1.f }, TEXT("RaceBossHit"), 13.f);
-		break;
 	case LSIDE:
 		// 왼쪽 2칸
 		FX_MGR->SpawnRaceExplosion(vCenterPos, { -165.f, 25.f, -205.f }, m_eLevelID, { 30.f, 30.f, 1.f }, TEXT("RaceBossHit"), 13.f);
+		break;
+	case LMIDDLE:
+		// 왼쪽 1칸
+		FX_MGR->SpawnRaceExplosion(vCenterPos, { -85.f, 15.f, -205.f }, m_eLevelID, { 30.f, 30.f, 1.f }, TEXT("RaceBossHit"), 13.f);
 		break;
 	case MIDDLE:
 		// 정 중 앙
@@ -1082,13 +1088,13 @@ void CRaceBoss::On_Hit(MUZZLEPOS HitPos, _int iDamage)
 		/* [ 포신 어디가 파괴되었나요? ] */
 		switch (HitPos)
 		{
-		case LMIDDLE:
-			FX_MGR->SpawnRaceExplosion(vCenterPos, { -100.f, 50.f, -220.f }, m_eLevelID, { 130.f, 140.f, 1.f }, TEXT("Effect_Explor"), 32.f);
+		case LSIDE:
+			FX_MGR->SpawnRaceExplosion(vCenterPos, { -200.f, 50.f, -220.f }, m_eLevelID, { 130.f, 140.f, 1.f }, TEXT("Effect_Explor"), 32.f);
 			CAMERA_MANAGER->Shake_Camera(0.5f, 0.5f);
 			m_bPartDead[0] = true;
 			break;
-		case LSIDE:
-			FX_MGR->SpawnRaceExplosion(vCenterPos, { -200.f, 50.f, -220.f }, m_eLevelID, { 130.f, 140.f, 1.f }, TEXT("Effect_Explor"), 32.f);
+		case LMIDDLE:
+			FX_MGR->SpawnRaceExplosion(vCenterPos, { -100.f, 50.f, -220.f }, m_eLevelID, { 130.f, 140.f, 1.f }, TEXT("Effect_Explor"), 32.f);
 			CAMERA_MANAGER->Shake_Camera(0.5f, 0.5f);
 			m_bPartDead[1] = true;
 			break;

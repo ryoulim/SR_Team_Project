@@ -1,4 +1,4 @@
-#include "PlayerOnBoat.h"
+ï»¿#include "PlayerOnBoat.h"
 #include "CameraManager.h"
 #include "PBState.h"
 #include "WaterBoat.h"
@@ -46,7 +46,7 @@ HRESULT CPlayerOnBoat::Initialize(void* pArg)
 
 	m_fWaterSpeed = static_cast<DESC*>(pArg)->fSpeedPerSec;
 
-	//¼ÎÀÌ´õ ÀåÂø
+	//ì…°ì´ë” ì¥ì°©
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Shader_Particle"),
 		TEXT("Com_Shader"), reinterpret_cast<CComponent**>(&m_pShaderCom))))
 		return E_FAIL;
@@ -64,11 +64,11 @@ void CPlayerOnBoat::Priority_Update(_float fTimeDelta)
 	if (KEY_DOWN(DIK_Z))
 	{
 		_float3 vPosition = *m_pTransformCom->Get_State(CTransform::STATE_POSITION);
-		printf("ÇÃ·¹ÀÌ¾î ÁÂÇ¥ : { %.2f, %.2f, %.2f }\n", vPosition.x, vPosition.y, vPosition.z);
+		printf("í”Œë ˆì´ì–´ ì¢Œí‘œ : { %.2f, %.2f, %.2f }\n", vPosition.x, vPosition.y, vPosition.z);
 	}
 #endif
 
-	//ÀÌÀü »óÅÂ¿Í ÇöÀç »óÅÂ°¡ ´Ù¸£´Ù¸é Enter ½ÇÇà
+	//ì´ì „ ìƒíƒœì™€ í˜„ì¬ ìƒíƒœê°€ ë‹¤ë¥´ë‹¤ë©´ Enter ì‹¤í–‰
 	if (m_eCurState != m_ePreState)
 	{
 		m_pCurState->Enter(fTimeDelta);
@@ -78,13 +78,13 @@ void CPlayerOnBoat::Priority_Update(_float fTimeDelta)
 			SpawnWaterParticle(m_fWaterSpeed);
 	}
 
-	//Exectue´Â ¹«Á¶°Ç ½ÇÇà
+	//ExectueëŠ” ë¬´ì¡°ê±´ ì‹¤í–‰
 	m_pCurState->Execute(fTimeDelta);
 
 	Update_Camera_Link();
 
-#pragma region ÆÄÆ¼Å¬ 
-	/* µû¶ó¿À´Â ÆÄÆ¼Å¬ */
+#pragma region íŒŒí‹°í´ 
+	/* ë”°ë¼ì˜¤ëŠ” íŒŒí‹°í´ */
 	if (m_pWaterBoatEffect_01)
 	{
 		static_cast<CWaterBoat*>(m_pWaterBoatEffect_01)->SetPosition(*m_pTransformCom->Get_State(CTransform::STATE_POSITION));
@@ -92,10 +92,10 @@ void CPlayerOnBoat::Priority_Update(_float fTimeDelta)
 		static_cast<CWaterBoat*>(m_pWaterBoatEffect_03)->SetPosition(*m_pTransformCom->Get_State(CTransform::STATE_POSITION));
 	}
 
-	/* Åë·Î·Î µé¾î°¥ ¶§ ÆÄÆ¼Å¬À» Á¦°ÅÇÏÀÚ */
+	/* í†µë¡œë¡œ ë“¤ì–´ê°ˆ ë•Œ íŒŒí‹°í´ì„ ì œê±°í•˜ì */
 	if (m_pCurState == m_pState[ACCEL])
 	{
-		/* [ ÀÌÆåÆ®¸¦ ¹İ³³ÇÏ°í °¡½Ã¿À ] */
+		/* [ ì´í™íŠ¸ë¥¼ ë°˜ë‚©í•˜ê³  ê°€ì‹œì˜¤ ] */
 		if (m_pWaterBoatEffect_01)
 		{
 			static_cast<CWaterBoat*>(m_pWaterBoatEffect_01)->SetDead();
@@ -116,16 +116,7 @@ EVENT CPlayerOnBoat::Update(_float fTimeDelta)
 {
 	m_fBulletTimer += fTimeDelta;
 
-	//_float3 vPos = *m_pTransformCom->Get_State(CTransform::STATE_POSITION);
-
-	//_float3 vBossPos = *m_pBossTransform->Get_State(CTransform::STATE_POSITION);
-	//vBossPos.z += m_fBossHalfScaleZ;
-
-	//_float VectorLength = (vBossPos.z - vPos.z) / RACE_PBULLET_DIR.z;
-
-	//vPos += RACE_PBULLET_DIR * VectorLength;
-
-	//m_pAim->Update(vPos, fTimeDelta);
+	Update_Aim(fTimeDelta);
 
 	Update_Frame(fTimeDelta);
 
@@ -147,7 +138,7 @@ void CPlayerOnBoat::Late_Update(_float fTimeDelta)
 
 	m_pGameInstance->Add_RenderGroup(CRenderer::RG_BLEND, this);
 
-	//m_pAim->Late_Update(fTimeDelta);
+	m_pAim->Late_Update(fTimeDelta);
 
 	__super::Late_Update(fTimeDelta);
 
@@ -175,7 +166,7 @@ HRESULT CPlayerOnBoat::Render()
 	m_pCollider->Render();
 #endif
 
-	/* -----------------------±×¸²ÀÚ----------------------------- */
+	/* -----------------------ê·¸ë¦¼ì----------------------------- */
 	
 	m_pGraphic_Device->SetRenderState(D3DRS_ALPHABLENDENABLE, true);
 	m_pGraphic_Device->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
@@ -234,7 +225,7 @@ void CPlayerOnBoat::Set_RaceBossTransform(CTransform* BossTransform)
 {
 	m_pBossTransform = BossTransform;
 	Safe_AddRef(m_pBossTransform);
-	m_fBossHalfScaleZ = m_pBossTransform->Compute_Scaled().z; // ¿øº»ÀÌ *2ÀÓ
+	m_fBossHalfScaleZ = m_pBossTransform->Compute_Scaled().z; // ì›ë³¸ì´ *2ì„
 }
 
 HRESULT CPlayerOnBoat::Ready_Components(void* pArg)
@@ -288,31 +279,58 @@ void CPlayerOnBoat::Update_Frame(_float fTimeDelta)
 		m_fTextureNum = 0.f;
 }
 
+void CPlayerOnBoat::Update_Aim(_float fTimeDelta)
+{
+	const _float3 Pâ‚€ = *m_pTransformCom->Get_State(CTransform::STATE_POSITION);     // í”Œë ˆì´ì–´ ìœ„ì¹˜
+	const _float3& bulletDir = RACE_PBULLET_DIR;    // ì •ê·œí™”
+	const _float bulletSpeed = RACE_PBULLET_SPEED;
+	const _float3 bulletVelocity = bulletDir * bulletSpeed;
+
+	_float3 Bâ‚€ = *m_pBossTransform->Get_State(CTransform::STATE_POSITION);
+	Bâ‚€.z -= m_fBossHalfScaleZ; // ì¤‘ì‹¬ ë³´ì •
+
+	const _float bossSpeed = 400.f;
+
+	// ë³´ìŠ¤ì˜ Zì— ë„ë‹¬í•˜ëŠ” ì‹œì  t ê³„ì‚°
+	const _float numerator = Bâ‚€.z - Pâ‚€.z;
+	const _float denominator = bulletDir.z * bulletSpeed - bossSpeed;
+
+	if (denominator <= 0.f || numerator <= 0.f)
+		return;  // ì´ì•Œì´ ë”°ë¼ì¡ì„ ìˆ˜ ì—†ê±°ë‚˜ ì´ë¯¸ ì§€ë‚¨
+
+	const _float t = numerator / denominator;
+
+	// ê·¸ ì‹œì ì— ì´ì•Œì˜ ìœ„ì¹˜
+	const _float3 aimPos = Pâ‚€ + bulletVelocity * t;
+
+	m_pAim->Update(aimPos, fTimeDelta);
+}
+
 void CPlayerOnBoat::Key_Input(_float fTimeDelta)
 {
 	if (KEY_PRESSING(DIK_W))
 	{
 		m_fSpeedRatio += fTimeDelta;
-		m_fSpeedRatio = min(m_fSpeedRatio, 1.5f); // ÃÖ´ë 1.5
+		m_fSpeedRatio = min(m_fSpeedRatio, 1.5f); // ìµœëŒ€ 1.5
 		m_pTransformCom->Set_SpeedPerSec(m_fSpeedRatio * RACE_SPEED_PER_SEC);
 	}
 	else if (KEY_PRESSING(DIK_S))
 	{
 		m_fSpeedRatio -= fTimeDelta;
-		m_fSpeedRatio = max(m_fSpeedRatio, -0.3f); // ÃÖ¼Ò -0.3
+		m_fSpeedRatio = max(m_fSpeedRatio, -0.3f); // ìµœì†Œ -0.3
 		m_pTransformCom->Set_SpeedPerSec(m_fSpeedRatio * RACE_SPEED_PER_SEC);
 	}
 	else
 	{
-		// ÀÚ¿¬½º·´°Ô 0À¸·Î ¼ö·Å
-		m_fSpeedRatio *= powf(0.5f, fTimeDelta * 2.f); // °¨¼èÀ² Á¶Àı °¡´É
+		// ìì—°ìŠ¤ëŸ½ê²Œ 0ìœ¼ë¡œ ìˆ˜ë ´
+		m_fSpeedRatio *= powf(0.5f, fTimeDelta * 2.f); // ê°ì‡ ìœ¨ ì¡°ì ˆ ê°€ëŠ¥
 		if (fabsf(m_fSpeedRatio) < 0.01f)
 			m_fSpeedRatio = 0.f;
 		m_pTransformCom->Set_SpeedPerSec(m_fSpeedRatio * RACE_SPEED_PER_SEC);
 	}
 
-	// Å° Å¸ÀÌ¸Ó -> ¿ŞÂÊ = À½¼ö, ¿À¸¥ÂÊ = ¾ç¼ö
-	_float fAccelRate = 2.5f; // Å¬¼ö·Ï ´õ ºü¸£°Ô °¡¼ÓµÊ
+	// í‚¤ íƒ€ì´ë¨¸ -> ì™¼ìª½ = ìŒìˆ˜, ì˜¤ë¥¸ìª½ = ì–‘ìˆ˜
+	_float fAccelRate = 2.5f; // í´ìˆ˜ë¡ ë” ë¹ ë¥´ê²Œ ê°€ì†ë¨
 	_float fSpeed = 0.f;
 
 
@@ -333,7 +351,7 @@ void CPlayerOnBoat::Key_Input(_float fTimeDelta)
 	if (KEY_PRESSING(DIK_A))
 	{
 		m_fKeyTimer -= fTimeDelta;
-		m_fKeyTimer = max(m_fKeyTimer, -1.f); // ÃÖ¼Ò -1
+		m_fKeyTimer = max(m_fKeyTimer, -1.f); // ìµœì†Œ -1
 
 		m_fAngleTimer++;
 		if (m_fAngleTimer > TILT_TIME)
@@ -345,7 +363,7 @@ void CPlayerOnBoat::Key_Input(_float fTimeDelta)
 	else if (KEY_PRESSING(DIK_D))
 	{
 		m_fKeyTimer += fTimeDelta;
-		m_fKeyTimer = min(m_fKeyTimer, 1.f); // ÃÖ´ë 1
+		m_fKeyTimer = min(m_fKeyTimer, 1.f); // ìµœëŒ€ 1
 
 
 		m_fAngleTimer++;
@@ -357,8 +375,8 @@ void CPlayerOnBoat::Key_Input(_float fTimeDelta)
 	}
 	else
 	{
-		// ÀÚ¿¬½º·´°Ô 0À¸·Î ¼ö·Å
-		m_fKeyTimer *= powf(0.5f, fTimeDelta * 5.f); // °¨¼èÀ² Á¶Àı °¡´É
+		// ìì—°ìŠ¤ëŸ½ê²Œ 0ìœ¼ë¡œ ìˆ˜ë ´
+		m_fKeyTimer *= powf(0.5f, fTimeDelta * 5.f); // ê°ì‡ ìœ¨ ì¡°ì ˆ ê°€ëŠ¥
 		if (fabsf(m_fKeyTimer) < 0.01f)
 			m_fKeyTimer = 0.f;
 
@@ -378,17 +396,17 @@ void CPlayerOnBoat::Key_Input(_float fTimeDelta)
 
 	//CUI_Manager::Get_Instance()->Set_RacingSpeed(_int(fabsf(m_fKeyTimer) * 30));
 
-	// Áö¼ö ÇÔ¼ö: y = sign(x) * (1 - e^(-a * |x|)) 
+	// ì§€ìˆ˜ í•¨ìˆ˜: y = sign(x) * (1 - e^(-a * |x|)) 
 	_float fSign = (m_fKeyTimer >= 0.f) ? 1.f : -1.f;
 	_float fExpFactor = 1.f - expf(-fAccelRate * fabsf(m_fKeyTimer));
 	fSpeed = fSign * fExpFactor * RACE_SPEED_PER_SEC;
 	m_pTransformCom->Move({ fSpeed, 0.f, 0.f }, fTimeDelta);
 
 	_float3 vPos = *m_pTransformCom->Get_State(CTransform::STATE_POSITION);
-	// Ä«¸Ş¶ó¸¦ »ìÂ¦ ´Ê°Ô µû¶ó¿À°Ô ÇÏ°í
-	// Ä«¸Ş¶óµµ ±â¿ïÀÌ°í
-	// ºÎµúÇûÀ»¶§ »ìÂ¦ Èçµé°í
-	// ¹¹½Ã±â ¹¹ Ä«¸Ş¶ó¿¬ÃâÇØ¾ßÇÒµí?
+	// ì¹´ë©”ë¼ë¥¼ ì‚´ì§ ëŠ¦ê²Œ ë”°ë¼ì˜¤ê²Œ í•˜ê³ 
+	// ì¹´ë©”ë¼ë„ ê¸°ìš¸ì´ê³ 
+	// ë¶€ë”ªí˜”ì„ë•Œ ì‚´ì§ í”ë“¤ê³ 
+	// ë­ì‹œê¸° ë­ ì¹´ë©”ë¼ì—°ì¶œí•´ì•¼í• ë“¯?
 	if (vPos.x < 315.f)
 	{
 		vPos.x = 315.f;
@@ -465,7 +483,7 @@ void CPlayerOnBoat::Set_Speed(_float fSpeed)
 
 void CPlayerOnBoat::SpawnWaterParticle(_float fWaterSpeed)
 {
-	/* [ ¹°º¸¶ó ÆÄÆ¼Å¬ 01¹ø ] */
+	/* [ ë¬¼ë³´ë¼ íŒŒí‹°í´ 01ë²ˆ ] */
 	CPSystem::DESC WaterBoatDesc{};
 	WaterBoatDesc.vPosition = { 0.f, 0.f, 0.f };
 	WaterBoatDesc.szTextureTag = TEXT("WaterBoat");
@@ -482,7 +500,7 @@ void CPlayerOnBoat::SpawnWaterParticle(_float fWaterSpeed)
 
 	m_pWaterBoatEffect_01 = *ppOut;
 
-	/* [ ¹°º¸¶ó ÆÄÆ¼Å¬ 02¹ø ] */
+	/* [ ë¬¼ë³´ë¼ íŒŒí‹°í´ 02ë²ˆ ] */
 	CPSystem::DESC WaterBoatDesc2{};
 	WaterBoatDesc2.vPosition = { 0.f, 0.f, 0.f };
 	WaterBoatDesc2.szTextureTag = TEXT("WaterBoat");
@@ -499,7 +517,7 @@ void CPlayerOnBoat::SpawnWaterParticle(_float fWaterSpeed)
 
 	m_pWaterBoatEffect_02 = *ppOut2;
 
-	/* [ ¹°º¸¶ó ÆÄÆ¼Å¬ 03¹ø ] */
+	/* [ ë¬¼ë³´ë¼ íŒŒí‹°í´ 03ë²ˆ ] */
 	CPSystem::DESC WaterBoatDesc3{};
 	WaterBoatDesc3.vPosition = { 0.f, 0.f, 0.f };
 	WaterBoatDesc3.szTextureTag = TEXT("WaterBoat");
@@ -559,7 +577,7 @@ void CPlayerOnBoat::Tilt(_bool Right)
 
 void CPlayerOnBoat::Init_Aim()
 {
-	// ¿¡ÀÓ
+	// ì—ì„
 	CRaceAim::DESC AimDesc{};
 	AimDesc.vScale = { 40.f,40.f,1.f };
 	AimDesc.eLevelID = LEVEL_STATIC;
@@ -582,21 +600,21 @@ void CPlayerOnBoat::Go_Straight(_float fTimeDelta)
 
 void CPlayerOnBoat::Init_Camera_Link()
 {
-	//Ä«¸Ş¶ó ¸Å´ÏÀú °¡Á®¿È
+	//ì¹´ë©”ë¼ ë§¤ë‹ˆì € ê°€ì ¸ì˜´
 	m_pCameraManager = CAMERA_MANAGER;
 	Safe_AddRef(m_pCameraManager);
 
-	// TPS Ä«¸Å¶ó •û¿È
+	// TPS ì¹´ë§¤ë¼ ëº´ì˜´
 	m_pTPS_Camera = static_cast<CTPS_Camera*>(m_pCameraManager->Get_Camera(CCameraManager::TPS));
 
-	// TPS Ä«¸Ş¶óÀÇ Æ®·£½ºÆû Á¤º¸¸¦ ¹Ş¾ÆµÒ
+	// TPS ì¹´ë©”ë¼ì˜ íŠ¸ëœìŠ¤í¼ ì •ë³´ë¥¼ ë°›ì•„ë‘ 
 	//m_pCameraTransform = static_cast<CTransform*>(TPS_Camera->Find_Component(TEXT("Com_Transform")));
 	//Safe_AddRef(m_pCameraTransform);
 }
 
 void CPlayerOnBoat::Update_Camera_Link()
 {	
-	//Ä«¸Ş¶óÀÇ À§Ä¡¸¦ (ÇÃ·¹ÀÌ¾î À§Ä¡ + @)
+	//ì¹´ë©”ë¼ì˜ ìœ„ì¹˜ë¥¼ (í”Œë ˆì´ì–´ ìœ„ì¹˜ + @)
 	auto vTargetPos = *m_pTransformCom->Get_State(CTransform::STATE_POSITION) 
 		+ _float3(0.f, 20.f, -80.f);// -20 50
 

@@ -35,6 +35,7 @@ public:
 private:
 	virtual HRESULT Ready_Components(void* pArg)override;
 	void Update_Frame(_float fTimeDelta);
+	void Update_Aim(_float fTimeDelta);
 
 private:
 	friend class CPBState_Accel;
