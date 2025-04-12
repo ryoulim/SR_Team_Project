@@ -58,7 +58,7 @@ void CBoat::Late_Update(_float fTimeDelta)
 	Compute_ViewAngle();
 	Set_TextureType();
 
-	if (FAILED(m_pGameInstance->Add_RenderGroup(CRenderer::RG_NONBLEND, this)))
+	if (FAILED(m_pGameInstance->Add_RenderGroup(CRenderer::RG_BLEND, this)))
 		return;
 }
 
