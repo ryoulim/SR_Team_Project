@@ -205,8 +205,8 @@ void CPawn::Change_Level()
 	}
 	/* 페이드아웃하면서 레벨 전환 되긴 하는데 강제체인지에도 일일이 나오는게 신경쓰여서 주석함 */
 	/* 강제전환인지 아닌지 변수 추가하는건 귀찮고 쓸모 없는 것 같고..  */
-	CUI_Manager::Get_Instance()->Fade_Out(eNextLevelID); 
-	//m_pGameInstance->Change_Level(eNextLevelID);
+	//CUI_Manager::Get_Instance()->Fade_Out(eNextLevelID); 
+	m_pGameInstance->Change_Level(eNextLevelID);
 }
 
 #include "UI_Manager.h"
@@ -218,6 +218,7 @@ void CPawn::On_Hit(_int iDamage)
 	m_bOnHit = TRUE;
 	m_tInfo.iArmor -= iDamage;
 	FX_MGR->SpawnHitEffect(m_eLevelID);
+
 	CUI_Manager::Get_Instance()->Set_Face(CPortrait::PORTRAIT_ANGER);
 
 	if (m_tInfo.iArmor <= 0)

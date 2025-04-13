@@ -611,8 +611,21 @@ void CPlayer::On_Hit(_int iDamage)
 		return;
 	}
 
+	_float3 vCollisionDepth = CCollider::Get_Last_Collision_Depth();
+	vCollisionDepth.y = 0.f;
+	vCollisionDepth.Normalize();
+	
+	_float3 vLook = *m_pTransformCom->Get_State(CTransform::STATE_LOOK);
+	vLook.y = 0.f;
+	vLook.Normalize();
+
+	// 각도 구하기
+	_float fRadian = atan2f(vLook.x * vCollisionDepth.z - vLook.z * vCollisionDepth.x,
+		vLook.x * vCollisionDepth.x + vLook.z * vCollisionDepth.z);
+
 	m_tInfo.iArmor -= iDamage;
 	FX_MGR->SpawnHitEffect(m_eLevelID);
+	FX_MGR->Damage_Indicator(m_eLevelID,fRadian);
 	CAMERA_MANAGER->Shake_Camera(0.5f, 0.25f, 200.f, 80.f);
 	CUI_Manager::Get_Instance()->Set_Face(CPortrait::PORTRAIT_ANGER);
 

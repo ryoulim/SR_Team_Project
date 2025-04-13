@@ -302,6 +302,7 @@ HRESULT CLoader::Loding_For_Static()
 	ADD_TEXTURE(Loading_ToRace, "../Bin/Resources/Textures/UI/LoadingCutscene/ToRace/%d.PNG", 2);
 	ADD_TEXTURE(Loading_ToUnderground, "../Bin/Resources/Textures/UI/LoadingCutscene/ToUnderground/%d.PNG", 1);
 	ADD_TEXTURE(RaceAim, "../Bin/Resources/Textures/Aim/RaceAim.PNG", 1);
+	ADD_TEXTURE(Damage_Indicator, "../Bin/Resources/Textures/Player/Damage_Indicator/Damage_Indicator.PNG", 1);
 
 #pragma endregion
 	

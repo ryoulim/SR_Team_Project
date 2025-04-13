@@ -253,8 +253,15 @@ _bool CCollider_Capsule::Intersect_With_Sphere(const CCollider* pOther)
 	_float3 vDiff = vClosestPoint - m_tInfo.vCenter;
 	float distanceSquared = D3DXVec3LengthSq(&vDiff);
 
+	_bool bCollision = distanceSquared <= SQUARE(fRadiusSum);
+
+	if (bCollision)
+	{
+		m_vLast_Collision_Depth = pSphereInfo->vPosition - m_tInfo.vCenter;
+	}
+
 	// 거리 비교하여 충돌 여부 결정
-	return distanceSquared <= SQUARE(fRadiusSum);
+	return bCollision;
 }
 
 _bool CCollider_Capsule::Intersect_With_Capsule(const CCollider* pOther)

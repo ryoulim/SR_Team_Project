@@ -542,6 +542,7 @@ void CPlayerOnBoat::Create_Bullet()
 	if (BULLET_COOLTIME > m_fBulletTimer)
 		return;
 
+	//m_pCameraManager->StartRecoil();
 	CPlayerMissile::DESC MissileDesc{};
 	MissileDesc.fSpeedPerSec = RACE_PBULLET_SPEED;
 	MissileDesc.vPosition = *m_pTransformCom->Get_State(CTransform::STATE_POSITION);

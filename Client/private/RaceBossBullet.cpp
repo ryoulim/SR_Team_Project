@@ -65,7 +65,7 @@ HRESULT CRaceBossBullet::Render()
 	/*if (FAILED(m_pTransformCom->Bind_Resource()))
 		return E_FAIL;*/
 
-	//m_pGraphic_Device->SetRenderState(D3DRS_LIGHTING, FALSE);
+	m_pGraphic_Device->SetRenderState(D3DRS_LIGHTING, FALSE);
 	m_pGraphic_Device->SetTransform(D3DTS_WORLD, &m_pTransformCom->Billboard_Y());
 
 	if (FAILED(m_pTextureCom->Bind_Resource(0)))
@@ -77,6 +77,7 @@ HRESULT CRaceBossBullet::Render()
 	if (FAILED(m_pVIBufferCom->Render()))
 		return E_FAIL;
 		
+	m_pGraphic_Device->SetRenderState(D3DRS_LIGHTING, TRUE);
 	return S_OK;
 }
  

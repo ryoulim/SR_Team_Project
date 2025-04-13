@@ -291,8 +291,10 @@ _bool CCollider_Sphere::Intersect_With_Capsule(const CCollider* pOther)
     else
         vNormal = { 1.f, 0.f, 0.f }; // 겹친 경우 임의 방향
 
-    const _float fPenetration = fTotalRadius - fDist;
-    m_vLast_Collision_Depth = vNormal * fPenetration;
+    //const _float fPenetration = fTotalRadius - fDist;
+    //m_vLast_Collision_Depth = vNormal * fPenetration;
+    m_vLast_Collision_Depth = m_tInfo.vPosition - pCapsuleInfo->vCenter;
+
 
     // 7. 충돌 좌표 계산 (접점의 중점)
     const _float3 vPointOnSphere = m_tInfo.vPosition - vNormal * m_tInfo.fRadius;

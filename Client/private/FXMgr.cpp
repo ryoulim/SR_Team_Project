@@ -1103,6 +1103,26 @@ void CFXMgr::PlayerDash(LEVEL eLevel)
 
 }
 
+void CFXMgr::Damage_Indicator(LEVEL eLevel, _float RotZRadian)
+{
+	CCameraSprite::DESC SpriteDesc{};
+	SpriteDesc.fMaxFrame = 1;
+	SpriteDesc.szTextureTag = TEXT("Damage_Indicator");
+	SpriteDesc.vScale = _float3{ FWINCY, FWINCY, 1.f };
+	SpriteDesc.vInitPos = { g_iWinSizeX * 0.5f, g_iWinSizeY * 0.5f,1.f };
+	SpriteDesc.fAniSpeed = 1.4f;
+	SpriteDesc.bRandom = false;
+	SpriteDesc.eEffectType = CCameraSprite::eEffectType::DAMAGE_INDICATOR;
+
+	CGameObject* pObj{};
+
+	if (FAILED(m_pGameInstance->Add_GameObjectReturn(LEVEL_STATIC, TEXT("Prototype_GameObject_PC_CameraSprite"),
+		eLevel, L"Layer_Particle", &pObj, &SpriteDesc)))
+		return;
+
+	static_cast<CCameraSprite*>(pObj)->RotZ(RotZRadian);
+}
+
 void CFXMgr::SpawnRain(LEVEL eLevel)
 {
 	CRain::DESC RainDesc{};

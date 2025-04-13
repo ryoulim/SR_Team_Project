@@ -427,118 +427,118 @@
     <Filter Include="02.GameObjects\Map\AlphaBlock">
       <UniqueIdentifier>{2d3f0690-093a-42cd-9b42-1ba56b35a182}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\Weapon\UI">
+    <Filter Include="02.GameObjects\UI">
       <UniqueIdentifier>{23b9363e-bdd8-4f3b-9f9c-091e08b9493e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\Weapon\UI\GamePlayUI">
+    <Filter Include="02.GameObjects\UI\GamePlayUI">
       <UniqueIdentifier>{8a2688ce-7eca-4744-84a6-c3f46738eb5a}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\Weapon\UI\GamePlayUI\ItemDialog">
+    <Filter Include="02.GameObjects\UI\GamePlayUI\ItemDialog">
       <UniqueIdentifier>{66e93016-322f-43a1-83a6-f8b9aad04f9f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\Weapon\UI\GamePlayUI\Skull">
+    <Filter Include="02.GameObjects\UI\GamePlayUI\Skull">
       <UniqueIdentifier>{93e514f1-d12a-4783-a9b6-3d0acb9d64c8}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\Weapon\UI\GamePlayUI\BossHPBar">
+    <Filter Include="02.GameObjects\UI\GamePlayUI\BossHPBar">
       <UniqueIdentifier>{bec1c7fb-d793-4711-824d-bd23f689a699}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\Weapon\UI\GamePlayUI\RacingPanel">
+    <Filter Include="02.GameObjects\UI\GamePlayUI\RacingPanel">
       <UniqueIdentifier>{62b83594-64da-46d6-8fd8-d04d4dae49fa}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\Weapon\UI\GamePlayUI\InteractPromptUI">
+    <Filter Include="02.GameObjects\UI\GamePlayUI\InteractPromptUI">
       <UniqueIdentifier>{eaa5ed9c-f296-4c86-b720-0286ca6926d2}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\Weapon\UI\GamePlayUI\WeaponUI">
+    <Filter Include="02.GameObjects\UI\GamePlayUI\WeaponUI">
       <UniqueIdentifier>{12e90892-da69-4e35-823d-ee7f5d5257a5}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\Weapon\UI\GamePlayUI\PlayerUI">
+    <Filter Include="02.GameObjects\UI\GamePlayUI\PlayerUI">
       <UniqueIdentifier>{25d5c1d2-d2ba-4985-a544-6ff38cbd825a}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\Weapon\UI\GamePlayUI\PlayerUI\Aim">
+    <Filter Include="02.GameObjects\UI\GamePlayUI\PlayerUI\Aim">
       <UniqueIdentifier>{0dbc93d8-f8a4-41c6-a1d1-63543326afe3}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\Weapon\UI\GamePlayUI\PlayerUI\Ammo">
+    <Filter Include="02.GameObjects\UI\GamePlayUI\PlayerUI\Ammo">
       <UniqueIdentifier>{6ac6bbd6-0b08-4490-b991-2038eb8d0333}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\Weapon\UI\GamePlayUI\PlayerUI\Armor">
+    <Filter Include="02.GameObjects\UI\GamePlayUI\PlayerUI\Armor">
       <UniqueIdentifier>{a7860868-7166-44f9-9da5-547dfe0e27fc}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\Weapon\UI\GamePlayUI\PlayerUI\Portrait">
+    <Filter Include="02.GameObjects\UI\GamePlayUI\PlayerUI\Portrait">
       <UniqueIdentifier>{1f143357-a3b6-4a71-9cbc-224e93371894}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\Weapon\UI\GamePlayUI\RaceAim">
+    <Filter Include="02.GameObjects\UI\GamePlayUI\RaceAim">
       <UniqueIdentifier>{5275045d-2ced-40d5-973d-7ee1ed90d5cc}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\Weapon\UI\MenuUI">
+    <Filter Include="02.GameObjects\UI\MenuUI">
       <UniqueIdentifier>{17a3f522-58e3-4264-ba9a-2a4adb2d3cc9}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\Weapon\UI\MenuUI\MainMenu">
+    <Filter Include="02.GameObjects\UI\MenuUI\MainMenu">
       <UniqueIdentifier>{6b26a339-37a9-45ca-8210-9c9622a84f31}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\Weapon\UI\MenuUI\GameMenu">
+    <Filter Include="02.GameObjects\UI\MenuUI\GameMenu">
       <UniqueIdentifier>{b2fb4625-0e8e-4c39-b7ae-7227d0c7990f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\Weapon\UI\MenuUI\LoadingUI">
+    <Filter Include="02.GameObjects\UI\MenuUI\LoadingUI">
       <UniqueIdentifier>{1f7ad30a-3122-493c-9573-3f07de951b2a}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\Weapon\UI\MenuUI\LoadingUI\Loading_Cutscene">
+    <Filter Include="02.GameObjects\UI\MenuUI\LoadingUI\Loading_Cutscene">
       <UniqueIdentifier>{66dfbe9a-166d-48ae-8e8f-d08462213570}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\Weapon\UI\MenuUI\LoadingUI\Loading_Cutscene\01. Loading_ToMain">
+    <Filter Include="02.GameObjects\UI\MenuUI\LoadingUI\Loading_Cutscene\01. Loading_ToMain">
       <UniqueIdentifier>{1715ce57-9ec5-46b6-9473-b80f82dcb0df}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\Weapon\UI\MenuUI\LoadingUI\Loading_Cutscene\02. Loading_ToIn">
+    <Filter Include="02.GameObjects\UI\MenuUI\LoadingUI\Loading_Cutscene\02. Loading_ToIn">
       <UniqueIdentifier>{fa5d3a39-cc9d-45ca-909e-820944a432b8}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\Weapon\UI\MenuUI\LoadingUI\Loading_Cutscene\03. Loading_ToOut">
+    <Filter Include="02.GameObjects\UI\MenuUI\LoadingUI\Loading_Cutscene\03. Loading_ToOut">
       <UniqueIdentifier>{d8dcefb8-06eb-4ffd-ae4f-da0b9bcc4c24}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\Weapon\UI\MenuUI\LoadingUI\Loading_Cutscene\04. Loading_ToRace">
+    <Filter Include="02.GameObjects\UI\MenuUI\LoadingUI\Loading_Cutscene\04. Loading_ToRace">
       <UniqueIdentifier>{dcbf9e98-f0f5-4331-8eaf-ce8ef526b0a4}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\Weapon\UI\MenuUI\LoadingUI\Loading_Cutscene\05. Loading_OnRacing">
+    <Filter Include="02.GameObjects\UI\MenuUI\LoadingUI\Loading_Cutscene\05. Loading_OnRacing">
       <UniqueIdentifier>{ef640b04-18cf-4249-8aa0-c36634699cbd}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\Weapon\UI\MenuUI\LoadingUI\Loading_Cutscene\06. Loading_ToUnderground">
+    <Filter Include="02.GameObjects\UI\MenuUI\LoadingUI\Loading_Cutscene\06. Loading_ToUnderground">
       <UniqueIdentifier>{a3c2badb-db4f-4d26-a6e9-05fca91a0787}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\Weapon\UI\MenuUI\LoadingUI\Loading_Cutscene\07. Loading_ToBoss">
+    <Filter Include="02.GameObjects\UI\MenuUI\LoadingUI\Loading_Cutscene\07. Loading_ToBoss">
       <UniqueIdentifier>{29f2dedd-ed24-4e73-9725-3cb8881941b5}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\Weapon\UI\MenuUI\Deprecated">
+    <Filter Include="02.GameObjects\UI\MenuUI\Deprecated">
       <UniqueIdentifier>{39feac38-d197-4a04-b07d-daf35be75cb5}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\Weapon\UI\MenuUI\Deprecated\LoadingMenu_Deprecated">
+    <Filter Include="02.GameObjects\UI\MenuUI\Deprecated\LoadingMenu_Deprecated">
       <UniqueIdentifier>{dd5a48aa-1696-4a1d-ab26-6e5a44c91854}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\Weapon\UI\MenuUI\Deprecated\LevelLoadingMenu_Deprecated">
+    <Filter Include="02.GameObjects\UI\MenuUI\Deprecated\LevelLoadingMenu_Deprecated">
       <UniqueIdentifier>{f9967e05-e098-4fcc-b1ea-218980f9bbda}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\Weapon\UI\Font">
+    <Filter Include="02.GameObjects\UI\Font">
       <UniqueIdentifier>{f5358a75-78d6-4a59-9a31-e6b08e83845b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\Weapon\UI\Font\Font_MediumBlue">
+    <Filter Include="02.GameObjects\UI\Font\Font_MediumBlue">
       <UniqueIdentifier>{74b6fc8d-b0fe-4cb1-aee6-ddc4604bd8d4}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\Weapon\UI\Font\Font_BigOrange">
+    <Filter Include="02.GameObjects\UI\Font\Font_BigOrange">
       <UniqueIdentifier>{de8b3aab-47b1-4af0-9049-cc8f4c254de1}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\Weapon\UI\Font\Font_TinyBlue">
+    <Filter Include="02.GameObjects\UI\Font\Font_TinyBlue">
       <UniqueIdentifier>{e73131f6-e2be-489a-84c2-c9a3ae0eb8c1}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\Weapon\UI\Font\Font_BigSilver">
+    <Filter Include="02.GameObjects\UI\Font\Font_BigSilver">
       <UniqueIdentifier>{9f63eadd-9790-4713-be66-28482d1458fb}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\Weapon\UI\Font\Font_Racing">
+    <Filter Include="02.GameObjects\UI\Font\Font_Racing">
       <UniqueIdentifier>{4b438393-50be-4b89-82eb-82379fd32208}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\Weapon\UI\Manager">
+    <Filter Include="02.GameObjects\UI\Manager">
       <UniqueIdentifier>{fc895246-0b92-4f60-9433-e7a515c057b1}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\Weapon\UI\Button">
+    <Filter Include="02.GameObjects\UI\Button">
       <UniqueIdentifier>{4a9434f2-285b-4625-b208-c24b1d822db7}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\Weapon\UI\Button\Deprecated">
+    <Filter Include="02.GameObjects\UI\Button\Deprecated">
       <UniqueIdentifier>{28e712d3-90bd-4be8-ae9e-6a86f5bf197f}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -589,13 +589,13 @@
       <Filter>02.GameObjects\Camera\UI_Camera</Filter>
     </ClInclude>
     <ClInclude Include="..\public\UI.h">
-      <Filter>02.GameObjects\Weapon\UI</Filter>
+      <Filter>02.GameObjects\UI</Filter>
     </ClInclude>
     <ClInclude Include="..\public\Statue.h">
       <Filter>02.GameObjects\Statue</Filter>
     </ClInclude>
     <ClInclude Include="..\public\Portrait.h">
-      <Filter>02.GameObjects\Weapon\UI\GamePlayUI\PlayerUI\Portrait</Filter>
+      <Filter>02.GameObjects\UI\GamePlayUI\PlayerUI\Portrait</Filter>
     </ClInclude>
     <ClInclude Include="..\public\Loader.h">
       <Filter>01.Levels\00. Loading\Loader</Filter>
@@ -622,19 +622,19 @@
       <Filter>02.GameObjects\Statue\Trapezoid</Filter>
     </ClInclude>
     <ClInclude Include="..\public\Font.h">
-      <Filter>02.GameObjects\Weapon\UI\Font</Filter>
+      <Filter>02.GameObjects\UI\Font</Filter>
     </ClInclude>
     <ClInclude Include="..\public\Font_MediumBlue.h">
-      <Filter>02.GameObjects\Weapon\UI\Font\Font_MediumBlue</Filter>
+      <Filter>02.GameObjects\UI\Font\Font_MediumBlue</Filter>
     </ClInclude>
     <ClInclude Include="..\public\Aim.h">
-      <Filter>02.GameObjects\Weapon\UI\GamePlayUI\PlayerUI\Aim</Filter>
+      <Filter>02.GameObjects\UI\GamePlayUI\PlayerUI\Aim</Filter>
     </ClInclude>
     <ClInclude Include="..\public\Armor.h">
-      <Filter>02.GameObjects\Weapon\UI\GamePlayUI\PlayerUI\Armor</Filter>
+      <Filter>02.GameObjects\UI\GamePlayUI\PlayerUI\Armor</Filter>
     </ClInclude>
     <ClInclude Include="..\public\Ammo.h">
-      <Filter>02.GameObjects\Weapon\UI\GamePlayUI\PlayerUI\Ammo</Filter>
+      <Filter>02.GameObjects\UI\GamePlayUI\PlayerUI\Ammo</Filter>
     </ClInclude>
     <ClInclude Include="..\public\Common_Shape.h">
       <Filter>02.GameObjects\Statue\Common_Shape</Filter>
@@ -664,25 +664,25 @@
       <Filter>02.GameObjects\Particle\Rain</Filter>
     </ClInclude>
     <ClInclude Include="..\public\UI_Manager.h">
-      <Filter>02.GameObjects\Weapon\UI\Manager</Filter>
+      <Filter>02.GameObjects\UI\Manager</Filter>
     </ClInclude>
     <ClInclude Include="..\public\MainMenu.h">
-      <Filter>02.GameObjects\Weapon\UI\MenuUI\MainMenu</Filter>
+      <Filter>02.GameObjects\UI\MenuUI\MainMenu</Filter>
     </ClInclude>
     <ClInclude Include="..\public\Font_BigOrange.h">
-      <Filter>02.GameObjects\Weapon\UI\Font\Font_BigOrange</Filter>
+      <Filter>02.GameObjects\UI\Font\Font_BigOrange</Filter>
     </ClInclude>
     <ClInclude Include="..\public\Font_BigSilver.h">
-      <Filter>02.GameObjects\Weapon\UI\Font\Font_BigSilver</Filter>
+      <Filter>02.GameObjects\UI\Font\Font_BigSilver</Filter>
     </ClInclude>
     <ClInclude Include="..\public\Font_TinyBlue.h">
-      <Filter>02.GameObjects\Weapon\UI\Font\Font_TinyBlue</Filter>
+      <Filter>02.GameObjects\UI\Font\Font_TinyBlue</Filter>
     </ClInclude>
     <ClInclude Include="..\public\Logo.h">
-      <Filter>02.GameObjects\Weapon\UI\MenuUI\MainMenu</Filter>
+      <Filter>02.GameObjects\UI\MenuUI\MainMenu</Filter>
     </ClInclude>
     <ClInclude Include="..\public\LoadingMenu.h">
-      <Filter>02.GameObjects\Weapon\UI\MenuUI\Deprecated\LoadingMenu_Deprecated</Filter>
+      <Filter>02.GameObjects\UI\MenuUI\Deprecated\LoadingMenu_Deprecated</Filter>
     </ClInclude>
     <ClInclude Include="..\public\Smoke.h">
       <Filter>02.GameObjects\Particle\Smoke</Filter>
@@ -763,10 +763,10 @@
       <Filter>100.Imgui</Filter>
     </ClInclude>
     <ClInclude Include="..\public\Button_Main.h">
-      <Filter>02.GameObjects\Weapon\UI\Button</Filter>
+      <Filter>02.GameObjects\UI\Button</Filter>
     </ClInclude>
     <ClInclude Include="..\public\FadeUI.h">
-      <Filter>02.GameObjects\Weapon\UI\MenuUI</Filter>
+      <Filter>02.GameObjects\UI\MenuUI</Filter>
     </ClInclude>
     <ClInclude Include="..\public\Sphere.h">
       <Filter>02.GameObjects\Particle\Sphere</Filter>
@@ -775,7 +775,7 @@
       <Filter>02.GameObjects\Particle\Dust</Filter>
     </ClInclude>
     <ClInclude Include="..\public\ScreenDust.h">
-      <Filter>02.GameObjects\Weapon\UI\MenuUI\MainMenu</Filter>
+      <Filter>02.GameObjects\UI\MenuUI\MainMenu</Filter>
     </ClInclude>
     <ClInclude Include="..\public\Flatform.h">
       <Filter>02.GameObjects\Effect\Flatform</Filter>
@@ -835,7 +835,7 @@
       <Filter>02.GameObjects\Statue\BuildingH</Filter>
     </ClInclude>
     <ClInclude Include="..\public\LevelLoadingMenu.h">
-      <Filter>02.GameObjects\Weapon\UI\MenuUI\Deprecated\LevelLoadingMenu_Deprecated</Filter>
+      <Filter>02.GameObjects\UI\MenuUI\Deprecated\LevelLoadingMenu_Deprecated</Filter>
     </ClInclude>
     <ClInclude Include="..\public\BuildingW.h">
       <Filter>02.GameObjects\Statue\BuildingW</Filter>
@@ -970,7 +970,7 @@
       <Filter>02.GameObjects\Camera\CutSceneCamera</Filter>
     </ClInclude>
     <ClInclude Include="..\public\Skull.h">
-      <Filter>02.GameObjects\Weapon\UI\GamePlayUI\Skull</Filter>
+      <Filter>02.GameObjects\UI\GamePlayUI\Skull</Filter>
     </ClInclude>
     <ClInclude Include="..\public\TelephonePole.h">
       <Filter>02.GameObjects\Map\AlphaRect\TelephonePole</Filter>
@@ -999,16 +999,16 @@
       <Filter>02.GameObjects\Map\Door</Filter>
     </ClInclude>
     <ClInclude Include="..\public\BossHPBar.h">
-      <Filter>02.GameObjects\Weapon\UI\GamePlayUI\BossHPBar</Filter>
+      <Filter>02.GameObjects\UI\GamePlayUI\BossHPBar</Filter>
     </ClInclude>
     <ClInclude Include="..\public\ItemDialog.h">
-      <Filter>02.GameObjects\Weapon\UI\GamePlayUI\ItemDialog</Filter>
+      <Filter>02.GameObjects\UI\GamePlayUI\ItemDialog</Filter>
     </ClInclude>
     <ClInclude Include="..\public\RacingPanel.h">
-      <Filter>02.GameObjects\Weapon\UI\GamePlayUI\RacingPanel</Filter>
+      <Filter>02.GameObjects\UI\GamePlayUI\RacingPanel</Filter>
     </ClInclude>
     <ClInclude Include="..\public\Font_Racing.h">
-      <Filter>02.GameObjects\Weapon\UI\Font\Font_Racing</Filter>
+      <Filter>02.GameObjects\UI\Font\Font_Racing</Filter>
     </ClInclude>
     <ClInclude Include="..\public\PlayerMissile.h">
       <Filter>02.GameObjects\Weapon\Bullet\PlayerMissile</Filter>
@@ -1017,7 +1017,7 @@
       <Filter>02.GameObjects\Map\Door\DoorSecurity</Filter>
     </ClInclude>
     <ClInclude Include="..\public\InteractPromptUI.h">
-      <Filter>02.GameObjects\Weapon\UI\GamePlayUI\InteractPromptUI</Filter>
+      <Filter>02.GameObjects\UI\GamePlayUI\InteractPromptUI</Filter>
     </ClInclude>
     <ClInclude Include="..\public\WaterBoat.h">
       <Filter>02.GameObjects\Particle\WaterBoat</Filter>
@@ -1046,13 +1046,13 @@
       <Filter>02.GameObjects\Map\Generator</Filter>
     </ClInclude>
     <ClInclude Include="..\public\WeaponUI.h">
-      <Filter>02.GameObjects\Weapon\UI\GamePlayUI\WeaponUI</Filter>
+      <Filter>02.GameObjects\UI\GamePlayUI\WeaponUI</Filter>
     </ClInclude>
     <ClInclude Include="..\public\LoadingCutscene.h">
-      <Filter>02.GameObjects\Weapon\UI\MenuUI\LoadingUI\Loading_Cutscene</Filter>
+      <Filter>02.GameObjects\UI\MenuUI\LoadingUI\Loading_Cutscene</Filter>
     </ClInclude>
     <ClInclude Include="..\public\LoadingUI.h">
-      <Filter>02.GameObjects\Weapon\UI\MenuUI\LoadingUI</Filter>
+      <Filter>02.GameObjects\UI\MenuUI\LoadingUI</Filter>
     </ClInclude>
     <ClInclude Include="..\public\RaceSprite.h">
       <Filter>02.GameObjects\Effect\RaceSprite</Filter>
@@ -1067,31 +1067,31 @@
       <Filter>02.GameObjects\Weapon\Bullet\RaceBossBullet</Filter>
     </ClInclude>
     <ClInclude Include="..\public\Loading_ToMain.h">
-      <Filter>02.GameObjects\Weapon\UI\MenuUI\LoadingUI\Loading_Cutscene\01. Loading_ToMain</Filter>
+      <Filter>02.GameObjects\UI\MenuUI\LoadingUI\Loading_Cutscene\01. Loading_ToMain</Filter>
     </ClInclude>
     <ClInclude Include="..\public\Loading_ToIn.h">
-      <Filter>02.GameObjects\Weapon\UI\MenuUI\LoadingUI\Loading_Cutscene\02. Loading_ToIn</Filter>
+      <Filter>02.GameObjects\UI\MenuUI\LoadingUI\Loading_Cutscene\02. Loading_ToIn</Filter>
     </ClInclude>
     <ClInclude Include="..\public\Loading_OnRacing.h">
-      <Filter>02.GameObjects\Weapon\UI\MenuUI\LoadingUI\Loading_Cutscene\05. Loading_OnRacing</Filter>
+      <Filter>02.GameObjects\UI\MenuUI\LoadingUI\Loading_Cutscene\05. Loading_OnRacing</Filter>
     </ClInclude>
     <ClInclude Include="..\public\Loading_ToBoss.h">
-      <Filter>02.GameObjects\Weapon\UI\MenuUI\LoadingUI\Loading_Cutscene\07. Loading_ToBoss</Filter>
+      <Filter>02.GameObjects\UI\MenuUI\LoadingUI\Loading_Cutscene\07. Loading_ToBoss</Filter>
     </ClInclude>
     <ClInclude Include="..\public\Loading_ToRace.h">
-      <Filter>02.GameObjects\Weapon\UI\MenuUI\LoadingUI\Loading_Cutscene\04. Loading_ToRace</Filter>
+      <Filter>02.GameObjects\UI\MenuUI\LoadingUI\Loading_Cutscene\04. Loading_ToRace</Filter>
     </ClInclude>
     <ClInclude Include="..\public\Loading_ToOut.h">
-      <Filter>02.GameObjects\Weapon\UI\MenuUI\LoadingUI\Loading_Cutscene\03. Loading_ToOut</Filter>
+      <Filter>02.GameObjects\UI\MenuUI\LoadingUI\Loading_Cutscene\03. Loading_ToOut</Filter>
     </ClInclude>
     <ClInclude Include="..\public\Loading_ToUnderground.h">
-      <Filter>02.GameObjects\Weapon\UI\MenuUI\LoadingUI\Loading_Cutscene\06. Loading_ToUnderground</Filter>
+      <Filter>02.GameObjects\UI\MenuUI\LoadingUI\Loading_Cutscene\06. Loading_ToUnderground</Filter>
     </ClInclude>
     <ClInclude Include="..\public\Button.h">
-      <Filter>02.GameObjects\Weapon\UI\Button\Deprecated</Filter>
+      <Filter>02.GameObjects\UI\Button\Deprecated</Filter>
     </ClInclude>
     <ClInclude Include="..\public\RaceAim.h">
-      <Filter>02.GameObjects\Weapon\UI\GamePlayUI\RaceAim</Filter>
+      <Filter>02.GameObjects\UI\GamePlayUI\RaceAim</Filter>
     </ClInclude>
     <ClInclude Include="..\public\StreetLampBody.h">
       <Filter>02.GameObjects\Statue\StreetLamp\Body</Filter>
@@ -1142,13 +1142,13 @@
       <Filter>02.GameObjects\Camera\UI_Camera</Filter>
     </ClCompile>
     <ClCompile Include="..\private\UI.cpp">
-      <Filter>02.GameObjects\Weapon\UI</Filter>
+      <Filter>02.GameObjects\UI</Filter>
     </ClCompile>
     <ClCompile Include="..\private\Statue.cpp">
       <Filter>02.GameObjects\Statue</Filter>
     </ClCompile>
     <ClCompile Include="..\private\Portrait.cpp">
-      <Filter>02.GameObjects\Weapon\UI\GamePlayUI\PlayerUI\Portrait</Filter>
+      <Filter>02.GameObjects\UI\GamePlayUI\PlayerUI\Portrait</Filter>
     </ClCompile>
     <ClCompile Include="..\private\Effect.cpp">
       <Filter>02.GameObjects\Effect</Filter>
@@ -1172,19 +1172,19 @@
       <Filter>02.GameObjects\Statue\Trapezoid</Filter>
     </ClCompile>
     <ClCompile Include="..\private\Font.cpp">
-      <Filter>02.GameObjects\Weapon\UI\Font</Filter>
+      <Filter>02.GameObjects\UI\Font</Filter>
     </ClCompile>
     <ClCompile Include="..\private\Font_MediumBlue.cpp">
-      <Filter>02.GameObjects\Weapon\UI\Font\Font_MediumBlue</Filter>
+      <Filter>02.GameObjects\UI\Font\Font_MediumBlue</Filter>
     </ClCompile>
     <ClCompile Include="..\private\Aim.cpp">
-      <Filter>02.GameObjects\Weapon\UI\GamePlayUI\PlayerUI\Aim</Filter>
+      <Filter>02.GameObjects\UI\GamePlayUI\PlayerUI\Aim</Filter>
     </ClCompile>
     <ClCompile Include="..\private\Armor.cpp">
-      <Filter>02.GameObjects\Weapon\UI\GamePlayUI\PlayerUI\Armor</Filter>
+      <Filter>02.GameObjects\UI\GamePlayUI\PlayerUI\Armor</Filter>
     </ClCompile>
     <ClCompile Include="..\private\Ammo.cpp">
-      <Filter>02.GameObjects\Weapon\UI\GamePlayUI\PlayerUI\Ammo</Filter>
+      <Filter>02.GameObjects\UI\GamePlayUI\PlayerUI\Ammo</Filter>
     </ClCompile>
     <ClCompile Include="..\private\Common_Shape.cpp">
       <Filter>02.GameObjects\Statue\Common_Shape</Filter>
@@ -1217,25 +1217,25 @@
       <Filter>02.GameObjects\Particle\Rain</Filter>
     </ClCompile>
     <ClCompile Include="..\private\UI_Manager.cpp">
-      <Filter>02.GameObjects\Weapon\UI\Manager</Filter>
+      <Filter>02.GameObjects\UI\Manager</Filter>
     </ClCompile>
     <ClCompile Include="..\private\MainMenu.cpp">
-      <Filter>02.GameObjects\Weapon\UI\MenuUI\MainMenu</Filter>
+      <Filter>02.GameObjects\UI\MenuUI\MainMenu</Filter>
     </ClCompile>
     <ClCompile Include="..\private\Font_TinyBlue.cpp">
-      <Filter>02.GameObjects\Weapon\UI\Font\Font_TinyBlue</Filter>
+      <Filter>02.GameObjects\UI\Font\Font_TinyBlue</Filter>
     </ClCompile>
     <ClCompile Include="..\private\Font_BigSilver.cpp">
-      <Filter>02.GameObjects\Weapon\UI\Font\Font_BigSilver</Filter>
+      <Filter>02.GameObjects\UI\Font\Font_BigSilver</Filter>
     </ClCompile>
     <ClCompile Include="..\private\Font_BigOrange.cpp">
-      <Filter>02.GameObjects\Weapon\UI\Font\Font_BigOrange</Filter>
+      <Filter>02.GameObjects\UI\Font\Font_BigOrange</Filter>
     </ClCompile>
     <ClCompile Include="..\private\Logo.cpp">
-      <Filter>02.GameObjects\Weapon\UI\MenuUI\MainMenu</Filter>
+      <Filter>02.GameObjects\UI\MenuUI\MainMenu</Filter>
     </ClCompile>
     <ClCompile Include="..\private\LoadingMenu.cpp">
-      <Filter>02.GameObjects\Weapon\UI\MenuUI\Deprecated\LoadingMenu_Deprecated</Filter>
+      <Filter>02.GameObjects\UI\MenuUI\Deprecated\LoadingMenu_Deprecated</Filter>
     </ClCompile>
     <ClCompile Include="..\private\Smoke.cpp">
       <Filter>02.GameObjects\Particle\Smoke</Filter>
@@ -1313,16 +1313,16 @@
       <Filter>02.GameObjects\Particle\Dust</Filter>
     </ClCompile>
     <ClCompile Include="..\private\FadeUI.cpp">
-      <Filter>02.GameObjects\Weapon\UI\MenuUI</Filter>
+      <Filter>02.GameObjects\UI\MenuUI</Filter>
     </ClCompile>
     <ClCompile Include="..\private\Button_Main.cpp">
-      <Filter>02.GameObjects\Weapon\UI\Button</Filter>
+      <Filter>02.GameObjects\UI\Button</Filter>
     </ClCompile>
     <ClCompile Include="..\private\Canopy.cpp">
       <Filter>02.GameObjects\Statue\Canopy</Filter>
     </ClCompile>
     <ClCompile Include="..\private\ScreenDust.cpp">
-      <Filter>02.GameObjects\Weapon\UI\MenuUI\MainMenu</Filter>
+      <Filter>02.GameObjects\UI\MenuUI\MainMenu</Filter>
     </ClCompile>
     <ClCompile Include="..\private\Flatform.cpp">
       <Filter>02.GameObjects\Effect\Flatform</Filter>
@@ -1376,7 +1376,7 @@
       <Filter>02.GameObjects\Monster\_Debug</Filter>
     </ClCompile>
     <ClCompile Include="..\private\LevelLoadingMenu.cpp">
-      <Filter>02.GameObjects\Weapon\UI\MenuUI\Deprecated\LevelLoadingMenu_Deprecated</Filter>
+      <Filter>02.GameObjects\UI\MenuUI\Deprecated\LevelLoadingMenu_Deprecated</Filter>
     </ClCompile>
     <ClCompile Include="..\private\BuildingW.cpp">
       <Filter>02.GameObjects\Statue\BuildingW</Filter>
@@ -1514,7 +1514,7 @@
       <Filter>02.GameObjects\Weapon\Bullet\RaceBossBullet</Filter>
     </ClCompile>
     <ClCompile Include="..\private\Skull.cpp">
-      <Filter>02.GameObjects\Weapon\UI\GamePlayUI\Skull</Filter>
+      <Filter>02.GameObjects\UI\GamePlayUI\Skull</Filter>
     </ClCompile>
     <ClCompile Include="..\private\TelephonePole.cpp">
       <Filter>02.GameObjects\Map\AlphaRect\TelephonePole</Filter>
@@ -1535,16 +1535,16 @@
       <Filter>02.GameObjects\Map\Door</Filter>
     </ClCompile>
     <ClCompile Include="..\private\BossHPBar.cpp">
-      <Filter>02.GameObjects\Weapon\UI\GamePlayUI\BossHPBar</Filter>
+      <Filter>02.GameObjects\UI\GamePlayUI\BossHPBar</Filter>
     </ClCompile>
     <ClCompile Include="..\private\ItemDialog.cpp">
-      <Filter>02.GameObjects\Weapon\UI\GamePlayUI\ItemDialog</Filter>
+      <Filter>02.GameObjects\UI\GamePlayUI\ItemDialog</Filter>
     </ClCompile>
     <ClCompile Include="..\private\RacingPanel.cpp">
-      <Filter>02.GameObjects\Weapon\UI\GamePlayUI\RacingPanel</Filter>
+      <Filter>02.GameObjects\UI\GamePlayUI\RacingPanel</Filter>
     </ClCompile>
     <ClCompile Include="..\private\Font_Racing.cpp">
-      <Filter>02.GameObjects\Weapon\UI\Font\Font_Racing</Filter>
+      <Filter>02.GameObjects\UI\Font\Font_Racing</Filter>
     </ClCompile>
     <ClCompile Include="..\private\PlayerMissile.cpp">
       <Filter>02.GameObjects\Weapon\Bullet\PlayerMissile</Filter>
@@ -1553,7 +1553,7 @@
       <Filter>02.GameObjects\Map\Door\DoorSecurity</Filter>
     </ClCompile>
     <ClCompile Include="..\private\InteractPromptUI.cpp">
-      <Filter>02.GameObjects\Weapon\UI\GamePlayUI\InteractPromptUI</Filter>
+      <Filter>02.GameObjects\UI\GamePlayUI\InteractPromptUI</Filter>
     </ClCompile>
     <ClCompile Include="..\private\FXMgr.cpp" />
     <ClCompile Include="..\private\Generator.cpp">
@@ -1579,13 +1579,13 @@
       <Filter>02.GameObjects\Weapon\Bullet\RaceBossBullet</Filter>
     </ClCompile>
     <ClCompile Include="..\private\WeaponUI.cpp">
-      <Filter>02.GameObjects\Weapon\UI\GamePlayUI\WeaponUI</Filter>
+      <Filter>02.GameObjects\UI\GamePlayUI\WeaponUI</Filter>
     </ClCompile>
     <ClCompile Include="..\private\LoadingCutscene.cpp">
-      <Filter>02.GameObjects\Weapon\UI\MenuUI\LoadingUI\Loading_Cutscene</Filter>
+      <Filter>02.GameObjects\UI\MenuUI\LoadingUI\Loading_Cutscene</Filter>
     </ClCompile>
     <ClCompile Include="..\private\LoadingUI.cpp">
-      <Filter>02.GameObjects\Weapon\UI\MenuUI\LoadingUI</Filter>
+      <Filter>02.GameObjects\UI\MenuUI\LoadingUI</Filter>
     </ClCompile>
     <ClCompile Include="..\private\Level_RaceEnd.cpp">
       <Filter>01.Levels\04. Race\99.End</Filter>
@@ -1594,31 +1594,31 @@
       <Filter>02.GameObjects\Effect\RaceSprite</Filter>
     </ClCompile>
     <ClCompile Include="..\private\Loading_ToMain.cpp">
-      <Filter>02.GameObjects\Weapon\UI\MenuUI\LoadingUI\Loading_Cutscene\01. Loading_ToMain</Filter>
+      <Filter>02.GameObjects\UI\MenuUI\LoadingUI\Loading_Cutscene\01. Loading_ToMain</Filter>
     </ClCompile>
     <ClCompile Include="..\private\Loading_ToIn.cpp">
-      <Filter>02.GameObjects\Weapon\UI\MenuUI\LoadingUI\Loading_Cutscene\02. Loading_ToIn</Filter>
+      <Filter>02.GameObjects\UI\MenuUI\LoadingUI\Loading_Cutscene\02. Loading_ToIn</Filter>
     </ClCompile>
     <ClCompile Include="..\private\Loading_OnRacing.cpp">
-      <Filter>02.GameObjects\Weapon\UI\MenuUI\LoadingUI\Loading_Cutscene\05. Loading_OnRacing</Filter>
+      <Filter>02.GameObjects\UI\MenuUI\LoadingUI\Loading_Cutscene\05. Loading_OnRacing</Filter>
     </ClCompile>
     <ClCompile Include="..\private\Loading_ToBoss.cpp">
-      <Filter>02.GameObjects\Weapon\UI\MenuUI\LoadingUI\Loading_Cutscene\07. Loading_ToBoss</Filter>
+      <Filter>02.GameObjects\UI\MenuUI\LoadingUI\Loading_Cutscene\07. Loading_ToBoss</Filter>
     </ClCompile>
     <ClCompile Include="..\private\Loading_ToOut.cpp">
-      <Filter>02.GameObjects\Weapon\UI\MenuUI\LoadingUI\Loading_Cutscene\03. Loading_ToOut</Filter>
+      <Filter>02.GameObjects\UI\MenuUI\LoadingUI\Loading_Cutscene\03. Loading_ToOut</Filter>
     </ClCompile>
     <ClCompile Include="..\private\Loading_ToRace.cpp">
-      <Filter>02.GameObjects\Weapon\UI\MenuUI\LoadingUI\Loading_Cutscene\04. Loading_ToRace</Filter>
+      <Filter>02.GameObjects\UI\MenuUI\LoadingUI\Loading_Cutscene\04. Loading_ToRace</Filter>
     </ClCompile>
     <ClCompile Include="..\private\Loading_ToUnderground.cpp">
-      <Filter>02.GameObjects\Weapon\UI\MenuUI\LoadingUI\Loading_Cutscene\06. Loading_ToUnderground</Filter>
+      <Filter>02.GameObjects\UI\MenuUI\LoadingUI\Loading_Cutscene\06. Loading_ToUnderground</Filter>
     </ClCompile>
     <ClCompile Include="..\private\Button.cpp">
-      <Filter>02.GameObjects\Weapon\UI\Button\Deprecated</Filter>
+      <Filter>02.GameObjects\UI\Button\Deprecated</Filter>
     </ClCompile>
     <ClCompile Include="..\private\RaceAim.cpp">
-      <Filter>02.GameObjects\Weapon\UI\GamePlayUI\RaceAim</Filter>
+      <Filter>02.GameObjects\UI\GamePlayUI\RaceAim</Filter>
     </ClCompile>
     <ClCompile Include="..\private\StreetLampBody.cpp">
       <Filter>02.GameObjects\Statue\StreetLamp\Body</Filter>

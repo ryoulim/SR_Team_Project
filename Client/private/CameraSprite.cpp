@@ -56,7 +56,6 @@ HRESULT CCameraSprite::Initialize(void* pArg)
 	else
 		m_fAnimationFrame = 0;
 
-
 	/* 이 스크린의 뎁스를 정해주세요 */
 	if (m_eEffectType == eEffectType::FIRE)
 		m_fDepth = 0.001f;
