@@ -60,6 +60,7 @@ private:
 	CGravity*					m_pGravityCom = { nullptr };
 	class CCameraManager*		m_pCameraManager {};
 	CTransform*					m_pCameraTransform{};
+	CSoundController*			m_pSoundCom = { nullptr };
 	_bool						m_bDash{};
 
 	vector<class CWeapon*>		m_Weapons;

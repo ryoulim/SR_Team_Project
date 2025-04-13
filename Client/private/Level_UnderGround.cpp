@@ -599,5 +599,6 @@ void CLevel_UnderGround::Free()
 	CCameraManager* Cameramanager = CAMERA_MANAGER;
 	if(Cameramanager)
 		Cameramanager->Switch(CCameraManager::DYNAMIC);
+
 	__super::Free();
 }

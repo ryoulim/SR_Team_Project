@@ -190,6 +190,8 @@ void CPlayer::On_Collision(_uint MyColliderID, _uint OtherColliderID)
 		return;
 	}
 
+	m_pSoundCom->SetVolume(0.2f);
+
 	switch (OtherColliderID)
 	{
 	case CI_BLOCK_COMMON:
@@ -222,31 +224,37 @@ void CPlayer::On_Collision(_uint MyColliderID, _uint OtherColliderID)
 		/* 좀 그렇긴 하네 */
 		m_iMaxWeaponIndex = 2;
 		PRINT_DIALOG("picked up Chaingun");
+		m_pSoundCom->Play("Weapon");
 		break;
 
 	case CI_ITEM_DISPENSER:
 		++m_iMaxWeaponIndex;
 		PRINT_DIALOG("picked up Dispenser");
+		m_pSoundCom->Play("Weapon");
 		break;
 
 	case CI_ITEM_AMMO_CHAINGUN:
-		m_Weapons[1]->Replenish_Ammo(100);
+		m_Weapons[2]->Replenish_Ammo(100);
 		PRINT_DIALOG("ammo for Chaingun x 100");
+		m_pSoundCom->Play("Ammo_ChainGun");
 		break;
 		
 	case CI_ITEM_AMMO_DISPENSER_SCATTER:
-		m_Weapons[2]->Replenish_Ammo(10);
+		m_Weapons[1]->Replenish_Ammo(10);
 		PRINT_DIALOG("shells for Disperser x 10");
+		m_pSoundCom->Play("Ammo_Dispenser_Scatter");
 		break;
 
 	case CI_ITEM_AMMO_DISPENSER_CANNON:
-		static_cast<CWeapon_Dispenser*>(m_Weapons[2])->Replenish_GrenadeAmmo(10);
+		m_Weapons[2]->Replenish_Ammo(10);
 		PRINT_DIALOG("grenades for Disperser x 10");
+		m_pSoundCom->Play("Ammo_Dispenser_Cannon");
 		break;
 
 	case CI_ITEM_AMMO_LOVERBOY:
 		m_Weapons[0]->Replenish_Ammo(20);
 		PRINT_DIALOG("ammo for LoverBoy x 20");
+		m_pSoundCom->Play("Ammo_LoverBoy");
 		break;
 
 	case CI_ITEM_HEALKIT:
@@ -255,21 +263,25 @@ void CPlayer::On_Collision(_uint MyColliderID, _uint OtherColliderID)
 			m_tInfo.iHP = 100;
 		FX_MGR->SpawnHealEffect(m_eLevelID);
 		PRINT_DIALOG("health kit: +10% HP ");
+		m_pSoundCom->Play("HealKit");
 		break;
 
 	case CI_ITEM_ARMOR_PIECE:
 		m_tInfo.iArmor += 1;
 		PRINT_DIALOG("armor fragment x 1");
+		m_pSoundCom->Play("ArmorPiece");
 		break;
 
 	case CI_ITEM_ARMOR_FULL:
-		m_tInfo.iArmor = 100;
+		m_tInfo.iArmor += 100;
 		PRINT_DIALOG("full armor pack !");
+		m_pSoundCom->Play("Armor");
 		break;
 
 	case CI_ITEM_CARDKEY:
 		m_bHaveCardkey = true;
 		PRINT_DIALOG("picked up a CARDKEY.");
+		m_pSoundCom->Play("CardKey");
 		break;
 	
 		/* 인터렉션 */
@@ -373,11 +385,6 @@ HRESULT CPlayer::Ready_Components(void* pArg)
 	GravityDesc.fMaxFallSpeedPerSec = 840.f;
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Gravity"),
 		TEXT("Com_Gravity"), reinterpret_cast<CComponent**>(&m_pGravityCom), &GravityDesc)))
-		return E_FAIL;
-
-	/* For.Com_Sound */
-	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Sound_Player"),
-		TEXT("Com_Sound"), reinterpret_cast<CComponent**>(&m_pSoundCom))))
 		return E_FAIL;
 
 	return S_OK;

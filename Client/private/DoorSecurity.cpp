@@ -40,13 +40,14 @@ HRESULT CDoorSecurity::Initialize(void* pArg)
         return E_FAIL;
 
     m_pInteractPromptUI = m_pGameInstance->Find_Object(m_eLevelID, TEXT("Layer_UI"), 4);
-
     if (nullptr == m_pInteractPromptUI)
         return E_FAIL;
-
     Safe_AddRef(m_pInteractPromptUI);
 
     m_pPlayer = static_cast<CPlayer*>(GET_PLAYER);
+    Safe_AddRef(m_pPlayer);
+
+    m_pSoundCom->SetVolume(0.2f);
 
 	return S_OK;
 }
@@ -64,12 +65,15 @@ EVENT CDoorSecurity::Update(_float fTimeDelta)
         {
             if (m_pPlayer->Get_HaveCardKey())
             {
-                /* 여기서 카드키 들어올리세용 */
                 m_eState = OPEN;
                 m_pPlayer->Start_Move_LeftHand();
+                m_pSoundCom->Play("keycard_unlock");
             }           
             else
+            {
                 m_eState = LOCK;
+                m_pSoundCom->Play("keycard_locked");
+            }
         }
     }
 
@@ -83,7 +87,7 @@ EVENT CDoorSecurity::Update(_float fTimeDelta)
         m_fTextureIdx = 4.f;
 
         m_fLockTimeAcc += fTimeDelta;
-        if (m_fLockTimeAcc >= 3.f)
+        if (m_fLockTimeAcc >= 1.5f)
         {
             m_eState = USUAL;
             m_fLockTimeAcc = 0.f;
@@ -199,6 +203,12 @@ HRESULT CDoorSecurity::Ready_Components(void* pArg)
             }
         }
     }
+
+    /* For.Com_Sound */
+    if (FAILED(__super::Add_Component(m_eLevelID, TEXT("Prototype_Component_Sound_DoorSecurity"),
+        TEXT("Com_Sound"), reinterpret_cast<CComponent**>(&m_pSoundCom))))
+        return E_FAIL;
+
     return S_OK;
 }
 
@@ -279,5 +289,7 @@ void CDoorSecurity::Free()
 	__super::Free();
 
     Safe_Release(m_pDoor);
+    Safe_Release(m_pPlayer);
     Safe_Release(m_pInteractPromptUI);
+    Safe_Release(m_pSoundCom);
 }

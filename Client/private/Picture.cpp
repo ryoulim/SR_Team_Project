@@ -26,6 +26,20 @@ HRESULT CPicture::Initialize(void* pArg)
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
 
+    switch (rand() % 3)
+    {
+    case 0:
+        m_pBGM = m_pGameInstance->Get_Single_Sound("bullet_glass001");
+        break;
+    case 1:
+        m_pBGM = m_pGameInstance->Get_Single_Sound("bullet_glass002");
+        break;
+    case 2:
+        m_pBGM = m_pGameInstance->Get_Single_Sound("bullet_glass003");
+        break;
+    }
+
+    m_pBGM->Set_Volume(0.2f);
 	return S_OK;
 }
 
@@ -53,6 +67,9 @@ void CPicture::On_Collision(_uint MyColliderID, _uint OtherColliderID)
 {
 	if (CI_WEAPON(OtherColliderID))
 	{
+        m_pBGM->Set_Volume(0.5f);
+        m_pBGM->Play();
+
         if (!m_bBroken)
         {
             m_fTextureIdx++;
@@ -154,4 +171,6 @@ CGameObject* CPicture::Clone(void* pArg)
 void CPicture::Free()
 {
 	__super::Free();
+
+    Safe_Release(m_pBGM);
 }

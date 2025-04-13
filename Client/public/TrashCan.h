@@ -34,6 +34,9 @@ private:
 	virtual HRESULT Ready_Components(void* pArg)override;
 	void Create_Item();
 
+private:
+	CSound_Core* m_pBGM = { nullptr };
+
 public:
 	static CTrashCan* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
 	virtual CGameObject* Clone(void* pArg) override;

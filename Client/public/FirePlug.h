@@ -36,6 +36,9 @@ private:
 	void Im_Broken();
 
 private:
+	CSound_Core* m_pBGM = { nullptr };
+
+private:
 	_bool m_bBroken = { false };
 
 public:
