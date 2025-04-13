@@ -46,6 +46,10 @@ public:
 	virtual HRESULT Render() override;
 	HRESULT Render_Background();
 
+private:
+	HRESULT Render_WideMoniter();
+	HRESULT Render_SmallMoniter();
+
 public:
 	static CLoading_ToBoss* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
 	virtual CGameObject* Clone(void* pArg) override;

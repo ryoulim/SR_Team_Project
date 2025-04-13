@@ -5,12 +5,6 @@ BEGIN(Client)
 
 class CWeaponUI final : public CUI
 {
-public:
-	typedef struct tagWeaponUIDesc : public CUI::DESC
-	{
-
-	}DESC;
-
 private:
 	CWeaponUI(LPDIRECT3DDEVICE9 pGraphic_Device);
 	CWeaponUI(const CWeaponUI& Prototype);
@@ -26,7 +20,11 @@ public:
 	virtual HRESULT Render() override;
 
 private:
-
+	_float	m_fPosX = g_iWinSizeX * 0.5f;
+	_float	m_fSelectPosY = 0.f;
+	_float  m_fSecondPosY = 0.f;
+	_float  m_fThirdPosY = 0.f;
+	_bool   m_bRender = false;
 
 public:
 	static CWeaponUI* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
