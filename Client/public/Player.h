@@ -83,6 +83,7 @@ private:
 	_byte						m_byJustDodgeFlag{};
 	_float						m_fJustDodgeTimer{};
 	_float						m_fDashUnappliedDistance{};// 저스트 회피중 대쉬거리 계산
+	_float						m_fTiltAngle;
 private:
 	virtual HRESULT Ready_Components(void* pArg);
 

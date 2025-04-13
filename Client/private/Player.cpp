@@ -8,6 +8,7 @@
 
 // 무기들 인클루드
 //#include "Weapon_LoverBoy.h"
+#include "Weapon_Dispenser.h"
 #include "UI_Manager.h"
 #define UIMGR CUI_Manager::Get_Instance()
 #define PRINT_DIALOG(Message) UIMGR->Insert_DialogQueue(Message)
@@ -208,7 +209,7 @@ void CPlayer::On_Collision(_uint MyColliderID, _uint OtherColliderID)
 		break;
 
 	case CI_ITEM_AMMO_DISPENSER_CANNON:
-		m_Weapons[2]->Replenish_Ammo(10);
+		static_cast<CWeapon_Dispenser*>(m_Weapons[2])->Replenish_GrenadeAmmo(10);
 		PRINT_DIALOG("grenades for Disperser x 10");
 		break;
 
@@ -346,7 +347,6 @@ HRESULT CPlayer::Ready_Components(void* pArg)
 	return S_OK;
 }
 
-#include "Weapon_Dispenser.h"
 void CPlayer::Add_Weapons()
 {
 	CWeapon::DESC WeaponDesc{};
@@ -539,12 +539,19 @@ void CPlayer::Update_Dash(_float fTimeDelta)
 {
 	if (m_byJustDodgeFlag == 1)
 	{
-		if (m_fJustDodgeTimer > 0.5f)
+		if (m_fJustDodgeTimer >= 0.5f)
 		{
 			m_pGameInstance->Set_TimeScale(TEXT("Timer_60"), 1.f);
 			m_byJustDodgeFlag = -1;
 			m_bOnHit = FALSE;
 			m_pCameraManager->Zoom(RADIAN(60.f), 0.2f);
+			m_pCameraManager->Tilt(-m_fTiltAngle, 0.5f);
+
+			//const _float3& vCameraLook = m_pCameraTransform->Get_State(CTransform::STATE_LOOK)->Normalize();
+			//_float3 vRight = _VUp.Cross(vCameraLook);
+
+			//m_pCameraTransform->Set_State(CTransform::STATE_RIGHT, vRight);
+			//m_pCameraTransform->Set_State(CTransform::STATE_UP, vCameraLook.Cross(vRight));
 		}
 
 		m_fJustDodgeTimer += fTimeDelta * (1.f / DODGE_TIMESCALE);
@@ -615,16 +622,18 @@ void CPlayer::On_Just_Dodge()
 	if (fabs(fFwdDot) > fabs(fRightDot))
 	{
 		if (fFwdDot > 0.f)
-			m_pCameraManager->Zoom(RADIAN(40.f), 1.f * DODGE_TIMESCALE); // 앞 회피 = 확대
+			m_pCameraManager->Zoom(RADIAN(50.f), 0.5f * DODGE_TIMESCALE); // 앞 회피 = 확대
 		else
-			m_pCameraManager->Zoom(RADIAN(80.f), 1.f * DODGE_TIMESCALE); // 뒤 회피 = 축소
+			m_pCameraManager->Zoom(RADIAN(70.f), 0.5f * DODGE_TIMESCALE); // 뒤 회피 = 축소
 	}
 	else
 	{
 		if (fRightDot > 0.f)
-			m_pCameraManager->Tilt(-RADIAN(12.f), 1.f * DODGE_TIMESCALE); // 오른쪽 회피 = 오른쪽으로 기울이기
+			m_fTiltAngle = -RADIAN(10.f);
 		else
-			m_pCameraManager->Tilt(RADIAN(12.f), 1.f * DODGE_TIMESCALE);// 왼쪽 회피 = 왼쪽으로 기울이기
+			m_fTiltAngle = RADIAN(10.f);
+		 
+		m_pCameraManager->Tilt(m_fTiltAngle, 0.5f * DODGE_TIMESCALE); 
 	}
 
 }

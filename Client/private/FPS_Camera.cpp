@@ -89,7 +89,7 @@ HRESULT CFPS_Camera::Render() // 안할거야 알아하쇼
 
 void CFPS_Camera::Mouse_Move()
 {
-	if (m_bTilt)
+	if (m_bTilt || m_bZoom)
 		return;
 
 	_float		fMouseMoveX = { static_cast<_float>(m_pGameInstance->Get_DIMMoveState(DIMM_X)) };
