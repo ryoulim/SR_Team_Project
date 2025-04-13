@@ -111,6 +111,7 @@ EVENT CMonsterMissile::Update(_float timeDelta)
 
 	if (m_bDead)
 	{
+		int a = 0;
 		return EVN_DEAD;
 	}
 

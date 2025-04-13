@@ -5,6 +5,7 @@
 #include "FXMgr.h"
 #include "CameraManager.h"
 #include "PSystem.h"
+#include "PSystem.h"
 
 CRaceBoss::CRaceBoss(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CGameObject { pGraphic_Device }
@@ -1407,4 +1408,26 @@ void CRaceBoss::Free()
 		Safe_Release(Collider);
 	for (size_t i = WAITFORPLAYER; i < NON; ++i)
 		Safe_Delete(m_pState[i]);
+
+
+	///* [ 이펙트 있니? 있으면 내놔 ] */
+	//if (m_pWaterBoatEffect_01)
+	//{
+	//	static_cast<CWaterBoat*>(m_pWaterBoatEffect_01)->SetDead();
+	//	static_cast<CWaterBoat*>(m_pWaterBoatEffect_02)->SetDead();
+	//	static_cast<CWaterBoat*>(m_pWaterBoatEffect_03)->SetDead();
+	//	m_pWaterBoatEffect_01 = nullptr;
+	//	m_pWaterBoatEffect_02 = nullptr;
+	//	m_pWaterBoatEffect_03 = nullptr;
+	//}
+	//
+	///* [ 남은 파티클 다 꺼버리자 ] */
+	//auto Particles = CGameInstance::Get_Instance()->Find_Objects(m_eLevelID, L"Layer_Particle");
+	//if (Particles)
+	//{
+	//	for (auto& Particle : *Particles)
+	//	{
+	//		static_cast<CPSystem*>(Particle)->SetDead();
+	//	}
+	//}
 }

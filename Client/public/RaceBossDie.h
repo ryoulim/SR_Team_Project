@@ -21,7 +21,6 @@ public:
 
 	HRESULT Ready_Particle();
 
-	void SetDead() { m_bDead = true; }
 	inline float Lerp(float a, float b, float t)
 	{
 		return a + (b - a) * t;
@@ -35,6 +34,5 @@ public:
 private:
 	float		m_fFrame = 0;
 	_bool		m_bDoOnce = false;
-	_bool		m_bDead = false;
 };
 
