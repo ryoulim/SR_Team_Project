@@ -12,6 +12,7 @@
 #include <ItemDialog.h>
 #include <RacingPanel.h>
 #include <BossHPBar.h>
+#include <WeaponUI.h>
 
 CUI_Manager* CUI_Manager::m_pInstance = nullptr;
 
@@ -120,10 +121,11 @@ void CUI_Manager::Fade_Out(LEVEL eLevelID)
 
 HRESULT CUI_Manager::Initialize_GamePlayUI(LEVEL eLevelID)
 {
-	m_GameUIs[GUI_AIM]		= m_pGameInstance->Find_Object(eLevelID, L"Layer_UI", GUI_AIM);
-	m_GameUIs[GUI_PORTRAIT] = m_pGameInstance->Find_Object(eLevelID, L"Layer_UI", GUI_PORTRAIT);
-	m_GameUIs[GUI_ARMOR]	= m_pGameInstance->Find_Object(eLevelID, L"Layer_UI", GUI_ARMOR);
-	m_GameUIs[GUI_AMMO]		= m_pGameInstance->Find_Object(eLevelID, L"Layer_UI", GUI_AMMO);
+	m_GameUIs[GUI_AIM]		= m_pGameInstance->Find_Object(LEVEL_STATIC, L"Layer_GUI", GUI_AIM);
+	m_GameUIs[GUI_PORTRAIT] = m_pGameInstance->Find_Object(LEVEL_STATIC, L"Layer_GUI", GUI_PORTRAIT);
+	m_GameUIs[GUI_ARMOR]	= m_pGameInstance->Find_Object(LEVEL_STATIC, L"Layer_GUI", GUI_ARMOR);
+	m_GameUIs[GUI_AMMO]		= m_pGameInstance->Find_Object(LEVEL_STATIC, L"Layer_GUI", GUI_AMMO);
+	m_GameUIs[GUI_WEAPONS]  = m_pGameInstance->Find_Object(LEVEL_STATIC, L"Layer_GUI", GUI_WEAPONS);
 
 	for (size_t i = 0; i < GUI_END; i++)
 	{
@@ -137,7 +139,7 @@ HRESULT CUI_Manager::Initialize_GamePlayUI(LEVEL eLevelID)
 
 HRESULT CUI_Manager::Initialize_RacingUI(LEVEL eLevelID)
 {
-	m_pRacingUI = m_pGameInstance->Find_Object(eLevelID, L"Layer_UI", GUI_RACING);
+	m_pRacingUI = m_pGameInstance->Find_Object(eLevelID, L"Layer_UI", UI_RACING);
 	if (m_pRacingUI == nullptr)
 		return E_FAIL;	
 	return S_OK;
@@ -145,18 +147,9 @@ HRESULT CUI_Manager::Initialize_RacingUI(LEVEL eLevelID)
 
 HRESULT CUI_Manager::Initialize_BossHPUI(LEVEL eLevelID)
 {
-	m_pBossHPUI = m_pGameInstance->Find_Object(eLevelID, L"Layer_UI", GUI_BOSSHP);
+	m_pBossHPUI = m_pGameInstance->Find_Object(eLevelID, L"Layer_UI", UI_BOSSHP);
 	if (m_pBossHPUI == nullptr)
 		return E_FAIL;
-	return S_OK;
-}
-
-HRESULT CUI_Manager::Initialize_Player()
-{
-	m_pPlayer = dynamic_cast<CPawn*>(GET_PLAYER);
-	if (nullptr == m_pPlayer)
-		return E_FAIL;
-	//Safe_AddRef(m_pPlayer);
 	return S_OK;
 }
 
@@ -169,16 +162,19 @@ HRESULT CUI_Manager::Clear_GamePlayUI()
 		m_GameUIs[i] = nullptr;
 	}
 	//Safe_Release(m_pPlayer);
-	m_pPlayer = nullptr;
 	return S_OK;
 }
 
-
-HRESULT CUI_Manager::Change_Weapon(const CWeapon::AMMOINFO* pAmmoInfo)
+//weapon ui를 다 들고올 수 있다면
+//그냥 현재 무기 인덱스만 받아서
+// weaponui에서 겟해와도 괜찮을 것 같은데
+// 얘네가 플레이어한테서 받아오는 것 보단 weaponui가 중간다리로 다른애드랗ㄴ테뿌려주는게나을지도
+// 그냥 인덱스만 받을까요?
+HRESULT CUI_Manager::Change_Weapon(const CWeapon::AMMOINFO* pAmmoInfo, _int iCurWeaponIndex)
 {
-	dynamic_cast<CAmmo*>(m_GameUIs[GUI_AMMO])->Set_Ammo(pAmmoInfo);
+	static_cast<CAmmo*>(m_GameUIs[GUI_AMMO])->Set_Ammo(pAmmoInfo);
 	static_cast<CAim*>(m_GameUIs[GUI_AIM])->Set_Ammo(pAmmoInfo);
-
+	static_cast<CWeaponUI*>(m_GameUIs[GUI_WEAPONS])->Set_CurWeaponIndex(iCurWeaponIndex);
 	return S_OK;
 }
 
@@ -232,6 +228,24 @@ HRESULT CUI_Manager::Start_Rendering_BossHPUI()
 	return S_OK;
 }
 
+HRESULT CUI_Manager::Init_Weapons(const vector<class CWeapon*>* pWeapons)
+{
+	static_cast<CWeaponUI*>(m_GameUIs[GUI_WEAPONS])->Set_Weapons(pWeapons);
+	return S_OK;
+}
+
+HRESULT CUI_Manager::Add_Weapon()
+{
+	static_cast<CWeaponUI*>(m_GameUIs[GUI_WEAPONS])->Add_Weapon();
+	return S_OK;
+}
+
+HRESULT CUI_Manager::Render_WeaponUI()
+{
+	static_cast<CWeaponUI*>(m_GameUIs[GUI_WEAPONS])->Set_Render(true);
+	return S_OK;
+}
+
 HRESULT CUI_Manager::Initialize_Font()
 {
 	CUI::DESC Desc{};
@@ -277,6 +291,4 @@ void CUI_Manager::Free()
 	Clear_GamePlayUI();
 	Safe_Release(m_pDialog);
 	Safe_Release(m_pGameInstance);
-
-
 } 

@@ -42,9 +42,6 @@ HRESULT CLevel_UnderGround::Initialize(CLevelData* pLevelData)
 	if (FAILED(Ready_Layer_Pawn(TEXT("Layer_Pawn"))))
 		return E_FAIL;
 
-	CUI_Manager::Get_Instance()->Initialize_Player();
-
-
 	if (FAILED(Ready_Layer_Trigger(TEXT("Layer_Trigger"))))
 		return E_FAIL;
 
@@ -378,29 +375,29 @@ HRESULT CLevel_UnderGround::Ready_Layer_UI(const _wstring& strLayerTag)
 	CUI::DESC Desc{};
 	Desc.eLevelID = LEVEL_UNDERGROUND;
 	Desc.fDepth = 3.f;
-	Desc.vScale = _float3(1.f, 1.f, 1.f);
-	Desc.vInitPos = _float3(0.f, 0.f, 0.1f);
-	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_Aim"),
-		Desc.eLevelID, strLayerTag, &Desc)))
-		return E_FAIL;
+	//Desc.vScale = _float3(1.f, 1.f, 1.f);
+	//Desc.vInitPos = _float3(0.f, 0.f, 0.1f);
+	//if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_Aim"),
+	//	Desc.eLevelID, strLayerTag, &Desc)))
+	//	return E_FAIL;
 
-	Desc.vScale = _float3(80.f, 80.f, 1.f);
-	Desc.vInitPos = _float3(-(g_iWinSizeX / 2.f) + Desc.vScale.x / 2.f - 10.f, -(g_iWinSizeY / 2.f) + Desc.vScale.y / 2.f, 0.1f);
-	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_Portrait"),
-		Desc.eLevelID, strLayerTag, &Desc)))
-		return E_FAIL;
+	//Desc.vScale = _float3(80.f, 80.f, 1.f);
+	//Desc.vInitPos = _float3(-(g_iWinSizeX / 2.f) + Desc.vScale.x / 2.f - 10.f, -(g_iWinSizeY / 2.f) + Desc.vScale.y / 2.f, 0.1f);
+	//if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_Portrait"),
+	//	Desc.eLevelID, strLayerTag, &Desc)))
+	//	return E_FAIL;
 
-	Desc.vScale = _float3(75.f, 75.f, 1.f);
-	Desc.vInitPos = _float3(-(g_iWinSizeX / 2.f) + 208.f, -(g_iWinSizeY / 2.f) + Desc.vScale.y / 2.f, 0.1f);
-	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_Armor"),
-		Desc.eLevelID, strLayerTag, &Desc)))
-		return E_FAIL;
+	//Desc.vScale = _float3(75.f, 75.f, 1.f);
+	//Desc.vInitPos = _float3(-(g_iWinSizeX / 2.f) + 208.f, -(g_iWinSizeY / 2.f) + Desc.vScale.y / 2.f, 0.1f);
+	//if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_Armor"),
+	//	Desc.eLevelID, strLayerTag, &Desc)))
+	//	return E_FAIL;
 
-	Desc.vScale = _float3(48.f, 54.f, 1.f);
-	Desc.vInitPos = _float3((g_iWinSizeX / 2.f) - 40.f, -(g_iWinSizeY / 2.f) + Desc.vScale.y / 2.f + 7.f, 0.1f);
-	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_Ammo"),
-		Desc.eLevelID, strLayerTag, &Desc)))
-		return E_FAIL;
+	//Desc.vScale = _float3(48.f, 54.f, 1.f);
+	//Desc.vInitPos = _float3((g_iWinSizeX / 2.f) - 40.f, -(g_iWinSizeY / 2.f) + Desc.vScale.y / 2.f + 7.f, 0.1f);
+	//if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_Ammo"),
+	//	Desc.eLevelID, strLayerTag, &Desc)))
+	//	return E_FAIL;
 
 	if (FAILED(m_pGameInstance->Add_GameObject(Desc.eLevelID, TEXT("Prototype_GameObject_InteractPromptUI"),
 		Desc.eLevelID, strLayerTag, &Desc)))
@@ -567,6 +564,7 @@ void CLevel_UnderGround::Check_Collision()
 	m_pGameInstance->Intersect(CG_PAWN, CG_INTERACTIVE);
 	m_pGameInstance->Intersect(CG_PAWN, CG_TRIGGER);
 	m_pGameInstance->Intersect(CG_PAWN, CG_ITEM);
+	m_pGameInstance->Intersect(CG_PAWN, CG_MONSTER_BODY);
 
 	/*PBULLET*/
 	m_pGameInstance->Intersect(CG_PBULLET, CG_MONSTER);

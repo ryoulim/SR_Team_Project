@@ -466,7 +466,7 @@ HRESULT CLevel_OutDoor::Ready_Layer_UI(const _wstring& strLayerTag)
 	CUI::DESC Desc{};
 	Desc.eLevelID = LEVEL_OUTDOOR;
 	Desc.fDepth = _float(UI_HUD);
-	Desc.vScale = _float3(1.f, 1.f, 1.f);
+	/*Desc.vScale = _float3(1.f, 1.f, 1.f);
 	Desc.vInitPos = _float3(0.f, 0.f, 0.1f);
 	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_Aim"),
 		Desc.eLevelID, strLayerTag, &Desc)))
@@ -490,10 +490,8 @@ HRESULT CLevel_OutDoor::Ready_Layer_UI(const _wstring& strLayerTag)
 		Desc.eLevelID, strLayerTag, &Desc)))
 		return E_FAIL;
 
-	CUI_Manager::Get_Instance()->Initialize_GamePlayUI(CurLevel);
+	CUI_Manager::Get_Instance()->Initialize_GamePlayUI(CurLevel);*/
 
-	/* ui생성 순서 중요, player 생성 이후 호출 중요  */
-	// 과거의 나야 미안해 
 	return S_OK;
 }
 

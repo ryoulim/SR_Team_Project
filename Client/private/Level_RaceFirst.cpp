@@ -598,6 +598,8 @@ HRESULT CLevel_RaceFirst::Ready_Layer_RaceBoss(const _wstring& strLayerTag)
 			->Set_State(CTransform::STATE_POSITION, vInitPosition);
 		pBoss->Set_StartState(CRaceBoss::ENTRANCE);
 		pBoss->Add_Collider(); 
+		CUI_Manager::Get_Instance()->Set_RacingBoss_HP_Settings(pBoss->Get_HP(), 250);
+		CUI_Manager::Get_Instance()->Start_Rendering_BossHPUI();
 		return S_OK;
 	}
 
@@ -610,6 +612,11 @@ HRESULT CLevel_RaceFirst::Ready_Layer_RaceBoss(const _wstring& strLayerTag)
 		LEVEL_STATIC, strLayerTag, &RaceBossDesc)))
 		return E_FAIL;
 
+	pBoss = static_cast<CRaceBoss*>(m_pGameInstance->Find_Object(LEVEL_STATIC, TEXT("Layer_RaceBoss")));
+	if (pBoss)
+		CUI_Manager::Get_Instance()->Set_RacingBoss_HP_Settings(pBoss->Get_HP(), 250);
+	CUI_Manager::Get_Instance()->Start_Rendering_BossHPUI();
+
 	static_cast<CPlayerOnBoat*>(GET_PLAYER)->Set_RaceBossTransform(
 		static_cast<CTransform*>(m_pGameInstance->Find_Object(LEVEL_STATIC, TEXT("Layer_RaceBoss"))->Find_Component(TEXT("Com_Transform"))));
 
@@ -621,31 +628,31 @@ HRESULT CLevel_RaceFirst::Ready_Layer_UI(const _wstring& strLayerTag)
 	CUI::DESC Desc{};
 	Desc.eLevelID = CurLevel;
 	Desc.fDepth = _float(UI_HUD);
-	Desc.vScale = _float3(1.f, 1.f, 1.f);
-	Desc.vInitPos = _float3(0.f, 0.f, 0.1f);
-	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_Aim"),
-		Desc.eLevelID, strLayerTag, &Desc)))
-		return E_FAIL;
+	//Desc.vScale = _float3(1.f, 1.f, 1.f);
+	//Desc.vInitPos = _float3(0.f, 0.f, 0.1f);
+	//if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_Aim"),
+	//	Desc.eLevelID, strLayerTag, &Desc)))
+	//	return E_FAIL;
 
-	Desc.vScale = _float3(80.f, 80.f, 1.f);
-	Desc.vInitPos = _float3(-(g_iWinSizeX / 2.f) + Desc.vScale.x / 2.f - 10.f, -(g_iWinSizeY / 2.f) + Desc.vScale.y / 2.f, 0.1f);
-	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_Portrait"),
-		Desc.eLevelID, strLayerTag, &Desc)))
-		return E_FAIL;
+	//Desc.vScale = _float3(80.f, 80.f, 1.f);
+	//Desc.vInitPos = _float3(-(g_iWinSizeX / 2.f) + Desc.vScale.x / 2.f - 10.f, -(g_iWinSizeY / 2.f) + Desc.vScale.y / 2.f, 0.1f);
+	//if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_Portrait"),
+	//	Desc.eLevelID, strLayerTag, &Desc)))
+	//	return E_FAIL;
 
-	Desc.vScale = _float3(75.f, 75.f, 1.f);
-	Desc.vInitPos = _float3(-(g_iWinSizeX / 2.f) + 208.f, -(g_iWinSizeY / 2.f) + Desc.vScale.y / 2.f, 0.1f);
-	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_Armor"),
-		Desc.eLevelID, strLayerTag, &Desc)))
-		return E_FAIL;
+	//Desc.vScale = _float3(75.f, 75.f, 1.f);
+	//Desc.vInitPos = _float3(-(g_iWinSizeX / 2.f) + 208.f, -(g_iWinSizeY / 2.f) + Desc.vScale.y / 2.f, 0.1f);
+	//if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_Armor"),
+	//	Desc.eLevelID, strLayerTag, &Desc)))
+	//	return E_FAIL;
 
-	Desc.vScale = _float3(48.f, 54.f, 1.f);
-	Desc.vInitPos = _float3((g_iWinSizeX / 2.f) - 40.f, -(g_iWinSizeY / 2.f) + Desc.vScale.y / 2.f + 7.f, 0.1f);
-	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_Ammo"),
-		Desc.eLevelID, strLayerTag, &Desc)))
-		return E_FAIL;
+	//Desc.vScale = _float3(48.f, 54.f, 1.f);
+	//Desc.vInitPos = _float3((g_iWinSizeX / 2.f) - 40.f, -(g_iWinSizeY / 2.f) + Desc.vScale.y / 2.f + 7.f, 0.1f);
+	//if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_Ammo"),
+	//	Desc.eLevelID, strLayerTag, &Desc)))
+	//	return E_FAIL;
 
-	CUI_Manager::Get_Instance()->Initialize_GamePlayUI(CurLevel);
+	//CUI_Manager::Get_Instance()->Initialize_GamePlayUI(CurLevel);
 
 	Desc.vScale = _float3(240.f, 42.f, 1.f);
 	Desc.vInitPos = _float3(0.f, g_iWinSizeY * 0.5f - 44.f, 0.1f);
@@ -669,6 +676,7 @@ HRESULT CLevel_RaceFirst::Ready_Layer_UI(const _wstring& strLayerTag)
 	// 안미안해꺼져
 	return S_OK;
 }
+
 void CLevel_RaceFirst::Check_Collision()
 {
 	m_pGameInstance->Intersect(CG_PAWN, CG_MBULLET);

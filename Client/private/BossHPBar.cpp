@@ -123,7 +123,6 @@ HRESULT CBossHPBar::Render_Ttakkeun_I()
 	int neg = -1;
 	for (int i = 0; i < 2; i ++)
 	{
-
 		m_pTransformCom->Scaling(m_vBackSize);
 		m_pTransformCom->Set_State(CTransform::STATE_POSITION, _float3(300.f * neg, g_iWinSizeY * 0.5f - 50.f, 0.1f));
 		m_pGraphic_Device->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
@@ -160,32 +159,32 @@ HRESULT CBossHPBar::Render_Ttakkeun_I()
 
 HRESULT CBossHPBar::Render_RacingBoss()
 {
-	CUI_Manager::Get_Instance()->Render_Text_Colored("URBAN ERADICATOR", CFont::MEDIUMBLUE, CFont::CENTER, 0.f, g_iWinSizeY * 0.5f - 18.5f, 0.37f, 0.85f);
+	CUI_Manager::Get_Instance()->Render_Text_Colored("URBAN ERADICATOR", CFont::MEDIUMBLUE, CFont::CENTER, 15.f, g_iWinSizeY * 0.5f - 18.5f, 0.37f, 0.85f);
 
-		m_pTransformCom->Scaling(m_vBackSize);
-		m_pTransformCom->Set_State(CTransform::STATE_POSITION, _float3(0.f, g_iWinSizeY * 0.5f - 50.f, 0.1f));
-		__super::Render();
+	m_pTransformCom->Scaling(m_vBackSize);
+	m_pTransformCom->Set_State(CTransform::STATE_POSITION, _float3(0.f, g_iWinSizeY * 0.5f - 50.f, 0.1f));
+	__super::Render();
 
-		_float fHPPercent = *m_pBossHP[0] / static_cast<_float>(m_iBossMaxHP);
-		if (fHPPercent >= 1.f)
-			fHPPercent = 1.f;
+	_float fHPPercent = *m_pBossHP[0] / static_cast<_float>(m_iBossMaxHP);
+	if (fHPPercent >= 1.f)
+		fHPPercent = 1.f;
 
-		m_pTransformCom->Scaling(m_vBarSize);
-		if (FAILED(m_pTransformCom->Bind_Resource()))
-			return E_FAIL;
+	m_pTransformCom->Scaling(m_vBarSize);
+	if (FAILED(m_pTransformCom->Bind_Resource()))
+		return E_FAIL;
 
-		m_pTextureCom->Bind_Shader_To_Texture(m_pShaderCom, "Tex", 1);
-		m_pShaderCom->SetFloat("HPPercent", fHPPercent);
-		m_pShaderCom->Begin(CShader::HPMASKING);
-		m_pGraphic_Device->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
-		m_pGraphic_Device->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
-		m_pGraphic_Device->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
-		if (FAILED(m_pVIBufferCom->Bind_Buffers()))
-			return E_FAIL;
-		if (FAILED(m_pVIBufferCom->Render()))
-			return E_FAIL;
-		m_pShaderCom->End();
-		m_pGraphic_Device->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
+	m_pTextureCom->Bind_Shader_To_Texture(m_pShaderCom, "Tex", 1);
+	m_pShaderCom->SetFloat("HPPercent", fHPPercent);
+	m_pShaderCom->Begin(CShader::HPMASKING);
+	m_pGraphic_Device->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
+	m_pGraphic_Device->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
+	m_pGraphic_Device->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
+	if (FAILED(m_pVIBufferCom->Bind_Buffers()))
+		return E_FAIL;
+	if (FAILED(m_pVIBufferCom->Render()))
+		return E_FAIL;
+	m_pShaderCom->End();
+	m_pGraphic_Device->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
 
 	return S_OK;
 }
