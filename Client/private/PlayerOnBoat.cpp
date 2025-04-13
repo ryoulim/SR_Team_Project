@@ -492,6 +492,7 @@ void CPlayerOnBoat::SpawnWaterParticle(_float fWaterSpeed)
 	WaterBoatDesc.fMaxFrame = 1.f;
 	WaterBoatDesc.fSize = 0.06f;
 	WaterBoatDesc.fNum = fWaterSpeed;
+	WaterBoatDesc.fLifeTime = 0.5f;
 
 	CGameObject* pObject = nullptr;
 	CGameObject** ppOut = &pObject;
@@ -509,6 +510,7 @@ void CPlayerOnBoat::SpawnWaterParticle(_float fWaterSpeed)
 	WaterBoatDesc2.fMaxFrame = 1.f;
 	WaterBoatDesc2.fSize = 0.03f;
 	WaterBoatDesc2.fNum = fWaterSpeed;
+	WaterBoatDesc2.fLifeTime = 0.5f;
 
 	CGameObject* pObject2 = nullptr;
 	CGameObject** ppOut2 = &pObject2;
@@ -526,6 +528,7 @@ void CPlayerOnBoat::SpawnWaterParticle(_float fWaterSpeed)
 	WaterBoatDesc3.fMaxFrame = 1.f;
 	WaterBoatDesc3.fSize = 0.01f;
 	WaterBoatDesc3.fNum = fWaterSpeed;
+	WaterBoatDesc3.fLifeTime = 0.5f;
 
 	CGameObject* pObject3 = nullptr;
 	CGameObject** ppOut3 = &pObject2;

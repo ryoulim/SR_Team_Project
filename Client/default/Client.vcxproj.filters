@@ -382,9 +382,6 @@
     <Filter Include="02.GameObjects\RaceBoss\RBState">
       <UniqueIdentifier>{de71add9-0bf1-4628-ac4a-62b0e52355aa}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObjects\Statue\RaceBossBombRadius">
-      <UniqueIdentifier>{f18a650f-2fda-4229-9e98-5f8ab7084f49}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02.GameObjects\Map\Interactive_Block\Generator">
       <UniqueIdentifier>{52e1f85f-6d13-46c6-b00b-6df5cf3eaad2}</UniqueIdentifier>
     </Filter>
@@ -540,6 +537,12 @@
     </Filter>
     <Filter Include="02.GameObjects\UI\Button\Deprecated">
       <UniqueIdentifier>{28e712d3-90bd-4be8-ae9e-6a86f5bf197f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Particle\WaterBoat\RaceBossDie">
+      <UniqueIdentifier>{82d5c73c-8c15-4a77-a02e-18c94b8c9bc8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObjects\Statue\RaceBossWarning">
+      <UniqueIdentifier>{f18a650f-2fda-4229-9e98-5f8ab7084f49}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -1040,7 +1043,7 @@
       <Filter>01.Levels\05. UnderGround</Filter>
     </ClInclude>
     <ClInclude Include="..\public\BombRadius.h">
-      <Filter>02.GameObjects\Statue\RaceBossBombRadius</Filter>
+      <Filter>02.GameObjects\Statue\RaceBossWarning</Filter>
     </ClInclude>
     <ClInclude Include="..\public\Generator.h">
       <Filter>02.GameObjects\Map\Generator</Filter>
@@ -1095,6 +1098,12 @@
     </ClInclude>
     <ClInclude Include="..\public\StreetLampBody.h">
       <Filter>02.GameObjects\Statue\StreetLamp\Body</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\RaceBossDie.h">
+      <Filter>02.GameObjects\Particle\WaterBoat\RaceBossDie</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\MombackLine.h">
+      <Filter>02.GameObjects\Statue\RaceBossWarning</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1570,7 +1579,7 @@
     </ClCompile>
     <ClCompile Include="..\private\Generator.cpp" />
     <ClCompile Include="..\private\BombRadius.cpp">
-      <Filter>02.GameObjects\Statue\RaceBossBombRadius</Filter>
+      <Filter>02.GameObjects\Statue\RaceBossWarning</Filter>
     </ClCompile>
     <ClCompile Include="..\private\Generator.cpp">
       <Filter>02.GameObjects\Map\Generator</Filter>
@@ -1622,6 +1631,12 @@
     </ClCompile>
     <ClCompile Include="..\private\StreetLampBody.cpp">
       <Filter>02.GameObjects\Statue\StreetLamp\Body</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\RaceBossDie.cpp">
+      <Filter>02.GameObjects\Particle\WaterBoat\RaceBossDie</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\MombackLine.cpp">
+      <Filter>02.GameObjects\Statue\RaceBossWarning</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

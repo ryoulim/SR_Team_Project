@@ -4,6 +4,7 @@
 #include "RBState.h"
 #include "FXMgr.h"
 #include "CameraManager.h"
+#include "PSystem.h"
 
 CRaceBoss::CRaceBoss(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CGameObject { pGraphic_Device }
@@ -41,6 +42,9 @@ HRESULT CRaceBoss::Initialize(void* pArg)
 
 void CRaceBoss::Priority_Update(_float fTimeDelta)
 {
+	/* 플레이어 위치를 항상 알아둬라 */
+	m_pPlayerpos = static_cast<CTransform*>(m_pPlayer->Find_Component(TEXT("Com_Transform")))->Get_State(CTransform::STATE_POSITION);
+
 	__super::Priority_Update(fTimeDelta);
 }
 
@@ -50,8 +54,7 @@ EVENT CRaceBoss::Update(_float fTimeDelta)
 	if (m_bDead)
 		return EVN_DEAD;
 
-	if (m_eCurState != DEAD &&
-		m_pTransformCom->Get_State(CTransform::STATE_POSITION)->z > 9500)
+	if (m_eCurState != DEAD &&	m_pPlayerpos->z > 8300)
 		Set_State(CRaceBoss::LEAVE);
 
 	_float3 vPos = *m_pTransformCom->Get_State(CTransform::STATE_POSITION);
@@ -64,7 +67,7 @@ EVENT CRaceBoss::Update(_float fTimeDelta)
 
 #ifdef _CONSOL
 		_float3 vPos = *m_pTransformCom->Get_State(CTransform::STATE_POSITION);
-		printf("보스 위치 : { %f, %f, %f }\n", vPos.x, vPos.y, vPos.z);
+		//printf("보스 위치 : { %f, %f, %f }\n", vPos.x, vPos.y, vPos.z);
 		printf("보스 상태 : %s\n", Debug_State(m_eCurState));
 #endif
 
@@ -74,7 +77,6 @@ EVENT CRaceBoss::Update(_float fTimeDelta)
 	m_pCurState->Execute(fTimeDelta);
 
 	/*  --------------------[ 부위 파괴 시 지속 폭발 ]----------------------- */
-
 
 	if (KEY_DOWN(DIK_0))
 	{
@@ -100,14 +102,6 @@ EVENT CRaceBoss::Update(_float fTimeDelta)
 
 	Update_Skull(fTimeDelta); // 이 함수 반드시 보스의 움직임을 모두 업데이트 마친 다음에 호출해야 합니다.
 
-	///// 아래는 테스트
-	//static _float fTimeAcc{};
-	//fTimeAcc += fTimeDelta;
-	//if (fTimeAcc > 1.f)
-	//{
-	//	Fire_HeadBullet(fTimeDelta);
-	//	fTimeAcc = 0.f;
-	//}
 	return EVN_NONE;
 }
 
@@ -296,22 +290,6 @@ void CRaceBoss::Set_HeadBulletCountZero()
 	m_iHeadBulletCount = 0;
 }
 
-//void CRaceBoss::SelectAndDrawRadius()
-//{
-//	vector<_float> m_VecPosX = { 350.f, 450.f, 550.f };
-//	random_shuffle(m_VecPosX.begin(), m_VecPosX.end());
-//	
-//	m_fBombPosX2[0] = m_VecPosX.back();
-//	m_VecPosX.pop_back();
-//	m_fBombPosZ = 0.f;
-//	Draw_BombRadius(m_fBombPosX2[0], m_fBombPosZ);
-//
-//	m_fBombPosX2[1] = m_VecPosX.back();
-//	m_VecPosX.pop_back();
-//	m_fBombPosZ = 0.f;
-//	Draw_BombRadius(m_fBombPosX2[1], m_fBombPosZ);
-//}
-
 void CRaceBoss::Bombing(_float fTimeDelta)
 {
 	//Fire_Bomb4();
@@ -383,7 +361,7 @@ void CRaceBoss::Set_StartState(STATE eState)
 void CRaceBoss::On_Collision(_uint MyColliderID, _uint OtherColliderID)
 {
 	On_Hit((MUZZLEPOS)MyColliderID, 10);
-	//FX_MGR->SpawnExplosion2(CCollider::Get_Last_Collision_Pos(), m_eLevelID); 안나와서 주석처리
+	
 }
 
 _float CRaceBoss::GetRandomFloat(float lowBound, float highBound)
@@ -423,11 +401,11 @@ const char* CRaceBoss::Debug_State(STATE eState)
 	case READYBOMB:
 		return "READYBOMB";
 
-	case DRAWINGRADIUS:
-		return "DRAWINGRADIUS";
+	case BOMBATTACK:
+		return "BOMBATTACK";
 
-	case BOMBING:
-		return "BOMBING";
+	case CROSSATTACK:
+		return "CROSSATTACK";
 
 	case COMEBACK:
 		return "COMEBACK";
@@ -495,8 +473,11 @@ void CRaceBoss::ReadyForState()
 	m_pState[ENTRANCE] = new CRBState_Entrance(this);
 	m_pState[IDLE] = new CRBState_IDLE(this);
 	m_pState[READYBOMB] = new CRBState_ReadyBombing(this);
-	m_pState[DRAWINGRADIUS] = new CRBState_DrawingRadius(this);
-	m_pState[BOMBING] = new CRBState_Bombing(this);
+	m_pState[BOMBATTACK] = new CRBState_BombAttack(this);
+	m_pState[CROSSATTACK] = new CRBState_CrossAttack(this);
+	m_pState[MOMBACKREADY] = new CRBState_MombackReady(this);
+	m_pState[MOMBACK] = new CRBState_Momback(this);
+	m_pState[MOMBACKREVERSE] = new CRBState_MombackReverse(this);
 	m_pState[COMEBACK] = new CRBState_Comeback(this);
 	m_pState[SHOTREADY] = new CRBState_ReadyShot(this);
 	m_pState[SHOTHEADBULLET] = new CRBState_ShotHeadBullet(this);
@@ -697,11 +678,83 @@ HRESULT CRaceBoss::Fire_Bomb3()
 	return S_OK;
 }
 
+HRESULT CRaceBoss::SpawnTargetAim(_float3 _vAimPosition)
+{
+	/* [ 에임을 생성한다. ] */
+	CBombRadius::DESC Bombdesc = {};
+	Bombdesc.vInitPos = _vAimPosition;
+	Bombdesc.vScale = { 100.f, 100.f, 1.f };
+	Bombdesc.eLevelID = m_eLevelID;
+	Bombdesc.vAngle = { D3DXToRadian(90.f), 0.f, 0.f };
+
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_BombRadius"),
+		m_eLevelID, L"Layer_RaceBossBombRadius", &Bombdesc)))
+		return E_FAIL;
+
+	return S_OK;
+}
+
+HRESULT CRaceBoss::SpawnTargetLine(_float3 _vLinePosition)
+{
+	/* [ 라인을 생성한다. ] */
+	CMombackLine::DESC Linedesc = {};
+	Linedesc.vInitPos = _vLinePosition;
+	Linedesc.vScale = { 200.f, 4500.f, 1.f };
+	Linedesc.eLevelID = m_eLevelID;
+	Linedesc.vAngle = { D3DXToRadian(90.f), 0.f, 0.f };
+
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_MombackLine"),
+		m_eLevelID, L"Layer_MombackLine", &Linedesc)))
+		return E_FAIL;
+
+	return S_OK;
+}
+
+HRESULT CRaceBoss::SpawnTargetLineReverse(_float3 _vLinePosition)
+{
+	/* [ 라인을 생성한다. ] */
+	CMombackLine::DESC Linedesc = {};
+	Linedesc.vInitPos = _vLinePosition;
+	Linedesc.vScale = { 200.f, 4500.f, 1.f };
+	Linedesc.eLevelID = m_eLevelID;
+	Linedesc.vAngle = { D3DXToRadian(90.f), D3DXToRadian(180.f), 0.f };
+
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_MombackLine"),
+		m_eLevelID, L"Layer_MombackLine", &Linedesc)))
+		return E_FAIL;
+
+	return S_OK;
+}
+
+HRESULT CRaceBoss::SpawnMultipleTargetAim(_float _fTimedelta)
+{
+	/* [ 보스를 기준으로 아래에 무차별 폭격을 가한다 ] */
+	m_fBombTime += _fTimedelta;
+
+	// 랜덤 범위(보스기준)
+	_float3 CurruntPos = *m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+	_float minX = CurruntPos.x - 200.f;
+	_float maxX = CurruntPos.x + 200.f;
+	_float minZ = CurruntPos.z - 600.f;
+	_float maxZ = CurruntPos.z - 200.f;
+
+
+	/* [ 스마트하게 배치 ] */
+	if(m_fBombTime > 0.02f)
+	{
+		float x = GetRandomFloat(minX, maxX);
+		float z = GetRandomFloat(minZ, maxZ);
+		float y = 1.f;
+
+		SpawnTargetAim({x, y, z});
+		m_fBombTime = 0.f;
+	}
+
+	return S_OK;
+}
+
 HRESULT CRaceBoss::Set_BombRadius()
 {
-	//플레이어 기준으로 표적 위치를 랜덤으로 만든다.
-	m_pPlayerpos = static_cast<CTransform*>(m_pPlayer->Find_Component(TEXT("Com_Transform")))->Get_State(CTransform::STATE_POSITION);
-
 	//랜덤한 x좌표 20개를 만들어 저장한다.
 	for (_uint i = 0; i < 20; i++)
 	{
@@ -1032,6 +1085,127 @@ void CRaceBoss::Update_Skull(_float fTimeDelta)
 
 	if (m_bSkullActive)
 		m_pSkull->Update(*m_pTransformCom->Get_State(CTransform::STATE_POSITION) + m_vSkullPos, fTimeDelta);
+}
+
+void CRaceBoss::SpawnWaterParticle(_float fWaterSpeed, _float _fMin, _float _fMax)
+{
+	/* [ 물보라 파티클 01번 ] */
+	CPSystem::DESC WaterBoatDesc{};
+	WaterBoatDesc.vPosition = { 0.f, 0.f, 0.f };
+	WaterBoatDesc.szTextureTag = TEXT("WaterBoat");
+	WaterBoatDesc.iParticleNums = 150;
+	WaterBoatDesc.fMaxFrame = 1.f;
+	WaterBoatDesc.fSize = 1.0f;
+	WaterBoatDesc.fNum = fWaterSpeed;
+	WaterBoatDesc.fLifeTime = 10.f;
+	WaterBoatDesc.fMin = _fMin;
+	WaterBoatDesc.fMax = _fMax;
+
+	CGameObject* pObject = nullptr;
+	CGameObject** ppOut = &pObject;
+	if (FAILED(m_pGameInstance->Add_GameObjectReturn(LEVEL_STATIC, TEXT("Prototype_GameObject_PC_WaterBoat"),
+		m_eLevelID, L"Layer_Particle", ppOut, &WaterBoatDesc)))
+		return;
+
+	m_pWaterBoatEffect_01 = *ppOut;
+
+	/* [ 물보라 파티클 02번 ] */
+	CPSystem::DESC WaterBoatDesc2{};
+	WaterBoatDesc2.vPosition = { 0.f, 0.f, 0.f };
+	WaterBoatDesc2.szTextureTag = TEXT("WaterBoat");
+	WaterBoatDesc2.iParticleNums = 1500;
+	WaterBoatDesc2.fMaxFrame = 1.f;
+	WaterBoatDesc2.fSize = 0.3f;
+	WaterBoatDesc2.fNum = fWaterSpeed;
+	WaterBoatDesc2.fLifeTime = 10.f;
+	WaterBoatDesc2.fMin = _fMin;
+	WaterBoatDesc2.fMax = _fMax;
+
+	CGameObject* pObject2 = nullptr;
+	CGameObject** ppOut2 = &pObject2;
+	if (FAILED(m_pGameInstance->Add_GameObjectReturn(LEVEL_STATIC, TEXT("Prototype_GameObject_PC_WaterBoat"),
+		m_eLevelID, L"Layer_Particle", ppOut2, &WaterBoatDesc2)))
+		return;
+
+	m_pWaterBoatEffect_02 = *ppOut2;
+
+	/* [ 물보라 파티클 03번 ] */
+	CPSystem::DESC WaterBoatDesc3{};
+	WaterBoatDesc3.vPosition = { 0.f, 0.f, 0.f };
+	WaterBoatDesc3.szTextureTag = TEXT("WaterBoat");
+	WaterBoatDesc3.iParticleNums = 3000;
+	WaterBoatDesc3.fMaxFrame = 1.f;
+	WaterBoatDesc3.fSize = 0.2f;
+	WaterBoatDesc3.fNum = fWaterSpeed;
+	WaterBoatDesc3.fLifeTime = 10.f;
+	WaterBoatDesc3.fMin = _fMin;
+	WaterBoatDesc3.fMax = _fMax;
+
+	CGameObject* pObject3 = nullptr;
+	CGameObject** ppOut3 = &pObject2;
+	if (FAILED(m_pGameInstance->Add_GameObjectReturn(LEVEL_STATIC, TEXT("Prototype_GameObject_PC_WaterBoat"),
+		m_eLevelID, L"Layer_Particle", ppOut3, &WaterBoatDesc3)))
+		return;
+
+	m_pWaterBoatEffect_03 = *ppOut3;
+
+}
+void CRaceBoss::SpawnDieParticle(_float fWaterSpeed)
+{
+	/* [ 물보라 파티클 01번 ] */
+	CPSystem::DESC WaterBoatDesc{};
+	WaterBoatDesc.vPosition = { 0.f, 0.f, 0.f };
+	WaterBoatDesc.szTextureTag = TEXT("WaterBoat");
+	WaterBoatDesc.iParticleNums = 3500;
+	WaterBoatDesc.fMaxFrame = 1.f;
+	WaterBoatDesc.fSize = 1.f;
+	WaterBoatDesc.fNum = fWaterSpeed;
+	WaterBoatDesc.fLifeTime = 10.f;
+
+	CGameObject* pObject = nullptr;
+	CGameObject** ppOut = &pObject;
+	if (FAILED(m_pGameInstance->Add_GameObjectReturn(LEVEL_STATIC, TEXT("Prototype_GameObject_PC_RaceBossDie"),
+		m_eLevelID, L"Layer_Particle", ppOut, &WaterBoatDesc)))
+		return;
+
+	m_pWaterBoatEffect_01 = *ppOut;
+
+	/* [ 물보라 파티클 02번 ] */
+	CPSystem::DESC WaterBoatDesc2{};
+	WaterBoatDesc2.vPosition = { 0.f, 0.f, 0.f };
+	WaterBoatDesc2.szTextureTag = TEXT("WaterBoat");
+	WaterBoatDesc2.iParticleNums = 3500;
+	WaterBoatDesc2.fMaxFrame = 1.f;
+	WaterBoatDesc2.fSize = 0.5f;
+	WaterBoatDesc2.fNum = fWaterSpeed;
+	WaterBoatDesc2.fLifeTime = 10.f;
+
+	CGameObject* pObject2 = nullptr;
+	CGameObject** ppOut2 = &pObject2;
+	if (FAILED(m_pGameInstance->Add_GameObjectReturn(LEVEL_STATIC, TEXT("Prototype_GameObject_PC_RaceBossDie"),
+		m_eLevelID, L"Layer_Particle", ppOut2, &WaterBoatDesc2)))
+		return;
+
+	m_pWaterBoatEffect_02 = *ppOut2;
+
+	/* [ 물보라 파티클 03번 ] */
+	CPSystem::DESC WaterBoatDesc3{};
+	WaterBoatDesc3.vPosition = { 0.f, 0.f, 0.f };
+	WaterBoatDesc3.szTextureTag = TEXT("WaterBoat");
+	WaterBoatDesc3.iParticleNums = 3000;
+	WaterBoatDesc3.fMaxFrame = 1.f;
+	WaterBoatDesc3.fSize = 0.3f;
+	WaterBoatDesc3.fNum = fWaterSpeed;
+	WaterBoatDesc3.fLifeTime = 10.f;
+
+	CGameObject* pObject3 = nullptr;
+	CGameObject** ppOut3 = &pObject2;
+	if (FAILED(m_pGameInstance->Add_GameObjectReturn(LEVEL_STATIC, TEXT("Prototype_GameObject_PC_RaceBossDie"),
+		m_eLevelID, L"Layer_Particle", ppOut3, &WaterBoatDesc3)))
+		return;
+
+	m_pWaterBoatEffect_03 = *ppOut3;
+
 }
 
 void CRaceBoss::On_Hit(MUZZLEPOS HitPos, _int iDamage)
