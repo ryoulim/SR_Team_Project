@@ -1,5 +1,6 @@
 #include "WeaponUI.h"
 #include "GameInstance.h"
+#include <UI_Manager.h>
 
 CWeaponUI::CWeaponUI(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CUI{ pGraphic_Device }
@@ -57,6 +58,8 @@ void CWeaponUI::Priority_Update(_float fTimeDelta)
 
 EVENT CWeaponUI::Update(_float fTimeDelta)
 {
+	Update_WeaponSettings(); // 플레이어 키 인풋이 지금 Priority에 있으므로 Update에 위치해둠
+
 	return __super::Update(fTimeDelta);
 }
 
@@ -70,8 +73,30 @@ void CWeaponUI::Late_Update(_float fTimeDelta)
 
 HRESULT CWeaponUI::Render()
 {
-	
-	return __super::Render();
+	//for (auto& Weapon : CUI_Manager::Get_Instance()->Get_Weapon())
+	//{
+	//	if (FAILED(Weapon->Render()))
+	//		return E_FAIL;
+	//}
+
+	// 이전 무기(위쪽)
+	int prevIndex = (currentIndex - 1 + weaponList.size()) % weaponList.size();
+	RenderTexture(weaponList[prevIndex].texture, centerX, centerY - offsetY, scale = 1.0f, opacity = 0.5f);
+
+	// 선택된 무기(중앙)
+	RenderTexture(weaponList[currentIndex].texture, centerX, centerY, scale = 1.1f, opacity = 1.0f);
+
+	// 다음 무기(아래쪽)
+	int nextIndex = (currentIndex + 1) % weaponList.size();
+	RenderTexture(weaponList[nextIndex].texture, centerX, centerY + offsetY, scale = 1.0f, opacity = 0.5f);
+
+	return S_OK;
+}
+
+HRESULT CWeaponUI::Update_WeaponSettings()
+{
+
+	return S_OK;
 }
 
 CWeaponUI* CWeaponUI::Create(LPDIRECT3DDEVICE9 pGraphic_Device)

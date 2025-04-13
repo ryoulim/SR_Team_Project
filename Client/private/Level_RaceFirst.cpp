@@ -566,6 +566,8 @@ HRESULT CLevel_RaceFirst::Ready_Layer_RaceBoss(const _wstring& strLayerTag)
 			->Set_State(CTransform::STATE_POSITION, vInitPosition);
 		pBoss->Set_StartState(CRaceBoss::ENTRANCE);
 		pBoss->Add_Collider(); 
+		CUI_Manager::Get_Instance()->Set_RacingBoss_HP_Settings(pBoss->Get_HP(), 250);
+		CUI_Manager::Get_Instance()->Start_Rendering_BossHPUI();
 		return S_OK;
 	}
 
@@ -577,6 +579,11 @@ HRESULT CLevel_RaceFirst::Ready_Layer_RaceBoss(const _wstring& strLayerTag)
 	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_RaceBoss"),
 		LEVEL_STATIC, strLayerTag, &RaceBossDesc)))
 		return E_FAIL;
+
+	pBoss = static_cast<CRaceBoss*>(m_pGameInstance->Find_Object(LEVEL_STATIC, TEXT("Layer_RaceBoss")));
+	if (pBoss)
+		CUI_Manager::Get_Instance()->Set_RacingBoss_HP_Settings(pBoss->Get_HP(), 250);
+	CUI_Manager::Get_Instance()->Start_Rendering_BossHPUI();
 
 	static_cast<CPlayerOnBoat*>(GET_PLAYER)->Set_RaceBossTransform(
 		static_cast<CTransform*>(m_pGameInstance->Find_Object(LEVEL_STATIC, TEXT("Layer_RaceBoss"))->Find_Component(TEXT("Com_Transform"))));

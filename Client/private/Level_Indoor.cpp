@@ -419,11 +419,12 @@ HRESULT CLevel_Indoor::Ready_Layer_UI(const _wstring& strLayerTag)
 		Desc.eLevelID, strLayerTag, &Desc)))
 		return E_FAIL;
 
+	CUI_Manager::Get_Instance()->Initialize_GamePlayUI(CurLevel);
+	
 	if (FAILED(m_pGameInstance->Add_GameObject(Desc.eLevelID, TEXT("Prototype_GameObject_InteractPromptUI"),
 		Desc.eLevelID, strLayerTag, &Desc)))
 		return E_FAIL;
 
-	CUI_Manager::Get_Instance()->Initialize_GamePlayUI(CurLevel);
 
 	/* ui생성 순서 중요 */
 	return S_OK;

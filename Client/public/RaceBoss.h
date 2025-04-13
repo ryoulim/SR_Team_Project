@@ -179,6 +179,9 @@ private: // 보스 피격과 부위파괴 관련
 	void On_Hit(MUZZLEPOS HitPos, _int iDamage);
 
 public:
+	_int* Get_HP() { return &m_iHp; }
+
+public:
 	static CRaceBoss* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
 	virtual CGameObject* Clone(void* pArg) override;
 	virtual void Free() override;

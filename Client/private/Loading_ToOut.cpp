@@ -200,7 +200,7 @@ void CLoading_ToOut::Set_CutPosition(_float fTimeDelta)
 		m_fWaitForNextCut += fTimeDelta; // 다음 컷 재생 까지 조금 기다림
 		if (m_fWaitForNextCut >= 1.f)
 		{
-			m_fWaitForNextCut = 0.f; // 다 기다렸으면 변수 초기화 후 
+			m_fWaitForNextCut = 0.f; // 다 기다렸으면 변수6 초기화 후 
 			m_iCurCut = 2;			 // 다음 컷으로 이동	
 		}
 		break;

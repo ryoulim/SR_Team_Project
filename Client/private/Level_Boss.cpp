@@ -34,8 +34,6 @@ HRESULT CLevel_Boss::Initialize(CLevelData* pLevelData)
 	if (FAILED(Ready_Layer_Pawn(TEXT("Layer_Pawn"))))
 		return E_FAIL;
 
-	CUI_Manager::Get_Instance()->Initialize_Player();
-
 	if (FAILED(Ready_Layer_Monster(TEXT("Layer_Monster"))))
 		return E_FAIL;
 

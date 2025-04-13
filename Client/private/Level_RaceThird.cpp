@@ -216,6 +216,8 @@ HRESULT CLevel_RaceThird::Ready_Layer_RaceBoss(const _wstring& strLayerTag)
 			->Set_State(CTransform::STATE_POSITION, vInitPosition);
 		pBoss->Set_StartState(CRaceBoss::IDLE);
 		pBoss->Add_Collider();
+		CUI_Manager::Get_Instance()->Set_RacingBoss_HP_Settings(pBoss->Get_HP(), 250);
+		CUI_Manager::Get_Instance()->Start_Rendering_BossHPUI();
 		return S_OK;
 	}
 
