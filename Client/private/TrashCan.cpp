@@ -35,6 +35,18 @@ HRESULT CTrashCan::Initialize(void* pArg)
 
 	m_fTextureIdx = 0.f;
 
+    switch (rand() % 2)
+    {
+    case 0:
+        m_pBGM = m_pGameInstance->Get_Single_Sound("bullet_metal001");
+        break;
+    case 1:
+        m_pBGM = m_pGameInstance->Get_Single_Sound("bullet_metal003");
+        break;
+    }
+
+    m_pBGM->Set_Volume(0.2f);
+
 	return S_OK;
 }
 
@@ -97,6 +109,7 @@ void CTrashCan::On_Collision(_uint MyColliderID, _uint OtherColliderID)
 	if (CI_WEAPON(OtherColliderID))
 	{
         m_iHp -= 10;
+        m_pBGM->Play();
 	}
 }
 
@@ -273,4 +286,5 @@ CGameObject* CTrashCan::Clone(void* pArg)
 void CTrashCan::Free()
 {
 	__super::Free();
+    Safe_Release(m_pBGM);
 }

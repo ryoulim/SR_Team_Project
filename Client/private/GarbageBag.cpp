@@ -33,6 +33,18 @@ HRESULT CGarbageBag::Initialize(void* pArg)
 
 	m_fTextureIdx = 0.f;
 
+    switch (rand() % 2)
+    {
+    case 0:
+        m_pBGM = m_pGameInstance->Get_Single_Sound("bullet_dirt_001");
+        break;
+    case 1:
+        m_pBGM = m_pGameInstance->Get_Single_Sound("bullet_dirt_003");
+        break;
+    }
+
+    m_pBGM->Set_Volume(1.0f);
+
 	return S_OK;
 }
 
@@ -97,7 +109,7 @@ void CGarbageBag::On_Collision(_uint MyColliderID, _uint OtherColliderID)
     if (CI_WEAPON(OtherColliderID))
     {
         m_iHp -= 10;
-
+        m_pBGM->Play();
         /* 체력이 떨어지고, 일정 체력 이하가되면 텍스쳐 변경 */
         /* 0이하로 떨어지면 아이템 생성 후 사망 */
     }
@@ -258,4 +270,5 @@ CGameObject* CGarbageBag::Clone(void* pArg)
 void CGarbageBag::Free()
 {
 	__super::Free();
+    Safe_Release(m_pBGM);
 }

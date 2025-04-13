@@ -34,6 +34,18 @@ HRESULT CFirePlug::Initialize(void* pArg)
 
 	m_fTextureIdx = 0.f;
 
+    switch (rand() % 2)
+    {
+    case 0:
+        m_pBGM = m_pGameInstance->Get_Single_Sound("bullet_metal001");
+        break;
+    case 1:
+        m_pBGM = m_pGameInstance->Get_Single_Sound("bullet_metal003");
+        break;
+    }
+
+    m_pBGM->Set_Volume(0.4f);
+
 	return S_OK;
 }
 
@@ -97,8 +109,7 @@ void CFirePlug::On_Collision(_uint MyColliderID, _uint OtherColliderID)
     if (CI_WEAPON(OtherColliderID))
     {
         m_iHp -= 10;
-        /* 체력이 떨어지고, 일정 체력 이하가되면 텍스쳐 변경 */
-        /* 0이하로 떨어지면 하이드로펌프 발사 */
+        m_pBGM->Play();
     }
 }
 
@@ -231,4 +242,5 @@ CGameObject* CFirePlug::Clone(void* pArg)
 void CFirePlug::Free()
 {
 	__super::Free();
+    Safe_Release(m_pBGM);
 }

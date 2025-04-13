@@ -38,6 +38,8 @@ HRESULT CPicture::Initialize(void* pArg)
         m_pBGM = m_pGameInstance->Get_Single_Sound("bullet_glass003");
         break;
     }
+
+    m_pBGM->Set_Volume(0.2f);
 	return S_OK;
 }
 

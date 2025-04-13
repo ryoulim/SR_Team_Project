@@ -38,6 +38,11 @@ HRESULT CGenerator::Initialize(void* pArg)
 		return E_FAIL;
 
     m_fTextureIdx = 0.f;
+    m_pSoundCom->SetVolume(0.2f);
+    m_pSoundCom->Play("engine_loop");
+
+    m_pSoundCom->Set3DState("engine_loop", 0.f, 500.f);
+
 	return S_OK;
 }
 
@@ -56,6 +61,8 @@ EVENT CGenerator::Update(_float fTimeDelta)
         {
             m_bBroken = true;
             m_fTextureIdx = 16.f;
+            m_pSoundCom->Stop("engine_loop");
+            m_pSoundCom->Play("engine_off");
             Start_CutScene();
         }
     }
@@ -157,6 +164,10 @@ HRESULT CGenerator::Ready_Components(void* pArg)
                     return E_FAIL;
             }
         }
+
+        if (FAILED(__super::Add_Component(m_eLevelID, TEXT("Prototype_Component_Sound_Generator"),
+            TEXT("Com_Sound"), reinterpret_cast<CComponent**>(&m_pSoundCom))))
+            return E_FAIL;
     }
     return S_OK;
 }
@@ -277,4 +288,5 @@ CGameObject* CGenerator::Clone(void* pArg)
 void CGenerator::Free()
 {
 	__super::Free();
+    Safe_Release(m_pSoundCom);
 }

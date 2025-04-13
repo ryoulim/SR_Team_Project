@@ -714,11 +714,12 @@ HRESULT CLoader::Loding_For_Static()
 #pragma endregion
 
 #pragma region 사운드
+	ADD_SOUND(Player, "../Bin/Resources/Sounds/Player/");
 	ADD_SOUND(LoverBoy, "../Bin/Resources/Sounds/Weapons/Loverboy/");
 	ADD_SOUND(Dispenser, "../Bin/Resources/Sounds/Weapons/Dispenser/");
 	ADD_SOUND(Explorsion, "../Bin/Resources/Sounds/Explorsion/");
 	/* 나중에 인도어로 반드시 반드시 반드시 옮기시오 */
-	m_pGameInstance->LoadSound("../Bin/Resources/Sounds/Door/");
+	m_pGameInstance->LoadSound("../Bin/Resources/Sounds/Interactive_Object/Door/");
 #pragma endregion
 
 
@@ -890,7 +891,7 @@ HRESULT CLoader::Loading_For_GamePlay()
 #pragma region SOUND
 	lstrcpy(m_szLoadingText, TEXT("사운드을(를) 로딩중입니다.")); 
 	ADD_SOUND(Ttakkeun_i, "../Bin/Resources/Sounds/Boss/");
-	ADD_SOUND(Bridge, "../Bin/Resources/Sounds/Bridge/");
+	ADD_SOUND(Bridge, "../Bin/Resources/Sounds/Interactive_Object/Bridge/");
 	m_pGameInstance->LoadSound("../Bin/Resources/Sounds/Env/", false, true);
 
 #pragma endregion
@@ -1296,8 +1297,6 @@ HRESULT CLoader::Loading_For_Indoor()
 	ADD_TEXTURE(Item_Armor, "../Bin/Resources/Textures/Item/Armor%d.PNG", 2);
 	ADD_TEXTURE(Item_Cardkey, "../Bin/Resources/Textures/Item/CardKey.PNG", 1);
 
-
-
 	lstrcpy(m_szLoadingText, TEXT("모델을(를) 로딩중입니다."));
 
 	lstrcpy(m_szLoadingText, TEXT("원형객체을(를) 로딩중입니다."));
@@ -1367,7 +1366,7 @@ HRESULT CLoader::Loading_For_Indoor()
 
 	lstrcpy(m_szLoadingText, TEXT("사운드을(를) 로딩중입니다."));
 
-	ADD_SOUND(DoorSecurity, "../Bin/Resources/Sounds/DoorSecurity/");
+	ADD_SOUND(DoorSecurity, "../Bin/Resources/Sounds/Interactive_Object/DoorSecurity/");
 
 	lstrcpy(m_szLoadingText, TEXT("데이터를 읽어들이는 중입니다."));
 
@@ -1501,7 +1500,11 @@ HRESULT CLoader::Loading_For_Outdoor()
 
 	lstrcpy(m_szLoadingText, TEXT("사운드을(를) 로딩중입니다."));
 
-	m_pGameInstance->LoadSound("../Bin/Resources/Sounds/Picture/");
+	m_pGameInstance->LoadSound("../Bin/Resources/Sounds/Interactive_Object/Picture/");
+	m_pGameInstance->LoadSound("../Bin/Resources/Sounds/Interactive_Object/TrashCan,FirePlug/");
+	m_pGameInstance->LoadSound("../Bin/Resources/Sounds/Interactive_Object/GarbageBag/");
+	m_pGameInstance->LoadSound("../Bin/Resources/Sounds/Interactive_Object/Hydropump/", true, true);
+	ADD_SOUND_EX(Generator, "../Bin/Resources/Sounds/Interactive_Object/Generator", FALSE, TRUE, FALSE);
 
 	lstrcpy(m_szLoadingText, TEXT("데이터를 읽어들이는 중입니다."));
 

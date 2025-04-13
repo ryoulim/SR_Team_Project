@@ -51,6 +51,19 @@ HRESULT CHydroPump::Initialize(void* pArg)
 	vPosition.z -= vCameraDir.z * 0.1f;
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, vPosition);
 
+	switch (rand() % 2)
+	{
+	case 0:
+		m_pBGM = m_pGameInstance->Get_Single_Sound("Water_FountainLoop01");
+		break;
+	case 1:
+		m_pBGM = m_pGameInstance->Get_Single_Sound("Water_FountainLoop02");
+		break;
+	}
+
+	m_pBGM->Set_Volume(0.4f);
+	m_pBGM->Play();
+
 	return S_OK;
 }
 
@@ -63,7 +76,11 @@ EVENT CHydroPump::Update(_float fTimeDelta)
 {
 	m_fTimeAcc += fTimeDelta;
 	if (m_fDeadTime <= m_fTimeAcc)
+	{
+		m_pBGM->Stop();
 		return EVN_DEAD;
+	}
+
 
 	FrameUpdate(fTimeDelta, m_fAnimationMaxFrame, m_fAnimationSpeed, true);
 
@@ -110,4 +127,5 @@ void CHydroPump::Free()
 {
 	__super::Free();
 	Safe_Release(m_pCameraManager);
+	Safe_Release(m_pBGM);
 }

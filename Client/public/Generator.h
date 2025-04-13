@@ -37,6 +37,9 @@ private:
 	void Start_CutScene();
 
 private:
+	CSoundController* m_pSoundCom = { nullptr };
+
+private:
 	_float m_fMaxFrame = {};
 	_float m_fMinFrame = {};
 	_bool  m_bUpFrame = { true };
