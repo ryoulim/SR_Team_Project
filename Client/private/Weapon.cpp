@@ -151,6 +151,7 @@ void CWeapon::Create_Bullet()
 {
 	if (m_pPickedCollider)
 	{
+		CAMERA_MANAGER->StartRecoil();
 		m_pPickedCollider->Get_Owner()->On_Collision(m_iPickedColliderID, m_tAmmoInfo.eType);
 	}
 }

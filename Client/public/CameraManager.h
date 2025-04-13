@@ -33,7 +33,7 @@ public:
 	/// <param name="fShakeFreqPos"> 이동 진동 주파수(클수록 빨라짐) </param>
 	/// <param name="fShakeFreqRot"> 회전 진동 주파수(클수록 빨라짐)</param>
 	virtual void Shake_Camera(_float fIntensity = 1.f, _float fDuration = 1.f, _float fShakeFreqPos = 100.f, _float fShakeFreqRot = 40.f);
-	void StartRecoil(_float fIntensity = 1.f, _float fDuration = 1.f);
+	void StartRecoil(_float fIntensity = 0.4f, _float fDuration = 0.04f);
 	void Zoom(_float fFOV, _float Time);
 	void Set_Mouse_Fix(_bool isFixMode);
 
@@ -43,10 +43,10 @@ public:
 	CGameObject* Get_Camera(CCameraManager::ID _ID) {
 		return static_cast<CGameObject*>(m_Cameras[_ID]);
 	}
-	void Switch(CCameraManager::ID _ID);
+	void Switch(CCameraManager::ID _ID); 
 	CCameraManager::ID Get_CurCameraID() { return m_eID; }
-
 private:
+
 	CGameInstance* m_pGameInstance{ nullptr };
 	CCameraManager::ID m_eID{ FPS };
 	vector<CCamera*> m_Cameras;

@@ -613,6 +613,7 @@ void CPlayer::On_Hit(_int iDamage)
 
 	m_tInfo.iArmor -= iDamage;
 	FX_MGR->SpawnHitEffect(m_eLevelID);
+	CAMERA_MANAGER->Shake_Camera(0.5f, 0.25f, 200.f, 80.f);
 	CUI_Manager::Get_Instance()->Set_Face(CPortrait::PORTRAIT_ANGER);
 
 	if (m_tInfo.iArmor <= 0)

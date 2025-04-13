@@ -108,7 +108,7 @@ void CCameraManager::Shake_Camera(_float fIntensity, _float fDuration, _float fS
 		break;
 	default:
 		break;
-	}
+	}         
 }
 
 void CCameraManager::StartRecoil(_float fIntensity, _float fDuration)
