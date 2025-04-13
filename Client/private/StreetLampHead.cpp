@@ -34,14 +34,6 @@ HRESULT CStreetLampHead::Initialize(void* pArg)
 
 void CStreetLampHead::Priority_Update(_float fTimeDelta)
 {
-	auto pPlayer = GET_PLAYER;
-	_float fPlayerPosZ = static_cast<CTransform*>(pPlayer->Find_Component(TEXT("Com_Transform")))->Get_State(CTransform::STATE_POSITION)->z;
-	_float fPosZ = m_pTransformCom->Get_State(CTransform::STATE_POSITION)->z;
-
-	//거리차이 2000나면 불 꺼!
-	if (fPlayerPosZ - fPosZ > 2000.f)
-		m_bLightOn = false;
-
 	__super::Priority_Update(fTimeDelta);
 }
 
@@ -82,14 +74,15 @@ void CStreetLampHead::Setting_LightDesc()
 	m_LightDesc.Attenuation1 = 0.001f;
 
 	// 기본 설정
-	m_LightDesc.Diffuse = D3DXCOLOR(1.f, 1.f, 1.f, 1.f);
-	m_LightDesc.Ambient = D3DXCOLOR(1.f, 1.f, 1.f, 1.f);
+	m_LightDesc.Diffuse = D3DXCOLOR(1.f, 0.8f, 0.6f, 1.f);
+	m_LightDesc.Ambient = D3DXCOLOR(0.4f, 0.3f, 0.2f, 1.f);
 #pragma endregion
 
 #pragma region 재질 설정
 	D3DMATERIAL9		MtrlDesc{};
 	MtrlDesc.Diffuse = D3DXCOLOR(1.f, 1.f, 1.f, 1.f);
-	MtrlDesc.Ambient = D3DXCOLOR(0.3f, 0.3f, 0.3f, 1.f);
+	MtrlDesc.Ambient = D3DXCOLOR(0.2f, 0.2f, 0.2f, 1.f);
+	MtrlDesc.Emissive = D3DXCOLOR(0.3f, 0.3f, 0.3f, 0.3f);
 #pragma endregion
 
 	// 장치에 재질을 설정한다
@@ -106,7 +99,7 @@ void CStreetLampHead::Turn_on_Light(_uint LightNumber)
 #pragma endregion
 
 	// n번 광원을 켠다
-	m_pGraphic_Device->LightEnable(LightNumber, true);
+	//m_pGraphic_Device->LightEnable(LightNumber, true);
 }
 
 CStreetLampHead* CStreetLampHead::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
