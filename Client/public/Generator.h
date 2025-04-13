@@ -42,6 +42,7 @@ private:
 private:
 	_float m_fMaxFrame = {};
 	_float m_fMinFrame = {};
+	_float m_fBrokenTimeAcc = {};
 	_bool  m_bUpFrame = { true };
 	_bool  m_bBroken = { false };
 	_bool m_bCutSceneEnd1{ false };

@@ -38,10 +38,10 @@ HRESULT CGenerator::Initialize(void* pArg)
 		return E_FAIL;
 
     m_fTextureIdx = 0.f;
-    m_pSoundCom->SetVolume(0.2f);
-    m_pSoundCom->Play("engine_loop");
+    m_pSoundCom->SetVolume(0.1f);
+    m_pSoundCom->Set3DState("engine_loop", 0.f, 2000.f);
 
-    m_pSoundCom->Set3DState("engine_loop", 0.f, 500.f);
+    m_pSoundCom->Play("engine_loop");
 
 	return S_OK;
 }
@@ -53,6 +53,8 @@ void CGenerator::Priority_Update(_float fTimeDelta)
 
 EVENT CGenerator::Update(_float fTimeDelta)
 {
+    m_pSoundCom->Update3DPosition("engine_loop", *m_pTransformCom->Get_State(CTransform::STATE_POSITION));
+
     if (!m_bBroken)
     {
         Move_Frame(fTimeDelta);
@@ -67,7 +69,15 @@ EVENT CGenerator::Update(_float fTimeDelta)
         }
     }
     else
+    {
         Im_Broken(fTimeDelta);
+        m_fBrokenTimeAcc += fTimeDelta;
+        if (1.5f <= m_fBrokenTimeAcc)
+            m_pSoundCom->Stop("engine_off");
+    }
+
+
+
 
     if (m_bCutSceneEnd1)
     {

@@ -61,6 +61,7 @@ HRESULT CHydroPump::Initialize(void* pArg)
 		break;
 	}
 
+	m_pBGM->Set3DState(0.f, 500.f);
 	m_pBGM->Set_Volume(0.4f);
 	m_pBGM->Play();
 
@@ -74,6 +75,8 @@ void CHydroPump::Priority_Update(_float fTimeDelta)
 
 EVENT CHydroPump::Update(_float fTimeDelta)
 {
+	m_pBGM->Update3DPosition(*m_pTransformCom->Get_State(CTransform::STATE_POSITION));
+
 	m_fTimeAcc += fTimeDelta;
 	if (m_fDeadTime <= m_fTimeAcc)
 	{

@@ -1504,7 +1504,7 @@ HRESULT CLoader::Loading_For_Outdoor()
 	m_pGameInstance->LoadSound("../Bin/Resources/Sounds/Interactive_Object/TrashCan,FirePlug/");
 	m_pGameInstance->LoadSound("../Bin/Resources/Sounds/Interactive_Object/GarbageBag/");
 	m_pGameInstance->LoadSound("../Bin/Resources/Sounds/Interactive_Object/Hydropump/", true, true);
-	ADD_SOUND_EX(Generator, "../Bin/Resources/Sounds/Interactive_Object/Generator", FALSE, TRUE, FALSE);
+	ADD_SOUND_EX(Generator, "../Bin/Resources/Sounds/Interactive_Object/Generator", TRUE, TRUE, FALSE);
 
 	lstrcpy(m_szLoadingText, TEXT("데이터를 읽어들이는 중입니다."));
 
