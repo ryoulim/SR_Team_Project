@@ -50,6 +50,7 @@ HRESULT CLevel_RaceFirst::Initialize(CLevelData* pLevelData)
 void CLevel_RaceFirst::Update(_float fTimeDelta)
 {
 	Check_Collision();
+	Manage_Light();
 
 	if (m_iNextLevel)
 	{
@@ -245,6 +246,10 @@ HRESULT CLevel_RaceFirst::Ready_Layer_Statue(const _wstring& strLayerTag)
 		LEVEL_RACEFIRST, strLayerTag, &StreetLampDesc)))
 		return E_FAIL;
 
+	//<플레이어와의 거리, 조명 구조체 번호>로 관리하는데 
+	//처음엔 일단 본인의 위치z값을 넣어준다.
+	m_LightData.push_back(new LIGHTDATA{StreetLampDesc.vInitPos.z, StreetLampDesc.iLightNumber});
+
 	StreetLampDesc.vAngle = _float3(D3DXToRadian(0.f), D3DXToRadian(0.f), D3DXToRadian(0.f));
 	StreetLampDesc.vInitPos = _float3(900.f, 180.f, 1600.f);
 	StreetLampDesc.vScale = _float3(15.f, 40.f, 0.f);
@@ -263,6 +268,8 @@ HRESULT CLevel_RaceFirst::Ready_Layer_Statue(const _wstring& strLayerTag)
 	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_RACEFIRST, TEXT("Prototype_GameObject_StreetLampBody"),
 		LEVEL_RACEFIRST, strLayerTag, &StreetLampDesc)))
 		return E_FAIL;
+
+	m_LightData.push_back(new LIGHTDATA{ StreetLampDesc.vInitPos.z, StreetLampDesc.iLightNumber });
 
 	StreetLampDesc.vAngle = _float3(D3DXToRadian(0.f), D3DXToRadian(0.f), D3DXToRadian(0.f));
 	StreetLampDesc.vInitPos = _float3(0.f, 180.f, 2000.f);
@@ -283,6 +290,8 @@ HRESULT CLevel_RaceFirst::Ready_Layer_Statue(const _wstring& strLayerTag)
 		LEVEL_RACEFIRST, strLayerTag, &StreetLampDesc)))
 		return E_FAIL;
 
+	m_LightData.push_back(new LIGHTDATA{ StreetLampDesc.vInitPos.z, StreetLampDesc.iLightNumber });
+
 	StreetLampDesc.vAngle = _float3(D3DXToRadian(0.f), D3DXToRadian(0.f), D3DXToRadian(0.f));
 	StreetLampDesc.vInitPos = _float3(900.f, 180.f, 2500.f);
 	StreetLampDesc.vScale = _float3(15.f, 40.f, 0.f);
@@ -301,6 +310,8 @@ HRESULT CLevel_RaceFirst::Ready_Layer_Statue(const _wstring& strLayerTag)
 	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_RACEFIRST, TEXT("Prototype_GameObject_StreetLampBody"),
 		LEVEL_RACEFIRST, strLayerTag, &StreetLampDesc)))
 		return E_FAIL;
+
+	m_LightData.push_back(new LIGHTDATA{ StreetLampDesc.vInitPos.z, StreetLampDesc.iLightNumber });
 
 	StreetLampDesc.vAngle = _float3(D3DXToRadian(0.f), D3DXToRadian(0.f), D3DXToRadian(0.f));
 	StreetLampDesc.vInitPos = _float3(150.f, 180.f, 3300.f);
@@ -321,6 +332,8 @@ HRESULT CLevel_RaceFirst::Ready_Layer_Statue(const _wstring& strLayerTag)
 		LEVEL_RACEFIRST, strLayerTag, &StreetLampDesc)))
 		return E_FAIL;
 
+	m_LightData.push_back(new LIGHTDATA{ StreetLampDesc.vInitPos.z, StreetLampDesc.iLightNumber });
+
 	StreetLampDesc.vAngle = _float3(D3DXToRadian(0.f), D3DXToRadian(0.f), D3DXToRadian(0.f));
 	StreetLampDesc.vInitPos = _float3(900.f, 180.f, 3800.f);
 	StreetLampDesc.vScale = _float3(15.f, 40.f, 0.f);
@@ -339,6 +352,8 @@ HRESULT CLevel_RaceFirst::Ready_Layer_Statue(const _wstring& strLayerTag)
 	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_RACEFIRST, TEXT("Prototype_GameObject_StreetLampBody"),
 		LEVEL_RACEFIRST, strLayerTag, &StreetLampDesc)))
 		return E_FAIL;
+
+	m_LightData.push_back(new LIGHTDATA{ StreetLampDesc.vInitPos.z, StreetLampDesc.iLightNumber });
 
 	StreetLampDesc.vAngle = _float3(D3DXToRadian(0.f), D3DXToRadian(0.f), D3DXToRadian(0.f));
 	StreetLampDesc.vInitPos = _float3(0.f, 180.f, 4800.f);
@@ -359,6 +374,8 @@ HRESULT CLevel_RaceFirst::Ready_Layer_Statue(const _wstring& strLayerTag)
 		LEVEL_RACEFIRST, strLayerTag, &StreetLampDesc)))
 		return E_FAIL;
 
+	m_LightData.push_back(new LIGHTDATA{ StreetLampDesc.vInitPos.z, StreetLampDesc.iLightNumber });
+
 	StreetLampDesc.vAngle = _float3(D3DXToRadian(0.f), D3DXToRadian(0.f), D3DXToRadian(0.f));
 	StreetLampDesc.vInitPos = _float3(900.f, 180.f, 5400.f);
 	StreetLampDesc.vScale = _float3(15.f, 40.f, 0.f);
@@ -377,6 +394,8 @@ HRESULT CLevel_RaceFirst::Ready_Layer_Statue(const _wstring& strLayerTag)
 	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_RACEFIRST, TEXT("Prototype_GameObject_StreetLampBody"),
 		LEVEL_RACEFIRST, strLayerTag, &StreetLampDesc)))
 		return E_FAIL;
+
+	m_LightData.push_back(new LIGHTDATA{ StreetLampDesc.vInitPos.z, StreetLampDesc.iLightNumber });
 
 	StreetLampDesc.vAngle = _float3(D3DXToRadian(0.f), D3DXToRadian(0.f), D3DXToRadian(0.f));
 	StreetLampDesc.vInitPos = _float3(100.f, 180.f, 6300.f);
@@ -397,8 +416,10 @@ HRESULT CLevel_RaceFirst::Ready_Layer_Statue(const _wstring& strLayerTag)
 		LEVEL_RACEFIRST, strLayerTag, &StreetLampDesc)))
 		return E_FAIL;
 
+	m_LightData.push_back(new LIGHTDATA{ StreetLampDesc.vInitPos.z, StreetLampDesc.iLightNumber });
+
 	StreetLampDesc.vAngle = _float3(D3DXToRadian(0.f), D3DXToRadian(0.f), D3DXToRadian(0.f));
-	StreetLampDesc.vInitPos = _float3(0.f, 180.f, 7500.f);
+	StreetLampDesc.vInitPos = _float3(0.f, 180.f, 7400.f);
 	StreetLampDesc.vScale = _float3(15.f, 40.f, 0.f);
 	StreetLampDesc.eLevelID = LEVEL_RACEFIRST;
 	StreetLampDesc.iLightNumber = 9;
@@ -408,7 +429,7 @@ HRESULT CLevel_RaceFirst::Ready_Layer_Statue(const _wstring& strLayerTag)
 		return E_FAIL;
 
 	StreetLampDesc.vAngle = _float3(D3DXToRadian(0.f), D3DXToRadian(0.f), D3DXToRadian(0.f));
-	StreetLampDesc.vInitPos = _float3(0.f, 80.f, 7500.f);
+	StreetLampDesc.vInitPos = _float3(0.f, 80.f, 7400.f);
 	StreetLampDesc.vScale = _float3(15.f, 160.f, 0.f);
 	StreetLampDesc.eLevelID = LEVEL_RACEFIRST;
 
@@ -416,7 +437,9 @@ HRESULT CLevel_RaceFirst::Ready_Layer_Statue(const _wstring& strLayerTag)
 		LEVEL_RACEFIRST, strLayerTag, &StreetLampDesc)))
 		return E_FAIL;
 
-	/*StreetLampDesc.vAngle = _float3(D3DXToRadian(0.f), D3DXToRadian(0.f), D3DXToRadian(0.f));
+	m_LightData.push_back(new LIGHTDATA{ StreetLampDesc.vInitPos.z, StreetLampDesc.iLightNumber });
+
+	StreetLampDesc.vAngle = _float3(D3DXToRadian(0.f), D3DXToRadian(0.f), D3DXToRadian(0.f));
 	StreetLampDesc.vInitPos = _float3(900.f, 180.f, 7500.f);
 	StreetLampDesc.vScale = _float3(15.f, 40.f, 0.f);
 	StreetLampDesc.eLevelID = LEVEL_RACEFIRST;
@@ -435,8 +458,10 @@ HRESULT CLevel_RaceFirst::Ready_Layer_Statue(const _wstring& strLayerTag)
 		LEVEL_RACEFIRST, strLayerTag, &StreetLampDesc)))
 		return E_FAIL;
 
+	m_LightData.push_back(new LIGHTDATA{ StreetLampDesc.vInitPos.z, StreetLampDesc.iLightNumber });
+
 	StreetLampDesc.vAngle = _float3(D3DXToRadian(0.f), D3DXToRadian(0.f), D3DXToRadian(0.f));
-	StreetLampDesc.vInitPos = _float3(0.f, 180.f, 9500.f);
+	StreetLampDesc.vInitPos = _float3(0.f, 180.f, 9200.f);
 	StreetLampDesc.vScale = _float3(15.f, 40.f, 0.f);
 	StreetLampDesc.eLevelID = LEVEL_RACEFIRST;
 	StreetLampDesc.iLightNumber = 11;
@@ -454,6 +479,8 @@ HRESULT CLevel_RaceFirst::Ready_Layer_Statue(const _wstring& strLayerTag)
 		LEVEL_RACEFIRST, strLayerTag, &StreetLampDesc)))
 		return E_FAIL;
 
+	m_LightData.push_back(new LIGHTDATA{ StreetLampDesc.vInitPos.z, StreetLampDesc.iLightNumber });
+
 	StreetLampDesc.vAngle = _float3(D3DXToRadian(0.f), D3DXToRadian(0.f), D3DXToRadian(0.f));
 	StreetLampDesc.vInitPos = _float3(900.f, 180.f, 9500.f);
 	StreetLampDesc.vScale = _float3(15.f, 40.f, 0.f);
@@ -465,13 +492,15 @@ HRESULT CLevel_RaceFirst::Ready_Layer_Statue(const _wstring& strLayerTag)
 		return E_FAIL;
 
 	StreetLampDesc.vAngle = _float3(D3DXToRadian(0.f), D3DXToRadian(0.f), D3DXToRadian(0.f));
-	StreetLampDesc.vInitPos = _float3(900.f, 80.f, 9200.f);
+	StreetLampDesc.vInitPos = _float3(900.f, 80.f, 9500.f);
 	StreetLampDesc.vScale = _float3(15.f, 160.f, 0.f);
 	StreetLampDesc.eLevelID = LEVEL_RACEFIRST;
 
 	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_RACEFIRST, TEXT("Prototype_GameObject_StreetLampBody"),
 		LEVEL_RACEFIRST, strLayerTag, &StreetLampDesc)))
-		return E_FAIL;*/
+		return E_FAIL;
+
+	m_LightData.push_back(new LIGHTDATA{ StreetLampDesc.vInitPos.z, StreetLampDesc.iLightNumber });
 #pragma endregion
 
 	return S_OK;
@@ -643,6 +672,47 @@ void CLevel_RaceFirst::Check_Collision()
 	m_pGameInstance->Intersect(CG_MONSTER, CG_PBULLET);
 }
 
+void CLevel_RaceFirst::Manage_Light()
+{
+	if (m_LightData.empty())
+		return;
+
+	//플레이어의 위치 z값만 받아옴
+	auto pPlayer = GET_PLAYER;
+	_float fPlayerPosZ = GET_PLAYER_TRANSFORM->Get_State(CTransform::STATE_POSITION)->z;
+
+	_uint iCount = 0;
+	//한 번에 7개 까지만 켠다
+	for (auto iter = m_LightData.begin(); iter != m_LightData.end(); ++iter)
+	{
+		if (iCount == 7)
+			break;
+
+		m_pGraphic_Device->LightEnable((*iter)->iLightNumber, TRUE);
+		++iCount;
+	}
+		
+
+	//제거할 데이터를 담기 위한 임시적인 변수
+	LIGHTDATA* pLightData = nullptr;
+
+	//맨 앞에 있는 조명과 플레이어의 거리가 일정 이상 떨어지면
+	if (fPlayerPosZ - m_LightData.front()->fDistanceToPlayer > 3000.f)
+	{
+		//임시적인 변수에 담는다.
+		pLightData = m_LightData.front();
+
+		//조명을 끈다.
+		m_pGraphic_Device->LightEnable(pLightData->iLightNumber, false);
+		
+		//맨 앞에 있는 데이터를 제거한다.
+		m_LightData.pop_front();
+
+		//할당 해제 한다.
+		Safe_Delete(pLightData);
+	}
+}
+
 CLevel_RaceFirst* CLevel_RaceFirst::Create(LPDIRECT3DDEVICE9 pGraphic_Device, class CLevelData* pLevelData)
 {
 	CLevel_RaceFirst* pInstance = new CLevel_RaceFirst(pGraphic_Device);
@@ -659,6 +729,10 @@ CLevel_RaceFirst* CLevel_RaceFirst::Create(LPDIRECT3DDEVICE9 pGraphic_Device, cl
 void CLevel_RaceFirst::Free()
 {
 	__super::Free();
+
+	for (auto& pLight : m_LightData)
+		Safe_Delete(pLight);
+	m_LightData.clear();
 
 	m_pGraphic_Device->SetRenderState(D3DRS_LIGHTING, FALSE);
 }
