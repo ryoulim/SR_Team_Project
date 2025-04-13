@@ -91,7 +91,7 @@ public:
 	virtual void Exit() override
 	{
 		m_fTime = 0.f;
-		m_pOwner->Set_State(CRaceBoss::READYBOMB);
+		m_pOwner->Set_State(CRaceBoss::IDLE);
 	}
 
 private:
@@ -147,14 +147,14 @@ public:
 		if (m_fTime > 1.f)
 		{
 			/* [ SHOTREADY, READYBOMB, MOMBACKREADY ] */
-			int iRandomPattern = GetRandomInt(0 , 10);
+			int iRandomPattern = GetRandomInt(0 , 100);
 
-			if(iRandomPattern > 4)
-				m_pOwner->Set_State(CRaceBoss::SHOTREADY);
-			else if (iRandomPattern > 8)
-				m_pOwner->Set_State(CRaceBoss::READYBOMB);
-			if (iRandomPattern > 11)
+			if (iRandomPattern > 70)
 				m_pOwner->Set_State(CRaceBoss::MOMBACKREADY);
+			else if (iRandomPattern > 40)
+				m_pOwner->Set_State(CRaceBoss::READYBOMB);
+			else
+				m_pOwner->Set_State(CRaceBoss::SHOTREADY);
 
 			m_fTime = 0.f;
 		}
@@ -260,15 +260,15 @@ public:
 
 	virtual void Exit() override
 	{
-		if (m_iHeadBulletCount > 4)
-		{
+		//if (m_iHeadBulletCount > 4)
+		//{
 			//·£´ýÇÑ ÆÐÅÏÀ¸·Î ÀÌ¾îÁü
 			m_pOwner->Set_State(CRaceBoss::IDLE);
 			m_pOwner->Set_HeadBulletCountZero();
-		}
+		//}
 
-		else
-			m_pOwner->Set_State(CRaceBoss::SHOTHEADBULLET);
+	/*	else
+			m_pOwner->Set_State(CRaceBoss::SHOTHEADBULLET);*/
 
 		m_iHeadBulletCount = 0;
 	}
@@ -817,6 +817,8 @@ public:
 			m_pOwner->m_pWaterBoatEffect_03 = nullptr;
 		}
 	}
+private:
+	_bool m_bDoOnce{};
 };
 
 class CRBState_CloseToPlayer final : public CRBState
