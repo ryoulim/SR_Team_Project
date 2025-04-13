@@ -79,6 +79,16 @@ HRESULT CLoading_ToBoss::Render_Background()
 	return S_OK;
 }
 
+HRESULT CLoading_ToBoss::Render_WideMoniter()
+{
+	return E_NOTIMPL;
+}
+
+HRESULT CLoading_ToBoss::Render_SmallMoniter()
+{
+	return E_NOTIMPL;
+}
+
 CLoading_ToBoss* CLoading_ToBoss::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 {
 	CLoading_ToBoss* pInstance = new CLoading_ToBoss(pGraphic_Device);

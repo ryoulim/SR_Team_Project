@@ -62,12 +62,15 @@ EVENT CWeaponUI::Update(_float fTimeDelta)
 
 void CWeaponUI::Late_Update(_float fTimeDelta)
 {
-	__super::Late_Update(fTimeDelta);
+	if (m_bRender)
+	{
+		__super::Late_Update(fTimeDelta);
+	}
 }
 
 HRESULT CWeaponUI::Render()
 {
-
+	
 	return __super::Render();
 }
 
