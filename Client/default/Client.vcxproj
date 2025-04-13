@@ -282,6 +282,7 @@
     <ClInclude Include="..\public\RaceBoss.h" />
     <ClInclude Include="..\public\RaceBossBomb.h" />
     <ClInclude Include="..\public\RaceBossBullet.h" />
+    <ClInclude Include="..\public\RaceBossRazer.h" />
     <ClInclude Include="..\public\RaceCylinder.h" />
     <ClInclude Include="..\public\RaceGate.h" />
     <ClInclude Include="..\public\RaceLandscape.h" />
@@ -289,6 +290,7 @@
     <ClInclude Include="..\public\RaceTerrain.h" />
     <ClInclude Include="..\public\RacingPanel.h" />
     <ClInclude Include="..\public\Rain.h" />
+    <ClInclude Include="..\public\RazerRadius.h" />
     <ClInclude Include="..\public\RBState.h" />
     <ClInclude Include="..\public\Rock.h" />
     <ClInclude Include="..\public\ScreenDust.h" />
@@ -460,6 +462,7 @@
     <ClCompile Include="..\private\RaceBoss.cpp" />
     <ClCompile Include="..\private\RaceBossBomb.cpp" />
     <ClCompile Include="..\private\RaceBossBullet.cpp" />
+    <ClCompile Include="..\private\RaceBossRazer.cpp" />
     <ClCompile Include="..\private\RaceCylinder.cpp" />
     <ClCompile Include="..\private\RaceGate.cpp" />
     <ClCompile Include="..\private\RaceLandscape.cpp" />
@@ -467,6 +470,7 @@
     <ClCompile Include="..\private\RaceTerrain.cpp" />
     <ClCompile Include="..\private\RacingPanel.cpp" />
     <ClCompile Include="..\private\Rain.cpp" />
+    <ClCompile Include="..\private\RazerRadius.cpp" />
     <ClCompile Include="..\private\Rock.cpp" />
     <ClCompile Include="..\private\ScreenDust.cpp" />
     <ClCompile Include="..\private\ScreenSprite.cpp" />

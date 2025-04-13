@@ -317,6 +317,32 @@ void CRaceBoss::Bombing(_float fTimeDelta)
 	//Fire_Bomb4();
 }
 
+HRESULT CRaceBoss::Draw_RazerRadius()
+{
+	//시작 x 위치는 350, 450, 550 세 가지
+	m_vecRazerPos = { 350.f, 450.f, 550.f };
+	random_shuffle(m_vecRazerPos.begin(), m_vecRazerPos.end());
+
+	m_pPlayerpos = static_cast<CTransform*>(m_pPlayer->Find_Component(TEXT("Com_Transform")))->Get_State(CTransform::STATE_POSITION);
+
+	CRazerRadius::DESC Razerdesc = {};
+	Razerdesc.vScale = { 100.f, 600.f, 0.f };
+	Razerdesc.eLevelID = m_eLevelID;
+	Razerdesc.vAngle = { D3DXToRadian(90.f), 0.f, 0.f };
+
+	//m_vecRazerPos의 0번 1번 데이터만 사용
+	for (_uint i = 0; i < 2; i++)
+	{
+		Razerdesc.vInitPos = _float3(m_vecRazerPos[i], 1.f, m_pPlayerpos->z);
+
+		if (FAILED(m_pGameInstance->Add_GameObject(m_eLevelID, TEXT("Prototype_GameObject_RazerRadius"),
+			m_eLevelID, L"Layer_RaceBossPattern", &Razerdesc)))
+			return E_FAIL;
+	}
+	
+	return S_OK;
+}
+
 _bool CRaceBoss::Comeback(_float fTimeDelta)
 {
 	m_pTransformCom->Go_Straight(fTimeDelta * 5.f);
@@ -423,14 +449,20 @@ const char* CRaceBoss::Debug_State(STATE eState)
 	case READYBOMB:
 		return "READYBOMB";
 
-	case DRAWINGRADIUS:
-		return "DRAWINGRADIUS";
+	case DRAWINGBOMBRADIUS:
+		return "DRAWINGBOMBRADIUS";
 
 	case BOMBING:
 		return "BOMBING";
 
 	case COMEBACK:
 		return "COMEBACK";
+
+	case DRAWINGRAZERRADIUS:
+		return "DRAWINGRAZERRADIUS";
+
+	case RAZERING:
+		return "RAZERING";
 
 	case LEAVE:
 		return "LEAVE";
@@ -495,12 +527,14 @@ void CRaceBoss::ReadyForState()
 	m_pState[ENTRANCE] = new CRBState_Entrance(this);
 	m_pState[IDLE] = new CRBState_IDLE(this);
 	m_pState[READYBOMB] = new CRBState_ReadyBombing(this);
-	m_pState[DRAWINGRADIUS] = new CRBState_DrawingRadius(this);
+	m_pState[DRAWINGBOMBRADIUS] = new CRBState_DrawingBombRadius(this);
 	m_pState[BOMBING] = new CRBState_Bombing(this);
 	m_pState[COMEBACK] = new CRBState_Comeback(this);
 	m_pState[SHOTREADY] = new CRBState_ReadyShot(this);
 	m_pState[SHOTHEADBULLET] = new CRBState_ShotHeadBullet(this);
 	m_pState[SHOTTAILBULLET] = new CRBState_ShotTailBullet(this);
+	m_pState[DRAWINGRAZERRADIUS] = new CRBState_DrawingRazerRadius(this);
+	m_pState[RAZERING] = new CRBState_Razering(this);
 	m_pState[LEAVE] = new CRBState_Leave(this);
 	m_pState[DEAD] = new CRBState_Dead(this);
 	m_pState[CLOSE_TO_PLAYER] = new CRBState_CloseToPlayer(this);
@@ -577,7 +611,7 @@ HRESULT CRaceBoss::Fire_Bomb(_float fTimeDelta)
 
 HRESULT CRaceBoss::Fire_Bomb3()
 {
-	//책갈피 : 씨발
+	
 	CRaceBossBomb::DESC RaceBossBombdesc{};
 	RaceBossBombdesc.bAnimation = false;
 	RaceBossBombdesc.iColliderID = CI_BOSS_FIRE;
@@ -693,6 +727,39 @@ HRESULT CRaceBoss::Fire_Bomb3()
 
 	for (_uint i = 0; i < 4; i++)
 		m_bFireBomb[i] = false;
+	
+	return S_OK;
+}
+
+HRESULT CRaceBoss::Fire_Razer(_float fTimeDelta)
+{
+	CRaceBossRazer::DESC RaceBossRazerdesc = {};
+	RaceBossRazerdesc.iColliderID = CI_BOSS_FIRE;
+	RaceBossRazerdesc.fSpeedPerSec = 0.f;
+	RaceBossRazerdesc.fRotationPerSec = RADIAN(0.f);
+	RaceBossRazerdesc.vScale = { 100.f, 1000.f, 50.f };
+
+	RaceBossRazerdesc.vInitPos = { 
+		m_vecRazerPos[0],
+		m_pTransformCom->Get_State(CTransform::STATE_POSITION)->y - RaceBossRazerdesc.vScale.y * 0.5f,
+		m_pTransformCom->Get_State(CTransform::STATE_POSITION)->z };
+
+	RaceBossRazerdesc.vAngle = _float3(D3DXToRadian(0.f), D3DXToRadian(0.f), D3DXToRadian(0.f));
+
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_RaceBossRazer"),
+		m_eLevelID, L"Layer_RaceBossBullet", &RaceBossRazerdesc)))
+		return E_FAIL;
+
+	RaceBossRazerdesc.vInitPos = {
+		m_vecRazerPos[1],
+		m_pTransformCom->Get_State(CTransform::STATE_POSITION)->y,
+		m_pTransformCom->Get_State(CTransform::STATE_POSITION)->z };
+
+	RaceBossRazerdesc.vAngle = _float3(D3DXToRadian(0.f), D3DXToRadian(0.f), D3DXToRadian(0.f));
+
+	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_RaceBossRazer"),
+		m_eLevelID, L"Layer_RaceBossBullet", &RaceBossRazerdesc)))
+		return E_FAIL;
 	
 	return S_OK;
 }

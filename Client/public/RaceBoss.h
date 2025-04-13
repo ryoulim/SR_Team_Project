@@ -5,7 +5,9 @@
 #include "GameInstance.h"
 #include "RaceBossBullet.h"
 #include "RaceBossBomb.h"
+#include "RaceBossRazer.h"
 #include "BombRadius.h"
+#include "RazerRadius.h"
 
 BEGIN(Engine)
 class CTexture;
@@ -21,7 +23,8 @@ class CRaceBoss final : public CGameObject
 public:
 	enum STATE { WAITFORPLAYER, ENTRANCE, IDLE,
 		SHOTREADY, SHOTHEADBULLET, SHOTTAILBULLET,
-		READYBOMB, DRAWINGRADIUS, BOMBING, COMEBACK, 
+		READYBOMB, DRAWINGBOMBRADIUS, BOMBING, COMEBACK,
+		DRAWINGRAZERRADIUS, RAZERING,
 		CLOSE_TO_PLAYER, 
 		LEAVE, DEAD, NON };
 
@@ -77,6 +80,7 @@ private:
 	HRESULT Fire_Bomb(_float fTimeDelta);
 	HRESULT Fire_Bomb2();
 	HRESULT Fire_Bomb3();
+	HRESULT Fire_Razer(_float fTimeDelta);
 
 	HRESULT Set_BombRadius();
 	_bool Fire_Bomb4(_uint iBombIndex, _float fTime);
@@ -92,6 +96,7 @@ private:
 	_bool Judge_Skull(const _float3& vColliderPos, _float vColliderRadius, _float fTimedelta);
 	void Render_Skull(MUZZLEPOS eMuzzlePos);
 	HRESULT Draw_BombRadius(_float3 vBombingPos);
+	HRESULT Draw_RazerRadius();
 
 private:
 	friend class CRBState_WaitPlayer;
@@ -101,9 +106,11 @@ private:
 	friend class CRBState_ShotHeadBullet;
 	friend class CRBState_ShotTailBullet;
 	friend class CRBState_ReadyBombing;
-	friend class CRBState_DrawingRadius;
+	friend class CRBState_DrawingBombRadius;
 	friend class CRBState_Bombing;
 	friend class CRBState_Comeback;
+	friend class CRBState_DrawingRazerRadius;
+	friend class CRBState_Razering;
 	friend class CRBState_Leave;
 	friend class CRBState_Dead;
 	friend class CRBState_CloseToPlayer;
@@ -126,7 +133,6 @@ private:
 	void Fire_TailBullet(_float fTimeDelta);
 	_uint Get_HeadBulletCount();
 	void Set_HeadBulletCountZero();
-	//void SelectAndDrawRadius();
 	void Bombing(_float fTimeDelta);
 	_bool Comeback(_float fTimeDelta);
 	bool m_bDown = { false };
@@ -157,8 +163,9 @@ private:
 		_float fPosX;
 		_float fPosZ;
 	}BOMBDATA;
-
 	vector<BOMBDATA> m_vecBombPos;
+
+	vector<_float> m_vecRazerPos;
 
 	_float		m_fBombPosX = {};
 	_float		m_fBombPosX2[2] = {};
