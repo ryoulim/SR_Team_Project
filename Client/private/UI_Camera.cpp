@@ -67,6 +67,8 @@ HRESULT CUI_Camera::Render() // UI설정 전 필요한 각종 셋팅 몰아두기
 	m_pGraphic_Device->SetSamplerState(0, D3DSAMP_MAGFILTER, D3DTEXF_POINT);
 	m_pGraphic_Device->SetSamplerState(0, D3DSAMP_MIPFILTER, D3DTEXF_POINT);
 
+	m_pGraphic_Device->SetRenderState(D3DRS_LIGHTING, FALSE);
+
 	return S_OK;
 }
 

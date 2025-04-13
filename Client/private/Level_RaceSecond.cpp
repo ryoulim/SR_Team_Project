@@ -36,6 +36,8 @@ HRESULT CLevel_RaceSecond::Initialize(CLevelData* pLevelData)
 	if (FAILED(Ready_Layer_RaceBoss(TEXT("Layer_RaceBoss"))))
 		return E_FAIL;
 
+	m_pGraphic_Device->SetRenderState(D3DRS_LIGHTING, TRUE);
+
 	return S_OK;
 }
 
@@ -52,6 +54,9 @@ void CLevel_RaceSecond::Update(_float fTimeDelta)
 
 HRESULT CLevel_RaceSecond::Render()
 {
+	// 모든 랜더가 끝나고 들어오는 부분!! 
+	m_pGraphic_Device->SetRenderState(D3DRS_LIGHTING, TRUE);
+
 	SetWindowText(g_hWnd, TEXT("레이싱 second레벨입니다."));
 
 	return S_OK;
@@ -295,4 +300,7 @@ CLevel_RaceSecond* CLevel_RaceSecond::Create(LPDIRECT3DDEVICE9 pGraphic_Device, 
 void CLevel_RaceSecond::Free()
 {
 	__super::Free();
+
+	m_pGraphic_Device->SetRenderState(D3DRS_LIGHTING, FALSE);
+
 }

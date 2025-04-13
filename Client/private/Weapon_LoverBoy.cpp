@@ -175,6 +175,7 @@ void CWeapon_LoverBoy::Strong_Attack(_float fTimeDelta)
 				return;
 			}
 			FX_MGR->SpawnGunFire(_float3{ 750.f, 450.f, 0.1f }, LEVEL_STATIC);
+			CAMERA_MANAGER->StartRecoil();
 			m_pSoundCom->Play("Fire");
 			m_tAmmoInfo.iReloadedAmmo--;
 			m_tAmmoInfo.iCurAmmo--;

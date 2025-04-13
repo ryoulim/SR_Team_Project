@@ -112,6 +112,9 @@ void CDoorSecurity::Late_Update(_float fTimeDelta)
         m_pGameInstance->Add_RenderGroup(CRenderer::RG_UI, m_pInteractPromptUI);
     }
 
+    /* 이거 왜 되는지는 모르겠는데 일단 되긴 함,,*/
+    m_bPicked = false;
+
 	__super::Late_Update(fTimeDelta);
 }
 
@@ -122,13 +125,11 @@ HRESULT CDoorSecurity::Render()
 
 void CDoorSecurity::On_Collision(_uint MyColliderID, _uint OtherColliderID)
 {
-
-
     switch (OtherColliderID)
     {
     case CI_PICKING_RAY:
     {
-        m_bPicked = !m_bPicked;
+        m_bPicked = true;
     }
         break;
     default:

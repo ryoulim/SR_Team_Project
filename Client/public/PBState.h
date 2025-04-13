@@ -180,9 +180,52 @@ public:
 	virtual void Exit() override
 	{
 		m_fPosZ = 0.f;
-
 		m_pOwner->Set_State(CPlayerOnBoat::LERP);
 	}
 };
+
+class CPBState_Away_From_Boss final : public CPBState
+{
+public:
+	CPBState_Away_From_Boss(CPlayerOnBoat* pOwner)
+		:CPBState(pOwner) {
+	}
+	virtual ~CPBState_Away_From_Boss() = default;
+
+public:
+	virtual void Enter(_float fTimeDelta) override 
+	{
+		m_fSpeedPerSec = 750.f * 1.3f;
+		m_pOwner->m_pTransformCom->Rotation_Reset();
+		m_pOwner->On_Hit(10);
+	}
+
+	virtual void Execute(_float fTimeDelta) override
+	{
+		const _float3& vBossPos = *m_pOwner->m_pBossTransform->Get_State(CTransform::STATE_POSITION);
+
+		const _float3& vPos = *m_pOwner->m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+		const _float fDiffFromBoss = (vBossPos.z - m_pOwner->m_fBossHalfScaleZ) - vPos.z;
+
+		m_pOwner->m_pTransformCom->Move({0.f,0.f, -m_fSpeedPerSec } , fTimeDelta);
+
+		m_fSpeedPerSec *= powf(0.15f, fTimeDelta);
+
+		if (fDiffFromBoss > 750.f)
+			Exit();
+	}
+
+	virtual void Exit() override
+	{
+		m_pOwner->m_fKeyTimer = 0.f;
+		m_pOwner->m_fSpeedRatio = 0.f;
+		m_pOwner->m_pTransformCom->Set_SpeedPerSec(0.f);
+		m_pOwner->Set_State(CPlayerOnBoat::NORMAL);
+	}
+
+private:
+	_float m_fSpeedPerSec{};
+};
+
 
 END

@@ -279,6 +279,7 @@ void CWeapon_Dispenser::Create_Bullet()
 	if (m_bGrenadeMode)
 	{
 		FX_MGR->SpawnShotGunFire(_float3{ 750.f, 450.f, 0.1f }, LEVEL_GAMEPLAY);
+		CAMERA_MANAGER->StartRecoil(1.5f);
 		_float3 vLook = m_pPlayerTransform->Get_State(CTransform::STATE_LOOK)->Normalize();
 		_float3 vRight = m_pPlayerTransform->Get_State(CTransform::STATE_RIGHT)->Normalize();
 
@@ -301,6 +302,7 @@ void CWeapon_Dispenser::Create_Bullet()
 	{
 		FX_MGR->SpawnShotGunFire(_float3{ 750.f, 450.f, 0.1f }, LEVEL_GAMEPLAY);
 		FX_MGR->SpawnShotGunTracer(_float3{ 700.f, 400.f, 0.9f }, LEVEL_GAMEPLAY);
+		CAMERA_MANAGER->StartRecoil(1.5f);
 
 		_float3 pPos = *m_pCameraTransform->Get_State(CTransform::STATE_POSITION);
 		_float3 pLook = *m_pCameraTransform->Get_State(CTransform::STATE_LOOK);

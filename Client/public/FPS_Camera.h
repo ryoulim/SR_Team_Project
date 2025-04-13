@@ -49,12 +49,17 @@ private:
 	_float3  m_vCurrentShakeRot = { 0.f, 0.f, 0.f };
 
 	// 총기 반동 관련
-	_bool	m_bRecoil = FALSE;
-	//_float m_fShakeTime = 0.f;
-	//_float m_fShakeDuration = 0.f;
-	//_float m_fShakeIntensity = 0.f;
-	//_float3  m_vCurrentShakePos = { 0.f, 0.f, 0.f };
-	//_float3  m_vCurrentShakeRot = { 0.f, 0.f, 0.f };
+	_float3 m_vCurrentRecoilRot = { 0.f, 0.f, 0.f }; // 현재 프레임에 적용된 반동 회전
+	_float3 m_vRecoilVelocity = { 0.f, 0.f, 0.f }; // 감쇠용 스프링 속도
+	_float3 m_vAccumulatedRecoil = { 0.f, 0.f, 0.f }; // 전체 누적된 Recoil 회전
+	_float3 m_vTargetRecoil = {};
+
+	_float m_fRecoilTime = 0.f;
+	_float m_fRecoilDuration = 0.15f;
+	_float m_fRecoilIntensity = 2.f;
+	_float m_fRecoilIntensityYaw = 0.5f;
+	_bool  m_bRecoil = FALSE;
+	_bool m_bRecoilRecovering = FALSE; 
 
 	//줌인 줌아웃 관련
 	_bool	m_bZoom{ FALSE };

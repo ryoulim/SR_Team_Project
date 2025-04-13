@@ -45,7 +45,7 @@ void CMyComputer::Priority_Update(_float fTimeDelta)
 
 EVENT CMyComputer::Update(_float fTimeDelta)
 {
-	if (m_bPicked)
+	if (m_bPicked || m_bSwitch)
 	{
 		if (KEY_DOWN(DIK_E))
 		{
@@ -98,6 +98,9 @@ void CMyComputer::Late_Update(_float fTimeDelta)
 	{
 		m_pGameInstance->Add_RenderGroup(CRenderer::RG_UI, m_pInteractPromptUI);
 	}
+
+	/* 이거 왜 되는지는 모르겠는데 일단 되긴 함,,*/
+	m_bPicked = false;
 
 	__super::Late_Update(fTimeDelta);
 }
@@ -177,13 +180,8 @@ void CMyComputer::On_Collision(_uint MyColliderID, _uint OtherColliderID)
 	switch (OtherColliderID)
 	{
 	case CI_PICKING_RAY:
-	{
-		_float fDistance = 50.f;
-
 		/* Press USE [E] to interact with the world. */
-		m_bPicked = !m_bPicked;
-	}
-
+		m_bPicked = true;
 		break;
 	}
 }

@@ -118,12 +118,29 @@ public:
 	{
 		m_fTime += fTimeDelta;
 
-		//매 프레임마다 일정 수치만큼 밀림
-		m_pOwner->m_pTransformCom->Move({ 0.f,0.f,RACE_SPEED_PER_SEC }, fTimeDelta);
+		const _float3& vPos = *m_pOwner->m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+		const _float fDiffToPlayer = vPos.z -  m_pOwner->m_pPlayerpos->z;
+		const _float fScaleZ = m_pOwner->m_pTransformCom->Compute_Scaled().z;
+
+		//2000보다 거리가 가까울 떄는 매 프레임마다 일정 수치만큼 밀림
+		if (fDiffToPlayer < 2000.f)
+			m_pOwner->m_pTransformCom->Move({ 0.f,0.f,RACE_SPEED_PER_SEC }, fTimeDelta);
+
+
+		// 플레이어와 너무 멀어졌으니 가까워져라
+		if (fDiffToPlayer > 2500.f)
+			m_pOwner->Set_State(CRaceBoss::CLOSE_TO_PLAYER);
+
+		if (m_pOwner->m_pPlayerpos->z > -1500.f &&
+			fDiffToPlayer - fScaleZ*2.f < 0.f)
+			m_pOwner->m_pPlayer->Set_StartState(CPlayerOnBoat::AWAY_FROM_BOSS);
+
 
 		if (m_pOwner->m_pPlayerpos->z > -3500.f &&
 			m_pOwner->m_pPlayerpos->z < -2500.f)
 			m_pOwner->Set_State(CRaceBoss::ENTRANCE);
+
+
 
 		if (m_fTime > 2.f)
 		{
@@ -209,6 +226,9 @@ public:
 	virtual void Enter(_float fTimeDelta) override
 	{
 		m_iHeadBulletCount = m_pOwner->Get_HeadBulletCount();
+		m_iTailBulletCount = 0;
+		m_fTime = 0;
+
 	}
 
 	virtual void Execute(_float fTimeDelta) override
@@ -232,7 +252,7 @@ public:
 		if (m_iHeadBulletCount > 4)
 		{
 			//랜덤한 패턴으로 이어짐
-			m_pOwner->Set_State(CRaceBoss::SHOTREADY);
+			m_pOwner->Set_State(CRaceBoss::IDLE);
 			m_pOwner->Set_HeadBulletCountZero();
 		}
 
@@ -240,8 +260,6 @@ public:
 			m_pOwner->Set_State(CRaceBoss::SHOTHEADBULLET);
 
 		m_iHeadBulletCount = 0;
-		m_iTailBulletCount = 0;
-		m_fTime = 0;
 	}
 
 private:
@@ -523,5 +541,47 @@ public:
 		m_pOwner->m_bDead = TRUE;
 	}
 };
+
+class CRBState_CloseToPlayer final : public CRBState
+{
+public:
+	CRBState_CloseToPlayer(CRaceBoss* pOwner)
+		:CRBState(pOwner) {
+	}
+	virtual ~CRBState_CloseToPlayer() = default;
+
+public:
+	virtual void Enter(_float fTimeDelta) override
+	{
+		// 속도계산
+		const _float3& vPos = *m_pOwner->m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+		const _float fDiffToPlayer = vPos.z - m_pOwner->m_pPlayerpos->z;
+
+		m_fTime = 0.f;
+		m_fSpeedPerSec = fDiffToPlayer * 1.6f;
+	}
+	virtual void Execute(_float fTimeDelta) override
+	{
+		m_fTime += fTimeDelta;
+		const _float3& vPos = *m_pOwner->m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+		const _float fDiffToPlayer = vPos.z - m_pOwner->m_pPlayerpos->z;
+
+		m_pOwner->m_pTransformCom->Move({ 0.f,0.f,-m_fSpeedPerSec }, fTimeDelta);
+		m_fSpeedPerSec *= powf(0.15f, fTimeDelta);
+
+		if (m_fTime > 2.f ||
+			fDiffToPlayer < 750.f) // 750 까지 가까워짐
+			Exit();
+	}
+	virtual void Exit() override
+	{
+		m_pOwner->Set_State(CRaceBoss::IDLE);
+	}
+	
+private:
+	_float			m_fSpeedPerSec{};
+};
+
+
 
 END

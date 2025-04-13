@@ -19,7 +19,7 @@ CCameraManager::CCameraManager()
 HRESULT CCameraManager::Initialize()
 {	
 	CFPS_Camera::DESC FPSCameraDesc{};
-	FPSCameraDesc.fFar = 20000.f;
+	FPSCameraDesc.fFar = 10000.f;
 	FPSCameraDesc.fNear = 0.1f;
 	FPSCameraDesc.fMouseSensor = 0.1f;
 	FPSCameraDesc.fFov = 60.f;
@@ -37,7 +37,7 @@ HRESULT CCameraManager::Initialize()
 	TPSCameraDesc.vAt = _float3();
 	TPSCameraDesc.fFov = 60.f;
 	TPSCameraDesc.fNear = 0.1f;
-	TPSCameraDesc.fFar = 2000.f;
+	TPSCameraDesc.fFar = 3500.f;
 	
 	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_TPS_Camera"),
 		LEVEL_STATIC, TEXT("Layer_Camera"), &TPSCameraDesc)))
@@ -108,7 +108,7 @@ void CCameraManager::Shake_Camera(_float fIntensity, _float fDuration, _float fS
 		break;
 	default:
 		break;
-	}
+	}         
 }
 
 void CCameraManager::StartRecoil(_float fIntensity, _float fDuration)

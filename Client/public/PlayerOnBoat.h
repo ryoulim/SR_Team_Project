@@ -9,7 +9,7 @@ BEGIN(Client)
 class CPlayerOnBoat final : public CPawn
 {
 public:
-	enum STATE { DECEL, NORMAL, LERP, ACCEL, NON };
+	enum STATE { DECEL, NORMAL, LERP, ACCEL, AWAY_FROM_BOSS, NON };
 
 private:
 	CPlayerOnBoat(LPDIRECT3DDEVICE9 pGraphic_Device);
@@ -35,12 +35,14 @@ public:
 private:
 	virtual HRESULT Ready_Components(void* pArg)override;
 	void Update_Frame(_float fTimeDelta);
+	void Update_Aim(_float fTimeDelta);
 
 private:
 	friend class CPBState_Accel;
 	friend class CPBState_Decel;
 	friend class CPBState_Lerp;
 	friend class CPBState_Normal;
+	friend class CPBState_Away_From_Boss;
 
 	//상태패턴
 	void			Set_State(STATE eState);

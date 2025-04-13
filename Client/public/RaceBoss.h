@@ -22,7 +22,8 @@ public:
 	enum STATE { WAITFORPLAYER, ENTRANCE, IDLE,
 		SHOTREADY, SHOTHEADBULLET, SHOTTAILBULLET,
 		READYBOMB, DRAWINGRADIUS, BOMBING, COMEBACK, 
-		LEAVE,DEAD, NON };
+		CLOSE_TO_PLAYER, 
+		LEAVE, DEAD, NON };
 
 	// 콜라이더 떄문에 아이디랑 통일해 두겠습니다, 부위파괴 로직때문에 순서 좀만 조정하겠습니다.
 	enum MUZZLEPOS { LSIDE = CI_RACEBOSS_MUZZLE1, LMIDDLE, RMIDDLE, RSIDE, MIDDLE, POSEND = 5 };
@@ -105,6 +106,7 @@ private:
 	friend class CRBState_Comeback;
 	friend class CRBState_Leave;
 	friend class CRBState_Dead;
+	friend class CRBState_CloseToPlayer;
 
 	STATE					m_eState = { NON };
 	STATE					m_ePreState = { NON };
