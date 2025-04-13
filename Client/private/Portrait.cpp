@@ -76,6 +76,9 @@ EVENT CPortrait::Update(_float fTimeDelta)
 
 void CPortrait::Late_Update(_float fTimeDelta)
 {
+	if (m_pGameInstance->Get_CurrentLevelIndex() == LEVEL_LOGO ||
+		m_pGameInstance->Get_CurrentLevelIndex() == LEVEL_LOADING)
+		return;
 	__super::Late_Update(fTimeDelta);
 }
 

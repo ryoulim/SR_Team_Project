@@ -76,6 +76,7 @@
 #include "Logo.h"
 #include "Ammo.h"
 #include "Armor.h"
+#include "WeaponUI.h"
 #include "Portrait.h"
 #include "MainMenu.h"
 #include "ScreenDust.h"
@@ -326,6 +327,7 @@ HRESULT CLoader::Loding_For_Static()
 	ADD_PRTOBJ(Ammo);
 	ADD_PRTOBJ(Portrait);
 	ADD_PRTOBJ(Armor);
+	ADD_PRTOBJ(WeaponUI);
 	ADD_PRTOBJ(Skull);
 	ADD_PRTOBJ(BossHPBar);
 	ADD_PRTOBJ(ItemDialog);

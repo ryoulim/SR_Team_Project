@@ -39,7 +39,7 @@ HRESULT CDoorSecurity::Initialize(void* pArg)
     if (FAILED(Link_Door()))
         return E_FAIL;
 
-    m_pInteractPromptUI = m_pGameInstance->Find_Object(m_eLevelID, TEXT("Layer_UI"), 4);
+    m_pInteractPromptUI = m_pGameInstance->Find_Object(m_eLevelID, TEXT("Layer_UI"), 0);
 
     if (nullptr == m_pInteractPromptUI)
         return E_FAIL;

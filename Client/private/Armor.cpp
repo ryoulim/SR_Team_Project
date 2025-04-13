@@ -75,6 +75,9 @@ EVENT CArmor::Update(_float fTimeDelta)
 
 void CArmor::Late_Update(_float fTimeDelta)
 {
+	if (m_pGameInstance->Get_CurrentLevelIndex() == LEVEL_LOGO ||
+		m_pGameInstance->Get_CurrentLevelIndex() == LEVEL_LOADING)
+		return;
 	__super::Late_Update(fTimeDelta);
 }
 

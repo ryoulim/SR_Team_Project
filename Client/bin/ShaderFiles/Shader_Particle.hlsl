@@ -26,9 +26,9 @@ sampler LinearSampler = sampler_state
 {
     texture = g_Texture;
 
-    minfilter = linear;
-    magfilter = linear;
-    mipfilter = linear;
+    minfilter = point;
+    magfilter = point;
+    mipfilter = point;
 };
 
 sampler ParticleSampler = sampler_state

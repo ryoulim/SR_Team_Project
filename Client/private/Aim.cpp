@@ -73,15 +73,19 @@ EVENT CAim::Update(_float fTimeDelta)
 {
 	if (LEVEL_RACING(m_eLevelID))
 		return EVN_NONE;
- 	Calc_Magazine(m_pAmmoInfo->iMaxAmmo, m_pAmmoInfo->iReloadedAmmo);
+	if (m_pAmmoInfo != nullptr)
+ 		Calc_Magazine(m_pAmmoInfo->iMaxAmmo, m_pAmmoInfo->iReloadedAmmo);
 
 	return __super::Update(fTimeDelta);
 }
 
 void CAim::Late_Update(_float fTimeDelta)
 {
-	if (LEVEL_RACING(m_eLevelID))
+	if (LEVEL_RACING(m_pGameInstance->Get_CurrentLevelIndex()) ||
+		m_pGameInstance->Get_CurrentLevelIndex() == LEVEL_LOGO ||
+		m_pGameInstance->Get_CurrentLevelIndex() == LEVEL_LOADING)
 		return;
+
 	__super::Late_Update(fTimeDelta);
 }
 

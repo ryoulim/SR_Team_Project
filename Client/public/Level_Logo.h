@@ -20,6 +20,7 @@ public:
 private:
 	HRESULT Ready_Layer_BackGround(const _wstring& strLayerTag);
 	HRESULT Ready_Layer_UI(const _wstring& strLayerTag); 
+	HRESULT Ready_Layer_Gameplay_UI(const _wstring& strLayerTag); 
 	
 	CSound_Core* m_pBGM = {nullptr};
 public:

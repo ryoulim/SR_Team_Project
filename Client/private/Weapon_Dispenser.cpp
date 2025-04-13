@@ -204,7 +204,7 @@ void CWeapon_Dispenser::Key_Input()
 		else
 			m_pCurAmmo = &m_tShellInfo;
 
-		CUI_Manager::Get_Instance()->Change_Weapon(m_pCurAmmo);
+		CUI_Manager::Get_Instance()->Change_Weapon(m_pCurAmmo, 1);
 		Set_State(ST_ENDING); // 모드 변경임
 	}
 	if (KEY_DOWN(DIK_R) && m_pCurAmmo->iCurAmmo > 0)

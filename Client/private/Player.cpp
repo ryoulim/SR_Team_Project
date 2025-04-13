@@ -189,11 +189,14 @@ void CPlayer::On_Collision(_uint MyColliderID, _uint OtherColliderID)
 	case CI_ITEM_CHAINGUN:
 		/* 좀 그렇긴 하네 */
 		m_iMaxWeaponIndex = 2;
+		UIMGR->Add_Weapon();
+		UIMGR->Add_Weapon();
 		PRINT_DIALOG("picked up Chaingun");
 		break;
 
 	case CI_ITEM_DISPENSER:
 		++m_iMaxWeaponIndex;
+		UIMGR->Add_Weapon();
 		PRINT_DIALOG("picked up Dispenser");
 		break;
 
@@ -326,7 +329,7 @@ void CPlayer::Set_Level(LEVEL ID)
 	__super::Set_Level(ID);
 
 	if(!m_Weapons.empty()) 
-		CUI_Manager::Get_Instance()->Change_Weapon(m_Weapons[m_iCurWeaponIndex]->Get_Info());
+		CUI_Manager::Get_Instance()->Change_Weapon(m_Weapons[m_iCurWeaponIndex]->Get_Info(), m_iCurWeaponIndex);
 }
 
 HRESULT CPlayer::Ready_Components(void* pArg)
@@ -371,8 +374,8 @@ void CPlayer::Add_Weapons()
 			PROTOTYPE::TYPE_GAMEOBJECT, LEVEL_STATIC,
 			TEXT("Prototype_GameObject_Weapon_Chaingun"), &WeaponDesc)));
 
-	CUI_Manager::Get_Instance()->Change_Weapon(m_Weapons[m_iCurWeaponIndex]->Get_Info());
-
+	CUI_Manager::Get_Instance()->Change_Weapon(m_Weapons[m_iCurWeaponIndex]->Get_Info(), m_iCurWeaponIndex);
+	CUI_Manager::Get_Instance()->Init_Weapons(&m_Weapons);
 
 	//////// 무기 탄약 정보들
 	m_Weapons[0]->Get_Info(); // Loverboy
@@ -489,14 +492,16 @@ void CPlayer::Key_Input(_float fTimeDelta)
 		m_iCurWeaponIndex--;
 		if (m_iCurWeaponIndex < 0)
 			m_iCurWeaponIndex = m_iMaxWeaponIndex;
-		CUI_Manager::Get_Instance()->Change_Weapon(m_Weapons[m_iCurWeaponIndex]->Get_Info());
+		UIMGR->Change_Weapon(m_Weapons[m_iCurWeaponIndex]->Get_Info(), m_iCurWeaponIndex);
+		UIMGR->Render_WeaponUI();
 	}
 	else if (iMouseWheelZ < 0)
 	{
 		m_iCurWeaponIndex++;
 		if (m_iMaxWeaponIndex < m_iCurWeaponIndex)
 			m_iCurWeaponIndex = 0;
-		CUI_Manager::Get_Instance()->Change_Weapon(m_Weapons[m_iCurWeaponIndex]->Get_Info());
+		UIMGR->Change_Weapon(m_Weapons[m_iCurWeaponIndex]->Get_Info(), m_iCurWeaponIndex);
+		UIMGR->Render_WeaponUI();
 	}
 
 	if (iMouseWheelZ)

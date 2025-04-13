@@ -90,12 +90,15 @@ EVENT CAmmo::Update(_float fTimeDelta)
 
 void CAmmo::Late_Update(_float fTimeDelta)
 {
+	if (m_pGameInstance->Get_CurrentLevelIndex() == LEVEL_LOGO ||
+		m_pGameInstance->Get_CurrentLevelIndex() == LEVEL_LOADING)
+		return;
 	__super::Late_Update(fTimeDelta);
 }
 
 HRESULT CAmmo::Render()
 {
-	if (LEVEL_RACING(m_eLevelID))
+	if (LEVEL_RACING(m_pGameInstance->Get_CurrentLevelIndex()))
 	{
 		RENDER_TEXT_BOC("INF",
 			(g_iWinSizeX / 2.f) - m_vSize.x - 30.f,
@@ -105,8 +108,11 @@ HRESULT CAmmo::Render()
 
 	if (m_pAmmoInfo != nullptr)
 	{
+		_float fOffset = 0.f;
+		if (m_pAmmoInfo->iCurAmmo > 99)
+			fOffset = 15.f;
 		RENDER_TEXT_BOC(m_pAmmoInfo->iCurAmmo,
-			(g_iWinSizeX / 2.f) - m_vSize.x - 70.f,
+			(g_iWinSizeX / 2.f) - m_vSize.x - 70.f - fOffset,
 			-(g_iWinSizeY / 2.f) + m_vSize.y / 2.f + 9.f, 1.1f);
 		m_eAmmoType = m_pAmmoInfo->eType;
 	}

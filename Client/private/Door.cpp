@@ -36,7 +36,7 @@ HRESULT CDoor::Initialize(void* pArg)
 
     if (m_eLevelID == LEVEL_INDOOR || m_eLevelID == LEVEL_UNDERGROUND)
     {
-        m_pInteractPromptUI = m_pGameInstance->Find_Object(m_eLevelID, TEXT("Layer_UI"), 4);
+        m_pInteractPromptUI = m_pGameInstance->Find_Object(m_eLevelID, TEXT("Layer_UI"), 0);
 
         if (nullptr == m_pInteractPromptUI)
             return E_FAIL;
