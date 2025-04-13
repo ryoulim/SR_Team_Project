@@ -71,13 +71,11 @@ EVENT CGenerator::Update(_float fTimeDelta)
     else
     {
         Im_Broken(fTimeDelta);
+
         m_fBrokenTimeAcc += fTimeDelta;
         if (1.5f <= m_fBrokenTimeAcc)
             m_pSoundCom->Stop("engine_off");
     }
-
-
-
 
     if (m_bCutSceneEnd1)
     {

@@ -45,6 +45,10 @@ HRESULT CLevel_Indoor::Initialize(CLevelData* pLevelData)
 	if (FAILED(Ready_Layer_Item(TEXT("Layer_Item"))))
 		return E_FAIL;
 
+	m_pBGM = m_pGameInstance->Get_Single_Sound("lemansion");
+	m_pBGM->Set_Volume(0.5f);
+	m_pBGM->Play();
+
 	return S_OK;
 }
 
@@ -563,4 +567,6 @@ void CLevel_Indoor::Free()
 	if (Cameramanager)
 		Cameramanager->Switch(CCameraManager::DYNAMIC);
 	__super::Free();
+	m_pBGM->Stop();
+	Safe_Release(m_pBGM);
 }
