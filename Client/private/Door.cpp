@@ -54,7 +54,6 @@ HRESULT CDoor::Initialize(void* pArg)
         break;
     }
 
-
 	return S_OK;
 }
 
@@ -73,7 +72,7 @@ EVENT CDoor::Update(_float fTimeDelta)
         if (KEY_DOWN(DIK_E))
         {
             m_bOpen = true;
-            m_pBGM->Set_Volume(0.5f);
+            m_pBGM->Set_Volume(0.2f);
             m_pBGM->Play();
         }
     }

@@ -40,13 +40,14 @@ HRESULT CDoorSecurity::Initialize(void* pArg)
         return E_FAIL;
 
     m_pInteractPromptUI = m_pGameInstance->Find_Object(m_eLevelID, TEXT("Layer_UI"), 4);
-
     if (nullptr == m_pInteractPromptUI)
         return E_FAIL;
-
     Safe_AddRef(m_pInteractPromptUI);
 
     m_pPlayer = static_cast<CPlayer*>(GET_PLAYER);
+    Safe_AddRef(m_pPlayer);
+
+    m_pSoundCom->SetVolume(0.2f);
 
 	return S_OK;
 }
@@ -288,6 +289,7 @@ void CDoorSecurity::Free()
 	__super::Free();
 
     Safe_Release(m_pDoor);
+    Safe_Release(m_pPlayer);
     Safe_Release(m_pInteractPromptUI);
     Safe_Release(m_pSoundCom);
 }
