@@ -506,8 +506,6 @@ void CRaceBoss::ReadyForState()
 	m_pState[ENTRANCE] = new CRBState_Entrance(this);
 	m_pState[IDLE] = new CRBState_IDLE(this);
 	m_pState[READYBOMB] = new CRBState_ReadyBombing(this);
-	m_pState[DRAWINGRADIUS] = new CRBState_DrawingRadius(this);
-	m_pState[BOMBING] = new CRBState_Bombing(this);
 	m_pState[COMEBACK] = new CRBState_Comeback(this);
 	m_pState[SHOTREADY] = new CRBState_ReadyShot(this);
 	m_pState[SHOTHEADBULLET] = new CRBState_ShotHeadBullet(this);
@@ -517,6 +515,13 @@ void CRaceBoss::ReadyForState()
 	m_pState[LEAVE] = new CRBState_Leave(this);
 	m_pState[DEAD] = new CRBState_Dead(this);
 	m_pState[CLOSE_TO_PLAYER] = new CRBState_CloseToPlayer(this);
+
+	m_pState[BOMBATTACK] = new CRBState_BombAttack(this);
+	m_pState[CROSSATTACK] = new CRBState_CrossAttack(this);
+	m_pState[MOMBACK] = new CRBState_Momback(this);
+	m_pState[MOMBACKREADY] = new CRBState_MombackReady(this);
+	m_pState[MOMBACKREVERSE] = new CRBState_MombackReverse(this);
+
 
 	//계속 터지길래 시작부터 값 채워놓음
 	m_VecBulletPos = { LSIDE, LMIDDLE, MIDDLE, RMIDDLE, RSIDE };

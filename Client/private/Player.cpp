@@ -249,7 +249,7 @@ void CPlayer::On_Collision(_uint MyColliderID, _uint OtherColliderID)
 		break;
 
 	case CI_ITEM_AMMO_DISPENSER_CANNON:
-		m_Weapons[2]->Replenish_Ammo(10);
+		static_cast<CWeapon_Dispenser*>(m_Weapons[2])->Replenish_GrenadeAmmo(10);
 		PRINT_DIALOG("grenades for Disperser x 10");
 		m_pSoundCom->Play("Ammo_Dispenser_Cannon");
 		break;
@@ -389,6 +389,11 @@ HRESULT CPlayer::Ready_Components(void* pArg)
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Gravity"),
 		TEXT("Com_Gravity"), reinterpret_cast<CComponent**>(&m_pGravityCom), &GravityDesc)))
 		return E_FAIL;
+
+	/* Com_Sound */
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Sound_Player"),
+		TEXT("Com_Sound"), reinterpret_cast<CComponent**>(&m_pSoundCom))))
+			return E_FAIL;
 
 	return S_OK;
 }
