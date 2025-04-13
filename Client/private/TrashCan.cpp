@@ -61,21 +61,33 @@ EVENT CTrashCan::Update(_float fTimeDelta)
 
 void CTrashCan::Late_Update(_float fTimeDelta)
 {
-	__super::Late_Update(fTimeDelta);
+    _float3	vTemp = *m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+    CGameObject::Compute_ViewZ(&vTemp);
+
+    if (FAILED(m_pGameInstance->Add_RenderGroup(CRenderer::RG_BLEND, this)))
+        return;
 }
 
 HRESULT CTrashCan::Render()
 {
-	m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
+    m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
+
+    m_pGraphic_Device->SetRenderState(D3DRS_ALPHABLENDENABLE, true);
+    m_pGraphic_Device->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
+    m_pGraphic_Device->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
 
     BillboardShaderRender();
 
 #ifdef _COLLIDERRENDER
-	if (m_pColliderCom)
-		m_pColliderCom->Render();
+    if (m_pColliderCom)
+        m_pColliderCom->Render();
 #endif
 
-	m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
+    m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
+
+    m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
+    m_pGraphic_Device->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_ONE);
+    m_pGraphic_Device->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_ZERO);
 
 	return S_OK;
 }

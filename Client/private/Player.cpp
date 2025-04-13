@@ -231,7 +231,7 @@ void CPlayer::On_Collision(_uint MyColliderID, _uint OtherColliderID)
 		break;
 
 	case CI_ITEM_ARMOR_FULL:
-		m_tInfo.iArmor = 100;
+		m_tInfo.iArmor += 100;
 		PRINT_DIALOG("full armor pack !");
 		break;
 

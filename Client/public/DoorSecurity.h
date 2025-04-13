@@ -52,6 +52,7 @@ private:
 	class CGameObject* m_pInteractPromptUI = { nullptr };
 	class CGameObject* m_pDoor = { nullptr };
 	class CPlayer* m_pPlayer = { nullptr };
+	CSoundController* m_pSoundCom = { nullptr };
 
 	STATE m_eState = { USUAL };
 

@@ -266,8 +266,19 @@ void CWeapon::Mouse_Over()
 		const _float3& vPickedPos = m_pPickedCollider->Get_Pos();
 		const _float3& vPlayerPos = *m_pPlayerTransform->Get_State(CTransform::STATE_POSITION);
 		_float fDistance = (vPickedPos - vPlayerPos).Length();
+		_float fPickingDistance = {};
 
-		if (fDistance < 150.f)
+		switch (m_eLevelID)
+		{
+		case LEVEL_UNDERGROUND:
+			fPickingDistance = 300.f;
+			break;
+		default:
+			fPickingDistance = 150.f;
+			break;
+		}
+
+		if (fDistance < fPickingDistance)
 			m_pPickedCollider->Get_Owner()->On_Collision(m_iPickedColliderID, CI_PICKING_RAY);
 	}
 

@@ -38,11 +38,14 @@ private:
 	void Open_The_Door(_float fTimeDelta);
 
 private:
-	class CGameObject* m_pInteractPromptUI = { nullptr };
 	_bool m_bOpen = { false };
 	_bool m_bSecurity = { false };
 	_bool m_bPicked = { false };
 	_float m_fTimeAcc = {};
+
+private:
+	class CGameObject* m_pInteractPromptUI = { nullptr };
+	CSound_Core* m_pBGM = { nullptr };
 
 public:
 	static CDoor* Create(LPDIRECT3DDEVICE9 pGraphic_Device);

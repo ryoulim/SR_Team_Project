@@ -717,6 +717,8 @@ HRESULT CLoader::Loding_For_Static()
 	ADD_SOUND(LoverBoy, "../Bin/Resources/Sounds/Weapons/Loverboy/");
 	ADD_SOUND(Dispenser, "../Bin/Resources/Sounds/Weapons/Dispenser/");
 	ADD_SOUND(Explorsion, "../Bin/Resources/Sounds/Explorsion/");
+	/* 나중에 인도어로 반드시 반드시 반드시 옮기시오 */
+	m_pGameInstance->LoadSound("../Bin/Resources/Sounds/Door/");
 #pragma endregion
 
 
@@ -1365,6 +1367,8 @@ HRESULT CLoader::Loading_For_Indoor()
 
 	lstrcpy(m_szLoadingText, TEXT("사운드을(를) 로딩중입니다."));
 
+	ADD_SOUND(DoorSecurity, "../Bin/Resources/Sounds/DoorSecurity/");
+
 	lstrcpy(m_szLoadingText, TEXT("데이터를 읽어들이는 중입니다."));
 
 	lstrcpy(m_szLoadingText, TEXT("로딩이 완료되었습니다."));
@@ -1496,6 +1500,8 @@ HRESULT CLoader::Loading_For_Outdoor()
 #pragma endregion
 
 	lstrcpy(m_szLoadingText, TEXT("사운드을(를) 로딩중입니다."));
+
+	m_pGameInstance->LoadSound("../Bin/Resources/Sounds/Picture/");
 
 	lstrcpy(m_szLoadingText, TEXT("데이터를 읽어들이는 중입니다."));
 

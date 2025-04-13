@@ -44,6 +44,16 @@ HRESULT CDoor::Initialize(void* pArg)
         Safe_AddRef(m_pInteractPromptUI);
     }
 
+    switch (m_eLevelID)
+    {
+    case LEVEL_UNDERGROUND:
+        m_pBGM = m_pGameInstance->Get_Single_Sound("door_scifi01");
+        break;
+    default:
+        m_pBGM = m_pGameInstance->Get_Single_Sound("door_pneumatic_air");
+        break;
+    }
+
 
 	return S_OK;
 }
@@ -61,13 +71,18 @@ EVENT CDoor::Update(_float fTimeDelta)
     if (m_bPicked)
     {
         if (KEY_DOWN(DIK_E))
+        {
             m_bOpen = true;
+            m_pBGM->Set_Volume(0.5f);
+            m_pBGM->Play();
+        }
     }
 
     if (m_bOpen)
     {
         m_fTimeAcc += fTimeDelta;
         Open_The_Door(fTimeDelta);
+
         if (m_fTimeAcc >= 1.7f)
         {
             m_bOpen = false;
@@ -205,4 +220,5 @@ void CDoor::Free()
 {
 	__super::Free();
     Safe_Release(m_pInteractPromptUI);
+    Safe_Release(m_pBGM);
 }
