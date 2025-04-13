@@ -5,7 +5,9 @@
 #include "GameInstance.h"
 #include "RaceBossBullet.h"
 #include "RaceBossBomb.h"
+#include "RaceBossRazer.h"
 #include "BombRadius.h"
+#include "RazerRadius.h"
 #include "MombackLine.h"
 
 BEGIN(Engine)
@@ -22,9 +24,11 @@ class CRaceBoss final : public CGameObject
 public:
 	enum STATE { WAITFORPLAYER, ENTRANCE, IDLE,
 		SHOTREADY, SHOTHEADBULLET, SHOTTAILBULLET,
-		READYBOMB, BOMBATTACK, CROSSATTACK, MOMBACKREADY, MOMBACK, MOMBACKREVERSE, COMEBACK,
-		CLOSE_TO_PLAYER,LEAVE,DEAD, NON };
-	 
+		READYBOMB, DRAWINGBOMBRADIUS, BOMBING, COMEBACK,
+		DRAWINGRAZERRADIUS, RAZERING,
+		CLOSE_TO_PLAYER, 
+		LEAVE, DEAD, NON };
+
 	// 콜라이더 떄문에 아이디랑 통일해 두겠습니다, 부위파괴 로직때문에 순서 좀만 조정하겠습니다.
 	enum MUZZLEPOS { LSIDE = CI_RACEBOSS_MUZZLE1, LMIDDLE, RMIDDLE, RSIDE, MIDDLE, POSEND = 5 };
 
@@ -76,6 +80,7 @@ private:
 	HRESULT Fire_Bomb(_float fTimeDelta);
 	HRESULT Fire_Bomb2();
 	HRESULT Fire_Bomb3();
+	HRESULT Fire_Razer(_float fTimeDelta);
 
 	void ReadyForState();
 private:
@@ -103,6 +108,7 @@ private:
 	_bool Judge_Skull(const _float3& vColliderPos, _float vColliderRadius, _float fTimedelta);
 	void Render_Skull(MUZZLEPOS eMuzzlePos);
 	HRESULT Draw_BombRadius(_float3 vBombingPos);
+	HRESULT Draw_RazerRadius();
 
 private:
 	friend class CRBState_WaitPlayer;
@@ -115,6 +121,8 @@ private:
 	friend class CRBState_BombAttack;
 	friend class CRBState_CrossAttack;
 	friend class CRBState_Comeback;
+	friend class CRBState_DrawingRazerRadius;
+	friend class CRBState_Razering;
 	friend class CRBState_Leave;
 	friend class CRBState_Dead;
 	friend class CRBState_MombackReady;
@@ -176,8 +184,9 @@ private:
 		_float fPosX;
 		_float fPosZ;
 	}BOMBDATA;
-
 	vector<BOMBDATA> m_vecBombPos;
+
+	vector<_float> m_vecRazerPos;
 
 	_float		m_fBombPosX = {};
 	_float		m_fBombPosX2[2] = {};

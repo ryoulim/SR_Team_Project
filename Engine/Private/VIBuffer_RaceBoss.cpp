@@ -12,7 +12,7 @@ CVIBuffer_RaceBoss::CVIBuffer_RaceBoss(const CVIBuffer_RaceBoss& Prototype)
 
 HRESULT CVIBuffer_RaceBoss::Initialize_Prototype()
 {
-	m_iNumVertices = 70;					// 버텍스 갯수
+	m_iNumVertices = 78; //70 + 8				// 버텍스 갯수
 	m_iVertexStride = sizeof(VTXPOSNORTEX);	// 버텍스 크기
 	m_iFVF = D3DFVF_XYZ | D3DFVF_NORMAL | D3DFVF_TEX1;		// 버텍스 타입
 	m_iNumPritimive = 138; 				// 삼각형 갯수
@@ -30,214 +30,240 @@ HRESULT CVIBuffer_RaceBoss::Initialize_Prototype()
 	m_pVB->Lock(0, /*m_iNumVertices * m_iVertexStride*/0, reinterpret_cast<void**>(&pVertices), 0);
 	
 	pVertices[0].vPosition = _float3(-2.f, 0.25f, -2.f);
-	pVertices[0].vTexcoord = _float2(0.f, 0.5f);
+	pVertices[0].vTexcoord = _float2(0.f, 1.f);//
 
 	pVertices[1].vPosition = _float3(-1.75f, 0.5f, -2.f);
-	pVertices[1].vTexcoord = _float2(1.f, 0.f);//
+	pVertices[1].vTexcoord = _float2(1.f, 1.f);//
 
 	pVertices[2].vPosition = _float3(-1.5f, 0.5f, -2.f);
-	pVertices[2].vTexcoord = _float2(2.f, 0.f);//
+	pVertices[2].vTexcoord = _float2(2.f, 1.f);//
 
 	pVertices[3].vPosition = _float3(-1.f, 0.25f, -2.f);
-	pVertices[3].vTexcoord = _float2(3.f, 0.f);//
+	pVertices[3].vTexcoord = _float2(3.f, 1.f);//
 
 	pVertices[4].vPosition = _float3(-0.75f, 0.25f, -2.f);
-	pVertices[4].vTexcoord = _float2(4.f, 0.f);//
+	pVertices[4].vTexcoord = _float2(4.f, 1.f);//
 
 	pVertices[5].vPosition = _float3(-0.25f, 0.5f, -2.f);
-	pVertices[5].vTexcoord = _float2(5.f, 0.f);//
+	pVertices[5].vTexcoord = _float2(5.f, 1.f);//
 
 	pVertices[6].vPosition = _float3(0.25f, 0.5f, -2.f);
-	pVertices[6].vTexcoord = _float2(6.f, 0.f);//
+	pVertices[6].vTexcoord = _float2(6.f, 1.f);//
 
 	pVertices[7].vPosition = _float3(0.75f, 0.25f, -2.f);
-	pVertices[7].vTexcoord = _float2(7.f, 0.f);//
+	pVertices[7].vTexcoord = _float2(7.f, 1.f);//
 
 	pVertices[8].vPosition = _float3(1.f, 0.25f, -2.f);
-	pVertices[8].vTexcoord = _float2(8.f, 0.f);//
+	pVertices[8].vTexcoord = _float2(8.f, 1.f);//
 
 	pVertices[9].vPosition = _float3(1.5f, 0.5f, -2.f);
-	pVertices[9].vTexcoord = _float2(9.f, 0.f);//
+	pVertices[9].vTexcoord = _float2(9.f, 1.f);//
 
 	pVertices[10].vPosition = _float3(1.75f, 0.5f, -2.f);
-	pVertices[10].vTexcoord = _float2(10.f, 0.f);//
+	pVertices[10].vTexcoord = _float2(10.f, 1.f);//
 
 	pVertices[11].vPosition = _float3(2.f, 0.25f, -2.f);
-	pVertices[11].vTexcoord = _float2(11.f, 0.5f);
+	pVertices[11].vTexcoord = _float2(11.f, 1.f);//
 
 	pVertices[12].vPosition = _float3(1.75f, 0.f, -2.f);
-	pVertices[12].vTexcoord = _float2(10.f, 1.f);//
+	pVertices[12].vTexcoord = _float2(10.f, 2.f);//
 
 	pVertices[13].vPosition = _float3(1.5f, 0.f, -2.f);
-	pVertices[13].vTexcoord = _float2(9.f, 1.f);//
+	pVertices[13].vTexcoord = _float2(9.f, 2.f);//
 
 	pVertices[14].vPosition = _float3(1.f, -0.25f, -2.f);
-	pVertices[14].vTexcoord = _float2(8.f, 1.f);//
+	pVertices[14].vTexcoord = _float2(8.f, 2.f);//
 
 	pVertices[15].vPosition = _float3(0.75f, -0.25f, -2.f);
-	pVertices[15].vTexcoord = _float2(7.f, 1.f);//
+	pVertices[15].vTexcoord = _float2(7.f, 2.f);//
 
 	pVertices[16].vPosition = _float3(0.25f, 0.f, -2.f);
-	pVertices[16].vTexcoord = _float2(6.f, 1.f);//
+	pVertices[16].vTexcoord = _float2(6.f, 2.f);//
 
 	pVertices[17].vPosition = _float3(-0.25f, 0.f, -2.f);
-	pVertices[17].vTexcoord = _float2(5.f, 1.f);//
+	pVertices[17].vTexcoord = _float2(5.f, 2.f);//
 
 	pVertices[18].vPosition = _float3(-0.75f, -0.25f, -2.f);
-	pVertices[18].vTexcoord = _float2(4.f, 1.f);//
-
+	pVertices[18].vTexcoord = _float2(4.f, 2.f);//
+	
 	pVertices[19].vPosition = _float3(-1.f, -0.25f, -2.f);
-	pVertices[19].vTexcoord = _float2(3.f, 1.f);//
+	pVertices[19].vTexcoord = _float2(3.f, 2.f);//
 
 	pVertices[20].vPosition = _float3(-1.5f, 0.f, -2.f);
-	pVertices[20].vTexcoord = _float2(2.f, 1.f);//
+	pVertices[20].vTexcoord = _float2(2.f, 2.f);//
 
 	pVertices[21].vPosition = _float3(-1.75f, 0.f, -2.f);
-	pVertices[21].vTexcoord = _float2(1.f, 1.f);//
+	pVertices[21].vTexcoord = _float2(1.f, 2.f);//
 
 	pVertices[22].vPosition = _float3(-2.f, 0.25f, 2.f);
-	pVertices[22].vTexcoord = _float2(0.f, 3.5f);
+	pVertices[22].vTexcoord = _float2(0.f, 5.f);//
 
 	pVertices[23].vPosition = _float3(-1.75f, 0.5f, 2.f);
-	pVertices[23].vTexcoord = _float2(1.f, 3.f);//
+	pVertices[23].vTexcoord = _float2(1.f, 5.f);//
 
 	pVertices[24].vPosition = _float3(-1.5f, 0.5f, 2.f);
-	pVertices[24].vTexcoord = _float2(2.f, 3.f);//
+	pVertices[24].vTexcoord = _float2(2.f, 5.f);//
 
 	pVertices[25].vPosition = _float3(-1.f, 0.25f, 2.f);
-	pVertices[25].vTexcoord = _float2(3.f, 3.f);//
+	pVertices[25].vTexcoord = _float2(3.f, 5.f);//
 
 	pVertices[26].vPosition = _float3(-0.75f, 0.25f, 2.f);
-	pVertices[26].vTexcoord = _float2(4.f, 3.f);//
+	pVertices[26].vTexcoord = _float2(4.f, 5.f);//
 
 	pVertices[27].vPosition = _float3(-0.25f, 0.5f, 2.f);
-	pVertices[27].vTexcoord = _float2(5.f, 3.f);//
+	pVertices[27].vTexcoord = _float2(5.f, 5.f);//
 
 	pVertices[28].vPosition = _float3(0.25f, 0.5f, 2.f);
-	pVertices[28].vTexcoord = _float2(6.f, 3.f);//
+	pVertices[28].vTexcoord = _float2(6.f, 5.f);//
 
 	pVertices[29].vPosition = _float3(0.75f, 0.25f, 2.f);
-	pVertices[29].vTexcoord = _float2(7.f, 3.f);//
+	pVertices[29].vTexcoord = _float2(7.f, 5.f);//
 
 	pVertices[30].vPosition = _float3(1.f, 0.25f, 2.f);
-	pVertices[30].vTexcoord = _float2(8.f, 3.f);//
+	pVertices[30].vTexcoord = _float2(8.f, 5.f);//
 
 	pVertices[31].vPosition = _float3(1.5f, 0.5f, 2.f);
-	pVertices[31].vTexcoord = _float2(9.f, 3.f);//
+	pVertices[31].vTexcoord = _float2(9.f, 5.f);//
 
 	pVertices[32].vPosition = _float3(1.75f, 0.5f, 2.f);
-	pVertices[32].vTexcoord = _float2(10.f, 3.f);//
+	pVertices[32].vTexcoord = _float2(10.f, 5.f);//
 
 	pVertices[33].vPosition = _float3(2.f, 0.25f, 2.f);
-	pVertices[33].vTexcoord = _float2(11.f, 3.5f);
+	pVertices[33].vTexcoord = _float2(11.f, 5.f);//
 
 	pVertices[34].vPosition = _float3(1.75f, 0.f, 2.f);
-	pVertices[34].vTexcoord = _float2(10.f, 4.f);//
+	pVertices[34].vTexcoord = _float2(10.f, 6.f);//
 
 	pVertices[35].vPosition = _float3(1.5f, 0.f, 2.f);
-	pVertices[35].vTexcoord = _float2(9.f, 4.f);//
+	pVertices[35].vTexcoord = _float2(9.f, 6.f);//
 
 	pVertices[36].vPosition = _float3(1.f, -0.25f, 2.f);
-	pVertices[36].vTexcoord = _float2(8.f, 4.f);//
+	pVertices[36].vTexcoord = _float2(8.f, 6.f);//
 
 	pVertices[37].vPosition = _float3(0.75f, -0.25f, 2.f);
-	pVertices[37].vTexcoord = _float2(7.f, 4.f);//
+	pVertices[37].vTexcoord = _float2(7.f, 6.f);//
 
 	pVertices[38].vPosition = _float3(0.25f, 0.f, 2.f);
-	pVertices[38].vTexcoord = _float2(6.f, 4.f);//
+	pVertices[38].vTexcoord = _float2(6.f, 6.f);//
 
 	pVertices[39].vPosition = _float3(-0.25f, 0.f, 2.f);
-	pVertices[39].vTexcoord = _float2(5.f, 4.f);//
+	pVertices[39].vTexcoord = _float2(5.f, 6.f);//
 
 	pVertices[40].vPosition = _float3(-0.75f, -0.25f, 2.f);
-	pVertices[40].vTexcoord = _float2(4.f, 4.f);//
+	pVertices[40].vTexcoord = _float2(4.f, 6.f);//
 
 	pVertices[41].vPosition = _float3(-1.f, -0.25f, 2.f);
-	pVertices[41].vTexcoord = _float2(3.f, 4.f);//
+	pVertices[41].vTexcoord = _float2(3.f, 6.f);//
 
 	pVertices[42].vPosition = _float3(-1.5f, 0.f, 2.f);
-	pVertices[42].vTexcoord = _float2(2.f, 4.f);//
+	pVertices[42].vTexcoord = _float2(2.f, 6.f);//
 
 	pVertices[43].vPosition = _float3(-1.75f, 0.f, 2.f);
-	pVertices[43].vTexcoord = _float2(1.f, 4.f);//
+	pVertices[43].vTexcoord = _float2(1.f, 6.f);//
 
 	pVertices[44].vPosition = _float3(0.f, 0.75f, -2.f);
-	pVertices[44].vTexcoord = _float2(5.5f, 0.5f);
+	pVertices[44].vTexcoord = _float2(5.5f, 0.f);//
 
 	pVertices[45].vPosition = _float3(0.f, 0.75f, 2.f);
-	pVertices[45].vTexcoord = _float2(5.5f, 3.5f);
+	pVertices[45].vTexcoord = _float2(5.5f, 4.f);//
 
 	pVertices[46].vPosition = _float3(-1.9375f, 0.1875f, -2.f);
-	pVertices[46].vTexcoord = _float2(5.5f, 3.5f);
+	pVertices[46].vTexcoord = _float2(0.f, 1.25f);//
 
 	pVertices[47].vPosition = _float3(-1.75f, 0.375f, -2.f);
-	pVertices[47].vTexcoord = _float2(5.5f, 3.5f);
+	pVertices[47].vTexcoord = _float2(1.f, 1.125f);//
 
 	pVertices[48].vPosition = _float3(-1.5f, 0.375f, -2.f);
-	pVertices[48].vTexcoord = _float2(5.5f, 3.5f);
+	pVertices[48].vTexcoord = _float2(2.f, 1.125f);//
 
 	pVertices[49].vPosition = _float3(-1.f, 0.125f, -2.f);
-	pVertices[49].vTexcoord = _float2(5.5f, 3.5f);
+	pVertices[49].vTexcoord = _float2(3.f, 1.125f);//
 
 	pVertices[50].vPosition = _float3(-0.75f, 0.125f, -2.f);
-	pVertices[50].vTexcoord = _float2(5.5f, 3.5f);
+	pVertices[50].vTexcoord = _float2(4.f, 1.125f);//
 
 	pVertices[51].vPosition = _float3(-0.25f, 0.375f, -2.f);
-	pVertices[51].vTexcoord = _float2(5.5f, 3.5f);
+	pVertices[51].vTexcoord = _float2(5.f, 1.125f);//
 
 	pVertices[52].vPosition = _float3(0.25f, 0.375f, -2.f);
-	pVertices[52].vTexcoord = _float2(5.5f, 3.5f);
+	pVertices[52].vTexcoord = _float2(6.f, 1.125f);//
 
 	pVertices[53].vPosition = _float3(0.75f, 0.125f, -2.f);
-	pVertices[53].vTexcoord = _float2(5.5f, 3.5f);
+	pVertices[53].vTexcoord = _float2(7.f, 1.125f);//
 
 	pVertices[54].vPosition = _float3(1.f, 0.125f, -2.f);
-	pVertices[54].vTexcoord = _float2(5.5f, 3.5f);
+	pVertices[54].vTexcoord = _float2(8.f, 1.125f);//
 
 	pVertices[55].vPosition = _float3(1.5f, 0.375f, -2.f);
-	pVertices[55].vTexcoord = _float2(5.5f, 3.5f);
+	pVertices[55].vTexcoord = _float2(9.f, 1.125f);//
 
 	pVertices[56].vPosition = _float3(1.75f, 0.375f, -2.f);
-	pVertices[56].vTexcoord = _float2(5.5f, 3.5f);
+	pVertices[56].vTexcoord = _float2(10.f, 1.125f);//
 
 	pVertices[57].vPosition = _float3(1.9375f, 0.1875f, -2.f);
-	pVertices[57].vTexcoord = _float2(5.5f, 3.5f);
+	pVertices[57].vTexcoord = _float2(11.f, 1.25f);//
 
 	pVertices[58].vPosition = _float3(-1.9375f, 0.1875f, 2.f);
-	pVertices[58].vTexcoord = _float2(5.5f, 3.5f);
+	pVertices[58].vTexcoord = _float2(0.f, 5.25f);//
 
 	pVertices[59].vPosition = _float3(-1.75f, 0.375f, 2.f);
-	pVertices[59].vTexcoord = _float2(5.5f, 3.5f);
+	pVertices[59].vTexcoord = _float2(1.f, 5.25f);//
 
 	pVertices[60].vPosition = _float3(-1.5f, 0.375f, 2.f);
-	pVertices[60].vTexcoord = _float2(5.5f, 3.5f);
+	pVertices[60].vTexcoord = _float2(2.f, 5.25f);//
 
 	pVertices[61].vPosition = _float3(-1.f, 0.125f, 2.f);
-	pVertices[61].vTexcoord = _float2(5.5f, 3.5f);
+	pVertices[61].vTexcoord = _float2(3.f, 5.25f);//
 
 	pVertices[62].vPosition = _float3(-0.75f, 0.125f, 2.f);
-	pVertices[62].vTexcoord = _float2(5.5f, 3.5f);
+	pVertices[62].vTexcoord = _float2(4.f, 5.25f);//
 
 	pVertices[63].vPosition = _float3(-0.25f, 0.375f, 2.f);
-	pVertices[63].vTexcoord = _float2(5.5f, 3.5f);
+	pVertices[63].vTexcoord = _float2(5.f, 5.25f);//
 
 	pVertices[64].vPosition = _float3(0.25f, 0.375f, 2.f);
-	pVertices[64].vTexcoord = _float2(5.5f, 3.5f);
+	pVertices[64].vTexcoord = _float2(6.f, 5.25f);//
 
 	pVertices[65].vPosition = _float3(0.75f, 0.125f, 2.f);
-	pVertices[65].vTexcoord = _float2(5.5f, 3.5f);
+	pVertices[65].vTexcoord = _float2(7.f, 5.25f);//
 
 	pVertices[66].vPosition = _float3(1.f, 0.125f, 2.f);
-	pVertices[66].vTexcoord = _float2(5.5f, 3.5f);
+	pVertices[66].vTexcoord = _float2(8.f, 5.25f);//
 
 	pVertices[67].vPosition = _float3(1.5f, 0.375f, 2.f);
-	pVertices[67].vTexcoord = _float2(5.5f, 3.5f);
+	pVertices[67].vTexcoord = _float2(9.f, 5.25f);//
 
 	pVertices[68].vPosition = _float3(1.75f, 0.375f, 2.f);
-	pVertices[68].vTexcoord = _float2(5.5f, 3.5f);
+	pVertices[68].vTexcoord = _float2(10.f, 5.25f);//
 
 	pVertices[69].vPosition = _float3(1.9375f, 0.1875f, 2.f);
-	pVertices[69].vTexcoord = _float2(5.5f, 3.5f);
+	pVertices[69].vTexcoord = _float2(11.f, 5.25f);//
+
+#pragma region 텍스쳐
+	pVertices[70].vPosition = _float3(-1.75f, 0.f, -2.f); //21
+	pVertices[70].vTexcoord = _float2(0.f, 2.f);//
+
+	pVertices[71].vPosition = _float3(1.75f, 0.f, -2.f); //12
+	pVertices[71].vTexcoord = _float2(11.f, 2.f);//
+
+	pVertices[72].vPosition = _float3(-1.75f, 0.f, 2.f); //43
+	pVertices[72].vTexcoord = _float2(0.f, 6.f);//
+
+	pVertices[73].vPosition = _float3(1.75f, 0.f, 2.f); //34
+	pVertices[73].vTexcoord = _float2(11.f, 6.f);//
+
+	pVertices[74].vPosition = _float3(-1.75f, 0.375f, -2.f); //47
+	pVertices[74].vTexcoord = _float2(0.75f, 1.25f);//
+
+	pVertices[75].vPosition = _float3(1.75f, 0.375f, -2.f); //56
+	pVertices[75].vTexcoord = _float2(10.25f, 1.25f);//
+
+	pVertices[76].vPosition = _float3(-1.75f, 0.375f, 2.f); //59
+	pVertices[76].vTexcoord = _float2(1.25f, 5.25f);//
+
+	pVertices[77].vPosition = _float3(1.75f, 0.375f, 2.f); //68
+	pVertices[77].vTexcoord = _float2(10.25f, 5.25f);//
+#pragma endregion
 
 #pragma region 법선
 	for (_uint i = 0; i < m_iNumVertices; i++)
@@ -259,10 +285,10 @@ HRESULT CVIBuffer_RaceBoss::Initialize_Prototype()
 	m_pIB->Lock(0, 0, reinterpret_cast<void**>(&pIndices), 0);
 
 #pragma region 앞
-	pIndices[0] = 46; pIndices[1] = 47; pIndices[2] = 21;
-	pVertices[0].vNormal += ComputeNormalVector(pVertices, 46, 47, 21);
-	pVertices[1].vNormal += ComputeNormalVector(pVertices, 46, 47, 21);
-	pVertices[2].vNormal += ComputeNormalVector(pVertices, 46, 47, 21);
+	pIndices[0] = 46; pIndices[1] = 74; pIndices[2] = 70;
+	pVertices[46].vNormal += ComputeNormalVector(pVertices, 46, 74, 70);
+	pVertices[74].vNormal += ComputeNormalVector(pVertices, 46, 74, 70);
+	pVertices[70].vNormal += ComputeNormalVector(pVertices, 46, 74, 70);
 
 	Set_IndexBuffer(pIndices, 3, 48, 49, 19, 20);
 	pVertices[48].vNormal += ComputeNormalVector(pVertices, 48, 49, 19);
@@ -286,10 +312,10 @@ HRESULT CVIBuffer_RaceBoss::Initialize_Prototype()
 	pVertices[13].vNormal += ComputeNormalVector(pVertices, 54, 55, 13);
 	pVertices[14].vNormal += ComputeNormalVector(pVertices, 54, 13, 14);
 
-	pIndices[21] = 56; pIndices[22] = 57; pIndices[23] = 12;
-	pVertices[56].vNormal += ComputeNormalVector(pVertices, 56, 57, 12);
-	pVertices[57].vNormal += ComputeNormalVector(pVertices, 56, 57, 12);
-	pVertices[12].vNormal += ComputeNormalVector(pVertices, 56, 57, 12);
+	pIndices[21] = 75; pIndices[22] = 57; pIndices[23] = 71;
+	pVertices[75].vNormal += ComputeNormalVector(pVertices, 75, 57, 71);
+	pVertices[57].vNormal += ComputeNormalVector(pVertices, 75, 57, 71);
+	pVertices[71].vNormal += ComputeNormalVector(pVertices, 75, 57, 71);
 
 	Set_IndexBuffer(pIndices, 186, 1, 2, 20, 21);
 	pVertices[1].vNormal += ComputeNormalVector(pVertices, 1, 2, 20);
@@ -321,11 +347,11 @@ HRESULT CVIBuffer_RaceBoss::Initialize_Prototype()
 	pVertices[16].vNormal += ComputeNormalVector(pVertices, 5, 6, 16);
 	pVertices[17].vNormal += ComputeNormalVector(pVertices, 5, 16, 17);
 
-	Set_IndexBuffer(pIndices, 246, 0, 1, 47, 46);
-	pVertices[0].vNormal += ComputeNormalVector(pVertices, 0, 1, 47);
-	pVertices[1].vNormal += ComputeNormalVector(pVertices, 0, 1, 47);
-	pVertices[47].vNormal += ComputeNormalVector(pVertices, 0, 1, 47);
-	pVertices[46].vNormal += ComputeNormalVector(pVertices, 0, 47, 46);
+	Set_IndexBuffer(pIndices, 246, 0, 1, 74, 46);
+	pVertices[0].vNormal += ComputeNormalVector(pVertices, 0, 1, 74);
+	pVertices[1].vNormal += ComputeNormalVector(pVertices, 0, 1, 74);
+	pVertices[74].vNormal += ComputeNormalVector(pVertices, 0, 1, 74);
+	pVertices[46].vNormal += ComputeNormalVector(pVertices, 0, 74, 46);
 
 	Set_IndexBuffer(pIndices, 252, 2, 3, 49, 48);
 	pVertices[2].vNormal += ComputeNormalVector(pVertices, 2, 3, 49);
@@ -351,11 +377,11 @@ HRESULT CVIBuffer_RaceBoss::Initialize_Prototype()
 	pVertices[55].vNormal += ComputeNormalVector(pVertices, 8, 9, 55);
 	pVertices[54].vNormal += ComputeNormalVector(pVertices, 8, 55, 54);
 
-	Set_IndexBuffer(pIndices, 276, 10, 11, 57, 56);
+	Set_IndexBuffer(pIndices, 276, 10, 11, 57, 75);
 	pVertices[10].vNormal += ComputeNormalVector(pVertices, 10, 11, 57);
 	pVertices[11].vNormal += ComputeNormalVector(pVertices, 10, 11, 57);
 	pVertices[57].vNormal += ComputeNormalVector(pVertices, 10, 11, 57);
-	pVertices[56].vNormal += ComputeNormalVector(pVertices, 10, 57, 56);
+	pVertices[75].vNormal += ComputeNormalVector(pVertices, 10, 57, 75);
 
 	pIndices[318] = 50; pIndices[319] = 51; pIndices[320] = 17;
 	pVertices[50].vNormal += ComputeNormalVector(pVertices, 50, 51, 17);
@@ -375,10 +401,10 @@ HRESULT CVIBuffer_RaceBoss::Initialize_Prototype()
 #pragma endregion
 
 #pragma region 뒤
-	pIndices[24] = 59; pIndices[25] = 58; pIndices[26] = 43;
-	pVertices[59].vNormal += ComputeNormalVector(pVertices, 59, 58, 43);
-	pVertices[58].vNormal += ComputeNormalVector(pVertices, 59, 58, 43);
-	pVertices[43].vNormal += ComputeNormalVector(pVertices, 59, 58, 43);
+	pIndices[24] = 76; pIndices[25] = 58; pIndices[26] = 72;
+	pVertices[76].vNormal += ComputeNormalVector(pVertices, 76, 58, 72);
+	pVertices[58].vNormal += ComputeNormalVector(pVertices, 76, 58, 72);
+	pVertices[72].vNormal += ComputeNormalVector(pVertices, 76, 58, 72);
 
 	Set_IndexBuffer(pIndices, 27, 61, 60, 42, 41);
 	pVertices[61].vNormal += ComputeNormalVector(pVertices, 61, 60, 42);
@@ -402,10 +428,10 @@ HRESULT CVIBuffer_RaceBoss::Initialize_Prototype()
 	pVertices[36].vNormal += ComputeNormalVector(pVertices, 67, 66, 36);
 	pVertices[35].vNormal += ComputeNormalVector(pVertices, 67, 36, 35);
 
-	pIndices[45] = 69; pIndices[46] = 68; pIndices[47] = 34;
-	pVertices[69].vNormal += ComputeNormalVector(pVertices, 69, 68, 34);
-	pVertices[68].vNormal += ComputeNormalVector(pVertices, 69, 68, 34);
-	pVertices[34].vNormal += ComputeNormalVector(pVertices, 69, 68, 34);
+	pIndices[45] = 69; pIndices[46] = 77; pIndices[47] = 73;
+	pVertices[69].vNormal += ComputeNormalVector(pVertices, 69, 77, 73);
+	pVertices[77].vNormal += ComputeNormalVector(pVertices, 69, 77, 73);
+	pVertices[73].vNormal += ComputeNormalVector(pVertices, 69, 77, 73);
 
 	Set_IndexBuffer(pIndices, 210, 24, 23, 43, 42);
 	pVertices[24].vNormal += ComputeNormalVector(pVertices, 24, 23, 43);
@@ -437,11 +463,11 @@ HRESULT CVIBuffer_RaceBoss::Initialize_Prototype()
 	pVertices[39].vNormal += ComputeNormalVector(pVertices, 28, 27, 39);
 	pVertices[38].vNormal += ComputeNormalVector(pVertices, 28, 39, 38);
 
-	Set_IndexBuffer(pIndices, 282, 23, 22, 58, 59);
+	Set_IndexBuffer(pIndices, 282, 23, 22, 58, 76);
 	pVertices[23].vNormal += ComputeNormalVector(pVertices, 23, 22, 58);
 	pVertices[22].vNormal += ComputeNormalVector(pVertices, 23, 22, 58);
 	pVertices[58].vNormal += ComputeNormalVector(pVertices, 23, 22, 58);
-	pVertices[59].vNormal += ComputeNormalVector(pVertices, 23, 58, 59);
+	pVertices[76].vNormal += ComputeNormalVector(pVertices, 23, 58, 76);
 
 	Set_IndexBuffer(pIndices, 288, 25, 24, 60, 61);
 	pVertices[25].vNormal += ComputeNormalVector(pVertices, 25, 24, 60);
@@ -467,11 +493,11 @@ HRESULT CVIBuffer_RaceBoss::Initialize_Prototype()
 	pVertices[66].vNormal += ComputeNormalVector(pVertices, 31, 30, 66);
 	pVertices[67].vNormal += ComputeNormalVector(pVertices, 31, 66, 67);
 
-	Set_IndexBuffer(pIndices, 312, 33, 32, 68, 69);
-	pVertices[33].vNormal += ComputeNormalVector(pVertices, 33, 32, 68);
-	pVertices[32].vNormal += ComputeNormalVector(pVertices, 33, 32, 68);
-	pVertices[68].vNormal += ComputeNormalVector(pVertices, 33, 32, 68);
-	pVertices[69].vNormal += ComputeNormalVector(pVertices, 33, 68, 69);
+	Set_IndexBuffer(pIndices, 312, 33, 32, 77, 69);
+	pVertices[33].vNormal += ComputeNormalVector(pVertices, 33, 32, 77);
+	pVertices[32].vNormal += ComputeNormalVector(pVertices, 33, 32, 77);
+	pVertices[77].vNormal += ComputeNormalVector(pVertices, 33, 32, 77);
+	pVertices[69].vNormal += ComputeNormalVector(pVertices, 33, 77, 69);
 
 	pIndices[327] = 63; pIndices[328] = 62; pIndices[329] = 39;
 	pVertices[63].vNormal += ComputeNormalVector(pVertices, 63, 62, 39);

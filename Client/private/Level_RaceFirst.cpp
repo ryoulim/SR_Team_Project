@@ -38,7 +38,6 @@ HRESULT CLevel_RaceFirst::Initialize(CLevelData* pLevelData)
 	if (FAILED(Ready_Layer_Pawn(TEXT("Layer_Pawn"))))
 		return E_FAIL;
 
-
 	if (FAILED(Ready_Layer_RaceBoss(TEXT("Layer_RaceBoss"))))
 		return E_FAIL;
 
@@ -62,7 +61,7 @@ void CLevel_RaceFirst::Update(_float fTimeDelta)
 HRESULT CLevel_RaceFirst::Render()
 {
 	// 모든 랜더가 끝나고 들어오는 부분!! 
-	m_pGraphic_Device->SetRenderState(D3DRS_LIGHTING, TRUE);
+	//m_pGraphic_Device->SetRenderState(D3DRS_LIGHTING, TRUE);
 	
 	SetWindowText(g_hWnd, TEXT("레이싱 first레벨입니다."));
 

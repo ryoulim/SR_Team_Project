@@ -27,7 +27,9 @@
 #include "RaceBoss.h"
 #include "RaceBossBullet.h"
 #include "RaceBossBomb.h"
+#include "RaceBossRazer.h"
 #include "BombRadius.h"
+#include "RazerRadius.h"
 #include "RaceSprite.h"
 
 //아이템
@@ -506,7 +508,8 @@ HRESULT CLoader::Loding_For_Static()
 #pragma region 레이싱 보스
 	ADD_TEXTURE(RaceBoss, "../Bin/Resources/Textures/RaceBoss/RaceBoss%d.PNG", 7);
 	ADD_TEXTURE(RaceBossBullet, "../Bin/Resources/Textures/Bullet/RaceBossBullet/RaceBossBullet.PNG", 1);
-	ADD_TEXTURE(RaceBossBomb, "../Bin/Resources/Textures/Bullet/RaceBossBomb/RaceBossBombNew.PNG", 1);
+	ADD_TEXTURE(RaceBossBomb, "../Bin/Resources/Textures/Bullet/RaceBossBomb/RaceBossBomb.PNG", 1);
+	ADD_TEXTURE(RaceBossRazer, "../Bin/Resources/Textures/Bullet/RaceBossRazer/RaceBossRazer.PNG", 1);
 	ADD_PRTOBJ(RaceBoss);
 	ADD_PRTOBJ(RaceBossBullet);
 	ADD_PRTOBJ(RaceBossBomb);
@@ -514,6 +517,7 @@ HRESULT CLoader::Loding_For_Static()
 	ADD_PRTOBJ(MombackLine);
 	ADD_TEXTURE(BombRadius, "../Bin/Resources/Textures/RaceBoss/Bomb/RaceBossAim%d.PNG", 15);
 	ADD_TEXTURE(RedPad, "../Bin/Resources/Textures/RaceBoss/Line/RedPad%d.PNG", 14);
+	ADD_PRTOBJ(RaceBossRazer);
 #pragma endregion
 	m_fLoadPercent = 0.8f;
 
@@ -998,16 +1002,10 @@ HRESULT CLoader::Loading_For_RaceFirst()/**/
 	ADD_TEXTURE(BuildingU, "../Bin/Resources/Textures/Object/BuildingU/BuildingU.PNG", 1);
 	ADD_TEXTURE(RaceGate, "../Bin/Resources/Textures/Object/RaceGate/RaceGate%d.PNG", 3);
 	ADD_TEXTURE(RaceCylinder, "../Bin/Resources/Textures/Object/RaceCylinder/RaceCylinder%d.PNG", 3);
+	ADD_TEXTURE(BombRadius, "../Bin/Resources/Textures/RaceBoss/Bomb/BombRadius.PNG", 1);
 	ADD_TEXTURE(StreetLampHead, "../Bin/Resources/Textures/Object/StreetLamp/StreetLampHead/StreetLampHead.PNG", 1);
 	ADD_TEXTURE(StreetLampBody, "../Bin/Resources/Textures/Object/StreetLamp/StreetLampBody/StreetLampBody.PNG", 1);
 
-	/*if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_RACEFIRST, TEXT("Prototype_Component_Texture_StreetLampHead"),
-		CTexture::Create(m_pGraphic_Device, TEXT("../Bin/Resources/Textures/Object/StreetLamp/StreetLampHead.PNG"), 1))))
-		return E_FAIL;
-
-	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_RACEFIRST, TEXT("Prototype_Component_Texture_StreetLampPillar"),
-		CTexture::Create(m_pGraphic_Device, TEXT("../Bin/Resources/Textures/Object/StreetLamp/StreetLampPillar.PNG"), 1))))
-		return E_FAIL;*/
 
 	lstrcpy(m_szLoadingText, TEXT("모델을(를) 로딩중입니다."));
 	ADD_MODEL_EX(RaceTerrain, 10, 1500);
@@ -1025,6 +1023,7 @@ HRESULT CLoader::Loading_For_RaceFirst()/**/
 	ADD_PRTOBJ(BuildingV);
 	ADD_PRTOBJ(BuildingW);
 	ADD_PRTOBJ(RaceCylinder);
+	ADD_PRTOBJ(BombRadius);
 	ADD_PRTOBJ(StreetLampHead);
 	ADD_PRTOBJ(StreetLampBody);
 

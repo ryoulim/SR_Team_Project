@@ -538,6 +538,9 @@
     <Filter Include="02.GameObjects\UI\Button\Deprecated">
       <UniqueIdentifier>{28e712d3-90bd-4be8-ae9e-6a86f5bf197f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\Statue\RaceBossRazer">
+      <UniqueIdentifier>{751911e4-a29a-43d7-acf6-3bc49574c117}</UniqueIdentifier>
+    </Filter>
     <Filter Include="02.GameObjects\UI\GamePlayUI\PlayerUI\WeaponUI">
       <UniqueIdentifier>{12e90892-da69-4e35-823d-ee7f5d5257a5}</UniqueIdentifier>
     </Filter>
@@ -1102,6 +1105,12 @@
     <ClInclude Include="..\public\StreetLampBody.h">
       <Filter>02.GameObjects\Statue\StreetLamp\Body</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\RazerRadius.h">
+      <Filter>02.GameObjects\Statue\RaceBossRazer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\RaceBossRazer.h">
+      <Filter>02.GameObjects\Statue\RaceBossRazer</Filter>
+    </ClInclude>
     <ClInclude Include="..\public\RaceBossDie.h">
       <Filter>02.GameObjects\Particle\WaterBoat\RaceBossDie</Filter>
     </ClInclude>
@@ -1634,6 +1643,12 @@
     </ClCompile>
     <ClCompile Include="..\private\StreetLampBody.cpp">
       <Filter>02.GameObjects\Statue\StreetLamp\Body</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\RazerRadius.cpp">
+      <Filter>02.GameObjects\Statue\RaceBossRazer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\RaceBossRazer.cpp">
+      <Filter>02.GameObjects\Statue\RaceBossRazer</Filter>
     </ClCompile>
     <ClCompile Include="..\private\RaceBossDie.cpp">
       <Filter>02.GameObjects\Particle\WaterBoat\RaceBossDie</Filter>
