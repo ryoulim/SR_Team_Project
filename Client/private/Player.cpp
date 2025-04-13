@@ -224,7 +224,6 @@ void CPlayer::On_Collision(_uint MyColliderID, _uint OtherColliderID)
 		/* 좀 그렇긴 하네 */
 		m_iMaxWeaponIndex = 2;
 		UIMGR->Add_Weapon();
-		UIMGR->Add_Weapon();
 		PRINT_DIALOG("picked up Chaingun");
 		m_pSoundCom->Play("Weapon");
 		break;
@@ -271,12 +270,16 @@ void CPlayer::On_Collision(_uint MyColliderID, _uint OtherColliderID)
 
 	case CI_ITEM_ARMOR_PIECE:
 		m_tInfo.iArmor += 1;
+		if (m_tInfo.iArmor > 100)
+			m_tInfo.iArmor = 100;
 		PRINT_DIALOG("armor fragment x 1");
 		m_pSoundCom->Play("ArmorPiece");
 		break;
 
 	case CI_ITEM_ARMOR_FULL:
 		m_tInfo.iArmor += 100;
+		if (m_tInfo.iArmor > 100)
+			m_tInfo.iArmor = 100;
 		PRINT_DIALOG("full armor pack !");
 		m_pSoundCom->Play("Armor");
 		break;

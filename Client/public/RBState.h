@@ -147,20 +147,20 @@ public:
 
 
 		/* [ 2초 후 공격 감행 ] */
-		if (m_fTime > 1.f)
-		{
+		//if (m_fTime > 2.f)
+		//{
 			/* [ SHOTREADY, READYBOMB, MOMBACKREADY ] */
 			int iRandomPattern = GetRandomInt(0 , 100);
 			
-			if (iRandomPattern > 70)
+			if (iRandomPattern > 90)
 				m_pOwner->Set_State(CRaceBoss::MOMBACKREADY);
-			else if (iRandomPattern > 40)
+			else if (iRandomPattern > 80)
 				m_pOwner->Set_State(CRaceBoss::READYBOMB);
 			else
 				m_pOwner->Set_State(CRaceBoss::SHOTREADY);
 			
 			m_fTime = 0.f;
-		}
+		//}
 	}
 	virtual void Exit() override
 	{
