@@ -148,14 +148,14 @@ public:
 		{
 			/* [ SHOTREADY, READYBOMB, MOMBACKREADY ] */
 			int iRandomPattern = GetRandomInt(0 , 100);
-
+			
 			if (iRandomPattern > 70)
 				m_pOwner->Set_State(CRaceBoss::MOMBACKREADY);
 			else if (iRandomPattern > 40)
 				m_pOwner->Set_State(CRaceBoss::READYBOMB);
 			else
 				m_pOwner->Set_State(CRaceBoss::SHOTREADY);
-
+			
 			m_fTime = 0.f;
 		}
 	}
@@ -505,7 +505,7 @@ public:
 	virtual void Enter(_float fTimeDelta) override
 	{
 		m_fTime = 0.f;
-
+		m_fRotatedAmount = 0.f;
 		/* [ 이전 회전값 저장 ] */
 		m_pOwner->m_vSavedRight = *m_pOwner->m_pTransformCom->Get_State(CTransform::STATE_RIGHT);
 		m_pOwner->m_vSavedUp = *m_pOwner->m_pTransformCom->Get_State(CTransform::STATE_UP);
@@ -550,6 +550,7 @@ public:
 		_float3 vCurrentPos = *m_pOwner->m_pTransformCom->Get_State(CTransform::STATE_POSITION);
 		_float3 vTargetPos = *m_pOwner->m_pPlayerpos;
 		m_pOwner->SpawnTargetLineReverse({ vCurrentPos.x + 200 , 1.f, vTargetPos.z + 1000 });
+
 		m_pOwner->Set_State(CRaceBoss::MOMBACK);
 	}
 
@@ -568,7 +569,7 @@ public:
 	virtual void Enter(_float fTimeDelta) override
 	{
 		m_fTime = 0.f;
-
+		m_fSpeed = 4000.f;
 		m_pOwner->SpawnWaterParticle(400.f, -360.f, 360.f);
 		static_cast<CCameraManager*>(m_pOwner->m_pGameInstance->Find_Manager(TEXT("Camera_Manager")))->Shake_Camera(1.f, 1.f);
 	}
@@ -583,7 +584,7 @@ public:
 		if (m_pOwner->m_pWaterBoatEffect_01)
 		{
 			_float3 vWaterPos = vCurrentPos;
-			vWaterPos.y -= 130.f;
+			vWaterPos.y -= 100.f;
 
 			static_cast<CWaterBoat*>(m_pOwner->m_pWaterBoatEffect_01)->SetPosition(vWaterPos);
 			static_cast<CWaterBoat*>(m_pOwner->m_pWaterBoatEffect_02)->SetPosition(vWaterPos);
@@ -601,11 +602,22 @@ public:
 	}
 	virtual void Exit() override
 	{
+		/* [ 이펙트 있니? 있으면 내놔 ] */
+		if (m_pOwner->m_pWaterBoatEffect_01)
+		{
+			static_cast<CWaterBoat*>(m_pOwner->m_pWaterBoatEffect_01)->SetDead();
+			static_cast<CWaterBoat*>(m_pOwner->m_pWaterBoatEffect_02)->SetDead();
+			static_cast<CWaterBoat*>(m_pOwner->m_pWaterBoatEffect_03)->SetDead();
+			m_pOwner->m_pWaterBoatEffect_01 = nullptr;
+			m_pOwner->m_pWaterBoatEffect_02 = nullptr;
+			m_pOwner->m_pWaterBoatEffect_03 = nullptr;
+		}
+
 		m_pOwner->Set_State(CRaceBoss::MOMBACKREVERSE);
 	}
 
 private:
-	_float m_fSpeed = 3000.f;
+	_float m_fSpeed = 4000.f;
 };
 
 class CRBState_MombackReverse final : public CRBState
@@ -619,7 +631,7 @@ public:
 	virtual void Enter(_float fTimeDelta) override
 	{
 		m_fTime = 0.f;
-
+		m_fSpeed = 5000.f;
 		/* 포지션 정비 */
 		_float3 vCurrentPos = *m_pOwner->m_pTransformCom->Get_State(CTransform::STATE_POSITION);
 		_float3 vTargetPos = *m_pOwner->m_pPlayerpos;
@@ -640,7 +652,7 @@ public:
 		if (m_pOwner->m_pWaterBoatEffect_01)
 		{
 			_float3 vWaterPos = vCurrentPos;
-			vWaterPos.y -= 130.f;
+			vWaterPos.y -= 100.f;
 
 			static_cast<CWaterBoat*>(m_pOwner->m_pWaterBoatEffect_01)->SetPosition(vWaterPos);
 			static_cast<CWaterBoat*>(m_pOwner->m_pWaterBoatEffect_02)->SetPosition(vWaterPos);
@@ -753,6 +765,18 @@ public:
 	}
 	virtual void Exit() override
 	{
+		m_pOwner->m_pTransformCom->Rotation_Reset();
+
+		/* [ 이펙트 있니? 있으면 내놔 ] */
+		if (m_pOwner->m_pWaterBoatEffect_01)
+		{
+			static_cast<CWaterBoat*>(m_pOwner->m_pWaterBoatEffect_01)->SetDead();
+			static_cast<CWaterBoat*>(m_pOwner->m_pWaterBoatEffect_02)->SetDead();
+			static_cast<CWaterBoat*>(m_pOwner->m_pWaterBoatEffect_03)->SetDead();
+			m_pOwner->m_pWaterBoatEffect_01 = nullptr;
+			m_pOwner->m_pWaterBoatEffect_02 = nullptr;
+			m_pOwner->m_pWaterBoatEffect_03 = nullptr;
+		}
 	}
 private:
 	_float m_fSpeedY{};
@@ -770,6 +794,17 @@ public:
 	virtual void Enter(_float fTimeDelta) override
 	{
 		m_fTime = 0.f;
+
+		/* [ 이펙트 있니? 있으면 내놔 ] */
+		if (m_pOwner->m_pWaterBoatEffect_01)
+		{
+			static_cast<CWaterBoat*>(m_pOwner->m_pWaterBoatEffect_01)->SetDead();
+			static_cast<CWaterBoat*>(m_pOwner->m_pWaterBoatEffect_02)->SetDead();
+			static_cast<CWaterBoat*>(m_pOwner->m_pWaterBoatEffect_03)->SetDead();
+			m_pOwner->m_pWaterBoatEffect_01 = nullptr;
+			m_pOwner->m_pWaterBoatEffect_02 = nullptr;
+			m_pOwner->m_pWaterBoatEffect_03 = nullptr;
+		}
 	}
 	virtual void Execute(_float fTimeDelta) override
 	{
