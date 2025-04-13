@@ -1,8 +1,6 @@
 #pragma once
 #include "PSystem.h"
 
-//스노우 파티클은 포지션이 아닌 바운딩 박스로 위치를 지정한다.
-
 class CWaterBoat : public CPSystem
 {
 public:

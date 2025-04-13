@@ -37,7 +37,7 @@ HRESULT CCameraManager::Initialize()
 	TPSCameraDesc.vAt = _float3();
 	TPSCameraDesc.fFov = 60.f;
 	TPSCameraDesc.fNear = 0.1f;
-	TPSCameraDesc.fFar = 2000.f;
+	TPSCameraDesc.fFar = 3500.f;
 	
 	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_TPS_Camera"),
 		LEVEL_STATIC, TEXT("Layer_Camera"), &TPSCameraDesc)))

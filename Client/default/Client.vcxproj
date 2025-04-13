@@ -262,6 +262,7 @@
     <ClInclude Include="..\public\MainMenu.h" />
     <ClInclude Include="..\public\Map.h" />
     <ClInclude Include="..\public\Mechsect.h" />
+    <ClInclude Include="..\public\MombackLine.h" />
     <ClInclude Include="..\public\MonsterGuidBullet.h" />
     <ClInclude Include="..\public\MonsterMissile.h" />
     <ClInclude Include="..\public\Monster.h" />
@@ -282,6 +283,7 @@
     <ClInclude Include="..\public\RaceBoss.h" />
     <ClInclude Include="..\public\RaceBossBomb.h" />
     <ClInclude Include="..\public\RaceBossBullet.h" />
+    <ClInclude Include="..\public\RaceBossDie.h" />
     <ClInclude Include="..\public\RaceCylinder.h" />
     <ClInclude Include="..\public\RaceGate.h" />
     <ClInclude Include="..\public\RaceLandscape.h" />
@@ -441,6 +443,7 @@
     <ClCompile Include="..\private\MainMenu.cpp" />
     <ClCompile Include="..\private\Map.cpp" />
     <ClCompile Include="..\private\Mechsect.cpp" />
+    <ClCompile Include="..\private\MombackLine.cpp" />
     <ClCompile Include="..\private\MonsterGuidBullet.cpp" />
     <ClCompile Include="..\private\MonsterMissile.cpp" />
     <ClCompile Include="..\private\Monster.cpp" />
@@ -460,6 +463,7 @@
     <ClCompile Include="..\private\RaceBoss.cpp" />
     <ClCompile Include="..\private\RaceBossBomb.cpp" />
     <ClCompile Include="..\private\RaceBossBullet.cpp" />
+    <ClCompile Include="..\private\RaceBossDie.cpp" />
     <ClCompile Include="..\private\RaceCylinder.cpp" />
     <ClCompile Include="..\private\RaceGate.cpp" />
     <ClCompile Include="..\private\RaceLandscape.cpp" />
