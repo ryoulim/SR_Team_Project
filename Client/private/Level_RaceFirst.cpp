@@ -44,6 +44,11 @@ HRESULT CLevel_RaceFirst::Initialize(CLevelData* pLevelData)
 
 	m_pGraphic_Device->SetRenderState(D3DRS_LIGHTING, TRUE);
 
+	m_pBGM = m_pGameInstance->Get_Single_Sound("antistatic");
+	m_pBGM->Set_Volume(0.5f);
+	if(!m_pBGM->IsPlaying())
+		m_pBGM->Play();
+
 	return S_OK;
 }
 
@@ -738,4 +743,7 @@ void CLevel_RaceFirst::Free()
 	m_LightData.clear();
 
 	m_pGraphic_Device->SetRenderState(D3DRS_LIGHTING, FALSE);
+
+	m_pBGM->Stop();
+	Safe_Release(m_pBGM);
 }

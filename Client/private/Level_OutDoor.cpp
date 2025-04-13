@@ -47,6 +47,9 @@ HRESULT CLevel_OutDoor::Initialize(CLevelData* pLevelData)
 		return E_FAIL;
 
 	FX_MGR->SpawnRain(LEVEL_OUTDOOR);
+	m_pBGM = m_pGameInstance->Get_Single_Sound("slickstreet");
+	m_pBGM->Set_Volume(0.5f);
+	m_pBGM->Play();
 
 	return S_OK;
 }
@@ -650,4 +653,6 @@ void CLevel_OutDoor::Free()
 	//if (Cameramanager)
 	//	Cameramanager->Switch(CCameraManager::DYNAMIC);
 	__super::Free();
+	m_pBGM->Stop();
+	Safe_Release(m_pBGM);
 }

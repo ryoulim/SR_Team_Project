@@ -2,6 +2,7 @@
 
 #include "Client_Defines.h"
 #include "Level.h"
+#include "GameInstance.h"
 
 BEGIN(Client)
 
@@ -37,6 +38,9 @@ private:
 
 	//거리를 기준으로 빛 구조체 번호 관리
 	list<LIGHTDATA*> m_LightData;
+
+private:
+	CSound_Core* m_pBGM = { nullptr };
 
 public:
 	static CLevel_RaceFirst* Create(LPDIRECT3DDEVICE9 pGraphic_Device, class CLevelData* pLevelData);
