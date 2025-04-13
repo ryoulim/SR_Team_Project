@@ -2,7 +2,7 @@
 #include "FXMgr.h"
 #include "UI_Manager.h"
 
-#define INVINCIBILITY_FRAMES 0.8f
+#define INVINCIBILITY_FRAMES 1.5f
 
 CPawn::CPawn(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CGameObject{ pGraphic_Device }

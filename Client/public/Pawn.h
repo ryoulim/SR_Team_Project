@@ -52,6 +52,7 @@ protected:
 	CTexture* m_pTextureCom = { nullptr };
 	CVIBuffer* m_pVIBufferCom = { nullptr };
 	CTransform* m_pTransformCom = { nullptr };
+	CSoundController* m_pSoundCom = { nullptr };
 	CCollider* m_pCollider = { nullptr };
 	CCollider* m_pPrePosCollider{ nullptr };
 	_bool	m_bActive{ TRUE };

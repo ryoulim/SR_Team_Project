@@ -54,6 +54,20 @@ HRESULT CPlayer::Initialize(void* pArg)
 
 	Add_Weapons();
 
+	m_pSoundCom->SetVolume(0.45f);
+	m_pSoundCom->SetVolume("stone_jump001", 0.8f);
+	m_pSoundCom->SetVolume("stone_jump002", 0.8f);
+	m_pSoundCom->SetVolume("stone_jump003", 0.8f);
+	m_pSoundCom->SetVolume("fastwhoosh", 0.35f);
+	m_pSoundCom->SetVolume("Dash", 0.6f);
+
+	//m_pSoundCom->SetVolume("stone_land001", 0.35f);
+	//m_pSoundCom->SetVolume("stone_land002", 0.35f);
+	//m_pSoundCom->SetVolume("stone_land003", 0.35f);
+
+	m_pSoundCom->SetVolume("TimeTo",0.35f);
+	m_pSoundCom->Play("TimeTo");
+
 	m_pLeftHand = new CLeftHand(m_pGraphic_Device);
 	if (FAILED(m_pLeftHand->Initialize(pArg)))
 		return E_FAIL;
@@ -135,6 +149,23 @@ void CPlayer::Late_Update(_float fTimeDelta)
 	//else
 
 	m_pGravityCom->Update(fTimeDelta);
+	if (m_pGravityCom->isJumpEnd())
+	{
+		switch (rand() % 3)
+		{
+		case 0:
+			m_pSoundCom->Play("stone_land001");
+			break;
+		case 1:
+			m_pSoundCom->Play("stone_land002");
+			break;
+		case 2:
+			m_pSoundCom->Play("stone_land003");
+			break;
+		}
+		m_fWalkSoundTimer = -0.1f;
+	}
+
 
 	Update_Camera_Link();
 
@@ -344,6 +375,11 @@ HRESULT CPlayer::Ready_Components(void* pArg)
 		TEXT("Com_Gravity"), reinterpret_cast<CComponent**>(&m_pGravityCom), &GravityDesc)))
 		return E_FAIL;
 
+	/* For.Com_Sound */
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Sound_Player"),
+		TEXT("Com_Sound"), reinterpret_cast<CComponent**>(&m_pSoundCom))))
+		return E_FAIL;
+
 	return S_OK;
 }
 
@@ -414,12 +450,44 @@ void CPlayer::Key_Input(_float fTimeDelta)
 
 		if(!m_pGravityCom->isJump())
 			m_Weapons[m_iCurWeaponIndex]->Walk(fTimeDelta);
+
+		m_fWalkSoundTimer += fTimeDelta;
+		if (m_fWalkSoundTimer >= 0.39f && 
+			!m_pGravityCom->isJump())
+		{ 
+			switch (rand() % 3)
+			{
+			case 0:
+				m_pSoundCom->Play("stone_run001");
+				break;
+			case 1:
+				m_pSoundCom->Play("stone_run002");
+				break;
+			case 2:
+				m_pSoundCom->Play("stone_run003");
+				break;
+			}
+			m_fWalkSoundTimer = 0.f;
+		}
 	}
 
 	// 점프
-	if (KEY_DOWN(DIK_SPACE))
+	if (KEY_DOWN(DIK_SPACE) &&
+		!m_pGravityCom->isJump())
 	{
 		m_pGravityCom->Jump(33.f);
+		switch (rand() % 3)
+		{
+		case 0:
+			m_pSoundCom->Play("stone_jump001");
+			break;
+		case 1:
+			m_pSoundCom->Play("stone_jump002");
+			break;
+		case 2:
+			m_pSoundCom->Play("stone_jump003");
+			break;
+		}
 	}
 	// 대쉬
 	if (KEY_DOWN(DIK_LSHIFT)			&&
@@ -440,6 +508,8 @@ void CPlayer::Key_Input(_float fTimeDelta)
 
 		m_vDashDirection = vMoveDir.Normalize();
 		
+		m_pSoundCom->Play("fastwhoosh");
+		m_pSoundCom->Play("Dash");
 		// FOV 관련
 		//_float fTargetFov{};
 		//if (0 <= m_pTransformCom->Get_State(CTransform::STATE_LOOK)->Dot(m_vDashDirection))
@@ -463,9 +533,6 @@ void CPlayer::Key_Input(_float fTimeDelta)
 		// 이펙트 생성
 		FX_MGR->PlayerDash(m_eLevelID);
 
-		// 대쉬 스피드 설정
-		//m_pTransformCom->Set_SpeedPerSec(DASH_SPEED);
-
 		// 이동방향 판별
 		m_pGravityCom->Jump(60.f);
 		//m_vDashDirection = {0.f,1.f,0.f};
@@ -476,6 +543,20 @@ void CPlayer::Key_Input(_float fTimeDelta)
 		m_bDash = TRUE;
 		m_fDashTimer = 0.f;
 
+		//m_pSoundCom->Play("fastwhoosh")
+		m_pSoundCom->Play("Dash");
+		switch (rand() % 3)
+		{
+		case 0:
+			m_pSoundCom->Play("stone_jump001");
+			break;
+		case 1:
+			m_pSoundCom->Play("stone_jump002");
+			break;
+		case 2:
+			m_pSoundCom->Play("stone_jump003");
+			break;
+		}
 	}
 
 	if (0 == m_iMaxWeaponIndex)
@@ -545,7 +626,7 @@ void CPlayer::Update_Dash(_float fTimeDelta)
 			m_byJustDodgeFlag = -1;
 			m_bOnHit = FALSE;
 			m_pCameraManager->Zoom(RADIAN(60.f), 0.2f);
-			m_pCameraManager->Tilt(-m_fTiltAngle, 0.5f);
+			m_pCameraManager->Tilt(-m_fTiltAngle, 0.1f);
 
 			//const _float3& vCameraLook = m_pCameraTransform->Get_State(CTransform::STATE_LOOK)->Normalize();
 			//_float3 vRight = _VUp.Cross(vCameraLook);
@@ -599,6 +680,7 @@ void CPlayer::On_Just_Dodge()
 	if (m_byJustDodgeFlag)
 		return;
 
+	m_pSoundCom->Play("Dodge");
 	// 저스트 회피
 	m_byJustDodgeFlag = 1;
 	m_fJustDodgeTimer = 0.f;
@@ -621,6 +703,7 @@ void CPlayer::On_Just_Dodge()
 	// 우선순위로 분기
 	if (fabs(fFwdDot) > fabs(fRightDot))
 	{
+		m_fTiltAngle = 0.f;
 		if (fFwdDot > 0.f)
 			m_pCameraManager->Zoom(RADIAN(50.f), 0.5f * DODGE_TIMESCALE); // 앞 회피 = 확대
 		else
@@ -629,9 +712,9 @@ void CPlayer::On_Just_Dodge()
 	else
 	{
 		if (fRightDot > 0.f)
-			m_fTiltAngle = -RADIAN(10.f);
+			m_fTiltAngle = -RADIAN(12.f);
 		else
-			m_fTiltAngle = RADIAN(10.f);
+			m_fTiltAngle = RADIAN(12.f);
 		 
 		m_pCameraManager->Tilt(m_fTiltAngle, 0.5f * DODGE_TIMESCALE); 
 	}
@@ -662,6 +745,20 @@ void CPlayer::On_Hit(_int iDamage)
 	// 각도 구하기
 	_float fRadian = atan2f(vLook.x * vCollisionDepth.z - vLook.z * vCollisionDepth.x,
 		vLook.x * vCollisionDepth.x + vLook.z * vCollisionDepth.z);
+
+
+	switch (rand() % 3)
+	{
+	case 0:
+		m_pSoundCom->Play("hurt01");
+		break;
+	case 1:
+		m_pSoundCom->Play("hurt02");
+		break;
+	case 2:
+		m_pSoundCom->Play("hurt03");
+		break;
+	}
 
 	m_tInfo.iArmor -= iDamage;
 	FX_MGR->SpawnHitEffect(m_eLevelID);
@@ -717,6 +814,7 @@ void CPlayer::Free()
 	Safe_Release(m_pGravityCom);
 	Safe_Release(m_pCameraManager);
 	Safe_Release(m_pCameraTransform);
+	Safe_Release(m_pSoundCom);
 
 	Safe_Release(m_pLeftHand);
 }
@@ -748,6 +846,7 @@ HRESULT CPlayer::CLeftHand::Initialize(void* pArg)
 	m_pTransformCom->Set_SpeedPerSec(800.f);
 	m_pTransformCom->Scaling(_float3(105.f, 243.f, 1.f) * 1.6f);
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, _float3(-350.f, -(g_iWinSizeY *  0.5f) - 200.f, 0.95f));
+
 	m_fDepth = UI_PLAYER;
 
 	return S_OK;

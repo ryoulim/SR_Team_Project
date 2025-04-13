@@ -95,6 +95,10 @@ void CFPS_Camera::Mouse_Move()
 	_float		fMouseMoveX = { static_cast<_float>(m_pGameInstance->Get_DIMMoveState(DIMM_X)) };
 	_float		fMouseMoveY = { static_cast<_float>(m_pGameInstance->Get_DIMMoveState(DIMM_Y)) };
 
+	if (fMouseMoveX == 0 &&
+		fMouseMoveY == 0)
+		return;
+
 	_float3		vRotationAxis = (*m_pTransformCom->Get_State(CTransform::STATE_RIGHT) * fMouseMoveY)
 		+ (*m_pTransformCom->Get_State(CTransform::STATE_UP) * fMouseMoveX);
 
@@ -308,7 +312,7 @@ void CFPS_Camera::Update_Tilt(_float fTimeDelta)
 
 	// Turn에는 이번 프레임에 회전해야 할 차이만 넘김
 	_float fDelta = fCurrentTiltRadian - m_fPrevTiltRadian;
-	m_pTransformCom->TurnCustom(vLook,1.f, fDelta);
+	m_pTransformCom->TurnCustom(vLook, 1.f, fDelta);
 
 	// 현재 상태 저장
 	m_fPrevTiltRadian = fCurrentTiltRadian;

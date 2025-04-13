@@ -84,6 +84,10 @@ private:
 	_float						m_fJustDodgeTimer{};
 	_float						m_fDashUnappliedDistance{};// 저스트 회피중 대쉬거리 계산
 	_float						m_fTiltAngle;
+
+	// 소리 시간재기
+	_float						m_fWalkSoundTimer{ 0.4f };
+	_bool						m_bPreLand{};
 private:
 	virtual HRESULT Ready_Components(void* pArg);
 

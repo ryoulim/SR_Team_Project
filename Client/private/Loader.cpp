@@ -718,6 +718,7 @@ HRESULT CLoader::Loding_For_Static()
 	ADD_SOUND(LoverBoy, "../Bin/Resources/Sounds/Weapons/Loverboy/");
 	ADD_SOUND(Dispenser, "../Bin/Resources/Sounds/Weapons/Dispenser/");
 	ADD_SOUND(Explorsion, "../Bin/Resources/Sounds/Explorsion/");
+	ADD_SOUND(Player, "../Bin/Resources/Sounds/Player/");
 #pragma endregion
 
 
