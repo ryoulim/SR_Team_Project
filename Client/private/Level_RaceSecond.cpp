@@ -55,7 +55,7 @@ void CLevel_RaceSecond::Update(_float fTimeDelta)
 HRESULT CLevel_RaceSecond::Render()
 {
 	// 모든 랜더가 끝나고 들어오는 부분!! 
-	//m_pGraphic_Device->SetRenderState(D3DRS_LIGHTING, TRUE);
+	m_pGraphic_Device->SetRenderState(D3DRS_LIGHTING, TRUE);
 
 	SetWindowText(g_hWnd, TEXT("레이싱 second레벨입니다."));
 

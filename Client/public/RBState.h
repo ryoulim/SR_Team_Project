@@ -131,7 +131,8 @@ public:
 		if (fDiffToPlayer > 2500.f)
 			m_pOwner->Set_State(CRaceBoss::CLOSE_TO_PLAYER);
 
-		if (fDiffToPlayer - fScaleZ*2.f < 0.f)
+		if (m_pOwner->m_pPlayerpos->z > -1500.f &&
+			fDiffToPlayer - fScaleZ*2.f < 0.f)
 			m_pOwner->m_pPlayer->Set_StartState(CPlayerOnBoat::AWAY_FROM_BOSS);
 
 
