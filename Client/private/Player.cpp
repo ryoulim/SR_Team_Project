@@ -13,7 +13,7 @@
 #define PRINT_DIALOG(Message) UIMGR->Insert_DialogQueue(Message)
 
 #define DASH_TIME 0.25f
-#define JUST_DASH_TIME 0.13f
+#define JUST_DASH_TIME 0.15f
 //이게 근데 타이머판정 말고 그 콜라이더 판정도 있어서 약간 특정상황에서 후해지긴함
 #define DASH_SPEED 900.f
 #define DASH_DECAY 0.05f
@@ -544,6 +544,7 @@ void CPlayer::Update_Dash(_float fTimeDelta)
 			m_pGameInstance->Set_TimeScale(TEXT("Timer_60"), 1.f);
 			m_byJustDodgeFlag = -1;
 			m_bOnHit = FALSE;
+			m_pCameraManager->Zoom(RADIAN(60.f), 0.2f);
 		}
 
 		m_fJustDodgeTimer += fTimeDelta * (1.f / DODGE_TIMESCALE);
@@ -596,6 +597,36 @@ void CPlayer::On_Just_Dodge()
 	m_fJustDodgeTimer = 0.f;
 	m_pGameInstance->Set_TimeScale(TEXT("Timer_60"), DODGE_TIMESCALE);
 	CUI_Manager::Get_Instance()->Set_Face(CPortrait::PORTRAIT_HYPER);
+	/*
+	* 기울이는 방향 판정
+	앞	Look과 내적 +
+	뒤	Look과 내적 -
+	우	Right과 내적 +
+	좌	Right과 내적 -
+	*/
+
+	const _float3& vCameraLook = m_pCameraTransform->Get_State(CTransform::STATE_LOOK)->Normalize();
+	const _float3& vCameraRight = m_pCameraTransform->Get_State(CTransform::STATE_RIGHT)->Normalize();
+
+	_float fFwdDot = m_vDashDirection.Dot(vCameraLook);
+	_float fRightDot = m_vDashDirection.Dot(vCameraRight);
+
+	// 우선순위로 분기
+	if (fabs(fFwdDot) > fabs(fRightDot))
+	{
+		if (fFwdDot > 0.f)
+			m_pCameraManager->Zoom(RADIAN(40.f), 1.f * DODGE_TIMESCALE); // 앞 회피 = 확대
+		else
+			m_pCameraManager->Zoom(RADIAN(80.f), 1.f * DODGE_TIMESCALE); // 뒤 회피 = 축소
+	}
+	else
+	{
+		if (fRightDot > 0.f)
+			m_pCameraManager->Tilt(-RADIAN(12.f), 1.f * DODGE_TIMESCALE); // 오른쪽 회피 = 오른쪽으로 기울이기
+		else
+			m_pCameraManager->Tilt(RADIAN(12.f), 1.f * DODGE_TIMESCALE);// 왼쪽 회피 = 왼쪽으로 기울이기
+	}
+
 }
 
 void CPlayer::On_Hit(_int iDamage)
@@ -626,7 +657,7 @@ void CPlayer::On_Hit(_int iDamage)
 	m_tInfo.iArmor -= iDamage;
 	FX_MGR->SpawnHitEffect(m_eLevelID);
 	FX_MGR->Damage_Indicator(m_eLevelID,fRadian);
-	CAMERA_MANAGER->Shake_Camera(0.5f, 0.25f, 200.f, 80.f);
+	m_pCameraManager->Shake_Camera(0.5f, 0.25f, 200.f, 80.f);
 	CUI_Manager::Get_Instance()->Set_Face(CPortrait::PORTRAIT_ANGER);
 
 	if (m_tInfo.iArmor <= 0)

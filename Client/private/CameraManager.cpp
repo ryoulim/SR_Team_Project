@@ -131,6 +131,11 @@ void CCameraManager::Zoom(_float fFOV, _float Time)
 	static_cast<CFPS_Camera*>(m_Cameras[m_eID])->Zoom(fFOV, Time);
 }
 
+void CCameraManager::Tilt(_float fRadian, _float _fDuration)
+{
+	static_cast<CFPS_Camera*>(m_Cameras[m_eID])->StartTilt(fRadian, _fDuration);
+}
+
 void CCameraManager::Switch(CCameraManager::ID _ID)
 {
 	if (_ID >= UI)

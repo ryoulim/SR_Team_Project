@@ -35,6 +35,7 @@ public:
 	virtual void Shake_Camera(_float fIntensity = 1.f, _float fDuration = 1.f, _float fShakeFreqPos = 100.f, _float fShakeFreqRot = 40.f);
 	void StartRecoil(_float fIntensity = 0.4f, _float fDuration = 0.04f);
 	void Zoom(_float fFOV, _float Time);
+	void Tilt(_float fRadian, _float _fDuration);
 	void Set_Mouse_Fix(_bool isFixMode);
 
 	void Start_CutScene(vector<_float3>* pMovePoints, vector<_float3>* pLookPoints, _float fCameraSpeed, _bool* _Out_ pEndFlag);
