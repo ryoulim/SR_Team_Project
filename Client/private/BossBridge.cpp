@@ -63,7 +63,7 @@ EVENT CBossBridge::Update(_float fTimeDelta)
 			//소용돌이(중앙)
 			FX_MGR->SpawnSpher(_float3{ 1430.f, 0.f, 1480.f }, LEVEL_GAMEPLAY);
 			m_bDoOnce = true;
-			m_pSoundCom->SetVolume(1.5f);
+			m_pSoundCom->SetVolume(0.7f);
 			m_pSoundCom->Play("door_stone2");
 			BossMap_CutScene1();
 		}

@@ -33,6 +33,7 @@ public:
     void Set3DState(const string& strTag, _float fMin, _float fMax);
     _bool IsPlaying(const string& strTag) const;
 
+    void StopAll();
     void SetVolume(_float Volume);
     // 사운드 포지션 업데이트
     void Update3DPosition(const _float3& vPos);

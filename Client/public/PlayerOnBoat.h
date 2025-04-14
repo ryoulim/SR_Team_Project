@@ -27,7 +27,6 @@ public:
 	virtual void On_Collision(_uint MyColliderID, _uint OtherColliderID) override;
 	virtual void On_Hit(_int iDamage) override;
 
-
 	_float3		GetVelocityPerSecond(_float fTimeDelta) const {
 		const _float3& vPos = *m_pTransformCom->Get_State(CTransform::STATE_POSITION);
 		return (vPos - m_vPrePos) / fTimeDelta;
@@ -101,6 +100,7 @@ private:
 	class CRaceAim*			m_pAim {};
 	CTransform*				m_pBossTransform{};
 	_float					m_fBossHalfScaleZ{};
+	_bool					m_bAimRender{ TRUE };
 private:
 	void			Init_Camera_Link();
 	void			Update_Camera_Link();

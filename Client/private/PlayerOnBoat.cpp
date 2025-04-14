@@ -153,7 +153,6 @@ void CPlayerOnBoat::Late_Update(_float fTimeDelta)
 	if (m_bActive == FALSE)
 		return;
 
-
 	const _float3& vPos = *m_pTransformCom->Get_State(CTransform::STATE_POSITION);
 
 	if (vPos.z > 13000.f)
@@ -165,10 +164,10 @@ void CPlayerOnBoat::Late_Update(_float fTimeDelta)
 
 	m_pGameInstance->Add_RenderGroup(CRenderer::RG_BLEND, this);
 
-	m_pAim->Late_Update(fTimeDelta);
+	if(m_bAimRender)
+		m_pAim->Late_Update(fTimeDelta);
 
 	__super::Late_Update(fTimeDelta);
-
 }
 
 HRESULT CPlayerOnBoat::Render()
@@ -363,6 +362,11 @@ void CPlayerOnBoat::Update_Aim(_float fTimeDelta)
 	// 보스의 Z에 도달하는 시점 t 계산
 	const _float numerator = B₀.z - P₀.z;
 	const _float denominator = bulletDir.z * bulletSpeed - bossSpeed;
+
+	if (numerator < 100.f)
+		m_bAimRender = FALSE;
+	else
+		m_bAimRender = TRUE;
 
 	if (denominator <= 0.f || numerator <= 0.f)
 		return;  // 총알이 따라잡을 수 없거나 이미 지남

@@ -87,6 +87,12 @@ _bool CSoundController::IsPlaying(const string& strTag) const
 	return FALSE;
 }
 
+void CSoundController::StopAll()
+{
+	for (auto& [key, value] : m_Sounds)
+		value->Stop();
+}
+
 void CSoundController::SetVolume(_float Volume)
 {
 	for (auto& [key, value] : m_Sounds)
