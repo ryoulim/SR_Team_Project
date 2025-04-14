@@ -547,25 +547,7 @@ void CMonster::Collision_With_Weapon()
 		return;
 	}
 
-	list<CGameObject*>* pMonsterList = m_pGameInstance->Find_Objects(m_eLevelID, TEXT("Layer_Monster"));
-	if (nullptr == pMonsterList)
-		return;
-
-	_float3 vPosition = *m_pTransformCom->Get_State(CTransform::STATE_POSITION);
-
-	for (auto& pMonster : *pMonsterList)
-	{
-		_float3 vMobPosition = *static_cast<CTransform*>(pMonster->Find_Component(TEXT("Com_Transform")))->Get_State(CTransform::STATE_POSITION);
-
-		/*본인의 거리에서 일정거리 만큼에 몬스터가 있다면*/
-		if ((vPosition - vMobPosition).Length() < 300.f)
-		{
-			static_cast<CMonster*>(pMonster)->On_Player_Found();
-			static_cast<CMonster*>(pMonster)->On_Detective();
-			/* pMonster의 파운드 플레이어를 트루로 바꿔준다 */
-		}
-	}
-
+	State_Change_DETECTIVE_Near_Mob();
 }
 
 void CMonster::Collision_With_Block()
@@ -689,6 +671,29 @@ void CMonster::State_Change_BATTLE(_float dt)
 			m_eState = MODE::MODE_DETECTIVE;
 			m_isReadyToAttack = false;
 			m_bCoolingDown = false;
+		}
+	}
+}
+
+void CMonster::State_Change_DETECTIVE_Near_Mob()
+{
+	list<CGameObject*>* pMonsterList = m_pGameInstance->Find_Objects(m_eLevelID, TEXT("Layer_Monster"));
+	if (nullptr == pMonsterList)
+		return;
+
+	_float3 vPosition = *m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+
+	for (auto& pMonster : *pMonsterList)
+	{
+		_float3 vMobPosition = *static_cast<CTransform*>(pMonster->Find_Component(TEXT("Com_Transform")))->Get_State(CTransform::STATE_POSITION);
+
+		/*본인을 제외한 본인의 거리에서 일정거리 만큼에 몬스터가 있다면*/
+		/* 상수 박혀있는거 나중에 바꿔야 할 거 같아요 */
+		if (pMonster != this && (vPosition - vMobPosition).Length() < 100.f)
+		{
+			/* pMonster의 파운드 플레이어를 트루로 바꿔준다 */
+			static_cast<CMonster*>(pMonster)->On_Player_Found();
+			static_cast<CMonster*>(pMonster)->On_Detective();
 		}
 	}
 }

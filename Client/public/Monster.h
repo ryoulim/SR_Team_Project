@@ -270,7 +270,8 @@ protected: // 일반 몬스터용 함수들
 	virtual void State_Change_READY(_float dt);
 	virtual void State_Change_BATTLE(_float dt);
 
-protected: // 플레이어 찾았다고 알려주는 함수
+protected: // 플레이어 찾았다고 알려주는 함수들
+	void State_Change_DETECTIVE_Near_Mob();
 	void On_Player_Found() {
 		m_bFoundPlayer = true;
 	}
@@ -280,9 +281,8 @@ protected: // 플레이어 찾았다고 알려주는 함수
 		if (m_bDead)
 			return;
 
-		if (m_eState != MODE::MODE_BATTLE && m_eState != MODE::MODE_DETECTIVE && m_eState != MODE::MODE_READY)
+		if (m_eState == MODE::MODE_IDLE)
 			m_eState = MODE::MODE_DETECTIVE;
-
 	}
 
 protected:
