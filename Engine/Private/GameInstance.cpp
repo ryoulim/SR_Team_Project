@@ -12,6 +12,7 @@
 #include "Collider_Manager.h"
 #include "Sound_Device.h"
 #include "Management.h"
+#include "Frustum.h"
 
 IMPLEMENT_SINGLETON(CGameInstance);
 
@@ -71,6 +72,10 @@ HRESULT CGameInstance::Initialize_Engine(const ENGINE_DESC& EngineDesc, LPDIRECT
 	if (nullptr == m_pManagement)
 		return E_FAIL;
 
+	m_pFrustum = CFrustum::Create(*ppOut);
+	if (nullptr == m_pFrustum)
+		return E_FAIL;
+
 	return S_OK;
 }
 
@@ -80,7 +85,11 @@ void CGameInstance::Update_Engine(_float fTimeDelta)
 	m_pSound_Device->Update();
 
 	m_pObject_Manager->Priority_Update(fTimeDelta);
+
 	m_pObject_Manager->Update(fTimeDelta);
+
+	// 레이트 업데이트 이전에 절두체 업데이트
+	m_pFrustum->Update_Frustum();
 
 	m_pObject_Manager->Late_Update(fTimeDelta);
 
@@ -198,17 +207,6 @@ list<CGameObject*>* CGameInstance::Find_Objects(_uint iLevelIndex, const _wstrin
 	return m_pObject_Manager->Find_Objects(iLevelIndex, strLayerTag);
 }
 
-FORCEINLINE
-void CGameInstance::Update_Frustum(const _float4x4& viewProj)
-{
-	m_pObject_Manager->Update_Frustum(viewProj);
-}
-
-FORCEINLINE
-_bool CGameInstance::IsPointInFrustum(const _float3& Point)
-{
-	return m_pObject_Manager->IsPointInFrustum(Point);
-}
 #pragma endregion
 
 #pragma region COLLIDER_MANAGER
@@ -399,7 +397,7 @@ void CGameInstance::Set_Master_Volume(_float volume)
 }
 #pragma endregion
 
-#pragma region 
+#pragma region MANAGEMENT
 
 FORCEINLINE
 HRESULT CGameInstance::Add_Manager(const _wstring& strManagertag, CBase* pManager)
@@ -412,11 +410,22 @@ CBase* CGameInstance::Find_Manager(const _wstring& strManagertag) const
 {
 	return m_pManagement->Find_Manager(strManagertag);
 }
+#pragma endregion
+
+#pragma region FRUSTUM
+FORCEINLINE
+_bool CGameInstance::IsInFrustum(const _float3& vPos, _float fRadius)
+{
+	return m_pFrustum->IsPointInFrustum(vPos, fRadius);
+}
 
 #pragma endregion
 
+
 void CGameInstance::Release_Engine()
 {
+	Safe_Release(m_pFrustum);
+
 	Safe_Release(m_pCollider_Manager);
 
 	Safe_Release(m_pCsv_Reader);

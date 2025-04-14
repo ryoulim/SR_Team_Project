@@ -196,6 +196,9 @@
     <ClInclude Include="..\Public\Sound_Core.h">
       <Filter>97.Device\Sound\Core</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\Frustum.h">
+      <Filter>07. Frustum</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="99.Headers">
@@ -390,6 +393,9 @@
     <Filter Include="97.Device\Input">
       <UniqueIdentifier>{04776061-ce83-4782-abcf-5951e4ae31e2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="07. Frustum">
+      <UniqueIdentifier>{6b85cbc5-084e-4028-9054-1df85ade5606}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Private\Base.cpp">
@@ -568,6 +574,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\Sound_Core.cpp">
       <Filter>97.Device\Sound\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Frustum.cpp">
+      <Filter>07. Frustum</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

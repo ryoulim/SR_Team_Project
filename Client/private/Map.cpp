@@ -41,8 +41,10 @@ EVENT CMap::Update(_float fTimeDelta)
 
 void CMap::Late_Update(_float fTimeDelta)
 {
-	if (FAILED(m_pGameInstance->Add_RenderGroup(CRenderer::RG_NONBLEND, this)))
-		return;
+	const _float3& vPos = *m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+
+	if (m_pGameInstance->IsInFrustum(vPos, m_pTransformCom->Get_Radius()))
+		m_pGameInstance->Add_RenderGroup(CRenderer::RG_NONBLEND, this);
 }
 
 HRESULT CMap::Render()

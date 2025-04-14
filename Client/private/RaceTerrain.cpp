@@ -38,7 +38,8 @@ EVENT CRaceTerrain::Update(_float fTimeDelta)
 
 void CRaceTerrain::Late_Update(_float fTimeDelta)
 {
-	__super::Late_Update(fTimeDelta);
+	m_pGameInstance->Add_RenderGroup(CRenderer::RG_NONBLEND, this);
+	//__super::Late_Update(fTimeDelta);
 }
 
 HRESULT CRaceTerrain::Render()

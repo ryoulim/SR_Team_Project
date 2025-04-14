@@ -153,6 +153,8 @@ void CTransform::Scaling(_float Ratio)
 	_float3 vUp{ *Get_State(STATE_UP) };
 	_float3 vLook{ *Get_State(STATE_LOOK) };
 
+	m_fRadius = _float3{ Ratio * 0.5f, Ratio * 0.5f, Ratio * 0.5f }.Length();
+
 	Set_State(STATE_RIGHT, vRight.Normalize() * Ratio);
 	Set_State(STATE_UP, vUp.Normalize() * Ratio);
 	Set_State(STATE_LOOK, vLook.Normalize() * Ratio);
@@ -163,6 +165,8 @@ void CTransform::Scaling(const _float3& Ratio)
 	_float3 vRight{ *Get_State(STATE_RIGHT) };
 	_float3 vUp{ *Get_State(STATE_UP) };
 	_float3 vLook{ *Get_State(STATE_LOOK) };
+
+	m_fRadius = _float3{ Ratio.x * 0.5f, Ratio.y * 0.5f, Ratio.z * 0.5f }.Length();
 
 	Set_State(STATE_RIGHT, vRight.Normalize() * Ratio.x);
 	Set_State(STATE_UP, vUp.Normalize() * Ratio.y);

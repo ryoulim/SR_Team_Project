@@ -70,6 +70,11 @@ HRESULT CPlayerOnBoat::Initialize(void* pArg)
 	m_pSoundCom->SetVolume("bike_off", 0.7f);
 
 	m_pSoundCom->SetVolume("bike_crash", 0.6f);
+
+	m_pSoundCom->SetVolume("hurt01", 0.45f);
+	m_pSoundCom->SetVolume("hurt02", 0.45f);
+	m_pSoundCom->SetVolume("hurt03", 0.45f);
+
 	Init_Aim();
 	return S_OK;
 }
@@ -223,8 +228,11 @@ void CPlayerOnBoat::On_Collision(_uint MyColliderID, _uint OtherColliderID)
 {
 	if (OtherColliderID == CI_TRIGGER)
 		Change_Level();
-
-	if (OtherColliderID == CI_BOSS_GUIDBULLET)
+	else if (OtherColliderID == CI_BOSS_GUIDBULLET)
+	{
+		On_Hit(7);
+	}
+	else if (OtherColliderID == CI_BOSS_BULLET)
 	{
 		On_Hit(7);
 	}
@@ -240,6 +248,19 @@ void CPlayerOnBoat::On_Hit(_int iDamage)
 	FX_MGR->SpawnHitEffect(m_eLevelID);
 	m_pSoundCom->Play("bike_crash");
 	m_pCameraManager->Shake_Camera(0.3f, 0.5f);
+
+	switch (rand() % 3)
+	{
+	case 0:
+		m_pSoundCom->Play("hurt01");
+		break;
+	case 1:
+		m_pSoundCom->Play("hurt02");
+		break;
+	case 2:
+		m_pSoundCom->Play("hurt03");
+		break;
+	}
 
 	CUI_Manager::Get_Instance()->Set_Face(CPortrait::PORTRAIT_ANGER);
 

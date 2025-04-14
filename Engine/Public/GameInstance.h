@@ -49,10 +49,6 @@ public:
 	class CGameObject* Find_Object(_uint iLevelIndex, const _wstring& strLayerTag, _uint iVectorIndex = 0);
 	// 매개변수에 맞는 레이어의 오브젝트 리스트를 찾아서 반환해준다.
 	list<CGameObject*>* Find_Objects(_uint iLevelIndex, const _wstring& strLayerTag);
-	//절두체 업데이트
-	void Update_Frustum(const _float4x4& viewProj);
-	// 스크린상에 있는지 검사
-	_bool IsPointInFrustum(const _float3& Point);
 #pragma endregion
 
 #pragma region COLLISION_MANAGER
@@ -137,6 +133,11 @@ public:
 	}
 #pragma endregion
 
+#pragma region FRUSTUM
+	// 스크린상에 있는지 검사
+	_bool IsInFrustum(const _float3& vPos, _float fRadius);
+#pragma endregion
+
 private:
 	class CGraphic_Device*		m_pGraphic_Device = { nullptr };
 	class CLevel_Manager*		m_pLevel_Manager = { nullptr };
@@ -150,6 +151,7 @@ private:
 	class CCollider_Manager*	m_pCollider_Manager = { nullptr };
 	class CSound_Device*		m_pSound_Device = { nullptr };
 	class CManagement*			m_pManagement = { nullptr };
+	class CFrustum*				m_pFrustum = { nullptr };
 
 	mt19937 m_Gen{ std::random_device{}() };
 

@@ -54,6 +54,9 @@ public:
 	void Mul_SpeedPerSec(_float Mul) {
 		m_fSpeedPerSec *= Mul;
 	}
+	_float Get_Radius() {
+		return m_fRadius;
+	}
 
 public:
 	virtual HRESULT Initialize_Prototype() override;
@@ -113,6 +116,7 @@ private:
 
 	_float					m_fSpeedPerSec = {};
 	_float					m_fRotationPerSec = {};
+	_float					m_fRadius{ 0.866f}; // 항등행렬 상태의 반지름 길이
 	static _float4x4		m_Return;
 	_float					m_fHarmonicTime = {};
 	

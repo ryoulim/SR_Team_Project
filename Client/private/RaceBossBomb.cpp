@@ -164,11 +164,11 @@ HRESULT CRaceBossBomb::Ready_Components(void* pArg)
 
 	DESC* pDesc = static_cast<DESC*>(pArg);
 
-	CCollider_Sphere::DESC ColliderDesc{};
+	CCollider::DESC ColliderDesc{};
 	ColliderDesc.pTransform = m_pTransformCom;
 	ColliderDesc.vScale = pDesc->vScale;
 	ColliderDesc.pOwner = this;
-	ColliderDesc.iColliderID = pDesc->iColliderID;
+	ColliderDesc.iColliderID = CI_BOSS_BULLET;
 	ColliderDesc.iColliderGroupID = CG_MBULLET;
 	
 	/* For.Com_Collider */

@@ -77,6 +77,7 @@ void CBullet::Late_Update(_float fTimeDelta)
 HRESULT CBullet::Render()
 {
 	m_pGraphic_Device->SetTransform(D3DTS_WORLD, &m_pTransformCom->Billboard_Y());
+	m_pGraphic_Device->SetRenderState(D3DRS_LIGHTING, FALSE);
 
 	if (FAILED(m_pTextureCom->Bind_Resource(static_cast<_uint>(m_fAnimationFrame))))
 		return E_FAIL;
@@ -86,6 +87,8 @@ HRESULT CBullet::Render()
 
 	if (FAILED(m_pVIBufferCom->Render()))
 		return E_FAIL;
+
+	m_pGraphic_Device->SetRenderState(D3DRS_LIGHTING, TRUE);
 
 	return S_OK;
 }

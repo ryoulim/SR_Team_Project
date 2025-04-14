@@ -28,15 +28,11 @@ public:
 	class CGameObject* Find_Object(_uint iLevelIndex, const _wstring& strLayerTag, _uint iVectorIndex = 0);
 	list<CGameObject*>* Find_Objects(_uint iLevelIndex, const _wstring& strLayerTag);
 
-	_bool IsPointInFrustum(const _float3& Point);
-	void Update_Frustum(const _float4x4& viewProj);
-
 private:	
 	_uint								m_iNumLevels = {};
 	typedef unordered_map<_wstring, class CLayer*> LAYERS;
 	LAYERS*								m_pLayers = { nullptr };
 	class CGameInstance*				m_pGameInstance = { nullptr };
-	D3DXPLANE							m_Frustum[6] = {};
 
 private:
 	class CLayer* Find_Layer(_uint iLevelIndex, const _wstring& strLayerTag);

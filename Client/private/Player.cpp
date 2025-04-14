@@ -62,9 +62,13 @@ HRESULT CPlayer::Initialize(void* pArg)
 	m_pSoundCom->SetVolume("Dash", 0.6f);
 	m_pSoundCom->SetVolume("Dodge", 1.0f);
 
-	//m_pSoundCom->SetVolume("stone_land001", 0.35f);
-	//m_pSoundCom->SetVolume("stone_land002", 0.35f);
-	//m_pSoundCom->SetVolume("stone_land003", 0.35f);
+	m_pSoundCom->SetVolume("stone_jump001", 1.f);
+	m_pSoundCom->SetVolume("stone_jump002", 1.f);
+	m_pSoundCom->SetVolume("stone_jump003", 1.f);
+
+	m_pSoundCom->SetVolume("stone_land001", 0.8f);
+	m_pSoundCom->SetVolume("stone_land002", 0.8f);
+	m_pSoundCom->SetVolume("stone_land003", 0.8f);
 
 	m_pSoundCom->SetVolume("TimeTo",0.35f);
 	m_pSoundCom->Play("TimeTo");
