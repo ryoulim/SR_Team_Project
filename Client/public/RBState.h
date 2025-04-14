@@ -95,9 +95,10 @@ public:
 	{
 		m_fTime = 0.f;
 		//랜덤한 패턴으로 이어짐
-		//m_pOwner->Set_State(CRaceBoss::SHOTREADY);
+		m_pOwner->Set_State(CRaceBoss::SHOTREADY);
 		//m_pOwner->Set_State(CRaceBoss::READYBOMB);
-		m_pOwner->Set_State(CRaceBoss::IDLE);
+		//m_pOwner->Set_State(CRaceBoss::MOMBACKREADY);
+		//m_pOwner->Set_State(CRaceBoss::IDLE);
 	}
 
 private:
@@ -245,10 +246,8 @@ public:
 public:
 	virtual void Enter(_float fTimeDelta) override
 	{
-		m_iHeadBulletCount = m_pOwner->Get_HeadBulletCount();
 		m_iTailBulletCount = 0;
 		m_fTime = 0;
-
 	}
 
 	virtual void Execute(_float fTimeDelta) override
@@ -269,21 +268,21 @@ public:
 
 	virtual void Exit() override
 	{
-		//if (m_iHeadBulletCount > 4)
-		//{
+		if (m_pOwner->Get_HeadBulletCount() > 4)
+		{
 			//랜덤한 패턴으로 이어짐
 			m_pOwner->Set_State(CRaceBoss::IDLE);
 			m_pOwner->Set_HeadBulletCountZero();
-		//}
 
-	/*	else
-			m_pOwner->Set_State(CRaceBoss::SHOTHEADBULLET);*/
+			//총구 이미지를 원래대로
+			m_pOwner->RestoreTextureID();
+		}
 
-		m_iHeadBulletCount = 0;
+		else
+			m_pOwner->Set_State(CRaceBoss::SHOTHEADBULLET);
 	}
 
 private:
-	_uint m_iHeadBulletCount = {};
 	_uint m_iTailBulletCount = {};
 };
 
@@ -753,68 +752,6 @@ public:
 		m_pOwner->Set_State(CRaceBoss::IDLE);
 	}
 };
-
-#pragma region 레이저 패턴
-class CRBState_DrawingRazerRadius final : public CRBState
-{
-public:
-	CRBState_DrawingRazerRadius(CRaceBoss* pOwner)
-		:CRBState(pOwner) {}
-	virtual ~CRBState_DrawingRazerRadius() = default;
-
-public:
-	virtual void Enter(_float fTimeDelta) override
-	{
-		
-	}
-
-	virtual void Execute(_float fTimeDelta) override
-	{
-		if (m_bStart)
-		{
-			m_pOwner->Draw_RazerRadius();
-			m_bStart = false;
-		}
-			
-		m_fTime += fTimeDelta;
-		if(m_fTime > 3.f)
-			Exit();
-	}
-
-	virtual void Exit() override
-	{
-		m_fTime = 0.f;
-		m_bStart = true;
-		m_pOwner->Set_State(CRaceBoss::RAZERING);
-	}
-
-private:
-	_bool m_bStart = { true };
-};
-
-class CRBState_Razering final : public CRBState
-{
-public:
-	CRBState_Razering(CRaceBoss* pOwner)
-		:CRBState(pOwner) {}
-	virtual ~CRBState_Razering() = default;
-
-public:
-	virtual void Enter(_float fTimeDelta) override
-	{
-
-	}
-	virtual void Execute(_float fTimeDelta) override
-	{
-		m_pOwner->Fire_Razer(fTimeDelta);
-		Exit();
-	}
-	virtual void Exit() override
-	{
-		m_pOwner->Set_State(CRaceBoss::IDLE);
-	}
-};
-#pragma endregion
 
 class CRBState_Leave final : public CRBState
 {

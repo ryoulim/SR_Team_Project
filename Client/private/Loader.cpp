@@ -27,9 +27,7 @@
 #include "RaceBoss.h"
 #include "RaceBossBullet.h"
 #include "RaceBossBomb.h"
-#include "RaceBossRazer.h"
 #include "BombRadius.h"
-#include "RazerRadius.h"
 #include "RaceSprite.h"
 
 //아이템
@@ -511,7 +509,6 @@ HRESULT CLoader::Loding_For_Static()
 	ADD_TEXTURE(RaceBoss, "../Bin/Resources/Textures/RaceBoss/RaceBoss%d.PNG", 12);
 	ADD_TEXTURE(RaceBossBullet, "../Bin/Resources/Textures/Bullet/RaceBossBullet/RaceBossBullet.PNG", 1);
 	ADD_TEXTURE(RaceBossBomb, "../Bin/Resources/Textures/Bullet/RaceBossBomb/RaceBossBombNew.PNG", 1);
-	ADD_TEXTURE(RaceBossRazer, "../Bin/Resources/Textures/Bullet/RaceBossRazer/RaceBossRazer.PNG", 1);
 	ADD_PRTOBJ(RaceBoss);
 	ADD_PRTOBJ(RaceBossBullet);
 	ADD_PRTOBJ(RaceBossBomb);
@@ -519,7 +516,6 @@ HRESULT CLoader::Loding_For_Static()
 	ADD_PRTOBJ(MombackLine);
 	ADD_TEXTURE(BombRadius, "../Bin/Resources/Textures/RaceBoss/Bomb/RaceBossAim%d.PNG", 15);
 	ADD_TEXTURE(RedPad, "../Bin/Resources/Textures/RaceBoss/Line/RedPad%d.PNG", 14);
-	ADD_PRTOBJ(RaceBossRazer);
 #pragma endregion
 	m_fLoadPercent = 0.8f;
 
