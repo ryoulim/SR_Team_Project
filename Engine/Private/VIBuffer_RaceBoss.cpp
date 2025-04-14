@@ -12,7 +12,7 @@ CVIBuffer_RaceBoss::CVIBuffer_RaceBoss(const CVIBuffer_RaceBoss& Prototype)
 
 HRESULT CVIBuffer_RaceBoss::Initialize_Prototype()
 {
-	m_iNumVertices = 78; //70 + 8				// 버텍스 갯수
+	m_iNumVertices = 86; //70 + 16			// 버텍스 갯수
 	m_iVertexStride = sizeof(VTXPOSNORTEX);	// 버텍스 크기
 	m_iFVF = D3DFVF_XYZ | D3DFVF_NORMAL | D3DFVF_TEX1;		// 버텍스 타입
 	m_iNumPritimive = 138; 				// 삼각형 갯수
@@ -263,6 +263,30 @@ HRESULT CVIBuffer_RaceBoss::Initialize_Prototype()
 
 	pVertices[77].vPosition = _float3(1.75f, 0.375f, 2.f); //68
 	pVertices[77].vTexcoord = _float2(10.25f, 5.25f);//
+
+	pVertices[78].vPosition = _float3(-2.f, 0.25f, -2.f); //0
+	pVertices[78].vTexcoord = _float2(0.f, 2.f);//
+
+	pVertices[79].vPosition = _float3(-2.f, 0.25f, 2.f); //22
+	pVertices[79].vTexcoord = _float2(0.f, 6.f);//
+
+	pVertices[80].vPosition = _float3(2.f, 0.25f, -2.f); //11
+	pVertices[80].vTexcoord = _float2(11.f, 2.f);//
+
+	pVertices[81].vPosition = _float3(2.f, 0.25f, 2.f); //33
+	pVertices[81].vTexcoord = _float2(11.f, 6.f);//
+
+	pVertices[82].vPosition = _float3(0.f, 0.75f, 2.f); //45
+	pVertices[82].vTexcoord = _float2(6.f, 5.f);//
+
+	pVertices[83].vPosition = _float3(0.f, 0.75f, -2.f); //44
+	pVertices[83].vTexcoord = _float2(6.f, 1.f);//
+
+	pVertices[84].vPosition = _float3(0.f, 0.75f, 2.f); //45
+	pVertices[84].vTexcoord = _float2(5.f, 5.f);//
+
+	pVertices[85].vPosition = _float3(0.f, 0.75f, -2.f); //44
+	pVertices[85].vTexcoord = _float2(5.f, 1.f);//
 #pragma endregion
 
 #pragma region 법선
@@ -285,34 +309,34 @@ HRESULT CVIBuffer_RaceBoss::Initialize_Prototype()
 	m_pIB->Lock(0, 0, reinterpret_cast<void**>(&pIndices), 0);
 
 #pragma region 앞
-	pIndices[0] = 46; pIndices[1] = 74; pIndices[2] = 70;
+	pIndices[54] = 46; pIndices[55] = 74; pIndices[56] = 70;///정면
 	pVertices[46].vNormal += ComputeNormalVector(pVertices, 46, 74, 70);
 	pVertices[74].vNormal += ComputeNormalVector(pVertices, 46, 74, 70);
 	pVertices[70].vNormal += ComputeNormalVector(pVertices, 46, 74, 70);
 
-	Set_IndexBuffer(pIndices, 3, 48, 49, 19, 20);
+	Set_IndexBuffer(pIndices, 57, 48, 49, 19, 20);///정면
 	pVertices[48].vNormal += ComputeNormalVector(pVertices, 48, 49, 19);
 	pVertices[49].vNormal += ComputeNormalVector(pVertices, 48, 49, 19);
 	pVertices[19].vNormal += ComputeNormalVector(pVertices, 48, 49, 19);
 	pVertices[20].vNormal += ComputeNormalVector(pVertices, 48, 19, 20);
 
-	pIndices[9] = 50; pIndices[10] = 17; pIndices[11] = 18;
+	pIndices[63] = 50; pIndices[64] = 17; pIndices[65] = 18;///정면
 	pVertices[50].vNormal += ComputeNormalVector(pVertices, 50, 17, 18);
 	pVertices[17].vNormal += ComputeNormalVector(pVertices, 50, 17, 18);
 	pVertices[18].vNormal += ComputeNormalVector(pVertices, 50, 17, 18);
 
-	pIndices[12] = 16; pIndices[13] = 53; pIndices[14] = 15;
+	pIndices[66] = 16; pIndices[67] = 53; pIndices[68] = 15;///정면
 	pVertices[16].vNormal += ComputeNormalVector(pVertices, 16, 53, 15);
 	pVertices[53].vNormal += ComputeNormalVector(pVertices, 16, 53, 15);
 	pVertices[15].vNormal += ComputeNormalVector(pVertices, 16, 53, 15);
 
-	Set_IndexBuffer(pIndices, 15, 54, 55, 13, 14);
+	Set_IndexBuffer(pIndices, 69, 54, 55, 13, 14);///정면
 	pVertices[54].vNormal += ComputeNormalVector(pVertices, 54, 55, 13);
 	pVertices[55].vNormal += ComputeNormalVector(pVertices, 54, 55, 13);
 	pVertices[13].vNormal += ComputeNormalVector(pVertices, 54, 55, 13);
 	pVertices[14].vNormal += ComputeNormalVector(pVertices, 54, 13, 14);
 
-	pIndices[21] = 75; pIndices[22] = 57; pIndices[23] = 71;
+	pIndices[75] = 75; pIndices[76] = 57; pIndices[77] = 71;///정면
 	pVertices[75].vNormal += ComputeNormalVector(pVertices, 75, 57, 71);
 	pVertices[57].vNormal += ComputeNormalVector(pVertices, 75, 57, 71);
 	pVertices[71].vNormal += ComputeNormalVector(pVertices, 75, 57, 71);
@@ -401,34 +425,34 @@ HRESULT CVIBuffer_RaceBoss::Initialize_Prototype()
 #pragma endregion
 
 #pragma region 뒤
-	pIndices[24] = 76; pIndices[25] = 58; pIndices[26] = 72;
+	pIndices[78] = 76; pIndices[79] = 58; pIndices[80] = 72;//정면
 	pVertices[76].vNormal += ComputeNormalVector(pVertices, 76, 58, 72);
 	pVertices[58].vNormal += ComputeNormalVector(pVertices, 76, 58, 72);
 	pVertices[72].vNormal += ComputeNormalVector(pVertices, 76, 58, 72);
 
-	Set_IndexBuffer(pIndices, 27, 61, 60, 42, 41);
+	Set_IndexBuffer(pIndices, 81, 61, 60, 42, 41);//정면
 	pVertices[61].vNormal += ComputeNormalVector(pVertices, 61, 60, 42);
 	pVertices[60].vNormal += ComputeNormalVector(pVertices, 61, 60, 42);
 	pVertices[42].vNormal += ComputeNormalVector(pVertices, 61, 60, 42);
 	pVertices[41].vNormal += ComputeNormalVector(pVertices, 61, 42, 41);
 
-	pIndices[33] = 39; pIndices[34] = 62; pIndices[35] = 40;
+	pIndices[87] = 39; pIndices[88] = 62; pIndices[89] = 40;//정면
 	pVertices[39].vNormal += ComputeNormalVector(pVertices, 39, 62, 40);
 	pVertices[62].vNormal += ComputeNormalVector(pVertices, 39, 62, 40);
 	pVertices[40].vNormal += ComputeNormalVector(pVertices, 39, 62, 40);
 
-	pIndices[36] = 65; pIndices[37] = 38; pIndices[38] = 37;
+	pIndices[90] = 65; pIndices[91] = 38; pIndices[92] = 37;//정면
 	pVertices[65].vNormal += ComputeNormalVector(pVertices, 65, 38, 37);
 	pVertices[38].vNormal += ComputeNormalVector(pVertices, 65, 38, 37);
 	pVertices[37].vNormal += ComputeNormalVector(pVertices, 65, 38, 37);
 
-	Set_IndexBuffer(pIndices, 39, 67, 66, 36, 35);
+	Set_IndexBuffer(pIndices, 93, 67, 66, 36, 35);//정면
 	pVertices[67].vNormal += ComputeNormalVector(pVertices, 67, 66, 36);
 	pVertices[66].vNormal += ComputeNormalVector(pVertices, 67, 66, 36);
 	pVertices[36].vNormal += ComputeNormalVector(pVertices, 67, 66, 36);
 	pVertices[35].vNormal += ComputeNormalVector(pVertices, 67, 36, 35);
 
-	pIndices[45] = 69; pIndices[46] = 77; pIndices[47] = 73;
+	pIndices[99] = 69; pIndices[100] = 77; pIndices[101] = 73;//정면
 	pVertices[69].vNormal += ComputeNormalVector(pVertices, 69, 77, 73);
 	pVertices[77].vNormal += ComputeNormalVector(pVertices, 69, 77, 73);
 	pVertices[73].vNormal += ComputeNormalVector(pVertices, 69, 77, 73);
@@ -516,73 +540,73 @@ HRESULT CVIBuffer_RaceBoss::Initialize_Prototype()
 #pragma endregion
 
 #pragma region 위
-	Set_IndexBuffer(pIndices, 48, 22, 23, 1, 0);
+	Set_IndexBuffer(pIndices, 162, 22, 23, 1, 0);///위(옆)
 	pVertices[22].vNormal += ComputeNormalVector(pVertices, 22, 23, 1);
 	pVertices[23].vNormal += ComputeNormalVector(pVertices, 22, 23, 1);
 	pVertices[1].vNormal += ComputeNormalVector(pVertices, 22, 23, 1);
 	pVertices[0].vNormal += ComputeNormalVector(pVertices, 22, 1, 0);
 
-	Set_IndexBuffer(pIndices, 54, 23, 24, 2, 1);
+	Set_IndexBuffer(pIndices, 102, 23, 24, 2, 1);///위
 	pVertices[23].vNormal += ComputeNormalVector(pVertices, 23, 24, 2);
 	pVertices[24].vNormal += ComputeNormalVector(pVertices, 23, 24, 2);
 	pVertices[2].vNormal += ComputeNormalVector(pVertices, 23, 24, 2);
 	pVertices[1].vNormal += ComputeNormalVector(pVertices, 23, 2, 1);
 
-	Set_IndexBuffer(pIndices, 60, 24, 25, 3, 2);
+	Set_IndexBuffer(pIndices, 108, 24, 25, 3, 2);///위
 	pVertices[24].vNormal += ComputeNormalVector(pVertices, 24, 25, 3);
 	pVertices[25].vNormal += ComputeNormalVector(pVertices, 24, 25, 3);
 	pVertices[3].vNormal += ComputeNormalVector(pVertices, 24, 25, 3);
 	pVertices[2].vNormal += ComputeNormalVector(pVertices, 24, 3, 2);
 
-	Set_IndexBuffer(pIndices, 66, 25, 26, 4, 3);
+	Set_IndexBuffer(pIndices, 114, 25, 26, 4, 3);///위
 	pVertices[25].vNormal += ComputeNormalVector(pVertices, 25, 26, 4);
 	pVertices[26].vNormal += ComputeNormalVector(pVertices, 25, 26, 4);
 	pVertices[4].vNormal += ComputeNormalVector(pVertices, 25, 26, 4);
 	pVertices[3].vNormal += ComputeNormalVector(pVertices, 25, 4, 3);
 
-	Set_IndexBuffer(pIndices, 72, 26, 27, 5, 4);
+	Set_IndexBuffer(pIndices, 120, 26, 27, 5, 4);///위
 	pVertices[26].vNormal += ComputeNormalVector(pVertices, 26, 27, 5);
 	pVertices[27].vNormal += ComputeNormalVector(pVertices, 26, 27, 5);
 	pVertices[5].vNormal += ComputeNormalVector(pVertices, 26, 27, 5);
 	pVertices[4].vNormal += ComputeNormalVector(pVertices, 26, 5, 4);
 
-	Set_IndexBuffer(pIndices, 78, 27, 45, 44, 5);
-	pVertices[27].vNormal += ComputeNormalVector(pVertices, 27, 45, 44);
-	pVertices[45].vNormal += ComputeNormalVector(pVertices, 27, 45, 44);
-	pVertices[44].vNormal += ComputeNormalVector(pVertices, 27, 45, 44);
-	pVertices[5].vNormal += ComputeNormalVector(pVertices, 27, 44, 5);
+	Set_IndexBuffer(pIndices, 126, 27, 82, 83, 5);///위
+	pVertices[27].vNormal += ComputeNormalVector(pVertices, 27, 82, 83);
+	pVertices[82].vNormal += ComputeNormalVector(pVertices, 27, 82, 83);
+	pVertices[83].vNormal += ComputeNormalVector(pVertices, 27, 82, 83);
+	pVertices[5].vNormal += ComputeNormalVector(pVertices, 27, 83, 5);
 
-	Set_IndexBuffer(pIndices, 84, 45, 28, 6, 44);
-	pVertices[45].vNormal += ComputeNormalVector(pVertices, 45, 28, 6);
-	pVertices[28].vNormal += ComputeNormalVector(pVertices, 45, 28, 6);
-	pVertices[6].vNormal += ComputeNormalVector(pVertices, 45, 28, 6);
-	pVertices[44].vNormal += ComputeNormalVector(pVertices, 45, 6, 44);
+	Set_IndexBuffer(pIndices, 132, 84, 28, 6, 85);///위
+	pVertices[84].vNormal += ComputeNormalVector(pVertices, 84, 28, 6);
+	pVertices[28].vNormal += ComputeNormalVector(pVertices, 84, 28, 6);
+	pVertices[6].vNormal += ComputeNormalVector(pVertices, 84, 28, 6);
+	pVertices[85].vNormal += ComputeNormalVector(pVertices, 84, 6, 85);
 
-	Set_IndexBuffer(pIndices, 90, 28, 29, 7, 6);
+	Set_IndexBuffer(pIndices, 138, 28, 29, 7, 6);///위
 	pVertices[28].vNormal += ComputeNormalVector(pVertices, 28, 29, 7);
 	pVertices[29].vNormal += ComputeNormalVector(pVertices, 28, 29, 7);
 	pVertices[7].vNormal += ComputeNormalVector(pVertices, 28, 29, 7);
 	pVertices[6].vNormal += ComputeNormalVector(pVertices, 28, 7, 6);
 
-	Set_IndexBuffer(pIndices, 96, 29, 30, 8, 7);
+	Set_IndexBuffer(pIndices, 144, 29, 30, 8, 7);///위
 	pVertices[29].vNormal += ComputeNormalVector(pVertices, 29, 30, 8);
 	pVertices[30].vNormal += ComputeNormalVector(pVertices, 29, 30, 8);
 	pVertices[8].vNormal += ComputeNormalVector(pVertices, 29, 30, 8);
 	pVertices[7].vNormal += ComputeNormalVector(pVertices, 29, 8, 7);
 
-	Set_IndexBuffer(pIndices, 102, 30, 31, 9, 8);
+	Set_IndexBuffer(pIndices, 150, 30, 31, 9, 8);///위
 	pVertices[30].vNormal += ComputeNormalVector(pVertices, 30, 31, 9);
 	pVertices[31].vNormal += ComputeNormalVector(pVertices, 30, 31, 9);
 	pVertices[9].vNormal += ComputeNormalVector(pVertices, 30, 31, 9);
 	pVertices[8].vNormal += ComputeNormalVector(pVertices, 30, 9, 8);
 
-	Set_IndexBuffer(pIndices, 108, 31, 32, 10, 9);
+	Set_IndexBuffer(pIndices, 156, 31, 32, 10, 9);///위
 	pVertices[31].vNormal += ComputeNormalVector(pVertices, 31, 32, 10);
 	pVertices[32].vNormal += ComputeNormalVector(pVertices, 31, 32, 10);
 	pVertices[10].vNormal += ComputeNormalVector(pVertices, 31, 32, 10);
 	pVertices[9].vNormal += ComputeNormalVector(pVertices, 31, 10, 9);
 
-	Set_IndexBuffer(pIndices, 114, 32, 33, 11, 10);
+	Set_IndexBuffer(pIndices, 168, 32, 33, 11, 10);///위(옆)
 	pVertices[32].vNormal += ComputeNormalVector(pVertices, 32, 33, 11);
 	pVertices[33].vNormal += ComputeNormalVector(pVertices, 32, 33, 11);
 	pVertices[11].vNormal += ComputeNormalVector(pVertices, 32, 33, 11);
@@ -590,71 +614,71 @@ HRESULT CVIBuffer_RaceBoss::Initialize_Prototype()
 #pragma endregion
 
 #pragma region 아래
-	Set_IndexBuffer(pIndices, 120, 0, 21, 43, 22);
-	pVertices[0].vNormal += ComputeNormalVector(pVertices, 0, 21, 43);
-	pVertices[21].vNormal += ComputeNormalVector(pVertices, 0, 21, 43);
-	pVertices[43].vNormal += ComputeNormalVector(pVertices, 0, 21, 43);
-	pVertices[22].vNormal += ComputeNormalVector(pVertices, 0, 43, 22);
+	Set_IndexBuffer(pIndices, 174, 78, 21, 43, 79);///아래(옆)
+	pVertices[78].vNormal += ComputeNormalVector(pVertices, 78, 21, 43);
+	pVertices[21].vNormal += ComputeNormalVector(pVertices, 78, 21, 43);
+	pVertices[43].vNormal += ComputeNormalVector(pVertices, 78, 21, 43);
+	pVertices[79].vNormal += ComputeNormalVector(pVertices, 78, 43, 79);
 
-	Set_IndexBuffer(pIndices, 126, 21, 20, 42, 43);
+	Set_IndexBuffer(pIndices, 30, 21, 20, 42, 43);///아래 줄무늬
 	pVertices[21].vNormal += ComputeNormalVector(pVertices, 21, 20, 42);
 	pVertices[20].vNormal += ComputeNormalVector(pVertices, 21, 20, 42);
 	pVertices[42].vNormal += ComputeNormalVector(pVertices, 21, 20, 42);
 	pVertices[43].vNormal += ComputeNormalVector(pVertices, 21, 42, 43);
 
-	Set_IndexBuffer(pIndices, 132, 20, 19, 41, 42);
+	Set_IndexBuffer(pIndices, 0, 20, 19, 41, 42);///아래
 	pVertices[20].vNormal += ComputeNormalVector(pVertices, 20, 19, 41);
 	pVertices[19].vNormal += ComputeNormalVector(pVertices, 20, 19, 41);
 	pVertices[41].vNormal += ComputeNormalVector(pVertices, 20, 19, 41);
 	pVertices[42].vNormal += ComputeNormalVector(pVertices, 20, 41, 42);
 
-	Set_IndexBuffer(pIndices, 138, 19, 18, 40, 41);
+	Set_IndexBuffer(pIndices, 36, 19, 18, 40, 41);///아래 줄무늬
 	pVertices[19].vNormal += ComputeNormalVector(pVertices, 19, 18, 40);
 	pVertices[18].vNormal += ComputeNormalVector(pVertices, 19, 18, 40);
 	pVertices[40].vNormal += ComputeNormalVector(pVertices, 19, 18, 40);
 	pVertices[41].vNormal += ComputeNormalVector(pVertices, 19, 40, 41);
 
-	Set_IndexBuffer(pIndices, 144, 18, 17, 39, 40);
+	Set_IndexBuffer(pIndices, 6, 18, 17, 39, 40);///아래
 	pVertices[18].vNormal += ComputeNormalVector(pVertices, 18, 17, 39);
 	pVertices[17].vNormal += ComputeNormalVector(pVertices, 18, 17, 39);
 	pVertices[39].vNormal += ComputeNormalVector(pVertices, 18, 17, 39);
 	pVertices[40].vNormal += ComputeNormalVector(pVertices, 18, 39, 40);
 
-	Set_IndexBuffer(pIndices, 150, 17, 16, 38, 39);
+	Set_IndexBuffer(pIndices, 12, 17, 16, 38, 39);///아래
 	pVertices[17].vNormal += ComputeNormalVector(pVertices, 17, 16, 38);
 	pVertices[16].vNormal += ComputeNormalVector(pVertices, 17, 16, 38);
 	pVertices[38].vNormal += ComputeNormalVector(pVertices, 17, 16, 38);
 	pVertices[39].vNormal += ComputeNormalVector(pVertices, 17, 38, 39);
 
-	Set_IndexBuffer(pIndices, 156, 16, 15, 37, 38);
+	Set_IndexBuffer(pIndices, 18, 16, 15, 37, 38);///아래
 	pVertices[16].vNormal += ComputeNormalVector(pVertices, 16, 15, 37);
 	pVertices[15].vNormal += ComputeNormalVector(pVertices, 16, 15, 37);
 	pVertices[37].vNormal += ComputeNormalVector(pVertices, 16, 15, 37);
 	pVertices[38].vNormal += ComputeNormalVector(pVertices, 16, 37, 38);
 
-	Set_IndexBuffer(pIndices, 162, 15, 14, 36, 37);
+	Set_IndexBuffer(pIndices, 42, 15, 14, 36, 37);///아래 줄무늬
 	pVertices[15].vNormal += ComputeNormalVector(pVertices, 15, 14, 36);
 	pVertices[14].vNormal += ComputeNormalVector(pVertices, 15, 14, 36);
 	pVertices[36].vNormal += ComputeNormalVector(pVertices, 15, 14, 36);
 	pVertices[37].vNormal += ComputeNormalVector(pVertices, 15, 36, 37);
 
-	Set_IndexBuffer(pIndices, 168, 14, 13, 35, 36);
+	Set_IndexBuffer(pIndices, 24, 14, 13, 35, 36);///아래
 	pVertices[14].vNormal += ComputeNormalVector(pVertices, 14, 13, 35);
 	pVertices[13].vNormal += ComputeNormalVector(pVertices, 14, 13, 35);
 	pVertices[35].vNormal += ComputeNormalVector(pVertices, 14, 13, 35);
 	pVertices[36].vNormal += ComputeNormalVector(pVertices, 14, 35, 36);
 
-	Set_IndexBuffer(pIndices, 174, 13, 12, 34, 35);
+	Set_IndexBuffer(pIndices, 48, 13, 12, 34, 35);///아래 줄무늬
 	pVertices[13].vNormal += ComputeNormalVector(pVertices, 13, 12, 34);
 	pVertices[12].vNormal += ComputeNormalVector(pVertices, 13, 12, 34);
 	pVertices[34].vNormal += ComputeNormalVector(pVertices, 13, 12, 34);
 	pVertices[35].vNormal += ComputeNormalVector(pVertices, 13, 34, 35);
 
-	Set_IndexBuffer(pIndices, 180, 12, 11, 33, 34);
-	pVertices[12].vNormal += ComputeNormalVector(pVertices, 12, 11, 33);
-	pVertices[11].vNormal += ComputeNormalVector(pVertices, 12, 11, 33);
-	pVertices[33].vNormal += ComputeNormalVector(pVertices, 12, 11, 33);
-	pVertices[34].vNormal += ComputeNormalVector(pVertices, 12, 33, 34);
+	Set_IndexBuffer(pIndices, 180, 12, 80, 81, 34);///아래(옆)
+	pVertices[12].vNormal += ComputeNormalVector(pVertices, 12, 80, 81);
+	pVertices[80].vNormal += ComputeNormalVector(pVertices, 12, 80, 81);
+	pVertices[81].vNormal += ComputeNormalVector(pVertices, 12, 80, 81);
+	pVertices[34].vNormal += ComputeNormalVector(pVertices, 12, 81, 34);
 #pragma endregion
 
 	m_pVB->Unlock();
@@ -672,11 +696,31 @@ HRESULT CVIBuffer_RaceBoss::Initialize(void* pArg)
 HRESULT CVIBuffer_RaceBoss::Render(_uint Surface)
 {
 	_uint iNumber{ 0 };
-
+	
 	switch (Surface)
 	{
-	case COMMON:
+	case BOTTOM:
 		iNumber = 0;
+		break;
+
+	case BOTTOMLINE:
+		iNumber = 30;
+		break;
+
+	case FRONTFACE:
+		iNumber = 54;
+		break;
+
+	case TOP:
+		iNumber = 102;
+		break;
+
+	case TOPSIDE:
+		iNumber = 162;
+		break;
+
+	case BOTTOMSIDE:
+		iNumber = 174;
 		break;
 
 	case MUZZLE1:

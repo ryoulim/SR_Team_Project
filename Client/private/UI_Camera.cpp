@@ -36,7 +36,7 @@ void CUI_Camera::Priority_Update(_float fTimeDelta)
 	m_pGraphic_Device->SetSamplerState(0, D3DSAMP_MAGFILTER, D3DTEXF_POINT);
 	m_pGraphic_Device->SetSamplerState(0, D3DSAMP_MIPFILTER, D3DTEXF_POINT);
 
-	//m_pGraphic_Device->SetRenderState(D3DRS_LIGHTING, TRUE);
+	m_pGraphic_Device->SetRenderState(D3DRS_LIGHTING, TRUE);
 	m_pGraphic_Device->SetRenderState(D3DRS_ZENABLE, TRUE);
 	m_pGraphic_Device->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);
 	__super::Priority_Update(fTimeDelta);

@@ -91,9 +91,9 @@ public:
 	{
 		m_fTime = 0.f;
 		//·£´ýÇÑ ÆÐÅÏÀ¸·Î ÀÌ¾îÁü
-		//m_pOwner->Set_State(CRaceBoss::SHOTREADY);
+		m_pOwner->Set_State(CRaceBoss::SHOTREADY);
 		//m_pOwner->Set_State(CRaceBoss::READYBOMB);
-		m_pOwner->Set_State(CRaceBoss::DRAWINGRAZERRADIUS);
+		//m_pOwner->Set_State(CRaceBoss::DRAWINGRAZERRADIUS);
 	}
 
 private:
