@@ -35,37 +35,48 @@ HRESULT CLoading_ToBoss::Initialize(void* pArg)
 	m_vSize.x *= g_iWinSizeY / m_vSize.y; m_vSize.y = g_iWinSizeY;
 	m_pTransformCom->Scaling(m_vSize);
 
+
+	m_fAnimationStartFrame = TEX_SMALLNOISE;
+	m_fAnimationMaxFrame = TEX_SMALLNOISE_END;
+	m_fAnimationSpeed = 35.f;
+	m_iTexRepeat = 2;
+
 	return S_OK;
 }
 
-
 void CLoading_ToBoss::Priority_Update(_float fTimeDelta)
 {
+	if (m_bNextSequence)
+	{
+		m_bNextSequence = false;
+		Init_Sequence();
+	}
+	if (KEY_DOWN(DIK_C))
+		int a = 0;
+	Update_Animation(fTimeDelta);
 	__super::Priority_Update(fTimeDelta);
 }
 
 EVENT CLoading_ToBoss::Update(_float fTimeDelta)
 {
-	//if (m_fLoadingGauge < m_fCurLoadingGauge)		// 실제 로딩 게이지 비례해 진행할 경우 사용
-	//	m_fLoadingGauge += fTimeDelta * 0.8f;
-
 	return __super::Update(fTimeDelta);
 }
 
 void CLoading_ToBoss::Late_Update(_float fTimeDelta)
 {
-	__super::Late_Update(fTimeDelta);
+	CUI::Late_Update(fTimeDelta);
 }
 
 HRESULT CLoading_ToBoss::Render()
 {
 	Render_Background();
+	
 	return S_OK;
 }
 
 HRESULT CLoading_ToBoss::Render_Background()
 {
-	if (FAILED(m_pTextureCom->Bind_Resource(_int(m_fTextureNum))))
+	if (FAILED(m_pTextureCom->Bind_Resource(_int(m_fAnimationFrame))))
 		return E_FAIL;
 
 	if (FAILED(m_pTransformCom->Bind_Resource()))
@@ -79,14 +90,89 @@ HRESULT CLoading_ToBoss::Render_Background()
 	return S_OK;
 }
 
-HRESULT CLoading_ToBoss::Render_WideMoniter()
+void CLoading_ToBoss::Init_Sequence()
 {
-	return E_NOTIMPL;
+	switch (m_eSequence)
+	{
+	case Client::CLoading_ToBoss::SEQUENCE_SMALLNOISE:
+		m_fAnimationStartFrame = TEX_SMALLNOISE;
+		m_fAnimationFrame = m_fAnimationStartFrame;
+		m_fAnimationMaxFrame = TEX_SMALLNOISE_END;
+		m_fAnimationSpeed = 30.f;
+		m_iTexRepeat = 2;
+		break;
+
+	case Client::CLoading_ToBoss::SEQUENCE_SMALLBREAKINGNEWS:
+		m_fAnimationStartFrame = TEX_SMALLBREAKINGNEWS;
+		m_fAnimationFrame = m_fAnimationStartFrame;
+		m_fAnimationMaxFrame = TEX_SMALLBREAKINGNEWS;
+		m_fAnimationSpeed = 1.f;
+		m_iTexRepeat = 3;
+		break;
+
+	case Client::CLoading_ToBoss::SEQUENCE_SMALLNEWS:
+		m_fAnimationStartFrame = TEX_SMALLNEWS;
+		m_fAnimationFrame = m_fAnimationStartFrame;
+		m_fAnimationMaxFrame = TEX_SMALLNEWS_END;
+		m_fAnimationSpeed = 3.f;
+		m_iTexRepeat = 3;
+		break;
+
+	case Client::CLoading_ToBoss::SEQUENCE_WIDENOISE:
+		m_fAnimationStartFrame = TEX_WIDENOISE;
+		m_fAnimationFrame = m_fAnimationStartFrame;
+		m_fAnimationMaxFrame = TEX_WIDENOISE_END;
+		m_fAnimationSpeed = 30.f;
+		m_iTexRepeat = 2;
+		break;
+
+	case Client::CLoading_ToBoss::SEQUENCE_WIDEBOSS:
+		m_fAnimationStartFrame = TEX_WIDEBOSS;
+		m_fAnimationFrame = m_fAnimationStartFrame;
+		m_fAnimationMaxFrame = TEX_WIDEBOSS;
+		m_fAnimationSpeed = 1.f;
+		m_iTexRepeat = 3;
+		break;
+
+	case Client::CLoading_ToBoss::SEQUENCE_WIDEREDBOSS:
+		m_fAnimationStartFrame = TEX_WIDEREDBOSS;
+		m_fAnimationFrame = m_fAnimationStartFrame;
+		m_fAnimationMaxFrame = TEX_WIDEREDBOSS;
+		m_fAnimationSpeed = 1.f;
+		m_iTexRepeat = 3;
+		break;
+
+	case Client::CLoading_ToBoss::SEQUENCE_END:
+		m_fAnimationStartFrame = TEX_BREAK_END;
+		m_fAnimationFrame = m_fAnimationStartFrame;
+		m_fAnimationMaxFrame = TEX_BREAK_END;
+		m_fAnimationSpeed = 1.f;
+		m_iTexRepeat = 3;
+		break;
+
+	default:
+		break;
+	}
 }
 
-HRESULT CLoading_ToBoss::Render_SmallMoniter()
+void CLoading_ToBoss::Update_Animation(_float fTimeDelta)
 {
-	return E_NOTIMPL;
+	m_fAnimationFrame += fTimeDelta * m_fAnimationSpeed;
+	if (m_fAnimationFrame > m_fAnimationMaxFrame + 1)
+	{
+		--m_iTexRepeat;
+		m_fAnimationFrame = m_fAnimationStartFrame;
+		if (m_iTexRepeat < 0)
+		{
+			if (m_eSequence == SEQUENCE_END)
+			{
+				m_isReadyToChangeLevel = true;
+				return;
+			}
+			m_eSequence = static_cast<SEQUENCE>(m_eSequence + 1);
+			m_bNextSequence = true;
+		}
+	}
 }
 
 CLoading_ToBoss* CLoading_ToBoss::Create(LPDIRECT3DDEVICE9 pGraphic_Device)

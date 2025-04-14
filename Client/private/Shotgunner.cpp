@@ -185,6 +185,7 @@ void CShotgunner::DoReady(_float dt)
 	m_fCooldownDuration += dt;
 	if (m_fCooldownDuration >= m_fCooldownTime)
 	{
+		m_bFirstBullet = true;
 		m_isReadyToAttack = true;
 		m_fBulletCooldownElapsed = 0.4f;
 		m_fCooldownDuration = 0.f;
@@ -295,7 +296,14 @@ void CShotgunner::AttackPattern(_float dt)
 		// 총알 생성 위치 조정임
 
 		for (size_t i = 0; i < 4; i++)
-		{// 샷건이라 4발 동시에 날릴거임 ㅋㅋ
+		{// �����̶� 4�� ���ÿ� �������� ����
+			if (m_bFirstBullet)
+			{
+				MonsterNormalBullet_iDesc.bCollision = true;
+				m_bFirstBullet = false;
+			}
+			else
+				MonsterNormalBullet_iDesc.bCollision = false;
 			if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_MonsterNormalBullet"),
 				m_eLevelID, L"Layer_MonsterBullet", &MonsterNormalBullet_iDesc)))
 				return;

@@ -12,6 +12,7 @@ public:
 		const TCHAR* szTextureID = TEXT("PC_Generic");
 		_bool bBlueFire = false;
 		_bool bFlesh = false;
+		_bool bCollision = true;
 		//_bool bAnimation = false;
 		//_bool bGravity = false;
 	}DESC;

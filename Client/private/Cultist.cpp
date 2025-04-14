@@ -197,6 +197,7 @@ void CCultist::DoReady(_float dt)
 	m_fCooldownDuration += dt;
 	if (m_fCooldownDuration >= m_fCooldownTime)
 	{
+		m_bFirstBullet = true;
 		m_isReadyToAttack = true;
 		m_fBulletCooldownElapsed = 0.4f;
 		m_fCooldownDuration = 0.f;
@@ -299,6 +300,13 @@ void CCultist::AttackPattern(_float dt)
 		// 총구 위치를 몬스터의 위치와 look 벡터를 사용하여 계산
 		MonsterNormalBullet_iDesc.vPosition += vRight * 11.f;
 		MonsterNormalBullet_iDesc.vPosition.y += 13.f;
+		if (m_bFirstBullet)
+		{
+			MonsterNormalBullet_iDesc.bCollision = true;
+			m_bFirstBullet = false;
+		}
+		else
+			MonsterNormalBullet_iDesc.bCollision = false;
 
 		if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_MonsterNormalBullet"),
 			LEVEL_GAMEPLAY, L"Layer_MonsterBullet", &MonsterNormalBullet_iDesc)))

@@ -550,6 +550,9 @@
     <Filter Include="02.GameObjects\Statue\RaceBossWarning">
       <UniqueIdentifier>{f18a650f-2fda-4229-9e98-5f8ab7084f49}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObjects\UI\MenuUI\LoadingUI\Loading_Cutscene\08. Loading_Ending">
+      <UniqueIdentifier>{a63526dd-084e-4721-a02c-f1baf829c209}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -1117,6 +1120,9 @@
     <ClInclude Include="..\public\MombackLine.h">
       <Filter>02.GameObjects\Statue\RaceBossWarning</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\Loading_Ending.h">
+      <Filter>02.GameObjects\UI\MenuUI\LoadingUI\Loading_Cutscene\08. Loading_Ending</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -1655,6 +1661,9 @@
     </ClCompile>
     <ClCompile Include="..\private\MombackLine.cpp">
       <Filter>02.GameObjects\Statue\RaceBossWarning</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Loading_Ending.cpp">
+      <Filter>02.GameObjects\UI\MenuUI\LoadingUI\Loading_Cutscene\08. Loading_Ending</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

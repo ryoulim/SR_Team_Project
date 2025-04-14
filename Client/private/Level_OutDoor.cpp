@@ -61,6 +61,7 @@ HRESULT CLevel_OutDoor::Initialize(CLevelData* pLevelData)
 #include "Level_Loading.h"
 void CLevel_OutDoor::Update(_float fTimeDelta)
 {
+	FX_MGR->Update(fTimeDelta);
 	if (dynamic_cast<CGenerator*>(m_pGenerator)->Is_Broken() && !m_bDeadGenerator)
 	{
 		m_bChangeBGM = true;

@@ -69,7 +69,9 @@ HRESULT CLoadingUI::Initialize_LoadingCutscene(void* pArg)
 	case Client::LEVEL_UNDERGROUND:
 		strCutsceneType = L"ToUnderground";
 		break;
-
+	case Client::LEVEL_END:
+		strCutsceneType = L"Ending";
+		break;
 	default:
 		MSG_BOX("이게 먼 레벨이죠?");
 		return E_FAIL;
@@ -94,7 +96,7 @@ HRESULT CLoadingUI::Initialize_LoadingCutscene(void* pArg)
 	// 주석 
 	else
 	{
-		MSG_BOX("바보래요"); // 이게 진짜 걸리다니 
+		MSG_BOX("로딩 컷씬 망가졌다 !!!"); // 이게 진짜 걸리다니 
 		return E_FAIL;
 	}
 

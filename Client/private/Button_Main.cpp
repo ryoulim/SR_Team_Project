@@ -91,13 +91,13 @@ void CButton_Main::Initialize_ButtonRect()
 	m_tButton[GAMESTART].right = LONG(m_tButton[GAMESTART].left + m_vSize.x);
 	m_tButton[GAMESTART].bottom = LONG(m_tButton[GAMESTART].top + m_vSize.y);
 
-	m_tButton[OPTIONS].left = LONG(posx);
-	m_tButton[OPTIONS].top = LONG(posy - (m_vSize.y * 0.5f) + 50.f);
-	m_tButton[OPTIONS].right = LONG(m_tButton[OPTIONS].left + m_vSize.x);
-	m_tButton[OPTIONS].bottom = LONG(m_tButton[OPTIONS].top + m_vSize.y);
+	//m_tButton[OPTIONS].left = LONG(posx);
+	//m_tButton[OPTIONS].top = LONG(posy - (m_vSize.y * 0.5f) + 50.f);
+	//m_tButton[OPTIONS].right = LONG(m_tButton[OPTIONS].left + m_vSize.x);
+	//m_tButton[OPTIONS].bottom = LONG(m_tButton[OPTIONS].top + m_vSize.y);
 
 	m_tButton[QUIT].left = LONG(posx);
-	m_tButton[QUIT].top = LONG(posy - (m_vSize.y * 0.5f) + 100.f);
+	m_tButton[QUIT].top = LONG(posy - (m_vSize.y * 0.5f) + 55.f);
 	m_tButton[QUIT].right  = LONG(m_tButton[QUIT].left + m_vSize.x);
 	m_tButton[QUIT].bottom = LONG(m_tButton[QUIT].top + m_vSize.y);
 
@@ -118,7 +118,7 @@ HRESULT CButton_Main::Pick_Button()
 
  	if (PtInRect(&m_tButton[GAMESTART], ptMouse))
 	{
-		RENDER_TEXT_BOL("NEW GAME", 280.f - g_iWinSizeX * 0.5f, g_iWinSizeY * 0.5f - 460.f, 0.9f);
+		RENDER_TEXT_BOL("NEW GAME", 280.f - g_iWinSizeX * 0.5f, g_iWinSizeY * 0.5f - 460.f, 1.f);
 		if (MOUSE_DOWN(DIMK_LBUTTON))
 		{
 			CUI_Manager::Get_Instance()->Fade_Out();
@@ -127,23 +127,23 @@ HRESULT CButton_Main::Pick_Button()
 	}
 	else
 	{
-		RENDER_TEXT_BOL_DARK("NEW GAME", 280.f - g_iWinSizeX * 0.5f, g_iWinSizeY * 0.5f - 460.f, 0.9f);
+		RENDER_TEXT_BOL_DARK("NEW GAME", 280.f - g_iWinSizeX * 0.5f, g_iWinSizeY * 0.5f - 460.f, 1.f);
 	}
 
 	/* 옵션을 안 쓰고 있는데 바꾸거나.. 옵션창을 만들거나... */
-	if (PtInRect(&m_tButton[OPTIONS], ptMouse))
-	{
-		RENDER_TEXT_BOL("OPTIONS", 280.f - g_iWinSizeX * 0.5f, g_iWinSizeY * 0.5f - 510.f, 0.9f);
-		if (MOUSE_DOWN(DIMK_LBUTTON))
-		{
-			/* 여기에 옵션 창 입력 */
-			/* UI매니저에 추가? */
-		}
-	}
-	else
-	{
-		RENDER_TEXT_BOL_DARK("OPTIONS", 280.f - g_iWinSizeX * 0.5f, g_iWinSizeY * 0.5f - 510.f, 0.9f);
-	}
+	//if (PtInRect(&m_tButton[OPTIONS], ptMouse))
+	//{
+	//	RENDER_TEXT_BOL("OPTIONS", 280.f - g_iWinSizeX * 0.5f, g_iWinSizeY * 0.5f - 510.f, 0.9f);
+	//	if (MOUSE_DOWN(DIMK_LBUTTON))
+	//	{
+	//		/* 여기에 옵션 창 입력 */
+	//		/* UI매니저에 추가? */
+	//	}
+	//}
+	//else
+	//{
+	//	RENDER_TEXT_BOL_DARK("OPTIONS", 280.f - g_iWinSizeX * 0.5f, g_iWinSizeY * 0.5f - 510.f, 0.9f);
+	//}
 
 	if (PtInRect(&m_tButton[QUIT], ptMouse))
 	{
@@ -153,12 +153,12 @@ HRESULT CButton_Main::Pick_Button()
 		}
 		else
 		{
-			RENDER_TEXT_BOL("QUIT", 280.f - g_iWinSizeX * 0.5f, g_iWinSizeY * 0.5f - 560.f, 0.9f);
+			RENDER_TEXT_BOL("QUIT", 280.f - g_iWinSizeX * 0.5f, g_iWinSizeY * 0.5f - 515.f, 1.f);
 		}
 	}
 	else
 	{
-		RENDER_TEXT_BOL_DARK("QUIT", 280.f - g_iWinSizeX * 0.5f, g_iWinSizeY * 0.5f - 560.f, 0.9f);
+		RENDER_TEXT_BOL_DARK("QUIT", 280.f - g_iWinSizeX * 0.5f, g_iWinSizeY * 0.5f - 515.f, 1.f);
 	}
 
 	if (m_fAnimationFrame > 1.7f)

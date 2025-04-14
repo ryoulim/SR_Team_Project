@@ -97,18 +97,21 @@ HRESULT CMonsterNormalBullet::Ready_Components(void* pArg)
 		TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
 		return E_FAIL;
 
-	/* 콜라이드 컴포넌트 */
-	CCollider_Capsule::DESC ColliderDesc{};
-	ColliderDesc.pTransform = m_pTransformCom;
-	ColliderDesc.vOffSet = {};
-	ColliderDesc.vScale = m_pTransformCom->Compute_Scaled();
-	ColliderDesc.pOwner = this;
-	ColliderDesc.iColliderGroupID = CG_MBULLET;
-	ColliderDesc.iColliderID = pDesc->iColliderID;
+	if (pDesc->bCollision == true)
+	{
+		/* 콜라이드 컴포넌트 */
+		CCollider_Capsule::DESC ColliderDesc{};
+		ColliderDesc.pTransform = m_pTransformCom;
+		ColliderDesc.vOffSet = {};
+		ColliderDesc.vScale = m_pTransformCom->Compute_Scaled();
+		ColliderDesc.pOwner = this;
+		ColliderDesc.iColliderGroupID = CG_MBULLET;
+		ColliderDesc.iColliderID = pDesc->iColliderID;
 
-	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Collider_Sphere"),
-		TEXT("Com_Collider"), reinterpret_cast<CComponent**>(&m_pCollider), &ColliderDesc)))
-		return E_FAIL;
+		if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Collider_Sphere"),
+			TEXT("Com_Collider"), reinterpret_cast<CComponent**>(&m_pCollider), &ColliderDesc)))
+			return E_FAIL;
+	}
 
 	if (m_bFlesh)
 	{
@@ -190,6 +193,7 @@ void CMonsterNormalBullet::On_Collision(_uint MyColliderID, _uint OtherColliderI
 
 HRESULT CMonsterNormalBullet::Render()
 {
+	m_pGraphic_Device->SetRenderState(D3DRS_LIGHTING, FALSE);
 	m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
 	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAREF, 200);
 	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER);

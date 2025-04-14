@@ -82,7 +82,7 @@ HRESULT CItem::Render()
 
 	m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
 
-	m_pGraphic_Device->SetRenderState(D3DRS_LIGHTING, TRUE);
+	//m_pGraphic_Device->SetRenderState(D3DRS_LIGHTING, TRUE);
 
 	return S_OK;
 }

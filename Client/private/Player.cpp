@@ -222,7 +222,8 @@ void CPlayer::On_Collision(_uint MyColliderID, _uint OtherColliderID)
 		break;
 
 	case CI_TRIGGER:
-		Change_Level();
+		if (m_pGameInstance->Get_CurrentLevelIndex() != LEVEL_GAMEPLAY)
+			Change_Level();
 		break;
 
 		/* æ∆¿Ã≈€ */

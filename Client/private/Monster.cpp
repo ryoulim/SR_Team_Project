@@ -3,6 +3,7 @@
 #include "Skull.h"
 #include "FXMgr.h"
 #include "CameraManager.h"
+#include "Pawn.h"
 
 CMonster::CMonster(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CGameObject{ pGraphic_Device }
@@ -38,6 +39,7 @@ HRESULT CMonster::Initialize_Prototype()
 HRESULT CMonster::Initialize(void* pArg)
 {
 	m_pTargetPlayer = GET_PLAYER;
+	m_pTargetPlayerTransform = static_cast<CTransform*>(static_cast<CPawn*>(m_pTargetPlayer)->Find_Component(L"Com_Transform"));
 	Safe_AddRef(m_pTargetPlayer);
 
 	if (FAILED(Ready_Components(pArg)))
@@ -558,7 +560,7 @@ _bool CMonster::IsMonsterAbleToAttack()
 	m_fRaycastTicker = 0.f;
 	if (m_fCurDistance > m_fAttackDistance)
 		return false;
-	//return Raycast_Player();
+	return Raycast_Player();
 	return true;
 }
 
@@ -611,7 +613,7 @@ void CMonster::State_Change_IDLE(_float dt)
 void CMonster::State_Change_DETECTIVE(_float dt)
 {
 	m_fRaycastTicker += dt;
-	if (m_fRaycastTicker > 0.5f)
+	if (m_fRaycastTicker > 1.f)
 	{
 		if (IsMonsterAbleToAttack())
 		{
@@ -624,7 +626,7 @@ void CMonster::State_Change_DETECTIVE(_float dt)
 void CMonster::State_Change_READY(_float dt)
 {
 	m_fRaycastTicker += dt;
-	if (m_fRaycastTicker > 0.5f)
+	if (m_fRaycastTicker > 1.f)
 	{
 		if (!IsMonsterAbleToAttack())
 		{
@@ -646,7 +648,7 @@ void CMonster::State_Change_BATTLE(_float dt)
 		m_bCoolingDown = false;
 	}
 	m_fRaycastTicker += dt;
-	if (m_fRaycastTicker > 0.5f)
+	if (m_fRaycastTicker > 1.f)
 	{
 		if (false == IsMonsterAbleToAttack())
 		{
@@ -706,20 +708,23 @@ void CMonster::Free()
 
 void CMonster::PlayerDistance()
 {
-	_float4x4 matCamWorld;
+	//_float4x4 matCamWorld;
 
-	m_pGraphic_Device->GetTransform(D3DTS_VIEW, &matCamWorld);
-	D3DXMatrixInverse(&matCamWorld, NULL, &matCamWorld);
-	_float3 vCameraPos = { matCamWorld._41, matCamWorld._42, matCamWorld._43 };
+	//m_pGraphic_Device->GetTransform(D3DTS_VIEW, &matCamWorld);
+	//D3DXMatrixInverse(&matCamWorld, NULL, &matCamWorld);
+	//_float3 vCameraPos = { matCamWorld._41, matCamWorld._42, matCamWorld._43 };
 
 	_float3 vMonsterPos = *m_pTransformCom->Get_State(CTransform::STATE_POSITION);
 
-	_float distance = sqrtf(
-		powf(vCameraPos.x - vMonsterPos.x, 2) +
-		powf(vCameraPos.y - vMonsterPos.y, 2) +
-		powf(vCameraPos.z - vMonsterPos.z, 2)
-	);
+	//_float distance = sqrtf(
+	//	powf(vCameraPos.x - vMonsterPos.x, 2) +
+	//	powf(vCameraPos.y - vMonsterPos.y, 2) +
+	//	powf(vCameraPos.z - vMonsterPos.z, 2)
+	//);
 
+	_float3 vPlayerPos = {};
+	vPlayerPos = *m_pTargetPlayerTransform->Get_State(CTransform::STATE_POSITION);
+	_float distance = (vMonsterPos - vPlayerPos).Length();
 	m_fCurDistance = distance;
 }
 

@@ -150,7 +150,7 @@ HRESULT CWeaponUI::Render()
 		CUI_Manager::Get_Instance()->Render_Text(tmp[_uint(m_fTextureNum)]->Get_Info()->iCurAmmo, CFont::BIGORANGE, CFont::CENTER, m_vThirdPos.x + 20.f, m_vThirdPos.y - 10.f, 0.4f * m_fSizeMul);
 		break;
 	default:
-		MSG_BOX("당신은 멍청이 입니다");
+		MSG_BOX("무기 습득이 좀 꼬인 것 가타요");
 		break;
 	}
 	return S_OK;

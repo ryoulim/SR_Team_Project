@@ -82,7 +82,8 @@ void CLevel_GamePlay::Update(_float fTimeDelta)
 				m_bBossStart = true;
 		}
 	}
-	
+	FX_MGR->Update(fTimeDelta);
+
 	if(m_bBossStart && m_bBossEnd)
 	{
 		m_pBGM = m_pGameInstance->Get_Single_Sound("drumnboss");
@@ -127,15 +128,22 @@ void CLevel_GamePlay::Update(_float fTimeDelta)
 	/* [ 몬스터 테스트 소환 ] */
 	if (KEY_DOWN(DIK_M))
 	{
-		SpawnWenteko	(_float3{ 1250.f, 100.f, 1500.f }, true, LEVEL_GAMEPLAY);
-		SpawnShotgunner	(_float3{ 1300.f, 100.f, 1500.f }, true, LEVEL_GAMEPLAY);
-		SpawnNukemutant	(_float3{ 1350.f, 100.f, 1500.f }, true, LEVEL_GAMEPLAY);
-		SpawnMechsect	(_float3{ 1400.f, 100.f, 1500.f }, true, LEVEL_GAMEPLAY);
-		SpawnGreater	(_float3{ 1450.f, 100.f, 1500.f }, true, LEVEL_GAMEPLAY);
-		SpawnDeacon		(_float3{ 1500.f, 100.f, 1500.f }, true, LEVEL_GAMEPLAY);
-		SpawnCultist	(_float3{ 1550.f, 100.f, 1500.f }, true, LEVEL_GAMEPLAY);
-		SpawnArchangel	(_float3{ 1600.f, 100.f, 1500.f }, true, LEVEL_GAMEPLAY);
+		//SpawnWenteko	(_float3{ 1250.f, 100.f, 1500.f }, true, LEVEL_GAMEPLAY);
+		//SpawnShotgunner	(_float3{ 1300.f, 100.f, 1500.f }, true, LEVEL_GAMEPLAY);
+		//SpawnNukemutant	(_float3{ 1350.f, 100.f, 1500.f }, true, LEVEL_GAMEPLAY);
+		//SpawnMechsect	(_float3{ 1400.f, 100.f, 1500.f }, true, LEVEL_GAMEPLAY);
+		//SpawnGreater	(_float3{ 1450.f, 100.f, 1500.f }, true, LEVEL_GAMEPLAY);
+		//SpawnDeacon		(_float3{ 1500.f, 100.f, 1500.f }, true, LEVEL_GAMEPLAY);
+		//SpawnCultist	(_float3{ 1550.f, 100.f, 1500.f }, true, LEVEL_GAMEPLAY);
+		//SpawnArchangel	(_float3{ 1600.f, 100.f, 1500.f }, true, LEVEL_GAMEPLAY);
 	}
+
+	if (m_iNextLevel)
+	{
+		m_pGameInstance->Change_Level(LEVEL_LOADING,
+			CLevel_Loading::Create(m_pGraphic_Device, (LEVEL)m_iNextLevel));
+	}
+
 
 }
 
