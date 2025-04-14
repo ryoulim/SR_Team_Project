@@ -186,28 +186,15 @@ HRESULT CRaceBoss::Render()
 	// 총구
 	for (_uint i = 0; i < 4; ++i)
 	{
-		//이전이 발사 이미지 였다면 원래 이미지로 바꿔라
-		if (m_iPreTextureID[i] == 8)
-			m_iCurTextureID[i] = 6;
-
-		if (FAILED(m_pTextureCom->Bind_Resource(static_cast<_uint>(m_iCurTextureID[i]))))
+		if (FAILED(m_pTextureCom->Bind_Resource(static_cast<_uint>(m_iTextureID[i]))))
 			return E_FAIL;
-
-		if(m_iCurTextureID[i] == 8)
-			m_iPreTextureID[i] = m_iCurTextureID[i];
 
 		m_pVIBufferCom->Render(CVIBuffer_RaceBoss::MUZZLE1 + i);
 	}
 
 	//가운데
-	if (m_iPreTextureID[4] == 8)
-		m_iCurTextureID[4] = 9;
-
-	if (FAILED(m_pTextureCom->Bind_Resource(static_cast<_uint>(m_iCurTextureID[4]))))
+	if (FAILED(m_pTextureCom->Bind_Resource(static_cast<_uint>(m_iTextureID[4]))))
 		return E_FAIL;
-
-	if(m_iCurTextureID[4] == 8)
-		m_iPreTextureID[4] = m_iCurTextureID[4];
 
 	if (FAILED(m_pVIBufferCom->Render(CVIBuffer_RaceBoss::MIDDLE)))
 		return E_FAIL;
@@ -346,75 +333,6 @@ void CRaceBoss::Set_HeadBulletCountZero()
 	m_iHeadBulletCount = 0;
 }
 
-void CRaceBoss::Bombing(_float fTimeDelta)
-{
-	//Fire_Bomb4();
-}
-
-HRESULT CRaceBoss::Draw_RazerRadius()
-{
-	//시작 x 위치는 350, 450, 550 세 가지
-	m_vecRazerPos = { 350.f, 450.f, 550.f };
-	random_shuffle(m_vecRazerPos.begin(), m_vecRazerPos.end());
-
-	m_pPlayerpos = static_cast<CTransform*>(m_pPlayer->Find_Component(TEXT("Com_Transform")))->Get_State(CTransform::STATE_POSITION);
-
-	CRazerRadius::DESC Razerdesc = {};
-	Razerdesc.vScale = { 100.f, 600.f, 0.f };
-	Razerdesc.eLevelID = m_eLevelID;
-	Razerdesc.vAngle = { D3DXToRadian(90.f), 0.f, 0.f };
-
-	//m_vecRazerPos의 0번 1번 데이터만 사용
-	for (_uint i = 0; i < 2; i++)
-	{
-		Razerdesc.vInitPos = _float3(m_vecRazerPos[i], 1.f, m_pPlayerpos->z);
-
-		if (FAILED(m_pGameInstance->Add_GameObject(m_eLevelID, TEXT("Prototype_GameObject_RazerRadius"),
-			m_eLevelID, L"Layer_RaceBossPattern", &Razerdesc)))
-			return E_FAIL;
-	}
-	
-	return S_OK;
-}
-
-_bool CRaceBoss::Comeback(_float fTimeDelta)
-{
-	m_pTransformCom->Go_Straight(fTimeDelta * 5.f);
-	m_pTransformCom->Go_Down(fTimeDelta * 0.1f);
-
-	_float3 fMyPos = *m_pTransformCom->Get_State(CTransform::STATE_POSITION);
-	_float3 fPlayerPos = *static_cast<CTransform*>(m_pPlayer->Find_Component(TEXT("Com_Transform")))->Get_State(CTransform::STATE_POSITION);
-
-	if (fMyPos.z > fPlayerPos.z + 1000.f)
-	{
-		m_pTransformCom->Set_State(CTransform::STATE_POSITION,
-			_float3(450.f, 250.f, fPlayerPos.z + 1300.f)
-		);
-		return true;
-	}
-		
-
-	return false;
-}
-
-HRESULT CRaceBoss::Draw_BombRadius(_float3 vBombingPos)
-{
-	//xz평면에 투영
-	_float3 vExplosePos = _float3(vBombingPos.x, 0.f, vBombingPos.z);
-
-	CBombRadius::DESC Bombdesc = {};
-	Bombdesc.vInitPos = vExplosePos + _float3(0.f, 1.f, 0.f);
-	Bombdesc.vScale = { 20.f, 20.f, 0.f };
-	Bombdesc.eLevelID = m_eLevelID;
-	Bombdesc.vAngle = { D3DXToRadian(90.f), 0.f, 0.f };
-
-	if (FAILED(m_pGameInstance->Add_GameObject(m_eLevelID, TEXT("Prototype_GameObject_BombRadius"),
-		m_eLevelID, L"Layer_RaceBossPattern", &Bombdesc)))
-		return E_FAIL;
-
-	return S_OK;
-}
-
 void CRaceBoss::ShuffleandPop()
 {
 	if (m_VecBulletPos.empty())
@@ -492,12 +410,6 @@ const char* CRaceBoss::Debug_State(STATE eState)
 	case COMEBACK:
 		return "COMEBACK";
 
-	case DRAWINGRAZERRADIUS:
-		return "DRAWINGRAZERRADIUS";
-
-	case RAZERING:
-		return "RAZERING";
-
 	case LEAVE:
 		return "LEAVE";
 
@@ -565,8 +477,6 @@ void CRaceBoss::ReadyForState()
 	m_pState[SHOTREADY] = new CRBState_ReadyShot(this);
 	m_pState[SHOTHEADBULLET] = new CRBState_ShotHeadBullet(this);
 	m_pState[SHOTTAILBULLET] = new CRBState_ShotTailBullet(this);
-	m_pState[DRAWINGRAZERRADIUS] = new CRBState_DrawingRazerRadius(this);
-	m_pState[RAZERING] = new CRBState_Razering(this);
 	m_pState[LEAVE] = new CRBState_Leave(this);
 	m_pState[DEAD] = new CRBState_Dead(this);
 	m_pState[CLOSE_TO_PLAYER] = new CRBState_CloseToPlayer(this);
@@ -595,7 +505,16 @@ HRESULT CRaceBoss::Fire_Bullet(CRaceBossBullet::RBULLETTYPE eType, MUZZLEPOS ePo
 	RaceBossBulletdesc.vScale = { 20.f, 20.f, 20.f };
 	RaceBossBulletdesc.vPosition = *m_pTransformCom->Get_State(CTransform::STATE_POSITION) + Calc_Muzzle_Position(ePos);
 
-	m_iCurTextureID[m_ePos - 62] = 8;
+	for (_uint i = 0; i < 4; i++)
+	{
+		if (m_iTextureID[i] == 8)
+			m_iTextureID[i] = 6;
+	}
+
+	if (m_iTextureID[4] == 8)
+		m_iTextureID[4] = 9;
+	
+	m_iTextureID[m_ePos - 62] = 8;
 
 	if (eType == CRaceBossBullet::HEAD)
 	{
@@ -620,156 +539,10 @@ HRESULT CRaceBoss::Fire_Bullet(CRaceBossBullet::RBULLETTYPE eType, MUZZLEPOS ePo
 	return S_OK;
 }
 
-HRESULT CRaceBoss::Fire_Bomb(_float fTimeDelta)
+void CRaceBoss::RestoreTextureID()
 {
-	CRaceBossBomb::DESC RaceBossBombdesc{};
-	RaceBossBombdesc.bAnimation = false;
-	RaceBossBombdesc.iColliderID = CI_BOSS_FIRE;
-	RaceBossBombdesc.fSpeedPerSec = 800.f;
-	RaceBossBombdesc.fRotationPerSec = RADIAN(180.f);
-	RaceBossBombdesc.vScale = { 30.f, 30.f, 30.f };
-
-	m_fBombPosX = GetRandomFloat(300.f, 600.f);
-
-	RaceBossBombdesc.vPosition = _float3(
-		m_fBombPosX,
-		m_pTransformCom->Get_State(CTransform::STATE_POSITION)->y,
-		m_pTransformCom->Get_State(CTransform::STATE_POSITION)->z
-	);
-	RaceBossBombdesc.vLook = _float3(
-		RaceBossBombdesc.vPosition.x,
-		RaceBossBombdesc.vPosition.y,
-		RaceBossBombdesc.vPosition.z + 1.f);
-
-	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_RaceBossBomb"),
-		m_eLevelID, L"Layer_RaceBossBullet", &RaceBossBombdesc)))
-		return E_FAIL;
-
-	Draw_BombRadius(RaceBossBombdesc.vPosition);
-
-	return S_OK;
-}
-
-HRESULT CRaceBoss::Fire_Bomb3()
-{
-	
-	CRaceBossBomb::DESC RaceBossBombdesc{};
-	RaceBossBombdesc.bAnimation = false;
-	RaceBossBombdesc.iColliderID = CI_BOSS_FIRE;
-	RaceBossBombdesc.fSpeedPerSec = 1500.f;
-	RaceBossBombdesc.fRotationPerSec = RADIAN(180.f);
-	RaceBossBombdesc.vScale = { 50.f, 50.f, 50.f };
-
-	//폭격시 보스의 y위치
-	_float fPosY = 280.f;
-
-	//한 영역의 x 범위 : 100
-	//폭격시 x값은 25이므로 100 - 25
-	_float fRangeX = 75.f;
-
-	//fPosY와 fRangeX에 의한 최대 각도
-	_float fMaxAngle = D3DXToDegree(atan(fRangeX / fPosY));
-
-	_float fTmpAngle = {};
-	_float fAngle = {};
-
-	//폭탄을 발사할지말지 랜덤으로 결정
-	for (_uint i = 0; i < 4; i++)
-	{
-		_ushort sTmp = rand() % 2;
-		if (sTmp == 1)
-			m_bFireBomb[i] = true;
-	}
-
-	if (m_bFireBomb[0])
-	{
-		fTmpAngle = GetRandomFloat(90 - fMaxAngle, 90.f);
-		fAngle = -fTmpAngle;
-
-		//1번 폭탄
-		RaceBossBombdesc.vPosition = _float3(
-			m_fBombPosX2[0] - 25.f,
-			m_pTransformCom->Get_State(CTransform::STATE_POSITION)->y,
-			m_pTransformCom->Get_State(CTransform::STATE_POSITION)->z
-		);
-		RaceBossBombdesc.vLook = _float3(
-			RaceBossBombdesc.vPosition.x + cosf(D3DXToRadian(fAngle)),
-			RaceBossBombdesc.vPosition.y + sinf(D3DXToRadian(fAngle)),
-			RaceBossBombdesc.vPosition.z);
-
-		if (FAILED(m_pGameInstance->Add_GameObject(m_eLevelID, TEXT("Prototype_GameObject_RaceBossBomb"),
-			m_eLevelID, L"Layer_RaceBossBullet", &RaceBossBombdesc)))
-			return E_FAIL;
-	}
-	
-
-	if (m_bFireBomb[1])
-	{
-		fTmpAngle = GetRandomFloat(90 - fMaxAngle, 90.f);
-		fAngle = -fTmpAngle;
-
-		//2번 폭탄
-		RaceBossBombdesc.vPosition = _float3(
-			m_fBombPosX2[1] - 25.f,
-			m_pTransformCom->Get_State(CTransform::STATE_POSITION)->y,
-			m_pTransformCom->Get_State(CTransform::STATE_POSITION)->z
-		);
-		RaceBossBombdesc.vLook = _float3(
-			RaceBossBombdesc.vPosition.x + cosf(D3DXToRadian(fAngle)),
-			RaceBossBombdesc.vPosition.y + sinf(D3DXToRadian(fAngle)),
-			RaceBossBombdesc.vPosition.z);
-
-		if (FAILED(m_pGameInstance->Add_GameObject(m_eLevelID, TEXT("Prototype_GameObject_RaceBossBomb"),
-			m_eLevelID, L"Layer_RaceBossBullet", &RaceBossBombdesc)))
-			return E_FAIL;
-	}
-	
-	if (m_bFireBomb[2])
-	{
-		fTmpAngle = GetRandomFloat(90.f, 90.f + fMaxAngle);
-		fAngle = -fTmpAngle;
-
-		//3번 폭탄
-		RaceBossBombdesc.vPosition = _float3(
-			m_fBombPosX2[0] + 25.f,
-			m_pTransformCom->Get_State(CTransform::STATE_POSITION)->y,
-			m_pTransformCom->Get_State(CTransform::STATE_POSITION)->z
-		);
-		RaceBossBombdesc.vLook = _float3(
-			RaceBossBombdesc.vPosition.x + cosf(D3DXToRadian(fAngle)),
-			RaceBossBombdesc.vPosition.y + sinf(D3DXToRadian(fAngle)),
-			RaceBossBombdesc.vPosition.z);
-
-		if (FAILED(m_pGameInstance->Add_GameObject(m_eLevelID, TEXT("Prototype_GameObject_RaceBossBomb"),
-			m_eLevelID, L"Layer_RaceBossBullet", &RaceBossBombdesc)))
-			return E_FAIL;
-	}
-
-	if (m_bFireBomb[3])
-	{
-		fTmpAngle = GetRandomFloat(90.f, 90.f + fMaxAngle);
-		fAngle = -fTmpAngle;
-
-		//4번 폭탄
-		RaceBossBombdesc.vPosition = _float3(
-			m_fBombPosX2[1] + 25.f,
-			m_pTransformCom->Get_State(CTransform::STATE_POSITION)->y,
-			m_pTransformCom->Get_State(CTransform::STATE_POSITION)->z
-		);
-		RaceBossBombdesc.vLook = _float3(
-			RaceBossBombdesc.vPosition.x + cosf(D3DXToRadian(fAngle)),
-			RaceBossBombdesc.vPosition.y + sinf(D3DXToRadian(fAngle)),
-			RaceBossBombdesc.vPosition.z);
-
-		if (FAILED(m_pGameInstance->Add_GameObject(m_eLevelID, TEXT("Prototype_GameObject_RaceBossBomb"),
-			m_eLevelID, L"Layer_RaceBossBullet", &RaceBossBombdesc)))
-			return E_FAIL;
-	}
-
-	for (_uint i = 0; i < 4; i++)
-		m_bFireBomb[i] = false;
-	
-	return S_OK;
+	m_iTextureID[m_ePos - 62] = 6;
+	m_iTextureID[4] = 9;
 }
 
 HRESULT CRaceBoss::SpawnTargetAim(_float3 _vAimPosition)
@@ -843,243 +616,6 @@ HRESULT CRaceBoss::SpawnMultipleTargetAim(_float _fTimedelta)
 		SpawnTargetAim({x, y, z});
 		m_fBombTime = 0.f;
 	}
-
-	return S_OK;
-}
-
-HRESULT CRaceBoss::Fire_Razer(_float fTimeDelta)
-{
-	CRaceBossRazer::DESC RaceBossRazerdesc = {};
-	RaceBossRazerdesc.iColliderID = CI_BOSS_FIRE;
-	RaceBossRazerdesc.fSpeedPerSec = 0.f;
-	RaceBossRazerdesc.fRotationPerSec = RADIAN(0.f);
-	RaceBossRazerdesc.vScale = { 100.f, 1000.f, 50.f };
-
-	RaceBossRazerdesc.vInitPos = { 
-		m_vecRazerPos[0],
-		m_pTransformCom->Get_State(CTransform::STATE_POSITION)->y - RaceBossRazerdesc.vScale.y * 0.5f,
-		m_pTransformCom->Get_State(CTransform::STATE_POSITION)->z };
-
-	RaceBossRazerdesc.vAngle = _float3(D3DXToRadian(0.f), D3DXToRadian(0.f), D3DXToRadian(0.f));
-
-	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_RaceBossRazer"),
-		m_eLevelID, L"Layer_RaceBossBullet", &RaceBossRazerdesc)))
-		return E_FAIL;
-
-	RaceBossRazerdesc.vInitPos = {
-		m_vecRazerPos[1],
-		m_pTransformCom->Get_State(CTransform::STATE_POSITION)->y,
-		m_pTransformCom->Get_State(CTransform::STATE_POSITION)->z };
-
-	RaceBossRazerdesc.vAngle = _float3(D3DXToRadian(0.f), D3DXToRadian(0.f), D3DXToRadian(0.f));
-
-	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_RaceBossRazer"),
-		m_eLevelID, L"Layer_RaceBossBullet", &RaceBossRazerdesc)))
-		return E_FAIL;
-	
-	return S_OK;
-}
-
-HRESULT CRaceBoss::Set_BombRadius()
-{
-	//랜덤한 x좌표 20개를 만들어 저장한다.
-	for (_uint i = 0; i < 20; i++)
-	{
-		BOMBDATA Tmpdata;
-		Tmpdata.fPosX = GetRandomFloat(300.f, 600.f);
-		Tmpdata.fPosZ = GetRandomFloat(m_pPlayerpos->z - 150.f, m_pPlayerpos->z + 150.f);
-		m_vecBombPos.push_back(Tmpdata);
-	}
-
-	//z값을 기준으로 오름차순 정렬
-	sort(m_vecBombPos.begin(), m_vecBombPos.end(), [](BOMBDATA Tmp, BOMBDATA Src)->_bool { return Tmp.fPosZ < Src.fPosZ;  });
-	
-	for (_uint i = 0; i < 20; i++)
-	{
-		CBombRadius::DESC Bombdesc = {};
-		Bombdesc.vInitPos = _float3(
-			m_vecBombPos[i].fPosX,
-			1.f,
-			m_vecBombPos[i].fPosZ
-		);
-		Bombdesc.vScale = { 20.f, 20.f, 0.f };
-		Bombdesc.eLevelID = m_eLevelID;
-		Bombdesc.vAngle = { D3DXToRadian(90.f), 0.f, 0.f };
-
-		if (FAILED(m_pGameInstance->Add_GameObject(m_eLevelID, TEXT("Prototype_GameObject_BombRadius"),
-			m_eLevelID, L"Layer_RaceBossBombRadius", &Bombdesc)))
-			return E_FAIL;
-	}
-
-	//Z값이 먼 것부터 정렬한다.
-
-	return S_OK;
-}
-
-_bool CRaceBoss::Fire_Bomb4(_uint iBombIndex, _float fTime)
-{
-	if (iBombIndex >= m_vecBombPos.size())
-		return FALSE;
-
-	//z값이 큰 것부터 꺼내며 폭탄을 쏜다.
-	CRaceBossBomb::DESC RaceBossBombdesc{};
-	RaceBossBombdesc.bAnimation = false;
-	RaceBossBombdesc.iColliderID = CI_BOSS_FIRE;
-	RaceBossBombdesc.fSpeedPerSec = 800.f;
-	RaceBossBombdesc.fRotationPerSec = RADIAN(180.f);
-	RaceBossBombdesc.vScale = { 30.f, 30.f, 30.f };
-
-	RaceBossBombdesc.vPosition = _float3(
-		m_vecBombPos[iBombIndex].fPosX,
-		m_pTransformCom->Get_State(CTransform::STATE_POSITION)->y,
-		m_pTransformCom->Get_State(CTransform::STATE_POSITION)->z
-	);
-	RaceBossBombdesc.vLook = _float3(
-		RaceBossBombdesc.vPosition.x,
-		RaceBossBombdesc.vPosition.y,
-		RaceBossBombdesc.vPosition.z + 1.f);
-
-#pragma region GPT 씨발새끼가 짜준거 인간시대의 끝은 도래했다 수구
-	//시작 y 위치
-	_float fPosY = m_pTransformCom->Get_State(CTransform::STATE_POSITION)->y;
-
-	//폭탄이 땅에 닿는데 까지 걸리는 시간
-	_float fTimes = fPosY / RaceBossBombdesc.fSpeedPerSec;
-
-	//현재 표적의 위치
-	_float fCurrentRadiusPosZ = m_vecBombPos.back().fPosZ;
-
-	//fTimes 후 표적 예측 위치 계산
-	_float fPredicted_PosZ = fCurrentRadiusPosZ + RACE_SPEED_PER_SEC * fTimes;
-
-	//현재 내 z값이 fPredicted_Position의 z와 비슷하면 떨어뜨린다.
-	_float fPosZ = m_pTransformCom->Get_State(CTransform::STATE_POSITION)->z;
-
-	if (abs(fPosZ - fPredicted_PosZ) < 50.f)
-	{
-		if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_RaceBossBomb"),
-			m_eLevelID, L"Layer_RaceBossBullet", &RaceBossBombdesc)))
-			return FALSE;
-
-		m_vecBombPos.pop_back();
-
-		return TRUE;
-	}
-
-	else
-		return FALSE;
-
-#pragma endregion
-}
-
-HRESULT CRaceBoss::Fire_Bomb2()
-{
-	CRaceBossBomb::DESC RaceBossBombdesc{};
-	RaceBossBombdesc.bAnimation = false;
-	RaceBossBombdesc.iColliderID = CI_BOSS_FIRE;
-	RaceBossBombdesc.fSpeedPerSec = 600.f;
-	RaceBossBombdesc.fRotationPerSec = RADIAN(180.f);
-	RaceBossBombdesc.vScale = { 40.f, 40.f, 40.f };
-
-	//폭격시 보스의 y위치
-	_float fPosY = 280.f;
-
-	//폭탄의 시작 w좌표
-	_float fPosX[4] = {};
-
-	//왼쪽이냐 오른쪽이냐
-	_ushort sDirection[4] = {};
-
-	//최대 각도
-	_float fMaxAngle[4] = {};
-
-	for (_uint i = 0; i < 4; i++)
-	{
-		fPosX[i] = GetRandomFloat(350.f, 550.f);
-
-		//0이면 왼쪽방향, 1이면 오른쪽 방향
-		sDirection[i] = rand() % 2;
-
-		//왼쪽이면
-		if (sDirection[i] == 0)
-		{
-			//fPosY와 fRangeX에 의한 최대 각도
-			fMaxAngle[i] = D3DXToDegree(atan((fPosX[i] - 300.f) / fPosY));
-		}
-
-		//오른쪽이면
-		if (sDirection[i] == 1)
-		{
-			//fPosY와 fRangeX에 의한 최대 각도
-			fMaxAngle[i] = D3DXToDegree(atan((550.f - fPosX[i]) / fPosY));
-		}
-	}
-		
-	_float fTmpAngle = {};
-	_float fAngle = {};
-
-	//폭탄을 발사할지말지 랜덤으로 결정
-	for (_uint i = 0; i < 4; i++)
-	{
-		_ushort sTmp = rand() % 2;
-		if (sTmp == 1)
-			m_bFireBomb[i] = true;
-	}
-
-	for (_uint i = 0; i < 4; i++)
-	{
-		if (m_bFireBomb[i])
-		{
-			//왼쪽방향이면
-			if (sDirection[i] == 0)
-			{
-				fTmpAngle = GetRandomFloat(90.f, 90.f + fMaxAngle[i]);
-				fAngle = -fTmpAngle;
-
-				RaceBossBombdesc.vPosition = _float3(
-					fPosX[i],
-					m_pTransformCom->Get_State(CTransform::STATE_POSITION)->y,
-					m_pTransformCom->Get_State(CTransform::STATE_POSITION)->z
-				);
-				RaceBossBombdesc.vLook = _float3(
-					RaceBossBombdesc.vPosition.x + cosf(D3DXToRadian(fAngle)),
-					RaceBossBombdesc.vPosition.y + sinf(D3DXToRadian(fAngle)),
-					RaceBossBombdesc.vPosition.z);
-
-				if (FAILED(m_pGameInstance->Add_GameObject(m_eLevelID, TEXT("Prototype_GameObject_RaceBossBomb"),
-					m_eLevelID, L"Layer_RaceBossBullet", &RaceBossBombdesc)))
-					return E_FAIL;
-			}
-
-			//오른쪽방향이면
-			if (sDirection[i] == 1)
-			{
-				fTmpAngle = GetRandomFloat(90 - fMaxAngle[i], 90.f);
-				fAngle = -fTmpAngle;
-
-				RaceBossBombdesc.vPosition = _float3(
-					fPosX[i],
-					m_pTransformCom->Get_State(CTransform::STATE_POSITION)->y,
-					m_pTransformCom->Get_State(CTransform::STATE_POSITION)->z
-				);
-				RaceBossBombdesc.vLook = _float3(
-					RaceBossBombdesc.vPosition.x + cosf(D3DXToRadian(fAngle)),
-					RaceBossBombdesc.vPosition.y + sinf(D3DXToRadian(fAngle)),
-					RaceBossBombdesc.vPosition.z);
-
-				if (FAILED(m_pGameInstance->Add_GameObject(m_eLevelID, TEXT("Prototype_GameObject_RaceBossBomb"),
-					m_eLevelID, L"Layer_RaceBossBullet", &RaceBossBombdesc)))
-					return E_FAIL;
-			}
-		}
-
-		else
-			return S_OK;
-	}
-
-
-	for (_uint i = 0; i < 4; i++)
-		m_bFireBomb[i] = false;
 
 	return S_OK;
 }
@@ -1385,7 +921,7 @@ void CRaceBoss::On_Hit(MUZZLEPOS HitPos, _int iDamage)
 		if (iIndex == 9) // 몸통이다
 			;
 		else
-			m_iCurTextureID[iIndex] = 7; //부서진 이미지 번호
+			m_iTextureID[iIndex] = 7; //부서진 이미지 번호
 
 		/* [ 포신 어디가 파괴되었나요? ] */
 		switch (HitPos)

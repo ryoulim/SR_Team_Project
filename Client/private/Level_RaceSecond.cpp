@@ -42,6 +42,18 @@ HRESULT CLevel_RaceSecond::Initialize(CLevelData* pLevelData)
 
 	/* 남아있던 파티클 다 제거하고 시작하기 */
 	m_pGameInstance->Release_Layer(LEVEL_STATIC, TEXT("Layer_Particle"));
+
+#pragma region 재질 설정
+	/* 기본적인 재질들 설정하기 */
+
+	D3DMATERIAL9		MtrlDesc{};
+	MtrlDesc.Diffuse = D3DXCOLOR(1.f, 1.f, 1.f, 1.f);
+	MtrlDesc.Ambient = D3DXCOLOR(0.2f, 0.2f, 0.2f, 1.f);
+	MtrlDesc.Emissive = D3DXCOLOR(0.7f, 0.7f, 0.7f, 1.f);
+
+	// 장치에 재질을 설정한다
+	m_pGraphic_Device->SetMaterial(&MtrlDesc);
+#pragma endregion
 	return S_OK;
 }
 
@@ -105,7 +117,7 @@ HRESULT CLevel_RaceSecond::Ready_Layer_Statue(const _wstring& strLayerTag)
 	CStatue::DESC desc = {};
 
 	desc.vAngle = _float3(D3DXToRadian(0.f), D3DXToRadian(80.f), D3DXToRadian(0.f));
-	desc.vInitPos = _float3(800.f, 300.f, -3000.f);
+	desc.vInitPos = _float3(850.f, 300.f, -3000.f);
 	desc.vScale = _float3(600.f, 600.f, 600.f);
 	desc.eLevelID = LEVEL_RACESECOND;
 
@@ -119,7 +131,7 @@ HRESULT CLevel_RaceSecond::Ready_Layer_Statue(const _wstring& strLayerTag)
 	}
 
 	desc.vAngle = _float3(D3DXToRadian(0.f), D3DXToRadian(-80.f), D3DXToRadian(0.f));
-	desc.vInitPos = _float3(100.f, 300.f, -3000.f);
+	desc.vInitPos = _float3(50.f, 300.f, -3000.f);
 	desc.vScale = _float3(600.f, 600.f, 600.f);
 	desc.eLevelID = LEVEL_RACESECOND;
 
