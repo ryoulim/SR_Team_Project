@@ -546,6 +546,26 @@ void CMonster::Collision_With_Weapon()
 
 		return;
 	}
+
+	list<CGameObject*>* pMonsterList = m_pGameInstance->Find_Objects(m_eLevelID, TEXT("Layer_Monster"));
+	if (nullptr == pMonsterList)
+		return;
+
+	_float3 vPosition = *m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+
+	for (auto& pMonster : *pMonsterList)
+	{
+		_float3 vMobPosition = *static_cast<CTransform*>(pMonster->Find_Component(TEXT("Com_Transform")))->Get_State(CTransform::STATE_POSITION);
+
+		/*본인의 거리에서 일정거리 만큼에 몬스터가 있다면*/
+		if ((vPosition - vMobPosition).Length() < 300.f)
+		{
+			static_cast<CMonster*>(pMonster)->On_Player_Found();
+			static_cast<CMonster*>(pMonster)->On_Detective();
+			/* pMonster의 파운드 플레이어를 트루로 바꿔준다 */
+		}
+	}
+
 }
 
 void CMonster::Collision_With_Block()
@@ -761,8 +781,8 @@ bool CMonster::IsPlayerDetected()
 
 	if (m_fCurDistance < m_fDetectiveDistance)
 	{
-		if (FX_MGR->IsFlashing() && CAMERA_MANAGER->Get_CurCameraID() == CCameraManager::FPS)
-			return true;
+		//if (FX_MGR->IsFlashing() && CAMERA_MANAGER->Get_CurCameraID() == CCameraManager::FPS)
+		//	return true;
 
 		_float3 vLook = *m_pTransformCom->Get_State(CTransform::STATE_LOOK);
 		vLook.Normalize();
