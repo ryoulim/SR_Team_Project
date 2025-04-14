@@ -508,7 +508,7 @@ HRESULT CLoader::Loding_For_Static()
 #pragma endregion
 
 #pragma region 레이싱 보스
-	ADD_TEXTURE(RaceBoss, "../Bin/Resources/Textures/RaceBoss/RaceBoss%d.PNG", 7);
+	ADD_TEXTURE(RaceBoss, "../Bin/Resources/Textures/RaceBoss/RaceBoss%d.PNG", 12);
 	ADD_TEXTURE(RaceBossBullet, "../Bin/Resources/Textures/Bullet/RaceBossBullet/RaceBossBullet.PNG", 1);
 	ADD_TEXTURE(RaceBossBomb, "../Bin/Resources/Textures/Bullet/RaceBossBomb/RaceBossBombNew.PNG", 1);
 	ADD_TEXTURE(RaceBossRazer, "../Bin/Resources/Textures/Bullet/RaceBossRazer/RaceBossRazer.PNG", 1);
@@ -735,7 +735,10 @@ HRESULT CLoader::Loding_For_Static()
 #pragma region 사운드
 	ADD_SOUND(Player, "../Bin/Resources/Sounds/Player/");
 	ADD_SOUND(LoverBoy, "../Bin/Resources/Sounds/Weapons/Loverboy/");
+	ADD_SOUND(ChainGun, "../Bin/Resources/Sounds/Weapons/ChainGun/");
 	ADD_SOUND(Dispenser, "../Bin/Resources/Sounds/Weapons/Dispenser/");
+	ADD_SOUND(Player_On_Boat, "../Bin/Resources/Sounds/Player_On_Boat/");
+
 	ADD_SOUND(Explorsion, "../Bin/Resources/Sounds/Explorsion/");
 	/* 나중에 인도어로 반드시 반드시 반드시 옮기시오 */
 	m_pGameInstance->LoadSound("../Bin/Resources/Sounds/Interactive_Object/Door/");

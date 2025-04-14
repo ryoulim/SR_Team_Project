@@ -82,7 +82,7 @@ void CStreetLampHead::Setting_LightDesc()
 	D3DMATERIAL9		MtrlDesc{};
 	MtrlDesc.Diffuse = D3DXCOLOR(1.f, 1.f, 1.f, 1.f);
 	MtrlDesc.Ambient = D3DXCOLOR(0.2f, 0.2f, 0.2f, 1.f);
-	MtrlDesc.Emissive = D3DXCOLOR(0.3f, 0.3f, 0.3f, 0.3f);
+	MtrlDesc.Emissive = D3DXCOLOR(0.45f, 0.45f, 0.45f, 1.f);
 #pragma endregion
 
 	// 장치에 재질을 설정한다

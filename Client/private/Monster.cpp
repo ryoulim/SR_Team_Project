@@ -60,6 +60,8 @@ HRESULT CMonster::Initialize(void* pArg)
 	m_vSkullOffset.y *= 0.5f;
 	m_vSkullOffset.z = 0.f;
 
+	m_bStandby = static_cast<DESC*>(pArg)->bStandby;
+
 	return S_OK;
 }
 
@@ -506,6 +508,10 @@ void CMonster::On_Collision_NormalMonster(_uint MyColliderID, _uint OtherCollide
 	{
 		Collision_With_Weapon();
 	}
+	else if (CI_INTERACTIVE_DOOR)
+	{
+		Collision_With_Block();
+	}
 }
 
 void CMonster::Collision_With_Weapon()
@@ -859,6 +865,8 @@ void CMonster::MonsterTick(_float fTimeDelta)
 
 void CMonster::DoIdle(_float dt)
 {
+	m_eIdlePhase = EIdlePhase::IDLE_WAIT;
+
 	switch (m_eIdlePhase)
 	{
 	case EIdlePhase::IDLE_MOVE:

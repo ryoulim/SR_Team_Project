@@ -40,7 +40,6 @@ public:
 
 private:
 	_float		m_fFrame = 0;
-	_bool		m_bDead = false;
 };
 
 END

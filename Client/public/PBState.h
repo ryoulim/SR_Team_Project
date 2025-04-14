@@ -45,6 +45,12 @@ public:
 		//초기 속도 설정
 		m_fAccelSpeed = fTimeDelta * 5.f;
 		m_pOwner->Set_Speed(RACE_SPEED_PER_SEC);
+
+		m_pOwner->m_pSoundCom->Stop("engine_loop");
+		m_pOwner->m_pSoundCom->Stop("throttle_loop");
+		m_pOwner->m_pSoundCom->Stop("bike_idle_2");
+
+		m_pOwner->m_pSoundCom->Play("bike_turbo");
 	}
 	virtual void Execute(_float fTimeDelta) override
 	{
@@ -89,6 +95,9 @@ public:
 
 		else
 			m_fDecelSpeed = fTimeDelta * 5.f;
+
+		m_pOwner->m_pSoundCom->Play("rev_down");
+		m_pOwner->m_pSoundCom->Play("bike_off");
 	}
 	virtual void Execute(_float fTimeDelta) override
 	{
@@ -107,6 +116,15 @@ public:
 		m_fDecelSpeed = 0.f;
 
 		m_pOwner->Set_State(CPlayerOnBoat::NORMAL);
+
+		m_pOwner->m_pSoundCom->Play("engine_loop");
+		m_pOwner->m_pSoundCom->Set_Loop("engine_loop");
+
+		m_pOwner->m_pSoundCom->Play("throttle_loop");
+		m_pOwner->m_pSoundCom->Set_Loop("throttle_loop");
+
+		m_pOwner->m_pSoundCom->Play("bike_idle_2");
+		m_pOwner->m_pSoundCom->Set_Loop("bike_idle_2");
 	}
 
 private:

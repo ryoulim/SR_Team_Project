@@ -25,6 +25,8 @@ public:
 	void Play();
 	void Stop();
 	void Set_Volume(_float Volume);
+	void Set_Pitch(_float Pitch);
+	void Set_Loop(_int LoopCount);
 	// 사운드 포지션 업데이트
 	void Update3DPosition(const _float3& vPos);
 	//트랜스폼과 소리의 감쇠곡선을 결정할 죄소,최대 거리

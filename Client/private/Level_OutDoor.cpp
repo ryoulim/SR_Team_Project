@@ -1,4 +1,4 @@
-#include "Level_OutDoor.h"
+ï»¿#include "Level_OutDoor.h"
 
 #include "GameInstance.h"
 #include "Map.h"
@@ -10,6 +10,7 @@
 #include "FXMgr.h"
 #include "Monster.h"
 #include "Item.h"
+#include "Generator.h"
 
 #define CurLevel LEVEL_OUTDOOR
 
@@ -51,6 +52,9 @@ HRESULT CLevel_OutDoor::Initialize(CLevelData* pLevelData)
 	m_pBGM->Set_Volume(0.5f);
 	m_pBGM->Play();
 
+	m_pGenerator = m_pGameInstance->Find_Object(CurLevel, TEXT("Layer_Generator"));
+	Safe_AddRef(m_pGenerator);
+
 	return S_OK;
 }
 
@@ -58,6 +62,26 @@ HRESULT CLevel_OutDoor::Initialize(CLevelData* pLevelData)
 void CLevel_OutDoor::Update(_float fTimeDelta)
 {
 	FX_MGR->Update(fTimeDelta);
+	if (dynamic_cast<CGenerator*>(m_pGenerator)->Is_Broken() && !m_bDeadGenerator)
+	{
+		m_bChangeBGM = true;
+		m_bDeadGenerator = true;
+	}
+
+	if (m_bChangeBGM && m_bDeadGenerator)
+	{
+		if (nullptr != m_pBGM)
+		{
+			m_pBGM->Stop();
+			Safe_Release(m_pBGM);
+			m_pBGM = m_pGameInstance->Get_Single_Sound("broken_system");
+			m_pBGM->Set_Volume(0.5f);
+			m_pBGM->Play();
+		}
+		m_bChangeBGM = false;
+	}
+
+
 	if (g_FogCustom < 151.f)
 		FX_MGR->SpawnMultipleThunder(fTimeDelta, LEVEL_OUTDOOR);
 
@@ -87,18 +111,18 @@ HRESULT CLevel_OutDoor::Load_Map(_uint iLevelIdx, const _wstring& FileName)
 
 	if (INVALID_HANDLE_VALUE == hFile)
 	{
-		MSG_BOX("ÆÄÀÏ °³¹æ ½ÇÆÐ");
+		MSG_BOX("íŒŒì¼ ê°œë°© ì‹¤íŒ¨");
 		return E_FAIL;
 	}
 
-	/* ÅØ½ºÄíµå º¯°æÇØ¼­ Àû¿ë½ÃÄÑ ÁÙ ¶§ °¢ ¿ÀºêÁ§Æ®¸¦ °®°í¿À´Â º¯¼ö ( Á¡Á¡Ãß°¡µÉ ¿¹Á¤ )*/
-	/* ¹è¿­·Î ¼±¾ðÇÒ±î ½Í±âµµ Çß´Âµ¥, ·¹º§¸¶´Ù ¾µ ³à¼®°ú ¾È ¾µ ³à¼®ÀÌ ³ª´µ¾îÁú °Å°°±â¶§¹®¿¡,, */
-	/* °´Ã¼º°·Î ·¹ÀÌ¾î ³ª´©Áö¸»°É °´Ã¼º°·Î ·¹ÀÌ¾î ³ª´©Áö¸»°É °´Ã¼º°·Î ·¹ÀÌ¾î ³ª´©Áö¸»°É °´Ã¼º°·Î ·¹ÀÌ¾î ³ª´©Áö¸»°É*/
+	/* í…ìŠ¤ì¿ ë“œ ë³€ê²½í•´ì„œ ì ìš©ì‹œì¼œ ì¤„ ë•Œ ê° ì˜¤ë¸Œì íŠ¸ë¥¼ ê°–ê³ ì˜¤ëŠ” ë³€ìˆ˜ ( ì ì ì¶”ê°€ë  ì˜ˆì • )*/
+	/* ë°°ì—´ë¡œ ì„ ì–¸í• ê¹Œ ì‹¶ê¸°ë„ í–ˆëŠ”ë°, ë ˆë²¨ë§ˆë‹¤ ì“¸ ë…€ì„ê³¼ ì•ˆ ì“¸ ë…€ì„ì´ ë‚˜ë‰˜ì–´ì§ˆ ê±°ê°™ê¸°ë•Œë¬¸ì—,, */
+	/* ê°ì²´ë³„ë¡œ ë ˆì´ì–´ ë‚˜ëˆ„ì§€ë§ê±¸ ê°ì²´ë³„ë¡œ ë ˆì´ì–´ ë‚˜ëˆ„ì§€ë§ê±¸ ê°ì²´ë³„ë¡œ ë ˆì´ì–´ ë‚˜ëˆ„ì§€ë§ê±¸ ê°ì²´ë³„ë¡œ ë ˆì´ì–´ ë‚˜ëˆ„ì§€ë§ê±¸*/
 	_int iNumTile{}, iNumBlock{}, iNumTriPil{}, iNumAniRect{}, iNumAniBlock{},
 		iNumInviBlock{}, iNumAlphaRect{}, iNumAlphaBlock{}, iNumWater{}, iNumLadder{},
 		iNumTelephonePole{}, iNumPicture{}, iNumTrashCan{}, iNumGarbageBag{}, iNumFirePlug{},
 		iNumGenerator{};
-	/* ºÒ·¯¿À±â¿ë º¯¼ö */
+	/* ë¶ˆëŸ¬ì˜¤ê¸°ìš© ë³€ìˆ˜ */
 	_int iNumVertexX = {}, iNumVertexZ = {}, iLoadLength = {};
 	_uint iNumBackGround = {}, iNumModel = {}, iNumItem{}, iItemID{};
 	_float fSpeedPerSec = {}, fRotationPerSec = {}, fTextureIdx = {};
@@ -147,11 +171,11 @@ HRESULT CLevel_OutDoor::Load_Map(_uint iLevelIdx, const _wstring& FileName)
 
 			if (FAILED(m_pGameInstance->Add_GameObject(iLevelIdx, Prototype, iLevelIdx, Layertag, &tDesc)))
 			{
-				MSG_BOX("°´Ã¼ »ý¼º ½ÇÆÐ");
+				MSG_BOX("ê°ì²´ ìƒì„± ì‹¤íŒ¨");
 				return E_FAIL;
 			}
 
-			// Å¥ºêÀÎÁö ·ºÆ®ÀÎÁö ºÐ±â ÇÊ¿äÇÔ
+			// íë¸Œì¸ì§€ ë ‰íŠ¸ì¸ì§€ ë¶„ê¸° í•„ìš”í•¨
 			if (Prototype == TEXT("Prototype_GameObject_BackGround"))
 			{
 				CGameObject* pGameObject = m_pGameInstance->Find_Object(iLevelIdx, Layertag, iNumTile++);
@@ -159,7 +183,7 @@ HRESULT CLevel_OutDoor::Load_Map(_uint iLevelIdx, const _wstring& FileName)
 				{
 					if (FAILED(__super::Load_VertexBuffer(pGameObject, hFile, &dwByte)))
 					{
-						MSG_BOX("¹öÅØ½º ¹öÆÛ ·Îµù½ÇÆÐ");
+						MSG_BOX("ë²„í…ìŠ¤ ë²„í¼ ë¡œë”©ì‹¤íŒ¨");
 						return E_FAIL;
 					}
 				}
@@ -172,7 +196,7 @@ HRESULT CLevel_OutDoor::Load_Map(_uint iLevelIdx, const _wstring& FileName)
 				{
 					if (FAILED(__super::Load_VertexBuffer(pGameObject, hFile, &dwByte)))
 					{
-						MSG_BOX("¹öÅØ½º ¹öÆÛ ·Îµù½ÇÆÐ");
+						MSG_BOX("ë²„í…ìŠ¤ ë²„í¼ ë¡œë”©ì‹¤íŒ¨");
 						return E_FAIL;
 					}
 				}
@@ -184,7 +208,7 @@ HRESULT CLevel_OutDoor::Load_Map(_uint iLevelIdx, const _wstring& FileName)
 				{
 					if (FAILED(__super::Load_VertexBuffer(pGameObject, hFile, &dwByte)))
 					{
-						MSG_BOX("¹öÅØ½º ¹öÆÛ ·Îµù½ÇÆÐ");
+						MSG_BOX("ë²„í…ìŠ¤ ë²„í¼ ë¡œë”©ì‹¤íŒ¨");
 						return E_FAIL;
 					}
 				}
@@ -196,7 +220,7 @@ HRESULT CLevel_OutDoor::Load_Map(_uint iLevelIdx, const _wstring& FileName)
 				{
 					if (FAILED(__super::Load_VertexBuffer(pGameObject, hFile, &dwByte)))
 					{
-						MSG_BOX("¹öÅØ½º ¹öÆÛ ·Îµù½ÇÆÐ");
+						MSG_BOX("ë²„í…ìŠ¤ ë²„í¼ ë¡œë”©ì‹¤íŒ¨");
 						return E_FAIL;
 					}
 				}
@@ -208,7 +232,7 @@ HRESULT CLevel_OutDoor::Load_Map(_uint iLevelIdx, const _wstring& FileName)
 				{
 					if (FAILED(__super::Load_VertexBuffer(pGameObject, hFile, &dwByte)))
 					{
-						MSG_BOX("¹öÅØ½º ¹öÆÛ ·Îµù½ÇÆÐ");
+						MSG_BOX("ë²„í…ìŠ¤ ë²„í¼ ë¡œë”©ì‹¤íŒ¨");
 						return E_FAIL;
 					}
 				}
@@ -220,7 +244,7 @@ HRESULT CLevel_OutDoor::Load_Map(_uint iLevelIdx, const _wstring& FileName)
 				{
 					if (FAILED(__super::Load_VertexBuffer(pGameObject, hFile, &dwByte)))
 					{
-						MSG_BOX("¹öÅØ½º ¹öÆÛ ·Îµù½ÇÆÐ");
+						MSG_BOX("ë²„í…ìŠ¤ ë²„í¼ ë¡œë”©ì‹¤íŒ¨");
 						return E_FAIL;
 					}
 				}
@@ -232,7 +256,7 @@ HRESULT CLevel_OutDoor::Load_Map(_uint iLevelIdx, const _wstring& FileName)
 				{
 					if (FAILED(__super::Load_VertexBuffer(pGameObject, hFile, &dwByte)))
 					{
-						MSG_BOX("¹öÅØ½º ¹öÆÛ ·Îµù½ÇÆÐ");
+						MSG_BOX("ë²„í…ìŠ¤ ë²„í¼ ë¡œë”©ì‹¤íŒ¨");
 						return E_FAIL;
 					}
 				}
@@ -244,7 +268,7 @@ HRESULT CLevel_OutDoor::Load_Map(_uint iLevelIdx, const _wstring& FileName)
 				{
 					if (FAILED(__super::Load_VertexBuffer(pGameObject, hFile, &dwByte)))
 					{
-						MSG_BOX("¹öÅØ½º ¹öÆÛ ·Îµù½ÇÆÐ");
+						MSG_BOX("ë²„í…ìŠ¤ ë²„í¼ ë¡œë”©ì‹¤íŒ¨");
 						return E_FAIL;
 					}
 				}
@@ -256,7 +280,7 @@ HRESULT CLevel_OutDoor::Load_Map(_uint iLevelIdx, const _wstring& FileName)
 				{
 					if (FAILED(__super::Load_VertexBuffer(pGameObject, hFile, &dwByte)))
 					{
-						MSG_BOX("¹öÅØ½º ¹öÆÛ ·Îµù½ÇÆÐ");
+						MSG_BOX("ë²„í…ìŠ¤ ë²„í¼ ë¡œë”©ì‹¤íŒ¨");
 						return E_FAIL;
 					}
 				}
@@ -268,7 +292,7 @@ HRESULT CLevel_OutDoor::Load_Map(_uint iLevelIdx, const _wstring& FileName)
 				{
 					if (FAILED(__super::Load_VertexBuffer(pGameObject, hFile, &dwByte)))
 					{
-						MSG_BOX("¹öÅØ½º ¹öÆÛ ·Îµù½ÇÆÐ");
+						MSG_BOX("ë²„í…ìŠ¤ ë²„í¼ ë¡œë”©ì‹¤íŒ¨");
 						return E_FAIL;
 					}
 				}
@@ -280,7 +304,7 @@ HRESULT CLevel_OutDoor::Load_Map(_uint iLevelIdx, const _wstring& FileName)
 				{
 					if (FAILED(__super::Load_VertexBuffer(pGameObject, hFile, &dwByte)))
 					{
-						MSG_BOX("¹öÅØ½º ¹öÆÛ ·Îµù½ÇÆÐ");
+						MSG_BOX("ë²„í…ìŠ¤ ë²„í¼ ë¡œë”©ì‹¤íŒ¨");
 						return E_FAIL;
 					}
 				}
@@ -292,7 +316,7 @@ HRESULT CLevel_OutDoor::Load_Map(_uint iLevelIdx, const _wstring& FileName)
 				{
 					if (FAILED(__super::Load_VertexBuffer(pGameObject, hFile, &dwByte)))
 					{
-						MSG_BOX("¹öÅØ½º ¹öÆÛ ·Îµù½ÇÆÐ");
+						MSG_BOX("ë²„í…ìŠ¤ ë²„í¼ ë¡œë”©ì‹¤íŒ¨");
 						return E_FAIL;
 					}
 				}
@@ -304,7 +328,7 @@ HRESULT CLevel_OutDoor::Load_Map(_uint iLevelIdx, const _wstring& FileName)
 				{
 					if (FAILED(__super::Load_VertexBuffer(pGameObject, hFile, &dwByte)))
 					{
-						MSG_BOX("¹öÅØ½º ¹öÆÛ ·Îµù½ÇÆÐ");
+						MSG_BOX("ë²„í…ìŠ¤ ë²„í¼ ë¡œë”©ì‹¤íŒ¨");
 						return E_FAIL;
 					}
 				}
@@ -316,7 +340,7 @@ HRESULT CLevel_OutDoor::Load_Map(_uint iLevelIdx, const _wstring& FileName)
 				{
 					if (FAILED(__super::Load_VertexBuffer(pGameObject, hFile, &dwByte)))
 					{
-						MSG_BOX("¹öÅØ½º ¹öÆÛ ·Îµù½ÇÆÐ");
+						MSG_BOX("ë²„í…ìŠ¤ ë²„í¼ ë¡œë”©ì‹¤íŒ¨");
 						return E_FAIL;
 					}
 				}
@@ -328,7 +352,7 @@ HRESULT CLevel_OutDoor::Load_Map(_uint iLevelIdx, const _wstring& FileName)
 				{
 					if (FAILED(__super::Load_VertexBuffer(pGameObject, hFile, &dwByte)))
 					{
-						MSG_BOX("¹öÅØ½º ¹öÆÛ ·Îµù½ÇÆÐ");
+						MSG_BOX("ë²„í…ìŠ¤ ë²„í¼ ë¡œë”©ì‹¤íŒ¨");
 						return E_FAIL;
 					}
 				}
@@ -340,7 +364,7 @@ HRESULT CLevel_OutDoor::Load_Map(_uint iLevelIdx, const _wstring& FileName)
 				{
 					if (FAILED(__super::Load_VertexBuffer(pGameObject, hFile, &dwByte)))
 					{
-						MSG_BOX("¹öÅØ½º ¹öÆÛ ·Îµù½ÇÆÐ");
+						MSG_BOX("ë²„í…ìŠ¤ ë²„í¼ ë¡œë”©ì‹¤íŒ¨");
 						return E_FAIL;
 					}
 				}
@@ -383,7 +407,7 @@ HRESULT CLevel_OutDoor::Load_Map(_uint iLevelIdx, const _wstring& FileName)
 
 			if (FAILED(m_pGameInstance->Add_GameObject(iLevelIdx, Prototype, iLevelIdx, Layertag, &tDesc)))
 			{
-				MSG_BOX("°´Ã¼ »ý¼º ½ÇÆÐ");
+				MSG_BOX("ê°ì²´ ìƒì„± ì‹¤íŒ¨");
 				return E_FAIL;
 			}
 
@@ -452,7 +476,7 @@ HRESULT CLevel_OutDoor::Load_Map(_uint iLevelIdx, const _wstring& FileName)
 
 			if (FAILED(m_pGameInstance->Add_GameObject(iLevelIdx, strKey, iLevelIdx, TEXT("Layer_Item"), &tDesc)))
 			{
-				MSG_BOX("°´Ã¼ »ý¼º ½ÇÆÐ");
+				MSG_BOX("ê°ì²´ ìƒì„± ì‹¤íŒ¨");
 				return E_FAIL;
 			}
 
@@ -509,10 +533,10 @@ HRESULT CLevel_OutDoor::Ready_Layer_Camera(const _wstring& strLayerTag)
 
 HRESULT CLevel_OutDoor::Ready_Layer_Pawn(const _wstring& strLayerTag)
 {
-	//ÀÌ ·¹º§ÀÇ ÇÃ·¹ÀÌ¾î »ý¼ºÀ§Ä¡
+	//ì´ ë ˆë²¨ì˜ í”Œë ˆì´ì–´ ìƒì„±ìœ„ì¹˜
 	_float3 vInitPosition = { 1938.f, 771.f, -127.f };
 
-	// ÇÃ·¹ÀÌ¾î°¡ ÀÖ´ÂÁö Ã¼Å©ÇÏ°í ÀÖÀ¸¸é À§Ä¡¸¸ º¯°æÇØÁÜ.
+	// í”Œë ˆì´ì–´ê°€ ìžˆëŠ”ì§€ ì²´í¬í•˜ê³  ìžˆìœ¼ë©´ ìœ„ì¹˜ë§Œ ë³€ê²½í•´ì¤Œ.
 	auto pPlayer = GET_PLAYER;
 	if (pPlayer)
 	{
@@ -522,7 +546,7 @@ HRESULT CLevel_OutDoor::Ready_Layer_Pawn(const _wstring& strLayerTag)
 		return S_OK;
 	}
 
-	//¾øÀ¸¸é »õ·Î »ý¼ºÇØ¼­ ³Ö¾îÁÜ
+	//ì—†ìœ¼ë©´ ìƒˆë¡œ ìƒì„±í•´ì„œ ë„£ì–´ì¤Œ
 	CPlayer::DESC PlayerDesc{};
 	PlayerDesc.vInitPos = vInitPosition;
 	PlayerDesc.vScale = { 30.f, 50.f, 30.f };
@@ -530,7 +554,7 @@ HRESULT CLevel_OutDoor::Ready_Layer_Pawn(const _wstring& strLayerTag)
 	PlayerDesc.fSpeedPerSec = 150.f;
 	PlayerDesc.eLevelID = CurLevel;
 
-	// ÃÖÃÊ °ÔÀÓ ÀÔÀåÇÒ¶§ ¾îµð¿¡¼­ ÀÔÀåÇÏ´ø ½ºÅÂÆ½¿¡ »ý¼ºÇØÁØ´Ù.
+	// ìµœì´ˆ ê²Œìž„ ìž…ìž¥í• ë•Œ ì–´ë””ì—ì„œ ìž…ìž¥í•˜ë˜ ìŠ¤íƒœí‹±ì— ìƒì„±í•´ì¤€ë‹¤.
 	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_Player"),
 		LEVEL_STATIC, strLayerTag, &PlayerDesc)))
 		return E_FAIL;
@@ -540,35 +564,26 @@ HRESULT CLevel_OutDoor::Ready_Layer_Pawn(const _wstring& strLayerTag)
 
 HRESULT CLevel_OutDoor::Ready_Layer_Monster(const _wstring& strLayerTag)
 {
-	SPAWN_CULTIST(1711.f, 740.f, 479.f, LEVEL_OUTDOOR);
-	SPAWN_CULTIST(1709.f, 640.f, 235.f, LEVEL_OUTDOOR);
-	SPAWN_CULTIST(1313.f, 670.f, -7.f, LEVEL_OUTDOOR);
-	SPAWN_NUKEMUTANT(1709.f, 640.f, 235.f, LEVEL_OUTDOOR);
-	SPAWN_NUKEMUTANT(1709.f, 640.f, 235.f, LEVEL_OUTDOOR);
-	SPAWN_NUKEMUTANT(1709.f, 640.f, 235.f, LEVEL_OUTDOOR);
+	//SPAWN_CULTIST(1711.f, 740.f, 479.f, LEVEL_OUTDOOR);
+	//SPAWN_CULTIST(1709.f, 640.f, 235.f, LEVEL_OUTDOOR);
+	//SPAWN_CULTIST(1313.f, 670.f, -7.f, LEVEL_OUTDOOR);
+	//
+	//SPAWN_SHOTGUNNER(1638.f, 770.f, -244.f, LEVEL_OUTDOOR);
+	//SPAWN_SHOTGUNNER(1472.f, 540.f, 309.f, LEVEL_OUTDOOR);
+	//SPAWN_SHOTGUNNER(1045.f, 440.f, 344.f, LEVEL_OUTDOOR);
+	//
+	//SPAWN_GREATER(1281.f, 730.f, -173.f, LEVEL_OUTDOOR);
+	//SPAWN_GREATER(1517.f, 530.f, 692.f, LEVEL_OUTDOOR);
+	//SPAWN_GREATER(1201.f, 430.f, 986.f, LEVEL_OUTDOOR);
+	//
+	//SPAWN_CULTIST(804.f, 430.f, 1217.f, LEVEL_OUTDOOR);
+	//SPAWN_SHOTGUNNER(743.f, 380.f, 1617.f, LEVEL_OUTDOOR);
+	//SPAWN_GREATER(619.f, 200.f, 137.f, LEVEL_OUTDOOR);
+	//SPAWN_CULTIST(590.f, 380.f, 1677.f, LEVEL_OUTDOOR);
+	//SPAWN_SHOTGUNNER(426.f, 330.f, 1340.f, LEVEL_OUTDOOR);
+	//SPAWN_GREATER(190.f, 180.f, 352.f, LEVEL_OUTDOOR);
+	//SPAWN_CULTIST(599.f, 230.f, 757.f, LEVEL_OUTDOOR);
 	
-	SPAWN_SHOTGUNNER(1638.f, 770.f, -244.f, LEVEL_OUTDOOR);
-	SPAWN_SHOTGUNNER(1472.f, 540.f, 309.f, LEVEL_OUTDOOR);
-	SPAWN_SHOTGUNNER(1045.f, 440.f, 344.f, LEVEL_OUTDOOR);
-	
-	SPAWN_GREATER(1281.f, 730.f, -173.f, LEVEL_OUTDOOR);
-	SPAWN_GREATER(1517.f, 530.f, 692.f, LEVEL_OUTDOOR);
-	SPAWN_GREATER(1201.f, 430.f, 986.f, LEVEL_OUTDOOR);
-	SPAWN_NUKEMUTANT(1201.f, 440.f, 986.f, LEVEL_OUTDOOR);
-	SPAWN_NUKEMUTANT(1201.f, 440.f, 986.f, LEVEL_OUTDOOR);
-	SPAWN_NUKEMUTANT(1201.f, 440.f, 986.f, LEVEL_OUTDOOR);
-	
-	SPAWN_CULTIST(804.f, 430.f, 1217.f, LEVEL_OUTDOOR);
-	SPAWN_SHOTGUNNER(743.f, 380.f, 1617.f, LEVEL_OUTDOOR);
-	SPAWN_GREATER(619.f, 200.f, 137.f, LEVEL_OUTDOOR);
-	SPAWN_CULTIST(590.f, 380.f, 1677.f, LEVEL_OUTDOOR);
-	SPAWN_SHOTGUNNER(426.f, 330.f, 1340.f, LEVEL_OUTDOOR);
-	SPAWN_GREATER(190.f, 180.f, 352.f, LEVEL_OUTDOOR);
-	SPAWN_CULTIST(599.f, 230.f, 757.f, LEVEL_OUTDOOR);
-	
-	SPAWN_NUKEMUTANT(804.f, 440.f, 1217.f, LEVEL_OUTDOOR);
-	SPAWN_NUKEMUTANT(804.f, 440.f, 1217.f, LEVEL_OUTDOOR);
-	SPAWN_NUKEMUTANT(804.f, 440.f, 1217.f, LEVEL_OUTDOOR);
 
 	return S_OK;
 
@@ -652,6 +667,9 @@ void CLevel_OutDoor::Free()
 	//if (Cameramanager)
 	//	Cameramanager->Switch(CCameraManager::DYNAMIC);
 	__super::Free();
+
+	Safe_Release(m_pGenerator);
+
 	m_pBGM->Stop();
 	Safe_Release(m_pBGM);
 }

@@ -5,6 +5,7 @@
 #include "PlayerOnBoat.h"
 #include "CameraManager.h"
 #include "WaterBoat.h"
+#include "FXMgr.h"
 
 BEGIN(Client)
 
@@ -70,6 +71,8 @@ public:
 public:
 	virtual void Enter(_float fTimeDelta) override
 	{
+		m_pOwner->m_pTransformCom->Set_State(CTransform::STATE_POSITION, _float3(0.f, 250.f, 0.f));
+
 		v0 = { -1425.f, 1075.f, -600.f };
 		vStartPos = { -1000.f, 1000.f,    0.f };  // 시작점
 		vEndPos = { 450.f,  250.f, 1200.f };  // 끝점
@@ -140,27 +143,30 @@ public:
 			fDiffToPlayer - fScaleZ*2.f < 0.f)
 			m_pOwner->m_pPlayer->Set_StartState(CPlayerOnBoat::AWAY_FROM_BOSS);
 
-
-		if (m_pOwner->m_pPlayerpos->z > -3500.f &&
-			m_pOwner->m_pPlayerpos->z < -2500.f)
+		if (m_pOwner->m_pPlayerpos->z > -3500.f &&	m_pOwner->m_pPlayerpos->z < -2500.f)
 			m_pOwner->Set_State(CRaceBoss::ENTRANCE);
 
+		/* [ 플레이어의 상태가 노말일 때만 패턴이 유효하게 하라 ] */
+		if (m_pOwner->m_pPlayer->GetState() == CPlayerOnBoat::NORMAL)
+		{
+			if (m_pOwner->m_bChangeLevel)
+			{
+				m_pOwner->m_bChangeLevel = false;
+				m_pOwner->Set_State(CRaceBoss::ENTRANCE);
+			}
 
-		/* [ 2초 후 공격 감행 ] */
-		//if (m_fTime > 2.f)
-		//{
 			/* [ SHOTREADY, READYBOMB, MOMBACKREADY ] */
-			int iRandomPattern = GetRandomInt(0 , 100);
-			
-			if (iRandomPattern > 90)
+			int iRandomPattern = GetRandomInt(0, 100);
+
+			if (iRandomPattern > 95)
 				m_pOwner->Set_State(CRaceBoss::MOMBACKREADY);
-			else if (iRandomPattern > 80)
+			else if (iRandomPattern > 90)
 				m_pOwner->Set_State(CRaceBoss::READYBOMB);
 			else
 				m_pOwner->Set_State(CRaceBoss::SHOTREADY);
-			
+
 			m_fTime = 0.f;
-		//}
+		}
 	}
 	virtual void Exit() override
 	{
@@ -821,6 +827,7 @@ public:
 	virtual void Enter(_float fTimeDelta) override
 	{
 		m_fSpeedY = 100.f;
+		m_pOwner->m_bChangeLevel = true;
 	}
 	virtual void Execute(_float fTimeDelta) override
 	{

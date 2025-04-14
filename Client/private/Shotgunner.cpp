@@ -1,5 +1,5 @@
-// ³» Å¬·¡½º ÀÌ¸§ : TestMonster
-// ºÎ¸ğ Å¬·¡½º ÀÌ¸§ : Monster
+ï»¿// ë‚´ í´ë˜ìŠ¤ ì´ë¦„ : TestMonster
+// ë¶€ëª¨ í´ë˜ìŠ¤ ì´ë¦„ : Monster
 
 #include "Shotgunner.h"
 #include "FXMgr.h"
@@ -17,11 +17,11 @@ CShotgunner::CShotgunner(const CShotgunner& Prototype)
 
 HRESULT CShotgunner::Initialize_Prototype()
 {
-	//ÇÁ·ÎÅäÅ¸ÀÔÀÇ ±âº»Á¤ÀÇ
+	//í”„ë¡œí† íƒ€ì…ì˜ ê¸°ë³¸ì •ì˜
 	m_szTextureID = TEXT("Shotgunner_Walk");
 	m_szBufferType = TEXT("Rect");
 
-	//¼Ó¼º
+	//ì†ì„±
 	m_iHP = 80;
 	m_iMaxHP = 80;
 	m_iAttackPower = 6;
@@ -32,7 +32,7 @@ HRESULT CShotgunner::Initialize_Prototype()
 
 	m_fDetectiveDistance = 500.f;
 
-	//ºÎ¼Ó¼º
+	//ë¶€ì†ì„±
 	m_strDialogue = "Gun..Gun...";
 	m_strSound = "SoundFilePath";
 
@@ -43,17 +43,17 @@ HRESULT CShotgunner::Initialize_Prototype()
 
 HRESULT CShotgunner::Initialize(void* pArg)
 {
-	//À§Ä¡, Å©±âÃÊ±âÈ­, ÄÄÆ÷³ÍÆ® ºÎÂø
+	//ìœ„ì¹˜, í¬ê¸°ì´ˆê¸°í™”, ì»´í¬ë„ŒíŠ¸ ë¶€ì°©
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
 
-	// ¸Ó¸® Äİ¶óÀÌ´õ 
-/* Äİ¶óÀÌµå ÄÄÆ÷³ÍÆ® */
+	// ë¨¸ë¦¬ ì½œë¼ì´ë” 
+/* ì½œë¼ì´ë“œ ì»´í¬ë„ŒíŠ¸ */
 	DESC* pDesc = static_cast<DESC*>(pArg);
 	CCollider::DESC ColliderDesc{};
 	ColliderDesc.pTransform = m_pTransformCom;
-	ColliderDesc.vOffSet = { 0.f, 66.2f * 0.5f - 7.f, 0.f }; // y±æÀÌ * 0.5 - ¸Ó¸®À§Ä¡yÁÂÇ¥ + Áö¸§Å©±â?
-	ColliderDesc.vScale = { 6.f, 0.f, 0.f }; // ¹İÁö¸§ Å©±â
+	ColliderDesc.vOffSet = { 0.f, 66.2f * 0.5f - 7.f, 0.f }; // yê¸¸ì´ * 0.5 - ë¨¸ë¦¬ìœ„ì¹˜yì¢Œí‘œ + ì§€ë¦„í¬ê¸°?
+	ColliderDesc.vScale = { 6.f, 0.f, 0.f }; // ë°˜ì§€ë¦„ í¬ê¸°
 	ColliderDesc.pOwner = this;
 	ColliderDesc.iColliderGroupID = CG_MONSTER_HEAD;
 	ColliderDesc.iColliderID = CI_MON_HEAD;
@@ -66,16 +66,16 @@ HRESULT CShotgunner::Initialize(void* pArg)
 	m_pCollider->Update_Scale({ 34.5f, 66.2f - 14.f, 1.f });
 
 	m_fDivOffset = 45.f;
-	//¾Ö´Ï¸ŞÀÌ¼Ç(¼öÁ¤¿¹Á¤)
+	//ì• ë‹ˆë©”ì´ì…˜(ìˆ˜ì •ì˜ˆì •)
 	m_pGravityCom->Set_Height(66.2f);
 	m_fAnimationMaxFrame = 3.f;
 	m_fAnimationSpeed = 5.f;
 	m_iState = STATE_MOVE;
-	m_fCooldownTime = 0.8f;     // °ø°İ ½¬´Â ÅÒ
-	m_fBulletCooldown = 0.4f;	// ÃÑ¾Ë ¹ß»ç Äğ
-	m_fAttackTime = 0.35f;		// °ø°İ ½Ã°£
-	return S_OK;				// m_fAttackTimeµ¿¾È ÃÑ¾Ë ¹ß»çÇÏµÇ ÃÑ¾ËÀº m_fBulletCooldown¸¸Å­ÀÇ °£°İÀ¸·Î ½î°í
-								// m_fAttackTimeÀÌ ³¡³ª¸é m_fCooldownTime¸¸Å­ ½¬°í ´Ù½Ã °ø°İÇÔ
+	m_fCooldownTime = 0.8f;     // ê³µê²© ì‰¬ëŠ” í…€
+	m_fBulletCooldown = 0.4f;	// ì´ì•Œ ë°œì‚¬ ì¿¨
+	m_fAttackTime = 0.35f;		// ê³µê²© ì‹œê°„
+	return S_OK;				// m_fAttackTimeë™ì•ˆ ì´ì•Œ ë°œì‚¬í•˜ë˜ ì´ì•Œì€ m_fBulletCooldownë§Œí¼ì˜ ê°„ê²©ìœ¼ë¡œ ì˜ê³ 
+								// m_fAttackTimeì´ ëë‚˜ë©´ m_fCooldownTimeë§Œí¼ ì‰¬ê³  ë‹¤ì‹œ ê³µê²©í•¨
 }
 
 void CShotgunner::Priority_Update(_float fTimeDelta)
@@ -100,7 +100,7 @@ HRESULT CShotgunner::Render()
 {
 	return __super::Render();
 
-	//Æ¯º°È÷ ´õ ·»´õ¸µ ÇÒ°Ô ÀÖ´Â °æ¿ì ¡é
+	//íŠ¹ë³„íˆ ë” ë Œë”ë§ í• ê²Œ ìˆëŠ” ê²½ìš° â†“
 }
 
 void CShotgunner::On_Collision(_uint MyColliderID, _uint OtherColliderID)
@@ -110,7 +110,7 @@ void CShotgunner::On_Collision(_uint MyColliderID, _uint OtherColliderID)
 
 void CShotgunner::MonsterTick(_float dt)
 {
-	//»óÅÂº¯È­
+	//ìƒíƒœë³€í™”
 	switch (m_eState)
 	{
 	case MODE::MODE_IDLE:
@@ -133,7 +133,7 @@ void CShotgunner::MonsterTick(_float dt)
 		break;
 
 	case MODE::MODE_RETURN:
-		//º»·¡À§Ä¡·Î µ¹¾Æ°¡°í IDLE·Î »óÅÂ°¡ º¯ÇÑ´Ù.
+		//ë³¸ë˜ìœ„ì¹˜ë¡œ ëŒì•„ê°€ê³  IDLEë¡œ ìƒíƒœê°€ ë³€í•œë‹¤.
 		m_bFoundPlayer = false;
 		break;
 	}
@@ -142,7 +142,7 @@ void CShotgunner::MonsterTick(_float dt)
 	Debug_Output();
 #endif
 
-	// »óÅÂÇàµ¿(¾×¼Ç)
+	// ìƒíƒœí–‰ë™(ì•¡ì…˜)
 	switch (m_eState)
 	{
 	case MODE::MODE_IDLE:
@@ -174,7 +174,7 @@ void CShotgunner::MonsterTick(_float dt)
 
 void CShotgunner::DoDetect(_float dt)
 {
-	// °¨Áö °¡´É °Å¸® ÀÌ³»ÀÏ ¶§ / °¨Áö »óÅÂ Áß Ãß°İ °¡´É °Å¸®ÀÏ ¶§
+	// ê°ì§€ ê°€ëŠ¥ ê±°ë¦¬ ì´ë‚´ì¼ ë•Œ / ê°ì§€ ìƒíƒœ ì¤‘ ì¶”ê²© ê°€ëŠ¥ ê±°ë¦¬ì¼ ë•Œ
 	ChasePlayer(dt, 50.f);
 	m_eCurMonsterState = STATE_MOVE;
 }
@@ -215,6 +215,12 @@ void CShotgunner::DoIdle(_float dt)
 	{
 	case EIdlePhase::IDLE_MOVE:
 	{
+		if (m_bStandby)
+		{
+			m_eIdlePhase = EIdlePhase::IDLE_WAIT;
+			break;
+		}
+
 		m_eCurMonsterState = STATE_MOVE;
 		m_fWanderElapsed += dt;
 
@@ -233,9 +239,9 @@ void CShotgunner::DoIdle(_float dt)
 
 		if (m_fIdleWaitElapsed >= m_fIdleWaitTime)
 		{
-			SetRandomDirection();                  // È¸ÀüÇÒ ¹æÇâ ¼³Á¤
+			SetRandomDirection();                  // íšŒì „í•  ë°©í–¥ ì„¤ì •
 			m_fIdleWaitElapsed = 0.f;
-			m_eIdlePhase = EIdlePhase::IDLE_TURN; // ´ÙÀ½¿£ È¸ÀüÇÏ·¯ °£´Ù
+			m_eIdlePhase = EIdlePhase::IDLE_TURN; // ë‹¤ìŒì—” íšŒì „í•˜ëŸ¬ ê°„ë‹¤
 		}
 		break;
 
@@ -243,9 +249,9 @@ void CShotgunner::DoIdle(_float dt)
 	{
 		m_eCurMonsterState = STATE_STAY;
 		_float3 vLook = *m_pTransformCom->Get_State(CTransform::STATE_LOOK);
-
+			
 		bool bRotated = m_pTransformCom->RotateToDirection(vLook, m_vDirection, 5.f, dt);
-		if (bRotated)  // È¸Àü ¿Ï·á ½ÅÈ£
+		if (bRotated)  // íšŒì „ ì™„ë£Œ ì‹ í˜¸
 		{
 			m_eIdlePhase = EIdlePhase::IDLE_MOVE;
 		}
@@ -256,10 +262,10 @@ void CShotgunner::DoIdle(_float dt)
 
 void CShotgunner::AttackPattern(_float dt)
 {
-	// ½ÇÁ¦ °ø°İ ÆĞÅÏ ÀÛ¼ºÇÏ´Â °÷
-	// Àâ¸÷ÀÌ¶ó ÀÏ¹İ°ø°İÁ¤µµ¸¸
-	// Archangel Æ¯¼ö°ø°İ ÀÖÀ½
-	// Wenteko ³ÖÀ» ½Ã ¾êµµ ÀÖÀ½
+	// ì‹¤ì œ ê³µê²© íŒ¨í„´ ì‘ì„±í•˜ëŠ” ê³³
+	// ì¡ëª¹ì´ë¼ ì¼ë°˜ê³µê²©ì •ë„ë§Œ
+	// Archangel íŠ¹ìˆ˜ê³µê²© ìˆìŒ
+	// Wenteko ë„£ì„ ì‹œ ì–˜ë„ ìˆìŒ
 	m_eCurMonsterState = STATE_ATTACK;
 
 	m_fBulletCooldownElapsed += dt;
@@ -277,20 +283,20 @@ void CShotgunner::AttackPattern(_float dt)
 		CMonsterNormalBullet::DESC MonsterNormalBullet_iDesc{};
 		MonsterNormalBullet_iDesc.iColliderID = CI_MONSTER_SHOTGUNNER;
 		MonsterNormalBullet_iDesc.fSpeedPerSec = 1000.f;
-		// ÃÑ¾Ë ¼ÓµµÀÓ
+		// ì´ì•Œ ì†ë„ì„
 		MonsterNormalBullet_iDesc.fRotationPerSec = RADIAN(180.f);
 		MonsterNormalBullet_iDesc.vScale = { 2.f, 2.f, 1.f };
-		// ÃÑ¾Ë Å©±âÀÓ
+		// ì´ì•Œ í¬ê¸°ì„
 		MonsterNormalBullet_iDesc.vPosition = *m_pTransformCom->Get_State(CTransform::STATE_POSITION);
 		MonsterNormalBullet_iDesc.vPosition.y += 15.f;
 		_float3 vRight = *m_pTransformCom->Get_State(CTransform::STATE_RIGHT);
 		vRight.Normalize();
-		// ÃÑ±¸ À§Ä¡¸¦ ¸ó½ºÅÍÀÇ À§Ä¡¿Í look º¤ÅÍ¸¦ »ç¿ëÇÏ¿© °è»ê
+		// ì´êµ¬ ìœ„ì¹˜ë¥¼ ëª¬ìŠ¤í„°ì˜ ìœ„ì¹˜ì™€ look ë²¡í„°ë¥¼ ì‚¬ìš©í•˜ì—¬ ê³„ì‚°
 		MonsterNormalBullet_iDesc.vPosition = MonsterNormalBullet_iDesc.vPosition + vRight * 11.f;
-		// ÃÑ¾Ë »ı¼º À§Ä¡ Á¶Á¤ÀÓ
+		// ì´ì•Œ ìƒì„± ìœ„ì¹˜ ì¡°ì •ì„
 
 		for (size_t i = 0; i < 4; i++)
-		{// ¼¦°ÇÀÌ¶ó 4¹ß µ¿½Ã¿¡ ³¯¸±°ÅÀÓ ¤»¤»
+		{// ï¿½ï¿½ï¿½ï¿½ï¿½Ì¶ï¿½ 4ï¿½ï¿½ ï¿½ï¿½ï¿½Ã¿ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 			if (m_bFirstBullet)
 			{
 				MonsterNormalBullet_iDesc.bCollision = true;
@@ -305,23 +311,23 @@ void CShotgunner::AttackPattern(_float dt)
 		m_fBulletCooldownElapsed = 0.f;
 	}
 
-	/* ¼¦°ÇÀº ÇÑ¹ø ½ò ¶§ ¸¶´Ù ÈŞ½Ä */
+	/* ìƒ·ê±´ì€ í•œë²ˆ ì  ë•Œ ë§ˆë‹¤ íœ´ì‹ */
 }
 
 void CShotgunner::ChasePlayer(_float dt, _float fChaseDist)
 {
-	//Å¸°ÙÀ» 350°Å¸®±îÁö Ãß°İÇÑ´Ù.
+	//íƒ€ê²Ÿì„ 350ê±°ë¦¬ê¹Œì§€ ì¶”ê²©í•œë‹¤.
 	_float3 TargetPos = *static_cast<CTransform*>(m_pTargetPlayer->Find_Component(L"Com_Transform"))->Get_State(CTransform::STATE_POSITION);
 
-	// ÇöÀç À§Ä¡
+	// í˜„ì¬ ìœ„ì¹˜
 	_float3 vMyPos = *m_pTransformCom->Get_State(CTransform::STATE_POSITION);
 
-	// ¹æÇâ °è»ê
+	// ë°©í–¥ ê³„ì‚°
 	_float3 vDir = TargetPos - vMyPos;
 	float fDistance = vDir.Length();
 	vDir.Normalize();
 
-	//¿ø·¡¹æÇâÀ¸·Î ÅÏÇÏ±â
+	//ì›ë˜ë°©í–¥ìœ¼ë¡œ í„´í•˜ê¸°
 	_float3 vLook = *m_pTransformCom->Get_State(CTransform::STATE_LOOK);
 	bool bRotated = m_pTransformCom->RotateToDirection(vLook, vDir, 5.f, dt);
 	m_pTransformCom->ChaseWithOutY(TargetPos, dt, fChaseDist, 150.f);

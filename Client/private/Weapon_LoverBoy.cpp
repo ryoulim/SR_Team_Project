@@ -38,7 +38,7 @@ HRESULT CWeapon_LoverBoy::Initialize(void* pArg)
 	m_tAmmoInfo.iReloadedAmmo = 6;
 	///////
 
-	m_pSoundCom->SetVolume(0.7f);
+	m_pSoundCom->SetVolume(0.6f);
 
 	return S_OK;
 }

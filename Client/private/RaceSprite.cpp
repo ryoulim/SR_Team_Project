@@ -106,7 +106,7 @@ HRESULT CRaceSprite::SpawnEffect()
 	CGameObject* pObject = nullptr;
 	CGameObject** ppOut = &pObject;
 	if (FAILED(m_pGameInstance->Add_GameObjectReturn(LEVEL_STATIC, TEXT("Prototype_GameObject_PC_MonsterMissile"),
-		LEVEL_GAMEPLAY, L"Layer_Particle", ppOut, &Missile_iDesc)))
+		m_eLevelID, L"Layer_Particle", ppOut, &Missile_iDesc)))
 		return E_FAIL;
 
 	m_pEffect = *ppOut;

@@ -269,6 +269,12 @@ void CArchangel::DoIdle(_float dt)
 	{
 	case EIdlePhase::IDLE_MOVE:
 	{
+		if (m_bStandby)
+		{
+			m_eIdlePhase = EIdlePhase::IDLE_WAIT;
+			break;
+		}
+
 		m_eCurMonsterState = STATE_MOVE;
 		m_fWanderElapsed += dt;
 

@@ -25,6 +25,8 @@ public:
 	virtual HRESULT Render() override;
 
 	virtual void On_Collision(_uint MyColliderID, _uint OtherColliderID) override;
+	virtual void On_Hit(_int iDamage) override;
+
 
 	_float3		GetVelocityPerSecond(_float fTimeDelta) const {
 		const _float3& vPos = *m_pTransformCom->Get_State(CTransform::STATE_POSITION);
@@ -32,6 +34,7 @@ public:
 	}
 	void Set_StartState(STATE eState);
 	void Set_RaceBossTransform(CTransform* BossTransform);
+	STATE GetState() { return m_eCurState; }
 private:
 	virtual HRESULT Ready_Components(void* pArg)override;
 	void Update_Frame(_float fTimeDelta);

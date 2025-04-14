@@ -52,7 +52,24 @@ HRESULT CPlayerOnBoat::Initialize(void* pArg)
 		TEXT("Com_Shader"), reinterpret_cast<CComponent**>(&m_pShaderCom))))
 		return E_FAIL;
 
+	m_pSoundCom->SetVolume(0.4f);
 
+	m_pSoundCom->SetVolume("engine_loop", 0.4f);
+	m_pSoundCom->Play("engine_loop");
+	m_pSoundCom->Set_Loop("engine_loop");
+
+	m_pSoundCom->SetVolume("throttle_loop", 0.4f);
+	m_pSoundCom->Play("throttle_loop");
+	m_pSoundCom->Set_Loop("throttle_loop");
+
+	m_pSoundCom->SetVolume("bike_idle_2", 0.4f);
+	m_pSoundCom->Play("bike_idle_2");
+	m_pSoundCom->Set_Loop("bike_idle_2");
+
+	m_pSoundCom->SetVolume("rev_down", 0.7f);
+	m_pSoundCom->SetVolume("bike_off", 0.7f);
+
+	m_pSoundCom->SetVolume("bike_crash", 0.6f);
 	Init_Aim();
 	return S_OK;
 }
@@ -128,6 +145,10 @@ EVENT CPlayerOnBoat::Update(_float fTimeDelta)
 
 void CPlayerOnBoat::Late_Update(_float fTimeDelta)
 {
+	if (m_bActive == FALSE)
+		return;
+
+
 	const _float3& vPos = *m_pTransformCom->Get_State(CTransform::STATE_POSITION);
 
 	if (vPos.z > 13000.f)
@@ -206,7 +227,28 @@ void CPlayerOnBoat::On_Collision(_uint MyColliderID, _uint OtherColliderID)
 	if (OtherColliderID == CI_BOSS_GUIDBULLET)
 	{
 		On_Hit(7);
-		m_pCameraManager->Shake_Camera(0.3f,0.5f);
+	}
+}
+
+void CPlayerOnBoat::On_Hit(_int iDamage)
+{
+	if (m_bOnHit)
+		return;
+
+	m_bOnHit = TRUE;
+	m_tInfo.iArmor -= iDamage;
+	FX_MGR->SpawnHitEffect(m_eLevelID);
+	m_pSoundCom->Play("bike_crash");
+	m_pCameraManager->Shake_Camera(0.3f, 0.5f);
+
+	CUI_Manager::Get_Instance()->Set_Face(CPortrait::PORTRAIT_ANGER);
+
+	if (m_tInfo.iArmor <= 0)
+	{
+		// 음수니까 더해줘야겠지
+		m_tInfo.iHP += m_tInfo.iArmor;
+		m_tInfo.iArmor = 0;
+		//플레이어는 안죽는다
 	}
 }
 
@@ -270,6 +312,11 @@ HRESULT CPlayerOnBoat::Ready_Components(void* pArg)
 		TEXT("Com_Collider"), reinterpret_cast<CComponent**>(&m_pCollider), &ColliderDesc)))
 		return E_FAIL;
 
+	/* Com_Sound */
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Sound_Player_On_Boat"),
+		TEXT("Com_Sound"), reinterpret_cast<CComponent**>(&m_pSoundCom))))
+		return E_FAIL;
+
 	return S_OK;
 }
 
@@ -314,6 +361,7 @@ void CPlayerOnBoat::Key_Input(_float fTimeDelta)
 		m_fSpeedRatio += fTimeDelta;
 		m_fSpeedRatio = min(m_fSpeedRatio, 1.5f); // 최대 1.5
 		m_pTransformCom->Set_SpeedPerSec(m_fSpeedRatio * RACE_SPEED_PER_SEC);
+
 	}
 	else if (KEY_PRESSING(DIK_S))
 	{
@@ -330,10 +378,14 @@ void CPlayerOnBoat::Key_Input(_float fTimeDelta)
 		m_pTransformCom->Set_SpeedPerSec(m_fSpeedRatio * RACE_SPEED_PER_SEC);
 	}
 
+	_float EnginPitch = m_fSpeedRatio * 0.4f + 0.4f;
+	m_pSoundCom->Set_Pitch("engine_loop", EnginPitch);
+	m_pSoundCom->Set_Pitch("throttle_loop", EnginPitch);
+	m_pSoundCom->Set_Pitch("bike_idle_2", EnginPitch);
+
 	// 키 타이머 -> 왼쪽 = 음수, 오른쪽 = 양수
 	_float fAccelRate = 2.5f; // 클수록 더 빠르게 가속됨
 	_float fSpeed = 0.f;
-
 
 #define TILT_TIME 0.4f
 
@@ -553,6 +605,8 @@ void CPlayerOnBoat::Create_Bullet()
 	MissileDesc.iColliderID = CI_MISSILE;
 	MissileDesc.vLook = RACE_PBULLET_DIR;
 
+	m_pSoundCom->Play("bike_weapon_base_001");
+
 	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_PlayerMissile"),
 		m_eLevelID, TEXT("Layer_Bullet"), &MissileDesc)))
 		return;
@@ -660,6 +714,7 @@ void CPlayerOnBoat::Free()
 	Safe_Release(m_pBossTransform);
 	Safe_Release(m_pShaderCom);
 	Safe_Release(m_pAim);
+	Safe_Release(m_pSoundCom);
 
 	for (size_t i = DECEL; i < NON; ++i)
 		Safe_Release(m_pState[i]);

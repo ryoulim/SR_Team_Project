@@ -1,4 +1,4 @@
-#include "MyComputer.h"
+ï»¿#include "MyComputer.h"
 #include "GameInstance.h"
 #include "Monster.h"
 
@@ -53,26 +53,8 @@ EVENT CMyComputer::Update(_float fTimeDelta)
 			{
 				if (!m_bDoOnce)
 				{
-					CMonster::DESC Archangel_iDesc{};
-					Archangel_iDesc.fSpeedPerSec = 60.f;
-					Archangel_iDesc.fRotationPerSec = RADIAN(180.f);
-					Archangel_iDesc.vActive = true;
-					Archangel_iDesc.eLevel = LEVEL_INDOOR;
-					Archangel_iDesc.fAttackDistance = 600.f;
-					Archangel_iDesc.fDetectiveDistance = 800.f;
-					_float3 Pos = { 1186.f, 200.f, 333.f };
-					Archangel_iDesc.vPosition = Pos;
-					Archangel_iDesc.vReturnPos = Pos;
-					if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_Archangel"),
-						LEVEL_INDOOR, L"Layer_Monster", &Archangel_iDesc)))
-						return EVN_NONE;
+					/* ëª¬ìŠ¤í„° ì”ëœ© ì†Œí™˜ */
 
-					Pos = { 2111.f, 200.f, 470.f };
-					Archangel_iDesc.vPosition = Pos;
-					Archangel_iDesc.vReturnPos = Pos;
-					if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_Archangel"),
-						LEVEL_INDOOR, L"Layer_Monster", &Archangel_iDesc)))
-						return EVN_NONE;
 					m_bDoOnce = true;
 				}
 				m_CurCamera = CCameraManager::CUTSCENE;
@@ -99,7 +81,7 @@ void CMyComputer::Late_Update(_float fTimeDelta)
 		m_pGameInstance->Add_RenderGroup(CRenderer::RG_UI, m_pInteractPromptUI);
 	}
 
-	/* ÀÌ°Å ¿Ö µÇ´ÂÁö´Â ¸ğ¸£°Ú´Âµ¥ ÀÏ´Ü µÇ±ä ÇÔ,,*/
+	/* ì´ê±° ì™œ ë˜ëŠ”ì§€ëŠ” ëª¨ë¥´ê² ëŠ”ë° ì¼ë‹¨ ë˜ê¸´ í•¨,,*/
 	m_bPicked = false;
 
 	__super::Late_Update(fTimeDelta);
@@ -142,7 +124,7 @@ HRESULT CMyComputer::Ready_Components(void* pArg)
 		_bool isZeroY = fabsf(vAngle.y) < FLT_EPSILON;
 		_bool isZeroZ = fabsf(vAngle.z) < FLT_EPSILON;
 
-		// Á÷°¢ °¢µµÀÎÁö Ã¼Å©
+		// ì§ê° ê°ë„ì¸ì§€ ì²´í¬
 		for (_uint i = 0; i < 4; ++i)
 		{
 			if (fabsf(vAngle.x - rightAngles[i]) < FLT_EPSILON) isRightX = true;

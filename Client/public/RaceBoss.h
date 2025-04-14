@@ -173,9 +173,11 @@ private:
 	LEVEL		m_eLevelID = { LEVEL_END };
 	_bool		m_bDead = { false };
 	_bool		m_bPartDead[5]{};
+	_bool		m_bChangeLevel{};
 	_float3		m_vScale = {};
 	_float		m_fTime = {};
 	_float		m_fBombTime = {};
+	_float		m_fDieTime = {};
 	_uint		m_iHeadBulletCount = {};
 	_float3		m_vBulletDiretion = {};
 	MUZZLEPOS	m_ePos = { POSEND };
@@ -208,7 +210,8 @@ private:
 private: // 보스 피격과 부위파괴 관련
 	_int		m_iHp = {250}; // 총체력
 	_int		m_iMuzzleHp[5]{ 50 ,50 ,50 ,50 ,50 }; // 부위별 체력인데 마지막이 센터
-	_uint		m_iTextureID[5]{1,1,1,1,2};
+	_uint		m_iCurTextureID[5]{6,6,6,6,9};
+	_uint		m_iPreTextureID[5]{6,6,6,6,9};
 		
 	void On_Hit(MUZZLEPOS HitPos, _int iDamage);
 

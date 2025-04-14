@@ -76,6 +76,21 @@ void CSound_Core::Set_Volume(_float Volume)
         m_pChannel->setVolume(Volume);
 }
 
+void CSound_Core::Set_Pitch(_float Pitch)
+{
+    if (m_pChannel)
+        m_pChannel->setPitch(Pitch);
+}
+
+void CSound_Core::Set_Loop(_int LoopCount)
+{
+    if (m_pChannel)
+    {
+        m_pChannel->setMode(FMOD_LOOP_NORMAL);
+        m_pChannel->setLoopCount(LoopCount);
+    }
+}
+
 void CSound_Core::Update3DPosition(const _float3& vPos)
 {
     _float3 vSoundVel = vPos - m_vSoundPos;

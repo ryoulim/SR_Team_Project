@@ -60,6 +60,7 @@ HRESULT CPlayer::Initialize(void* pArg)
 	m_pSoundCom->SetVolume("stone_jump003", 0.8f);
 	m_pSoundCom->SetVolume("fastwhoosh", 0.35f);
 	m_pSoundCom->SetVolume("Dash", 0.6f);
+	m_pSoundCom->SetVolume("Dodge", 1.0f);
 
 	//m_pSoundCom->SetVolume("stone_land001", 0.35f);
 	//m_pSoundCom->SetVolume("stone_land002", 0.35f);
@@ -190,7 +191,8 @@ void CPlayer::On_Collision(_uint MyColliderID, _uint OtherColliderID)
 		return;
 	}
 
-	m_pSoundCom->SetVolume(0.2f);
+	m_pSoundCom->SetVolume(0.3f);
+	m_pSoundCom->SetVolume("ArmorPiece", 0.15f);
 
 	switch (OtherColliderID)
 	{

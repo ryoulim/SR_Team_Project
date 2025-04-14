@@ -1,5 +1,5 @@
-// ³» Å¬·¡½º ÀÌ¸§ : TestMonster
-// ºÎ¸ğ Å¬·¡½º ÀÌ¸§ : Monster
+ï»¿// ë‚´ í´ë˜ìŠ¤ ì´ë¦„ : TestMonster
+// ë¶€ëª¨ í´ë˜ìŠ¤ ì´ë¦„ : Monster
 
 #include "Cultist.h"
 #include "FXMgr.h"
@@ -17,11 +17,11 @@ CCultist::CCultist(const CCultist& Prototype)
 
 HRESULT CCultist::Initialize_Prototype()
 {
-	//ÇÁ·ÎÅäÅ¸ÀÔÀÇ ±âº»Á¤ÀÇ
+	//í”„ë¡œí† íƒ€ì…ì˜ ê¸°ë³¸ì •ì˜
 	m_szTextureID = TEXT("Cultist_Run");
 	m_szBufferType = TEXT("Rect");
 
-	//¼Ó¼º
+	//ì†ì„±
 	m_iHP = 150;
 	m_iMaxHP = 150;
 	m_iAttackPower = 8;
@@ -32,7 +32,7 @@ HRESULT CCultist::Initialize_Prototype()
 
 	m_fDetectiveDistance = 300.f;
 
-	//ºÎ¼Ó¼º
+	//ë¶€ì†ì„±
 	m_strDialogue = "Cultist..Cultist...";
 	m_strSound = "SoundFilePath";
 
@@ -43,17 +43,17 @@ HRESULT CCultist::Initialize_Prototype()
 
 HRESULT CCultist::Initialize(void* pArg)
 {
-	//À§Ä¡, Å©±âÃÊ±âÈ­, ÄÄÆ÷³ÍÆ® ºÎÂø
+	//ìœ„ì¹˜, í¬ê¸°ì´ˆê¸°í™”, ì»´í¬ë„ŒíŠ¸ ë¶€ì°©
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
 
-	// ¸Ó¸® Äİ¶óÀÌ´õ 
-/* Äİ¶óÀÌµå ÄÄÆ÷³ÍÆ® */
+	// ë¨¸ë¦¬ ì½œë¼ì´ë” 
+/* ì½œë¼ì´ë“œ ì»´í¬ë„ŒíŠ¸ */
 	DESC* pDesc = static_cast<DESC*>(pArg);
 	CCollider::DESC ColliderDesc{};
 	ColliderDesc.pTransform = m_pTransformCom;
-	ColliderDesc.vOffSet = { 0.f, 62.2f * 0.5f - 7.f, 0.f }; // y±æÀÌ * 0.5 - ¸Ó¸®À§Ä¡yÁÂÇ¥ + Áö¸§Å©±â?
-	ColliderDesc.vScale = { 6.f, 0.f, 0.f }; // ¹İÁö¸§ Å©±â
+	ColliderDesc.vOffSet = { 0.f, 62.2f * 0.5f - 7.f, 0.f }; // yê¸¸ì´ * 0.5 - ë¨¸ë¦¬ìœ„ì¹˜yì¢Œí‘œ + ì§€ë¦„í¬ê¸°?
+	ColliderDesc.vScale = { 6.f, 0.f, 0.f }; // ë°˜ì§€ë¦„ í¬ê¸°
 	ColliderDesc.pOwner = this;
 	ColliderDesc.iColliderGroupID = CG_MONSTER_HEAD;
 	ColliderDesc.iColliderID = CI_MON_HEAD;
@@ -67,7 +67,7 @@ HRESULT CCultist::Initialize(void* pArg)
 
 
 	m_fDivOffset = 45.f;
-	//¾Ö´Ï¸ŞÀÌ¼Ç(¼öÁ¤¿¹Á¤)
+	//ì• ë‹ˆë©”ì´ì…˜(ìˆ˜ì •ì˜ˆì •)
 	m_fAnimationMaxFrame = 4.f;
 	m_fAnimationSpeed = 5.f;
 	m_iState = STATE_MOVE;
@@ -103,7 +103,7 @@ HRESULT CCultist::Render()
 {
 	return __super::Render();
 
-	//Æ¯º°È÷ ´õ ·»´õ¸µ ÇÒ°Ô ÀÖ´Â °æ¿ì ¡é
+	//íŠ¹ë³„íˆ ë” ë Œë”ë§ í• ê²Œ ìˆëŠ” ê²½ìš° â†“
 }
 
 
@@ -114,7 +114,7 @@ void CCultist::On_Collision(_uint MyColliderID, _uint OtherColliderID)
 
 void CCultist::MonsterTick(_float dt)
 {
-	//»óÅÂº¯È­
+	//ìƒíƒœë³€í™”
 	switch (m_eState)
 	{
 	case MODE::MODE_IDLE:
@@ -137,7 +137,7 @@ void CCultist::MonsterTick(_float dt)
 		break;
 
 	case MODE::MODE_RETURN:
-		//º»·¡À§Ä¡·Î µ¹¾Æ°¡°í IDLE·Î »óÅÂ°¡ º¯ÇÑ´Ù.
+		//ë³¸ë˜ìœ„ì¹˜ë¡œ ëŒì•„ê°€ê³  IDLEë¡œ ìƒíƒœê°€ ë³€í•œë‹¤.
 		m_bFoundPlayer = false;
 		break;
 	}
@@ -146,7 +146,7 @@ void CCultist::MonsterTick(_float dt)
 	Debug_Output();
 #endif
 
-	// »óÅÂÇàµ¿(¾×¼Ç)
+	// ìƒíƒœí–‰ë™(ì•¡ì…˜)
 	switch (m_eState)
 	{
 	case MODE::MODE_IDLE:
@@ -177,7 +177,7 @@ void CCultist::MonsterTick(_float dt)
 }
 void CCultist::DoDetect(_float dt)
 {
-	// °¨Áö °¡´É °Å¸® ÀÌ³»ÀÏ ¶§ / °¨Áö »óÅÂ Áß Ãß°İ °¡´É °Å¸®ÀÏ ¶§
+	// ê°ì§€ ê°€ëŠ¥ ê±°ë¦¬ ì´ë‚´ì¼ ë•Œ / ê°ì§€ ìƒíƒœ ì¤‘ ì¶”ê²© ê°€ëŠ¥ ê±°ë¦¬ì¼ ë•Œ
 	ChasePlayer(dt, 50.f);
 	m_eCurMonsterState = STATE_MOVE;
 }
@@ -185,7 +185,7 @@ void CCultist::DoDetect(_float dt)
 
 //_bool CCultist::IsMonsterAbleToAttack()
 //{
-//	// ¿©±â ·¹ÀÌÄ³½ºÆÃÀ¸·Î ÇÃ·¹ÀÌ¾î¿Í ¸ó½ºÅÍ »çÀÌ Àå¾Ö¹° À¯¹« Ã¼Å©
+//	// ì—¬ê¸° ë ˆì´ìºìŠ¤íŒ…ìœ¼ë¡œ í”Œë ˆì´ì–´ì™€ ëª¬ìŠ¤í„° ì‚¬ì´ ì¥ì• ë¬¼ ìœ ë¬´ ì²´í¬
 //	m_fRaycastTicker = 0.f;
 //	if (m_fCurDistance > m_fAttackDistance)
 //		return false;
@@ -225,6 +225,12 @@ void CCultist::DoIdle(_float dt)
 	{
 	case EIdlePhase::IDLE_MOVE:
 	{
+		if (m_bStandby)
+		{
+			m_eIdlePhase = EIdlePhase::IDLE_WAIT;
+			break;
+		}
+
 		m_eCurMonsterState = STATE_MOVE;
 		m_fWanderElapsed += dt;
 
@@ -243,9 +249,9 @@ void CCultist::DoIdle(_float dt)
 
 		if (m_fIdleWaitElapsed >= m_fIdleWaitTime)
 		{
-			SetRandomDirection();                  // È¸ÀüÇÒ ¹æÇâ ¼³Á¤
+			SetRandomDirection();                  // íšŒì „í•  ë°©í–¥ ì„¤ì •
 			m_fIdleWaitElapsed = 0.f;
-			m_eIdlePhase = EIdlePhase::IDLE_TURN; // ´ÙÀ½¿£ È¸ÀüÇÏ·¯ °£´Ù
+			m_eIdlePhase = EIdlePhase::IDLE_TURN; // ë‹¤ìŒì—” íšŒì „í•˜ëŸ¬ ê°„ë‹¤
 		}
 		break;
 
@@ -255,7 +261,7 @@ void CCultist::DoIdle(_float dt)
 		_float3 vLook = *m_pTransformCom->Get_State(CTransform::STATE_LOOK);
 
 		bool bRotated = m_pTransformCom->RotateToDirection(vLook, m_vDirection, 5.f, dt);
-		if (bRotated)  // È¸Àü ¿Ï·á ½ÅÈ£
+		if (bRotated)  // íšŒì „ ì™„ë£Œ ì‹ í˜¸
 		{
 			m_eIdlePhase = EIdlePhase::IDLE_MOVE;
 		}
@@ -266,10 +272,10 @@ void CCultist::DoIdle(_float dt)
 
 void CCultist::AttackPattern(_float dt)
 {
-	// ½ÇÁ¦ °ø°İ ÆĞÅÏ ÀÛ¼ºÇÏ´Â °÷
-	// Àâ¸÷ÀÌ¶ó ÀÏ¹İ°ø°İÁ¤µµ¸¸
-	// Archangel Æ¯¼ö°ø°İ ÀÖÀ½
-	// Wenteko ³ÖÀ» ½Ã ¾êµµ ÀÖÀ½
+	// ì‹¤ì œ ê³µê²© íŒ¨í„´ ì‘ì„±í•˜ëŠ” ê³³
+	// ì¡ëª¹ì´ë¼ ì¼ë°˜ê³µê²©ì •ë„ë§Œ
+	// Archangel íŠ¹ìˆ˜ê³µê²© ìˆìŒ
+	// Wenteko ë„£ì„ ì‹œ ì–˜ë„ ìˆìŒ
 	m_eCurMonsterState = STATE_ATTACK;
 
 	m_fBulletCooldownElapsed += dt;
@@ -291,7 +297,7 @@ void CCultist::AttackPattern(_float dt)
 		MonsterNormalBullet_iDesc.vPosition = *m_pTransformCom->Get_State(CTransform::STATE_POSITION);
 		_float3 vRight = *m_pTransformCom->Get_State(CTransform::STATE_RIGHT);
 		vRight.Normalize();
-		// ÃÑ±¸ À§Ä¡¸¦ ¸ó½ºÅÍÀÇ À§Ä¡¿Í look º¤ÅÍ¸¦ »ç¿ëÇÏ¿© °è»ê
+		// ì´êµ¬ ìœ„ì¹˜ë¥¼ ëª¬ìŠ¤í„°ì˜ ìœ„ì¹˜ì™€ look ë²¡í„°ë¥¼ ì‚¬ìš©í•˜ì—¬ ê³„ì‚°
 		MonsterNormalBullet_iDesc.vPosition += vRight * 11.f;
 		MonsterNormalBullet_iDesc.vPosition.y += 13.f;
 		if (m_bFirstBullet)
@@ -312,18 +318,18 @@ void CCultist::AttackPattern(_float dt)
 
 void CCultist::ChasePlayer(_float dt, _float fChaseDist)
 {
-	//Å¸°ÙÀ» 350°Å¸®±îÁö Ãß°İÇÑ´Ù.
+	//íƒ€ê²Ÿì„ 350ê±°ë¦¬ê¹Œì§€ ì¶”ê²©í•œë‹¤.
 	_float3 TargetPos = *static_cast<CTransform*>(m_pTargetPlayer->Find_Component(L"Com_Transform"))->Get_State(CTransform::STATE_POSITION);
 
-	// ÇöÀç À§Ä¡
+	// í˜„ì¬ ìœ„ì¹˜
 	_float3 vMyPos = *m_pTransformCom->Get_State(CTransform::STATE_POSITION);
 
-	// ¹æÇâ °è»ê
+	// ë°©í–¥ ê³„ì‚°
 	_float3 vDir = TargetPos - vMyPos;
 	float fDistance = vDir.Length();
 	vDir.Normalize();
 
-	//¿ø·¡¹æÇâÀ¸·Î ÅÏÇÏ±â
+	//ì›ë˜ë°©í–¥ìœ¼ë¡œ í„´í•˜ê¸°
 	_float3 vLook = *m_pTransformCom->Get_State(CTransform::STATE_LOOK);
 	bool bRotated = m_pTransformCom->RotateToDirection(vLook, vDir, 5.f, dt);
 	m_pTransformCom->ChaseWithOutY(TargetPos, dt, fChaseDist, 150.f);
