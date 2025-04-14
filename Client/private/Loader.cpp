@@ -747,8 +747,8 @@ HRESULT CLoader::Loding_For_Static()
 	ADD_SOUND(Loading_ToIn, "../Bin/Resources/Sounds/LoadingCutscene/ToIn/");
 	ADD_SOUND(Loading_ToOut, "../Bin/Resources/Sounds/LoadingCutscene/ToOut/");
 	ADD_SOUND(Loading_ToBoss, "../Bin/Resources/Sounds/LoadingCutscene/ToBoss/");
-	ADD_SOUND(Loading_ToRace, "../Bin/Resources/Sounds/LoadingCutscene/ToRace/");
-	ADD_SOUND(Loading_ToUnderground, "../Bin/Resources/Sounds/LoadingCutscene/ToUnderground/");
+	//ADD_SOUND(Loading_ToRace, "../Bin/Resources/Sounds/LoadingCutscene/ToRace/");
+	//ADD_SOUND(Loading_ToUnderground, "../Bin/Resources/Sounds/LoadingCutscene/ToUnderground/");
 	ADD_SOUND(Loading_Ending, "../Bin/Resources/Sounds/LoadingCutscene/Ending/");
 
 	ADD_SOUND(Explorsion, "../Bin/Resources/Sounds/Explorsion/");
