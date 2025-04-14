@@ -44,7 +44,7 @@ HRESULT CArchangel::Initialize_Prototype()
 }
 
 HRESULT CArchangel::Initialize(void* pArg)
-{
+{	
 	//위치, 크기초기화, 컴포넌트 부착
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
@@ -77,11 +77,19 @@ HRESULT CArchangel::Initialize(void* pArg)
 	m_fAttackTime = 0.2f;		// 공격 시간
 	m_fTrailDuration = 0.5f;	// 잔상이 사라지는 시간	
 
+	/* [ 사운드 설정칸 ] */
+	m_pSoundCom->Set3DState(100.f, 500.f);
+	m_pSoundCom->SetVolume("Chacing", 0.5f);
+	m_pSoundCom->SetVolume("Die", 0.5f);
+
 	return S_OK;
 }
 
 void CArchangel::Priority_Update(_float fTimeDelta)
 {
+	_float3 vCurPos = *m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+	m_pSoundCom->Update3DPosition(vCurPos);
+
 	__super::Priority_Update(fTimeDelta);
 }
 
@@ -537,6 +545,10 @@ HRESULT CArchangel::Ready_Components(void* pArg)
 		return E_FAIL;
 
 	Ready_Textures();
+
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Sound_Archangel"),
+		TEXT("Com_Sound"), reinterpret_cast<CComponent**>(&m_pSoundCom))))
+		return E_FAIL;
 
 	return S_OK;
 }

@@ -81,11 +81,20 @@ HRESULT CWenteko::Initialize(void* pArg)
 	m_fCooldownTime = 0.8f;     // 공격 쉬는 텀
 	//m_fBulletCooldown = 0.03f;	// 총알 발사 쿨
 	//m_fAttackTime = 0.2f;		// 공격 시간
+
+	/* [ 사운드 설정칸 ] */
+	m_pSoundCom->Set3DState(100.f, 500.f);
+	m_pSoundCom->SetVolume("Chacing", 0.5f);
+	m_pSoundCom->SetVolume("Die", 0.5f);
+	m_pSoundCom->SetVolume("Hit", 0.5f);
 	return S_OK;
 }
 
 void CWenteko::Priority_Update(_float fTimeDelta)
 {
+	_float3 vCurPos = *m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+	m_pSoundCom->Update3DPosition(vCurPos);
+
 	__super::Priority_Update(fTimeDelta);
 }
 
@@ -456,6 +465,10 @@ HRESULT CWenteko::Ready_Components(void* pArg)
 	}
 
 	Ready_Textures();
+
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Sound_Wenteko"),
+		TEXT("Com_Sound"), reinterpret_cast<CComponent**>(&m_pSoundCom))))
+		return E_FAIL;
 
 	return S_OK;
 }

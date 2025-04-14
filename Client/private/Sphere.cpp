@@ -173,6 +173,7 @@ void CSphere::FrameUpdate(float timeDelta)
 }
 HRESULT CSphere::SetUp_RenderState()
 {
+	m_pGraphic_Device->SetRenderState(D3DRS_LIGHTING, FALSE);
 	//기본 셋팅
 	m_pGraphic_Device->SetRenderState(D3DRS_ZWRITEENABLE, false);
 	m_pGraphic_Device->SetRenderState(D3DRS_POINTSPRITEENABLE, true);

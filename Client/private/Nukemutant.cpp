@@ -74,11 +74,20 @@ HRESULT CNukemutant::Initialize(void* pArg)
 	m_fBulletCooldown = 1.f;
 	m_fCooldownTime = 2.f;
 	m_fAttackTime = 0.5f;
+
+	/* [ 사운드 설정칸 ] */
+	m_pSoundCom->Set3DState(100.f, 500.f);
+	m_pSoundCom->SetVolume("Chacing", 0.5f);
+	m_pSoundCom->SetVolume("Die", 0.5f);
+	m_pSoundCom->SetVolume("Hit", 0.5f);
 	return S_OK;
 }
 
 void CNukemutant::Priority_Update(_float fTimeDelta)
 {
+	_float3 vCurPos = *m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+	m_pSoundCom->Update3DPosition(vCurPos);
+
 	Set_Animation();
 	__super::Priority_Update(fTimeDelta);
 }
@@ -316,6 +325,9 @@ HRESULT CNukemutant::Ready_Components(void* pArg)
 	if (FAILED(__super::Ready_Components(pArg)))
 		return E_FAIL;
 
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Sound_Nukemutant"),
+		TEXT("Com_Sound"), reinterpret_cast<CComponent**>(&m_pSoundCom))))
+		return E_FAIL;
 
 	return S_OK;
 }

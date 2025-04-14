@@ -55,11 +55,21 @@ HRESULT CDeacon::Initialize(void* pArg)
 	m_fCooldownTime = 0.5f;     // °ø°Ý ½¬´Â ÅÒ
 	m_fBulletCooldown = 0.2f;	// ÃÑ¾Ë ¹ß»ç Äð
 	m_fAttackTime = 0.5f;		// °ø°Ý ½Ã°£
+
+	/* [ »ç¿îµå ¼³Á¤Ä­ ] */
+	m_pSoundCom->Set3DState(100.f, 500.f);
+	m_pSoundCom->SetVolume("Attack", 0.5f);
+	m_pSoundCom->SetVolume("Chacing", 0.5f);
+	m_pSoundCom->SetVolume("Die", 0.5f);
+	m_pSoundCom->SetVolume("Hit", 0.5f);
 	return S_OK;
 }
 
 void CDeacon::Priority_Update(_float fTimeDelta)
 {
+	_float3 vCurPos = *m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+	m_pSoundCom->Update3DPosition(vCurPos);
+
 	if (m_eCurMonsterState == STATE_DEAD)
 		int a = 0;
 
@@ -129,6 +139,10 @@ HRESULT CDeacon::Ready_Components(void* pArg)
 	if (FAILED(__super::Ready_Components(pArg)))
 		return E_FAIL;
 	Ready_Textures();
+
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Sound_Deacon"),
+		TEXT("Com_Sound"), reinterpret_cast<CComponent**>(&m_pSoundCom))))
+		return E_FAIL;
 
 	return S_OK;
 }

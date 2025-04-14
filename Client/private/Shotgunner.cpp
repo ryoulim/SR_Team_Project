@@ -74,12 +74,22 @@ HRESULT CShotgunner::Initialize(void* pArg)
 	m_fCooldownTime = 0.8f;     // 공격 쉬는 텀
 	m_fBulletCooldown = 0.4f;	// 총알 발사 쿨
 	m_fAttackTime = 0.35f;		// 공격 시간
-	return S_OK;				// m_fAttackTime동안 총알 발사하되 총알은 m_fBulletCooldown만큼의 간격으로 쏘고
-								// m_fAttackTime이 끝나면 m_fCooldownTime만큼 쉬고 다시 공격함
+
+	/* [ 사운드 설정칸 ] */
+	m_pSoundCom->Set3DState(100.f, 500.f);
+	m_pSoundCom->SetVolume("Chacing", 0.5f);
+	m_pSoundCom->SetVolume("Die", 0.5f);
+	m_pSoundCom->SetVolume("Hit", 0.5f);
+
+	return S_OK;				
+								
 }
 
 void CShotgunner::Priority_Update(_float fTimeDelta)
 {
+	_float3 vCurPos = *m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+	m_pSoundCom->Update3DPosition(vCurPos);
+
 	__super::Priority_Update(fTimeDelta);
 }
 
@@ -339,6 +349,10 @@ HRESULT CShotgunner::Ready_Components(void* pArg)
 		return E_FAIL;
 
 	Ready_Textures();
+
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Sound_Shotgunner"),
+		TEXT("Com_Sound"), reinterpret_cast<CComponent**>(&m_pSoundCom))))
+		return E_FAIL;
 
 	return S_OK;
 }

@@ -59,9 +59,10 @@ HRESULT CEffect::SetUp_RenderState()
 	m_pGraphic_Device->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
 	m_pGraphic_Device->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
 	m_pGraphic_Device->SetRenderState(D3DRS_BLENDOP, D3DBLENDOP_ADD);
+	m_pGraphic_Device->SetRenderState(D3DRS_LIGHTING, FALSE);
 
-	if(LEVEL_RACING(m_pGameInstance->Get_CurrentLevelIndex()))
-		m_pGraphic_Device->SetRenderState(D3DRS_LIGHTING, FALSE);
+	//if(LEVEL_RACING(m_pGameInstance->Get_CurrentLevelIndex()))
+	//	m_pGraphic_Device->SetRenderState(D3DRS_LIGHTING, FALSE);
 
 	return S_OK;
 }
