@@ -10,6 +10,7 @@
 #include "FXMgr.h"
 #include "Monster.h"
 #include "Item.h"
+#include "Generator.h"
 
 #define CurLevel LEVEL_OUTDOOR
 
@@ -51,12 +52,35 @@ HRESULT CLevel_OutDoor::Initialize(CLevelData* pLevelData)
 	m_pBGM->Set_Volume(0.5f);
 	m_pBGM->Play();
 
+	m_pGenerator = m_pGameInstance->Find_Object(CurLevel, TEXT("Layer_Generator"));
+	Safe_AddRef(m_pGenerator);
+
 	return S_OK;
 }
 
 #include "Level_Loading.h"
 void CLevel_OutDoor::Update(_float fTimeDelta)
 {
+	if (dynamic_cast<CGenerator*>(m_pGenerator)->Is_Broken() && !m_bDeadGenerator)
+	{
+		m_bChangeBGM = true;
+		m_bDeadGenerator = true;
+	}
+
+	if (m_bChangeBGM && m_bDeadGenerator)
+	{
+		if (nullptr != m_pBGM)
+		{
+			m_pBGM->Stop();
+			Safe_Release(m_pBGM);
+			m_pBGM = m_pGameInstance->Get_Single_Sound("broken_system");
+			m_pBGM->Set_Volume(0.5f);
+			m_pBGM->Play();
+		}
+		m_bChangeBGM = false;
+	}
+
+
 	if (g_FogCustom < 151.f)
 		FX_MGR->SpawnMultipleThunder(fTimeDelta, LEVEL_OUTDOOR);
 
@@ -651,6 +675,9 @@ void CLevel_OutDoor::Free()
 	//if (Cameramanager)
 	//	Cameramanager->Switch(CCameraManager::DYNAMIC);
 	__super::Free();
+
+	Safe_Release(m_pGenerator);
+
 	m_pBGM->Stop();
 	Safe_Release(m_pBGM);
 }

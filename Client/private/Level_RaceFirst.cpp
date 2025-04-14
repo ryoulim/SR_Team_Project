@@ -58,6 +58,9 @@ void CLevel_RaceFirst::Update(_float fTimeDelta)
 
 	if (m_iNextLevel)
 	{
+		if (LEVEL_UNDERGROUND == (LEVEL)m_iNextLevel)
+			m_pBGM->Stop();
+
 		m_pGameInstance->Change_Level(LEVEL_LOADING,
 			CLevel_Loading::Create(m_pGraphic_Device, (LEVEL)m_iNextLevel));
 	}
@@ -751,6 +754,5 @@ void CLevel_RaceFirst::Free()
 
 	m_pGraphic_Device->SetRenderState(D3DRS_LIGHTING, FALSE);
 
-	m_pBGM->Stop();
 	Safe_Release(m_pBGM);
 }

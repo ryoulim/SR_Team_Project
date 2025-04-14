@@ -29,6 +29,9 @@ private:
 
 private:
 	CSound_Core* m_pBGM = { nullptr };
+	CGameObject* m_pGenerator = { nullptr };
+	_bool m_bChangeBGM = { false };
+	_bool m_bDeadGenerator = { false };
 
 public:
 	static CLevel_OutDoor* Create(LPDIRECT3DDEVICE9 pGraphic_Device, class CLevelData* pLevelData);

@@ -38,7 +38,7 @@ HRESULT CGenerator::Initialize(void* pArg)
 		return E_FAIL;
 
     m_fTextureIdx = 0.f;
-    m_pSoundCom->SetVolume(0.1f);
+    m_pSoundCom->SetVolume(0.3f);
     m_pSoundCom->Set3DState("engine_loop", 0.f, 2000.f);
 
     m_pSoundCom->Play("engine_loop");
