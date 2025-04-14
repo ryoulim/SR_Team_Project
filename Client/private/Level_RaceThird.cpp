@@ -55,23 +55,14 @@ void CLevel_RaceThird::Update(_float fTimeDelta)
 		{
 			m_pGameInstance->Release_Layer(LEVEL_STATIC, TEXT("Layer_RaceBoss"));
 			m_pGameInstance->Release_Layer(LEVEL_STATIC, TEXT("Layer_RaceBossBullet"));
-
+			m_pGameInstance->Release_Layer(LEVEL_STATIC, TEXT("Layer_Particle"));
 			static_cast<CPawn*>(GET_PLAYER)->Set_Active(FALSE);
 			m_pBGM->Stop();
 		}
-			
 
 		m_pGameInstance->Change_Level(LEVEL_LOADING,
 			CLevel_Loading::Create(m_pGraphic_Device, (LEVEL)m_iNextLevel));
 
-		if (m_iNextLevel == LEVEL_UNDERGROUND)
-		{
-			m_pGameInstance->Release_Layer(LEVEL_STATIC, TEXT("Layer_RaceBoss"));
-			m_pGameInstance->Release_Layer(LEVEL_STATIC, TEXT("Layer_RaceBossBullet"));
-			m_pGameInstance->Release_Layer(LEVEL_STATIC, TEXT("Layer_Particle"));
-			static_cast<CPawn*>(GET_PLAYER)->Set_Active(FALSE);
-
-		}
 	}
 }
 
