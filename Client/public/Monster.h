@@ -244,7 +244,7 @@ protected: // ì¼ë°˜ ëª¬ìŠ¤í„° í–‰ë™ ìš© ë³€ìˆ˜
 	_float			m_fRaycastTicker = {};
 	_float			m_fBulletCooldownElapsed = {};
 	_float			m_fBulletCooldown = {};
-	_bool			m_bFirstBullet = { true }; // Äİ¶óÀÌ´õ´Â ÀÌÁ¦ Ã¹¹øÂ° ÃÑ¾Ë¸¸ 
+	_bool			m_bFirstBullet = { true }; // ï¿½İ¶ï¿½ï¿½Ì´ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ Ã¹ï¿½ï¿½Â° ï¿½Ñ¾Ë¸ï¿½ 
 	_float			m_fAttackTime = {};
 	_bool			m_bKnockBack = false;
 	_float4         m_vFogColor = { 1.f, 1.f, 1.f, 1.f };
