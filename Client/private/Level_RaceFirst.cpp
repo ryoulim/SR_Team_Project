@@ -763,6 +763,5 @@ void CLevel_RaceFirst::Free()
 
 	m_pGraphic_Device->SetRenderState(D3DRS_LIGHTING, FALSE);
 
-	m_pBGM->Stop();
 	Safe_Release(m_pBGM);
 }

@@ -1,5 +1,6 @@
 ﻿#include "MyComputer.h"
 #include "GameInstance.h"
+
 #include "Monster.h"
 
 CMyComputer::CMyComputer(LPDIRECT3DDEVICE9 pGraphic_Device)
@@ -53,7 +54,30 @@ EVENT CMyComputer::Update(_float fTimeDelta)
 			{
 				if (!m_bDoOnce)
 				{
-					/* 몬스터 잔뜩 소환 */
+					/* 두번째 광장 좀비 */
+					SPAWN_NUKEMUTANT_EX(2100.f, 50.f, 545.f, LEVEL_INDOOR);
+					SPAWN_NUKEMUTANT_EX(1663.f, 50.f, 993.f, LEVEL_INDOOR);
+					SPAWN_NUKEMUTANT_EX(2180.f, 50.f, 846.f, LEVEL_INDOOR);
+					SPAWN_NUKEMUTANT_EX(1980.f, 50.f, 800.f, LEVEL_INDOOR);
+
+					/* 첫번째 광장 좀비 */
+					SPAWN_NUKEMUTANT_EX(717.f, 50.f, 511.f, LEVEL_INDOOR);
+					SPAWN_NUKEMUTANT_EX(600.f, 50.f, 591.f, LEVEL_INDOOR);
+					SPAWN_NUKEMUTANT_EX(700.f, 50.f, 671.f, LEVEL_INDOOR);
+					SPAWN_NUKEMUTANT_EX(500.f, 50.f, 511.f, LEVEL_INDOOR);
+					SPAWN_NUKEMUTANT_EX(500.f, 50.f, 591.f, LEVEL_INDOOR);
+
+					/* */
+					SPAWN_SHOTGUNNER_EX(1765.f, 50.f, 899.f, LEVEL_INDOOR, true);
+					SPAWN_SHOTGUNNER_EX(1776.f, 50.f, 972.f, LEVEL_INDOOR, true);
+					SPAWN_SHOTGUNNER_EX(1718.f, 50.f, 1000.f, LEVEL_INDOOR, true);
+					/* */
+					//SPAWN_SHOTGUNNER_EX(1718.f, 50.f, 998.f, LEVEL_INDOOR, true);
+					//SPAWN_SHOTGUNNER_EX(1831.f, 50.f, 484.f, LEVEL_INDOOR, true);
+					//SPAWN_SHOTGUNNER_EX(2014.f, 50.f, 464.f, LEVEL_INDOOR, true);
+
+					//SPAWN_SHOTGUNNER_EX(1765.f, 50.f, 899.f, LEVEL_INDOOR, true);
+					//SPAWN_SHOTGUNNER_EX(1765.f, 50.f, 899.f, LEVEL_INDOOR, true);
 
 					m_bDoOnce = true;
 				}
@@ -159,6 +183,9 @@ HRESULT CMyComputer::Ready_Components(void* pArg)
 
 void CMyComputer::On_Collision(_uint MyColliderID, _uint OtherColliderID)
 {
+	if (m_eLevelID != LEVEL_INDOOR)
+		return;
+
 	switch (OtherColliderID)
 	{
 	case CI_PICKING_RAY:
