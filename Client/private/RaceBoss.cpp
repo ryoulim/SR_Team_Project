@@ -5,7 +5,7 @@
 #include "FXMgr.h"
 #include "CameraManager.h"
 #include "PSystem.h"
-#include "PSystem.h"
+#include "HitBox.h"
 
 CRaceBoss::CRaceBoss(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CGameObject { pGraphic_Device }
@@ -1333,6 +1333,26 @@ void CRaceBoss::SpawnDieParticle(_float fWaterSpeed)
 
 	m_pWaterBoatEffect_03 = *ppOut3;
 
+}
+void CRaceBoss::SpawnHitBox(const _float3& _Position, const _float3& _Scale, const TCHAR* _szTextureTag, _float MaxTime, _bool _HitDead)
+{
+	CHitBox::DESC HitBoxDesc{};
+	HitBoxDesc.vPosition = _Position;
+	HitBoxDesc.vScale = _Scale;
+	HitBoxDesc.fSpeedPerSec = 60.f;
+	HitBoxDesc.fRotationPerSec = RADIAN(180.f);
+	HitBoxDesc.eID = CI_BOSS_BACK;
+	HitBoxDesc.szTextureTag = _szTextureTag;
+	HitBoxDesc.bHitDead = _HitDead;
+	HitBoxDesc.fMaxTime = MaxTime;
+
+	CGameObject* pObject = nullptr;
+	CGameObject** ppOut = &pObject;
+	if (FAILED(m_pGameInstance->Add_GameObjectReturn(LEVEL_STATIC, TEXT("Prototype_GameObject_HitBox"),
+		m_eLevelID, L"Layer_HitBox", ppOut, &HitBoxDesc)))
+		return;
+
+	m_pBossHitBox = *ppOut;
 }
 
 void CRaceBoss::On_Hit(MUZZLEPOS HitPos, _int iDamage)

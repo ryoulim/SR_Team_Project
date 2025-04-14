@@ -79,6 +79,11 @@ void CDeacon::Priority_Update(_float fTimeDelta)
 
 EVENT CDeacon::Update(_float fTimeDelta)
 {
+	if (m_bDead && !m_bDeadSound)
+	{
+		m_pSoundCom->Play("Die");
+		m_bDeadSound = true;
+	}
 	return __super::Update(fTimeDelta);
 }
 
@@ -416,6 +421,9 @@ void CDeacon::AttackPattern(_float dt)
 			LEVEL_GAMEPLAY, L"Layer_MonsterBullet", &MonsterNormalBullet_iDesc)))
 			return;
 
+		if (!m_pSoundCom->IsPlaying("Attack"))
+			m_pSoundCom->Play("Attack");
+
 		m_iLeftRight = m_iLeftRight * -1;
 
 		m_fBulletCooldownElapsed = 0.f;
@@ -582,4 +590,6 @@ CGameObject* CDeacon::Clone(void* pArg)
 void CDeacon::Free()
 {
 	__super::Free();
+
+	Safe_Release(m_pSoundCom);
 }

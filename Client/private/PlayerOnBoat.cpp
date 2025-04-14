@@ -158,6 +158,8 @@ void CPlayerOnBoat::Late_Update(_float fTimeDelta)
 
 	m_pCollider->Update_Collider();
 
+	_float3	vTemp = *m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+	CGameObject::Compute_ViewZ(&vTemp);
 	m_pGameInstance->Add_RenderGroup(CRenderer::RG_BLEND, this);
 
 	m_pAim->Late_Update(fTimeDelta);
@@ -224,7 +226,7 @@ void CPlayerOnBoat::On_Collision(_uint MyColliderID, _uint OtherColliderID)
 	if (OtherColliderID == CI_TRIGGER)
 		Change_Level();
 
-	if (OtherColliderID == CI_BOSS_GUIDBULLET)
+	if (OtherColliderID == CI_BOSS_GUIDBULLET || OtherColliderID == CI_BOSS_BACK)
 	{
 		On_Hit(7);
 	}

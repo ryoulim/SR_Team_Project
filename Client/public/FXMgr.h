@@ -76,6 +76,7 @@ public: //피흘리기
 
 public: //총알자국
 	void SpawnBulletMark(_float3 _vPosition, LEVEL eLevel, _float3 _vLook, _int _iNum);
+	void SpawnBulletDust(_float3 _vPosition, LEVEL eLevel);
 
 public: //피격 이펙트
 	void SpawnHitEffect(LEVEL eLevel);

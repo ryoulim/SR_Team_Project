@@ -738,7 +738,6 @@ HRESULT CLoader::Loding_For_Static()
 	ADD_SOUND(Player_On_Boat, "../Bin/Resources/Sounds/Player_On_Boat/");
 
 	ADD_SOUND_EX(Archangel, "../Bin/Resources/Sounds/Monster/Archangel/",true, false, false);
-	ADD_SOUND_EX(BattleShip, "../Bin/Resources/Sounds/Monster/BattleShip/",true, false, false);
 	ADD_SOUND_EX(Cultist, "../Bin/Resources/Sounds/Monster/Cultist/",true, false, false);
 	ADD_SOUND_EX(Deacon, "../Bin/Resources/Sounds/Monster/Deacon/",true, false, false);
 	ADD_SOUND_EX(Greater, "../Bin/Resources/Sounds/Monster/Greater/",true, false, false);

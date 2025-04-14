@@ -505,6 +505,9 @@ void CMonster::On_Collision_NormalMonster(_uint MyColliderID, _uint OtherCollide
 	else if (CI_WEAPON(OtherColliderID))
 	{
 		Collision_With_Weapon();
+
+		if (!m_pSoundCom->IsPlaying("Hit"))
+			m_pSoundCom->Play("Hit");
 	}
 	else if (CI_INTERACTIVE_DOOR)
 	{
@@ -601,6 +604,12 @@ void CMonster::State_Change_IDLE(_float dt)
 {
 	if (IsPlayerDetected())
 	{
+		if (!m_bDetectSound)
+		{
+			m_pSoundCom->Play("Chacing");
+			m_bDetectSound = true;
+		}
+
 		m_bFoundPlayer = true;
 		
 		if (IsMonsterAbleToAttack() && m_eState != MODE::MODE_BATTLE)

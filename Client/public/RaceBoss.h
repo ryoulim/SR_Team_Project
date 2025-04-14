@@ -94,6 +94,9 @@ private:
 	void SpawnWaterParticle(_float fWaterSpeed, _float _fMin, _float _fMax);
 	void SpawnDieParticle(_float fWaterSpeed);
 
+	void SpawnHitBox(const _float3& _Position, const _float3& _Scale, const TCHAR* _szTextureTag, _float MaxTime, _bool _HitDead);
+
+
 
 
 	HRESULT Set_BombRadius();
@@ -163,6 +166,8 @@ private:
 	CGameObject* m_pWaterBoatEffect_01 = nullptr;
 	CGameObject* m_pWaterBoatEffect_02 = nullptr;
 	CGameObject* m_pWaterBoatEffect_03 = nullptr;
+
+	CGameObject* m_pBossHitBox = nullptr;
 
 	vector<CCollider*> m_ColliderComs = { nullptr };
 	

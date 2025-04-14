@@ -4,6 +4,7 @@
 #include "TrashCan.h"
 #include "GameInstance.h"
 #include "Item.h"
+#include "FXMgr.h"
 
 
 CTrashCan::CTrashCan(LPDIRECT3DDEVICE9 pGraphic_Device)
@@ -110,6 +111,8 @@ void CTrashCan::On_Collision(_uint MyColliderID, _uint OtherColliderID)
 	{
         m_iHp -= 10;
         m_pBGM->Play();
+
+        FX_MGR->SpawnBulletDust(CCollider::Get_Last_Collision_Pos(), m_eLevelID);
 	}
 }
 

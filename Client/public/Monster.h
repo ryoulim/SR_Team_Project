@@ -223,6 +223,7 @@ protected:
 
 	// 공격 쿨다운
 	_bool	m_bCoolingDown = false;
+	_bool	m_bDeadSound = false;
 	_float	m_fCooldownTime = 0.f;
 	_float	m_fCooldownDuration = 0.f;
 	_float	m_fAttackTimer = 0.f;
@@ -233,6 +234,7 @@ protected: // 작동변수
 	_bool			m_bDead = false;
 	_bool			m_bActive = false;
 	_bool           m_bStandby = false;
+	_bool           m_bDetectSound = false;
 
 protected: // 디버깅
 	_bool			m_bDebug = false;

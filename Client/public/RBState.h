@@ -581,6 +581,13 @@ public:
 		m_fSpeed = 4000.f;
 		m_pOwner->SpawnWaterParticle(400.f, -360.f, 360.f);
 		static_cast<CCameraManager*>(m_pOwner->m_pGameInstance->Find_Manager(TEXT("Camera_Manager")))->Shake_Camera(1.f, 1.f);
+
+
+		_float3 vCurrentPos = *m_pOwner->m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+		_float3 vTargetPos = *m_pOwner->m_pPlayerpos;
+		_float3 vHitBoxPos = { vCurrentPos.x - 100 , 1.f, vTargetPos.z + 1000 };
+		_float3 vHitBoxScale = { 250.f, 100.f, 4500.f };
+		m_pOwner->SpawnHitBox(vHitBoxPos, vHitBoxScale, TEXT("Cube"), 1.5f, false);
 	}
 	virtual void Execute(_float fTimeDelta) override
 	{
@@ -621,6 +628,13 @@ public:
 			m_pOwner->m_pWaterBoatEffect_02 = nullptr;
 			m_pOwner->m_pWaterBoatEffect_03 = nullptr;
 		}
+
+		_float3 vCurrentPos = *m_pOwner->m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+		_float3 vTargetPos = *m_pOwner->m_pPlayerpos;
+		_float3 vHitBoxPos = { vCurrentPos.x + 200 , 1.f, vTargetPos.z + 1000 };
+		_float3 vHitBoxScale = { 250.f, 100.f, 4500.f };
+		m_pOwner->SpawnHitBox(vHitBoxPos, vHitBoxScale, TEXT("Cube"), 1.5f, false);
+
 
 		m_pOwner->Set_State(CRaceBoss::MOMBACKREVERSE);
 	}
