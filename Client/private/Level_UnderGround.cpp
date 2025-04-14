@@ -11,6 +11,7 @@
 #include "Monster.h"
 #include "Level_Loading.h"
 #include "Item.h"
+#include "PSystem.h"
 
 #define CurLevel LEVEL_UNDERGROUND
 

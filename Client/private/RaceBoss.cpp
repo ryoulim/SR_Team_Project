@@ -84,9 +84,17 @@ EVENT CRaceBoss::Update(_float fTimeDelta)
 		Set_State(DEAD);
 		fill(std::begin(m_bPartDead), std::end(m_bPartDead), true);
 	}
-	if (KEY_DOWN(DIK_9))
-		FX_MGR->SpawnMultipleExplosionRaceBoss(vPos, m_eLevelID);
-
+	/* [ ÆÄ±« ÀÌÆåÆ® ] */
+	if (m_eCurState == DEAD)
+	{
+		m_fDieTime += fTimeDelta;
+		if (m_fDieTime > 0.4f && m_pTransformCom->Get_State(CTransform::STATE_POSITION)->y > 50)
+		{
+			FX_MGR->SpawnMultipleExplosionRaceBoss(vPos, m_eLevelID);
+			m_fDieTime = 0.f;
+		}
+	}
+	
 	// ¼ø¼­ ¿ÞÂÊºÎÅÍÀÓ
 	if (m_bPartDead[0])
 		FX_MGR->SpawnMultipleExplosionRacePoint(fTimeDelta, vPos, { -165.f, 25.f, -205.f }, m_eLevelID, { 50.f, 50.f, 1.f }, TEXT("RaceBossHit"), 13.f);
@@ -1413,26 +1421,4 @@ void CRaceBoss::Free()
 		Safe_Release(Collider);
 	for (size_t i = WAITFORPLAYER; i < NON; ++i)
 		Safe_Delete(m_pState[i]);
-
-
-	///* [ ÀÌÆåÆ® ÀÖ´Ï? ÀÖÀ¸¸é ³»³ö ] */
-	//if (m_pWaterBoatEffect_01)
-	//{
-	//	static_cast<CWaterBoat*>(m_pWaterBoatEffect_01)->SetDead();
-	//	static_cast<CWaterBoat*>(m_pWaterBoatEffect_02)->SetDead();
-	//	static_cast<CWaterBoat*>(m_pWaterBoatEffect_03)->SetDead();
-	//	m_pWaterBoatEffect_01 = nullptr;
-	//	m_pWaterBoatEffect_02 = nullptr;
-	//	m_pWaterBoatEffect_03 = nullptr;
-	//}
-	//
-	///* [ ³²Àº ÆÄÆ¼Å¬ ´Ù ²¨¹ö¸®ÀÚ ] */
-	//auto Particles = CGameInstance::Get_Instance()->Find_Objects(m_eLevelID, L"Layer_Particle");
-	//if (Particles)
-	//{
-	//	for (auto& Particle : *Particles)
-	//	{
-	//		static_cast<CPSystem*>(Particle)->SetDead();
-	//	}
-	//}
 }

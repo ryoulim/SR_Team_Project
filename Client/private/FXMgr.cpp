@@ -778,7 +778,7 @@ void CFXMgr::SpawnRaceExplosion(_float3 _vPosition, _float3 _vPosOffset , LEVEL 
 	FireworkDesc.fSize = 1.f;
 
 	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_PC_Firework"),
-		LEVEL_GAMEPLAY, L"Layer_Particle", &FireworkDesc)))
+		eLevel, L"Layer_Particle", &FireworkDesc)))
 		return;
 
 	CPSystem::DESC FireworkDesc2{};
@@ -789,7 +789,7 @@ void CFXMgr::SpawnRaceExplosion(_float3 _vPosition, _float3 _vPosOffset , LEVEL 
 	FireworkDesc2.fSize = 0.5f;
 
 	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_PC_Firework"),
-		LEVEL_GAMEPLAY, L"Layer_Particle", &FireworkDesc)))
+		eLevel, L"Layer_Particle", &FireworkDesc)))
 		return;
 
 	CSmoke::DESC SmokeDesc{};
@@ -805,7 +805,7 @@ void CFXMgr::SpawnRaceExplosion(_float3 _vPosition, _float3 _vPosOffset , LEVEL 
 	SmokeDesc.fSize = 3.f;
 
 	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_PC_Smoke"),
-		LEVEL_GAMEPLAY, L"Layer_Particle", &SmokeDesc)))
+		eLevel, L"Layer_Particle", &SmokeDesc)))
 		return;
 }
 

@@ -132,7 +132,7 @@ HRESULT CWeaponUI::Render()
 		CUI_Manager::Get_Instance()->Render_Text(tmp[m_iCurWeaponIndex]->Get_Info()->iCurAmmo, CFont::BIGORANGE, CFont::CENTER, m_vSelectPos.x + 40.f, m_vSelectPos.y - 15.f, 0.4f * m_fSizeMul);
 
 		m_fTextureNum = _float(m_iCurWeaponIndex + 1);
-		if (m_fTextureNum > _float(m_iMaxWeaponIndex))
+		if (m_fTextureNum > _float((_uint)m_iMaxWeaponIndex))
 			m_fTextureNum = 0;
 		m_pTransformCom->Set_State(CTransform::STATE_POSITION, m_vSecondPos);
 		m_pTextureCom->Get_TextureSize((_uint)m_fTextureNum, &m_vSize);

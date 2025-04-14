@@ -34,6 +34,7 @@ public:
 	}
 	void Set_StartState(STATE eState);
 	void Set_RaceBossTransform(CTransform* BossTransform);
+	STATE GetState() { return m_eCurState; }
 private:
 	virtual HRESULT Ready_Components(void* pArg)override;
 	void Update_Frame(_float fTimeDelta);

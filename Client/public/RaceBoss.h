@@ -173,9 +173,11 @@ private:
 	LEVEL		m_eLevelID = { LEVEL_END };
 	_bool		m_bDead = { false };
 	_bool		m_bPartDead[5]{};
+	_bool		m_bChangeLevel{};
 	_float3		m_vScale = {};
 	_float		m_fTime = {};
 	_float		m_fBombTime = {};
+	_float		m_fDieTime = {};
 	_uint		m_iHeadBulletCount = {};
 	_float3		m_vBulletDiretion = {};
 	MUZZLEPOS	m_ePos = { POSEND };

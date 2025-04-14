@@ -9,6 +9,7 @@
 #include "RaceBoss.h"
 #include "UI_Manager.h"
 #include "StreetLampHead.h"
+#include "PSystem.h"
 
 
 #define CurLevel LEVEL_RACEFIRST
@@ -48,6 +49,8 @@ HRESULT CLevel_RaceFirst::Initialize(CLevelData* pLevelData)
 	if(!m_pBGM->IsPlaying())
 		m_pBGM->Play();
 
+	/* 남아있던 파티클 다 제거하고 시작하기 */
+	m_pGameInstance->Release_Layer(LEVEL_STATIC, TEXT("Layer_Particle"));
 	return S_OK;
 }
 
