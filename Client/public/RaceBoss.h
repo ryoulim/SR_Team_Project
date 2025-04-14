@@ -137,6 +137,7 @@ private:
 	void Fire_TailBullet(_float fTimeDelta);
 	_uint Get_HeadBulletCount();
 	void Set_HeadBulletCountZero();
+	void Update_Collider_OffSet(_float ZRot);
 	
 private:
 	CTexture* m_pTextureCom = { nullptr };

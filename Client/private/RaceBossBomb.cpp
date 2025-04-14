@@ -70,6 +70,9 @@ EVENT CRaceBossBomb::Update(_float fTimeDelta)
 	{
 		/* 미사일이 바닥에 박히면? 부모에게 메세지를 전달한다 */
 		m_bDie = true;
+		// 바닥에 터졌을때만 충돌처리 되도록 변경
+		m_pCollider->Update_Collider();
+		m_pCollider->Update_Scale({ 50.f,0.f,0.f });
 
 		if (m_pMissile)
 		{
@@ -89,7 +92,7 @@ void CRaceBossBomb::Late_Update(_float fTimeDelta)
 	if (FAILED(m_pGameInstance->Add_RenderGroup(CRenderer::RG_BLEND, this)))
 		return;
 
-	__super::Late_Update(fTimeDelta);
+	//__super::Late_Update(fTimeDelta);
 }
 
 HRESULT CRaceBossBomb::SetUp_RenderState()
@@ -166,7 +169,7 @@ HRESULT CRaceBossBomb::Ready_Components(void* pArg)
 
 	CCollider::DESC ColliderDesc{};
 	ColliderDesc.pTransform = m_pTransformCom;
-	ColliderDesc.vScale = pDesc->vScale;
+	ColliderDesc.vScale.x = 1.f;
 	ColliderDesc.pOwner = this;
 	ColliderDesc.iColliderID = CI_BOSS_BULLET;
 	ColliderDesc.iColliderGroupID = CG_MBULLET;

@@ -98,9 +98,24 @@ public:
 
 		m_pOwner->m_pSoundCom->Play("rev_down");
 		m_pOwner->m_pSoundCom->Play("bike_off");
+
+		m_pOwner->m_pSoundCom->Play("engine_loop");
+		m_pOwner->m_pSoundCom->Set_Loop("engine_loop");
+
+		m_pOwner->m_pSoundCom->Play("throttle_loop");
+		m_pOwner->m_pSoundCom->Set_Loop("throttle_loop");
+
+		m_pOwner->m_pSoundCom->Play("bike_idle_2");
+		m_pOwner->m_pSoundCom->Set_Loop("bike_idle_2");
 	}
 	virtual void Execute(_float fTimeDelta) override
 	{
+		_float EnginPitch = m_fDecelSpeed + 0.4f;
+
+		m_pOwner->m_pSoundCom->Set_Pitch("engine_loop", EnginPitch);
+		m_pOwner->m_pSoundCom->Set_Pitch("throttle_loop", EnginPitch);
+		m_pOwner->m_pSoundCom->Set_Pitch("bike_idle_2", EnginPitch); 
+
 		m_fPosZ = m_pOwner->Compute_CurPosZ();
 
 		m_fDecelSpeed *= 0.98f;
@@ -116,15 +131,6 @@ public:
 		m_fDecelSpeed = 0.f;
 
 		m_pOwner->Set_State(CPlayerOnBoat::NORMAL);
-
-		m_pOwner->m_pSoundCom->Play("engine_loop");
-		m_pOwner->m_pSoundCom->Set_Loop("engine_loop");
-
-		m_pOwner->m_pSoundCom->Play("throttle_loop");
-		m_pOwner->m_pSoundCom->Set_Loop("throttle_loop");
-
-		m_pOwner->m_pSoundCom->Play("bike_idle_2");
-		m_pOwner->m_pSoundCom->Set_Loop("bike_idle_2");
 	}
 
 private:

@@ -147,27 +147,37 @@ public:
 		if (m_pOwner->m_pPlayerpos->z > -3500.f &&	m_pOwner->m_pPlayerpos->z < -2500.f)
 			m_pOwner->Set_State(CRaceBoss::ENTRANCE);
 
+		///////////////////////////////////////
+		// 플레이어 웜홀 중 플레이어를 밀치는 패턴 발동되서 거리기반으로 수정 했습니다.
+		///////////////////////////////////////
+
 		/* [ 플레이어의 상태가 노말일 때만 패턴이 유효하게 하라 ] */
-		if (m_pOwner->m_pPlayer->GetState() == CPlayerOnBoat::NORMAL)
+		//if (m_pOwner->m_pPlayer->GetState() == CPlayerOnBoat::NORMAL)
+		//{
+		//	if (m_pOwner->m_bChangeLevel)
+		//	{
+		//		m_pOwner->m_bChangeLevel = false;
+		//		m_pOwner->Set_State(CRaceBoss::ENTRANCE);
+		//	}
+
+		if (m_pOwner->m_pPlayerpos->z > -2500)
 		{
-			if (m_pOwner->m_bChangeLevel)
+			if (m_fTime > 0.3f) // 살짝의 텀 주기
 			{
-				m_pOwner->m_bChangeLevel = false;
-				m_pOwner->Set_State(CRaceBoss::ENTRANCE);
+				/* [ SHOTREADY, READYBOMB, MOMBACKREADY ] */
+				int iRandomPattern = GetRandomInt(0, 100);
+
+				if (iRandomPattern > 95)
+					m_pOwner->Set_State(CRaceBoss::MOMBACKREADY);
+				else if (iRandomPattern > 90)
+					m_pOwner->Set_State(CRaceBoss::READYBOMB);
+				else
+					m_pOwner->Set_State(CRaceBoss::SHOTREADY);
+
+				m_fTime = 0.f;
 			}
-
-			/* [ SHOTREADY, READYBOMB, MOMBACKREADY ] */
-			int iRandomPattern = GetRandomInt(0, 100);
-
-			if (iRandomPattern > 95)
-				m_pOwner->Set_State(CRaceBoss::MOMBACKREADY);
-			else if (iRandomPattern > 90)
-				m_pOwner->Set_State(CRaceBoss::READYBOMB);
-			else
-				m_pOwner->Set_State(CRaceBoss::SHOTREADY);
-
-			m_fTime = 0.f;
 		}
+		//}
 	}
 	virtual void Exit() override
 	{
@@ -223,7 +233,7 @@ public:
 	virtual void Execute(_float fTimeDelta) override
 	{
 		/* [ 기본적인 Z축 이동 ] */
-		m_pOwner->m_pTransformCom->Move({ 0.f,0.f,RACE_SPEED_PER_SEC * 1.5f }, fTimeDelta);
+		m_pOwner->m_pTransformCom->Move({ 0.f,0.f,RACE_SPEED_PER_SEC}, fTimeDelta);
 
 		m_pOwner->ShuffleandPop();
 		m_pOwner->Fire_HeadBullet(fTimeDelta);
@@ -253,7 +263,7 @@ public:
 	virtual void Execute(_float fTimeDelta) override
 	{
 		//매 프레임마다 일정 수치만큼 밀림
-		m_pOwner->m_pTransformCom->Move({ 0.f,0.f,RACE_SPEED_PER_SEC * 1.5f }, fTimeDelta);
+		m_pOwner->m_pTransformCom->Move({ 0.f,0.f,RACE_SPEED_PER_SEC}, fTimeDelta);
 
 		m_fTime += fTimeDelta;
 		if (m_fTime > 0.02f)
@@ -548,6 +558,8 @@ public:
 
 			m_pOwner->m_pTransformCom->TurnCustom({ 0.f, 0.f, 1.f }, fAngleThisFrame, 1.f);
 			m_fRotatedAmount += fAngleThisFrame;
+
+			m_pOwner->Update_Collider_OffSet(m_fRotatedAmount);
 		}
 
 		if (m_fTime > 1.7f)
@@ -558,7 +570,6 @@ public:
 		_float3 vCurrentPos = *m_pOwner->m_pTransformCom->Get_State(CTransform::STATE_POSITION);
 		_float3 vTargetPos = *m_pOwner->m_pPlayerpos;
 		m_pOwner->SpawnTargetLineReverse({ vCurrentPos.x + 200 , 1.f, vTargetPos.z + 1000 });
-
 		m_pOwner->Set_State(CRaceBoss::MOMBACK);
 	}
 
@@ -695,6 +706,8 @@ public:
 		m_pOwner->m_pTransformCom->Set_State(CTransform::STATE_RIGHT, m_pOwner->m_vSavedRight);
 		m_pOwner->m_pTransformCom->Set_State(CTransform::STATE_UP, m_pOwner->m_vSavedUp);
 		m_pOwner->m_pTransformCom->Set_State(CTransform::STATE_LOOK, m_pOwner->m_vSavedLook);
+
+		m_pOwner->Update_Collider_OffSet(0.f);
 	}
 
 private:

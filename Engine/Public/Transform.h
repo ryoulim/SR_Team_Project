@@ -57,6 +57,10 @@ public:
 	_float Get_Radius() {
 		return m_fRadius;
 	}
+	// Z회전만 존재할 때
+	_float Get_ZRot_Radian() {
+		return atan2f(m_WorldMatrix._21, m_WorldMatrix._11);
+	}
 
 public:
 	virtual HRESULT Initialize_Prototype() override;

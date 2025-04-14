@@ -333,6 +333,21 @@ void CRaceBoss::Set_HeadBulletCountZero()
 	m_iHeadBulletCount = 0;
 }
 
+void CRaceBoss::Update_Collider_OffSet(_float ZRot)
+{
+	for (_uint i = 0; i < 5; ++i)
+	{
+		_float3 vMuzzlePos = Calc_Muzzle_Position((MUZZLEPOS)(LSIDE + i));
+
+		_float3 vRotMuzzlePos{};
+		vRotMuzzlePos.x = cosf(ZRot) * vMuzzlePos.x - sinf(ZRot) * vMuzzlePos.y;
+		vRotMuzzlePos.y = sinf(ZRot) * vMuzzlePos.x + cos(ZRot) * vMuzzlePos.y;
+		vRotMuzzlePos.z = vMuzzlePos.z;
+
+		m_ColliderComs[i]->Update_OffSet(vRotMuzzlePos);
+	}
+}
+
 void CRaceBoss::ShuffleandPop()
 {
 	if (m_VecBulletPos.empty())
@@ -622,6 +637,7 @@ HRESULT CRaceBoss::SpawnMultipleTargetAim(_float _fTimedelta)
 
 _float3 CRaceBoss::Calc_Muzzle_Position(MUZZLEPOS eMuzzle)
 {
+	_float ZRadian = m_pTransformCom->Get_ZRot_Radian();
 	_float3 vAdjustPos = {};
 
 	switch (eMuzzle)

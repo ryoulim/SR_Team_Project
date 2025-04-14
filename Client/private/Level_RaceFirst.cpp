@@ -710,7 +710,6 @@ void CLevel_RaceFirst::Check_Collision()
 {
 	m_pGameInstance->Intersect(CG_PAWN, CG_MBULLET);
 	m_pGameInstance->Intersect(CG_MONSTER, CG_PBULLET);
-	m_pGameInstance->Intersect(CG_PBULLET, CG_MBULLET);
 }
 
 void CLevel_RaceFirst::Manage_Light()

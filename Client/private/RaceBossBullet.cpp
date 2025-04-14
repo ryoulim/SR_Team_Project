@@ -115,7 +115,7 @@ HRESULT CRaceBossBullet::Ready_Components(void* pArg)
 
 	CCollider_Sphere::DESC ColliderDesc{};
 	ColliderDesc.pTransform = m_pTransformCom;
-	ColliderDesc.vScale = pDesc->vScale;
+	ColliderDesc.vScale.x = pDesc->vScale.x * 0.5f;
 	ColliderDesc.pOwner = this;
 	ColliderDesc.iColliderID = pDesc->iColliderID;
 	ColliderDesc.iColliderGroupID = CG_MBULLET;

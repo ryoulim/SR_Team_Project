@@ -696,8 +696,10 @@ void CMonster::Free()
 	Safe_Release(m_pGravityCom);
 	Safe_Release(m_pSkull);
 	Safe_Release(m_pShaderCom);
+	Safe_Release(m_pSoundCom);
+
 	for (auto pair : m_pTextureMap)
-	{
+	{	
 		for (auto otherpair : pair.second)
 		{
 			Safe_Release(otherpair.second);
