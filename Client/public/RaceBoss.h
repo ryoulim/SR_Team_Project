@@ -13,6 +13,7 @@ class CTexture;
 class CVIBuffer;
 class CTransform;
 class CCollider;
+class CSoundController;
 END
 
 BEGIN(Client)
@@ -119,7 +120,6 @@ private:
 	friend class CRBState_MombackReverse;
 	friend class CRBState_CloseToPlayer;
 
-	STATE					m_eState = { NON };
 	STATE					m_ePreState = { NON };
 	STATE					m_eCurState = { ENTRANCE };
 	class CRBState* m_pCurState = { nullptr };
@@ -130,6 +130,8 @@ private:
 	void Go_Backward(_float fTimeDelta);
 	void Go_Up(_float fTimeDelta);
 	void Go_Right(_float fTimeDelta);
+	void Play_Sound(const string& strTag);
+	void Stop_Sound(const string& strTag);
 	_float Compute_PosZ();
 	_float Compute_PozY();
 	void MoveCatMullRom(_float3& v0, _float3& vStartPos, _float3& vEndPos, _float3& v3, _float fTimeAcc);
@@ -139,10 +141,12 @@ private:
 	void Set_HeadBulletCountZero();
 	void Update_Collider_OffSet(_float ZRot);
 	
+	
 private:
 	CTexture* m_pTextureCom = { nullptr };
 	CVIBuffer* m_pVIBufferCom = { nullptr };
 	CTransform* m_pTransformCom = { nullptr };
+	CSoundController* m_pSoundCom = { nullptr };
 
 private:
 	CGameObject* m_pWaterBoatEffect_01 = nullptr;

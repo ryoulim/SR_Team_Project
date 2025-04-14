@@ -28,8 +28,6 @@ HRESULT CRaceBoss::Initialize(void* pArg)
 
 	Ready_Components(pArg);
 
-	m_eState = ENTRANCE;
-
 	ReadyForState();
 
 	m_pPlayer = static_cast<CPlayerOnBoat*>(GET_PLAYER);
@@ -37,6 +35,26 @@ HRESULT CRaceBoss::Initialize(void* pArg)
 	m_pPlayerpos = static_cast<CTransform*>(m_pPlayer->Find_Component(TEXT("Com_Transform")))->Get_State(CTransform::STATE_POSITION);
 
 	Init_Skull();
+
+	m_pSoundCom->SetVolume(0.5f);
+	m_pSoundCom->SetVolume("BombReady", 0.4f);
+	m_pSoundCom->SetVolume("BombStart", 1.f);//사용됨
+	m_pSoundCom->SetVolume("Die", 0.4f);
+	m_pSoundCom->SetVolume("Hit", 0.7f);
+	m_pSoundCom->SetVolume("Lazer1", 0.8f);//사용됨
+	m_pSoundCom->SetVolume("Lazer2", 0.6f);
+	m_pSoundCom->SetVolume("Lazer3", 0.45f);
+	m_pSoundCom->SetVolume("Lazer4", 5.f);//사용됨
+	m_pSoundCom->SetVolume("Momback", 0.45f);
+	m_pSoundCom->SetVolume("ShotBullet", 1.f);//사용됨
+
+
+	//m_pSoundCom->Set3DState();
+	//m_pSoundCom->Update3DPosition();
+
+	//엔진같은 소리 필요하면
+	//m_pSoundCom->Set_Loop(); // 플레이 이후에ㅔ 이거로 반복시키고;
+	//m_pSoundCom->Set_Pitch() // 기본이 1인데 피치 높아지면 rpm 높아지는느낌남
 
 	return S_OK;
 }
@@ -120,9 +138,6 @@ void CRaceBoss::Late_Update(_float fTimeDelta)
 		Collider->Update_Collider();
 
 	const _float3& vPos = *m_pTransformCom->Get_State(CTransform::STATE_POSITION);
-
-	if (vPos.z > 9500.f)
-		m_eState = LEAVE;
 
 	m_vPrePos = vPos;
 
@@ -295,6 +310,16 @@ void CRaceBoss::Go_Up(_float fTimeDelta)
 void CRaceBoss::Go_Right(_float fTimeDelta)
 {
 	m_pTransformCom->Go_Right(fTimeDelta);
+}
+
+void CRaceBoss::Play_Sound(const string& strTag)
+{
+	m_pSoundCom->Play(strTag);
+}
+
+void CRaceBoss::Stop_Sound(const string& strTag)
+{
+	m_pSoundCom->Stop(strTag);
 }
 
 _float CRaceBoss::Compute_PosZ()
@@ -479,6 +504,11 @@ HRESULT CRaceBoss::Ready_Components(void* pArg)
 		ColliderDesc.iColliderID++;
 	}
 
+	/* Com_Sound */
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Sound_BattleShip"),
+		TEXT("Com_Sound"), reinterpret_cast<CComponent**>(&m_pSoundCom))))
+		return E_FAIL;
+
 	return S_OK;
 }
 
@@ -520,24 +550,16 @@ HRESULT CRaceBoss::Fire_Bullet(CRaceBossBullet::RBULLETTYPE eType, MUZZLEPOS ePo
 	RaceBossBulletdesc.vScale = { 20.f, 20.f, 20.f };
 	RaceBossBulletdesc.vPosition = *m_pTransformCom->Get_State(CTransform::STATE_POSITION) + Calc_Muzzle_Position(ePos);
 
-	for (_uint i = 0; i < 4; i++)
-	{
-		if (m_iTextureID[i] == 8)
-			m_iTextureID[i] = 6;
-	}
-
-	if (m_iTextureID[4] == 8)
-		m_iTextureID[4] = 9;
-	
-	m_iTextureID[m_ePos - 62] = 8;
-
 	if (eType == CRaceBossBullet::HEAD)
 	{
 		//HEAD 총알은 플레이어를 향함
-		//auto pPlayer = GET_PLAYER;
 		RaceBossBulletdesc.vLook = CalcBulletLook(RaceBossBulletdesc.vPosition, RaceBossBulletdesc.fSpeedPerSec, fTimeDelta);
 		RaceBossBulletdesc.fMaxBulletSize = 20.f;
 		m_vBulletDiretion = RaceBossBulletdesc.vLook;
+
+		//총구가 총알을 발사하는 이미지로
+		if (!m_bPartDead[m_ePos - 62])
+			m_iTextureID[m_ePos - 62] = 8;
 	}
 
 	if (eType == CRaceBossBullet::TAIL)
@@ -545,6 +567,16 @@ HRESULT CRaceBoss::Fire_Bullet(CRaceBossBullet::RBULLETTYPE eType, MUZZLEPOS ePo
 		//TAIL 총알은 HEAD 총알을 향함
 		RaceBossBulletdesc.vLook = m_vBulletDiretion;
 		RaceBossBulletdesc.fMaxBulletSize = 10.f;
+
+		//총구의 이미지를 원래대로
+		if (m_ePos == MIDDLE)
+		{
+			if (!m_bPartDead[m_ePos - 62])
+				m_iTextureID[m_ePos - 62] = 9;
+		}
+			
+		else if (!m_bPartDead[m_ePos - 62])
+			m_iTextureID[m_ePos - 62] = 6;
 	}
 	
 	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_RaceBossBullet"),
@@ -556,8 +588,11 @@ HRESULT CRaceBoss::Fire_Bullet(CRaceBossBullet::RBULLETTYPE eType, MUZZLEPOS ePo
 
 void CRaceBoss::RestoreTextureID()
 {
-	m_iTextureID[m_ePos - 62] = 6;
-	m_iTextureID[4] = 9;
+	/*if (!m_bPartDead[m_ePos - 62] && m_iTextureID[m_ePos - 62] == 8)
+		m_iTextureID[m_ePos - 62] = 6;
+
+	if (!m_bPartDead[4] && m_iTextureID[4] == 8)
+		m_iTextureID[4] = 9;*/
 }
 
 HRESULT CRaceBoss::SpawnTargetAim(_float3 _vAimPosition)
@@ -934,7 +969,7 @@ void CRaceBoss::On_Hit(MUZZLEPOS HitPos, _int iDamage)
 	{
 		m_iMuzzleHp[iIndex] = 0;
 
-		if (iIndex == 9) // 몸통이다
+		if (iIndex == 4) // 몸통이다
 			;
 		else
 			m_iTextureID[iIndex] = 7; //부서진 이미지 번호
@@ -1015,6 +1050,7 @@ void CRaceBoss::Free()
 	Safe_Release(m_pTextureCom);
 	Safe_Release(m_pVIBufferCom);
 	Safe_Release(m_pTransformCom);
+	Safe_Release(m_pSoundCom);
 	Safe_Release(m_pPlayer);
 	Safe_Release(m_pSkull);
 
