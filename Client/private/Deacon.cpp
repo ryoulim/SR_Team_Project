@@ -116,8 +116,8 @@ void CDeacon::Late_Update(_float fTimeDelta)
 	Compute_ViewAngle();
 	Set_TextureType();
 
-	if (FAILED(m_pGameInstance->Add_RenderGroup(CRenderer::RG_BLEND, this)))
-		return;
+	//if (FAILED(m_pGameInstance->Add_RenderGroup(CRenderer::RG_BLEND, this)))
+	//	return;
 
 	//if (m_bSkullActive)
 		//m_pSkull->Late_Update(fTimeDelta);
@@ -125,6 +125,11 @@ void CDeacon::Late_Update(_float fTimeDelta)
 	if (false == m_bRotateAnimation)
 		m_iDegree = 0;
 	Resize_Texture(0.4f);
+
+	const _float3& vPos = *m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+
+	if (m_pGameInstance->IsInFrustum(vPos, m_pTransformCom->Get_Radius()))
+		m_pGameInstance->Add_RenderGroup(CRenderer::RG_BLEND, this);
 }
 
 HRESULT CDeacon::Render()

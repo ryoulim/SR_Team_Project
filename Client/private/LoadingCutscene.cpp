@@ -45,7 +45,6 @@ HRESULT CLoadingCutscene::Ready_Components(void* pArg)
 		TEXT("Com_Transform"), reinterpret_cast<CComponent**>(&m_pTransformCom), pArg)))
 		return E_FAIL;
 
-
 	if (pArg != nullptr)
 	{
 		DESC* pDesc = static_cast<DESC*>(pArg);

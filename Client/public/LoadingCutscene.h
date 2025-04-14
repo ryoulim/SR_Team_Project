@@ -41,6 +41,9 @@ protected:
 	_bool		m_isFadeInFinished{ false };
 	_float 		m_fFinished_WaitingTime{0.f};
 	_bool		m_isReadyToChangeLevel{ false };
+
+	CSoundController* m_pSoundCom{ nullptr };
+
 public:
 	static CLoadingCutscene* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
 	virtual CGameObject* Clone(void* pArg) override;

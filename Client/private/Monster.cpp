@@ -130,12 +130,16 @@ void CMonster::Late_Update(_float fTimeDelta)
 	Compute_ViewAngle();
 	Set_TextureType();
 
-	if (FAILED(m_pGameInstance->Add_RenderGroup(CRenderer::RG_BLEND, this)))
-		return;
+	//if (FAILED(m_pGameInstance->Add_RenderGroup(CRenderer::RG_BLEND, this)))
+	//	return;
 
 	if (m_bSkullActive)
 		m_pSkull->Late_Update(fTimeDelta);
 
+	const _float3& vPos = *m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+
+	if (m_pGameInstance->IsInFrustum(vPos, m_pTransformCom->Get_Radius()))
+		m_pGameInstance->Add_RenderGroup(CRenderer::RG_BLEND, this);
 	
 }
 
@@ -613,12 +617,12 @@ void CMonster::State_Change_IDLE(_float dt)
 void CMonster::State_Change_DETECTIVE(_float dt)
 {
 	m_fRaycastTicker += dt;
-	if (m_fRaycastTicker > 1.f)
+	if (m_fRaycastTicker > 0.5f)
 	{
 		if (IsMonsterAbleToAttack())
 		{
 			m_bFoundPlayer = true;
-			m_eState = MODE::MODE_READY;
+			m_eState = MODE::MODE_BATTLE;
 		}
 	}
 }
@@ -626,7 +630,7 @@ void CMonster::State_Change_DETECTIVE(_float dt)
 void CMonster::State_Change_READY(_float dt)
 {
 	m_fRaycastTicker += dt;
-	if (m_fRaycastTicker > 1.f)
+	if (m_fRaycastTicker > 0.5f)
 	{
 		if (!IsMonsterAbleToAttack())
 		{
@@ -648,7 +652,7 @@ void CMonster::State_Change_BATTLE(_float dt)
 		m_bCoolingDown = false;
 	}
 	m_fRaycastTicker += dt;
-	if (m_fRaycastTicker > 1.f)
+	if (m_fRaycastTicker > 0.5f)
 	{
 		if (false == IsMonsterAbleToAttack())
 		{

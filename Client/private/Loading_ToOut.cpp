@@ -54,6 +54,23 @@ HRESULT CLoading_ToOut::Initialize(void* pArg)
 	m_vSize.x *= g_iWinSizeY / m_vSize.y; m_vSize.y = g_iWinSizeY;
 	m_pTransformCom->Scaling(m_vSize);
 
+	/* For.Com_Sound */
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Sound_Loading_ToOut"),
+		TEXT("Com_Sound"), reinterpret_cast<CComponent**>(&m_pSoundCom))))
+		return E_FAIL;
+
+	m_pSoundCom->SetVolume("largecannon2", 0.5f);
+	m_pSoundCom->SetVolume("gunshell_01", 1.f);
+	m_pSoundCom->SetVolume("shot_004", 1.f);
+	m_pSoundCom->SetVolume("tile_run001", 1.f);
+	m_pSoundCom->SetVolume("tile_run002", 1.f);
+	m_pSoundCom->SetVolume("tile_run003", 1.f);
+
+
+
+	m_pSoundCom->Play("scream_crowd");
+	m_pSoundCom->Play("largecannon2");
+
 	return S_OK;
 }
 
@@ -193,6 +210,8 @@ void CLoading_ToOut::Set_CutPosition(_float fTimeDelta)
 			{
 				m_fWaitForNextCut = 0.f; // 다 기다렸으면 변수 초기화 후 
 				m_iCurCut = 1;			 // 다음 컷으로 이동	
+				m_pSoundCom->Play("shot_004");
+				m_pSoundCom->Play("gunshell_01");
 			}
 		}
 		break;
@@ -214,23 +233,34 @@ void CLoading_ToOut::Set_CutPosition(_float fTimeDelta)
 			{
 				m_fWaitForNextCut = 0.f; // 다 기다렸으면 변수 초기화 후 
 				m_iCurCut = 3;			 // 다음 컷으로 이동	
+				m_pSoundCom->Play("tile_run001");
 			}
 		}
 		break;
 	case 3:
 		m_fWaitForNextCut += fTimeDelta; // 다음 컷 재생 까지 조금 기다림
+		if (_int(m_fWaitForNextCut * 1000.f) == 500)
+			m_pSoundCom->Play("tile_run002");
+		if (_int(m_fWaitForNextCut * 1000.f) == 1000)
+			m_pSoundCom->Play("tile_run003");
 		if (m_fWaitForNextCut >= 1.5f)
 		{
 			m_fWaitForNextCut = 0.f; // 다 기다렸으면 변수 초기화 후 
 			m_iCurCut = 4;			 // 다음 컷으로 이동	
+			m_pSoundCom->Play("tile_run002");
 		}
 		break;
 	case 4:
 		m_fWaitForNextCut += fTimeDelta; // 다음 컷 재생 까지 조금 기다림
+		if (_int(m_fWaitForNextCut * 1000.f) == 500)
+			m_pSoundCom->Play("tile_run003");
+		if (_int(m_fWaitForNextCut * 1000.f) == 1000)
+			m_pSoundCom->Play("tile_run001");
 		if (m_fWaitForNextCut >= 1.5f)
 		{
 			m_fWaitForNextCut = 0.f; // 다 기다렸으면 변수 초기화 후 
-			m_iCurCut = 5;			 // 다음 컷으로 이동	
+			m_iCurCut = 5;			 // 다음 컷으로 이동
+			m_pSoundCom->Play("tile_run003");
 		}
 		break;
 	case 5:
