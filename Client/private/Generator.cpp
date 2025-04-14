@@ -202,35 +202,44 @@ HRESULT CGenerator::Im_Broken(_float fTimeDelta)
 {
     if(!m_bDoOnce)
     {
-        //SPAWN_CULTIST(1711.f, 740.f, 479.f, LEVEL_OUTDOOR);
-        //SPAWN_CULTIST(1709.f, 640.f, 235.f, LEVEL_OUTDOOR);
-        //SPAWN_CULTIST(1313.f, 670.f, -7.f, LEVEL_OUTDOOR);
-        //SPAWN_NUKEMUTANT(1709.f, 640.f, 235.f, LEVEL_OUTDOOR);
-        //SPAWN_NUKEMUTANT(1709.f, 640.f, 235.f, LEVEL_OUTDOOR);
-        //SPAWN_NUKEMUTANT(1709.f, 640.f, 235.f, LEVEL_OUTDOOR);
+        /* 맨 밑 언덕 쪽*/
+        SPAWN_CULTIST(52.f, 250.f, 57.f, LEVEL_OUTDOOR, true);
+        SPAWN_GREATER(133.f, 250.f, 52.f, LEVEL_OUTDOOR, true);
 
-        //SPAWN_SHOTGUNNER(1638.f, 770.f, -244.f, LEVEL_OUTDOOR);
-        //SPAWN_SHOTGUNNER(1472.f, 540.f, 309.f, LEVEL_OUTDOOR);
-        //SPAWN_SHOTGUNNER(1045.f, 440.f, 344.f, LEVEL_OUTDOOR);
+        /* 상자 뒤 쪽 */
+        SPAWN_GREATER(686.f, 170.f, 312.f, LEVEL_OUTDOOR, true);
 
-        //SPAWN_GREATER(1281.f, 730.f, -173.f, LEVEL_OUTDOOR);
-        //SPAWN_GREATER(1517.f, 530.f, 692.f, LEVEL_OUTDOOR);
-        //SPAWN_GREATER(1201.f, 430.f, 986.f, LEVEL_OUTDOOR);
-        //SPAWN_NUKEMUTANT(1201.f, 440.f, 986.f, LEVEL_OUTDOOR);
-        //SPAWN_NUKEMUTANT(1201.f, 440.f, 986.f, LEVEL_OUTDOOR);
-        //SPAWN_NUKEMUTANT(1201.f, 440.f, 986.f, LEVEL_OUTDOOR);
+        /* 계단 쪽 */
+        SPAWN_CULTIST(475.f, 150.f, 482.f, LEVEL_OUTDOOR, true);
+        SPAWN_CULTIST(525.f, 200.f, 841.f, LEVEL_OUTDOOR, true);
+        SPAWN_CULTIST(639.f, 200.f, 673.f, LEVEL_OUTDOOR, true);
 
-        //SPAWN_CULTIST(804.f, 430.f, 1217.f, LEVEL_OUTDOOR);
-        //SPAWN_SHOTGUNNER(743.f, 380.f, 1617.f, LEVEL_OUTDOOR);  
-        //SPAWN_GREATER(619.f, 200.f, 137.f, LEVEL_OUTDOOR);
-        //SPAWN_CULTIST(590.f, 380.f, 1677.f, LEVEL_OUTDOOR);
-        //SPAWN_SHOTGUNNER(426.f, 330.f, 1340.f, LEVEL_OUTDOOR);
-        //SPAWN_GREATER(190.f, 180.f, 352.f, LEVEL_OUTDOOR);
-        //SPAWN_CULTIST(599.f, 230.f, 757.f, LEVEL_OUTDOOR);
+        /* 계단 언덕 왼쪽 */
+        SPAWN_GREATER(808.f, 300.f, 476.f, LEVEL_OUTDOOR, true);
+        SPAWN_GREATER(825.f, 300.f, 943.f, LEVEL_OUTDOOR, true);
 
-        //SPAWN_NUKEMUTANT(804.f, 440.f, 1217.f, LEVEL_OUTDOOR);
-        //SPAWN_NUKEMUTANT(804.f, 440.f, 1217.f, LEVEL_OUTDOOR);
-        //SPAWN_NUKEMUTANT(804.f, 440.f, 1217.f, LEVEL_OUTDOOR);
+        /* 계단 언덕 오른쪽 */
+        SPAWN_GREATER(685.f, 300.f, 947.f, LEVEL_OUTDOOR, true);
+
+        SPAWN_CULTIST(1711.f, 740.f, 479.f, LEVEL_OUTDOOR, true);
+        SPAWN_CULTIST(1709.f, 640.f, 235.f, LEVEL_OUTDOOR, true);
+        SPAWN_CULTIST(1313.f, 670.f, -7.f, LEVEL_OUTDOOR, true);
+
+        SPAWN_SHOTGUNNER(1638.f, 770.f, -244.f, LEVEL_OUTDOOR, true);
+        SPAWN_SHOTGUNNER(1472.f, 540.f, 309.f, LEVEL_OUTDOOR, true);
+        SPAWN_SHOTGUNNER(1045.f, 440.f, 344.f, LEVEL_OUTDOOR, true);
+
+        SPAWN_GREATER(1281.f, 730.f, -173.f, LEVEL_OUTDOOR, true);
+        SPAWN_GREATER(1517.f, 530.f, 692.f, LEVEL_OUTDOOR, true);
+        SPAWN_GREATER(1201.f, 430.f, 986.f, LEVEL_OUTDOOR, true);
+
+        SPAWN_CULTIST(804.f, 430.f, 1217.f, LEVEL_OUTDOOR, true);
+        SPAWN_SHOTGUNNER(743.f, 380.f, 1617.f, LEVEL_OUTDOOR, true);  
+        SPAWN_GREATER(619.f, 200.f, 137.f, LEVEL_OUTDOOR, true);
+        SPAWN_CULTIST(590.f, 380.f, 1677.f, LEVEL_OUTDOOR, true);
+        SPAWN_SHOTGUNNER(426.f, 330.f, 1340.f, LEVEL_OUTDOOR, true);
+        SPAWN_GREATER(190.f, 180.f, 352.f, LEVEL_OUTDOOR, true);
+        SPAWN_CULTIST(599.f, 230.f, 757.f, LEVEL_OUTDOOR, true);
 
         m_bDoOnce = true;
     }

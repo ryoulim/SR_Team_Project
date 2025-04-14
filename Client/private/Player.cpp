@@ -1,15 +1,15 @@
-// ³» Å¬·¡½º ÀÌ¸§ : Player
-// ºÎ¸ğ Å¬·¡½º ÀÌ¸§ : Pawn
+ï»¿// ë‚´ í´ë˜ìŠ¤ ì´ë¦„ : Player
+// ë¶€ëª¨ í´ë˜ìŠ¤ ì´ë¦„ : Pawn
 
 #include "Player.h"
 #include "GameInstance.h"
 #include "CameraManager.h"
 #include "FXMgr.h"
 
-/* ¼¦°ÇÀ» Æ®¸®°Å·Î ¸ó½ºÅÍ »ı¼ºÇØÁÖ°í½Í¾î¼­ Çì´õ Ãß°¡ ÇØ³õ°Ú½À´Ï´Ù °¨»çÇÕ´Ï´Ù */
+/* ìƒ·ê±´ì„ íŠ¸ë¦¬ê±°ë¡œ ëª¬ìŠ¤í„° ìƒì„±í•´ì£¼ê³ ì‹¶ì–´ì„œ í—¤ë” ì¶”ê°€ í•´ë†“ê² ìŠµë‹ˆë‹¤ ê°ì‚¬í•©ë‹ˆë‹¤ */
 #include "Monster.h"
 
-// ¹«±âµé ÀÎÅ¬·çµå
+// ë¬´ê¸°ë“¤ ì¸í´ë£¨ë“œ
 //#include "Weapon_LoverBoy.h"
 #include "Weapon_Dispenser.h"
 #include "UI_Manager.h"
@@ -18,14 +18,14 @@
 
 #define DASH_TIME 0.25f
 #define JUST_DASH_TIME 0.15f
-//ÀÌ°Ô ±Ùµ¥ Å¸ÀÌ¸ÓÆÇÁ¤ ¸»°í ±× Äİ¶óÀÌ´õ ÆÇÁ¤µµ ÀÖ¾î¼­ ¾à°£ Æ¯Á¤»óÈ²¿¡¼­ ÈÄÇØÁö±äÇÔ
+//ì´ê²Œ ê·¼ë° íƒ€ì´ë¨¸íŒì • ë§ê³  ê·¸ ì½œë¼ì´ë” íŒì •ë„ ìˆì–´ì„œ ì•½ê°„ íŠ¹ì •ìƒí™©ì—ì„œ í›„í•´ì§€ê¸´í•¨
 #define DASH_SPEED 900.f
 #define DASH_DECAY 0.05f
 #define DASH_COOLTIME 0.7f
 
 #define DODGE_TIMESCALE 0.1f
 
-// ¹«Àû½Ã°£
+// ë¬´ì ì‹œê°„
 
 CPlayer::CPlayer(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CPawn{ pGraphic_Device }
@@ -117,13 +117,13 @@ EVENT CPlayer::Update(_float fTimeDelta)
 	if (KEY_DOWN(DIK_Z))
 	{
 		_float3 vPosition = *m_pTransformCom->Get_State(CTransform::STATE_POSITION);
-		printf("ÇÃ·¹ÀÌ¾î ÁÂÇ¥ : { %.2f, %.2f, %.2f }\n", vPosition.x, vPosition.y, vPosition.z);
+		printf("í”Œë ˆì´ì–´ ì¢Œí‘œ : { %.2f, %.2f, %.2f }\n", vPosition.x, vPosition.y, vPosition.z);
 	}
 #endif
 
 	//fTimeDelta = m_pGameInstance->Get_TimeDelta(TEXT("Timer_60"));
 
-	// ÇÇ°İ ÈÄ ¹«Àû½Ã°£ °è»ê
+	// í”¼ê²© í›„ ë¬´ì ì‹œê°„ ê³„ì‚°
 	if (m_bMoveLeftHand)
 	{
 		if (m_pLeftHand->Move(fTimeDelta))
@@ -229,9 +229,9 @@ void CPlayer::On_Collision(_uint MyColliderID, _uint OtherColliderID)
 			Change_Level();
 		break;
 
-		/* ¾ÆÀÌÅÛ */
+		/* ì•„ì´í…œ */
 	case CI_ITEM_CHAINGUN:
-		/* Á» ±×·¸±ä ÇÏ³× */
+		/* ì¢€ ê·¸ë ‡ê¸´ í•˜ë„¤ */
 		m_iMaxWeaponIndex = 2;
 		UIMGR->Add_Weapon();
 		PRINT_DIALOG("picked up Chaingun");
@@ -245,28 +245,32 @@ void CPlayer::On_Collision(_uint MyColliderID, _uint OtherColliderID)
 		PRINT_DIALOG("picked up Dispenser");
 		m_pSoundCom->Play("Weapon");
 
-		/* ¸ó½ºÅÍ ¼ÒÈ¯ Á» ÇÏ°Ú½À´Ï´Ù,, */
+		/* ëª¬ìŠ¤í„° ì†Œí™˜ ì¢€ í•˜ê² ìŠµë‹ˆë‹¤,, */
 		if (m_eLevelID == LEVEL_INDOOR)
 		{
-			/* ¾ÓÂù°Ö °¢ÀÚ ÀÚ¸®¿¡ */
+			/* ì•™ì°¬ê²” ê°ì ìë¦¬ì— */
 			SPAWN_ARCHANGEL_ALT(611.f, 100.f, 690.f, LEVEL_INDOOR, false);
 			SPAWN_ARCHANGEL_ALT(1950.f, 100.f, 650.f, LEVEL_INDOOR, false);
 			SPAWN_ARCHANGEL_ALT(1780.f, 100.f, 1400.f, LEVEL_INDOOR, false);
 
-			/* Ã¹ ±¤Àå Á»ºñ */
+			/* ë‘ë²ˆì§¸ ê´‘ì¥ ì¢€ë¹„ */
+			SPAWN_NUKEMUTANT_ALT(2114.f, 50.f, 545.f, LEVEL_INDOOR);
+			SPAWN_NUKEMUTANT_ALT(1961.f, 50.f, 427.f, LEVEL_INDOOR);
+			SPAWN_NUKEMUTANT_ALT(2180.f, 50.f, 600.f, LEVEL_INDOOR);
+
+			/* ì²«ë²ˆì§¸ ê´‘ì¥ ì¢€ë¹„ */
 			SPAWN_NUKEMUTANT_ALT(600.f, 50.f, 591.f, LEVEL_INDOOR);
 			SPAWN_NUKEMUTANT_ALT(500.f, 50.f, 511.f, LEVEL_INDOOR);
 			SPAWN_NUKEMUTANT_ALT(500.f, 50.f, 591.f, LEVEL_INDOOR);
 
-			/* Åë·ÎÂÊ ¾ç ¿· */
-			SPAWN_SHOTGUNNER_ALT(1128.f, 50.f, 705.f, LEVEL_INDOOR, true);
-			SPAWN_SHOTGUNNER_ALT(1128.f, 50.f, 340.f, LEVEL_INDOOR, true);
-
-			/* µÎ¹ø¤Š ±¤Àå ±âµÕ µÚ¶û ±¸¼® */
-			SPAWN_SHOTGUNNER_ALT(1540.f, 50.f, 350.f, LEVEL_INDOOR, true);
-			SPAWN_SHOTGUNNER_ALT(2080.f, 50.f, 515.f, LEVEL_INDOOR, true);
-			SPAWN_SHOTGUNNER_ALT(1876.f, 50.f, 579.f, LEVEL_INDOOR, true);
-			SPAWN_SHOTGUNNER_ALT(2190.f, 50.f, 369.f, LEVEL_INDOOR, true);
+			/* ê¸°ë‘¥ ë’¤ ì‚¬ë‚´ */
+			SPAWN_SHOTGUNNER_ALT(2012.f, 50.f, 464.f, LEVEL_INDOOR, true);
+			SPAWN_SHOTGUNNER_ALT(1874.f, 50.f, 464.f, LEVEL_INDOOR, true);
+							 
+			/* ì¶œêµ¬ ìª½ ëŒ€ê¸° */
+			SPAWN_SHOTGUNNER_ALT(1765.f, 50.f, 1050.f, LEVEL_INDOOR, true);
+			SPAWN_SHOTGUNNER_ALT(1776.f, 50.f, 1100.f, LEVEL_INDOOR, true);
+			SPAWN_SHOTGUNNER_ALT(1718.f, 50.f, 1050.f, LEVEL_INDOOR, true);
 		}
 
 		break;
@@ -326,7 +330,7 @@ void CPlayer::On_Collision(_uint MyColliderID, _uint OtherColliderID)
 		m_pSoundCom->Play("CardKey");
 		break;
 	
-		/* ÀÎÅÍ·º¼Ç */
+		/* ì¸í„°ë ‰ì…˜ */
 	case CI_INTERACTIVE_LAVA:
 		On_Hit(5);
 		break;
@@ -337,11 +341,11 @@ void CPlayer::On_Collision(_uint MyColliderID, _uint OtherColliderID)
 		break;
 
 	case CI_INTERACTIVE_SECURITY:
-		// Ä«µåÅ° UI¸¦ È°¼ºÈ­ ½ÃÅ²´Ù.
-		// ¸¸¾à EÅ°¸¦ ´­·¶´Ù¸é
-		// 1. ¼ÕÀÌ ¿Ã¶ó¿È
-		// 2. ÀÌÈÄ¿¡ ¹®ÀÌ ¿­¸² << ±Ùµ¥ ÀÌ°Å µÎ °³´Ù ¿ÀºêÁ§Æ®ÂÊ¿¡¼­ ÇÏ¸é µÇ´Â°Å ¾Æ´Ï³Ä?
-		/* °³Ãß ¤»¤»¤» */
+		// ì¹´ë“œí‚¤ UIë¥¼ í™œì„±í™” ì‹œí‚¨ë‹¤.
+		// ë§Œì•½ Eí‚¤ë¥¼ ëˆŒë €ë‹¤ë©´
+		// 1. ì†ì´ ì˜¬ë¼ì˜´
+		// 2. ì´í›„ì— ë¬¸ì´ ì—´ë¦¼ << ê·¼ë° ì´ê±° ë‘ ê°œë‹¤ ì˜¤ë¸Œì íŠ¸ìª½ì—ì„œ í•˜ë©´ ë˜ëŠ”ê±° ì•„ë‹ˆëƒ?
+		/* ê°œì¶” ã…‹ã…‹ã…‹ */
 		break;
 
 	case CI_INTERACTIVE_DOOR:
@@ -358,7 +362,7 @@ void CPlayer::On_Collision(_uint MyColliderID, _uint OtherColliderID)
 		m_pCameraTransform->Set_State(CTransform::STATE_POSITION, vPos2);
 		break;
 	}
-		/* ¸ó½ºÅÍ Åõ»çÃ¼*/
+		/* ëª¬ìŠ¤í„° íˆ¬ì‚¬ì²´*/
 	case CI_MONSTER_SHOTGUNNER:
 		On_Hit(3);
 		break;
@@ -377,7 +381,7 @@ void CPlayer::On_Collision(_uint MyColliderID, _uint OtherColliderID)
 	case CI_MONSTER_ARCHANGEL:
 		On_Hit(10);
 
-		/* ¸ó½ºÅÍ ¸ö¹Ú*/
+		/* ëª¬ìŠ¤í„° ëª¸ë°•*/
 		break;
 	case CI_MONSTER_MECHSECT:
 		On_Hit(10);
@@ -386,7 +390,7 @@ void CPlayer::On_Collision(_uint MyColliderID, _uint OtherColliderID)
 		On_Hit(10);
 		break;
 
-		/*º¸½º ½ºÅ³*/
+		/*ë³´ìŠ¤ ìŠ¤í‚¬*/
 	case CI_BOSS_FIRE:
 		On_Hit(10);
 		break;
@@ -464,7 +468,7 @@ void CPlayer::Add_Weapons()
 	CUI_Manager::Get_Instance()->Change_Weapon(m_Weapons[m_iCurWeaponIndex]->Get_Info(), m_iCurWeaponIndex);
 	CUI_Manager::Get_Instance()->Init_Weapons(&m_Weapons);
 
-	//////// ¹«±â Åº¾à Á¤º¸µé
+	//////// ë¬´ê¸° íƒ„ì•½ ì •ë³´ë“¤
 	m_Weapons[0]->Get_Info(); // Loverboy
 	m_Weapons[1]->Get_Info(); // ChainGun
 	static_cast<CWeapon_Dispenser*>(m_Weapons[2])->Get_Shell_Info(); // Dispensor_Shell
@@ -475,7 +479,7 @@ void CPlayer::Key_Input(_float fTimeDelta)
 {
 	_bool bTriger{};
 
-	// ÀÌµ¿°ü·Ã
+	// ì´ë™ê´€ë ¨
 	_float3 vMoveDir{};
 	if (KEY_PRESSING(DIK_W))
 	{
@@ -525,7 +529,7 @@ void CPlayer::Key_Input(_float fTimeDelta)
 		}
 	}
 
-	// Á¡ÇÁ
+	// ì í”„
 	if (KEY_DOWN(DIK_SPACE) &&
 		!m_pGravityCom->isJump())
 	{
@@ -543,19 +547,19 @@ void CPlayer::Key_Input(_float fTimeDelta)
 			break;
 		}
 	}
-	// ´ë½¬
+	// ëŒ€ì‰¬
 	if (KEY_DOWN(DIK_LSHIFT)			&&
 		!m_bDash						&&
 		m_fDashTimer < -DASH_COOLTIME	&&
 		bTriger)
 	{
-		// ÀÌÆåÆ® »ı¼º
+		// ì´í™íŠ¸ ìƒì„±
 		FX_MGR->PlayerDash(m_eLevelID);
 
-		// ´ë½¬ ½ºÇÇµå ¼³Á¤
+		// ëŒ€ì‰¬ ìŠ¤í”¼ë“œ ì„¤ì •
 		m_pTransformCom->Set_SpeedPerSec(DASH_SPEED);
 
-		// ÀÌµ¿¹æÇâ ÆÇº°
+		// ì´ë™ë°©í–¥ íŒë³„
 		if (m_pGravityCom->isJump())
 			vMoveDir.y = 0.f;
 		vMoveDir.y = max(vMoveDir.y, 0.f);
@@ -564,7 +568,7 @@ void CPlayer::Key_Input(_float fTimeDelta)
 		
 		m_pSoundCom->Play("fastwhoosh");
 		m_pSoundCom->Play("Dash");
-		// FOV °ü·Ã
+		// FOV ê´€ë ¨
 		//_float fTargetFov{};
 		//if (0 <= m_pTransformCom->Get_State(CTransform::STATE_LOOK)->Dot(m_vDashDirection))
 		//	fTargetFov = RADIAN(50.f);
@@ -572,10 +576,10 @@ void CPlayer::Key_Input(_float fTimeDelta)
 		//	fTargetFov = RADIAN(70.f);
 		//m_pCameraManager->Zoom(fTargetFov, DASH_TIME * 0.5f);
 
-		// Àú½ºÆ® È¸ÇÇ Äİ¶óÀÌ´õ
+		// ì €ìŠ¤íŠ¸ íšŒí”¼ ì½œë¼ì´ë”
 		m_pPrePosCollider->Update_Collider();
 
-		// ´ë½¬ ÃÊ±âÈ­
+		// ëŒ€ì‰¬ ì´ˆê¸°í™”
 		m_bDash = TRUE;
 		m_fDashTimer = 0.f;
 	}
@@ -584,16 +588,16 @@ void CPlayer::Key_Input(_float fTimeDelta)
 		!m_bDash && ! m_pGravityCom->isJump() &&
 		m_fDashTimer < -DASH_COOLTIME)
 	{
-		// ÀÌÆåÆ® »ı¼º
+		// ì´í™íŠ¸ ìƒì„±
 		FX_MGR->PlayerDash(m_eLevelID);
 
-		// ÀÌµ¿¹æÇâ ÆÇº°
+		// ì´ë™ë°©í–¥ íŒë³„
 		m_pGravityCom->Jump(60.f);
 		//m_vDashDirection = {0.f,1.f,0.f};
 
-		// Àú½ºÆ® È¸ÇÇ Äİ¶óÀÌ´õ
+		// ì €ìŠ¤íŠ¸ íšŒí”¼ ì½œë¼ì´ë”
 		m_pPrePosCollider->Update_Collider();
-		// ´ë½¬ ÃÊ±âÈ­
+		// ëŒ€ì‰¬ ì´ˆê¸°í™”
 		m_bDash = TRUE;
 		m_fDashTimer = 0.f;
 
@@ -618,7 +622,7 @@ void CPlayer::Key_Input(_float fTimeDelta)
 
 	_int iMouseWheelZ = m_pGameInstance->Get_DIMMoveState(DIMM_WHEEL);
 
-	// ¹«±â ±³Ã¼
+	// ë¬´ê¸° êµì²´
 	if (iMouseWheelZ > 0)
 	{
 		m_iCurWeaponIndex--;
@@ -644,14 +648,14 @@ void CPlayer::Key_Input(_float fTimeDelta)
 
 void CPlayer::Init_Camera_Link()
 {
-	//Ä«¸Ş¶ó ¸Å´ÏÀú °¡Á®¿È
+	//ì¹´ë©”ë¼ ë§¤ë‹ˆì € ê°€ì ¸ì˜´
 	m_pCameraManager = CAMERA_MANAGER;
 	Safe_AddRef(m_pCameraManager);
 
-	// FPS Ä«¸Å¶ó •û¿È
+	// FPS ì¹´ë§¤ë¼ ëº´ì˜´
 	auto FPS_Camera = m_pCameraManager->Get_Camera(CCameraManager::FPS);
 
-	// FPS Ä«¸Ş¶óÀÇ Æ®·£½ºÆû Á¤º¸¸¦ ¹Ş¾ÆµÒ
+	// FPS ì¹´ë©”ë¼ì˜ íŠ¸ëœìŠ¤í¼ ì •ë³´ë¥¼ ë°›ì•„ë‘ 
 	m_pCameraTransform = static_cast<CTransform*>(FPS_Camera->Find_Component(TEXT("Com_Transform")));
 	Safe_AddRef(m_pCameraTransform);
 }
@@ -692,11 +696,11 @@ void CPlayer::Update_Dash(_float fTimeDelta)
 		}
 
 		m_fJustDodgeTimer += fTimeDelta * (1.f / DODGE_TIMESCALE);
-		m_pTransformCom->Move(m_vDashDirection * 210.f * fTimeDelta); // »ó¼ı°ª : Àú½ºÆ® È¸ÇÇ½ÃÀÇ ÀÌµ¿ ¼Óµµ
+		m_pTransformCom->Move(m_vDashDirection * 210.f * fTimeDelta); // ìƒìˆ«ê°’ : ì €ìŠ¤íŠ¸ íšŒí”¼ì‹œì˜ ì´ë™ ì†ë„
 		return;
 	}
 
-	// ´ë½¬ ³¡³µ´ÂÁö ÆÇ´Ü
+	// ëŒ€ì‰¬ ëë‚¬ëŠ”ì§€ íŒë‹¨
 	m_fDashTimer += fTimeDelta;
 
 	if (m_fDashTimer > DASH_TIME)
@@ -730,24 +734,24 @@ void CPlayer::Ladder(_float fTimeDelta)
 
 void CPlayer::On_Just_Dodge()
 {
-	// 1 = È¸ÇÇÁß
-	// 0 = È¸ÇÇÁß ¾Æ´Ô
-	// -1 = È¸ÇÇ ³¡³µÀ½(Àç ÁøÀÔ ¹æÁö)
+	// 1 = íšŒí”¼ì¤‘
+	// 0 = íšŒí”¼ì¤‘ ì•„ë‹˜
+	// -1 = íšŒí”¼ ëë‚¬ìŒ(ì¬ ì§„ì… ë°©ì§€)
 	if (m_byJustDodgeFlag)
 		return;
 
 	m_pSoundCom->Play("Dodge");
-	// Àú½ºÆ® È¸ÇÇ
+	// ì €ìŠ¤íŠ¸ íšŒí”¼
 	m_byJustDodgeFlag = 1;
 	m_fJustDodgeTimer = 0.f;
 	m_pGameInstance->Set_TimeScale(TEXT("Timer_60"), DODGE_TIMESCALE);
 	CUI_Manager::Get_Instance()->Set_Face(CPortrait::PORTRAIT_HYPER);
 	/*
-	* ±â¿ïÀÌ´Â ¹æÇâ ÆÇÁ¤
-	¾Õ	Look°ú ³»Àû +
-	µÚ	Look°ú ³»Àû -
-	¿ì	Right°ú ³»Àû +
-	ÁÂ	Right°ú ³»Àû -
+	* ê¸°ìš¸ì´ëŠ” ë°©í–¥ íŒì •
+	ì•	Lookê³¼ ë‚´ì  +
+	ë’¤	Lookê³¼ ë‚´ì  -
+	ìš°	Rightê³¼ ë‚´ì  +
+	ì¢Œ	Rightê³¼ ë‚´ì  -
 	*/
 
 	const _float3& vCameraLook = m_pCameraTransform->Get_State(CTransform::STATE_LOOK)->Normalize();
@@ -756,14 +760,14 @@ void CPlayer::On_Just_Dodge()
 	_float fFwdDot = m_vDashDirection.Dot(vCameraLook);
 	_float fRightDot = m_vDashDirection.Dot(vCameraRight);
 
-	// ¿ì¼±¼øÀ§·Î ºĞ±â
+	// ìš°ì„ ìˆœìœ„ë¡œ ë¶„ê¸°
 	if (fabs(fFwdDot) > fabs(fRightDot))
 	{
 		m_fTiltAngle = 0.f;
 		if (fFwdDot > 0.f)
-			m_pCameraManager->Zoom(RADIAN(50.f), 0.5f * DODGE_TIMESCALE); // ¾Õ È¸ÇÇ = È®´ë
+			m_pCameraManager->Zoom(RADIAN(50.f), 0.5f * DODGE_TIMESCALE); // ì• íšŒí”¼ = í™•ëŒ€
 		else
-			m_pCameraManager->Zoom(RADIAN(70.f), 0.5f * DODGE_TIMESCALE); // µÚ È¸ÇÇ = Ãà¼Ò
+			m_pCameraManager->Zoom(RADIAN(70.f), 0.5f * DODGE_TIMESCALE); // ë’¤ íšŒí”¼ = ì¶•ì†Œ
 	}
 	else
 	{
@@ -798,7 +802,7 @@ void CPlayer::On_Hit(_int iDamage)
 	vLook.y = 0.f;
 	vLook.Normalize();
 
-	// °¢µµ ±¸ÇÏ±â
+	// ê°ë„ êµ¬í•˜ê¸°
 	_float fRadian = atan2f(vLook.x * vCollisionDepth.z - vLook.z * vCollisionDepth.x,
 		vLook.x * vCollisionDepth.x + vLook.z * vCollisionDepth.z);
 
@@ -824,10 +828,10 @@ void CPlayer::On_Hit(_int iDamage)
 
 	if (m_tInfo.iArmor <= 0)
 	{
-		// À½¼ö´Ï±î ´õÇØÁà¾ß°ÚÁö
+		// ìŒìˆ˜ë‹ˆê¹Œ ë”í•´ì¤˜ì•¼ê² ì§€
 		m_tInfo.iHP += m_tInfo.iArmor;
 		m_tInfo.iArmor = 0;
-		//ÇÃ·¹ÀÌ¾î´Â ¾ÈÁ×´Â´Ù
+		//í”Œë ˆì´ì–´ëŠ” ì•ˆì£½ëŠ”ë‹¤
 	}
 
 	m_bOnHit = TRUE;
@@ -883,7 +887,7 @@ CPlayer::CLeftHand::CLeftHand(LPDIRECT3DDEVICE9 pGraphic_Device)
 
 HRESULT CPlayer::CLeftHand::Initialize(void* pArg)
 {
-	// ¿©±â¼­ ÄÄÆ÷³ÍÆ® °®°í¿À±â 
+	// ì—¬ê¸°ì„œ ì»´í¬ë„ŒíŠ¸ ê°–ê³ ì˜¤ê¸° 
 	m_pTextureCom = dynamic_cast<CTexture*>(m_pGameInstance->Clone_Prototype(PROTOTYPE::TYPE_COMPONENT,
 		LEVEL_STATIC, TEXT("Prototype_Component_Texture_LeftHandCard")));
 	if (nullptr == m_pTextureCom)
@@ -910,10 +914,10 @@ HRESULT CPlayer::CLeftHand::Initialize(void* pArg)
 
 _bool CPlayer::CLeftHand::Move(_float fTimeDelta)
 {
-	/* ¹«ºêÇØ¶ó¸¦ ÇÃ·¹ÀÌ¾î°¡ ½ÃÄÑÁÖ´Ï±î Æú½º¸¦ ¿©±â¼­ ¸øÇØÁØ´Ù.*/
-	/* fTimeAccµµ ÃÊ±âÈ­¸¦ ¸ø½ÃÄÑÁÜ */
+	/* ë¬´ë¸Œí•´ë¼ë¥¼ í”Œë ˆì´ì–´ê°€ ì‹œì¼œì£¼ë‹ˆê¹Œ í´ìŠ¤ë¥¼ ì—¬ê¸°ì„œ ëª»í•´ì¤€ë‹¤.*/
+	/* fTimeAccë„ ì´ˆê¸°í™”ë¥¼ ëª»ì‹œì¼œì¤Œ */
 
-	/* byState == 0 ¿Ã¶ó°¡±â, 1 ¸ØÃçÀÖ±â, 2 ³»·Á°¡±â */
+	/* byState == 0 ì˜¬ë¼ê°€ê¸°, 1 ë©ˆì¶°ìˆê¸°, 2 ë‚´ë ¤ê°€ê¸° */
 
 	if(m_byState == 0)
 	{

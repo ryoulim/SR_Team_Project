@@ -504,23 +504,23 @@ HRESULT CLevel_UnderGround::Ready_Layer_Monster(const _wstring& strLayerTag)
 	float maxZ = 5000.f;
 
 
-	///* [ 스마트하게 배치 ] */
-	//for (int i = 0; i < 80; ++i)
-	//{
-	//	float x = GetRandomFloat(minX, maxX);
-	//	float z = GetRandomFloat(minZ, maxZ);
-	//	float y = 75.f;
-	//
-	//	// 몬스터 종류 랜덤 선택 (예시: 0~2)
-	//	int monsterType = rand() % 3;
-	//
-	//	switch (monsterType)
-	//	{
-	//	case 0: SPAWN_MECHSECT(x, y, z, LEVEL_UNDERGROUND); break;
-	//	case 1: SPAWN_WENTEKO(x, y, z, LEVEL_UNDERGROUND); break;
-	//	case 2: SPAWN_NUKEMUTANT(x, y, z, LEVEL_UNDERGROUND); break;
-	//	}
-	//}
+	/* [ 스마트하게 배치 ] */
+	for (int i = 0; i < 80; ++i)
+	{
+		float x = GetRandomFloat(minX, maxX);
+		float z = GetRandomFloat(minZ, maxZ);
+		float y = 75.f;
+	
+		// 몬스터 종류 랜덤 선택 (예시: 0~2)
+		int monsterType = rand() % 3;
+	
+		switch (monsterType)
+		{
+		case 0: SPAWN_MECHSECT(x, y, z, LEVEL_UNDERGROUND, true); break;
+		case 1: SPAWN_WENTEKO(x, y, z, LEVEL_UNDERGROUND, true); break;
+		case 2: SPAWN_NUKEMUTANT(x, y, z, LEVEL_UNDERGROUND, true); break;
+		}
+	}
 
 	return S_OK;
 }

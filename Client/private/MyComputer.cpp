@@ -54,34 +54,16 @@ EVENT CMyComputer::Update(_float fTimeDelta)
 			{
 				if (!m_bDoOnce)
 				{
-					/* 두번째 광장 좀비 */
-					SPAWN_NUKEMUTANT_EX(2114.f, 50.f, 545.f, LEVEL_INDOOR);
-					SPAWN_NUKEMUTANT_EX(1961.f, 50.f, 427.f, LEVEL_INDOOR);
-					SPAWN_NUKEMUTANT_EX(2180.f, 50.f, 600.f, LEVEL_INDOOR);
-					SPAWN_NUKEMUTANT_EX(2147.f, 50.f, 550.f, LEVEL_INDOOR);
-					SPAWN_NUKEMUTANT_EX(1585.f, 50.f, 766.f, LEVEL_INDOOR);
-					SPAWN_NUKEMUTANT_EX(1585.f, 50.f, 953.f, LEVEL_INDOOR);
+					/* 두번쨰 광장 기둥 뒤랑 구석 */
+					SPAWN_SHOTGUNNER_EX(1876.f, 50.f, 579.f, LEVEL_INDOOR, true);
+					SPAWN_SHOTGUNNER_EX(2190.f, 50.f, 369.f, LEVEL_INDOOR, true);
 
-					/* 첫번째 광장 좀비 */
-					SPAWN_NUKEMUTANT_EX(717.f, 50.f, 511.f, LEVEL_INDOOR);
-					SPAWN_NUKEMUTANT_EX(600.f, 50.f, 591.f, LEVEL_INDOOR);
-					SPAWN_NUKEMUTANT_EX(700.f, 50.f, 671.f, LEVEL_INDOOR);
-					SPAWN_NUKEMUTANT_EX(500.f, 50.f, 511.f, LEVEL_INDOOR);
-					SPAWN_NUKEMUTANT_EX(500.f, 50.f, 591.f, LEVEL_INDOOR);
+					/* 통로쪽 양 옆 */
+					SPAWN_SHOTGUNNER_EX(1188.f, 50.f, 705.f, LEVEL_INDOOR, true);
+					SPAWN_SHOTGUNNER_EX(1188.f, 50.f, 340.f, LEVEL_INDOOR, true);
 
-					/* 기둥 뒤 사내 */
-					SPAWN_SHOTGUNNER_EX(2012.f, 50.f, 464.f, LEVEL_INDOOR, true);
-					SPAWN_SHOTGUNNER_EX(1874.f, 50.f, 464.f, LEVEL_INDOOR, true);
-
-					/* 출구 쪽 대기 */
-					SPAWN_SHOTGUNNER_EX(1765.f, 50.f, 950.f, LEVEL_INDOOR, true);
-					SPAWN_SHOTGUNNER_EX(1776.f, 50.f, 900.f, LEVEL_INDOOR, true);
-					SPAWN_SHOTGUNNER_EX(1718.f, 50.f, 950.f, LEVEL_INDOOR, true);
-
-					/* 통로 왼쪽 */
-					SPAWN_SHOTGUNNER_EX(1294.f, 50.f, 351.f, LEVEL_INDOOR, true);
-					SPAWN_SHOTGUNNER_EX(1229.f, 50.f, 351.f, LEVEL_INDOOR, true);
-					SPAWN_SHOTGUNNER_EX(1150.f, 50.f, 351.f, LEVEL_INDOOR, true);
+					/* 첫번째 광장 */
+					SPAWN_SHOTGUNNER_EX(250.f, 50.f, 900.f, LEVEL_INDOOR, true);
 
 					/* 시작점 쪽 대기 */
 					SPAWN_SHOTGUNNER_EX(412.f, 50.f, 377.f, LEVEL_INDOOR, true);
