@@ -558,6 +558,7 @@ void CLevel_Indoor::Check_Collision()
 	/*MBULLET*/
 	m_pGameInstance->Intersect(CG_MBULLET, CG_PAWN);
 	m_pGameInstance->Intersect(CG_MBULLET, CG_BLOCK);
+	m_pGameInstance->Intersect(CG_MBULLET, CG_INTERACTIVE);
 
 	/*MONSTER*/
 	m_pGameInstance->Intersect(CG_MONSTER, CG_BLOCK);

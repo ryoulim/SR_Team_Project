@@ -257,7 +257,7 @@ Shotgunner_iDesc.vReturnPos = Pos;							\
 if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC,	\
 TEXT("Prototype_GameObject_Shotgunner"),					\
 level, L"Layer_Monster", &Shotgunner_iDesc)))				\
-return;}											\
+return;}													\
 
 #define SPAWN_NUKEMUTANT_ALT(x,y,z, level)					\
 {CMonster::DESC Nukemutant_iDesc{};							\
@@ -274,7 +274,7 @@ Nukemutant_iDesc.vReturnPos = Pos;							\
 if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC,	\
 TEXT("Prototype_GameObject_Nukemutant"),					\
 level, L"Layer_Monster", &Nukemutant_iDesc)))				\
-return;}											\
+return;}													\
 
 #define SPAWN_ARCHANGEL_ALT(x,y,z, level, Standby)			\
 {CMonster::DESC Archangel_iDesc{};							\
@@ -291,6 +291,6 @@ Archangel_iDesc.vReturnPos = Pos;							\
 if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC,	\
 TEXT("Prototype_GameObject_Archangel"),						\
 level, L"Layer_Monster", &Archangel_iDesc)))				\
-return;}												\
+return;}													\
 
 #pragma endregion
