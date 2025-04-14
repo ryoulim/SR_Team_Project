@@ -101,7 +101,7 @@ HRESULT CWeaponUI::Render()
 	case 0:
 		m_fTextureNum = 0;
 		m_pTransformCom->Set_State(CTransform::STATE_POSITION, m_vSelectPos);
-		m_pTextureCom->Get_TextureSize(m_fTextureNum, &m_vSize);
+		m_pTextureCom->Get_TextureSize((_uint)m_fTextureNum, &m_vSize);
 		m_pTransformCom->Scaling(m_vSize * m_fSizeMul);
 		Render_WeaponUI();
 		CUI_Manager::Get_Instance()->Render_Text(tmp[m_iCurWeaponIndex]->Get_Info()->iCurAmmo, CFont::BIGORANGE, CFont::CENTER, m_vSelectPos.x + 40.f, m_vSelectPos.y - 15.f, 0.4f * m_fSizeMul);
@@ -109,7 +109,7 @@ HRESULT CWeaponUI::Render()
 	case 1:
 		m_fTextureNum = _float(m_iCurWeaponIndex);
 		m_pTransformCom->Set_State(CTransform::STATE_POSITION, m_vSelectPos);
-		m_pTextureCom->Get_TextureSize(m_fTextureNum, &m_vSize);
+		m_pTextureCom->Get_TextureSize((_uint)m_fTextureNum, &m_vSize);
 		m_pTransformCom->Scaling(m_vSize * m_fSizeMul);
 		Render_WeaponUI();
 		CUI_Manager::Get_Instance()->Render_Text(tmp[m_iCurWeaponIndex]->Get_Info()->iCurAmmo, CFont::BIGORANGE, CFont::CENTER, m_vSelectPos.x + 40.f, m_vSelectPos.y - 15.f, 0.4f * m_fSizeMul);
@@ -118,7 +118,7 @@ HRESULT CWeaponUI::Render()
 		if (m_fTextureNum > _float(m_iMaxWeaponIndex))
 			m_fTextureNum = 0;
 		m_pTransformCom->Set_State(CTransform::STATE_POSITION, m_vSecondPos);
-		m_pTextureCom->Get_TextureSize(m_fTextureNum, &m_vSize);
+		m_pTextureCom->Get_TextureSize((_uint)m_fTextureNum, &m_vSize);
 		m_pTransformCom->Scaling(m_vSize * 0.8f * m_fSizeMul);
 		Render_WeaponUI();
 		CUI_Manager::Get_Instance()->Render_Text(tmp[_uint(m_fTextureNum)]->Get_Info()->iCurAmmo, CFont::BIGORANGE, CFont::CENTER, m_vSecondPos.x + 20.f, m_vSecondPos.y - 10.f, 0.4f * m_fSizeMul);
@@ -126,16 +126,16 @@ HRESULT CWeaponUI::Render()
 	case 2:
 		m_fTextureNum = _float(m_iCurWeaponIndex);
 		m_pTransformCom->Set_State(CTransform::STATE_POSITION, m_vSelectPos);
-		m_pTextureCom->Get_TextureSize(m_fTextureNum, &m_vSize);
+		m_pTextureCom->Get_TextureSize((_uint)m_fTextureNum, &m_vSize);
 		m_pTransformCom->Scaling(m_vSize * m_fSizeMul);
 		Render_WeaponUI();
 		CUI_Manager::Get_Instance()->Render_Text(tmp[m_iCurWeaponIndex]->Get_Info()->iCurAmmo, CFont::BIGORANGE, CFont::CENTER, m_vSelectPos.x + 40.f, m_vSelectPos.y - 15.f, 0.4f * m_fSizeMul);
 
 		m_fTextureNum = _float(m_iCurWeaponIndex + 1);
-		if (m_fTextureNum > _float(m_iMaxWeaponIndex))
+		if (m_fTextureNum > _float((_uint)m_iMaxWeaponIndex))
 			m_fTextureNum = 0;
 		m_pTransformCom->Set_State(CTransform::STATE_POSITION, m_vSecondPos);
-		m_pTextureCom->Get_TextureSize(m_fTextureNum, &m_vSize);
+		m_pTextureCom->Get_TextureSize((_uint)m_fTextureNum, &m_vSize);
 		m_pTransformCom->Scaling(m_vSize * 0.8f * m_fSizeMul);
 		Render_WeaponUI();
 		CUI_Manager::Get_Instance()->Render_Text(tmp[_uint(m_fTextureNum)]->Get_Info()->iCurAmmo, CFont::BIGORANGE, CFont::CENTER, m_vSecondPos.x + 20.f, m_vSecondPos.y - 10.f, 0.4f * m_fSizeMul);
@@ -144,7 +144,7 @@ HRESULT CWeaponUI::Render()
 		if (m_fTextureNum < 0)
 			m_fTextureNum = _float(m_iMaxWeaponIndex);
 		m_pTransformCom->Set_State(CTransform::STATE_POSITION, m_vThirdPos);
-		m_pTextureCom->Get_TextureSize(m_fTextureNum, &m_vSize);
+		m_pTextureCom->Get_TextureSize((_uint)m_fTextureNum, &m_vSize);
 		m_pTransformCom->Scaling(m_vSize * 0.8f * m_fSizeMul);
 		Render_WeaponUI();
 		CUI_Manager::Get_Instance()->Render_Text(tmp[_uint(m_fTextureNum)]->Get_Info()->iCurAmmo, CFont::BIGORANGE, CFont::CENTER, m_vThirdPos.x + 20.f, m_vThirdPos.y - 10.f, 0.4f * m_fSizeMul);

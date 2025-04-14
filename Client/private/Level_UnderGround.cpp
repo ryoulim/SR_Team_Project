@@ -11,6 +11,7 @@
 #include "Monster.h"
 #include "Level_Loading.h"
 #include "Item.h"
+#include "PSystem.h"
 
 #define CurLevel LEVEL_UNDERGROUND
 
@@ -21,6 +22,18 @@ CLevel_UnderGround::CLevel_UnderGround(LPDIRECT3DDEVICE9 pGraphic_Device)
 
 HRESULT CLevel_UnderGround::Initialize(CLevelData* pLevelData)
 {
+	///* [ 남은 파티클 다 꺼버리자 ] */
+	//auto Particles = CGameInstance::Get_Instance()->Find_Objects(LEVEL_RACEFIRST, L"Layer_Particle");
+	//if (Particles)
+	//{
+	//	for (auto& Particle : *Particles)
+	//	{
+	//		static_cast<CPSystem*>(Particle)->SetDead();
+	//	}
+	//}
+
+
+
 	m_pGameInstance->Release_Layer(LEVEL_STATIC, TEXT("Layer_RaceBoss"));
 	m_pGameInstance->Release_Layer(LEVEL_STATIC, TEXT("Layer_RaceBossBullet"));
 

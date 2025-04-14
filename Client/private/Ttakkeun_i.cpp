@@ -69,6 +69,20 @@ HRESULT CTtakkeun_i::Initialize(void* pArg)
 
 	m_pTransformCom->Turn_Immediately({ 0.f, 1.f, 0.f }, RADIAN(180));
 	m_vReturnPos.y = 77.f;
+
+	/* [ 볼륨 컨트롤 ] */
+	m_pSoundCom->SetVolume("explosion", 0.5f);
+	m_pSoundCom->SetVolume("Dead", 1.5f);
+	m_pSoundCom->SetVolume("Walk", 0.2f);
+	m_pSoundCom->SetVolume("GuidMissile2", 0.7f);
+	m_pSoundCom->SetVolume("Spawn", 0.3f);
+	m_pSoundCom->SetVolume("FireAttack", 0.4f);
+	m_pSoundCom->SetVolume("Bounce", 0.4f);
+	m_pSoundCom->SetVolume("JumpAttack", 0.4f);
+	m_pSoundCom->SetVolume("JumpAttack2", 0.4f);
+	m_pSoundCom->SetVolume("Fly", 0.5f);
+	m_pSoundCom->SetVolume("Missile", 0.5f);
+
 	return S_OK;
 }
 
@@ -100,14 +114,12 @@ EVENT CTtakkeun_i::Update(_float fTimeDelta)
 
 		if (m_fCallTimer >= 0.2f)
 		{
-			m_pSoundCom->SetVolume("explosion", 0.5f);
 			m_pSoundCom->Play("explosion");
 			FX_MGR->SpawnCustomExplosion(vPos, LEVEL_GAMEPLAY, _float3{ 60.f, 100.f, 1.f }, TEXT("Effect_Explorer"), 24);
 			m_fCallTimer = 0.f;
 		}
 		if (m_fTotalTime >= 3.f)
 		{
-			m_pSoundCom->SetVolume("Dead", 1.5f);
 			m_pSoundCom->Play("Dead");
 			_float3 vImpactPos = *m_pTransformCom->Get_State(CTransform::STATE_POSITION);
 			FX_MGR->SpawnCustomExplosion(vImpactPos, LEVEL_GAMEPLAY, _float3{ 200.f, 250.f, 1.f }, TEXT("Effect_Explor"), 32);
@@ -496,7 +508,6 @@ void CTtakkeun_i::DoIdle(_float dt)
 		
 		if(!m_pSoundCom->IsPlaying("Walk"))
 		{
-			m_pSoundCom->SetVolume("Walk",0.2f);
 			m_pSoundCom->Play("Walk");
 		}
 		m_pTransformCom->Go_Straight(dt);
@@ -524,7 +535,6 @@ void CTtakkeun_i::DoIdle(_float dt)
 	{
 		if (!m_pSoundCom->IsPlaying("Walk"))
 		{
-			m_pSoundCom->SetVolume("Walk", 0.2f);
 			m_pSoundCom->Play("Walk");
 		}
 		m_eCurMonsterState = STATE_WALK;
@@ -677,7 +687,6 @@ void CTtakkeun_i::MissileAttack(_float dt)
 	//미사일 발사
 	if (!m_bDoOnce)
 	{
-		m_pSoundCom->SetVolume("GuidMissile2", 0.7f);
 		m_pSoundCom->Play("GuidMissile2");
 		SpawnGuidMissile();
 		m_bDoOnce = true;
@@ -727,7 +736,6 @@ void CTtakkeun_i::SpawnAttack(_float dt)
 	//다콘 소환
 	if (!m_bDoOnce)
 	{
-		m_pSoundCom->SetVolume("Spawn", 0.3f);
 		m_pSoundCom->Play("Spawn");
 
 		for (int i = 0; i < 4; i++)
@@ -758,7 +766,6 @@ void CTtakkeun_i::FireAttack(_float dt)
 
 	if (!m_pSoundCom->IsPlaying("Walk"))
 	{
-		m_pSoundCom->SetVolume("Walk", 0.2f);
 		m_pSoundCom->Play("Walk");
 	}
 
@@ -783,7 +790,6 @@ void CTtakkeun_i::FireAttack(_float dt)
 	FX_MGR->FireAttack(vFirePos, LEVEL_GAMEPLAY, m_iNum);
 	if (!m_pSoundCom->IsPlaying("FireAttack"))
 	{
-		m_pSoundCom->SetVolume("FireAttack", 0.4f);
 		m_pSoundCom->Play("FireAttack");
 	}
 
@@ -825,7 +831,6 @@ void CTtakkeun_i::BounceBall(_float dt)
 {
 	if (!m_pSoundCom->IsPlaying("Bounce"))
 	{
-		m_pSoundCom->SetVolume("Bounce", 0.2f);
 		m_pSoundCom->Play("Bounce");
 	}
 
@@ -893,7 +898,6 @@ void CTtakkeun_i::JumpAttack(_float dt)
 		{
 			if (!m_pSoundCom->IsPlaying("JumpAttack"))
 			{
-				m_pSoundCom->SetVolume("JumpAttack", 0.2f);
 				m_pSoundCom->Play("JumpAttack");
 			}
 			//고개를 돌린다.
@@ -925,7 +929,6 @@ void CTtakkeun_i::JumpAttack(_float dt)
 		}
 		else
 		{
-			m_pSoundCom->SetVolume("JumpAttack2", 0.4f);
 			m_pSoundCom->Play("JumpAttack2");
 
 			//이펙트 생성 && 카메라 쉐이킹
@@ -983,7 +986,6 @@ void CTtakkeun_i::FlyAttack(_float dt)
 	{
 		if (!m_pSoundCom->IsPlaying("Fly"))
 		{
-			m_pSoundCom->SetVolume("Fly", 0.4f);
 			m_pSoundCom->Play("Fly");
 		}
 		isFly = m_pTransformCom->Go_UpCustom(dt, 100.f, 250.f);
@@ -1092,7 +1094,6 @@ void CTtakkeun_i::SpawnMissile(_float dt)
 
 	if (m_fSpawnMissile >= 0.2f)
 	{
-		m_pSoundCom->SetVolume("Missile", 0.4f);
 		m_pSoundCom->Play("Missile");
 
 		// 0.2초마다 발사
@@ -1269,7 +1270,6 @@ void CTtakkeun_i::CutSceneAction(_float dt)
 		}
 		else
 		{
-			m_pSoundCom->SetVolume("JumpAttack", 0.5f);
 			m_pSoundCom->Play("JumpAttack");
 
 			//이펙트 생성 && 카메라 쉐이킹

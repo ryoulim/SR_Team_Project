@@ -43,6 +43,8 @@ HRESULT CLevel_RaceThird::Initialize(CLevelData* pLevelData)
 	if (!m_pBGM->IsPlaying())
 		m_pBGM->Play();
 
+	/* 남아있던 파티클 다 제거하고 시작하기 */
+	m_pGameInstance->Release_Layer(LEVEL_STATIC, TEXT("Layer_Particle"));
 	return S_OK;
 }
 
@@ -52,6 +54,14 @@ void CLevel_RaceThird::Update(_float fTimeDelta)
 
 	if (m_iNextLevel)
 	{
+		if (m_iNextLevel == LEVEL_UNDERGROUND)
+		{
+			m_pGameInstance->Release_Layer(LEVEL_STATIC, TEXT("Layer_RaceBoss"));
+			m_pGameInstance->Release_Layer(LEVEL_STATIC, TEXT("Layer_RaceBossBullet"));
+
+			static_cast<CPawn*>(GET_PLAYER)->Set_Active(FALSE);
+		}
+
 		m_pGameInstance->Change_Level(LEVEL_LOADING,
 			CLevel_Loading::Create(m_pGraphic_Device, (LEVEL)m_iNextLevel));
 	}
