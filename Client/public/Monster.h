@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include "Client_Defines.h"
 #include "GameInstance.h"
 #include "GameObject.h"
@@ -36,6 +36,7 @@ public:
 		bool		vActive = false;
 		_float		fDetectiveDistance;
 		_float		fAttackDistance;
+		_bool       bStandby = false;
 	}DESC;
 
 protected:
@@ -47,7 +48,7 @@ protected:
 	virtual HRESULT Initialize_Prototype() override;
 	virtual HRESULT Initialize(void* pArg) override;
 	virtual void Priority_Update(_float fTimeDelta) override;
-public: //»óÅÂº¯È¯	
+public: //ìƒíƒœë³€í™˜	
 	virtual EVENT Update(_float fTimeDelta) override;
 	virtual void Late_Update(_float fTimeDelta) override;
 	void		Render_Skull(_bool bOn);
@@ -64,11 +65,11 @@ protected:
 	virtual HRESULT Ready_Components(void* pArg);
 
 
-public: // °Ù¼ÂÀ» ³²¿ëÇÏ´Â ÇàÀ§
+public: // ê²Ÿì…‹ì„ ë‚¨ìš©í•˜ëŠ” í–‰ìœ„
 	_int* Get_HP() { return &m_iHP; }
 	_int Get_MaxHP() { return m_iMaxHP; }
 
-protected: // ±æÃ£±â ¹× µğÅØÆ¼ºê
+protected: // ê¸¸ì°¾ê¸° ë° ë””í…í‹°ë¸Œ
 	virtual void PlayerDistance();
 	virtual void CalculateVectorToPlayer();
 	virtual bool IsPlayerDetected();
@@ -76,10 +77,10 @@ protected: // ±æÃ£±â ¹× µğÅØÆ¼ºê
 	const char* GetMonsterStateName(CMonster::MODE eState);
 	virtual _bool Raycast_Player();
 
-protected: //»óÅÂº¯È¯
+protected: //ìƒíƒœë³€í™˜
 	virtual void MonsterTick(_float fTimeDelta);
 
-protected: //¾×¼Ç
+protected: //ì•¡ì…˜
 	virtual void DoIdle(_float dt);
 	virtual void DoBattle(_float dt);
 	virtual void DoReturn(_float dt);
@@ -87,18 +88,18 @@ protected: //¾×¼Ç
 	virtual void DoDead(_float dt);
 	virtual void SetRandomDirection();
 
-protected: //¸ó½ºÅÍ ±âº»ÆĞÅÏ
+protected: //ëª¬ìŠ¤í„° ê¸°ë³¸íŒ¨í„´
 	virtual void AttackPattern(_float dt);
 	virtual void ChasePlayer(_float dt);
 
-protected: // Ãæµ¹ÇÔ¼ö
+protected: // ì¶©ëŒí•¨ìˆ˜
 	virtual _float3		CalculateEffectPos();
 	virtual void		On_Collision(_uint MyColliderID, _uint OtherColliderID) override;
 
-public: // µğ¹ö±ë
+public: // ë””ë²„ê¹…
 	void	ToggleDebugMode() { m_bDebug = !m_bDebug; }
 
-protected: // ³­¼ö »ı¼º
+protected: // ë‚œìˆ˜ ìƒì„±
 	float GetRandomFloat(float min, float max)
 	{
 		if (min > max) std::swap(min, max);
@@ -108,7 +109,7 @@ protected: // ³­¼ö »ı¼º
 	int GetRandomInt(int min, int max)
 	{
 		if (min > max) std::swap(min, max);
-		std::uniform_int_distribution<int> dist(min, max); // min ÀÌ»ó max ÀÌÇÏ Á¤¼ö
+		std::uniform_int_distribution<int> dist(min, max); // min ì´ìƒ max ì´í•˜ ì •ìˆ˜
 		return dist(m_Gen);
 	}
 
@@ -116,43 +117,43 @@ protected:
 	virtual CGameObject* Clone(void* pArg) PURE;
 	virtual void Free();
 
-#pragma region ¾Ö´Ï¸ŞÀÌ¼Ç
+#pragma region ì• ë‹ˆë©”ì´ì…˜
 
 
 	/************************/
-protected: // ÀÌÇÏ ¾Ö´Ï¸ŞÀÌ¼Ç ¿ëµµ 
-	virtual HRESULT Ready_Textures() { return S_OK; }	// PURE | ÅØ½ºÃÄ ÄÄÆ÷³ÍÆ®µé ·Îµù, *ºÎ¸ğ¿¡ ÀÏ¹İ¸÷ ¿ëµµ·Î ÀÛ¼ºÇÏ°í º¸½º¸¸ ¿À¹ö¶óÀÌµù ÇÏ±â?
-	virtual HRESULT Set_Animation() { return S_OK; }	// PURE | °¢ ¸ó½ºÅÍ º°·Î »óÅÂ¿¡ µû¶ó ¾Ö´Ï¸ŞÀÌ¼Ç ¸Æ½º ÇÁ·¹ÀÓ ¼³Á¤ ÇÊ¿ä 
-	virtual HRESULT Animate_Monster(_float fTimeDelta);	// PURE | ¾Ö´Ï¸ŞÀÌ¼Ç ¼³Á¤ (À§ÀÇ ÇÔ¼ö¶û °ãÄ¡³ª??)
-	HRESULT Set_TextureType();					// enumÀ» uintº¯¼ö·Î ¿Å±â´Â ÀÛ¾÷(±×³É ÇÔ¼ö·Î »­)
-	void	Compute_ViewAngle();						// ¸ó½ºÅÍ-ÇÃ·¹ÀÌ¾î °£ ½Ã¼± °¢µµ Â÷ °è»ê
+protected: // ì´í•˜ ì• ë‹ˆë©”ì´ì…˜ ìš©ë„ 
+	virtual HRESULT Ready_Textures() { return S_OK; }	// PURE | í…ìŠ¤ì³ ì»´í¬ë„ŒíŠ¸ë“¤ ë¡œë”©, *ë¶€ëª¨ì— ì¼ë°˜ëª¹ ìš©ë„ë¡œ ì‘ì„±í•˜ê³  ë³´ìŠ¤ë§Œ ì˜¤ë²„ë¼ì´ë”© í•˜ê¸°?
+	virtual HRESULT Set_Animation() { return S_OK; }	// PURE | ê° ëª¬ìŠ¤í„° ë³„ë¡œ ìƒíƒœì— ë”°ë¼ ì• ë‹ˆë©”ì´ì…˜ ë§¥ìŠ¤ í”„ë ˆì„ ì„¤ì • í•„ìš” 
+	virtual HRESULT Animate_Monster(_float fTimeDelta);	// PURE | ì• ë‹ˆë©”ì´ì…˜ ì„¤ì • (ìœ„ì˜ í•¨ìˆ˜ë‘ ê²¹ì¹˜ë‚˜??)
+	HRESULT Set_TextureType();					// enumì„ uintë³€ìˆ˜ë¡œ ì˜®ê¸°ëŠ” ì‘ì—…(ê·¸ëƒ¥ í•¨ìˆ˜ë¡œ ëºŒ)
+	void	Compute_ViewAngle();						// ëª¬ìŠ¤í„°-í”Œë ˆì´ì–´ ê°„ ì‹œì„  ê°ë„ ì°¨ ê³„ì‚°
 	void	Resize_Texture(_float fSizePercent);
 
 protected:
-	_uint	m_iState = {};					// ¾Ö´Ï¸ŞÀÌ¼Ç Á¾·ù ¼±ÅÃ(°ø°İ, ÀÌµ¿ ...)
-	_uint	m_iDegree = {};					// ¾Ö´Ï¸ŞÀÌ¼Ç ½Ã¼± °¢ ¼±ÅÃ
-	_float	m_fPlayersViewAngle = {};		// ½Ã¼± °¢
+	_uint	m_iState = {};					// ì• ë‹ˆë©”ì´ì…˜ ì¢…ë¥˜ ì„ íƒ(ê³µê²©, ì´ë™ ...)
+	_uint	m_iDegree = {};					// ì• ë‹ˆë©”ì´ì…˜ ì‹œì„  ê° ì„ íƒ
+	_float	m_fPlayersViewAngle = {};		// ì‹œì„  ê°
 	_bool	m_bCW = { true };					// Clockwise?
-	_float	m_fDivOffset = { 45.f };			// ¸î µµ·Î ÂÉ°³Á® ÀÖ´Â ÀÌ¹ÌÁöÀÎÁö (º¸½º: 22.5µµ, ÀÏ¹İ(±âº»): 45µµ) 
-	_bool	m_isReadyMonster = { false };	// ÅØ½ºÃÄ ÁØºñ ÇÒ ¶§ ±îÁö ±âº» ·»´õ¸µÀ¸·Î µ¹¸®·Á°í 
-	_float	m_fDeadBodyCounter = {};		// ½ÃÃ¼ ³²¾ÆÀÖ´Â ½Ã°£ 
+	_float	m_fDivOffset = { 45.f };			// ëª‡ ë„ë¡œ ìª¼ê°œì ¸ ìˆëŠ” ì´ë¯¸ì§€ì¸ì§€ (ë³´ìŠ¤: 22.5ë„, ì¼ë°˜(ê¸°ë³¸): 45ë„) 
+	_bool	m_isReadyMonster = { false };	// í…ìŠ¤ì³ ì¤€ë¹„ í•  ë•Œ ê¹Œì§€ ê¸°ë³¸ ë Œë”ë§ìœ¼ë¡œ ëŒë¦¬ë ¤ê³  
+	_float	m_fDeadBodyCounter = {};		// ì‹œì²´ ë‚¨ì•„ìˆëŠ” ì‹œê°„ 
 
-	typedef _uint STATE;					// ÅØ½ºÃÄ ÄÄÆ÷³ÍÆ® (ÇØÄ¡Áö¾Ê¾Æ¿ä)
+	typedef _uint STATE;					// í…ìŠ¤ì³ ì»´í¬ë„ŒíŠ¸ (í•´ì¹˜ì§€ì•Šì•„ìš”)
 	typedef _uint VIEWDEGREE;
 	typedef unordered_map<VIEWDEGREE, CTexture*> TEXTURE_DEGREE;
-	unordered_map<STATE, TEXTURE_DEGREE> m_pTextureMap;		// 1Key: Á¾·ù , 2key: °¢µµ, value: CTexture
-	/************************/									// ÀÌÈÄ m_pTextureMap[m_iState][m_iDegree]->Bind_ResourceÈ£Ãâ ½Ã
-																// ¸Å°³º¯¼ö·Î m_fAnimationFrame Àü´Ş
+	unordered_map<STATE, TEXTURE_DEGREE> m_pTextureMap;		// 1Key: ì¢…ë¥˜ , 2key: ê°ë„, value: CTexture
+	/************************/									// ì´í›„ m_pTextureMap[m_iState][m_iDegree]->Bind_Resourceí˜¸ì¶œ ì‹œ
+																// ë§¤ê°œë³€ìˆ˜ë¡œ m_fAnimationFrame ì „ë‹¬
 
 #pragma endregion
 
 
-protected: //±âº»Á¤º¸
+protected: //ê¸°ë³¸ì •ë³´
 	LEVEL				m_eLevelID = { LEVEL_END };
-	const _tchar* m_szTextureID = { nullptr };  // Á÷Á¢ ÀÔ·ÂÇÒÁöµµ..
+	const _tchar* m_szTextureID = { nullptr };  // ì§ì ‘ ì…ë ¥í• ì§€ë„..
 	const _tchar* m_szBufferType = { nullptr };
 
-protected: //ÄÄÆ÷³ÍÆ®
+protected: //ì»´í¬ë„ŒíŠ¸
 	CTexture* m_pTextureCom = { nullptr };
 	CVIBuffer* m_pVIBufferCom = { nullptr };
 	CTransform* m_pTransformCom = { nullptr };
@@ -160,11 +161,11 @@ protected: //ÄÄÆ÷³ÍÆ®
 	CShader* m_pShaderCom = { nullptr };
 	CSoundController* m_pSoundCom{ nullptr };
 
-protected: //Ãæµ¹	
+protected: //ì¶©ëŒ	
 	CCollider* m_pCollider = { nullptr };
 	CCollider* m_pHeadCollider = { nullptr };
 
-protected: //¼Ó¼º
+protected: //ì†ì„±
 	_int	m_iNum = 0;
 	_int	m_iHP = 100;
 	_int	m_iMaxHP = 100;
@@ -177,18 +178,18 @@ protected: //¼Ó¼º
 
 	EIdlePhase	m_eIdlePhase = EIdlePhase::IDLE_WAIT;
 
-protected: //µğ¹ö±ë
+protected: //ë””ë²„ê¹…
 	steady_clock::time_point g_LastLogTime = steady_clock::now();
 
-protected: //ºÎ¼Ó¼º
+protected: //ë¶€ì†ì„±
 	vector<string>	m_vDropItems = {};
 	string			m_strDialogue = "Grrrr...";
 	string			m_strSound = "SoundFilePath";
 
-protected: //ÇÃ·¹ÀÌ¾î
+protected: //í”Œë ˆì´ì–´
 	CGameObject* m_pTargetPlayer = nullptr;
 
-protected: //µğÅØÆ¼ºê
+protected: //ë””í…í‹°ë¸Œ
 	_float3			m_vDirection = { 0.f, 0.f, -1.f };
 	_float3			m_vToPlayer = { 0.f, 0.f, 0.f };
 	_float			m_fCurDistance = 0;
@@ -198,29 +199,29 @@ protected: //µğÅØÆ¼ºê
 	_float			m_fAttackDistance = 0;
 
 
-protected: // ·£´ı ³­¼ö »ı¼ºº¯¼ö
+protected: // ëœë¤ ë‚œìˆ˜ ìƒì„±ë³€ìˆ˜
 	random_device m_Rd;
 	mt19937 m_Gen{ std::random_device{}() };
 	uniform_real_distribution<float> m_Dist;
 
-protected: // ¾Ö´Ï¸ŞÀÌ¼Ç
+protected: // ì• ë‹ˆë©”ì´ì…˜
 	_float	m_fAnimationFrame = 0;
 	_float	m_fAnimationMaxFrame = 0;
 	_float	m_fAnimationSpeed = 0;
 
 protected:
-	// ¹èÈ¸ ÀÌµ¿ °ü·Ã
+	// ë°°íšŒ ì´ë™ ê´€ë ¨
 	_float  m_fShaderTime = 0.f;
 	_float  m_fWanderTime = 0.f;
 	_float  m_fWanderElapsed = 0.f;
 	_float3 m_vReturnPos = { 0.f, 0.f, 0.f };
 
-	// ¸ØÃã °ü·Ã
+	// ë©ˆì¶¤ ê´€ë ¨
 	_float  m_fIdleWaitTime = 3.0f;
 	_float  m_fIdleWaitElapsed = 0.f;
 	_bool	m_bRotateAnimation = true;
 
-	// °ø°İ Äğ´Ù¿î
+	// ê³µê²© ì¿¨ë‹¤ìš´
 	_bool	m_bCoolingDown = false;
 	_float	m_fCooldownTime = 0.f;
 	_float	m_fCooldownDuration = 0.f;
@@ -228,14 +229,15 @@ protected:
 	_int	m_iRandom = 0;
 
 
-protected: // ÀÛµ¿º¯¼ö
+protected: // ì‘ë™ë³€ìˆ˜
 	_bool			m_bDead = false;
 	_bool			m_bActive = false;
+	_bool           m_bStandby = false;
 
-protected: // µğ¹ö±ë
+protected: // ë””ë²„ê¹…
 	_bool			m_bDebug = false;
 
-protected: // ÀÏ¹İ ¸ó½ºÅÍ Çàµ¿ ¿ë º¯¼ö
+protected: // ì¼ë°˜ ëª¬ìŠ¤í„° í–‰ë™ ìš© ë³€ìˆ˜
 	_bool			m_bFoundPlayer = { false };
 	_bool			m_isReadyToAttack = { false };
 	_float			m_fRaycastTicker = {};
@@ -246,17 +248,17 @@ protected: // ÀÏ¹İ ¸ó½ºÅÍ Çàµ¿ ¿ë º¯¼ö
 	_float4         m_vFogColor = { 1.f, 1.f, 1.f, 1.f };
 	_float4			m_vFlashColor = { 0.486f, 0.584f, 0.918f , 1.f };
 
-protected: // ¸ó½ºÅÍ ÇØ°ñ ¶ç¿ì±â¿ë
+protected: // ëª¬ìŠ¤í„° í•´ê³¨ ë„ìš°ê¸°ìš©
 	_bool		m_bSkullActive{};
 	class CSkull* m_pSkull{ nullptr };
 	_float3		m_vSkullOffset{};
 
-protected: // ÀÏ¹İ ¸ó½ºÅÍ¿ë Ãæµ¹ ÇÔ¼ö
+protected: // ì¼ë°˜ ëª¬ìŠ¤í„°ìš© ì¶©ëŒ í•¨ìˆ˜
 	void	On_Collision_NormalMonster(_uint MyColliderID, _uint OtherColliderID);
 	void	Collision_With_Weapon();
 	void	Collision_With_Block();
 
-protected: // ÀÏ¹İ ¸ó½ºÅÍ¿ë ÇÔ¼öµé
+protected: // ì¼ë°˜ ëª¬ìŠ¤í„°ìš© í•¨ìˆ˜ë“¤
 	virtual _bool IsMonsterAbleToAttack();
 	virtual void Debug_Output();
 	virtual void State_Change_IDLE(_float dt);
@@ -265,7 +267,7 @@ protected: // ÀÏ¹İ ¸ó½ºÅÍ¿ë ÇÔ¼öµé
 	virtual void State_Change_BATTLE(_float dt);
 
 protected:
-	_uint	m_iHeadMultiplier = 1;	// Çìµå¼¦ ¿©ºÎ
+	_uint	m_iHeadMultiplier = 1;	// í—¤ë“œìƒ· ì—¬ë¶€
 };
 
 END
