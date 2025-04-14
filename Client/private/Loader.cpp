@@ -97,6 +97,7 @@
 #include "Loading_ToOut.h"
 #include "Loading_ToRace.h"
 #include "Loading_ToUnderground.h"
+#include "Loading_Ending.h"
 
 //맵 인클루드
 #include "Block.h"
@@ -307,9 +308,9 @@ HRESULT CLoader::Loding_For_Static()
 	ADD_TEXTURE(Loading_ToOut, "../Bin/Resources/Textures/UI/LoadingCutscene/ToOut/%d.PNG", 7);
 	ADD_TEXTURE(Loading_ToRace, "../Bin/Resources/Textures/UI/LoadingCutscene/ToRace/%d.PNG", 2);
 	ADD_TEXTURE(Loading_ToUnderground, "../Bin/Resources/Textures/UI/LoadingCutscene/ToUnderground/%d.PNG", 1);
+	ADD_TEXTURE(Loading_Ending, "../Bin/Resources/Textures/UI/LoadingCutscene/Ending/%d.PNG", 9);
 	ADD_TEXTURE(RaceAim, "../Bin/Resources/Textures/Aim/RaceAim.PNG", 1);
 	ADD_TEXTURE(Damage_Indicator, "../Bin/Resources/Textures/Player/Damage_Indicator/Damage_Indicator.PNG", 1);
-
 #pragma endregion
 	
 #pragma region PLAYER
@@ -345,6 +346,7 @@ HRESULT CLoader::Loding_For_Static()
 	ADD_PRTOBJ(Loading_ToOut);
 	ADD_PRTOBJ(Loading_ToRace);
 	ADD_PRTOBJ(Loading_ToUnderground);
+	ADD_PRTOBJ(Loading_Ending);
 #pragma endregion
 
 #pragma region PLAYER

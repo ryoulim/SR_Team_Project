@@ -54,6 +54,7 @@ HRESULT CLevel_Indoor::Initialize(CLevelData* pLevelData)
 
 void CLevel_Indoor::Update(_float fTimeDelta)
 {
+	FX_MGR->Update(fTimeDelta);
 	Check_Collision();
 
 	if (m_iNextLevel)

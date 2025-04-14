@@ -138,3 +138,4 @@ void CLoadingCutscene::Free()
 {
 	__super::Free();
 }
+

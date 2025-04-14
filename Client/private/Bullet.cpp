@@ -71,7 +71,8 @@ EVENT CBullet::Update(_float fTimeDelta)
 
 void CBullet::Late_Update(_float fTimeDelta)
 {
-	m_pCollider->Update_Collider();
+	if (m_pCollider)
+		m_pCollider->Update_Collider();
 }
 
 HRESULT CBullet::Render()

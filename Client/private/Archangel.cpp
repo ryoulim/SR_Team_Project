@@ -93,34 +93,6 @@ EVENT CArchangel::Update(_float fTimeDelta)
 
 void CArchangel::Late_Update(_float fTimeDelta)
 {
-	////플레이어 감지 업데이트
-	//PlayerDistance();
-	//CalculateVectorToPlayer();
-
-	////콜라이더 업데이트
-	//m_pCollider->Update_Collider();
-	//if (m_pHeadCollider != nullptr)
-	//	m_pHeadCollider->Update_Collider();
-
-	////그래비티 업데이트
-	//if (m_bGravity)
-	//	m_pGravityCom->Update(fTimeDelta);
-
-	////몬스터 각도업데이트
-	//Compute_ViewAngle();
-	//Set_TextureType();
-
-	////렌더그룹 업데이트
-	//if (FAILED(m_pGameInstance->Add_RenderGroup(CRenderer::RG_BLEND, this)))
-	//	return;
-
-	//if (m_bRotateAnimation == false)
-	//	m_iDegree = 0;
-	//Resize_Texture(0.7f);
-
-	//if (m_bSkullActive)
-	//	m_pSkull->Late_Update(fTimeDelta);
-
 	_float3	vTemp = *m_pTransformCom->Get_State(CTransform::STATE_POSITION);
 	CGameObject::Compute_ViewZ(&vTemp);
 
@@ -158,23 +130,15 @@ void CArchangel::Late_Update(_float fTimeDelta)
 	if (m_bSkullActive)
 		m_pSkull->Late_Update(fTimeDelta);
 
-
-
-	//__super::Late_Update(fTimeDelta);
-
 	if (false == m_bRotateAnimation)
 		m_iDegree = 0;
 	Resize_Texture(0.7f);
-
 }
 
 HRESULT CArchangel::Render()
 {
 	if (m_bDebug)
 		Render_DebugFOV();
-
-	//if (!m_bRotateAnimation)
-	//	m_iDegree = 0;
 
 	if (FAILED(m_pTextureMap[m_iState][m_iDegree]->Bind_Resource(static_cast<_uint>(m_fAnimationFrame))))
 		return E_FAIL;
@@ -286,8 +250,9 @@ void CArchangel::DoReady(_float dt)
 	m_eCurMonsterState = STATE_STAY;
 	if (m_fCooldownDuration >= m_fCooldownTime)
 	{
+		m_bFirstBullet = true;
 		m_isReadyToAttack = true;
-		rand() % 10 > 7 ? m_eAttackPattern = ATTACK_FLY1 : m_eAttackPattern = ATTACK_FIRE1;
+		rand() % 10 > 5 ? m_eAttackPattern = ATTACK_FLY1 : m_eAttackPattern = ATTACK_FIRE1;
 		if (m_eAttackPattern == ATTACK_FLY1) m_eCurMonsterState = STATE_FLY;
 		if (m_eAttackPattern == ATTACK_FIRE1) m_eCurMonsterState = STATE_ATTACK;
 		m_fBulletCooldownElapsed = 0.4f;
@@ -457,6 +422,15 @@ void CArchangel::FirePattern(_float dt)
 			MonsterNormalBullet_iDesc.vPosition.y += 45.f;
 			MonsterNormalBullet_iDesc.szTextureID = TEXT("BlueFire");
 			MonsterNormalBullet_iDesc.bBlueFire = true;
+			if (m_bFirstBullet)
+			{
+				MonsterNormalBullet_iDesc.bCollision = true;
+				m_bFirstBullet = false;
+			}
+			else
+				MonsterNormalBullet_iDesc.bCollision = false;
+
+
 
 			if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_MonsterNormalBullet"),
 				m_eLevelID, L"Layer_MonsterBullet", &MonsterNormalBullet_iDesc)))

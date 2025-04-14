@@ -200,6 +200,9 @@ void CPawn::Change_Level()
 	case LEVEL_UNDERGROUND:
 		eNextLevelID = LEVEL_GAMEPLAY;
 		break;
+	case LEVEL_GAMEPLAY:
+		eNextLevelID = LEVEL_END;
+		break;
 	default:
 		break;
 	}

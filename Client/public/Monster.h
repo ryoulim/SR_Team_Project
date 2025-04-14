@@ -187,6 +187,7 @@ protected: //부속성
 
 protected: //플레이어
 	CGameObject* m_pTargetPlayer = nullptr;
+	CTransform*  m_pTargetPlayerTransform = nullptr;
 
 protected: //디텍티브
 	_float3			m_vDirection = { 0.f, 0.f, -1.f };
@@ -241,6 +242,7 @@ protected: // 일반 몬스터 행동 용 변수
 	_float			m_fRaycastTicker = {};
 	_float			m_fBulletCooldownElapsed = {};
 	_float			m_fBulletCooldown = {};
+	_bool			m_bFirstBullet = { true }; // 콜라이더는 이제 첫번째 총알만 
 	_float			m_fAttackTime = {};
 	_bool			m_bKnockBack = false;
 	_float4         m_vFogColor = { 1.f, 1.f, 1.f, 1.f };

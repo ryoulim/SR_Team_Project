@@ -397,6 +397,7 @@ void CDeacon::AttackPattern(_float dt)
 		_float3 vRight = *m_pTransformCom->Get_State(CTransform::STATE_RIGHT);
 		vRight.Normalize();
 		MonsterNormalBullet_iDesc.vPosition += vRight * 15.f * _float(m_iLeftRight);
+		MonsterNormalBullet_iDesc.bCollision = true;
 
 		if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_MonsterNormalBullet"),
 			LEVEL_GAMEPLAY, L"Layer_MonsterBullet", &MonsterNormalBullet_iDesc)))

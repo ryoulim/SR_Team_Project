@@ -57,6 +57,7 @@ HRESULT CLevel_OutDoor::Initialize(CLevelData* pLevelData)
 #include "Level_Loading.h"
 void CLevel_OutDoor::Update(_float fTimeDelta)
 {
+	FX_MGR->Update(fTimeDelta);
 	if (g_FogCustom < 151.f)
 		FX_MGR->SpawnMultipleThunder(fTimeDelta, LEVEL_OUTDOOR);
 
