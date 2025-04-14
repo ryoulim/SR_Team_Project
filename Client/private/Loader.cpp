@@ -506,7 +506,7 @@ HRESULT CLoader::Loding_For_Static()
 #pragma endregion
 
 #pragma region 레이싱 보스
-	ADD_TEXTURE(RaceBoss, "../Bin/Resources/Textures/RaceBoss/RaceBoss%d.PNG", 7);
+	ADD_TEXTURE(RaceBoss, "../Bin/Resources/Textures/RaceBoss/RaceBoss%d.PNG", 12);
 	ADD_TEXTURE(RaceBossBullet, "../Bin/Resources/Textures/Bullet/RaceBossBullet/RaceBossBullet.PNG", 1);
 	ADD_TEXTURE(RaceBossBomb, "../Bin/Resources/Textures/Bullet/RaceBossBomb/RaceBossBombNew.PNG", 1);
 	ADD_TEXTURE(RaceBossRazer, "../Bin/Resources/Textures/Bullet/RaceBossRazer/RaceBossRazer.PNG", 1);

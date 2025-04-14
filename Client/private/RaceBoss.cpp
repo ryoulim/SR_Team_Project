@@ -135,45 +135,92 @@ void CRaceBoss::Late_Update(_float fTimeDelta)
 
 HRESULT CRaceBoss::Render()
 {
-	m_fTextureNum = 0.f;
-
 	if (FAILED(m_pTransformCom->Bind_Resource()))
 		return E_FAIL;
 
 	if (FAILED(m_pVIBufferCom->Bind_Buffers()))
 		return E_FAIL;
 
-	if (FAILED(m_pTextureCom->Bind_Resource(static_cast<_uint>(m_fTextureNum))))
+	//아래
+	if (FAILED(m_pTextureCom->Bind_Resource(0)))
 		return E_FAIL;
 
-	if (FAILED(m_pVIBufferCom->Render()))
+	if (FAILED(m_pVIBufferCom->Render(CVIBuffer_RaceBoss::BOTTOM)))
+		return E_FAIL;
+
+	//아래 줄무늬
+	if (FAILED(m_pTextureCom->Bind_Resource(1)))
+		return E_FAIL;
+	
+	if (FAILED(m_pVIBufferCom->Render(CVIBuffer_RaceBoss::BOTTOMLINE)))
+		return E_FAIL;
+
+	//정면
+	if (FAILED(m_pTextureCom->Bind_Resource(2)))
+		return E_FAIL;
+
+	if (FAILED(m_pVIBufferCom->Render(CVIBuffer_RaceBoss::FRONTFACE)))
+		return E_FAIL;
+
+	//위
+	if (FAILED(m_pTextureCom->Bind_Resource(3)))
+		return E_FAIL;
+
+	if (FAILED(m_pVIBufferCom->Render(CVIBuffer_RaceBoss::TOP)))
+		return E_FAIL;
+
+	//위(옆)
+	if (FAILED(m_pTextureCom->Bind_Resource(4)))
+		return E_FAIL;
+
+	if (FAILED(m_pVIBufferCom->Render(CVIBuffer_RaceBoss::TOPSIDE)))
+		return E_FAIL;
+
+	//아래(옆)
+	if (FAILED(m_pTextureCom->Bind_Resource(5)))
+		return E_FAIL;
+
+	if (FAILED(m_pVIBufferCom->Render(CVIBuffer_RaceBoss::BOTTOMSIDE)))
 		return E_FAIL;
 
 	// 총구
 	for (_uint i = 0; i < 4; ++i)
 	{
-		if (FAILED(m_pTextureCom->Bind_Resource(static_cast<_uint>(m_iTextureID[i]))))
+		//이전이 발사 이미지 였다면 원래 이미지로 바꿔라
+		if (m_iPreTextureID[i] == 8)
+			m_iCurTextureID[i] = 6;
+
+		if (FAILED(m_pTextureCom->Bind_Resource(static_cast<_uint>(m_iCurTextureID[i]))))
 			return E_FAIL;
+
+		if(m_iCurTextureID[i] == 8)
+			m_iPreTextureID[i] = m_iCurTextureID[i];
 
 		m_pVIBufferCom->Render(CVIBuffer_RaceBoss::MUZZLE1 + i);
 	}
 
 	//가운데
-	if (FAILED(m_pTextureCom->Bind_Resource(static_cast<_uint>(m_iTextureID[4]))))
+	if (m_iPreTextureID[4] == 8)
+		m_iCurTextureID[4] = 9;
+
+	if (FAILED(m_pTextureCom->Bind_Resource(static_cast<_uint>(m_iCurTextureID[4]))))
 		return E_FAIL;
+
+	if(m_iCurTextureID[4] == 8)
+		m_iPreTextureID[4] = m_iCurTextureID[4];
 
 	if (FAILED(m_pVIBufferCom->Render(CVIBuffer_RaceBoss::MIDDLE)))
 		return E_FAIL;
 
 	//테두리
-	if (FAILED(m_pTextureCom->Bind_Resource(5)))
+	if (FAILED(m_pTextureCom->Bind_Resource(10)))
 		return E_FAIL;
 
 	if (FAILED(m_pVIBufferCom->Render(CVIBuffer_RaceBoss::OUTLINE)))
 		return E_FAIL;
 
 	//삼각형 무늬
-	if (FAILED(m_pTextureCom->Bind_Resource(6)))
+	if (FAILED(m_pTextureCom->Bind_Resource(11)))
 		return E_FAIL;
 
 	if (FAILED(m_pVIBufferCom->Render(CVIBuffer_RaceBoss::TRIANGLE)))
@@ -547,6 +594,8 @@ HRESULT CRaceBoss::Fire_Bullet(CRaceBossBullet::RBULLETTYPE eType, MUZZLEPOS ePo
 	RaceBossBulletdesc.fRotationPerSec = RADIAN(180.f);
 	RaceBossBulletdesc.vScale = { 20.f, 20.f, 20.f };
 	RaceBossBulletdesc.vPosition = *m_pTransformCom->Get_State(CTransform::STATE_POSITION) + Calc_Muzzle_Position(ePos);
+
+	m_iCurTextureID[m_ePos - 62] = 8;
 
 	if (eType == CRaceBossBullet::HEAD)
 	{
@@ -1333,10 +1382,10 @@ void CRaceBoss::On_Hit(MUZZLEPOS HitPos, _int iDamage)
 	{
 		m_iMuzzleHp[iIndex] = 0;
 
-		if (iIndex == 4) // 몸통이다
+		if (iIndex == 9) // 몸통이다
 			;
 		else
-			m_iTextureID[iIndex] = 3;
+			m_iCurTextureID[iIndex] = 7; //부서진 이미지 번호
 
 		/* [ 포신 어디가 파괴되었나요? ] */
 		switch (HitPos)
