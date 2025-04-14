@@ -1,5 +1,5 @@
-// ³» Å¬·¡½º ÀÌ¸§ : TestMonster
-// ºÎ¸ğ Å¬·¡½º ÀÌ¸§ : Monster
+ï»¿// ë‚´ í´ë˜ìŠ¤ ì´ë¦„ : TestMonster
+// ë¶€ëª¨ í´ë˜ìŠ¤ ì´ë¦„ : Monster
 
 #include "Wenteko.h"
 #include "FXMgr.h"
@@ -16,11 +16,11 @@ CWenteko::CWenteko(const CWenteko& Prototype)
 
 HRESULT CWenteko::Initialize_Prototype()
 {
-	//ÇÁ·ÎÅäÅ¸ÀÔÀÇ ±âº»Á¤ÀÇ
+	//í”„ë¡œí† íƒ€ì…ì˜ ê¸°ë³¸ì •ì˜
 	m_szTextureID = TEXT("Wenteko_Walk");
 	m_szBufferType = TEXT("Rect");
 
-	//¼Ó¼º
+	//ì†ì„±
 	m_iHP = 100;
 	m_iMaxHP = 100;
 	m_iAttackPower = 5;
@@ -31,7 +31,7 @@ HRESULT CWenteko::Initialize_Prototype()
 	m_eState = MODE::MODE_IDLE;
 	m_fDetectiveDistance = 300.f;
 
-	//ºÎ¼Ó¼º
+	//ë¶€ì†ì„±
 	m_strDialogue = "Wente..Wente...";
 	m_strSound = "SoundFilePath";
 
@@ -42,15 +42,15 @@ HRESULT CWenteko::Initialize_Prototype()
 
 HRESULT CWenteko::Initialize(void* pArg)
 {
-	//À§Ä¡, Å©±âÃÊ±âÈ­, ÄÄÆ÷³ÍÆ® ºÎÂø
+	//ìœ„ì¹˜, í¬ê¸°ì´ˆê¸°í™”, ì»´í¬ë„ŒíŠ¸ ë¶€ì°©
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
 
-	/* Äİ¶óÀÌµå ÄÄÆ÷³ÍÆ® - ´ë°¡¸® */
+	/* ì½œë¼ì´ë“œ ì»´í¬ë„ŒíŠ¸ - ëŒ€ê°€ë¦¬ */
 	CCollider::DESC ColliderDesc{};
-	ColliderDesc.pTransform = m_pTransformCom; // 50Âë
-	ColliderDesc.vOffSet = { 0.f, 20.8f, 0.f };	// y±æÀÌ * 0.5 - ¸Ó¸®À§Ä¡yÁÂÇ¥ + ¹İÁö¸§Å©±â?
-	ColliderDesc.vScale = { 8.f, 0.f, 0.f };					// ¹İÁö¸§ Å©±â
+	ColliderDesc.pTransform = m_pTransformCom; // 50ì¯¤
+	ColliderDesc.vOffSet = { 0.f, 20.8f, 0.f };	// yê¸¸ì´ * 0.5 - ë¨¸ë¦¬ìœ„ì¹˜yì¢Œí‘œ + ë°˜ì§€ë¦„í¬ê¸°?
+	ColliderDesc.vScale = { 8.f, 0.f, 0.f };					// ë°˜ì§€ë¦„ í¬ê¸°
 	ColliderDesc.pOwner = this;
 	ColliderDesc.iColliderGroupID = CG_MONSTER_HEAD;
 	ColliderDesc.iColliderID = CI_MON_HEAD;
@@ -59,10 +59,10 @@ HRESULT CWenteko::Initialize(void* pArg)
 		TEXT("Com_Collider_head"), reinterpret_cast<CComponent**>(&m_pHeadCollider), &ColliderDesc)))
 		return E_FAIL;
 
-	/* Äİ¶óÀÌµå ÄÄÆ÷³ÍÆ®  - ±ÙÁ¢°ø°İ¿ë Å¸°İ ¹üÀ§ */
+	/* ì½œë¼ì´ë“œ ì»´í¬ë„ŒíŠ¸  - ê·¼ì ‘ê³µê²©ìš© íƒ€ê²© ë²”ìœ„ */
 	CCollider::DESC AttackColliderDesc{};
 	AttackColliderDesc.pTransform = m_pTransformCom;
-	AttackColliderDesc.vOffSet = { 0.f, -1000.f, 0.f }; // ¾Æ¹«Æ° ÃÊ±â¿¡ ¸Ö¸® ÀÖÀ¸¸é ¾È¸Â´Â´Ù´Ï±î¿ä
+	AttackColliderDesc.vOffSet = { 0.f, -1000.f, 0.f }; // ì•„ë¬´íŠ¼ ì´ˆê¸°ì— ë©€ë¦¬ ìˆìœ¼ë©´ ì•ˆë§ëŠ”ë‹¤ë‹ˆê¹Œìš”
 	AttackColliderDesc.vScale = { 40.f, 0.f, 0.f };				
 	AttackColliderDesc.pOwner = this;
 	AttackColliderDesc.iColliderGroupID = CG_MONSTER_BODY;
@@ -74,13 +74,13 @@ HRESULT CWenteko::Initialize(void* pArg)
 
 
 	m_fDivOffset = 45.f;
-	//¾Ö´Ï¸ŞÀÌ¼Ç(¼öÁ¤¿¹Á¤)
+	//ì• ë‹ˆë©”ì´ì…˜(ìˆ˜ì •ì˜ˆì •)
 	m_fAnimationMaxFrame = 4.f;
 	m_fAnimationSpeed = 5.f;
 	m_iState = STATE_MOVE;
-	m_fCooldownTime = 0.8f;     // °ø°İ ½¬´Â ÅÒ
-	//m_fBulletCooldown = 0.03f;	// ÃÑ¾Ë ¹ß»ç Äğ
-	//m_fAttackTime = 0.2f;		// °ø°İ ½Ã°£
+	m_fCooldownTime = 0.8f;     // ê³µê²© ì‰¬ëŠ” í…€
+	//m_fBulletCooldown = 0.03f;	// ì´ì•Œ ë°œì‚¬ ì¿¨
+	//m_fAttackTime = 0.2f;		// ê³µê²© ì‹œê°„
 	return S_OK;
 }
 
@@ -105,13 +105,13 @@ void CWenteko::Late_Update(_float fTimeDelta)
 		vCLook *= 30.f;
 		vCLook.y += 10.f;
 		m_pAttackCollider->Update_OffSet(vCLook);
-		m_pAttackCollider->Update_Collider();  // ±ÙÁ¢ °ø°İ ½Ã¿¡¸¸ Äİ¶óÀÌ´õ ¾÷µ¥ÀÌÆ® 
+		m_pAttackCollider->Update_Collider();  // ê·¼ì ‘ ê³µê²© ì‹œì—ë§Œ ì½œë¼ì´ë” ì—…ë°ì´íŠ¸ 
 	}
 	else
 	{
 		m_pAttackCollider->Update_OffSet({0.f, -10000.f, 0.f});
 		//m_pAttackCollider->Update_Scale({ 0.f, 0.f, 0.f });
-		//m_pAttackCollider->Update_Collider();  // ±ÙÁ¢ °ø°İ ½Ã¿¡¸¸ Äİ¶óÀÌ´õ ¾÷µ¥ÀÌÆ® 
+		//m_pAttackCollider->Update_Collider();  // ê·¼ì ‘ ê³µê²© ì‹œì—ë§Œ ì½œë¼ì´ë” ì—…ë°ì´íŠ¸ 
 	}
 	if (!m_bDead)
 	{
@@ -137,13 +137,13 @@ HRESULT CWenteko::Render()
 #endif
 	return __super::Render();
 
-	//Æ¯º°È÷ ´õ ·»´õ¸µ ÇÒ°Ô ÀÖ´Â °æ¿ì ¡é
+	//íŠ¹ë³„íˆ ë” ë Œë”ë§ í• ê²Œ ìˆëŠ” ê²½ìš° â†“
 }
 
 
 void CWenteko::MonsterTick(_float dt)
 {
-	//»óÅÂº¯È­
+	//ìƒíƒœë³€í™”
 	switch (m_eState)
 	{
 	case MODE::MODE_IDLE:
@@ -166,7 +166,7 @@ void CWenteko::MonsterTick(_float dt)
 		break;
 
 	case MODE::MODE_RETURN:
-		//º»·¡À§Ä¡·Î µ¹¾Æ°¡°í IDLE·Î »óÅÂ°¡ º¯ÇÑ´Ù.
+		//ë³¸ë˜ìœ„ì¹˜ë¡œ ëŒì•„ê°€ê³  IDLEë¡œ ìƒíƒœê°€ ë³€í•œë‹¤.
 		m_bFoundPlayer = false;
 		break;
 	}
@@ -175,7 +175,7 @@ void CWenteko::MonsterTick(_float dt)
 	Debug_Output();
 #endif
 
-	// »óÅÂÇàµ¿(¾×¼Ç)
+	// ìƒíƒœí–‰ë™(ì•¡ì…˜)
 	switch (m_eState)
 	{
 	case MODE::MODE_IDLE:
@@ -207,7 +207,7 @@ void CWenteko::MonsterTick(_float dt)
 
 void CWenteko::DoDetect(_float dt)
 {
-	// °¨Áö °¡´É °Å¸® ÀÌ³»ÀÏ ¶§ / °¨Áö »óÅÂ Áß Ãß°İ °¡´É °Å¸®ÀÏ ¶§
+	// ê°ì§€ ê°€ëŠ¥ ê±°ë¦¬ ì´ë‚´ì¼ ë•Œ / ê°ì§€ ìƒíƒœ ì¤‘ ì¶”ê²© ê°€ëŠ¥ ê±°ë¦¬ì¼ ë•Œ
 	ChasePlayer(dt, 50.f);
 	m_eCurMonsterState = STATE_MOVE;
 }
@@ -250,7 +250,7 @@ void CWenteko::JumpPattern(_float dt)
 
 void CWenteko::ClosePattern(_float dt)
 {
-	// ±ÙÁ¢°ø°İÇÏ±â
+	// ê·¼ì ‘ê³µê²©í•˜ê¸°
 	m_eCurMonsterState = STATE_ATTACK;
 	
 	m_fAnimationFrame += dt * m_fAnimationSpeed;
@@ -315,6 +315,12 @@ void CWenteko::DoIdle(_float dt)
 	{
 	case EIdlePhase::IDLE_MOVE:
 	{
+		if (m_bStandby)
+		{
+			m_eIdlePhase = EIdlePhase::IDLE_WAIT;
+			break;
+		}
+
 		m_eCurMonsterState = STATE_MOVE;
 		m_fWanderElapsed += dt;
 
@@ -333,9 +339,9 @@ void CWenteko::DoIdle(_float dt)
 
 		if (m_fIdleWaitElapsed >= m_fIdleWaitTime)
 		{
-			SetRandomDirection();                  // È¸ÀüÇÒ ¹æÇâ ¼³Á¤
+			SetRandomDirection();                  // íšŒì „í•  ë°©í–¥ ì„¤ì •
 			m_fIdleWaitElapsed = 0.f;
-			m_eIdlePhase = EIdlePhase::IDLE_TURN; // ´ÙÀ½¿£ È¸ÀüÇÏ·¯ °£´Ù
+			m_eIdlePhase = EIdlePhase::IDLE_TURN; // ë‹¤ìŒì—” íšŒì „í•˜ëŸ¬ ê°„ë‹¤
 		}
 		break;
 
@@ -345,7 +351,7 @@ void CWenteko::DoIdle(_float dt)
 		_float3 vLook = *m_pTransformCom->Get_State(CTransform::STATE_LOOK);
 
 		bool bRotated = m_pTransformCom->RotateToDirection(vLook, m_vDirection, 5.f, dt);
-		if (bRotated)  // È¸Àü ¿Ï·á ½ÅÈ£
+		if (bRotated)  // íšŒì „ ì™„ë£Œ ì‹ í˜¸
 		{
 			m_eIdlePhase = EIdlePhase::IDLE_MOVE;
 		}
@@ -375,18 +381,18 @@ void CWenteko::AttackPattern(_float dt)
 
 void CWenteko::ChasePlayer(_float dt, _float fChaseDist)
 {
-	//Å¸°ÙÀ» 350°Å¸®±îÁö Ãß°İÇÑ´Ù.
+	//íƒ€ê²Ÿì„ 350ê±°ë¦¬ê¹Œì§€ ì¶”ê²©í•œë‹¤.
 	_float3 TargetPos = *static_cast<CTransform*>(m_pTargetPlayer->Find_Component(L"Com_Transform"))->Get_State(CTransform::STATE_POSITION);
 
-	// ÇöÀç À§Ä¡
+	// í˜„ì¬ ìœ„ì¹˜
 	_float3 vMyPos = *m_pTransformCom->Get_State(CTransform::STATE_POSITION);
 
-	// ¹æÇâ °è»ê
+	// ë°©í–¥ ê³„ì‚°
 	_float3 vDir = TargetPos - vMyPos;
 	float fDistance = vDir.Length();
 	vDir.Normalize();
 
-	//¿ø·¡¹æÇâÀ¸·Î ÅÏÇÏ±â
+	//ì›ë˜ë°©í–¥ìœ¼ë¡œ í„´í•˜ê¸°
 	_float3 vLook = *m_pTransformCom->Get_State(CTransform::STATE_LOOK);
 	bool bRotated = m_pTransformCom->RotateToDirection(vLook, vDir, 5.f, dt);
 	m_pTransformCom->ChaseWithOutY(TargetPos, dt, fChaseDist, 150.f);
@@ -394,22 +400,22 @@ void CWenteko::ChasePlayer(_float dt, _float fChaseDist)
 
 HRESULT CWenteko::Ready_Components(void* pArg)
 {
-	/* ·ºÆ® ¹öÆÛ ÄÄÆ÷³ÍÆ® */
+	/* ë ‰íŠ¸ ë²„í¼ ì»´í¬ë„ŒíŠ¸ */
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, _wstring(TEXT("Prototype_Component_VIBuffer_")) + m_szBufferType,
 		TEXT("Com_VIBuffer"), reinterpret_cast<CComponent**>(&m_pVIBufferCom))))
 		return E_FAIL;
 
-	/* Æ®·£½ºÆû ÄÄÆ÷³ÍÆ® */
+	/* íŠ¸ëœìŠ¤í¼ ì»´í¬ë„ŒíŠ¸ */
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Transform"),
 		TEXT("Com_Transform"), reinterpret_cast<CComponent**>(&m_pTransformCom), pArg)))
 		return E_FAIL;
 
-	//¼ÎÀÌ´õ ÀåÂø
+	//ì…°ì´ë” ì¥ì°©
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Shader_Particle"),
 		TEXT("Com_Shader"), reinterpret_cast<CComponent**>(&m_pShaderCom))))
 		return E_FAIL;
 
-	/* À§Ä¡, ½ºÄÉÀÏ ÃÊ±âÈ­ */
+	/* ìœ„ì¹˜, ìŠ¤ì¼€ì¼ ì´ˆê¸°í™” */
 	if (pArg != nullptr)
 	{
 		DESC* pDesc = static_cast<DESC*>(pArg);
@@ -424,7 +430,7 @@ HRESULT CWenteko::Ready_Components(void* pArg)
 		m_fAttackDistance = pDesc->fAttackDistance;
 	}
 
-	/* Äİ¶óÀÌµå ÄÄÆ÷³ÍÆ® */
+	/* ì½œë¼ì´ë“œ ì»´í¬ë„ŒíŠ¸ */
 	DESC* pDesc = static_cast<DESC*>(pArg);
 	CCollider_Capsule::DESC ColliderDesc{};
 	ColliderDesc.pTransform = m_pTransformCom;
@@ -561,7 +567,7 @@ HRESULT CWenteko::Animate_Monster(_float fTimeDelta)
 		//	{
 		//		if(m_fAnimationFrame < 2.5f)
 		//			m_fAnimationFrame = 3.f;
-		//		//m_fAnimationFrame = m_fAnimationMaxFrame - 1.f; // ÂøÁö?
+		//		//m_fAnimationFrame = m_fAnimationMaxFrame - 1.f; // ì°©ì§€?
 		//		//m_bJumpEnd = true;
 		//	}
 		//	else if (m_fAnimationFrame >= 2.f)

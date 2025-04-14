@@ -1,5 +1,5 @@
-// ³» Å¬·¡½º ÀÌ¸§ : TestMonster
-// ºÎ¸ğ Å¬·¡½º ÀÌ¸§ : Monster
+ï»¿// ë‚´ í´ë˜ìŠ¤ ì´ë¦„ : TestMonster
+// ë¶€ëª¨ í´ë˜ìŠ¤ ì´ë¦„ : Monster
 
 #include "Mechsect.h"
 #include "FXMgr.h"
@@ -17,11 +17,11 @@ CMechsect::CMechsect(const CMechsect& Prototype)
 
 HRESULT CMechsect::Initialize_Prototype()
 {
-	//ÇÁ·ÎÅäÅ¸ÀÔÀÇ ±âº»Á¤ÀÇ
+	//í”„ë¡œí† íƒ€ì…ì˜ ê¸°ë³¸ì •ì˜
 	m_szTextureID = TEXT("Mechsect_Walk");
 	m_szBufferType = TEXT("Rect");
 
-	//¼Ó¼º
+	//ì†ì„±
 	m_iHP = 50;
 	m_iMaxHP = 50;
 	m_iAttackPower = 2;
@@ -33,7 +33,7 @@ HRESULT CMechsect::Initialize_Prototype()
 
 	m_fDetectiveDistance = 300.f;
 
-	//ºÎ¼Ó¼º
+	//ë¶€ì†ì„±
 	m_strDialogue = "Mechs..Mec...";
 	m_strSound = "SoundFilePath";
 
@@ -44,15 +44,15 @@ HRESULT CMechsect::Initialize_Prototype()
 
 HRESULT CMechsect::Initialize(void* pArg)
 {
-	//À§Ä¡, Å©±âÃÊ±âÈ­, ÄÄÆ÷³ÍÆ® ºÎÂø
+	//ìœ„ì¹˜, í¬ê¸°ì´ˆê¸°í™”, ì»´í¬ë„ŒíŠ¸ ë¶€ì°©
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
 
-	/* Äİ¶óÀÌµå ÄÄÆ÷³ÍÆ® - ´ë°¡¸® */
+	/* ì½œë¼ì´ë“œ ì»´í¬ë„ŒíŠ¸ - ëŒ€ê°€ë¦¬ */
 	CCollider::DESC ColliderDesc{};
-	ColliderDesc.pTransform = m_pTransformCom; // 50Âë
-	ColliderDesc.vOffSet = { 0.f, 0.f, 0.f };	// y±æÀÌ * 0.5 - ¸Ó¸®À§Ä¡yÁÂÇ¥ + ¹İÁö¸§Å©±â?
-	ColliderDesc.vScale = { 8.f, 0.f, 0.f };					// ¹İÁö¸§ Å©±â
+	ColliderDesc.pTransform = m_pTransformCom; // 50ì¯¤
+	ColliderDesc.vOffSet = { 0.f, 0.f, 0.f };	// yê¸¸ì´ * 0.5 - ë¨¸ë¦¬ìœ„ì¹˜yì¢Œí‘œ + ë°˜ì§€ë¦„í¬ê¸°?
+	ColliderDesc.vScale = { 8.f, 0.f, 0.f };					// ë°˜ì§€ë¦„ í¬ê¸°
 	ColliderDesc.pOwner = this;
 	ColliderDesc.iColliderGroupID = CG_MONSTER_HEAD;
 	ColliderDesc.iColliderID = CI_MON_HEAD;
@@ -61,7 +61,7 @@ HRESULT CMechsect::Initialize(void* pArg)
 		TEXT("Com_Collider_head"), reinterpret_cast<CComponent**>(&m_pHeadCollider), &ColliderDesc)))
 		return E_FAIL;
 
-	/* Äİ¶óÀÌµå ÄÄÆ÷³ÍÆ®  - ±ÙÁ¢°ø°İ¿ë Å¸°İ ¹üÀ§ */
+	/* ì½œë¼ì´ë“œ ì»´í¬ë„ŒíŠ¸  - ê·¼ì ‘ê³µê²©ìš© íƒ€ê²© ë²”ìœ„ */
 	CCollider::DESC AttackColliderDesc{};
 	AttackColliderDesc.pTransform = m_pTransformCom;
 	AttackColliderDesc.vScale = m_pTransformCom->Compute_Scaled() * 1.2f;
@@ -77,13 +77,13 @@ HRESULT CMechsect::Initialize(void* pArg)
 
 
 	m_fDivOffset = 45.f;
-	//¾Ö´Ï¸ŞÀÌ¼Ç(¼öÁ¤¿¹Á¤)
+	//ì• ë‹ˆë©”ì´ì…˜(ìˆ˜ì •ì˜ˆì •)
 	m_fAnimationMaxFrame = 4.f;
 	m_fAnimationSpeed = 5.f;
 	m_iState = STATE_MOVE;
-	m_fCooldownTime = 1.f;     // °ø°İ ½¬´Â ÅÒ
-	//m_fBulletCooldown = 0.4f;	// ÃÑ¾Ë ¹ß»ç Äğ
-	//m_fAttackTime = 0.35f;		// °ø°İ ½Ã°£
+	m_fCooldownTime = 1.f;     // ê³µê²© ì‰¬ëŠ” í…€
+	//m_fBulletCooldown = 0.4f;	// ì´ì•Œ ë°œì‚¬ ì¿¨
+	//m_fAttackTime = 0.35f;		// ê³µê²© ì‹œê°„
 	return S_OK;
 }
 
@@ -106,7 +106,7 @@ void CMechsect::Late_Update(_float fTimeDelta)
 	{
 		m_pAttackCollider->Update_OffSet({ 0.f, 0.f, 0.f });
 
-		m_pAttackCollider->Update_Collider();  // ±ÙÁ¢ °ø°İ ½Ã¿¡¸¸ Äİ¶óÀÌ´õ ¾÷µ¥ÀÌÆ® 
+		m_pAttackCollider->Update_Collider();  // ê·¼ì ‘ ê³µê²© ì‹œì—ë§Œ ì½œë¼ì´ë” ì—…ë°ì´íŠ¸ 
 	}
 	else
 	{
@@ -127,7 +127,7 @@ HRESULT CMechsect::Render()
 {
 	return __super::Render();
 
-	//Æ¯º°È÷ ´õ ·»´õ¸µ ÇÒ°Ô ÀÖ´Â °æ¿ì ¡é
+	//íŠ¹ë³„íˆ ë” ë Œë”ë§ í• ê²Œ ìˆëŠ” ê²½ìš° â†“
 }
 
 void CMechsect::On_Collision(_uint MyColliderID, _uint OtherColliderID)
@@ -137,7 +137,7 @@ void CMechsect::On_Collision(_uint MyColliderID, _uint OtherColliderID)
 
 void CMechsect::MonsterTick(_float dt)
 {
-	//»óÅÂº¯È­
+	//ìƒíƒœë³€í™”
 	switch (m_eState)
 	{
 	case MODE::MODE_IDLE:
@@ -160,7 +160,7 @@ void CMechsect::MonsterTick(_float dt)
 		break;
 
 	case MODE::MODE_RETURN:
-		//º»·¡À§Ä¡·Î µ¹¾Æ°¡°í IDLE·Î »óÅÂ°¡ º¯ÇÑ´Ù.
+		//ë³¸ë˜ìœ„ì¹˜ë¡œ ëŒì•„ê°€ê³  IDLEë¡œ ìƒíƒœê°€ ë³€í•œë‹¤.
 		m_bFoundPlayer = false;
 		break;
 	}
@@ -169,7 +169,7 @@ void CMechsect::MonsterTick(_float dt)
 	Debug_Output();
 #endif
 
-	// »óÅÂÇàµ¿(¾×¼Ç)
+	// ìƒíƒœí–‰ë™(ì•¡ì…˜)
 	switch (m_eState)
 	{
 	case MODE::MODE_IDLE:
@@ -201,7 +201,7 @@ void CMechsect::MonsterTick(_float dt)
 
 void CMechsect::DoDetect(_float dt)
 {
-	// °¨Áö °¡´É °Å¸® ÀÌ³»ÀÏ ¶§ / °¨Áö »óÅÂ Áß Ãß°İ °¡´É °Å¸®ÀÏ ¶§
+	// ê°ì§€ ê°€ëŠ¥ ê±°ë¦¬ ì´ë‚´ì¼ ë•Œ / ê°ì§€ ìƒíƒœ ì¤‘ ì¶”ê²© ê°€ëŠ¥ ê±°ë¦¬ì¼ ë•Œ
 	ChasePlayer(dt, 50.f);
 	m_eCurMonsterState = STATE_MOVE;
 }
@@ -273,6 +273,12 @@ void CMechsect::DoIdle(_float dt)
 	{
 	case EIdlePhase::IDLE_MOVE:
 	{
+		if (m_bStandby)
+		{
+			m_eIdlePhase = EIdlePhase::IDLE_WAIT;
+			break;
+		}
+
 		m_eCurMonsterState = STATE_MOVE;
 		m_fWanderElapsed += dt;
 
@@ -291,9 +297,9 @@ void CMechsect::DoIdle(_float dt)
 
 		if (m_fIdleWaitElapsed >= m_fIdleWaitTime)
 		{
-			SetRandomDirection();                  // È¸ÀüÇÒ ¹æÇâ ¼³Á¤
+			SetRandomDirection();                  // íšŒì „í•  ë°©í–¥ ì„¤ì •
 			m_fIdleWaitElapsed = 0.f;
-			m_eIdlePhase = EIdlePhase::IDLE_TURN; // ´ÙÀ½¿£ È¸ÀüÇÏ·¯ °£´Ù
+			m_eIdlePhase = EIdlePhase::IDLE_TURN; // ë‹¤ìŒì—” íšŒì „í•˜ëŸ¬ ê°„ë‹¤
 		}
 		break;
 
@@ -303,7 +309,7 @@ void CMechsect::DoIdle(_float dt)
 		_float3 vLook = *m_pTransformCom->Get_State(CTransform::STATE_LOOK);
 
 		bool bRotated = m_pTransformCom->RotateToDirection(vLook, m_vDirection, 5.f, dt);
-		if (bRotated)  // È¸Àü ¿Ï·á ½ÅÈ£
+		if (bRotated)  // íšŒì „ ì™„ë£Œ ì‹ í˜¸
 		{
 			m_eIdlePhase = EIdlePhase::IDLE_MOVE;
 		}
@@ -314,7 +320,7 @@ void CMechsect::DoIdle(_float dt)
 
 void CMechsect::AttackPattern(_float dt)
 {
-	// ½ÇÁ¦ °ø°İ ÆĞÅÏ ÀÛ¼ºÇÏ´Â °÷
+	// ì‹¤ì œ ê³µê²© íŒ¨í„´ ì‘ì„±í•˜ëŠ” ê³³
 	m_eCurMonsterState = STATE_JUMP;
 
 	JumpPattern(dt);
@@ -323,18 +329,18 @@ void CMechsect::AttackPattern(_float dt)
 
 void CMechsect::ChasePlayer(_float dt, _float fChaseDist)
 {
-	//Å¸°ÙÀ» 350°Å¸®±îÁö Ãß°İÇÑ´Ù.
+	//íƒ€ê²Ÿì„ 350ê±°ë¦¬ê¹Œì§€ ì¶”ê²©í•œë‹¤.
 	_float3 TargetPos = *static_cast<CTransform*>(m_pTargetPlayer->Find_Component(L"Com_Transform"))->Get_State(CTransform::STATE_POSITION);
 
-	// ÇöÀç À§Ä¡
+	// í˜„ì¬ ìœ„ì¹˜
 	_float3 vMyPos = *m_pTransformCom->Get_State(CTransform::STATE_POSITION);
 
-	// ¹æÇâ °è»ê
+	// ë°©í–¥ ê³„ì‚°
 	_float3 vDir = TargetPos - vMyPos;
 	float fDistance = vDir.Length();
 	vDir.Normalize();
 
-	//¿ø·¡¹æÇâÀ¸·Î ÅÏÇÏ±â
+	//ì›ë˜ë°©í–¥ìœ¼ë¡œ í„´í•˜ê¸°
 	_float3 vLook = *m_pTransformCom->Get_State(CTransform::STATE_LOOK);
 	bool bRotated = m_pTransformCom->RotateToDirection(vLook, vDir, 5.f, dt);
 	m_pTransformCom->ChaseWithOutY(TargetPos, dt, fChaseDist, 150.f);
