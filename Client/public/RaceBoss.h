@@ -90,6 +90,13 @@ private:
 	void SpawnWaterParticle(_float fWaterSpeed, _float _fMin, _float _fMax);
 	void SpawnDieParticle(_float fWaterSpeed);
 
+	void SpawnHitBox(const _float3& _Position, const _float3& _Scale, const TCHAR* _szTextureTag, _float MaxTime, _bool _HitDead);
+
+
+
+
+	HRESULT Set_BombRadius();
+	_bool Fire_Bomb4(_uint iBombIndex, _float fTime);
 	_float3 Calc_Muzzle_Position(MUZZLEPOS eMuzzle);
 	void ShuffleandPop();
 	_float3 CatmulRomPos(_float3& v0, _float3& vStartPos, _float3& vEndPos, _float3& v3, _float fTimeAcc);
@@ -152,6 +159,8 @@ private:
 	CGameObject* m_pWaterBoatEffect_01 = nullptr;
 	CGameObject* m_pWaterBoatEffect_02 = nullptr;
 	CGameObject* m_pWaterBoatEffect_03 = nullptr;
+
+	CGameObject* m_pBossHitBox = nullptr;
 
 	vector<CCollider*> m_ColliderComs = { nullptr };
 	

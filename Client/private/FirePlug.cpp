@@ -5,6 +5,7 @@
 #include "GameInstance.h"
 
 #include "HydroPump.h"
+#include "FXMgr.h"
 
 CFirePlug::CFirePlug(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CInteractive_Block{ pGraphic_Device }
@@ -110,6 +111,8 @@ void CFirePlug::On_Collision(_uint MyColliderID, _uint OtherColliderID)
     {
         m_iHp -= 10;
         m_pBGM->Play();
+
+        FX_MGR->SpawnBulletDust(CCollider::Get_Last_Collision_Pos(), m_eLevelID);
     }
 }
 

@@ -79,7 +79,9 @@ HRESULT CGreater::Initialize(void* pArg)
 	/* [ 사운드 설정칸 ] */
 	m_pSoundCom->Set3DState(100.f, 500.f);
 	m_pSoundCom->SetVolume("Chacing", 0.5f);
+	m_pSoundCom->SetVolume("Hit", 0.5f);
 	m_pSoundCom->SetVolume("Die", 0.5f);
+	m_pSoundCom->SetVolume("Attack", 0.5f);
 	return S_OK;
 }
 
@@ -93,6 +95,11 @@ void CGreater::Priority_Update(_float fTimeDelta)
 
 EVENT CGreater::Update(_float fTimeDelta)
 {
+	if (m_bDead && !m_bDeadSound)
+	{
+		m_pSoundCom->Play("Die");
+		m_bDeadSound = true;
+	}
 	return __super::Update(fTimeDelta);
 }
 
@@ -298,6 +305,9 @@ void CGreater::AttackPattern(_float dt)
 			LEVEL_GAMEPLAY, L"Layer_MonsterBullet", &MonsterNormalBullet_iDesc)))
 			return;
 
+		if (!m_pSoundCom->IsPlaying("Attack"))
+			m_pSoundCom->Play("Attack");
+
 		m_fBulletCooldownElapsed = 0.f;
 	}
 }
@@ -488,4 +498,6 @@ CGameObject* CGreater::Clone(void* pArg)
 void CGreater::Free()
 {
 	__super::Free();
+
+	Safe_Release(m_pSoundCom);
 }

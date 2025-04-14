@@ -4,6 +4,7 @@
 #include "GarbageBag.h"
 #include "GameInstance.h"
 #include "Item.h"
+#include "FXMgr.h"
 
 CGarbageBag::CGarbageBag(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CInteractive_Block{ pGraphic_Device }
@@ -110,6 +111,8 @@ void CGarbageBag::On_Collision(_uint MyColliderID, _uint OtherColliderID)
     {
         m_iHp -= 10;
         m_pBGM->Play();
+
+        FX_MGR->SpawnBulletDust(CCollider::Get_Last_Collision_Pos(), m_eLevelID);
         /* 체력이 떨어지고, 일정 체력 이하가되면 텍스쳐 변경 */
         /* 0이하로 떨어지면 아이템 생성 후 사망 */
     }

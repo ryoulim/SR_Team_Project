@@ -974,6 +974,42 @@ void CFXMgr::SpawnBulletMark(_float3 _vPosition, LEVEL eLevel, _float3 _vLook , 
 
 	Iter->second->Active_Object(eLevel, TEXT("Layer_Particle"), &BulletImpactSparkDesc2);
 }
+void CFXMgr::SpawnBulletDust(_float3 _vPosition, LEVEL eLevel)
+{
+	/* [ 연기 튀는 파티클 ] */
+	CPSystem::DESC BulletSmoke{};
+	BulletSmoke.vPosition = _vPosition;
+	BulletSmoke.iParticleNums = 5;
+
+	auto Iter = m_ObjectPools.find(TEXT("PC_BulletSmoke"));
+	if (Iter == m_ObjectPools.end())
+		return;
+
+	Iter->second->Active_Object(eLevel, TEXT("Layer_Particle"), &BulletSmoke);
+
+	/* [ 스파크 튀는 파티클 ] */
+	CPSystem::DESC BulletImpactSparkDesc{};
+	BulletImpactSparkDesc.vPosition = _vPosition;
+	BulletImpactSparkDesc.vPosition.y += -10.f;
+	BulletImpactSparkDesc.iParticleNums = 2;
+
+	Iter = m_ObjectPools.find(TEXT("PC_BulletTrash"));
+	if (Iter == m_ObjectPools.end())
+		return;
+
+	Iter->second->Active_Object(eLevel, TEXT("Layer_Particle"), &BulletImpactSparkDesc);
+
+	CPSystem::DESC BulletImpactSparkDesc2{};
+	BulletImpactSparkDesc2.vPosition = _vPosition;
+	BulletImpactSparkDesc2.vPosition.y += -5.f;
+	BulletImpactSparkDesc2.iParticleNums = 10;
+
+	Iter = m_ObjectPools.find(TEXT("PC_BulletImpactSpark2"));
+	if (Iter == m_ObjectPools.end())
+		return;
+
+	Iter->second->Active_Object(eLevel, TEXT("Layer_Particle"), &BulletImpactSparkDesc2);
+}
 
 void CFXMgr::SpawnHitEffect(LEVEL eLevel)
 {

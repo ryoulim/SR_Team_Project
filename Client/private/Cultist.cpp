@@ -82,6 +82,7 @@ HRESULT CCultist::Initialize(void* pArg)
 	m_pSoundCom->SetVolume("Chacing", 0.5f);
 	m_pSoundCom->SetVolume("Die", 0.5f);
 	m_pSoundCom->SetVolume("Hit", 0.5f);
+	m_pSoundCom->SetVolume("Attack", 0.5f);
 
 	return S_OK;
 }
@@ -97,6 +98,11 @@ void CCultist::Priority_Update(_float fTimeDelta)
 
 EVENT CCultist::Update(_float fTimeDelta)
 {
+	if (m_bDead && !m_bDeadSound)
+	{
+		m_pSoundCom->Play("Die");
+		m_bDeadSound = true;
+	}
 	return __super::Update(fTimeDelta);
 }
 
@@ -322,6 +328,9 @@ void CCultist::AttackPattern(_float dt)
 			LEVEL_GAMEPLAY, L"Layer_MonsterBullet", &MonsterNormalBullet_iDesc)))
 			return;
 
+		if (!m_pSoundCom->IsPlaying("Attack"))
+			m_pSoundCom->Play("Attack");
+
 		m_fBulletCooldownElapsed = 0.f;
 	}
 }
@@ -508,4 +517,6 @@ CGameObject* CCultist::Clone(void* pArg)
 void CCultist::Free()
 {
 	__super::Free();
+
+	Safe_Release(m_pSoundCom);
 }

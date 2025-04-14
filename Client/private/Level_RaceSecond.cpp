@@ -308,6 +308,8 @@ void CLevel_RaceSecond::Check_Collision()
 {
 	m_pGameInstance->Intersect(CG_PAWN, CG_MBULLET);
 	m_pGameInstance->Intersect(CG_MONSTER, CG_PBULLET);
+
+	m_pGameInstance->Intersect(CG_BOSS, CG_PAWN);
 }
 
 CLevel_RaceSecond* CLevel_RaceSecond::Create(LPDIRECT3DDEVICE9 pGraphic_Device, class CLevelData* pLevelData)

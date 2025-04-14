@@ -163,6 +163,8 @@ void CPlayerOnBoat::Late_Update(_float fTimeDelta)
 
 	m_pCollider->Update_Collider();
 
+	_float3	vTemp = *m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+	CGameObject::Compute_ViewZ(&vTemp);
 	m_pGameInstance->Add_RenderGroup(CRenderer::RG_BLEND, this);
 
 	if(m_bAimRender)

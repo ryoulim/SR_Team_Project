@@ -100,6 +100,12 @@ void CWenteko::Priority_Update(_float fTimeDelta)
 
 EVENT CWenteko::Update(_float fTimeDelta)
 {
+	if (m_bDead && !m_bDeadSound)
+	{
+		m_pSoundCom->Play("Die");
+		m_bDeadSound = true;
+	}
+
 	return __super::Update(fTimeDelta);
 }
 
@@ -634,5 +640,7 @@ CGameObject* CWenteko::Clone(void* pArg)
 void CWenteko::Free()
 {
 	__super::Free();
+
 	Safe_Release(m_pAttackCollider);
+	Safe_Release(m_pSoundCom);
 }
