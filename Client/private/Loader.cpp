@@ -297,7 +297,7 @@ HRESULT CLoader::Loding_For_Static()
 	ADD_TEXTURE(RacingPanel, "../Bin/Resources/Textures/UI/Racing/%d.PNG", 3);
 	ADD_TEXTURE(WeaponUI, "../Bin/Resources/Textures/UI/WeaponUI/%d.PNG", 3);
 	ADD_TEXTURE(Loading_OnRacing, "../Bin/Resources/Textures/UI/LoadingCutscene/OnRacing/%d.PNG", 1);
-	ADD_TEXTURE(Loading_ToBoss, "../Bin/Resources/Textures/UI/LoadingCutscene/ToBoss/%d.PNG", 17);
+	ADD_TEXTURE(Loading_ToBoss, "../Bin/Resources/Textures/UI/LoadingCutscene/ToBoss/%d.PNG", 16);
 	ADD_TEXTURE(Loading_ToIn, "../Bin/Resources/Textures/UI/LoadingCutscene/ToIn/%d.PNG", 4);
 	ADD_TEXTURE(Loading_ToOut, "../Bin/Resources/Textures/UI/LoadingCutscene/ToOut/%d.PNG", 7);
 	ADD_TEXTURE(Loading_ToRace, "../Bin/Resources/Textures/UI/LoadingCutscene/ToRace/%d.PNG", 2);

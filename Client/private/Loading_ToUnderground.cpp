@@ -54,7 +54,20 @@ EVENT CLoading_ToUnderground::Update(_float fTimeDelta)
 
 void CLoading_ToUnderground::Late_Update(_float fTimeDelta)
 {
-	__super::Late_Update(fTimeDelta);
+	if (m_fCurLoadingGauge >= 1.f)
+	{
+		m_isLoadingFinished = true;
+	}
+	if (m_isLoadingFinished)
+	{
+		m_fAnimationFrame += fTimeDelta * 1.f;
+		if (m_fAnimationFrame >= 4.f)
+		{
+			m_fAnimationFrame = 3.f;
+			m_isReadyToChangeLevel = true;
+		}
+	}
+	CUI::Late_Update(fTimeDelta);
 }
 
 HRESULT CLoading_ToUnderground::Render()

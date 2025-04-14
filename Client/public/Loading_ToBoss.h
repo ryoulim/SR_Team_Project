@@ -18,16 +18,23 @@ public:
 		TEX_SMALLNEWS = 5,
 		TEX_SMALLNEWS_END = 8,
 
-		TEX_SMALLREDBOSS = 9,
+		TEX_WIDENOISE = 9,
+		TEX_WIDENOISE_END = 12,
 
-		TEX_SMALLBROKEN = 10,
+		TEX_WIDEBOSS = 13,
+		TEX_WIDEREDBOSS = 14,
 
-		TEX_WIDENOISE = 11,
-		TEX_WIDENOISE_END = 14,
+		TEX_BREAK_END = 15
+	};
 
-		TEX_WIDEBOSS = 15,
-
-		TEX_WIDEREDBOSS = 16
+	enum SEQUENCE {
+		SEQUENCE_SMALLNOISE = 0,
+		SEQUENCE_SMALLBREAKINGNEWS,
+		SEQUENCE_SMALLNEWS,
+		SEQUENCE_WIDENOISE,
+		SEQUENCE_WIDEBOSS,
+		SEQUENCE_WIDEREDBOSS,
+		SEQUENCE_END
 	};
 
 
@@ -47,8 +54,14 @@ public:
 	HRESULT Render_Background();
 
 private:
-	HRESULT Render_WideMoniter();
-	HRESULT Render_SmallMoniter();
+	void Init_Sequence();
+	void Update_Animation(_float fTimeDelta);
+
+private:
+	SEQUENCE	m_eSequence = SEQUENCE::SEQUENCE_SMALLNOISE;
+	_int		m_iTexRepeat = { };
+	_bool		m_bNextSequence = { false };
+	_float		m_fAnimationStartFrame = {};
 
 public:
 	static CLoading_ToBoss* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
