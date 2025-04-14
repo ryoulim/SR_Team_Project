@@ -49,7 +49,7 @@ HRESULT CLevel_RaceSecond::Initialize(CLevelData* pLevelData)
 	D3DMATERIAL9		MtrlDesc{};
 	MtrlDesc.Diffuse = D3DXCOLOR(1.f, 1.f, 1.f, 1.f);
 	MtrlDesc.Ambient = D3DXCOLOR(0.2f, 0.2f, 0.2f, 1.f);
-	MtrlDesc.Emissive = D3DXCOLOR(0.7f, 0.7f, 0.7f, 1.f);
+	MtrlDesc.Emissive = D3DXCOLOR(0.8f, 0.8f, 0.8f, 1.f);
 
 	// 장치에 재질을 설정한다
 	m_pGraphic_Device->SetMaterial(&MtrlDesc);
@@ -243,6 +243,7 @@ HRESULT CLevel_RaceSecond::Ready_Layer_RaceBoss(const _wstring& strLayerTag)
 		static_cast<CTransform*>(pBoss->Find_Component(TEXT("Com_Transform")))
 			->Set_State(CTransform::STATE_POSITION, vInitPosition);
 		pBoss->Set_StartState(CRaceBoss::IDLE);
+		pBoss->Add_Collider();
 		CUI_Manager::Get_Instance()->Set_RacingBoss_HP_Settings(pBoss->Get_HP(), 250);
 		CUI_Manager::Get_Instance()->Start_Rendering_BossHPUI();
 		return S_OK;
@@ -307,7 +308,7 @@ void CLevel_RaceSecond::Check_Collision()
 {
 	m_pGameInstance->Intersect(CG_PAWN, CG_MBULLET);
 	m_pGameInstance->Intersect(CG_MONSTER, CG_PBULLET);
-	m_pGameInstance->Intersect(CG_PBULLET, CG_MBULLET);
+	//m_pGameInstance->Intersect(CG_PBULLET, CG_MBULLET);
 }
 
 CLevel_RaceSecond* CLevel_RaceSecond::Create(LPDIRECT3DDEVICE9 pGraphic_Device, class CLevelData* pLevelData)

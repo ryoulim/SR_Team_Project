@@ -127,7 +127,7 @@ HRESULT CLevel_RaceFirst::Ready_Layer_Statue(const _wstring& strLayerTag)
 	CStatue::DESC desc = {};
 
 	desc.vAngle		= _float3(D3DXToRadian(0.f), D3DXToRadian(0.f), D3DXToRadian(0.f));
-	desc.vInitPos	= _float3(250.f, 36.f, -2000.f);
+	desc.vInitPos	= _float3(250.f, 36.f, -3000.f);
 	desc.vScale		= _float3(72.f, 120.f, 72.f);
 	desc.eLevelID = LEVEL_RACEFIRST;
 	
@@ -710,7 +710,7 @@ void CLevel_RaceFirst::Check_Collision()
 {
 	m_pGameInstance->Intersect(CG_PAWN, CG_MBULLET);
 	m_pGameInstance->Intersect(CG_MONSTER, CG_PBULLET);
-	m_pGameInstance->Intersect(CG_PBULLET, CG_MBULLET);
+	//m_pGameInstance->Intersect(CG_PBULLET, CG_MBULLET);
 }
 
 void CLevel_RaceFirst::Manage_Light()

@@ -62,6 +62,7 @@ HRESULT CPlayerOnBoat::Initialize(void* pArg)
 	m_pSoundCom->Play("throttle_loop");
 	m_pSoundCom->Set_Loop("throttle_loop");
 
+
 	m_pSoundCom->SetVolume("bike_idle_2", 0.4f);
 	m_pSoundCom->Play("bike_idle_2");
 	m_pSoundCom->Set_Loop("bike_idle_2");

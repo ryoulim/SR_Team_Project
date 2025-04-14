@@ -49,7 +49,7 @@ HRESULT CLevel_RaceThird::Initialize(CLevelData* pLevelData)
 	D3DMATERIAL9		MtrlDesc{};
 	MtrlDesc.Diffuse = D3DXCOLOR(1.f, 1.f, 1.f, 1.f);
 	MtrlDesc.Ambient = D3DXCOLOR(0.2f, 0.2f, 0.2f, 1.f);
-	MtrlDesc.Emissive = D3DXCOLOR(0.9f, 0.9f, 0.9f, 1.f);
+	MtrlDesc.Emissive = D3DXCOLOR(0.8f, 0.8f, 0.8f, 1.f);
 
 	// 장치에 재질을 설정한다
 	m_pGraphic_Device->SetMaterial(&MtrlDesc);
@@ -311,7 +311,7 @@ void CLevel_RaceThird::Check_Collision()
 {
 	m_pGameInstance->Intersect(CG_PAWN, CG_MBULLET);
 	m_pGameInstance->Intersect(CG_MONSTER, CG_PBULLET);
-	m_pGameInstance->Intersect(CG_PBULLET, CG_MBULLET);
+	//m_pGameInstance->Intersect(CG_PBULLET, CG_MBULLET);
 }
 
 CLevel_RaceThird* CLevel_RaceThird::Create(LPDIRECT3DDEVICE9 pGraphic_Device, class CLevelData* pLevelData)

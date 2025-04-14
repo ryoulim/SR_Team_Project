@@ -95,8 +95,8 @@ public:
 	{
 		m_fTime = 0.f;
 		//랜덤한 패턴으로 이어짐
-		m_pOwner->Set_State(CRaceBoss::SHOTREADY);
-		//m_pOwner->Set_State(CRaceBoss::READYBOMB);
+		//m_pOwner->Set_State(CRaceBoss::SHOTREADY);
+		m_pOwner->Set_State(CRaceBoss::READYBOMB);
 		//m_pOwner->Set_State(CRaceBoss::MOMBACKREADY);
 		//m_pOwner->Set_State(CRaceBoss::IDLE);
 	}
@@ -227,6 +227,7 @@ public:
 
 		m_pOwner->ShuffleandPop();
 		m_pOwner->Fire_HeadBullet(fTimeDelta);
+		m_pOwner->Play_Sound("ShotBullet");
 		Exit();
 	}
 
@@ -276,6 +277,9 @@ public:
 
 			//총구 이미지를 원래대로
 			m_pOwner->RestoreTextureID();
+
+			//혹시나 소리 남을까봐
+			m_pOwner->Stop_Sound("ShotBullet");
 		}
 
 		else
@@ -326,6 +330,12 @@ public:
 		m_pOwner->m_pTransformCom->TurnCustom({ 1.f, 0.f, 0.f }, 0.1f, fTimeDelta);
 		m_pOwner->m_pTransformCom->Set_State(CTransform::STATE_POSITION, vSmoothPos);
 
+		if (m_bPlaySound)
+		{
+			m_pOwner->Play_Sound("BombStart");
+			m_bPlaySound = false;
+		}
+
 		// 준비시간 : 2초
 		if (m_fTime > 2.0f)
 			Exit();
@@ -339,7 +349,12 @@ public:
 		m_pOwner->m_pTransformCom->Set_State(CTransform::STATE_LOOK, m_pOwner->m_vSavedLook);
 
 		m_pOwner->Set_State(CRaceBoss::BOMBATTACK);
+
+		m_bPlaySound = true;
 	}
+
+private:
+	_bool m_bPlaySound = { true };
 };
 
 class CRBState_BombAttack final : public CRBState
@@ -388,6 +403,15 @@ public: /* [ 먼곳에서 무차별 폭격을 하며 플레이어를 향해 돌진한다 ] */
 
 		m_pOwner->m_pTransformCom->Set_State(CTransform::STATE_POSITION, vTargerPos);
 
+		m_fSoundTime += fTimeDelta;
+		if (m_fSoundTime > 0.2f && m_iSoundCount < 15)
+		{
+			
+			m_pOwner->Play_Sound("Lazer1");
+			m_fSoundTime = 0.f;
+			++m_iSoundCount;
+		}
+		
 		/* [ 폭격 로직 ] */
 		m_pOwner->SpawnMultipleTargetAim(fTimeDelta);
 
@@ -407,6 +431,10 @@ public: /* [ 먼곳에서 무차별 폭격을 하며 플레이어를 향해 돌진한다 ] */
 	virtual void Exit() override
 	{
 		m_pOwner->Set_State(CRaceBoss::CROSSATTACK);
+		
+		m_pOwner->Stop_Sound("Lazer1");
+		m_fSoundTime = 0.f;
+		m_iSoundCount = 0;
 
 		/* [ 이펙트를 반납하고 가시오 ] */
 		if (m_pOwner->m_pWaterBoatEffect_01)
@@ -422,6 +450,8 @@ public: /* [ 먼곳에서 무차별 폭격을 하며 플레이어를 향해 돌진한다 ] */
 
 private:
 	_float m_fShakeTime = 0.f;
+	_float m_fSoundTime = 0.f;
+	_uint m_iSoundCount = 0;
 };
 
 class CRBState_CrossAttack final : public CRBState
@@ -450,6 +480,12 @@ public:
 		/* 플레이어 뒤에서 반으로 가르면서 앞으로간다. */
 		_float3 vCurrentPos = *m_pOwner->m_pTransformCom->Get_State(CTransform::STATE_POSITION);
 
+		if (m_bPlaySound)
+		{
+			m_pOwner->Play_Sound("Lazer4");
+			m_bPlaySound = false;
+		}
+		
 		/* 따라오는 파티클 */
 		if (m_pOwner->m_pWaterBoatEffect_01)
 		{
@@ -481,6 +517,7 @@ public:
 		m_pOwner->m_pTransformCom->Set_State(CTransform::STATE_LOOK, m_pOwner->m_vSavedLook);
 
 		m_pOwner->Set_State(CRaceBoss::COMEBACK);
+		m_bPlaySound = true;
 
 		/* [ 이펙트를 반납하고 가시오 ] */
 		if (m_pOwner->m_pWaterBoatEffect_01)
@@ -496,7 +533,7 @@ public:
 	
 private:
 	_float	m_fSpeed = 5000.f;
-	
+	_bool m_bPlaySound = { true };
 };
 #pragma endregion
 
@@ -552,6 +589,12 @@ public:
 
 		if (m_fTime > 1.7f)
 			Exit();
+
+		if (m_bPlaySound)
+		{
+			m_pOwner->Play_Sound("Momback");
+			m_bPlaySound = false;
+		}
 	}
 	virtual void Exit() override
 	{
@@ -560,10 +603,13 @@ public:
 		m_pOwner->SpawnTargetLineReverse({ vCurrentPos.x + 200 , 1.f, vTargetPos.z + 1000 });
 
 		m_pOwner->Set_State(CRaceBoss::MOMBACK);
+		m_pOwner->Stop_Sound("Momback");
+		m_bPlaySound = true;
 	}
 
 private:
 	float m_fRotatedAmount = 0.f;
+	_bool m_bPlaySound = true;
 };
 
 class CRBState_Momback final : public CRBState
@@ -599,6 +645,12 @@ public:
 			static_cast<CWaterBoat*>(m_pOwner->m_pWaterBoatEffect_03)->SetPosition(vWaterPos);
 		}
 
+		if (m_bPlaySound)
+		{
+			m_pOwner->Play_Sound("Momback");
+			m_bPlaySound = false;
+		}
+
 		m_fSpeed -= fTimeDelta * 1500.f;
 		_float3 vTargerPos = vCurrentPos;
 		vTargerPos.z -= fTimeDelta * m_fSpeed;
@@ -622,10 +674,13 @@ public:
 		}
 
 		m_pOwner->Set_State(CRaceBoss::MOMBACKREVERSE);
+		m_pOwner->Stop_Sound("Momback");
+		m_bPlaySound = true;
 	}
 
 private:
 	_float m_fSpeed = 4000.f;
+	_bool m_bPlaySound = { true };
 };
 
 class CRBState_MombackReverse final : public CRBState
@@ -770,6 +825,9 @@ public:
 	{
 		m_fSpeedY *= powf(2.0f, fTimeDelta);
 		m_pOwner->m_pTransformCom->Move({ 0.f,m_fSpeedY,100.f }, fTimeDelta);
+
+		/* 총알 쏘기 패턴 도중 떠나면 발사 상태 이미지로 고정되는 경우가 있음*/
+		m_pOwner->RestoreTextureID();
 
 	}
 	virtual void Exit() override
