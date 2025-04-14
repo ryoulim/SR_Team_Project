@@ -44,7 +44,9 @@ void CRaceCylinder::Late_Update(_float fTimeDelta)
 
 HRESULT CRaceCylinder::Render()
 {
+	m_pGraphic_Device->SetRenderState(D3DRS_LIGHTING, FALSE);
 	MultiTextureShaderRender(3);
+	m_pGraphic_Device->SetRenderState(D3DRS_LIGHTING, TRUE);
 
 	return S_OK;
 }

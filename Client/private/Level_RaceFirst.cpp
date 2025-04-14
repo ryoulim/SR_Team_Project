@@ -38,11 +38,15 @@ HRESULT CLevel_RaceFirst::Initialize(CLevelData* pLevelData)
 	if (FAILED(Ready_Layer_Pawn(TEXT("Layer_Pawn"))))
 		return E_FAIL;
 
-
 	if (FAILED(Ready_Layer_RaceBoss(TEXT("Layer_RaceBoss"))))
 		return E_FAIL;
 
 	m_pGraphic_Device->SetRenderState(D3DRS_LIGHTING, TRUE);
+
+	m_pBGM = m_pGameInstance->Get_Single_Sound("antistatic");
+	m_pBGM->Set_Volume(0.5f);
+	if(!m_pBGM->IsPlaying())
+		m_pBGM->Play();
 
 	return S_OK;
 }
@@ -62,7 +66,7 @@ void CLevel_RaceFirst::Update(_float fTimeDelta)
 HRESULT CLevel_RaceFirst::Render()
 {
 	// 모든 랜더가 끝나고 들어오는 부분!! 
-	m_pGraphic_Device->SetRenderState(D3DRS_LIGHTING, TRUE);
+	//m_pGraphic_Device->SetRenderState(D3DRS_LIGHTING, TRUE);
 	
 	SetWindowText(g_hWnd, TEXT("레이싱 first레벨입니다."));
 
@@ -746,4 +750,7 @@ void CLevel_RaceFirst::Free()
 	m_LightData.clear();
 
 	m_pGraphic_Device->SetRenderState(D3DRS_LIGHTING, FALSE);
+
+	m_pBGM->Stop();
+	Safe_Release(m_pBGM);
 }

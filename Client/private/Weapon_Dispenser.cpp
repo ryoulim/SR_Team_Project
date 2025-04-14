@@ -51,7 +51,7 @@ HRESULT CWeapon_Dispenser::Initialize(void* pArg)
 	if (FAILED(__super::Initialize(pArg)))
 		return E_FAIL;
 
-	m_fRayLength = 300.f;
+	m_fRayLength = 1000.f;
 
 	return S_OK;
 
@@ -312,9 +312,9 @@ void CWeapon_Dispenser::Create_Bullet()
 		for (_uint i = 0; i < 10; ++i)
 		{
 			vOffset = {
-				m_pGameInstance->RandomFloat(-0.15f, 0.15f),
-				m_pGameInstance->RandomFloat(-0.15f, 0.15f),
-				m_pGameInstance->RandomFloat(-0.15f, 0.15f)
+				m_pGameInstance->RandomFloat(-0.06f, 0.06f),
+				m_pGameInstance->RandomFloat(-0.06f, 0.06f),
+				m_pGameInstance->RandomFloat(-0.06f, 0.06f)
 			};
 			auto pPickedObj = m_pGameInstance->Raycast(pPos, pLook + vOffset, m_fRayLength, { CG_BLOCK,CG_MONSTER,CG_MONSTER_HEAD,CG_INTERACTIVE,CG_MBULLET }, iColliderID);
 			if (pPickedObj)

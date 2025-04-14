@@ -40,6 +40,7 @@ private:
 	_float m_fJumpPower{30.f};
 	_float m_fSpeedperSec{};
 	_bool  m_bAnimation = false;
+	_bool  m_bExplosionOnce{};
 
 	COLLIDER_GROUP	m_IsPlayerBullet = CG_END;
 	CGameObject*	m_pBullet = nullptr;

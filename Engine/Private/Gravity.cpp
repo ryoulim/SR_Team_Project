@@ -178,6 +178,7 @@ _float3 CGravity::Get_Terrain_Right_Dir()
 void CGravity::Update(_float fTimeDelta)
 {
 	//Check_Terrain();
+	m_bJumpEndFlag = FALSE;
 	Raycast_StandAble_Obj();
 	Jumping(fTimeDelta);
 }
@@ -252,6 +253,7 @@ void CGravity::Jumping(_float fTimeDelta)
 			//else
 			{
 				m_bJump = false;
+				m_bJumpEndFlag = TRUE;
 				CUR_Y = m_fFloorY;
 			}
 		}

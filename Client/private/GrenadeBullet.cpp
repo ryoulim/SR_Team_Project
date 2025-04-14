@@ -70,6 +70,9 @@ EVENT CGrenadeBullet::Update(_float fTimeDelta)
 	if (m_fTimeAcc > m_fTimeLimit ||
 		m_bDead)
 	{
+		if (m_bExplosionOnce)
+			return EVN_DEAD;
+
 		/* 이 총알이 죽었으면 파티클을 삭제하라 */
 		if (m_pBullet)
 		{
@@ -79,7 +82,13 @@ EVENT CGrenadeBullet::Update(_float fTimeDelta)
 
 		// 여기 라스트 콜리전 포즈면 안됩니다.
 		FX_MGR->SpawnExplosion(*m_pTransformCom->Get_State(CTransform::STATE_POSITION), m_eLevelID);
-		return EVN_DEAD;
+
+		// 여기서 딱 1프레임만 폭발 범위를 지정해주는 콜리전을 소환
+		if(m_IsPlayerBullet == CG_PBULLET)
+			m_pCollider->Update_Scale({ 80.f ,0.f, 0.f });
+		m_bExplosionOnce = TRUE;
+
+		return EVN_NONE;
 	}
 
 	/* 이 파티클이 유효하면 BULLET 을 따라가라 */

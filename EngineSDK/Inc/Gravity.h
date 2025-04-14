@@ -63,6 +63,9 @@ public:
 	_float Get_FloorY() {
 		return m_fFloorY;
 	}
+	_bool isJumpEnd() {
+		return m_bJumpEndFlag;
+	}
 	
 private:
 	class CTransform*		m_pTransformCom{ nullptr };
@@ -83,6 +86,8 @@ private:
 
 	_bool	m_bNormalChanged{};
 	_float3	m_vCurNormal{};
+
+	_bool	m_bJumpEndFlag{};
 
 #ifdef _GRV_TER
 	// 초기화용이 아닌, 터레인 정보를 입력해주기 위한 구조체입니다. (초기화시에는 Transform을 넣어주세요)

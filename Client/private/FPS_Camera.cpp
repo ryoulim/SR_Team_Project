@@ -57,6 +57,11 @@ void CFPS_Camera::Priority_Update(_float fTimeDelta)
 	{
 		Update_Zoom(fTimeDelta);
 	}
+
+	if (m_bTilt)
+	{
+		Update_Tilt(fTimeDelta);
+	}
 }
 
 EVENT CFPS_Camera::Update(_float fTimeDelta)
@@ -84,8 +89,15 @@ HRESULT CFPS_Camera::Render() // 안할거야 알아하쇼
 
 void CFPS_Camera::Mouse_Move()
 {
+	if (m_bTilt || m_bZoom)
+		return;
+
 	_float		fMouseMoveX = { static_cast<_float>(m_pGameInstance->Get_DIMMoveState(DIMM_X)) };
 	_float		fMouseMoveY = { static_cast<_float>(m_pGameInstance->Get_DIMMoveState(DIMM_Y)) };
+
+	if (fMouseMoveX == 0 &&
+		fMouseMoveY == 0)
+		return;
 
 	_float3		vRotationAxis = (*m_pTransformCom->Get_State(CTransform::STATE_RIGHT) * fMouseMoveY)
 		+ (*m_pTransformCom->Get_State(CTransform::STATE_UP) * fMouseMoveX);
@@ -273,6 +285,43 @@ void CFPS_Camera::Update_Zoom(_float fTimedelta)
 	_float t = m_fZoomTimer / m_fZoomTimeLimit;
 	m_fFov = LERP(m_fOriginFov, m_fTargetFov, t);
 	Update_Projection_Matrix();
+}
+
+void CFPS_Camera::StartTilt(_float fRadian, _float fDuration)
+{
+	m_bTilt = TRUE;
+	m_fTiltTime = 0.f;
+	m_fTiltDuration = fDuration;
+	m_fTargetTiltRadian = fRadian;
+	m_fPrevTiltRadian = 0.f;
+}
+
+void CFPS_Camera::Update_Tilt(_float fTimeDelta)
+{
+	if (!m_bTilt)
+		return;
+
+	m_fTiltTime += fTimeDelta;
+
+	_float fRatio = m_fTiltTime / m_fTiltDuration;
+	fRatio = min(fRatio, 1.f); // 오버슈트 방지
+
+	// 목표 → 0 으로 선형 보간
+	_float fCurrentTiltRadian = LERP(0.f,m_fTargetTiltRadian, fRatio);
+	_float3 vLook = m_pTransformCom->Get_State(CTransform::STATE_LOOK)->Normalize();
+
+	// Turn에는 이번 프레임에 회전해야 할 차이만 넘김
+	_float fDelta = fCurrentTiltRadian - m_fPrevTiltRadian;
+	m_pTransformCom->TurnCustom(vLook, 1.f, fDelta);
+
+	// 현재 상태 저장
+	m_fPrevTiltRadian = fCurrentTiltRadian;
+
+	// 종료 처리
+	if (fRatio >= 1.f)
+	{
+		m_bTilt = FALSE;
+	}
 }
 
 

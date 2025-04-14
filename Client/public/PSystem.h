@@ -74,9 +74,9 @@ public: //생존
 	bool isEmpty();
 	bool isDead();
 
-protected: //청소
+public: //청소
 	virtual void removeDeadParticle();
-
+	void SetDead() { m_bDead = true; }
 
 
 
@@ -129,6 +129,7 @@ protected: //멤버변수
 	_float					m_fMax = 0;
 
 	_bool					m_bIsLoop = true;
+	_bool					m_bDead = false;
 
 protected: // 애니메이션
 	_float	m_fAnimationFrame = 0;

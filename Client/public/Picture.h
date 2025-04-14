@@ -28,6 +28,8 @@ private:
 
 private:
 	_bool			m_bBroken{ FALSE };
+	CSound_Core*	m_pBGM = { nullptr };
+
 public:
 	static CPicture* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
 	virtual CGameObject* Clone(void* pArg) override;

@@ -5,7 +5,10 @@
 #include "GameInstance.h"
 #include "RaceBossBullet.h"
 #include "RaceBossBomb.h"
+#include "RaceBossRazer.h"
 #include "BombRadius.h"
+#include "RazerRadius.h"
+#include "MombackLine.h"
 
 BEGIN(Engine)
 class CTexture;
@@ -21,7 +24,10 @@ class CRaceBoss final : public CGameObject
 public:
 	enum STATE { WAITFORPLAYER, ENTRANCE, IDLE,
 		SHOTREADY, SHOTHEADBULLET, SHOTTAILBULLET,
-		READYBOMB, DRAWINGRADIUS, BOMBING, COMEBACK, 
+		READYBOMB, DRAWINGBOMBRADIUS, BOMBING, COMEBACK,
+		DRAWINGRAZERRADIUS, RAZERING,
+		BOMBATTACK,CROSSATTACK,
+		MOMBACK,MOMBACKREADY,MOMBACKREVERSE,
 		CLOSE_TO_PLAYER, 
 		LEAVE, DEAD, NON };
 
@@ -72,11 +78,23 @@ private:
 	const char* Debug_State(STATE eState);
 
 	HRESULT Ready_Components(void* pArg);
-	void ReadyForState();
 	HRESULT Fire_Bullet(CRaceBossBullet::RBULLETTYPE eType, MUZZLEPOS ePos, _float fTimeDelta);
 	HRESULT Fire_Bomb(_float fTimeDelta);
 	HRESULT Fire_Bomb2();
 	HRESULT Fire_Bomb3();
+	HRESULT Fire_Razer(_float fTimeDelta);
+
+	void ReadyForState();
+private:
+	/* [ 폭격로직 리마스터 ] */
+	HRESULT SpawnTargetAim(_float3 _vAimPosition);
+	HRESULT SpawnTargetLine(_float3 _vAimPosition);
+	HRESULT SpawnTargetLineReverse(_float3 _vLinePosition);
+	HRESULT SpawnMultipleTargetAim(_float _fTimedelta);
+	void SpawnWaterParticle(_float fWaterSpeed, _float _fMin, _float _fMax);
+	void SpawnDieParticle(_float fWaterSpeed);
+
+
 
 	HRESULT Set_BombRadius();
 	_bool Fire_Bomb4(_uint iBombIndex, _float fTime);
@@ -92,6 +110,7 @@ private:
 	_bool Judge_Skull(const _float3& vColliderPos, _float vColliderRadius, _float fTimedelta);
 	void Render_Skull(MUZZLEPOS eMuzzlePos);
 	HRESULT Draw_BombRadius(_float3 vBombingPos);
+	HRESULT Draw_RazerRadius();
 
 private:
 	friend class CRBState_WaitPlayer;
@@ -101,11 +120,16 @@ private:
 	friend class CRBState_ShotHeadBullet;
 	friend class CRBState_ShotTailBullet;
 	friend class CRBState_ReadyBombing;
-	friend class CRBState_DrawingRadius;
-	friend class CRBState_Bombing;
+	friend class CRBState_BombAttack;
+	friend class CRBState_CrossAttack;
 	friend class CRBState_Comeback;
+	friend class CRBState_DrawingRazerRadius;
+	friend class CRBState_Razering;
 	friend class CRBState_Leave;
 	friend class CRBState_Dead;
+	friend class CRBState_MombackReady;
+	friend class CRBState_Momback;
+	friend class CRBState_MombackReverse;
 	friend class CRBState_CloseToPlayer;
 
 	STATE					m_eState = { NON };
@@ -126,7 +150,6 @@ private:
 	void Fire_TailBullet(_float fTimeDelta);
 	_uint Get_HeadBulletCount();
 	void Set_HeadBulletCountZero();
-	//void SelectAndDrawRadius();
 	void Bombing(_float fTimeDelta);
 	_bool Comeback(_float fTimeDelta);
 	bool m_bDown = { false };
@@ -135,6 +158,11 @@ private:
 	CTexture* m_pTextureCom = { nullptr };
 	CVIBuffer* m_pVIBufferCom = { nullptr };
 	CTransform* m_pTransformCom = { nullptr };
+
+private:
+	CGameObject* m_pWaterBoatEffect_01 = nullptr;
+	CGameObject* m_pWaterBoatEffect_02 = nullptr;
+	CGameObject* m_pWaterBoatEffect_03 = nullptr;
 
 	vector<CCollider*> m_ColliderComs = { nullptr };
 	
@@ -147,6 +175,7 @@ private:
 	_bool		m_bPartDead[5]{};
 	_float3		m_vScale = {};
 	_float		m_fTime = {};
+	_float		m_fBombTime = {};
 	_uint		m_iHeadBulletCount = {};
 	_float3		m_vBulletDiretion = {};
 	MUZZLEPOS	m_ePos = { POSEND };
@@ -157,14 +186,17 @@ private:
 		_float fPosX;
 		_float fPosZ;
 	}BOMBDATA;
-
 	vector<BOMBDATA> m_vecBombPos;
+
+	vector<_float> m_vecRazerPos;
 
 	_float		m_fBombPosX = {};
 	_float		m_fBombPosX2[2] = {};
 	_float		m_fBombPosZ	= {};
 	_bool		m_bFireBomb[4] = { false };
 
+private:
+	_float3 m_vSavedRight, m_vSavedUp, m_vSavedLook;
 
 	///// 해골바가지
 	class CSkull* m_pSkull = { nullptr };

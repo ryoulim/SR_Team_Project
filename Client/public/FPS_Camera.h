@@ -32,6 +32,7 @@ public:
 	void Mouse_Fix();
 	void StartShake(_float fIntensity, _float fDuration, _float fShakeFreqPos, _float fShakeFreqRot);
 	void StartRecoil(_float fIntensity, _float fDuration);
+	void StartTilt(_float fRadian, _float fDuration);
 	void Zoom(_float fFOV,_float Time);
 
 private:
@@ -61,6 +62,13 @@ private:
 	_bool  m_bRecoil = FALSE;
 	_bool m_bRecoilRecovering = FALSE; 
 
+	// 카메라 틸트 관련 = Z축 회전
+	_bool  m_bTilt = FALSE;
+	_float m_fTargetTiltRadian = 0.f;
+	_float m_fTiltTime = 0.f;
+	_float m_fTiltDuration = 0.f;
+	_float m_fPrevTiltRadian{};
+
 	//줌인 줌아웃 관련
 	_bool	m_bZoom{ FALSE };
 	_float	m_fOriginFov{};
@@ -78,6 +86,7 @@ private:
 	void				Reset_Shake_And_Recoil();
 
 	void				Update_Zoom(_float fTimedelta);
+	void				Update_Tilt(_float fTimedelta);
 
 public:
 	static CFPS_Camera* Create(LPDIRECT3DDEVICE9 pGraphic_Device);

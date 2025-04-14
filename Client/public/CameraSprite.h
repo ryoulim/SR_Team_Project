@@ -6,7 +6,7 @@ BEGIN(Client)
 class CCameraSprite final : public CEffect
 {
 public:
-	enum eEffectType { GUNFIRE , BULLETTRACER, FIRE, DASH , CHAINGUN, SHOTGUN , SHOTGUNFIRE , NONE };
+	enum eEffectType { GUNFIRE , BULLETTRACER, FIRE, DASH, DAMAGE_INDICATOR, CHAINGUN, SHOTGUN , SHOTGUNFIRE , NONE };
 public:
 	typedef struct tagSpriteDesc : public CEffect::DESC
 	{
@@ -33,10 +33,15 @@ public:
 	virtual EVENT Update(_float fTimeDelta) override;
 	virtual void Late_Update(_float fTimeDelta) override;
 
+	void RotZ(_float vRadian) {
+		m_pTransformCom->Rotation({ 0.f,0.f,1.f }, vRadian);
+	}
+
 public: //·»´õ¸µ
 	virtual HRESULT SetUp_RenderState();
 	virtual HRESULT Render();
 	virtual HRESULT Release_RenderState();
+
 
 public:
 	static CCameraSprite* Create(LPDIRECT3DDEVICE9 pGraphic_Device);

@@ -34,6 +34,18 @@ HRESULT CFirePlug::Initialize(void* pArg)
 
 	m_fTextureIdx = 0.f;
 
+    switch (rand() % 2)
+    {
+    case 0:
+        m_pBGM = m_pGameInstance->Get_Single_Sound("bullet_metal001");
+        break;
+    case 1:
+        m_pBGM = m_pGameInstance->Get_Single_Sound("bullet_metal003");
+        break;
+    }
+
+    m_pBGM->Set_Volume(0.4f);
+
 	return S_OK;
 }
 
@@ -61,21 +73,33 @@ EVENT CFirePlug::Update(_float fTimeDelta)
 
 void CFirePlug::Late_Update(_float fTimeDelta)
 {
-	__super::Late_Update(fTimeDelta);
+    _float3	vTemp = *m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+    CGameObject::Compute_ViewZ(&vTemp);
+
+    if (FAILED(m_pGameInstance->Add_RenderGroup(CRenderer::RG_BLEND, this)))
+        return;
 }
 
 HRESULT CFirePlug::Render()
 {
-	m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
+    m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
+
+    m_pGraphic_Device->SetRenderState(D3DRS_ALPHABLENDENABLE, true);
+    m_pGraphic_Device->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
+    m_pGraphic_Device->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
 
     BillboardShaderRender();
 
 #ifdef _COLLIDERRENDER
-	if (m_pColliderCom)
-		m_pColliderCom->Render();
+    if (m_pColliderCom)
+        m_pColliderCom->Render();
 #endif
 
-	m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
+    m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
+
+    m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
+    m_pGraphic_Device->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_ONE);
+    m_pGraphic_Device->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_ZERO);
 
 	return S_OK;
 }
@@ -85,8 +109,7 @@ void CFirePlug::On_Collision(_uint MyColliderID, _uint OtherColliderID)
     if (CI_WEAPON(OtherColliderID))
     {
         m_iHp -= 10;
-        /* 체력이 떨어지고, 일정 체력 이하가되면 텍스쳐 변경 */
-        /* 0이하로 떨어지면 하이드로펌프 발사 */
+        m_pBGM->Play();
     }
 }
 
@@ -219,4 +242,5 @@ CGameObject* CFirePlug::Clone(void* pArg)
 void CFirePlug::Free()
 {
 	__super::Free();
+    Safe_Release(m_pBGM);
 }

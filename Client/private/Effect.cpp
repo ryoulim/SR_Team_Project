@@ -60,6 +60,9 @@ HRESULT CEffect::SetUp_RenderState()
 	m_pGraphic_Device->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
 	m_pGraphic_Device->SetRenderState(D3DRS_BLENDOP, D3DBLENDOP_ADD);
 
+	if(LEVEL_RACING(m_pGameInstance->Get_CurrentLevelIndex()))
+		m_pGraphic_Device->SetRenderState(D3DRS_LIGHTING, FALSE);
+
 	return S_OK;
 }
 
@@ -89,6 +92,8 @@ HRESULT CEffect::Release_RenderState()
 	m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
 	m_pGraphic_Device->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
 	m_pGraphic_Device->SetRenderState(D3DRS_ZWRITEENABLE, true);
+	if (LEVEL_RACING(m_pGameInstance->Get_CurrentLevelIndex()))
+		m_pGraphic_Device->SetRenderState(D3DRS_LIGHTING, TRUE);
 
 	return S_OK;
 }

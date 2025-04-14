@@ -90,6 +90,7 @@ public:
 	void TurnCustom(const _float3& vAxis, _float _Rotation, _float fTimeDelta);
 	void Turn_Immediately(const _float3& vAxis, _float fRadian);
 	void Turn_BulletMark(const _float3& vTargetLook);
+	void Turn_BossRazer(_float fRadian);
 	void Move_Forward_ByLook(_float fDistance);
 	void Rotation(const _float3& vAxis, _float fRadian);
 	void Rotation_Reset();

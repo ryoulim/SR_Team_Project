@@ -37,6 +37,7 @@ private:
 
 private:
 	class CCameraManager* m_pCameraManager = { nullptr };
+	CSound_Core* m_pBGM = { nullptr };
 
 public:
 	static CHydroPump* Create(LPDIRECT3DDEVICE9 pGraphic_Device);

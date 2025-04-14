@@ -21,6 +21,13 @@ HRESULT CWaterBoat::Initialize(void* pArg)
 		return E_FAIL;
 
 	m_fFrame = GetRandomFloat(0.f, m_fAnimationMaxFrame);
+
+	if (m_fMin == 0 && m_fMax == 0)
+	{
+		m_fMin = -120;
+		m_fMax = 120;
+	}
+
 	return S_OK;
 }
 
@@ -80,8 +87,7 @@ void CWaterBoat::resetParticle(Attribute* attribute)
 
 	// 2. 방향: 좌우로 벌어지며 퍼지는 효과
 	float xSpeed = (sideOffset >= 0)
-		? GetRandomFloat(10.f, 120.f)  // 오른쪽
-		: GetRandomFloat(-120.f, -10.f); // 왼쪽
+		? GetRandomFloat(10.f, m_fMax) : GetRandomFloat(m_fMin, -10.f);
 
 	attribute->_Velocity = { xSpeed, GetRandomFloat(10.f, 20.f), GetRandomFloat(m_fNum - 200, m_fNum)};
 
@@ -93,7 +99,7 @@ void CWaterBoat::resetParticle(Attribute* attribute)
 
 	// 5. 수명
 	attribute->_Age = 0.0f;
-	attribute->_LifeTime = GetRandomFloat(0.05f, 0.5f);
+	attribute->_LifeTime = GetRandomFloat(0.05f, m_fLifeTime);
 }
 
 void CWaterBoat::SetPosition(_float3 Position)
@@ -142,7 +148,7 @@ HRESULT CWaterBoat::SetUp_RenderState()
 	m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 
 	//김현석 : 레이싱 맵 조명 떄문에 넣었습니다.
-	//m_pGraphic_Device->SetRenderState(D3DRS_LIGHTING, FALSE);
+	m_pGraphic_Device->SetRenderState(D3DRS_LIGHTING, FALSE);
 
 	//거리에 따른 파티클 크기조절
 	m_pGraphic_Device->SetRenderState(D3DRS_POINTSCALE_A, FtoDW(1.0f));
@@ -267,7 +273,7 @@ HRESULT CWaterBoat::Render()
 HRESULT CWaterBoat::Release_RenderState()
 {
 
-	//m_pGraphic_Device->SetRenderState(D3DRS_LIGHTING, false);
+	m_pGraphic_Device->SetRenderState(D3DRS_LIGHTING, true);
 	m_pGraphic_Device->SetRenderState(D3DRS_POINTSPRITEENABLE, false);
 	m_pGraphic_Device->SetRenderState(D3DRS_POINTSCALEENABLE, false);
 	m_pGraphic_Device->SetRenderState(D3DRS_ZWRITEENABLE, true);

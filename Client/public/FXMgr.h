@@ -88,6 +88,7 @@ public: //보스스킬
 
 public: //플레이어대쉬
 	void PlayerDash(LEVEL eLevel);
+	void Damage_Indicator(LEVEL eLevel, _float RotZRadian);
 
 public: //번개위치
 	_float3 GetThunderPos() { return m_vThunderPos; }

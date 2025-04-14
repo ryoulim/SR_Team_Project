@@ -35,6 +35,10 @@ public:
 		return &m_tGrenadeInfo;
 	}
 
+	void Replenish_GrenadeAmmo(_uint iNumber) {
+		m_tGrenadeInfo.iCurAmmo += iNumber;
+	}
+
 
 private:
 	_bool m_bTrigger{};

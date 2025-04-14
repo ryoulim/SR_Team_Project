@@ -476,6 +476,11 @@ void CTransform::Turn_BulletMark(const _float3& vTargetLook)
 	Set_State(STATE_LOOK, vLook * vScaled.z);
 }
 
+void CTransform::Turn_BossRazer(_float fRadian)
+{
+
+}
+
 void CTransform::Move_Forward_ByLook(_float fDistance)
 {
 	_float3 vLook = *Get_State(STATE_LOOK);

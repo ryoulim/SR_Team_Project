@@ -2,7 +2,7 @@
 #include "FXMgr.h"
 #include "UI_Manager.h"
 
-#define INVINCIBILITY_FRAMES 0.8f
+#define INVINCIBILITY_FRAMES 1.5f
 
 CPawn::CPawn(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CGameObject{ pGraphic_Device }
@@ -218,6 +218,7 @@ void CPawn::On_Hit(_int iDamage)
 	m_bOnHit = TRUE;
 	m_tInfo.iArmor -= iDamage;
 	FX_MGR->SpawnHitEffect(m_eLevelID);
+
 	CUI_Manager::Get_Instance()->Set_Face(CPortrait::PORTRAIT_ANGER);
 
 	if (m_tInfo.iArmor <= 0)

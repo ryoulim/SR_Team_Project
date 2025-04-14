@@ -2,6 +2,7 @@
 
 #include "Client_Defines.h"
 #include "Level.h"
+#include "GameInstance.h"
 
 BEGIN(Client)
 
@@ -25,6 +26,9 @@ private:
 	HRESULT Ready_Layer_UI(const _wstring& strLayerTag);
 
 	void Check_Collision();
+
+private:
+	CSound_Core* m_pBGM = { nullptr };
 
 public:
 	static CLevel_RaceSecond* Create(LPDIRECT3DDEVICE9 pGraphic_Device, class CLevelData* pLevelData);

@@ -1041,7 +1041,7 @@ void CMonster::On_Collision(_uint MyColliderID, _uint OtherColliderID)
 
 	if (OtherColliderID == CI_DISPENSOR_GRENADE)
 	{
-		m_iHP -= 50 * m_iHeadMultiplier;
+		m_iHP -= 25 * m_iHeadMultiplier;
 	}
 
 	if (OtherColliderID == CI_PICKING_RAY)
