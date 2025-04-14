@@ -191,7 +191,8 @@ void CPlayer::On_Collision(_uint MyColliderID, _uint OtherColliderID)
 		return;
 	}
 
-	m_pSoundCom->SetVolume(0.2f);
+	m_pSoundCom->SetVolume(0.3f);
+	m_pSoundCom->SetVolume("ArmorPiece", 0.15f);
 
 	switch (OtherColliderID)
 	{

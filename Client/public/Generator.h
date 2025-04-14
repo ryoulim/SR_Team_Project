@@ -20,6 +20,11 @@ private:
 	virtual ~CGenerator() = default;
 
 public:
+	_bool Is_Broken() {
+		return m_bBroken;
+	}
+
+public:
 	virtual HRESULT Initialize_Prototype() override;
 	virtual HRESULT Initialize(void* pArg) override;
 	virtual void Priority_Update(_float fTimeDelta) override;
