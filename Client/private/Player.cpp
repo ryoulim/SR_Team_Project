@@ -6,6 +6,9 @@
 #include "CameraManager.h"
 #include "FXMgr.h"
 
+/* 샷건을 트리거로 몬스터 생성해주고싶어서 헤더 추가 해놓겠습니다 감사합니다 */
+#include "Monster.h"
+
 // 무기들 인클루드
 //#include "Weapon_LoverBoy.h"
 #include "Weapon_Dispenser.h"
@@ -236,12 +239,38 @@ void CPlayer::On_Collision(_uint MyColliderID, _uint OtherColliderID)
 		break;
 
 	case CI_ITEM_DISPENSER:
+	{
 		++m_iMaxWeaponIndex;
 		UIMGR->Add_Weapon();
 		PRINT_DIALOG("picked up Dispenser");
 		m_pSoundCom->Play("Weapon");
-		break;
 
+		/* 몬스터 소환 좀 하겠습니다,, */
+		if (m_eLevelID == LEVEL_INDOOR)
+		{
+			/* 앙찬겔 각자 자리에 */
+			SPAWN_ARCHANGEL_ALT(611.f, 100.f, 690.f, LEVEL_INDOOR, false);
+			SPAWN_ARCHANGEL_ALT(1950.f, 100.f, 650.f, LEVEL_INDOOR, false);
+			SPAWN_ARCHANGEL_ALT(1780.f, 100.f, 1400.f, LEVEL_INDOOR, false);
+
+			/* 첫 광장 좀비 */
+			SPAWN_NUKEMUTANT_ALT(600.f, 50.f, 591.f, LEVEL_INDOOR);
+			SPAWN_NUKEMUTANT_ALT(500.f, 50.f, 511.f, LEVEL_INDOOR);
+			SPAWN_NUKEMUTANT_ALT(500.f, 50.f, 591.f, LEVEL_INDOOR);
+
+			/* 통로쪽 양 옆 */
+			SPAWN_SHOTGUNNER_ALT(1128.f, 50.f, 705.f, LEVEL_INDOOR, true);
+			SPAWN_SHOTGUNNER_ALT(1128.f, 50.f, 340.f, LEVEL_INDOOR, true);
+
+			/* 두번쨰 광장 기둥 뒤랑 구석 */
+			SPAWN_SHOTGUNNER_ALT(1540.f, 50.f, 350.f, LEVEL_INDOOR, true);
+			SPAWN_SHOTGUNNER_ALT(2080.f, 50.f, 515.f, LEVEL_INDOOR, true);
+			SPAWN_SHOTGUNNER_ALT(1876.f, 50.f, 579.f, LEVEL_INDOOR, true);
+			SPAWN_SHOTGUNNER_ALT(2190.f, 50.f, 369.f, LEVEL_INDOOR, true);
+		}
+
+		break;
+	}
 	case CI_ITEM_AMMO_CHAINGUN:
 		m_Weapons[2]->Replenish_Ammo(100);
 		PRINT_DIALOG("ammo for Chaingun x 100");

@@ -242,4 +242,55 @@ TEXT("Prototype_GameObject_Nukemutant"),					\
 level, L"Layer_Monster", &Nukemutant_iDesc)))				\
 return EVN_NONE;}											\
 
+#define SPAWN_SHOTGUNNER_ALT(x,y,z, level, Standby)			\
+{CMonster::DESC Shotgunner_iDesc{};							\
+Shotgunner_iDesc.fSpeedPerSec = 60.f;						\
+Shotgunner_iDesc.fRotationPerSec = RADIAN(180.f);			\
+Shotgunner_iDesc.vActive = true;							\
+Shotgunner_iDesc.eLevel = level;							\
+Shotgunner_iDesc.fAttackDistance = 300.f;					\
+Shotgunner_iDesc.fDetectiveDistance = 700.f; 				\
+Shotgunner_iDesc.bStandby = Standby;						\
+_float3 Pos = { x, y, z };									\
+Shotgunner_iDesc.vPosition = Pos;							\
+Shotgunner_iDesc.vReturnPos = Pos;							\
+if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC,	\
+TEXT("Prototype_GameObject_Shotgunner"),					\
+level, L"Layer_Monster", &Shotgunner_iDesc)))				\
+return;}											\
+
+#define SPAWN_NUKEMUTANT_ALT(x,y,z, level)					\
+{CMonster::DESC Nukemutant_iDesc{};							\
+Nukemutant_iDesc.fSpeedPerSec = 60.f;						\
+Nukemutant_iDesc.fRotationPerSec = RADIAN(180.f);			\
+Nukemutant_iDesc.vActive = true;							\
+Nukemutant_iDesc.eLevel = level;							\
+Nukemutant_iDesc.fAttackDistance = 400.f;					\
+Nukemutant_iDesc.fDetectiveDistance = 500.f; 				\
+Nukemutant_iDesc.bStandby = false;							\
+_float3 Pos = { x, y, z };									\
+Nukemutant_iDesc.vPosition = Pos;							\
+Nukemutant_iDesc.vReturnPos = Pos;							\
+if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC,	\
+TEXT("Prototype_GameObject_Nukemutant"),					\
+level, L"Layer_Monster", &Nukemutant_iDesc)))				\
+return;}											\
+
+#define SPAWN_ARCHANGEL_ALT(x,y,z, level, Standby)			\
+{CMonster::DESC Archangel_iDesc{};							\
+Archangel_iDesc.fSpeedPerSec = 60.f;						\
+Archangel_iDesc.fRotationPerSec = RADIAN(180.f);			\
+Archangel_iDesc.vActive = true;								\
+Archangel_iDesc.eLevel = level;								\
+Archangel_iDesc.fAttackDistance = 600.f;					\
+Archangel_iDesc.fDetectiveDistance = 800.f; 				\
+Archangel_iDesc.bStandby = Standby;							\
+_float3 Pos = { x, y, z };									\
+Archangel_iDesc.vPosition = Pos;							\
+Archangel_iDesc.vReturnPos = Pos;							\
+if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC,	\
+TEXT("Prototype_GameObject_Archangel"),						\
+level, L"Layer_Monster", &Archangel_iDesc)))				\
+return;}												\
+
 #pragma endregion
