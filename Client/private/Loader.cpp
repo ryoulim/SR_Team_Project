@@ -737,6 +737,16 @@ HRESULT CLoader::Loding_For_Static()
 	ADD_SOUND(Dispenser, "../Bin/Resources/Sounds/Weapons/Dispenser/");
 	ADD_SOUND(Player_On_Boat, "../Bin/Resources/Sounds/Player_On_Boat/");
 
+	ADD_SOUND_EX(Archangel, "../Bin/Resources/Sounds/Monster/Archangel/",true, false, false);
+	ADD_SOUND_EX(BattleShip, "../Bin/Resources/Sounds/Monster/BattleShip/",true, false, false);
+	ADD_SOUND_EX(Cultist, "../Bin/Resources/Sounds/Monster/Cultist/",true, false, false);
+	ADD_SOUND_EX(Deacon, "../Bin/Resources/Sounds/Monster/Deacon/",true, false, false);
+	ADD_SOUND_EX(Greater, "../Bin/Resources/Sounds/Monster/Greater/",true, false, false);
+	ADD_SOUND_EX(Mechsect, "../Bin/Resources/Sounds/Monster/Mechsect/",true, false, false);
+	ADD_SOUND_EX(Nukemutant, "../Bin/Resources/Sounds/Monster/Nukemutant/",true, false, false);
+	ADD_SOUND_EX(Shotgunner, "../Bin/Resources/Sounds/Monster/Shotgunner/",true, false, false);
+	ADD_SOUND_EX(Wenteko, "../Bin/Resources/Sounds/Monster/Wenteko/",true, false, false);
+
 	ADD_SOUND(Explorsion, "../Bin/Resources/Sounds/Explorsion/");
 	/* 나중에 인도어로 반드시 반드시 반드시 옮기시오 */
 	m_pGameInstance->LoadSound("../Bin/Resources/Sounds/Interactive_Object/Door/");

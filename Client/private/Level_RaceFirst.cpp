@@ -62,7 +62,7 @@ void CLevel_RaceFirst::Update(_float fTimeDelta)
 	if (m_iNextLevel)
 	{
 		if (m_iNextLevel == LEVEL_UNDERGROUND)
-		{
+		{   
 			m_pGameInstance->Release_Layer(LEVEL_STATIC, TEXT("Layer_RaceBoss"));
 			m_pGameInstance->Release_Layer(LEVEL_STATIC, TEXT("Layer_RaceBossBullet"));
 			m_pGameInstance->Release_Layer(LEVEL_STATIC, TEXT("Layer_Particle"));
