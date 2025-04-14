@@ -44,6 +44,20 @@ void CSoundController::Stop(const string& strTag)
 		pSoundCore->Stop();
 }
 
+void CSoundController::Set_Loop(const string& strTag, _int _LoopCount)
+{
+	auto pSoundCore = Find_Sound(strTag);
+	if (pSoundCore)
+		pSoundCore->Set_Loop(_LoopCount);
+}
+
+void CSoundController::Set_Pitch(const string& strTag, _float Pitch)
+{
+	auto pSoundCore = Find_Sound(strTag);
+	if (pSoundCore)
+		pSoundCore->Set_Pitch(Pitch);
+}
+
 void CSoundController::SetVolume(const string& strTag, _float Volume)
 {
 	auto pSoundCore = Find_Sound(strTag);

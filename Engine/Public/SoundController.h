@@ -22,6 +22,10 @@ public:
 
     void Play(const string& strTag);
     void Stop(const string& strTag);
+    // -1 = 무한루프
+    void Set_Loop(const string& strTag, _int _LoopCount = -1);
+    void Set_Pitch(const string& strTag, _float Pitch);
+
     void SetVolume(const string& strTag,_float Volume);
     // 사운드 포지션 업데이트
     void Update3DPosition(const string& strTag, const _float3& vPos);

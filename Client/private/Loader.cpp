@@ -733,7 +733,10 @@ HRESULT CLoader::Loding_For_Static()
 #pragma region 사운드
 	ADD_SOUND(Player, "../Bin/Resources/Sounds/Player/");
 	ADD_SOUND(LoverBoy, "../Bin/Resources/Sounds/Weapons/Loverboy/");
+	ADD_SOUND(ChainGun, "../Bin/Resources/Sounds/Weapons/ChainGun/");
 	ADD_SOUND(Dispenser, "../Bin/Resources/Sounds/Weapons/Dispenser/");
+	ADD_SOUND(Player_On_Boat, "../Bin/Resources/Sounds/Player_On_Boat/");
+
 	ADD_SOUND(Explorsion, "../Bin/Resources/Sounds/Explorsion/");
 	/* 나중에 인도어로 반드시 반드시 반드시 옮기시오 */
 	m_pGameInstance->LoadSound("../Bin/Resources/Sounds/Interactive_Object/Door/");

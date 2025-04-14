@@ -44,7 +44,7 @@ HRESULT CLevel_RaceFirst::Initialize(CLevelData* pLevelData)
 	m_pGraphic_Device->SetRenderState(D3DRS_LIGHTING, TRUE);
 
 	m_pBGM = m_pGameInstance->Get_Single_Sound("antistatic");
-	m_pBGM->Set_Volume(0.5f);
+	m_pBGM->Set_Volume(0.35f);
 	if(!m_pBGM->IsPlaying())
 		m_pBGM->Play();
 
@@ -58,6 +58,14 @@ void CLevel_RaceFirst::Update(_float fTimeDelta)
 
 	if (m_iNextLevel)
 	{
+		if (m_iNextLevel == LEVEL_UNDERGROUND)
+		{
+			m_pGameInstance->Release_Layer(LEVEL_STATIC, TEXT("Layer_RaceBoss"));
+			m_pGameInstance->Release_Layer(LEVEL_STATIC, TEXT("Layer_RaceBossBullet"));
+			m_pGameInstance->Release_Layer(LEVEL_STATIC, TEXT("Layer_Particle"));
+			static_cast<CPawn*>(GET_PLAYER)->Set_Active(FALSE);
+		}
+
 		m_pGameInstance->Change_Level(LEVEL_LOADING,
 			CLevel_Loading::Create(m_pGraphic_Device, (LEVEL)m_iNextLevel));
 	}

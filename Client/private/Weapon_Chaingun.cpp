@@ -40,6 +40,10 @@ HRESULT CWeapon_Chaingun::Initialize(void* pArg)
 	m_tAmmoInfo.iReloadedAmmo = 6;
 	///////
 
+	m_pSoundCom->SetVolume(0.5f);
+
+	m_pSoundCom->SetVolume("burst",0.6f);
+
 	return S_OK;
 }
 
@@ -144,6 +148,9 @@ void CWeapon_Chaingun::Set_State(STATE State)
 		break;
 	case ST_W_ATK: // 진짜 발사
 	{
+		//m_pSoundCom->Stop("start_001");
+		m_pSoundCom->Play("spin_001");
+		m_pSoundCom->Set_Loop("spin_001");
 		_float3 vSize{};
 		m_pTextureCom->Get_TextureSize(8, &vSize);
 		m_pTransformCom->Scaling(vSize * 1.25f);
@@ -158,6 +165,7 @@ void CWeapon_Chaingun::Set_State(STATE State)
 	}
 	case ST_S_ATK: // 예열
 	{
+		m_pSoundCom->Play("start_001");
 		_float3 vSize{};
 		m_pTextureCom->Get_TextureSize(1, &vSize);
 		m_pTransformCom->Scaling(vSize * 1.25f);
@@ -171,6 +179,8 @@ void CWeapon_Chaingun::Set_State(STATE State)
 	}
 	case ST_RELEASE:
 	{
+		m_pSoundCom->Stop("start_001");
+		m_pSoundCom->Play("stop_002");
 		_float3 vSize{};
 		m_pTextureCom->Get_TextureSize(1, &vSize);
 		m_pTransformCom->Scaling(vSize * 1.25f);
@@ -220,6 +230,11 @@ HRESULT CWeapon_Chaingun::Ready_Components(void* pArg)
 	m_pTransformCom->Scaling(vSize * 1.25f);
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, HEADPOS);
 	
+	/* For.Com_Sound */
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Sound_ChainGun"),
+		TEXT("Com_Sound"), reinterpret_cast<CComponent**>(&m_pSoundCom))))
+		return E_FAIL;
+
 	return S_OK;
 }
 
@@ -238,6 +253,7 @@ void CWeapon_Chaingun::Weak_Attack(_float fTimeDelta)
 		m_tAmmoInfo.iCurAmmo--;
 		FX_MGR->SpawnEmptyBullet(_float3(0.f, 0.f, 0.f), LEVEL_GAMEPLAY);
 		FX_MGR->SpawnBulletTracerMachineGun(_float3{ 700.f, 400.f, 0.99999f }, LEVEL_GAMEPLAY);
+		m_pSoundCom->Play("burst");
 		Create_Bullet();
 	}
 
@@ -250,6 +266,7 @@ void CWeapon_Chaingun::Weak_Attack(_float fTimeDelta)
 	{
 		m_pTransformCom->Set_State(CTransform::STATE_POSITION, HEADPOS);
 		m_pBodyTransformCom->Set_State(CTransform::STATE_POSITION, INITPOS);
+		m_pSoundCom->Stop("spin_001");
 		Set_State(ST_RELEASE);
 	}
 }

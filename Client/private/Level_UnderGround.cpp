@@ -21,9 +21,6 @@ CLevel_UnderGround::CLevel_UnderGround(LPDIRECT3DDEVICE9 pGraphic_Device)
 
 HRESULT CLevel_UnderGround::Initialize(CLevelData* pLevelData)
 {
-	m_pGameInstance->Release_Layer(LEVEL_STATIC, TEXT("Layer_RaceBoss"));
-	m_pGameInstance->Release_Layer(LEVEL_STATIC, TEXT("Layer_RaceBossBullet"));
-
 	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_Sky"),
 		CurLevel, TEXT("Layer_Sky"))))
 		return E_FAIL;

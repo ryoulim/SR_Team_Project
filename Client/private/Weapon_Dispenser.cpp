@@ -53,6 +53,9 @@ HRESULT CWeapon_Dispenser::Initialize(void* pArg)
 
 	m_fRayLength = 1000.f;
 
+	m_pSoundCom->SetVolume(0.6f);
+	m_pSoundCom->SetVolume("apart_001", 0.5f);
+
 	return S_OK;
 
 }
@@ -126,7 +129,6 @@ void CWeapon_Dispenser::Set_State(STATE State)
 		m_fTextureNum = 0.f;
 		break;
 	case ST_W_ATK: // °ø°Ý
-		m_pSoundCom->Play("fire_1_4");
 		m_pTransformCom->Set_State(CTransform::STATE_POSITION, INITPOS);
 		m_eState = ST_W_ATK;
 		m_fFrameSpeed = 35.f;
@@ -149,6 +151,8 @@ void CWeapon_Dispenser::Set_State(STATE State)
 	}
 	case ST_RELOAD:
 	{
+		m_pSoundCom->Play("apart_001");
+		m_pSoundCom->Play("insert_001");
 		m_pTransformCom->Set_State(CTransform::STATE_POSITION, { 0.f,-50.f,0.f });
 		m_eState = ST_RELOAD;
 		m_fTextureNum = 16.f;
@@ -225,7 +229,7 @@ void CWeapon_Dispenser::Opening(_float fTimeDelta)
 }
 
 void CWeapon_Dispenser::Weak_Attack(_float fTimeDelta)
-{
+{	
 	// ½î°í Àá±ñ ´ë±â
 	if (m_bTrigger)
 	{
@@ -257,6 +261,7 @@ void CWeapon_Dispenser::Reload(_float fTimeDelta)
 			m_bTrigger = FALSE;
 			Set_State(ST_IDLE);
 		}
+
 	}
 	else
 	{
@@ -278,6 +283,7 @@ void CWeapon_Dispenser::Create_Bullet()
 	// ÆøÅº»Ñ¸®±â
 	if (m_bGrenadeMode)
 	{
+		m_pSoundCom->Play("glaunch");
 		FX_MGR->SpawnShotGunFire(_float3{ 750.f, 450.f, 0.1f }, LEVEL_GAMEPLAY);
 		CAMERA_MANAGER->StartRecoil(1.5f);
 		_float3 vLook = m_pPlayerTransform->Get_State(CTransform::STATE_LOOK)->Normalize();
@@ -300,6 +306,7 @@ void CWeapon_Dispenser::Create_Bullet()
 	// ¼¦°Ç
 	else
 	{
+		m_pSoundCom->Play("fire_1_4");
 		FX_MGR->SpawnShotGunFire(_float3{ 750.f, 450.f, 0.1f }, LEVEL_GAMEPLAY);
 		FX_MGR->SpawnShotGunTracer(_float3{ 700.f, 400.f, 0.9f }, LEVEL_GAMEPLAY);
 		CAMERA_MANAGER->StartRecoil(1.5f);

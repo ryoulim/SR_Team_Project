@@ -65,7 +65,7 @@ private:
 
 	vector<class CWeapon*>		m_Weapons;
 	_int						m_iCurWeaponIndex{};
-	_int						m_iMaxWeaponIndex{};
+	_int						m_iMaxWeaponIndex{2};
 
 	// ´ë½¬
 	_float3						m_vPrePosition{};

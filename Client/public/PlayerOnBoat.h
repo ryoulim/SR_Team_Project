@@ -25,6 +25,8 @@ public:
 	virtual HRESULT Render() override;
 
 	virtual void On_Collision(_uint MyColliderID, _uint OtherColliderID) override;
+	virtual void On_Hit(_int iDamage) override;
+
 
 	_float3		GetVelocityPerSecond(_float fTimeDelta) const {
 		const _float3& vPos = *m_pTransformCom->Get_State(CTransform::STATE_POSITION);
