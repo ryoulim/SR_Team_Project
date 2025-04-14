@@ -55,10 +55,12 @@ EVENT CMyComputer::Update(_float fTimeDelta)
 				if (!m_bDoOnce)
 				{
 					/* 두번째 광장 좀비 */
-					SPAWN_NUKEMUTANT_EX(2100.f, 50.f, 545.f, LEVEL_INDOOR);
-					SPAWN_NUKEMUTANT_EX(1663.f, 50.f, 993.f, LEVEL_INDOOR);
-					SPAWN_NUKEMUTANT_EX(2180.f, 50.f, 846.f, LEVEL_INDOOR);
-					SPAWN_NUKEMUTANT_EX(1980.f, 50.f, 800.f, LEVEL_INDOOR);
+					SPAWN_NUKEMUTANT_EX(2114.f, 50.f, 545.f, LEVEL_INDOOR);
+					SPAWN_NUKEMUTANT_EX(1961.f, 50.f, 427.f, LEVEL_INDOOR);
+					SPAWN_NUKEMUTANT_EX(2180.f, 50.f, 600.f, LEVEL_INDOOR);
+					SPAWN_NUKEMUTANT_EX(2147.f, 50.f, 550.f, LEVEL_INDOOR);
+					SPAWN_NUKEMUTANT_EX(1585.f, 50.f, 766.f, LEVEL_INDOOR);
+					SPAWN_NUKEMUTANT_EX(1585.f, 50.f, 953.f, LEVEL_INDOOR);
 
 					/* 첫번째 광장 좀비 */
 					SPAWN_NUKEMUTANT_EX(717.f, 50.f, 511.f, LEVEL_INDOOR);
@@ -67,17 +69,22 @@ EVENT CMyComputer::Update(_float fTimeDelta)
 					SPAWN_NUKEMUTANT_EX(500.f, 50.f, 511.f, LEVEL_INDOOR);
 					SPAWN_NUKEMUTANT_EX(500.f, 50.f, 591.f, LEVEL_INDOOR);
 
-					/* */
-					SPAWN_SHOTGUNNER_EX(1765.f, 50.f, 899.f, LEVEL_INDOOR, true);
-					SPAWN_SHOTGUNNER_EX(1776.f, 50.f, 972.f, LEVEL_INDOOR, true);
-					SPAWN_SHOTGUNNER_EX(1718.f, 50.f, 1000.f, LEVEL_INDOOR, true);
-					/* */
-					//SPAWN_SHOTGUNNER_EX(1718.f, 50.f, 998.f, LEVEL_INDOOR, true);
-					//SPAWN_SHOTGUNNER_EX(1831.f, 50.f, 484.f, LEVEL_INDOOR, true);
-					//SPAWN_SHOTGUNNER_EX(2014.f, 50.f, 464.f, LEVEL_INDOOR, true);
+					/* 기둥 뒤 사내 */
+					SPAWN_SHOTGUNNER_EX(2012.f, 50.f, 464.f, LEVEL_INDOOR, true);
+					SPAWN_SHOTGUNNER_EX(1874.f, 50.f, 464.f, LEVEL_INDOOR, true);
 
-					//SPAWN_SHOTGUNNER_EX(1765.f, 50.f, 899.f, LEVEL_INDOOR, true);
-					//SPAWN_SHOTGUNNER_EX(1765.f, 50.f, 899.f, LEVEL_INDOOR, true);
+					/* 출구 쪽 대기 */
+					SPAWN_SHOTGUNNER_EX(1765.f, 50.f, 950.f, LEVEL_INDOOR, true);
+					SPAWN_SHOTGUNNER_EX(1776.f, 50.f, 900.f, LEVEL_INDOOR, true);
+					SPAWN_SHOTGUNNER_EX(1718.f, 50.f, 950.f, LEVEL_INDOOR, true);
+
+					/* 통로 왼쪽 */
+					SPAWN_SHOTGUNNER_EX(1294.f, 50.f, 351.f, LEVEL_INDOOR, true);
+					SPAWN_SHOTGUNNER_EX(1229.f, 50.f, 351.f, LEVEL_INDOOR, true);
+					SPAWN_SHOTGUNNER_EX(1150.f, 50.f, 351.f, LEVEL_INDOOR, true);
+
+					/* 시작점 쪽 대기 */
+					SPAWN_SHOTGUNNER_EX(412.f, 50.f, 377.f, LEVEL_INDOOR, true);
 
 					m_bDoOnce = true;
 				}

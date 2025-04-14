@@ -499,9 +499,9 @@ HRESULT CLevel_Indoor::Ready_Layer_Monster(const _wstring& strLayerTag)
 	SPAWN_SHOTGUNNER(1250.f, 50.f, 330.f, LEVEL_INDOOR, true);
 
 	/* 통로지난 광장 왼쪽 구석 */
-	SPAWN_SHOTGUNNER(1550.f, 50.f, 875.f, LEVEL_INDOOR, true);
-	SPAWN_SHOTGUNNER(1580.f, 50.f, 825.f, LEVEL_INDOOR, true);
-	SPAWN_SHOTGUNNER(1610.f, 50.f, 875.f, LEVEL_INDOOR, true);
+	SPAWN_SHOTGUNNER(1550.f, 50.f, 825.f, LEVEL_INDOOR, true);
+	SPAWN_SHOTGUNNER(1580.f, 50.f, 800.f, LEVEL_INDOOR, true);
+	SPAWN_SHOTGUNNER(1610.f, 50.f, 825.f, LEVEL_INDOOR, true);
 
 	/* 문 열면 깝툭튀 */
 	SPAWN_SHOTGUNNER(2150.f, 50.f, 930.f, LEVEL_INDOOR, true);
