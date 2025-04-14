@@ -147,7 +147,7 @@ void CLoading_ToBoss::Init_Sequence()
 		m_fAnimationFrame = m_fAnimationStartFrame;
 		m_fAnimationMaxFrame = TEX_BREAK_END;
 		m_fAnimationSpeed = 1.f;
-		m_iTexRepeat = 3;
+		m_iTexRepeat = 2;
 		break;
 
 	default:

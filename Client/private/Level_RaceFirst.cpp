@@ -702,7 +702,6 @@ HRESULT CLevel_RaceFirst::Ready_Layer_UI(const _wstring& strLayerTag)
 
 	/* ui생성 순서 중요 */
 	// 과거의 나야 미안해 
-	// 안미안해꺼져
 	return S_OK;
 }
 
@@ -710,7 +709,7 @@ void CLevel_RaceFirst::Check_Collision()
 {
 	m_pGameInstance->Intersect(CG_PAWN, CG_MBULLET);
 	m_pGameInstance->Intersect(CG_MONSTER, CG_PBULLET);
-	m_pGameInstance->Intersect(CG_PBULLET, CG_MBULLET);
+	//m_pGameInstance->Intersect(CG_PBULLET, CG_MBULLET);
 }
 
 void CLevel_RaceFirst::Manage_Light()

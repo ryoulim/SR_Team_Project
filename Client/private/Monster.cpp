@@ -130,12 +130,16 @@ void CMonster::Late_Update(_float fTimeDelta)
 	Compute_ViewAngle();
 	Set_TextureType();
 
-	if (FAILED(m_pGameInstance->Add_RenderGroup(CRenderer::RG_BLEND, this)))
-		return;
+	//if (FAILED(m_pGameInstance->Add_RenderGroup(CRenderer::RG_BLEND, this)))
+	//	return;
 
 	if (m_bSkullActive)
 		m_pSkull->Late_Update(fTimeDelta);
 
+	const _float3& vPos = *m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+
+	if (m_pGameInstance->IsInFrustum(vPos, m_pTransformCom->Get_Radius()))
+		m_pGameInstance->Add_RenderGroup(CRenderer::RG_BLEND, this);
 	
 }
 
