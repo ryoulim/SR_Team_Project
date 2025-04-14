@@ -50,6 +50,8 @@ EVENT CLoading_Ending::Update(_float fTimeDelta)
 	if (KEY_DOWN(DIK_RETURN))
 	{
 		m_fTextureNum += 1.f;
+		if (m_fTextureNum > 8.f)
+			m_fTextureNum = 8.f;
 	}
 
 	if (KEY_DOWN(DIK_SPACE))
@@ -59,7 +61,7 @@ EVENT CLoading_Ending::Update(_float fTimeDelta)
 			m_fTextureNum = 8.f;
 			// 게임 종료?
 		}
-		if (m_fTextureNum > 8.f)
+		if (m_fTextureNum > 7.f)
 			PostQuitMessage(0);
 
 	}

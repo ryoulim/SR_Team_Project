@@ -537,7 +537,7 @@ HRESULT CWenteko::Set_Animation()
 			break;
 		case Client::CWenteko::STATE_DEAD:
 			m_fAnimationMaxFrame = _float(MAX_DEAD);
-			m_fAnimationSpeed = 10.f;
+			m_fAnimationSpeed = 13.f;
 			m_bRotateAnimation = false;
 			break;
 		}

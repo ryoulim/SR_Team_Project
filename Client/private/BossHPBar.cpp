@@ -59,21 +59,21 @@ HRESULT CBossHPBar::Ready_Components(void* pArg)
 
 void CBossHPBar::Priority_Update(_float fTimeDelta)
 {
+	if (m_bIsFirst)
+	{
+		m_fFirstTimeAnim += 0.02f;
+		if (m_fFirstTimeAnim >= 1.f)
+		{
+			m_fFirstTimeAnim = 1.f;
+			m_bIsFirst = false;
+		}
+	}
+
 	__super::Priority_Update(fTimeDelta);
 }
 
 EVENT CBossHPBar::Update(_float fTimeDelta)
 {
-	//if (KEY_DOWN(DIK_Z))
-	//{
-	//	*m_pBossHP[0] -= 5;
-	//}
-	//if (KEY_DOWN(DIK_X))
-	//{
-	//	if (m_eLevelID == LEVEL_GAMEPLAY)
-	//		*m_pBossHP[1] -= 5;
-	//}
-
 	return __super::Update(fTimeDelta);
 }
 
@@ -112,6 +112,14 @@ HRESULT CBossHPBar::Render()
 
 HRESULT CBossHPBar::Render_FirstTime()
 {
+	_float fHPPercent = *m_pBossHP[0] / static_cast<_float>(m_iBossMaxHP);
+	if (fHPPercent <= 0.99)
+	{
+		m_fFirstTimeAnim = 1.f; //되는지확인하시옴
+	}
+	else
+		m_fFirstTimeAnim = 0.f;
+	m_bIsFirst = true; 
 	m_eIsFirstTime = DONE;
 	return S_OK;
 }
@@ -143,7 +151,7 @@ HRESULT CBossHPBar::Render_Ttakkeun_I()
 			return E_FAIL;
 
 		m_pTextureCom->Bind_Shader_To_Texture(m_pShaderCom, "Tex", 1);
-		m_pShaderCom->SetFloat("HPPercent", fHPPercent);
+		m_pShaderCom->SetFloat("HPPercent", fHPPercent * m_fFirstTimeAnim);
 		m_pShaderCom->Begin(CShader::HPMASKING);
 
 		if (FAILED(m_pVIBufferCom->Bind_Buffers()))
@@ -174,7 +182,7 @@ HRESULT CBossHPBar::Render_RacingBoss()
 		return E_FAIL;
 
 	m_pTextureCom->Bind_Shader_To_Texture(m_pShaderCom, "Tex", 1);
-	m_pShaderCom->SetFloat("HPPercent", fHPPercent);
+	m_pShaderCom->SetFloat("HPPercent", fHPPercent * m_fFirstTimeAnim);
 	m_pShaderCom->Begin(CShader::HPMASKING);
 	m_pGraphic_Device->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
 	m_pGraphic_Device->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);

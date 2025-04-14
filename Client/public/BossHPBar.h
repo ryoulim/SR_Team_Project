@@ -46,7 +46,8 @@ private:
 	_float3			m_vBackSize = {};
 	_bool			m_bIsFirst = { false };
 	enum RENDERSTATE { DONT_RENDER, FIRST_RENDER, DONE };
-	RENDERSTATE			m_eIsFirstTime = { DONT_RENDER };
+	RENDERSTATE		m_eIsFirstTime = { DONT_RENDER };
+	_float			m_fFirstTimeAnim = { 0.f };
 
 public:
 	static CBossHPBar* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
