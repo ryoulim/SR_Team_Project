@@ -617,12 +617,12 @@ void CMonster::State_Change_IDLE(_float dt)
 void CMonster::State_Change_DETECTIVE(_float dt)
 {
 	m_fRaycastTicker += dt;
-	if (m_fRaycastTicker > 1.f)
+	if (m_fRaycastTicker > 0.5f)
 	{
 		if (IsMonsterAbleToAttack())
 		{
 			m_bFoundPlayer = true;
-			m_eState = MODE::MODE_READY;
+			m_eState = MODE::MODE_BATTLE;
 		}
 	}
 }
@@ -630,7 +630,7 @@ void CMonster::State_Change_DETECTIVE(_float dt)
 void CMonster::State_Change_READY(_float dt)
 {
 	m_fRaycastTicker += dt;
-	if (m_fRaycastTicker > 1.f)
+	if (m_fRaycastTicker > 0.5f)
 	{
 		if (!IsMonsterAbleToAttack())
 		{
@@ -652,7 +652,7 @@ void CMonster::State_Change_BATTLE(_float dt)
 		m_bCoolingDown = false;
 	}
 	m_fRaycastTicker += dt;
-	if (m_fRaycastTicker > 1.f)
+	if (m_fRaycastTicker > 0.5f)
 	{
 		if (false == IsMonsterAbleToAttack())
 		{

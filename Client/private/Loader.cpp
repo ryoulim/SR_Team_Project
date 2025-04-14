@@ -745,6 +745,13 @@ HRESULT CLoader::Loding_For_Static()
 	ADD_SOUND_EX(Shotgunner, "../Bin/Resources/Sounds/Monster/Shotgunner/",true, false, false);
 	ADD_SOUND_EX(Wenteko, "../Bin/Resources/Sounds/Monster/Wenteko/",true, false, false);
 
+	ADD_SOUND(Loading_ToIn, "../Bin/Resources/Sounds/LoadingCutscene/ToIn/");
+	ADD_SOUND(Loading_ToOut, "../Bin/Resources/Sounds/LoadingCutscene/ToOut/");
+	ADD_SOUND(Loading_ToBoss, "../Bin/Resources/Sounds/LoadingCutscene/ToBoss/");
+	ADD_SOUND(Loading_ToRace, "../Bin/Resources/Sounds/LoadingCutscene/ToRace/");
+	ADD_SOUND(Loading_ToUnderground, "../Bin/Resources/Sounds/LoadingCutscene/ToUnderground/");
+	ADD_SOUND(Loading_Ending, "../Bin/Resources/Sounds/LoadingCutscene/Ending/");
+
 	ADD_SOUND(Explorsion, "../Bin/Resources/Sounds/Explorsion/");
 	/* 나중에 인도어로 반드시 반드시 반드시 옮기시오 */
 	m_pGameInstance->LoadSound("../Bin/Resources/Sounds/Interactive_Object/Door/");
