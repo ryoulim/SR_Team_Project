@@ -121,12 +121,6 @@ void CDeacon::Late_Update(_float fTimeDelta)
 	Compute_ViewAngle();
 	Set_TextureType();
 
-	//if (FAILED(m_pGameInstance->Add_RenderGroup(CRenderer::RG_BLEND, this)))
-	//	return;
-
-	//if (m_bSkullActive)
-		//m_pSkull->Late_Update(fTimeDelta);
-
 	if (false == m_bRotateAnimation)
 		m_iDegree = 0;
 	Resize_Texture(0.4f);

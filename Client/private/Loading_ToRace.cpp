@@ -37,6 +37,17 @@ HRESULT CLoading_ToRace::Initialize(void* pArg)
 
 	m_fDepth = UI_PRIORITY;
 
+	/* For.Com_Sound */
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Sound_Loading_ToRace"),
+		TEXT("Com_Sound"), reinterpret_cast<CComponent**>(&m_pSoundCom))))
+		return E_FAIL;
+
+	m_pSoundCom->Play("FanLoop02");
+	m_pSoundCom->SetVolume("FanLoop02", 0.4f);
+	m_pSoundCom->Play("shelly_007_that_isnt_ominous_alt1");
+	m_pSoundCom->SetVolume("shelly_007_that_isnt_ominous_alt1", 0.4f);
+	m_pSoundCom->SetVolume("vehicle_start", 0.5f);
+
 	return S_OK;
 }
 
@@ -53,7 +64,12 @@ EVENT CLoading_ToRace::Update(_float fTimeDelta)
 
 void CLoading_ToRace::Late_Update(_float fTimeDelta)
 {
-	m_fTextureNum += fTimeDelta * 0.3f;
+	m_fTextureNum += fTimeDelta * 0.25f;
+	if (m_fTextureNum >= 1.f && m_bVehicleSoundTrigger == false)
+	{
+		m_pSoundCom->Play("vehicle_start");
+		m_bVehicleSoundTrigger = true;
+	}
 	if (m_fTextureNum > 2.f)
 	{
 		m_fTextureNum = 1.f;

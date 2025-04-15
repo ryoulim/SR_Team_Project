@@ -105,27 +105,27 @@ HRESULT CLoadingUI::Initialize_LoadingCutscene(void* pArg)
 
 void CLoadingUI::Priority_Update(_float fTimeDelta)
 {
-	if (m_pLoadingCutscene != nullptr)
-		m_pLoadingCutscene->Priority_Update(fTimeDelta);
+	//if (m_pLoadingCutscene != nullptr)
+	//	m_pLoadingCutscene->Priority_Update(fTimeDelta);
 }
 
 EVENT CLoadingUI::Update(_float fTimeDelta)
 {
-	if (m_pLoadingCutscene != nullptr)
-		return m_pLoadingCutscene->Update(fTimeDelta);
+	//if (m_pLoadingCutscene != nullptr)
+	//	return m_pLoadingCutscene->Update(fTimeDelta);
 	return EVN_NONE;
 }
 
 void CLoadingUI::Late_Update(_float fTimeDelta)
 {
-	if (m_pLoadingCutscene != nullptr)
-		m_pLoadingCutscene->Late_Update(fTimeDelta);
+	//if (m_pLoadingCutscene != nullptr)
+		//m_pLoadingCutscene->Late_Update(fTimeDelta);
 }
 
 HRESULT CLoadingUI::Render()
 {
-	if (m_pLoadingCutscene != nullptr)
-		return m_pLoadingCutscene->Render();
+	//if (m_pLoadingCutscene != nullptr)
+		//return m_pLoadingCutscene->Render();
 	return S_OK;
 }
 

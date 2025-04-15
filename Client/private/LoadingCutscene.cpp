@@ -92,7 +92,7 @@ void CLoadingCutscene::Late_Update(_float fTimeDelta)
 	}
 	if (m_isLoadingFinished)
 	{
-		m_fTextureNum += fTimeDelta * 1.f;
+		m_fTextureNum += fTimeDelta * 1.5f;
 		if (m_fTextureNum >= 4.f)
 		{
 			m_fTextureNum = 3.f;

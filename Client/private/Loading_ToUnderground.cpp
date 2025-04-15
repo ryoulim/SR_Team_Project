@@ -35,6 +35,12 @@ HRESULT CLoading_ToUnderground::Initialize(void* pArg)
 	m_vSize.x *= g_iWinSizeY / m_vSize.y; m_vSize.y = g_iWinSizeY;
 	m_pTransformCom->Scaling(m_vSize);
 
+	/* For.Com_Sound */
+	//if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Sound_Loading_ToUnderground"),
+	//	TEXT("Com_Sound"), reinterpret_cast<CComponent**>(&m_pSoundCom))))
+	//	return E_FAIL;
+
+
 	return S_OK;
 }
 

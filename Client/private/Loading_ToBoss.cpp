@@ -41,6 +41,21 @@ HRESULT CLoading_ToBoss::Initialize(void* pArg)
 	m_fAnimationSpeed = 35.f;
 	m_iTexRepeat = 2;
 
+	/* For.Com_Sound */
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Sound_Loading_ToBoss"),
+		TEXT("Com_Sound"), reinterpret_cast<CComponent**>(&m_pSoundCom))))
+		return E_FAIL;
+
+	m_pSoundCom->SetVolume("Smash_Glass", 1.f);
+	m_pSoundCom->SetVolume("s_volbroadcast01", 1.f);
+	m_pSoundCom->SetVolume("s_heskel_as_lava02", 1.f);
+	m_pSoundCom->SetVolume("heskel_laugh_006", 1.f);
+	// ¹Ø¿¡ ¼Âº¼·ý ÇÏ³ª ´õ ÀÖÀ½ 
+
+	m_pSoundCom->Play("s_volbroadcast01");
+	//m_pSoundCom->Play("Smash_Glass");
+	
+
 	return S_OK;
 }
 
@@ -107,7 +122,7 @@ void CLoading_ToBoss::Init_Sequence()
 		m_fAnimationFrame = m_fAnimationStartFrame;
 		m_fAnimationMaxFrame = TEX_SMALLBREAKINGNEWS;
 		m_fAnimationSpeed = 1.f;
-		m_iTexRepeat = 3;
+		m_iTexRepeat = 6;
 		break;
 
 	case Client::CLoading_ToBoss::SEQUENCE_SMALLNEWS:
@@ -131,7 +146,9 @@ void CLoading_ToBoss::Init_Sequence()
 		m_fAnimationFrame = m_fAnimationStartFrame;
 		m_fAnimationMaxFrame = TEX_WIDEBOSS;
 		m_fAnimationSpeed = 1.f;
-		m_iTexRepeat = 3;
+		m_iTexRepeat = 8;
+		m_pSoundCom->Play("s_heskel_as_lava02");
+		m_pSoundCom->SetVolume("s_volbroadcast01", 0.2f);
 		break;
 
 	case Client::CLoading_ToBoss::SEQUENCE_WIDEREDBOSS:
@@ -139,7 +156,8 @@ void CLoading_ToBoss::Init_Sequence()
 		m_fAnimationFrame = m_fAnimationStartFrame;
 		m_fAnimationMaxFrame = TEX_WIDEREDBOSS;
 		m_fAnimationSpeed = 1.f;
-		m_iTexRepeat = 3;
+		m_iTexRepeat = 4;
+		m_pSoundCom->Stop("s_volbroadcast01");
 		break;
 
 	case Client::CLoading_ToBoss::SEQUENCE_END:
@@ -147,7 +165,9 @@ void CLoading_ToBoss::Init_Sequence()
 		m_fAnimationFrame = m_fAnimationStartFrame;
 		m_fAnimationMaxFrame = TEX_BREAK_END;
 		m_fAnimationSpeed = 1.f;
-		m_iTexRepeat = 2;
+		m_iTexRepeat = 3;
+		m_pSoundCom->Play("Smash_Glass");
+		m_pSoundCom->Play("heskel_laugh_006");
 		break;
 
 	default:

@@ -41,6 +41,8 @@ private:
 	_int	iUIY = _int(g_iWinSizeY) / 2;
 	_float  m_fWaitForNextCut{ 0.f };
 	_bool   m_bRenderOk[6] = {};
+	_float  m_fWindVolume{ 0.f };
+	_float  m_fWindOutVolume{ 0.f };
 
 public:
 	static CLoading_ToOut* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
