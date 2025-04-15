@@ -88,13 +88,12 @@ HRESULT CTtakkeun_i::Initialize(void* pArg)
 
 void CTtakkeun_i::Priority_Update(_float fTimeDelta)
 {
-	Set_Animation();
 	__super::Priority_Update(fTimeDelta);
 }
 
 EVENT CTtakkeun_i::Update(_float fTimeDelta)
 {
-	if (m_bDie)
+ 	if (m_bDie)
 		return EVN_DEAD;
 
 	if (m_bCutScene)
@@ -355,7 +354,8 @@ HRESULT CTtakkeun_i::Set_Animation()
 			break;
 		}
 	}
-	if (m_eCurFlyingDirection != m_ePrevFlyingDirection)
+	if (m_eCurMonsterState == STATE_FLY_ATTACK &&
+		m_eCurFlyingDirection != m_ePrevFlyingDirection)
 	{
 		m_ePrevFlyingDirection = m_eCurFlyingDirection;
 		m_fAnimationFrame = _float(m_eCurFlyingDirection) * 2.f;
@@ -521,7 +521,7 @@ void CTtakkeun_i::DoIdle(_float dt)
 	}
 	case EIdlePhase::IDLE_WAIT:
 		m_fIdleWaitElapsed += dt;
-		m_eCurMonsterState = STATE_STAY;
+		m_eCurMonsterState = STATE_WALK;
 
 		if (m_fIdleWaitElapsed >= m_fIdleWaitTime)
 		{
@@ -544,6 +544,7 @@ void CTtakkeun_i::DoIdle(_float dt)
 		if (bRotated)  // 회전 완료 신호
 		{
 			m_eIdlePhase = EIdlePhase::IDLE_MOVE;
+			m_eState = MODE::MODE_BATTLE;
 		}
 		break;
 	}
@@ -808,22 +809,22 @@ void CTtakkeun_i::FireAttack(_float dt)
 
 	if (m_pBossHitBox)
 	{
-		//2. 만약 시간이 다 되어 삭제되었다면 댕글링포인터를 널포인터로 바꿔라
 		if (static_cast<CHitBox*>(m_pBossHitBox)->GetDead())
+		{
 			m_pBossHitBox = nullptr;
-	}
+		}
+		else
+		{
+			//3. 포인터가 유효하다면 몬스터의 앞으로 계속 포지션을 바꿔줘라
+			auto vHitBoxPos = static_cast<CTransform*>(m_pBossHitBox->Find_Component(L"Com_Transform"));
 
-	if (m_pBossHitBox)
-	{
-		//3. 포인터가 유효하다면 몬스터의 앞으로 계속 포지션을 바꿔줘라
-		auto vHitBoxPos = static_cast<CTransform*>(m_pBossHitBox->Find_Component(L"Com_Transform"));
+			_float3 vLook = *m_pTransformCom->Get_State(CTransform::STATE_LOOK);
+			_float3 vPos = *m_pTransformCom->Get_State(CTransform::STATE_POSITION);
 
-		_float3 vLook = *m_pTransformCom->Get_State(CTransform::STATE_LOOK);
-		_float3 vPos = *m_pTransformCom->Get_State(CTransform::STATE_POSITION);
-
-		vLook.Normalize();
-		vPos += vLook * 100.0f;
-		vHitBoxPos->Set_State(CTransform::STATE_POSITION, vPos);
+			vLook.Normalize();
+			vPos += vLook * 100.0f;
+			vHitBoxPos->Set_State(CTransform::STATE_POSITION, vPos);
+		}
 	}
 }
 
@@ -966,7 +967,7 @@ void CTtakkeun_i::FlyAttack(_float dt)
 	
 	//날아오르기 변수
 	bool isFly = false;
-
+	
 	if (m_eCurMonsterState == STATE_WALK)
 	{
 		//점프 후 Fly 로 스테이트를 바꿔준다.
