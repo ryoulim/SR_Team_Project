@@ -31,6 +31,9 @@ public:
 
 	virtual HRESULT Ready_Components(void* pArg) override;
 
+private:
+	CCollider* m_pColliderCom[4] = { nullptr };
+
 public:
 	static CSignboard* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
 	virtual CGameObject* Clone(void* pArg) override;
