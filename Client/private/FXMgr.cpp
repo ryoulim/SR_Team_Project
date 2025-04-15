@@ -117,7 +117,8 @@ HRESULT CFXMgr::Initialize()
 	m_ObjectPools.emplace(TEXT("PC_BulletShell"), pPool);
 #pragma endregion
 
-	m_pBGM = m_pGameInstance->Get_Single_Sound("thunder_close");
+	//m_pSoundCom = dynamic_cast<CSoundController*>(m_pGameInstance->Clone_Prototype(PROTOTYPE::TYPE_COMPONENT, LEVEL_STATIC, TEXT("Prototype_Component_Sound_Thunder")));
+	//m_pSoundCom->SetVolume(0.5f);
 
 	return S_OK;
 }
@@ -1251,8 +1252,28 @@ void CFXMgr::SpawnMultipleThunder(_float fTimeDelta, LEVEL eLevel)
 		_float3 vPosition = { fRandomX, fRandomY, fRandomZ };
 		SpawnThunder(vPosition, eLevel);
 		
-		m_pBGM->Play();
-	
+		//if (PERCENT(50))
+		//{
+		//	switch (rand() % 4)
+		//	{
+		//	case 0:
+		//		m_pSoundCom->Play("thunder_close");
+		//		break;
+		//	case 1:
+		//		m_pSoundCom->Play("big_thunder_clap");
+		//		break;
+		//	case 2:
+		//		m_pSoundCom->Play("loud_thunder");
+		//		break;
+		//	case 3:
+		//		m_pSoundCom->Play("thunder");
+		//		break;
+		//	default:
+		//		m_pSoundCom->Play("thunder_close");
+		//		break;
+		//	}
+		//}
+
 		fTimer = 0.0f;
 	}
 }
@@ -1276,7 +1297,7 @@ void CFXMgr::Free()
 	__super::Free();
 
 	Safe_Release(m_pGameInstance);
-	Safe_Release(m_pBGM);
+	//Safe_Release(m_pSoundCom);
 
 	for (auto Pair : m_ObjectPools)
 		Safe_Release(Pair.second);
