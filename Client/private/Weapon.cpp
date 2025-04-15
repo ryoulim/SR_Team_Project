@@ -228,8 +228,10 @@ void CWeapon::Picking_Object()
 {
 	if (m_pPrePickedCollider != m_pPickedCollider)
 	{
+		Safe_Release(m_pPrePickedCollider);
 		m_pPrePickedCollider = m_pPickedCollider;
 		m_iPrePickedColliderID = m_iPickedColliderID;
+		Safe_AddRef(m_pPickedCollider);
 	}
 	m_iPickedColliderID = 0;
 
@@ -239,6 +241,7 @@ void CWeapon::Picking_Object()
 	// 최적화 할 방법 있나?
 	m_pPickedCollider = m_pGameInstance->Raycast(pPos, pLook.Normalize(),
 		m_fRayLength, { CG_BLOCK,CG_MONSTER,CG_MBULLET,CG_MONSTER_HEAD,CG_INTERACTIVE }, m_iPickedColliderID);
+
 }
 
 void CWeapon::Mouse_Over()
@@ -298,4 +301,5 @@ void CWeapon::Free()
 	Safe_Release(m_pPlayerTransform);
 	Safe_Release(m_pCameraManager);
 	Safe_Release(m_pCameraTransform);
+	Safe_Release(m_pPickedCollider);
 }

@@ -285,7 +285,9 @@ void CWeapon_LoverBoy::Search_Target()
 
 		static_cast<CMonster*>(info.pCollider->Get_Owner())->Render_Skull(TRUE);
 		Safe_AddRef(info.pCollider);
-		info.pCollider->Get_Owner()->AddRef();
+		CGameObject* pOwner = info.pCollider->Get_Owner();
+		Safe_AddRef(pOwner);
+
 
 		topTargets.pop();
 	}
@@ -373,9 +375,10 @@ void CWeapon_LoverBoy::Free()
 	Safe_Release(m_LeftHand.pTransformCom);
 	Safe_Release(m_LeftHand.pVIBufferCom);
 
-	for (auto Pair : m_TargetMonsters)
+	for (auto& Pair : m_TargetMonsters)
 	{
-		Pair.second->Get_Owner()->Release();
+		CGameObject* pOwner = Pair.second->Get_Owner();
+		Safe_Release(pOwner);
 		Safe_Release(Pair.second);
 	}
 
