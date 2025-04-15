@@ -77,6 +77,7 @@ HRESULT CPlayer::Initialize(void* pArg)
 	m_pSoundCom->Play("TimeTo");
 
 	m_pSoundCom->SetVolume("ArmorPiece", 0.15f);
+	m_pSoundCom->SetVolume("CardKey", 0.8f);
 
 	m_pLeftHand = new CLeftHand(m_pGraphic_Device);
 	if (FAILED(m_pLeftHand->Initialize(pArg)))
@@ -201,6 +202,14 @@ void CPlayer::On_Collision(_uint MyColliderID, _uint OtherColliderID)
 		return;
 	}
 
+	if (CI_ITEM(OtherColliderID))
+	{
+		if (PERCENT(7) && OtherColliderID != CI_ITEM_HEALKIT)
+		{
+			m_pSoundCom->Play("Gotcha!");
+		}
+	}
+
 	switch (OtherColliderID)
 	{
 	case CI_BLOCK_COMMON:
@@ -306,6 +315,9 @@ void CPlayer::On_Collision(_uint MyColliderID, _uint OtherColliderID)
 		FX_MGR->SpawnHealEffect(m_eLevelID);
 		PRINT_DIALOG("health kit: +10% HP ");
 		m_pSoundCom->Play("HealKit");
+
+		if (PERCENT(30) && 40 >= m_tInfo.iHP)
+			m_pSoundCom->Play("Cure");
 		break;
 
 	case CI_ITEM_ARMOR_PIECE:
