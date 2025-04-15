@@ -102,6 +102,8 @@ public: //번개위치
 private:
 	class CGameInstance* m_pGameInstance;
 	unordered_map<_wstring, class CObjectPool*> m_ObjectPools;
+	CSound_Core* m_pBGM = { nullptr };
+
 public:
 	static CFXMgr* Create();
 	virtual void Free() override;

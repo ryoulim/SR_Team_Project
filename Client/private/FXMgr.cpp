@@ -117,6 +117,8 @@ HRESULT CFXMgr::Initialize()
 	m_ObjectPools.emplace(TEXT("PC_BulletShell"), pPool);
 #pragma endregion
 
+	m_pBGM = m_pGameInstance->Get_Single_Sound("thunder_close");
+
 	return S_OK;
 }
 
@@ -1248,7 +1250,9 @@ void CFXMgr::SpawnMultipleThunder(_float fTimeDelta, LEVEL eLevel)
 
 		_float3 vPosition = { fRandomX, fRandomY, fRandomZ };
 		SpawnThunder(vPosition, eLevel);
-
+		
+		m_pBGM->Play();
+	
 		fTimer = 0.0f;
 	}
 }
@@ -1272,6 +1276,7 @@ void CFXMgr::Free()
 	__super::Free();
 
 	Safe_Release(m_pGameInstance);
+	Safe_Release(m_pBGM);
 
 	for (auto Pair : m_ObjectPools)
 		Safe_Release(Pair.second);

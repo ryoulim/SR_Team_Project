@@ -727,14 +727,6 @@ HRESULT CLoader::Loding_For_Static()
 		return E_FAIL;
 #pragma endregion
 
-#pragma region 매니저 생성
-
-	if (FAILED(m_pGameInstance->Add_Manager(
-		TEXT("FX_Manager"), CFXMgr::Create())))
-		return E_FAIL;
-
-#pragma endregion
-
 #pragma region 사운드
 	ADD_SOUND(Player, "../Bin/Resources/Sounds/Player/");
 	ADD_SOUND(LoverBoy, "../Bin/Resources/Sounds/Weapons/Loverboy/");
@@ -762,8 +754,17 @@ HRESULT CLoader::Loding_For_Static()
 	ADD_SOUND(Explorsion, "../Bin/Resources/Sounds/Explorsion/");
 	/* 나중에 인도어로 반드시 반드시 반드시 옮기시오 */
 	m_pGameInstance->LoadSound("../Bin/Resources/Sounds/Interactive_Object/Door/");
+	m_pGameInstance->LoadSound("../Bin/Resources/Sounds/Env", false, false);
 #pragma endregion
 
+
+#pragma region 매니저 생성
+
+	if (FAILED(m_pGameInstance->Add_Manager(
+		TEXT("FX_Manager"), CFXMgr::Create())))
+		return E_FAIL;
+
+#pragma endregion
 
 	m_eNextLevelID = Tmp;
 	m_fLoadPercent = 0.9f;
@@ -934,7 +935,6 @@ HRESULT CLoader::Loading_For_GamePlay()
 	lstrcpy(m_szLoadingText, TEXT("사운드을(를) 로딩중입니다.")); 
 	ADD_SOUND(Ttakkeun_i, "../Bin/Resources/Sounds/Boss/");
 	ADD_SOUND(Bridge, "../Bin/Resources/Sounds/Interactive_Object/Bridge/");
-	m_pGameInstance->LoadSound("../Bin/Resources/Sounds/Env/", false, true);
 
 #pragma endregion
 
