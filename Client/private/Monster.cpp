@@ -291,7 +291,7 @@ HRESULT CMonster::BillboardShaderRender()
 			return E_FAIL;
 
 		/* [ 플래쉬 설정 ] */
-		D3DXVECTOR4 ThunderPos = { FX_MGR->GetThunderPos(), 0.f };
+		D3DXVECTOR4 ThunderPos;
 		if (m_eLevelID == LEVEL_UNDERGROUND)
 		{
 			if (FX_MGR->IsFlashing())
@@ -303,15 +303,25 @@ HRESULT CMonster::BillboardShaderRender()
 				ThunderPos = { 0.f, 10000.f, 0.f, 0.f };
 			}
 		}
-
+		if (m_eLevelID == LEVEL_OUTDOOR)
+		{
+			if (FX_MGR->IsThunder())
+			{
+				ThunderPos = { FX_MGR->GetThunderPos(), 0.f };
+			}
+			else
+			{
+				ThunderPos = { 0.f, 10000.f, 0.f, 0.f };
+			}
+		}
 
 		if (m_eLevelID != LEVEL_OUTDOOR && m_eLevelID != LEVEL_UNDERGROUND)
 			ThunderPos = { 0.f, 10000.f, 0.f, 0.f };
 
-
 		if (FAILED(m_pShaderCom->SetVector("g_LightningPos", &ThunderPos)))
 			return E_FAIL;
-		
+
+
 		/* [ 조명 세기 설정 ] */
 		_float LigtIntensity = 0.5f;
 		if (m_eLevelID == LEVEL_UNDERGROUND)
@@ -321,9 +331,10 @@ HRESULT CMonster::BillboardShaderRender()
 
 
 		/* [ 조명 거리 설정 ] */
-		_float LigtRange = 600.f;
+		_float LigtRange = 1000.f;// m_fThunderRange;
 		if (m_eLevelID == LEVEL_UNDERGROUND)
 			LigtRange = 350.f;
+
 		if (FAILED(m_pShaderCom->SetFloat("g_LightRange", LigtRange)))
 			return E_FAIL;
 

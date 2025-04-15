@@ -206,8 +206,8 @@ void CWeapon_LoverBoy::Strong_Attack(_float fTimeDelta)
 		for (auto Pair : m_TargetMonsters)
 		{
 			static_cast<CMonster*>(Pair.second->Get_Owner())->Render_Skull(FALSE);
-			Safe_Release(Pair.second);
-			Pair.second->Get_Owner()->Release();
+			//Safe_Release(Pair.second);
+			//Pair.second->Get_Owner()->Release();
 		}
 		m_TargetMonsters.clear();
 		m_CurTarget = m_TargetMonsters.end();
@@ -284,9 +284,9 @@ void CWeapon_LoverBoy::Search_Target()
 		m_TargetMonsters.emplace(info.fDistance, info.pCollider);
 
 		static_cast<CMonster*>(info.pCollider->Get_Owner())->Render_Skull(TRUE);
-		Safe_AddRef(info.pCollider);
+		//Safe_AddRef(info.pCollider);
 		CGameObject* pOwner = info.pCollider->Get_Owner();
-		Safe_AddRef(pOwner);
+		//Safe_AddRef(pOwner);
 
 
 		topTargets.pop();
@@ -375,12 +375,12 @@ void CWeapon_LoverBoy::Free()
 	Safe_Release(m_LeftHand.pTransformCom);
 	Safe_Release(m_LeftHand.pVIBufferCom);
 
-	for (auto& Pair : m_TargetMonsters)
-	{
-		CGameObject* pOwner = Pair.second->Get_Owner();
-		Safe_Release(pOwner);
-		Safe_Release(Pair.second);
-	}
+	//for (auto& Pair : m_TargetMonsters)
+	//{
+	//	CGameObject* pOwner = Pair.second->Get_Owner();
+	//	Safe_Release(pOwner);
+	//	Safe_Release(Pair.second);
+	//}
 
 	m_TargetMonsters.clear();
 
