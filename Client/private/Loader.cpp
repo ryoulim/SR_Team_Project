@@ -70,6 +70,7 @@
 #include "CutSceneSmoke.h"
 #include "WaterBoat.h"
 #include "RaceBossDie.h"
+#include "MonsterMissileRow.h"
 
 //UI 인클루드
 #include "Aim.h"
@@ -551,6 +552,9 @@ HRESULT CLoader::Loding_For_Static()
 		return E_FAIL;
 
 	/* [ 파티클 ] */
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_GameObject_PC_MonsterMissileRow"),
+		CMonsterMissileRow::Create(m_pGraphic_Device, L"PARTICLE_MonsterMissileRow"))))
+		return E_FAIL;
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_GameObject_PC_RaceBossDie"),
 		CRaceBossDie::Create(m_pGraphic_Device, L"PARTICLE_RaceBossDie"))))
 		return E_FAIL;
@@ -601,6 +605,9 @@ HRESULT CLoader::Loding_For_Static()
 		return E_FAIL;
 
 	/* [ 텍스쳐 ] */
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_White"),
+		CTexture::Create(m_pGraphic_Device, TEXT("../Bin/Resources/Textures/Particle/White.PNG"), 1))))
+		return E_FAIL;
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_RaceBossHit"),
 		CTexture::Create(m_pGraphic_Device, TEXT("../Bin/Resources/Textures/Particle/RaceBossHit%d.PNG"), 18))))
 		return E_FAIL;

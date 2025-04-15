@@ -139,16 +139,53 @@ HRESULT CStatue::DefaultShaderRender()
 		if (FAILED(m_pShaderCom->SetFloat("g_fTime", m_fShaderTime)))
 			return E_FAIL;
 
-		D3DXVECTOR4 ThunderPos = { FX_MGR->GetThunderPos(), 0.f };
+		/* [ 플래쉬 설정 ] */
+		D3DXVECTOR4 ThunderPos;
+		if (m_eLevelID == LEVEL_UNDERGROUND)
+		{
+			if (FX_MGR->IsFlashing())
+			{
+				ThunderPos = { *GET_PLAYER_TRANSFORM->Get_State(CTransform::STATE_POSITION), 0.f };
+			}
+			else
+			{
+				ThunderPos = { 0.f, 10000.f, 0.f, 0.f };
+			}
+		}
+		if (m_eLevelID == LEVEL_OUTDOOR)
+		{
+			if (FX_MGR->IsThunder())
+			{
+				ThunderPos = { FX_MGR->GetThunderPos(), 0.f };
+			}
+			else
+			{
+				ThunderPos = { 0.f, 10000.f, 0.f, 0.f };
+			}
+		}
+
 		if (m_eLevelID != LEVEL_OUTDOOR && m_eLevelID != LEVEL_UNDERGROUND)
 			ThunderPos = { 0.f, 10000.f, 0.f, 0.f };
+
 		if (FAILED(m_pShaderCom->SetVector("g_LightningPos", &ThunderPos)))
 			return E_FAIL;
-		if (FAILED(m_pShaderCom->SetFloat("g_FlashIntensity", 0.5f)))
-			return E_FAIL;
-		if (FAILED(m_pShaderCom->SetFloat("g_LightRange", 600.f)))
+
+
+		/* [ 조명 세기 설정 ] */
+		_float LigtIntensity = 0.5f;
+		if (m_eLevelID == LEVEL_UNDERGROUND)
+			LigtIntensity = 1.f;
+		if (FAILED(m_pShaderCom->SetFloat("g_FlashIntensity", LigtIntensity)))
 			return E_FAIL;
 
+
+		/* [ 조명 거리 설정 ] */
+		_float LigtRange = m_fThunderRange;
+		if (m_eLevelID == LEVEL_UNDERGROUND)
+			LigtRange = 350.f;
+
+		if (FAILED(m_pShaderCom->SetFloat("g_LightRange", LigtRange)))
+			return E_FAIL;
 		/* [ 안개 색상 설정 ] */
 		m_vFogColor = _float4(0.059f, 0.067f, 0.082f, 1.f);
 		if (m_eLevelID == LEVEL_UNDERGROUND)
@@ -270,16 +307,53 @@ HRESULT CStatue::MultiShaderRender(_float _fTexNum, _int _iSetting)
 		if (FAILED(m_pShaderCom->SetFloat("g_fTime", m_fShaderTime)))
 			return E_FAIL;
 
-		D3DXVECTOR4 ThunderPos = { FX_MGR->GetThunderPos(), 0.f };
+		/* [ 플래쉬 설정 ] */
+		D3DXVECTOR4 ThunderPos;
+		if (m_eLevelID == LEVEL_UNDERGROUND)
+		{
+			if (FX_MGR->IsFlashing())
+			{
+				ThunderPos = { *GET_PLAYER_TRANSFORM->Get_State(CTransform::STATE_POSITION), 0.f };
+			}
+			else
+			{
+				ThunderPos = { 0.f, 10000.f, 0.f, 0.f };
+			}
+		}
+		if (m_eLevelID == LEVEL_OUTDOOR)
+		{
+			if (FX_MGR->IsThunder())
+			{
+				ThunderPos = { FX_MGR->GetThunderPos(), 0.f };
+			}
+			else
+			{
+				ThunderPos = { 0.f, 10000.f, 0.f, 0.f };
+			}
+		}
+
 		if (m_eLevelID != LEVEL_OUTDOOR && m_eLevelID != LEVEL_UNDERGROUND)
 			ThunderPos = { 0.f, 10000.f, 0.f, 0.f };
+
 		if (FAILED(m_pShaderCom->SetVector("g_LightningPos", &ThunderPos)))
 			return E_FAIL;
-		if (FAILED(m_pShaderCom->SetFloat("g_FlashIntensity", 0.5f)))
-			return E_FAIL;
-		if (FAILED(m_pShaderCom->SetFloat("g_LightRange", 600.f)))
+
+
+		/* [ 조명 세기 설정 ] */
+		_float LigtIntensity = 0.5f;
+		if (m_eLevelID == LEVEL_UNDERGROUND)
+			LigtIntensity = 1.f;
+		if (FAILED(m_pShaderCom->SetFloat("g_FlashIntensity", LigtIntensity)))
 			return E_FAIL;
 
+
+		/* [ 조명 거리 설정 ] */
+		_float LigtRange = m_fThunderRange;
+		if (m_eLevelID == LEVEL_UNDERGROUND)
+			LigtRange = 350.f;
+
+		if (FAILED(m_pShaderCom->SetFloat("g_LightRange", LigtRange)))
+			return E_FAIL;
 		/* [ 안개 색상 설정 ] */
 		m_vFogColor = _float4(0.059f, 0.067f, 0.082f, 1.f);
 		if (m_eLevelID == LEVEL_UNDERGROUND)
@@ -411,16 +485,53 @@ HRESULT CStatue::BillboardShaderRender()
 		if (FAILED(m_pShaderCom->SetFloat("g_fTime", m_fShaderTime)))
 			return E_FAIL;
 
-		D3DXVECTOR4 ThunderPos = { FX_MGR->GetThunderPos(), 0.f };
+		/* [ 플래쉬 설정 ] */
+		D3DXVECTOR4 ThunderPos;
+		if (m_eLevelID == LEVEL_UNDERGROUND)
+		{
+			if (FX_MGR->IsFlashing())
+			{
+				ThunderPos = { *GET_PLAYER_TRANSFORM->Get_State(CTransform::STATE_POSITION), 0.f };
+			}
+			else
+			{
+				ThunderPos = { 0.f, 10000.f, 0.f, 0.f };
+			}
+		}
+		if (m_eLevelID == LEVEL_OUTDOOR)
+		{
+			if (FX_MGR->IsThunder())
+			{
+				ThunderPos = { FX_MGR->GetThunderPos(), 0.f };
+			}
+			else
+			{
+				ThunderPos = { 0.f, 10000.f, 0.f, 0.f };
+			}
+		}
+
 		if (m_eLevelID != LEVEL_OUTDOOR && m_eLevelID != LEVEL_UNDERGROUND)
 			ThunderPos = { 0.f, 10000.f, 0.f, 0.f };
+
 		if (FAILED(m_pShaderCom->SetVector("g_LightningPos", &ThunderPos)))
 			return E_FAIL;
-		if (FAILED(m_pShaderCom->SetFloat("g_FlashIntensity", 0.5f)))
-			return E_FAIL;
-		if (FAILED(m_pShaderCom->SetFloat("g_LightRange", 600.f)))
+
+
+		/* [ 조명 세기 설정 ] */
+		_float LigtIntensity = 0.5f;
+		if (m_eLevelID == LEVEL_UNDERGROUND)
+			LigtIntensity = 1.f;
+		if (FAILED(m_pShaderCom->SetFloat("g_FlashIntensity", LigtIntensity)))
 			return E_FAIL;
 
+
+		/* [ 조명 거리 설정 ] */
+		_float LigtRange = m_fThunderRange;
+		if (m_eLevelID == LEVEL_UNDERGROUND)
+			LigtRange = 350.f;
+
+		if (FAILED(m_pShaderCom->SetFloat("g_LightRange", LigtRange)))
+			return E_FAIL;
 		/* [ 안개 색상 설정 ] */
 		m_vFogColor = _float4(0.059f, 0.067f, 0.082f, 1.f);
 		if (m_eLevelID == LEVEL_UNDERGROUND)

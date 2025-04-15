@@ -125,6 +125,9 @@ HRESULT CFXMgr::Update(_float timeDelta)
 	if (m_fFlashTimer > 0.f)
 		m_fFlashTimer -= timeDelta;
 
+	if (m_fThunderTimer > 0.f)
+		m_fThunderTimer -= timeDelta;
+
 	return S_OK;
 }
 
@@ -132,10 +135,18 @@ bool CFXMgr::IsFlashing() const
 {
 	return m_fFlashTimer > 0.f;
 }
+bool CFXMgr::IsThunder() const
+{
+	return m_fThunderTimer > 0.f;
+}
 
 void CFXMgr::TriggerFlash()
 {
 	m_fFlashTimer = m_fMaxFlashTime; // 타이머 시작
+}
+void CFXMgr::TriggerThunder()
+{
+	m_fThunderTimer = m_fMaxThunderTime; // 타이머 시작
 }
 
 void CFXMgr::SpawnCustomExplosion(_float3 _vPosition, LEVEL eLevel, _float3 Size, const TCHAR* szTextureTag, _float Maxframe)
@@ -1032,6 +1043,30 @@ void CFXMgr::SpawnHitEffect(LEVEL eLevel)
 		return;
 }
 
+void CFXMgr::SpawnThanderEffect(LEVEL eLevel)
+{
+	if (CAMERA_MANAGER->Get_CurCameraID() == CCameraManager::FPS)
+	{
+		/* [ 히트 스크린 스프라이트 ] */
+		CScreenSprite::DESC ScreenHitDesc{};
+		ScreenHitDesc.fMaxFrame = 25.f;
+		ScreenHitDesc.fAniSpeed = 10.f;
+		ScreenHitDesc.fRotationPerSec = RADIAN(180.f);
+		ScreenHitDesc.fSpeedPerSec = 100.f;
+		ScreenHitDesc.eEffectType = CScreenSprite::eEffectType::THUNDER;
+		ScreenHitDesc.szTextureTag = TEXT("White");
+		//ScreenHitDesc.szTextureTag = TEXT("Check_Tile");
+
+
+		ScreenHitDesc.vScale = _float3{ FWINCX, FWINCY, 1.f };
+		ScreenHitDesc.vInitPos = { g_iWinSizeX * 0.5f, g_iWinSizeY * 0.5f,1.f };
+
+		if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_ScreenSprite"),
+			eLevel, L"Layer_Effect", &ScreenHitDesc)))
+			return;
+	}
+}
+
 void CFXMgr::SpawnHealEffect(LEVEL eLevel)
 {
 	/* [ 히트 스크린 스프라이트 ] */
@@ -1180,19 +1215,27 @@ void CFXMgr::SpawnThunder(_float3 _vPosition, LEVEL eLevel)
 	SpriteDesc.fRotationPerSec = RADIAN(180.f);
 	SpriteDesc.fSpeedPerSec = 100.f;
 	SpriteDesc.vInitPos = _vPosition;
-	SpriteDesc.vScale = _float3{ 64.f, 128.f, 1.f };
+	SpriteDesc.vScale = _float3{ 64.f * 2.f, 128.f * 2.f, 1.f };
 	SpriteDesc.vScale *= GetRandomFloat(3.5f, 4.5f);
 	SpriteDesc.szTextureTag = TEXT("Thunderbolt");
 
 	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_PC_Sprite"),
 		eLevel, L"Layer_Effect", &SpriteDesc)))
 		return;
+	
+	TriggerThunder();
+
+	int iRandom = GetRandomInt(0, 10);
+	if (iRandom <= 1)
+	{
+		SpawnThanderEffect(eLevel);
+	}
 }
 
 void CFXMgr::SpawnMultipleThunder(_float fTimeDelta, LEVEL eLevel)
 {
 	static float fTimer = 0.0f;
-	const float fInterval = 0.4f; //반복주기
+	const float fInterval = 1.f; //반복주기
 
 	fTimer += fTimeDelta;
 	if (fTimer >= fInterval)

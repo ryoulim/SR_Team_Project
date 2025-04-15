@@ -96,9 +96,9 @@ public:
 		m_fTime = 0.f;
 		//·£´ýÇÑ ÆÐÅÏÀ¸·Î ÀÌ¾îÁü
 		//m_pOwner->Set_State(CRaceBoss::SHOTREADY);
-		m_pOwner->Set_State(CRaceBoss::READYBOMB);
+		//m_pOwner->Set_State(CRaceBoss::READYBOMB);
 		//m_pOwner->Set_State(CRaceBoss::MOMBACKREADY);
-		//m_pOwner->Set_State(CRaceBoss::IDLE);
+		m_pOwner->Set_State(CRaceBoss::IDLE);
 	}
 
 private:
@@ -167,11 +167,11 @@ public:
 				/* [ SHOTREADY, READYBOMB, MOMBACKREADY ] */
 				int iRandomPattern = GetRandomInt(0, 100);
 
-				//if (iRandomPattern > 95)
-				//	m_pOwner->Set_State(CRaceBoss::MOMBACKREADY);
-				//else if (iRandomPattern > 90)
-				//	m_pOwner->Set_State(CRaceBoss::READYBOMB);
-				//else
+				if (iRandomPattern > 95)
+					m_pOwner->Set_State(CRaceBoss::MOMBACKREADY);
+				else if (iRandomPattern > 90)
+					m_pOwner->Set_State(CRaceBoss::READYBOMB);
+				else
 					m_pOwner->Set_State(CRaceBoss::SHOTREADY);
 
 				m_fTime = 0.f;
@@ -481,6 +481,8 @@ public:
 		m_pOwner->m_pTransformCom->Turn_Immediately({ 0.f, 0.f, 1.f }, RADIAN(90.f));
 		static_cast<CCameraManager*>(m_pOwner->m_pGameInstance->Find_Manager(TEXT("Camera_Manager")))->Shake_Camera(1.f, 1.f);
 		m_pOwner->SpawnWaterParticle(-400.f, -120.f, 120.f);
+
+		m_fSpeed = 5000.f;
 	}
 	virtual void Execute(_float fTimeDelta) override
 	{

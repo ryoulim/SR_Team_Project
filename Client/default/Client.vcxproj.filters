@@ -1114,6 +1114,9 @@
     <ClInclude Include="targetver.h">
       <Filter>98.Default</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\MonsterMissileRow.h">
+      <Filter>02.GameObjects\Particle\_BossMobSkill\MonsterMissile</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Client.ico">
@@ -1649,6 +1652,9 @@
     </ClCompile>
     <ClCompile Include="..\private\Level_Loading.cpp">
       <Filter>01.Levels\00. Loading</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\MonsterMissileRow.cpp">
+      <Filter>02.GameObjects\Particle\_BossMobSkill\MonsterMissile</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

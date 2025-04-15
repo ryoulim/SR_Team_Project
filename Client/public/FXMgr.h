@@ -30,7 +30,9 @@ public:
 	HRESULT		Update(_float timeDelta);
 
 	bool IsFlashing() const;
+	bool IsThunder() const;
 	void TriggerFlash();
+	void TriggerThunder();
 
 public: //폭발
 	void SpawnCustomExplosion(_float3 _vPosition, LEVEL eLevel, _float3 Size, const TCHAR* szTextureTag, _float Maxframe);
@@ -80,6 +82,7 @@ public: //총알자국
 
 public: //피격 이펙트
 	void SpawnHitEffect(LEVEL eLevel);
+	void SpawnThanderEffect(LEVEL eLevel);
 	void SpawnHealEffect(LEVEL eLevel);
 
 public: //보스스킬
@@ -108,7 +111,9 @@ private: /* 번개의 위치를 들고 있자 */
 
 private: /* 너 총 쐇니? */
 	_float m_fFlashTimer = 0.f;
+	_float m_fThunderTimer = 0.f;
 	_float m_fMaxFlashTime = 0.1f;
+	_float m_fMaxThunderTime = 0.3f;
 };
 
 END

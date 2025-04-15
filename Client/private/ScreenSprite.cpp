@@ -64,6 +64,10 @@ HRESULT CScreenSprite::Initialize(void* pArg)
 	if (m_eEffectType == HEAL)
 		m_fAccTime = 1.f;
 
+	/* [ 힐 이펙트 조절 ] */
+	if (m_eEffectType == THUNDER)
+		m_fFadeSpeed = 10.f;
+
 	/* 이 스크린의 뎁스를 정해주세요 */
 	m_fDepth = _float(UI_PRIORITY);
 
@@ -110,49 +114,6 @@ HRESULT CScreenSprite::SetUp_RenderState()
 
 HRESULT CScreenSprite::Render()
 {
-#pragma region 정점렌더링 주석
-
-	//SetUp_RenderState();
-	//
-	////텍스처 셰이더로 넘기기
-	//m_pTextureCom->Bind_Shader_To_Texture(m_pShaderCom, "g_Texture", m_iRandom);
-	//
-	////메트릭스 셰이더로 넘기기
-	//_float4x4 maxWorld, maxView, maxProj;
-	//m_pGraphic_Device->GetTransform(D3DTS_WORLD, &maxWorld);
-	//m_pGraphic_Device->GetTransform(D3DTS_VIEW, &maxView);
-	//m_pGraphic_Device->GetTransform(D3DTS_PROJECTION, &maxProj);
-	//
-	//if (FAILED(m_pShaderCom->Bind_Matrix("g_WorldMatrix", &maxWorld)))
-	//	return E_FAIL;
-	//if (FAILED(m_pShaderCom->Bind_Matrix("g_ViewMatrix", &maxView)))
-	//	return E_FAIL;
-	//if (FAILED(m_pShaderCom->Bind_Matrix("g_ProjMatrix", &maxProj)))
-	//	return E_FAIL;
-	//
-	//m_pShaderCom->SetFloat("g_fOpacity", m_fAccTime);
-	//
-	////셰이더 시작
-	//m_pShaderCom->Begin(CShader::OPACITY);
-	//
-	//if (FAILED(m_pVIBufferCom->Bind_Buffers()))
-	//	return E_FAIL;
-	//
-	//
-	///* ------------------------------------------------------------------------- */
-	//
-	//if (FAILED(m_pVIBufferCom->Render()))
-	//	return E_FAIL;
-	//
-	///* ------------------------------------------------------------------------- */
-	//
-	//m_pShaderCom->End();
-	//
-	//
-	//Release_RenderState();
-
-#pragma endregion
-
 	/* 월드 / 뷰 / 직교 투영 행렬 준비 */
 	_float4x4 matWorld, matView, matOrtho;
 
