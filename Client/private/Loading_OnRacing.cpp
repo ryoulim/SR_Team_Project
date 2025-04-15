@@ -53,8 +53,7 @@ EVENT CLoading_OnRacing::Update(_float fTimeDelta)
 {
 	//if (m_fLoadingGauge < m_fCurLoadingGauge)		// 실제 로딩 게이지 비례해 진행할 경우 사용
 	//	m_fLoadingGauge += fTimeDelta * 0.8f;
-
-	return __super::Update(fTimeDelta);
+	return EVN_NONE;
 }
 
 void CLoading_OnRacing::Late_Update(_float fTimeDelta)

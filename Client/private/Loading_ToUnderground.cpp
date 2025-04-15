@@ -36,10 +36,12 @@ HRESULT CLoading_ToUnderground::Initialize(void* pArg)
 	m_pTransformCom->Scaling(m_vSize);
 
 	/* For.Com_Sound */
-	//if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Sound_Loading_ToUnderground"),
-	//	TEXT("Com_Sound"), reinterpret_cast<CComponent**>(&m_pSoundCom))))
-	//	return E_FAIL;
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Sound_Loading_ToUnderground"),
+		TEXT("Com_Sound"), reinterpret_cast<CComponent**>(&m_pSoundCom))))
+		return E_FAIL;
 
+	m_pSoundCom->SetVolume("Wind_LowLoop2", 0.3f);
+	m_pSoundCom->Play("Wind_LowLoop2");
 
 	return S_OK;
 }
@@ -67,9 +69,9 @@ void CLoading_ToUnderground::Late_Update(_float fTimeDelta)
 	if (m_isLoadingFinished)
 	{
 		m_fAnimationFrame += fTimeDelta * 1.f;
-		if (m_fAnimationFrame >= 4.f)
+		if (m_fAnimationFrame >= 3.f)
 		{
-			m_fAnimationFrame = 3.f;
+			m_fAnimationFrame = 2.f;
 			m_isReadyToChangeLevel = true;
 		}
 	}

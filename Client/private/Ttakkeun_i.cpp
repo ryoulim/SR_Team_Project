@@ -88,7 +88,6 @@ HRESULT CTtakkeun_i::Initialize(void* pArg)
 
 void CTtakkeun_i::Priority_Update(_float fTimeDelta)
 {
-	Set_Animation();
 	__super::Priority_Update(fTimeDelta);
 }
 

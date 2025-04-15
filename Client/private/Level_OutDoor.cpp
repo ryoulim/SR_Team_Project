@@ -650,6 +650,7 @@ void CLevel_OutDoor::Check_Collision()
 	m_pGameInstance->Intersect(CG_PAWN, CG_ITEM);
 	m_pGameInstance->Intersect(CG_PAWN, CG_ALPHARECT);
 	m_pGameInstance->Intersect(CG_PAWN, CG_MBULLET);
+	m_pGameInstance->Intersect(CG_PAWN, CG_MONSTER_BODY);
 
 	/*PBULLET*/
 	m_pGameInstance->Intersect(CG_PBULLET, CG_MONSTER);
