@@ -43,6 +43,7 @@ void CStatue::Late_Update(_float fTimeDelta)
 HRESULT CStatue::Render()
 {
 	DefaultShaderRender();
+
 	return S_OK;
 }
 
