@@ -754,7 +754,7 @@ HRESULT CLoader::Loding_For_Static()
 	ADD_SOUND(Explorsion, "../Bin/Resources/Sounds/Explorsion/");
 	/* 나중에 인도어로 반드시 반드시 반드시 옮기시오 */
 	m_pGameInstance->LoadSound("../Bin/Resources/Sounds/Interactive_Object/Door/");
-	m_pGameInstance->LoadSound("../Bin/Resources/Sounds/Env", false, false);
+ 	m_pGameInstance->LoadSound("../Bin/Resources/Sounds/Env", false, false);
 #pragma endregion
 
 

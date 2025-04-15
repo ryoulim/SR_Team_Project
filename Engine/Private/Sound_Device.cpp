@@ -208,15 +208,15 @@ void CSound_Device::Free()
         Safe_Release(Value);
     m_SingleSounds.clear();
 
-    if (m_pCoreSystem)
-    {
-        m_pCoreSystem->release();
-        m_pCoreSystem = nullptr;
-    }
-
     if (m_pMasterLimiter)
     {
         m_pMasterLimiter->release();
         m_pMasterLimiter = nullptr;
+    }
+
+    if (m_pCoreSystem)
+    {
+        m_pCoreSystem->release();
+        m_pCoreSystem = nullptr;
     }
 }
