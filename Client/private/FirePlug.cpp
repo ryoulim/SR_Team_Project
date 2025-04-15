@@ -77,8 +77,10 @@ void CFirePlug::Late_Update(_float fTimeDelta)
     _float3	vTemp = *m_pTransformCom->Get_State(CTransform::STATE_POSITION);
     CGameObject::Compute_ViewZ(&vTemp);
 
-    if (FAILED(m_pGameInstance->Add_RenderGroup(CRenderer::RG_BLEND, this)))
-        return;
+    const _float3& vPos = *m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+
+    if (m_pGameInstance->IsInFrustum(vPos, m_pTransformCom->Get_Radius()))
+        m_pGameInstance->Add_RenderGroup(CRenderer::RG_BLEND, this);
 }
 
 HRESULT CFirePlug::Render()

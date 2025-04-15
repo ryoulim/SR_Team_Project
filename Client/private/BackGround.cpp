@@ -42,8 +42,7 @@ EVENT CBackGround::Update(_float fTimeDelta)
 
 void CBackGround::Late_Update(_float fTimeDelta)
 {
-	if (FAILED(m_pGameInstance->Add_RenderGroup(CRenderer::RG_NONBLEND, this)))
-		return;
+	__super::Late_Update(fTimeDelta);
 }
 
 HRESULT CBackGround::Render()
