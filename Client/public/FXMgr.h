@@ -102,7 +102,7 @@ public: //번개위치
 private:
 	class CGameInstance* m_pGameInstance;
 	unordered_map<_wstring, class CObjectPool*> m_ObjectPools;
-	//CSoundController* m_pSoundCom = { nullptr };
+	CSoundController* m_pSoundCom = { nullptr };
 
 public:
 	static CFXMgr* Create();
