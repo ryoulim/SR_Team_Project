@@ -21,6 +21,9 @@ public:
 	virtual void Late_Update(_float fTimeDelta) override;
 	virtual HRESULT Render() override;
 	HRESULT Render_Background();
+	
+private:
+	_bool m_bVehicleSoundTrigger{ false };
 
 public:
 	static CLoading_ToRace* Create(LPDIRECT3DDEVICE9 pGraphic_Device);

@@ -570,7 +570,7 @@ _bool CMonster::IsMonsterAbleToAttack()
 	if (m_fCurDistance > m_fAttackDistance)
 		return false;
 	return Raycast_Player();
-	return true;
+	//return true;
 }
 
 void CMonster::Debug_Output()
@@ -634,6 +634,7 @@ void CMonster::State_Change_DETECTIVE(_float dt)
 		{
 			m_bFoundPlayer = true;
 			m_eState = MODE::MODE_BATTLE;
+			m_fBulletCooldownElapsed = m_fBulletCooldown;
 		}
 	}
 }

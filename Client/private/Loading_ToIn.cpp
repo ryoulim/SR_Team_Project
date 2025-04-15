@@ -35,6 +35,16 @@ HRESULT CLoading_ToIn::Initialize(void* pArg)
 	m_vSize.x *= g_iWinSizeY / m_vSize.y; m_vSize.y = g_iWinSizeY;
 	m_pTransformCom->Scaling(m_vSize);
 
+	/* For.Com_Sound */
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Sound_Loading_ToIn"),
+		TEXT("Com_Sound"), reinterpret_cast<CComponent**>(&m_pSoundCom))))
+		return E_FAIL;
+
+	m_pSoundCom->SetVolume("door_open", 1.f);
+	m_pSoundCom->SetVolume("glass_table", 1.f);
+	m_pSoundCom->SetVolume("computer_loop_002", 0.3f);
+	m_pSoundCom->Play("computer_loop_002");
+
 	return S_OK;
 }
 
@@ -46,7 +56,16 @@ void CLoading_ToIn::Priority_Update(_float fTimeDelta)
 
 EVENT CLoading_ToIn::Update(_float fTimeDelta)
 {
-
+	if (m_bSoundTrigger[0] == false && m_fTextureNum >= 1.f)
+	{
+		m_pSoundCom->Play("glass_table");
+		m_bSoundTrigger[0] = true;
+	}
+	if (m_bSoundTrigger[1] == false && m_fTextureNum >= 3.f)
+	{
+		m_pSoundCom->Play("door_open");
+		m_bSoundTrigger[1] = true;
+	}
 	return __super::Update(fTimeDelta);
 }
 

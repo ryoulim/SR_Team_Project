@@ -22,6 +22,10 @@ public:
 	virtual HRESULT Render() override;
 	HRESULT Render_Background();
 
+private:
+	_float	m_fOpacity{ 0.f };
+	_bool	m_bSoundTrigger[6]{ false };
+
 public:
 	static CLoading_Ending* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
 	virtual CGameObject* Clone(void* pArg) override;

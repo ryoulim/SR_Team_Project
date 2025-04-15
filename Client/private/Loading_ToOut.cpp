@@ -62,10 +62,18 @@ HRESULT CLoading_ToOut::Initialize(void* pArg)
 	m_pSoundCom->SetVolume("largecannon2", 0.5f);
 	m_pSoundCom->SetVolume("gunshell_01", 1.f);
 	m_pSoundCom->SetVolume("shot_004", 1.f);
-	m_pSoundCom->SetVolume("tile_run001", 1.f);
-	m_pSoundCom->SetVolume("tile_run002", 1.f);
-	m_pSoundCom->SetVolume("tile_run003", 1.f);
+	m_pSoundCom->SetVolume("tile_run001", 0.8f);
+	m_pSoundCom->SetVolume("tile_run002", 0.8f);
+	m_pSoundCom->SetVolume("tile_run003", 0.8f);
+	m_fWindVolume = 0.4f;
+	m_pSoundCom->SetVolume("wind_longloop1", m_fWindVolume);
+	m_pSoundCom->SetVolume("wind_heavy", m_fWindOutVolume);
+	// 아래에 셋볼륨 업데이트중
+	m_pSoundCom->Play("wind_longloop1");
+	m_pSoundCom->Set_Loop("wind_longloop1", -1);
 
+	m_pSoundCom->Play("wind_heavy");
+	m_pSoundCom->Set_Loop("wind_heavy", -1);
 
 
 	m_pSoundCom->Play("scream_crowd");
@@ -183,6 +191,14 @@ HRESULT CLoading_ToOut::Render_SecondCutscene()
 
 		if (FAILED(m_pVIBufferCom->Render()))
 			return E_FAIL;
+		if (m_bRenderOk[3] == true && m_bRenderOk[5] == false)
+		{
+			m_fWindVolume = LERP(m_fWindVolume, 0.f, 0.005f);
+			m_fWindOutVolume = LERP(m_fWindOutVolume, 0.5f, 0.005f);
+			m_pSoundCom->SetVolume("wind_longloop1", m_fWindVolume);
+			m_pSoundCom->SetVolume("wind_heavy", m_fWindOutVolume);
+		}
+
 	}
 	return S_OK;
 }
@@ -191,7 +207,7 @@ void CLoading_ToOut::Set_CutPosition(_float fTimeDelta)
 {
 // 아 진심 실화냐? 이게뭐냐? 영상으로틀고싶다..
 
-#define CUTSPEED 500.f;
+#define CUTSPEED 700.f;
 
 
 	/* 컷씬 스킵 엔터 ㅋ */
@@ -205,7 +221,7 @@ void CLoading_ToOut::Set_CutPosition(_float fTimeDelta)
 		if (m_arrTexSizePos[m_iCurCut].vPos.y <= m_arrTexLastPos[m_iCurCut].y) // 컷 이동 완료 시
 		{
 			m_arrTexSizePos[m_iCurCut].vPos.y = m_arrTexLastPos[m_iCurCut].y;
-			m_fWaitForNextCut += fTimeDelta; // 다음 컷 재생 까지 조금 기다림
+			m_fWaitForNextCut += fTimeDelta*1.5f; // 다음 컷 재생 까지 조금 기다림
 			if (m_fWaitForNextCut >= 2.f)
 			{
 				m_fWaitForNextCut = 0.f; // 다 기다렸으면 변수 초기화 후 
@@ -216,7 +232,7 @@ void CLoading_ToOut::Set_CutPosition(_float fTimeDelta)
 		}
 		break;
 	case 1: // 그걸졸라반복하기
-		m_fWaitForNextCut += fTimeDelta; // 다음 컷 재생 까지 조금 기다림
+		m_fWaitForNextCut += fTimeDelta * 1.5f; // 다음 컷 재생 까지 조금 기다림
 		if (m_fWaitForNextCut >= 1.f)
 		{
 			m_fWaitForNextCut = 0.f; // 다 기다렸으면 변수6 초기화 후 
@@ -228,7 +244,7 @@ void CLoading_ToOut::Set_CutPosition(_float fTimeDelta)
 		if (m_arrTexSizePos[m_iCurCut].vPos.y >= m_arrTexLastPos[m_iCurCut].y) // 컷 이동 완료 시
 		{
 			m_arrTexSizePos[m_iCurCut].vPos.y = m_arrTexLastPos[m_iCurCut].y;
-			m_fWaitForNextCut += fTimeDelta; // 다음 컷 재생 까지 조금 기다림
+			m_fWaitForNextCut += fTimeDelta * 1.5f; // 다음 컷 재생 까지 조금 기다림
 			if (m_fWaitForNextCut >= 2.f)
 			{
 				m_fWaitForNextCut = 0.f; // 다 기다렸으면 변수 초기화 후 
@@ -238,7 +254,7 @@ void CLoading_ToOut::Set_CutPosition(_float fTimeDelta)
 		}
 		break;
 	case 3:
-		m_fWaitForNextCut += fTimeDelta; // 다음 컷 재생 까지 조금 기다림
+		m_fWaitForNextCut += fTimeDelta * 1.5f; // 다음 컷 재생 까지 조금 기다림
 		if (_int(m_fWaitForNextCut * 1000.f) == 500)
 			m_pSoundCom->Play("tile_run002");
 		if (_int(m_fWaitForNextCut * 1000.f) == 1000)
@@ -251,7 +267,7 @@ void CLoading_ToOut::Set_CutPosition(_float fTimeDelta)
 		}
 		break;
 	case 4:
-		m_fWaitForNextCut += fTimeDelta; // 다음 컷 재생 까지 조금 기다림
+		m_fWaitForNextCut += fTimeDelta * 1.5f; // 다음 컷 재생 까지 조금 기다림
 		if (_int(m_fWaitForNextCut * 1000.f) == 500)
 			m_pSoundCom->Play("tile_run003");
 		if (_int(m_fWaitForNextCut * 1000.f) == 1000)
@@ -261,6 +277,8 @@ void CLoading_ToOut::Set_CutPosition(_float fTimeDelta)
 			m_fWaitForNextCut = 0.f; // 다 기다렸으면 변수 초기화 후 
 			m_iCurCut = 5;			 // 다음 컷으로 이동
 			m_pSoundCom->Play("tile_run003");
+			m_pSoundCom->Stop("wind_longloop1");
+			//m_pSoundCom->Play("")
 		}
 		break;
 	case 5:
@@ -268,7 +286,7 @@ void CLoading_ToOut::Set_CutPosition(_float fTimeDelta)
 		if (m_arrTexSizePos[m_iCurCut].vPos.y >= m_arrTexLastPos[m_iCurCut].y) // 컷 이동 완료 시
 		{
 			m_arrTexSizePos[m_iCurCut].vPos.y = m_arrTexLastPos[m_iCurCut].y;
-			m_fWaitForNextCut += fTimeDelta; // 다음 컷 재생 까지 조금 기다림
+			m_fWaitForNextCut += fTimeDelta * 1.5f; // 다음 컷 재생 까지 조금 기다림
 			if (m_fWaitForNextCut >= 2.5f)
 			{
 				m_fWaitForNextCut = 0.f; // 다 기다렸으면 변수 초기화 후 

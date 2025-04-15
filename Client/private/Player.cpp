@@ -233,7 +233,7 @@ void CPlayer::On_Collision(_uint MyColliderID, _uint OtherColliderID)
 	case CI_ITEM_CHAINGUN:
 		/* 좀 그렇긴 하네 */
 		m_iMaxWeaponIndex = 2;
-		UIMGR->Add_Weapon();
+		UIMGR->Add_Weapon(); // 이거 무슨 무기가 증가했는지는 모르고 웨폰맥스인덱스 ++해주는 로직마냥 ui도 걍 ++로 증가시키기만 해서 중간에 무기를 안줍거나 그러면 꼬입니다요..
 		PRINT_DIALOG("picked up Chaingun");
 		m_pSoundCom->Play("Weapon");
 		break;
