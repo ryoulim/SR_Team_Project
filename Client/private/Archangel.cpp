@@ -200,10 +200,14 @@ void CArchangel::MonsterTick(_float dt)
 
 	case MODE::MODE_DETECTIVE:
 		State_Change_DETECTIVE(dt);
+		m_fBulletCooldownElapsed = 0;
+		m_fFireReadyTime = 0;
 		break;
 
 	case MODE::MODE_READY:
 		State_Change_READY(dt);
+		m_fBulletCooldownElapsed = 0;
+		m_fFireReadyTime = 0;
 		break;
 
 	case MODE::MODE_BATTLE:
