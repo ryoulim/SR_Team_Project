@@ -60,7 +60,9 @@ HRESULT CMonster::Initialize(void* pArg)
 	m_vSkullOffset.y *= 0.5f;
 	m_vSkullOffset.z = 0.f;
 
+	/* 근근훈이 추가함 대기상태 주는 변수랑, 본인 기준 거리 체크용 */
 	m_bStandby = static_cast<DESC*>(pArg)->bStandby;
+	m_fMaxDistanceFromSelf = static_cast<DESC*>(pArg)->fMaxDistanceFromSelf;
 
 	return S_OK;
 }
@@ -515,7 +517,11 @@ void CMonster::On_Collision_NormalMonster(_uint MyColliderID, _uint OtherCollide
 		//if (!m_pSoundCom->IsPlaying("Hit"))
 			m_pSoundCom->Play("Hit");
 	}
-	else if (CI_INTERACTIVE_DOOR)
+	else if (OtherColliderID == CI_INTERACTIVE_DOOR)
+	{
+		Collision_With_Block();
+	}
+	else if (OtherColliderID == CI_INTERACTIVE_GENERATOR)
 	{
 		Collision_With_Block();
 	}
@@ -689,7 +695,7 @@ void CMonster::State_Change_DETECTIVE_Near_Mob()
 
 		/*본인을 제외한 본인의 거리에서 일정거리 만큼에 몬스터가 있다면*/
 		/* 상수 박혀있는거 나중에 바꿔야 할 거 같아요 */
-		if ((vPosition - vMobPosition).Length() < 100.f)
+		if (pMonster != this && (vPosition - vMobPosition).Length() < m_fMaxDistanceFromSelf)
 		{
 			/* pMonster의 파운드 플레이어를 트루로 바꿔준다 */
 			static_cast<CMonster*>(pMonster)->On_Player_Found();
@@ -786,8 +792,8 @@ bool CMonster::IsPlayerDetected()
 
 	if (m_fCurDistance < m_fDetectiveDistance)
 	{
-		//if (FX_MGR->IsFlashing() && CAMERA_MANAGER->Get_CurCameraID() == CCameraManager::FPS)
-		//	return true;
+		if (FX_MGR->IsFlashing() && CAMERA_MANAGER->Get_CurCameraID() == CCameraManager::FPS)
+			return true;
 
 		_float3 vLook = *m_pTransformCom->Get_State(CTransform::STATE_LOOK);
 		vLook.Normalize();

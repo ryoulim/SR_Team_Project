@@ -37,6 +37,7 @@ public:
 		_float		fDetectiveDistance;
 		_float		fAttackDistance;
 		_bool       bStandby = false;
+		_float      fMaxDistanceFromSelf{};
 	}DESC;
 
 protected:
@@ -198,6 +199,8 @@ protected: //디텍티브
 	_float			m_fIdleTime = 0;
 	_float			m_fMaxIdleTime = 0;
 	_float			m_fAttackDistance = 0;
+	/* 근근훈이 추가함 본인에서 몬스터 사이 최대거리 */
+	_float			m_fMaxDistanceFromSelf = {}; 
 
 
 protected: // 랜덤 난수 생성변수

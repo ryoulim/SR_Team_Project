@@ -76,6 +76,8 @@ HRESULT CPlayer::Initialize(void* pArg)
 	m_pSoundCom->SetVolume("TimeTo",0.35f);
 	m_pSoundCom->Play("TimeTo");
 
+	m_pSoundCom->SetVolume("ArmorPiece", 0.15f);
+
 	m_pLeftHand = new CLeftHand(m_pGraphic_Device);
 	if (FAILED(m_pLeftHand->Initialize(pArg)))
 		return E_FAIL;
@@ -198,8 +200,6 @@ void CPlayer::On_Collision(_uint MyColliderID, _uint OtherColliderID)
 		On_Just_Dodge();
 		return;
 	}
-
-	m_pSoundCom->SetVolume("ArmorPiece", 0.15f);
 
 	switch (OtherColliderID)
 	{
@@ -349,6 +349,20 @@ void CPlayer::On_Collision(_uint MyColliderID, _uint OtherColliderID)
 		break;
 
 	case CI_INTERACTIVE_DOOR:
+	{
+		_float3 vPos = *m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+		_float3 vPos2 = *m_pCameraTransform->Get_State(CTransform::STATE_POSITION);
+
+		_float3 Depth = m_pCollider->Get_Last_Collision_Depth();
+
+		vPos += Depth;
+		vPos2 += Depth;
+
+		m_pTransformCom->Set_State(CTransform::STATE_POSITION, vPos);
+		m_pCameraTransform->Set_State(CTransform::STATE_POSITION, vPos2);
+		break;
+	}
+	case CI_INTERACTIVE_GENERATOR:
 	{
 		_float3 vPos = *m_pTransformCom->Get_State(CTransform::STATE_POSITION);
 		_float3 vPos2 = *m_pCameraTransform->Get_State(CTransform::STATE_POSITION);

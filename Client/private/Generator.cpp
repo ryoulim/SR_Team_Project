@@ -225,6 +225,9 @@ HRESULT CGenerator::Im_Broken(_float fTimeDelta)
         SPAWN_CULTIST(1709.f, 640.f, 235.f, LEVEL_OUTDOOR, true);
         SPAWN_CULTIST(1313.f, 670.f, -7.f, LEVEL_OUTDOOR, true);
 
+        SPAWN_GREATER(614.f, 300.f, 1660.f, LEVEL_OUTDOOR, true);
+        SPAWN_CULTIST(425.f, 275.f, 1335.f, LEVEL_OUTDOOR, true);
+
         SPAWN_SHOTGUNNER(1638.f, 770.f, -244.f, LEVEL_OUTDOOR, true);
         SPAWN_SHOTGUNNER(1472.f, 540.f, 309.f, LEVEL_OUTDOOR, true);
         SPAWN_SHOTGUNNER(1045.f, 440.f, 344.f, LEVEL_OUTDOOR, true);
@@ -233,13 +236,11 @@ HRESULT CGenerator::Im_Broken(_float fTimeDelta)
         SPAWN_GREATER(1517.f, 530.f, 692.f, LEVEL_OUTDOOR, true);
         SPAWN_GREATER(1201.f, 430.f, 986.f, LEVEL_OUTDOOR, true);
 
-        SPAWN_CULTIST(804.f, 430.f, 1217.f, LEVEL_OUTDOOR, true);
-        SPAWN_SHOTGUNNER(743.f, 380.f, 1617.f, LEVEL_OUTDOOR, true);  
-        SPAWN_GREATER(619.f, 200.f, 137.f, LEVEL_OUTDOOR, true);
-        SPAWN_CULTIST(590.f, 380.f, 1677.f, LEVEL_OUTDOOR, true);
-        SPAWN_SHOTGUNNER(426.f, 330.f, 1340.f, LEVEL_OUTDOOR, true);
-        SPAWN_GREATER(190.f, 180.f, 352.f, LEVEL_OUTDOOR, true);
-        SPAWN_CULTIST(599.f, 230.f, 757.f, LEVEL_OUTDOOR, true);
+        SPAWN_MECHSECT(1094.f, 410.f, 393.f, LEVEL_OUTDOOR, false);
+        SPAWN_MECHSECT(1190.f, 410.f, 470.f, LEVEL_OUTDOOR, false);
+        SPAWN_MECHSECT(1290.f, 410.f, 730.f, LEVEL_OUTDOOR, false);
+        SPAWN_MECHSECT(1055.f, 410.f, 1070.f, LEVEL_OUTDOOR, false);
+        SPAWN_MECHSECT(770.f, 410.f, 1180.f, LEVEL_OUTDOOR, false);
 
         m_bDoOnce = true;
     }

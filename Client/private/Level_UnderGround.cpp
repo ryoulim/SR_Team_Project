@@ -498,21 +498,21 @@ HRESULT CLevel_UnderGround::Ready_Layer_Pawn(const _wstring& strLayerTag)
 HRESULT CLevel_UnderGround::Ready_Layer_Monster(const _wstring& strLayerTag)
 {
 	// 랜덤 범위
-	float minX = 170.f;
-	float maxX = 645.f;
-	float minZ = 330.f;
-	float maxZ = 5000.f;
+	_float minX = 170.f;
+	_float maxX = 645.f;
+	_float minZ = 330.f;
+	_float maxZ = 5000.f;
 
 
 	/* [ 스마트하게 배치 ] */
-	for (int i = 0; i < 80; ++i)
+	for (_int i = 0; i < 80; ++i)
 	{
-		float x = GetRandomFloat(minX, maxX);
-		float z = GetRandomFloat(minZ, maxZ);
-		float y = 75.f;
+		_float x = GetRandomFloat(minX, maxX);
+		_float z = GetRandomFloat(minZ, maxZ);
+		_float y = 75.f;
 	
 		// 몬스터 종류 랜덤 선택 (예시: 0~2)
-		int monsterType = rand() % 3;
+		_int monsterType = rand() % 3;
 	
 		switch (monsterType)
 		{
