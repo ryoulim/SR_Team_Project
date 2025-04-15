@@ -38,13 +38,14 @@ HRESULT CRaceBoss::Initialize(void* pArg)
 
 	m_pSoundCom->SetVolume(0.5f);
 	m_pSoundCom->SetVolume("BombReady", 0.4f);
-	m_pSoundCom->SetVolume("BombStart", 1.f);//»ç¿ëµÊ
+	m_pSoundCom->SetVolume("BombStart", 2.f);//»ç¿ëµÊ
 	m_pSoundCom->SetVolume("Die", 0.4f);
 	m_pSoundCom->SetVolume("Hit", 0.7f);
-	m_pSoundCom->SetVolume("Lazer1", 0.8f);//»ç¿ëµÊ
+	m_pSoundCom->SetVolume("MombackReady", 3.f);//»ç¿ëµÊ
+	m_pSoundCom->SetVolume("BombAttack", 0.8f);//»ç¿ëµÊ
 	m_pSoundCom->SetVolume("Lazer2", 0.6f);
 	m_pSoundCom->SetVolume("Lazer3", 0.45f);
-	m_pSoundCom->SetVolume("Lazer4", 5.f);//»ç¿ëµÊ
+	m_pSoundCom->SetVolume("CrossAttack", 5.f);//»ç¿ëµÊ
 	m_pSoundCom->SetVolume("Momback", 0.45f);
 	m_pSoundCom->SetVolume("ShotBullet", 1.f);//»ç¿ëµÊ
 
@@ -320,6 +321,21 @@ void CRaceBoss::Play_Sound(const string& strTag)
 void CRaceBoss::Stop_Sound(const string& strTag)
 {
 	m_pSoundCom->Stop(strTag);
+}
+
+void CRaceBoss::Set_MombackReady_Sound_False()
+{
+	m_bMombackReadySoundPlay = false;
+}
+
+void CRaceBoss::Set_MombackReady_Sound_True()
+{
+	m_bMombackReadySoundPlay = true;
+}
+
+_bool CRaceBoss::Get_MombackReady_Sound_State()
+{
+	return m_bMombackReadySoundPlay;
 }
 
 _float CRaceBoss::Compute_PosZ()

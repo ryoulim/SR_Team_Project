@@ -96,9 +96,9 @@ public:
 		m_fTime = 0.f;
 		//랜덤한 패턴으로 이어짐
 		//m_pOwner->Set_State(CRaceBoss::SHOTREADY);
-		m_pOwner->Set_State(CRaceBoss::READYBOMB);
+		//m_pOwner->Set_State(CRaceBoss::READYBOMB);
 		//m_pOwner->Set_State(CRaceBoss::MOMBACKREADY);
-		//m_pOwner->Set_State(CRaceBoss::IDLE);
+		m_pOwner->Set_State(CRaceBoss::IDLE);
 	}
 
 private:
@@ -414,10 +414,9 @@ public: /* [ 먼곳에서 무차별 폭격을 하며 플레이어를 향해 돌진한다 ] */
 		m_pOwner->m_pTransformCom->Set_State(CTransform::STATE_POSITION, vTargerPos);
 
 		m_fSoundTime += fTimeDelta;
-		if (m_fSoundTime > 0.2f && m_iSoundCount < 15)
+		if (m_fSoundTime > 0.2f && m_iSoundCount < 17)
 		{
-			
-			m_pOwner->Play_Sound("Lazer1");
+			m_pOwner->Play_Sound("BombAttack");
 			m_fSoundTime = 0.f;
 			++m_iSoundCount;
 		}
@@ -442,7 +441,7 @@ public: /* [ 먼곳에서 무차별 폭격을 하며 플레이어를 향해 돌진한다 ] */
 	{
 		m_pOwner->Set_State(CRaceBoss::CROSSATTACK);
 		
-		m_pOwner->Stop_Sound("Lazer1");
+		m_pOwner->Stop_Sound("BombAttack");
 		m_fSoundTime = 0.f;
 		m_iSoundCount = 0;
 
@@ -492,7 +491,7 @@ public:
 
 		if (m_bPlaySound)
 		{
-			m_pOwner->Play_Sound("Lazer4");
+			m_pOwner->Play_Sound("CrossAttack");
 			m_bPlaySound = false;
 		}
 		
@@ -602,10 +601,11 @@ public:
 		if (m_fTime > 1.7f)
 			Exit();
 
-		if (m_bPlaySound)
+		
+		if (m_pOwner->Get_MombackReady_Sound_State())
 		{
-			m_pOwner->Play_Sound("Momback");
-			m_bPlaySound = false;
+			m_pOwner->Play_Sound("MombackReady");
+			m_pOwner->Set_MombackReady_Sound_False();
 		}
 	}
 	virtual void Exit() override
@@ -614,13 +614,11 @@ public:
 		_float3 vTargetPos = *m_pOwner->m_pPlayerpos;
 		m_pOwner->SpawnTargetLineReverse({ vCurrentPos.x + 200 , 1.f, vTargetPos.z + 1000 });
 		m_pOwner->Set_State(CRaceBoss::MOMBACK);
-		m_pOwner->Stop_Sound("Momback");
-		m_bPlaySound = true;
+		m_pOwner->Stop_Sound("MombackReady");
 	}
 
 private:
 	float m_fRotatedAmount = 0.f;
-	_bool m_bPlaySound = true;
 };
 
 class CRBState_Momback final : public CRBState
@@ -665,7 +663,7 @@ public:
 
 		if (m_bPlaySound)
 		{
-			m_pOwner->Play_Sound("Momback");
+			m_pOwner->Play_Sound("CrossAttack");
 			m_bPlaySound = false;
 		}
 
@@ -697,9 +695,8 @@ public:
 		_float3 vHitBoxScale = { 250.f, 100.f, 4500.f };
 		m_pOwner->SpawnHitBox(vHitBoxPos, vHitBoxScale, TEXT("Cube"), 1.5f, false);
 
-
 		m_pOwner->Set_State(CRaceBoss::MOMBACKREVERSE);
-		m_pOwner->Stop_Sound("Momback");
+		m_pOwner->Stop_Sound("CrossAttack");
 		m_bPlaySound = true;
 	}
 
@@ -752,6 +749,12 @@ public:
 		vTargerPos.z += fTimeDelta * m_fSpeed;
 
 		m_pOwner->m_pTransformCom->Set_State(CTransform::STATE_POSITION, vTargerPos);
+		
+		if (m_bPlaySound)
+		{
+			m_pOwner->Play_Sound("CrossAttack");
+			m_bPlaySound = false;
+		}
 
 		if (m_fTime > 2.f)
 			Exit();
@@ -777,10 +780,14 @@ public:
 		m_pOwner->m_pTransformCom->Set_State(CTransform::STATE_LOOK, m_pOwner->m_vSavedLook);
 
 		m_pOwner->Update_Collider_OffSet(0.f);
+
+		m_pOwner->Stop_Sound("CrossAttack");
+		m_bPlaySound = true;
 	}
 
 private:
 	_float m_fSpeed = 5000.f;
+	_bool m_bPlaySound = true;
 };
 #pragma endregion
 
@@ -795,6 +802,9 @@ public:
 	/*     [ 현재 어떤 포지션이든간에 원점으로 돌아오게 한다. ]      */
 	virtual void Enter(_float fTimeDelta) override
 	{
+		/* 몸박 레디 사운드 두 번 호출되는거 떄문에 넣었습니다 */
+		m_pOwner->Set_MombackReady_Sound_True();
+
 		/* [ 포지션을 원위치 ] */
 		_float3 vReturnPos = *m_pOwner->m_pTransformCom->Get_State(CTransform::STATE_POSITION);
 		_float fYPos = m_pOwner->m_pPlayerpos->y + 500;
