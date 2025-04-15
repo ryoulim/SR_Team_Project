@@ -36,18 +36,18 @@ HRESULT CRaceBoss::Initialize(void* pArg)
 
 	Init_Skull();
 
-	m_pSoundCom->SetVolume(0.5f);
-	m_pSoundCom->SetVolume("BombReady", 0.4f);
-	m_pSoundCom->SetVolume("BombStart", 2.f);//»ç¿ëµÊ
-	m_pSoundCom->SetVolume("Die", 0.4f);
-	m_pSoundCom->SetVolume("Hit", 0.7f);
-	m_pSoundCom->SetVolume("MombackReady", 3.f);//»ç¿ëµÊ
-	m_pSoundCom->SetVolume("BombAttack", 0.8f);//»ç¿ëµÊ
-	m_pSoundCom->SetVolume("Lazer2", 0.6f);
-	m_pSoundCom->SetVolume("Lazer3", 0.45f);
-	m_pSoundCom->SetVolume("CrossAttack", 5.f);//»ç¿ëµÊ
-	m_pSoundCom->SetVolume("Momback", 0.45f);
-	m_pSoundCom->SetVolume("ShotBullet", 1.f);//»ç¿ëµÊ
+	m_pSoundCom->SetVolume(0.3f);
+	m_pSoundCom->SetVolume("BombReady", 0.2f);
+	m_pSoundCom->SetVolume("BombStart", 1.8f);//»ç¿ëµÊ
+	m_pSoundCom->SetVolume("Die", 0.3f);
+	m_pSoundCom->SetVolume("Hit", 0.6f);
+	m_pSoundCom->SetVolume("MombackReady", 1.0f);//»ç¿ëµÊ
+	m_pSoundCom->SetVolume("BombAttack", 1.0f);//»ç¿ëµÊ
+	m_pSoundCom->SetVolume("Lazer2", 0.4f);
+	m_pSoundCom->SetVolume("Lazer3", 0.25f);
+	m_pSoundCom->SetVolume("CrossAttack", 2.5f);//»ç¿ëµÊ
+	m_pSoundCom->SetVolume("Momback", 0.35f);
+	m_pSoundCom->SetVolume("ShotBullet", 0.8f);//»ç¿ëµÊ
 
 	m_VecBulletPos = { LSIDE, LMIDDLE, MIDDLE, RMIDDLE, RSIDE };
 

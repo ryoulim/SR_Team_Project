@@ -240,7 +240,7 @@ void CWeapon::Picking_Object()
 
 	// 최적화 할 방법 있나?
 	m_pPickedCollider = m_pGameInstance->Raycast(pPos, pLook.Normalize(),
-		m_fRayLength, { CG_BLOCK,CG_MONSTER,CG_MBULLET,CG_MONSTER_HEAD,CG_INTERACTIVE }, m_iPickedColliderID);
+		m_fRayLength, { CG_BLOCK,CG_MONSTER,CG_MBULLET,CG_MONSTER_HEAD,CG_BOSS,CG_INTERACTIVE }, m_iPickedColliderID);
 
 }
 

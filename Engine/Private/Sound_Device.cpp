@@ -60,12 +60,31 @@ HRESULT CSound_Device::Initialize()
     if (m_pCoreSystem->init(512, FMOD_INIT_NORMAL, nullptr) != FMOD_OK)
         return E_FAIL;
 
+    m_pCoreSystem->setSoftwareChannels(128);
+
+    Set_Master_Limiter();
+
     return S_OK;
 }
 
 void CSound_Device::Update()
 {
     m_pCoreSystem->update();
+}
+
+void CSound_Device::Set_Master_Limiter()
+{
+    m_pCoreSystem->createDSPByType(FMOD_DSP_TYPE_LIMITER, &m_pMasterLimiter);
+
+    m_pMasterLimiter->setParameterFloat(FMOD_DSP_LIMITER_RELEASETIME, 10.0f);      // ºü¸£°Ô È¸º¹
+    m_pMasterLimiter->setParameterFloat(FMOD_DSP_LIMITER_CEILING, -1.0f);          // 0º¸´Ù »ìÂ¦ ³·°Ô Ãâ·Â Á¦ÇÑ
+    m_pMasterLimiter->setParameterFloat(FMOD_DSP_LIMITER_MAXIMIZERGAIN, 0);     // º¼·ý »ìÂ¦ ÁõÆø
+    m_pMasterLimiter->setParameterInt(FMOD_DSP_LIMITER_MODE, 0);                   // µðÁöÅÐ Å¬¸®ÇÎ ¹æÁö
+
+    FMOD::ChannelGroup* pMasterGroup = nullptr;
+    m_pCoreSystem->getMasterChannelGroup(&pMasterGroup);
+    pMasterGroup->addDSP(0, m_pMasterLimiter);
+    m_pMasterLimiter->setActive(true);
 }
 
 HRESULT CSound_Device::LoadSound(const string& Path, _bool is3D, _bool loop, _bool stream, unordered_map<string, class CSound_Core*>* _Out_ pOut)
@@ -193,5 +212,11 @@ void CSound_Device::Free()
     {
         m_pCoreSystem->release();
         m_pCoreSystem = nullptr;
+    }
+
+    if (m_pMasterLimiter)
+    {
+        m_pMasterLimiter->release();
+        m_pMasterLimiter = nullptr;
     }
 }

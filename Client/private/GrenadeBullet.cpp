@@ -121,6 +121,7 @@ HRESULT CGrenadeBullet::Render()
 	m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
 	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAREF, 40);
 	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER);
+	m_pGraphic_Device->SetRenderState(D3DRS_LIGHTING, FALSE);
 
 	m_pGraphic_Device->SetTransform(D3DTS_WORLD, &m_pTransformCom->Billboard());
 
@@ -134,6 +135,7 @@ HRESULT CGrenadeBullet::Render()
 		return E_FAIL;
 
 	m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
+	m_pGraphic_Device->SetRenderState(D3DRS_LIGHTING, TRUE);
 
 #ifdef _COLLIDERRENDER
 	m_pCollider->Render();

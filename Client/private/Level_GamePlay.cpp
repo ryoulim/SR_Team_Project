@@ -360,7 +360,7 @@ void CLevel_GamePlay::Check_Collision()
 	/*PBULLET*/
 	m_pGameInstance->Intersect(CG_PBULLET, CG_MONSTER);
 	m_pGameInstance->Intersect(CG_PBULLET, CG_BLOCK);
-	m_pGameInstance->Intersect(CG_PBULLET, CG_MBULLET);
+	//m_pGameInstance->Intersect(CG_PBULLET, CG_MBULLET);
 
 	/*MBULLET*/
 	m_pGameInstance->Intersect(CG_MBULLET, CG_PAWN);

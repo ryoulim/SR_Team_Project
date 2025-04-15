@@ -23,8 +23,8 @@ HRESULT CArchangel::Initialize_Prototype()
 	m_szBufferType = TEXT("Rect");
 
 	//속성
-	m_iHP = 350;
-	m_iMaxHP = 350;
+	m_iHP = 1000;
+	m_iMaxHP = 1000;
 	m_iAttackPower = 20;
 	m_iDefense = 3;
 	m_fSpeed = 13.f;
