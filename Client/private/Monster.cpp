@@ -391,7 +391,7 @@ void CMonster::FrameUpdate(_float timeDelta, _float _MaxFrame, _float fSpeed, _b
 	{
 		if (_MaxFrame <= m_fAnimationFrame)
 		{
-			m_fAnimationFrame -= _MaxFrame;
+			m_fAnimationFrame = 0.f;
 		}
 	}
 	else
