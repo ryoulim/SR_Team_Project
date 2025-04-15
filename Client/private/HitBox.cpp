@@ -73,15 +73,15 @@ HRESULT CHitBox::SetUp_RenderState()
 
 HRESULT CHitBox::Render()
 {
-	m_pTransformCom->Bind_Resource();
-	m_pGraphic_Device->SetTexture(0, nullptr);
-	m_pVIBufferCom->Bind_Buffers();
-
-	SetUp_RenderState();
-
-	m_pVIBufferCom->Render();
-
-	Release_RenderState();
+	//m_pTransformCom->Bind_Resource();
+	//m_pGraphic_Device->SetTexture(0, nullptr);
+	//m_pVIBufferCom->Bind_Buffers();
+	//
+	//SetUp_RenderState();
+	//
+	//m_pVIBufferCom->Render();
+	//
+	//Release_RenderState();
 
 	return S_OK;
 }

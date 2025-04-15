@@ -52,8 +52,6 @@ protected:
 	_float		 m_fTargetDistance = {};
 	_bool		 m_bFlesh = false;
 	_bool		 m_bBlueFire = false;
-
-	class CCameraManager* m_pCamera = nullptr;
 };
 
 END

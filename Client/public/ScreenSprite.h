@@ -6,7 +6,7 @@ BEGIN(Client)
 class CScreenSprite final : public CEffect
 {
 public:
-	enum eEffectType { HIT , HEAL , NONE};
+	enum eEffectType { HIT , HEAL , THUNDER , NONE};
 public:
 	typedef struct tagSpriteDesc : public CEffect::DESC
 	{

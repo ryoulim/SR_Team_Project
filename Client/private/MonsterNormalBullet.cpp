@@ -24,10 +24,6 @@ HRESULT CMonsterNormalBullet::Initialize(void* pArg)
 	m_pTargetPlayer = GET_PLAYER;
 	Safe_AddRef(m_pTargetPlayer);
 
-	/* 카메라를 알고 있어라 */
-	m_pCamera = CAMERA_MANAGER;
-	Safe_AddRef(m_pCamera);
-
 	m_eLevelID = LEVEL_STATIC;
 	m_szTextureID = TEXT("PC_Generic");
 	m_szBufferType = TEXT("Rect");
@@ -46,21 +42,26 @@ HRESULT CMonsterNormalBullet::Initialize(void* pArg)
 	CPSystem::DESC Missile_iDesc{};
 	Missile_iDesc.vPosition = { 0.f, 0.f, 0.f };
 	Missile_iDesc.szTextureTag = TEXT("PC_Small_Smoke");
-	Missile_iDesc.iParticleNums = 1000;
+	Missile_iDesc.iParticleNums = 50;
 	Missile_iDesc.fMaxFrame = 20.f;
-	Missile_iDesc.fLifeTime = GetRandomFloat(1.f, 3.f);
-
+	Missile_iDesc.fNum = 60.f;
+	
 	if (m_bFlesh)
 		Missile_iDesc.fSize = 0.7f;
 	else
+	{
 		Missile_iDesc.fSize = 0.4f;
+		Missile_iDesc.iParticleNums = 20;
+	}
+	
+	//if (!m_bFlesh && !bCollision)
 
 	CGameObject* pObject = nullptr;
 	CGameObject** ppOut = &pObject;
-	if (FAILED(m_pGameInstance->Add_GameObjectReturn(LEVEL_STATIC, TEXT("Prototype_GameObject_PC_MonsterMissile"),
-		LEVEL_GAMEPLAY, L"Layer_Monster", ppOut, &Missile_iDesc)))
+	if (FAILED(m_pGameInstance->Add_GameObjectReturn(LEVEL_STATIC, TEXT("Prototype_GameObject_PC_MonsterMissileRow"),
+		m_eLevelID, L"Layer_Particle", ppOut, &Missile_iDesc)))
 		return E_FAIL;
-
+	
 	m_pMissile = *ppOut;
 	return S_OK;
 }
@@ -271,6 +272,5 @@ void CMonsterNormalBullet::Free()
 	__super::Free();
 
 	Safe_Release(m_pTargetPlayer);
-	Safe_Release(m_pCamera);
 	Safe_Release(m_pGravityCom);
 }

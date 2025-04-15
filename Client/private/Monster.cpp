@@ -689,7 +689,7 @@ void CMonster::State_Change_DETECTIVE_Near_Mob()
 
 		/*본인을 제외한 본인의 거리에서 일정거리 만큼에 몬스터가 있다면*/
 		/* 상수 박혀있는거 나중에 바꿔야 할 거 같아요 */
-		if (pMonster != this && (vPosition - vMobPosition).Length() < 100.f)
+		if ((vPosition - vMobPosition).Length() < 100.f)
 		{
 			/* pMonster의 파운드 플레이어를 트루로 바꿔준다 */
 			static_cast<CMonster*>(pMonster)->On_Player_Found();
