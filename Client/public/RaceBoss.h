@@ -136,6 +136,10 @@ private:
 	void Go_Right(_float fTimeDelta);
 	void Play_Sound(const string& strTag);
 	void Stop_Sound(const string& strTag);
+	void Set_MombackReady_Sound_False();
+	void Set_MombackReady_Sound_True();
+	_bool Get_MombackReady_Sound_State();
+
 	_float Compute_PosZ();
 	_float Compute_PozY();
 	void MoveCatMullRom(_float3& v0, _float3& vStartPos, _float3& vEndPos, _float3& v3, _float fTimeAcc);
@@ -169,6 +173,7 @@ private:
 	_bool		m_bDead = { false };
 	_bool		m_bPartDead[5]{};
 	_bool		m_bChangeLevel{};
+	_bool		m_bMombackReadySoundPlay = { true };
 	_float3		m_vScale = {};
 	_float		m_fBombTime = {};
 	_float		m_fDieTime = {};
