@@ -193,12 +193,11 @@ void CWeapon_Dispenser::Key_Input()
 		else
 			Set_State(CWeapon::ST_RELOAD);
 	}
-	if (MOUSE_DOWN(DIMK_RBUTTON) && m_pCurAmmo->iCurAmmo > 0)
+	if (MOUSE_DOWN(DIMK_RBUTTON))
 	{
 		m_bGrenadeMode = !m_bGrenadeMode;
 
 		// ¿©±â¼­ ÃÑ ¹Ù²Þ
-		m_pCurAmmo->iCurAmmo -= m_pCurAmmo->iReloadedAmmo;
 		m_pCurAmmo->iReloadedAmmo = m_pCurAmmo->iMaxAmmo;
 		if (m_pCurAmmo->iCurAmmo < 0)
 			m_pCurAmmo->iCurAmmo = 0;

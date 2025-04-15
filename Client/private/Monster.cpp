@@ -512,7 +512,7 @@ void CMonster::On_Collision_NormalMonster(_uint MyColliderID, _uint OtherCollide
 	{
 		Collision_With_Weapon();
 
-		if (!m_pSoundCom->IsPlaying("Hit"))
+		//if (!m_pSoundCom->IsPlaying("Hit"))
 			m_pSoundCom->Play("Hit");
 	}
 	else if (CI_INTERACTIVE_DOOR)
@@ -1072,7 +1072,7 @@ _float3 CMonster::CalculateEffectPos()
 void CMonster::On_Collision(_uint MyColliderID, _uint OtherColliderID)
 {
 	if (MyColliderID == CI_MON_HEAD)
-		m_iHeadMultiplier = 2;
+		m_iHeadMultiplier = 3;
 	else
 		m_iHeadMultiplier = 1;
 
@@ -1088,17 +1088,12 @@ void CMonster::On_Collision(_uint MyColliderID, _uint OtherColliderID)
 
 	if (OtherColliderID == CI_DISPENSOR_SHELL)
 	{
-		m_iHP -= 5 * m_iHeadMultiplier;
+		m_iHP -= 10 * m_iHeadMultiplier;
 	}
 
 	if (OtherColliderID == CI_DISPENSOR_GRENADE)
 	{
 		m_iHP -= 25 * m_iHeadMultiplier;
-	}
-
-	if (OtherColliderID == CI_PICKING_RAY)
-	{
-		int a = 1;
 	}
 }
 

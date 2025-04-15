@@ -86,10 +86,10 @@ HRESULT CMechsect::Initialize(void* pArg)
 	//m_fAttackTime = 0.35f;		// 공격 시간
 
 	/* [ 사운드 설정칸 ] */
-	m_pSoundCom->Set3DState(100.f, 500.f);
-	m_pSoundCom->SetVolume("Chacing", 0.5f);
-	m_pSoundCom->SetVolume("Die", 0.5f);
-	m_pSoundCom->SetVolume("Hit", 0.5f);
+	m_pSoundCom->Set3DState(100.f, 1000.f);
+	m_pSoundCom->SetVolume("Chacing", 0.4f);
+	m_pSoundCom->SetVolume("Die", 0.4f);
+	m_pSoundCom->SetVolume("Hit", 0.4f);
 	return S_OK;
 }
 

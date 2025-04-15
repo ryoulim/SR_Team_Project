@@ -78,7 +78,7 @@ HRESULT CCultist::Initialize(void* pArg)
 
 
 	/* [ 사운드 설정칸 ] */
-	m_pSoundCom->Set3DState(100.f, 500.f);
+	m_pSoundCom->Set3DState(100.f, 1000.f);
 	m_pSoundCom->SetVolume("Chacing", 0.5f);
 	m_pSoundCom->SetVolume("Die", 0.5f);
 	m_pSoundCom->SetVolume("Hit", 0.5f);

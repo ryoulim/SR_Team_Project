@@ -198,7 +198,6 @@ void CPlayer::On_Collision(_uint MyColliderID, _uint OtherColliderID)
 		return;
 	}
 
-	m_pSoundCom->SetVolume(0.3f);
 	m_pSoundCom->SetVolume("ArmorPiece", 0.15f);
 
 	switch (OtherColliderID)
@@ -364,30 +363,33 @@ void CPlayer::On_Collision(_uint MyColliderID, _uint OtherColliderID)
 	}
 		/* 몬스터 투사체*/
 	case CI_MONSTER_SHOTGUNNER:
-		On_Hit(3);
+		On_Hit(20);
 		break;
 	case CI_MONSTER_CULTIST:
-		On_Hit(4);
+		On_Hit(8);
 		break;
 	case CI_MONSTER_GREATER:
-		On_Hit(5);
+		On_Hit(11);
 		break;
 	case CI_MONSTER_DEACON:
-		On_Hit(6);
+		On_Hit(5);
 		break;
 	case CI_MONSTER_NUKEMUTANT:
-		On_Hit(7);
+		On_Hit(12);
 		break;
 	case CI_MONSTER_ARCHANGEL:
-		On_Hit(10);
+		On_Hit(20);
 
 		/* 몬스터 몸박*/
 		break;
 	case CI_MONSTER_MECHSECT:
-		On_Hit(10);
+		On_Hit(5);
 		break;
 	case CI_MONSTER_WENTEKO:
-		On_Hit(10);
+		On_Hit(15);
+		break;
+	case CI_MONSTER_ARCHANGELBODY:
+		On_Hit(15);
 		break;
 
 		/*보스 스킬*/
@@ -398,13 +400,13 @@ void CPlayer::On_Collision(_uint MyColliderID, _uint OtherColliderID)
 		On_Hit(10);
 		break; 
 	case CI_BOSS_JUMP:
-		On_Hit(10);
+		On_Hit(15);
 		break;
 	case CI_BOSS_GUIDBULLET:
-		On_Hit(10);
+		On_Hit(12);
 		break;
 	case CI_BOSS_TANGTANG:
-		On_Hit(10);
+		On_Hit(20);
 		break;
 	default:
 		break;

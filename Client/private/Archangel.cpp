@@ -78,7 +78,7 @@ HRESULT CArchangel::Initialize(void* pArg)
 	m_fTrailDuration = 0.5f;	// 잔상이 사라지는 시간	
 
 	/* [ 사운드 설정칸 ] */
-	m_pSoundCom->Set3DState(100.f, 500.f);
+	m_pSoundCom->Set3DState(100.f, 1000.f);
 	m_pSoundCom->SetVolume("Chacing", 0.5f);
 	m_pSoundCom->SetVolume("Hit", 0.5f);
 	m_pSoundCom->SetVolume("Die", 0.5f);
@@ -127,7 +127,7 @@ void CArchangel::Late_Update(_float fTimeDelta)
 
 		if (m_pHeadCollider != nullptr)
 			m_pHeadCollider->Update_OffSet({ 0.f,10000.f,0.f });
-	}
+	}	
 
 	m_pCollider->Update_Collider();
 	if (m_pHeadCollider != nullptr)

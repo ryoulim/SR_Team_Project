@@ -25,7 +25,7 @@ HRESULT CLevel_GamePlay::Initialize(class CLevelData* pLevelData)
 {
 	/* [ 보글보글 좀 해보셨어? ] */
 	m_pEnv = m_pGameInstance->Get_Single_Sound("bubble_loop_01");
-	m_pEnv->Set_Volume(0.1f);
+	m_pEnv->Set_Volume(0.2f);
 	m_pEnv->Play();
 
 	if (FAILED(__super::Initialize(pLevelData)))
@@ -90,7 +90,7 @@ void CLevel_GamePlay::Update(_float fTimeDelta)
 		m_pBGM->Set_Volume(0.3f);
 		m_pBGM->Play();
 	
-		//m_pEnv->Set_Volume(0.2f);
+		m_pEnv->Set_Volume(0.1f);
 		m_bBossStart = false;
 		m_bBossEnd = false;
 	}
@@ -360,6 +360,7 @@ void CLevel_GamePlay::Check_Collision()
 	/*PBULLET*/
 	m_pGameInstance->Intersect(CG_PBULLET, CG_MONSTER);
 	m_pGameInstance->Intersect(CG_PBULLET, CG_BLOCK);
+	m_pGameInstance->Intersect(CG_PBULLET, CG_MBULLET);
 
 	/*MBULLET*/
 	m_pGameInstance->Intersect(CG_MBULLET, CG_PAWN);
