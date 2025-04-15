@@ -743,6 +743,7 @@ HRESULT CLoader::Loding_For_Static()
 	ADD_SOUND_EX(Nukemutant, "../Bin/Resources/Sounds/Monster/Nukemutant/",true, false, false);
 	ADD_SOUND_EX(Shotgunner, "../Bin/Resources/Sounds/Monster/Shotgunner/",true, false, false);
 	ADD_SOUND_EX(Wenteko, "../Bin/Resources/Sounds/Monster/Wenteko/",true, false, false);
+	ADD_SOUND_EX(BattleShip, "../Bin/Resources/Sounds/Monster/BattleShip/", true, false, false);
 
 	ADD_SOUND(Loading_ToIn, "../Bin/Resources/Sounds/LoadingCutscene/ToIn/");
 	ADD_SOUND(Loading_ToOut, "../Bin/Resources/Sounds/LoadingCutscene/ToOut/");

@@ -136,5 +136,6 @@ CGameObject* CLoadingCutscene::Clone(void* pArg)
 void CLoadingCutscene::Free()
 {
 	__super::Free();
+	Safe_Release(m_pSoundCom);
 }
 

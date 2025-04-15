@@ -92,9 +92,6 @@ private:
 
 	void SpawnHitBox(const _float3& _Position, const _float3& _Scale, const TCHAR* _szTextureTag, _float MaxTime, _bool _HitDead);
 
-
-
-
 	HRESULT Set_BombRadius();
 	_bool Fire_Bomb4(_uint iBombIndex, _float fTime);
 	_float3 Calc_Muzzle_Position(MUZZLEPOS eMuzzle);
