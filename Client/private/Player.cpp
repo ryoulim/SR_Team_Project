@@ -63,7 +63,7 @@ HRESULT CPlayer::Initialize(void* pArg)
 	m_pSoundCom->SetVolume("stone_jump003", 0.8f);
 	m_pSoundCom->SetVolume("fastwhoosh", 0.35f);
 	m_pSoundCom->SetVolume("Dash", 0.6f);
-	m_pSoundCom->SetVolume("Dodge", 1.0f);
+	m_pSoundCom->SetVolume("Dodge", 0.8f);
 
 	m_pSoundCom->SetVolume("stone_jump001", 1.f);
 	m_pSoundCom->SetVolume("stone_jump002", 1.f);
@@ -71,7 +71,7 @@ HRESULT CPlayer::Initialize(void* pArg)
 
 	m_pSoundCom->SetVolume("stone_land001", 0.8f);
 	m_pSoundCom->SetVolume("stone_land002", 0.8f);
-	m_pSoundCom->SetVolume("stone_land003", 0.8f);
+	m_pSoundCom->SetVolume("stone_land003", 0.8f); 
 
 	m_pSoundCom->SetVolume("TimeTo",0.35f);
 	m_pSoundCom->Play("TimeTo");
@@ -182,7 +182,8 @@ void CPlayer::Late_Update(_float fTimeDelta)
 
 HRESULT CPlayer::Render()
 {
-	m_pLeftHand->Render();
+	if (m_bMoveLeftHand)
+		m_pLeftHand->Render();
 
 	if(m_bActive)
 		return m_Weapons[m_iCurWeaponIndex]->Render();
@@ -287,7 +288,7 @@ void CPlayer::On_Collision(_uint MyColliderID, _uint OtherColliderID)
 		break;
 
 	case CI_ITEM_AMMO_DISPENSER_CANNON:
-		static_cast<CWeapon_Dispenser*>(m_Weapons[2])->Replenish_GrenadeAmmo(10);
+		static_cast<CWeapon_Dispenser*>(m_Weapons[1])->Replenish_GrenadeAmmo(10);
 		PRINT_DIALOG("grenades for Disperser x 10");
 		m_pSoundCom->Play("Ammo_Dispenser_Cannon");
 		break;

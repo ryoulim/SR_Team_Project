@@ -167,11 +167,11 @@ public:
 				/* [ SHOTREADY, READYBOMB, MOMBACKREADY ] */
 				int iRandomPattern = GetRandomInt(0, 100);
 
-				if (iRandomPattern > 95)
-					m_pOwner->Set_State(CRaceBoss::MOMBACKREADY);
-				else if (iRandomPattern > 90)
-					m_pOwner->Set_State(CRaceBoss::READYBOMB);
-				else
+				//if (iRandomPattern > 95)
+				//	m_pOwner->Set_State(CRaceBoss::MOMBACKREADY);
+				//else if (iRandomPattern > 90)
+				//	m_pOwner->Set_State(CRaceBoss::READYBOMB);
+				//else
 					m_pOwner->Set_State(CRaceBoss::SHOTREADY);
 
 				m_fTime = 0.f;
@@ -195,7 +195,7 @@ public:
 public:
 	virtual void Enter(_float fTimeDelta) override
 	{
-
+		m_fTime = 0.f;
 	}
 
 	virtual void Execute(_float fTimeDelta) override
@@ -212,7 +212,6 @@ public:
 	virtual void Exit() override
 	{
 		/* [ 공격 시작 ] */
-		m_fTime = 0.f;
 		m_pOwner->Set_State(CRaceBoss::SHOTHEADBULLET);
 	}
 };

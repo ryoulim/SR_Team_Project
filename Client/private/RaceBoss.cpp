@@ -48,6 +48,7 @@ HRESULT CRaceBoss::Initialize(void* pArg)
 	m_pSoundCom->SetVolume("Momback", 0.45f);
 	m_pSoundCom->SetVolume("ShotBullet", 1.f);//사용됨
 
+	m_VecBulletPos = { LSIDE, LMIDDLE, MIDDLE, RMIDDLE, RSIDE };
 
 	//m_pSoundCom->Set3DState();
 	//m_pSoundCom->Update3DPosition();
@@ -76,7 +77,6 @@ EVENT CRaceBoss::Update(_float fTimeDelta)
 	if (m_eCurState != DEAD &&	m_pPlayerpos->z > 8300)
 		Set_State(CRaceBoss::LEAVE);
 
-	_float3 vPos = *m_pTransformCom->Get_State(CTransform::STATE_POSITION);
 
 	//이전 상태와 현재 상태가 다르다면 Enter 실행
 	if (m_eCurState != m_ePreState)
@@ -96,6 +96,9 @@ EVENT CRaceBoss::Update(_float fTimeDelta)
 	m_pCurState->Execute(fTimeDelta);
 
 	/*  --------------------[ 부위 파괴 시 지속 폭발 ]----------------------- */
+
+	_float3 vPos = *m_pTransformCom->Get_State(CTransform::STATE_POSITION);
+
 
 	if (KEY_DOWN(DIK_0))
 	{
@@ -128,6 +131,11 @@ EVENT CRaceBoss::Update(_float fTimeDelta)
 	/* -------------------------------------------------------------------- */
 
 	Update_Skull(fTimeDelta); // 이 함수 반드시 보스의 움직임을 모두 업데이트 마친 다음에 호출해야 합니다.
+
+
+
+
+
 
 	return EVN_NONE;
 }
@@ -533,9 +541,9 @@ void CRaceBoss::ReadyForState()
 	m_pState[MOMBACKREVERSE] = new CRBState_MombackReverse(this);
 
 
-	//계속 터지길래 시작부터 값 채워놓음
-	m_VecBulletPos = { LSIDE, LMIDDLE, MIDDLE, RMIDDLE, RSIDE };
-	random_shuffle(m_VecBulletPos.begin(), m_VecBulletPos.end());
+	////계속 터지길래 시작부터 값 채워놓음
+	//m_VecBulletPos = { LSIDE, LMIDDLE, MIDDLE, RMIDDLE, RSIDE };
+	//random_shuffle(m_VecBulletPos.begin(), m_VecBulletPos.end());
 
 	m_pCurState = m_pState[ENTRANCE];
 }
@@ -558,8 +566,8 @@ HRESULT CRaceBoss::Fire_Bullet(CRaceBossBullet::RBULLETTYPE eType, MUZZLEPOS ePo
 		m_vBulletDiretion = RaceBossBulletdesc.vLook;
 
 		//총구가 총알을 발사하는 이미지로
-		if (!m_bPartDead[m_ePos - 62])
-			m_iTextureID[m_ePos - 62] = 8;
+		if (!m_bPartDead[m_ePos - LSIDE])
+			m_iTextureID[m_ePos - LSIDE] = 8;
 	}
 
 	if (eType == CRaceBossBullet::TAIL)
@@ -571,12 +579,12 @@ HRESULT CRaceBoss::Fire_Bullet(CRaceBossBullet::RBULLETTYPE eType, MUZZLEPOS ePo
 		//총구의 이미지를 원래대로
 		if (m_ePos == MIDDLE)
 		{
-			if (!m_bPartDead[m_ePos - 62])
-				m_iTextureID[m_ePos - 62] = 9;
+			if (!m_bPartDead[m_ePos - LSIDE])
+				m_iTextureID[m_ePos - LSIDE] = 9;
 		}
 			
-		else if (!m_bPartDead[m_ePos - 62])
-			m_iTextureID[m_ePos - 62] = 6;
+		else if (!m_bPartDead[m_ePos - LSIDE])
+			m_iTextureID[m_ePos - LSIDE] = 6;
 	}
 	
 	if (FAILED(m_pGameInstance->Add_GameObject(LEVEL_STATIC, TEXT("Prototype_GameObject_RaceBossBullet"),

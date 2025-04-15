@@ -48,7 +48,7 @@ HRESULT CDoorSecurity::Initialize(void* pArg)
     m_pPlayer = static_cast<CPlayer*>(GET_PLAYER);
     Safe_AddRef(m_pPlayer);
 
-    m_pSoundCom->SetVolume(0.2f);
+    m_pSoundCom->SetVolume(0.45f);
 
 	return S_OK;
 }

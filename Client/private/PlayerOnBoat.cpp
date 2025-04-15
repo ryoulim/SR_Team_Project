@@ -175,9 +175,11 @@ void CPlayerOnBoat::Late_Update(_float fTimeDelta)
 
 HRESULT CPlayerOnBoat::Render()
 {
-	m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
-	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAREF, 254);
-	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER);
+	m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
+	m_pGraphic_Device->SetRenderState(D3DRS_ALPHABLENDENABLE, true);
+	m_pGraphic_Device->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
+	m_pGraphic_Device->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
+	m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, false);
 
 	if (FAILED(m_pTransformCom->Bind_Resource()))
 		return E_FAIL;
@@ -197,11 +199,6 @@ HRESULT CPlayerOnBoat::Render()
 
 	/* -----------------------그림자----------------------------- */
 	
-	m_pGraphic_Device->SetRenderState(D3DRS_ALPHABLENDENABLE, true);
-	m_pGraphic_Device->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
-	m_pGraphic_Device->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
-	m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, false);
-
 	_float3 vPos = *m_pTransformCom->Get_State(CTransform::STATE_POSITION);	vPos.z += -30.f;
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, vPos);
 	if (FAILED(m_pTransformCom->Bind_Resource()))
@@ -219,7 +216,7 @@ HRESULT CPlayerOnBoat::Render()
 	vPos.z += 30.f;
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, vPos);
 
-	m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
+	m_pGraphic_Device->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
 	m_pGraphic_Device->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_ONE);
 	m_pGraphic_Device->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_ZERO);
 

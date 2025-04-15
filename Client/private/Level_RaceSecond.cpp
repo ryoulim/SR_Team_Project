@@ -305,7 +305,6 @@ void CLevel_RaceSecond::Check_Collision()
 {
 	m_pGameInstance->Intersect(CG_PAWN, CG_MBULLET);
 	m_pGameInstance->Intersect(CG_MONSTER, CG_PBULLET);
-
 	m_pGameInstance->Intersect(CG_BOSS, CG_PAWN);
 }
 

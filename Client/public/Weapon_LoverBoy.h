@@ -52,6 +52,17 @@ private:
 		CTransform* pTransformCom = { nullptr };
 	} m_LeftHand;
 
+	struct TargetInfo
+	{
+		_float fDistance;
+		CCollider* pCollider;
+
+		bool operator<(const TargetInfo& other) const
+		{
+			return fDistance < other.fDistance; // 반대 정렬: 큰 값 우선 -> 최대 힙
+		}
+	};
+
 public:
 	static CWeapon_LoverBoy* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
 	virtual CGameObject* Clone(void* pArg) override;

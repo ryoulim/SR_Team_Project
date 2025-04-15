@@ -253,44 +253,41 @@ void CWeapon_LoverBoy::Search_Target()
 	const auto& vCameraPosition = *m_pCameraTransform->Get_State(CTransform::STATE_POSITION);
 	const auto& vCameraLook = m_pCameraTransform->Get_State(CTransform::STATE_LOOK)->Normalize();
 
-	// 플레이어와의 시야각에 있으면서,
-	// 플레이어와의 거리가 m_fRayLength보다는 작고 가장 가까운 3개를 탐색
-	//검사에 통과한 이터레이터 리스트
+	const _float cosFovHalf = cosf(RADIAN(60.f * 0.8f));
+	priority_queue<TargetInfo> topTargets;
 
-	//거리, 콜라이더
-	_float3 vDirectionVector{};
-
-	// FOV = 60
-	_float cosFovHalf = cosf(RADIAN(60.f * 0.8f));
-
-	for (auto Monster : *MonsterList)
+	for (auto pCollider : *MonsterList)
 	{
-		vDirectionVector = (Monster->Get_Pos() - vCameraPosition).Normalize();
-		if (vCameraLook.Dot(vDirectionVector) >= cosFovHalf && Monster->Get_MaxLength() != 0)
-		{
-			m_TargetMonsters.emplace(vDirectionVector.Length(), Monster);
-		}
+		_float3 toTarget = pCollider->Get_Pos() - vCameraPosition;
+		_float distance = toTarget.Length();
+		_float3 dir = toTarget / distance;
+
+		if (dir.Dot(vCameraLook) < cosFovHalf || pCollider->Get_MaxLength() == 0)
+			continue;
+
+		// Raycast 벽 검사
+		if (m_pGameInstance->RaycastBetweenPoints(vCameraPosition, pCollider->Get_Pos(), CG_BLOCK))
+			continue;
+
+		topTargets.push({ distance, pCollider });
+
+		if (topTargets.size() > 3)
+			topTargets.pop(); // 가장 먼 놈 제거
 	}
 
-	if (m_TargetMonsters.empty())
-		return;
+	// 최종 대상 리스트 구성
+	m_TargetMonsters.clear();
 
-	_uint iCount{};
-	//레이검사로 사이에 벽이 있는지 체크해서 다 걸러내기.
-	for (auto Iter = m_TargetMonsters.begin(); 
-		Iter != m_TargetMonsters.end();)
+	while (!topTargets.empty())
 	{
-		// 3개 잡았으면 이후 필요없음
-		if (iCount >= 3 || m_pGameInstance->RaycastBetweenPoints(vCameraPosition, Iter->second->Get_Pos(), CG_BLOCK))
-		{
-			Iter = m_TargetMonsters.erase(Iter);
-			continue;
-		}
-		static_cast<CMonster*>(Iter->second->Get_Owner())->Render_Skull(TRUE);
-		Safe_AddRef(Iter->second);
-		Iter->second->Get_Owner()->AddRef();
-		Iter++;
-		iCount++;
+		auto& info = topTargets.top();
+		m_TargetMonsters.emplace(info.fDistance, info.pCollider);
+
+		static_cast<CMonster*>(info.pCollider->Get_Owner())->Render_Skull(TRUE);
+		Safe_AddRef(info.pCollider);
+		info.pCollider->Get_Owner()->AddRef();
+
+		topTargets.pop();
 	}
 
 	if (!m_TargetMonsters.empty())
@@ -377,7 +374,11 @@ void CWeapon_LoverBoy::Free()
 	Safe_Release(m_LeftHand.pVIBufferCom);
 
 	for (auto Pair : m_TargetMonsters)
+	{
+		Pair.second->Get_Owner()->Release();
 		Safe_Release(Pair.second);
+	}
+
 	m_TargetMonsters.clear();
 
 }
