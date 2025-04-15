@@ -64,7 +64,7 @@ EVENT CLoading_ToRace::Update(_float fTimeDelta)
 
 void CLoading_ToRace::Late_Update(_float fTimeDelta)
 {
-	m_fTextureNum += fTimeDelta * 0.25f;
+	m_fTextureNum += fTimeDelta * 0.5f;
 	if (m_fTextureNum >= 1.f && m_bVehicleSoundTrigger == false)
 	{
 		m_pSoundCom->Play("vehicle_start");

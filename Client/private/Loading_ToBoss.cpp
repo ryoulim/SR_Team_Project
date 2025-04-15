@@ -113,7 +113,7 @@ void CLoading_ToBoss::Init_Sequence()
 		m_fAnimationStartFrame = TEX_SMALLNOISE;
 		m_fAnimationFrame = m_fAnimationStartFrame;
 		m_fAnimationMaxFrame = TEX_SMALLNOISE_END;
-		m_fAnimationSpeed = 30.f;
+		m_fAnimationSpeed = 20.f;
 		m_iTexRepeat = 2;
 		break;
 
@@ -122,14 +122,14 @@ void CLoading_ToBoss::Init_Sequence()
 		m_fAnimationFrame = m_fAnimationStartFrame;
 		m_fAnimationMaxFrame = TEX_SMALLBREAKINGNEWS;
 		m_fAnimationSpeed = 1.f;
-		m_iTexRepeat = 6;
+		m_iTexRepeat = 3;
 		break;
 
 	case Client::CLoading_ToBoss::SEQUENCE_SMALLNEWS:
 		m_fAnimationStartFrame = TEX_SMALLNEWS;
 		m_fAnimationFrame = m_fAnimationStartFrame;
 		m_fAnimationMaxFrame = TEX_SMALLNEWS_END;
-		m_fAnimationSpeed = 3.f;
+		m_fAnimationSpeed = 6.f;
 		m_iTexRepeat = 3;
 		break;
 
@@ -137,7 +137,7 @@ void CLoading_ToBoss::Init_Sequence()
 		m_fAnimationStartFrame = TEX_WIDENOISE;
 		m_fAnimationFrame = m_fAnimationStartFrame;
 		m_fAnimationMaxFrame = TEX_WIDENOISE_END;
-		m_fAnimationSpeed = 30.f;
+		m_fAnimationSpeed = 20.f;
 		m_iTexRepeat = 2;
 		break;
 
@@ -145,8 +145,8 @@ void CLoading_ToBoss::Init_Sequence()
 		m_fAnimationStartFrame = TEX_WIDEBOSS;
 		m_fAnimationFrame = m_fAnimationStartFrame;
 		m_fAnimationMaxFrame = TEX_WIDEBOSS;
-		m_fAnimationSpeed = 1.f;
-		m_iTexRepeat = 8;
+		m_fAnimationSpeed = 3.f;
+		m_iTexRepeat = 10;
 		m_pSoundCom->Play("s_heskel_as_lava02");
 		m_pSoundCom->SetVolume("s_volbroadcast01", 0.2f);
 		break;
@@ -155,8 +155,8 @@ void CLoading_ToBoss::Init_Sequence()
 		m_fAnimationStartFrame = TEX_WIDEREDBOSS;
 		m_fAnimationFrame = m_fAnimationStartFrame;
 		m_fAnimationMaxFrame = TEX_WIDEREDBOSS;
-		m_fAnimationSpeed = 1.f;
-		m_iTexRepeat = 4;
+		m_fAnimationSpeed = 1.2f;
+		m_iTexRepeat = 3;
 		m_pSoundCom->Stop("s_volbroadcast01");
 		break;
 
@@ -164,8 +164,8 @@ void CLoading_ToBoss::Init_Sequence()
 		m_fAnimationStartFrame = TEX_BREAK_END;
 		m_fAnimationFrame = m_fAnimationStartFrame;
 		m_fAnimationMaxFrame = TEX_BREAK_END;
-		m_fAnimationSpeed = 1.f;
-		m_iTexRepeat = 3;
+		m_fAnimationSpeed = 1.8f;
+		m_iTexRepeat = 2;
 		m_pSoundCom->Play("Smash_Glass");
 		m_pSoundCom->Play("heskel_laugh_006");
 		break;

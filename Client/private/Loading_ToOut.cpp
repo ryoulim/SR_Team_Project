@@ -193,8 +193,8 @@ HRESULT CLoading_ToOut::Render_SecondCutscene()
 			return E_FAIL;
 		if (m_bRenderOk[3] == true && m_bRenderOk[5] == false)
 		{
-			m_fWindVolume = LERP(m_fWindVolume, 0.f, 0.005f);
-			m_fWindOutVolume = LERP(m_fWindOutVolume, 0.5f, 0.005f);
+			m_fWindVolume = LERP(m_fWindVolume, 0.f, 0.003f);
+			m_fWindOutVolume = LERP(m_fWindOutVolume, 0.5f, 0.003f);
 			m_pSoundCom->SetVolume("wind_longloop1", m_fWindVolume);
 			m_pSoundCom->SetVolume("wind_heavy", m_fWindOutVolume);
 		}
@@ -282,7 +282,7 @@ void CLoading_ToOut::Set_CutPosition(_float fTimeDelta)
 		}
 		break;
 	case 5:
-		m_arrTexSizePos[m_iCurCut].vPos.y += fTimeDelta * 0.5f * CUTSPEED; // 컷 이동시키기
+		m_arrTexSizePos[m_iCurCut].vPos.y += fTimeDelta * 0.6f * CUTSPEED; // 컷 이동시키기
 		if (m_arrTexSizePos[m_iCurCut].vPos.y >= m_arrTexLastPos[m_iCurCut].y) // 컷 이동 완료 시
 		{
 			m_arrTexSizePos[m_iCurCut].vPos.y = m_arrTexLastPos[m_iCurCut].y;

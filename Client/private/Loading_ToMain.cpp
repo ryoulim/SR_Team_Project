@@ -69,7 +69,7 @@ EVENT CLoading_ToMain::Update(_float fTimeDelta)
 	if (m_fTextureNum < 1.f)
 		m_fTextureNum += fTimeDelta;
 	else
-		m_fTextureNum += fTimeDelta * 10;
+		m_fTextureNum += fTimeDelta * 20;
 	if (m_fTextureNum >= _float(TEX_BARBACK))
 		m_fTextureNum = _float(TEX_ANIM);
 
