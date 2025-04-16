@@ -942,17 +942,11 @@ HRESULT CLoader::Loading_For_GamePlay()
 #pragma region PRTOBJ
 	lstrcpy(m_szLoadingText, TEXT("원형객체을(를) 로딩중입니다.")); 
 	ADD_PRTOBJ(Terrain); 
-	ADD_PRTOBJ(MyCube); 
 	ADD_PRTOBJ(Aim); 
 	ADD_PRTOBJ(Armor); 
 	ADD_PRTOBJ(Ammo); 
 	ADD_PRTOBJ(Portrait); 
-	ADD_PRTOBJ(Trapezoid); 
-	ADD_PRTOBJ(Stall); 
-	ADD_PRTOBJ(Cabinet); 
-	ADD_PRTOBJ(Signboard); 
-	ADD_PRTOBJ(MyComputer); 
-	ADD_PRTOBJ(Canopy); 
+
 
 	ADD_PRTOBJ(TriangularPillar);
 	ADD_PRTOBJ(Block); 
@@ -1560,31 +1554,8 @@ HRESULT CLoader::Loading_For_UnderGround()
 	ADD_TEXTURE(Terrain, "../Bin/Resources/Textures/Check_Tile.PNG", 1);
 	ADD_TEXTURE(Water, "../Bin/Resources/Textures/Map/Water/Water%d.png", 16);
 
-	/* 맵, 스태츄 */
-	ADD_TEXTURE(MyCube, "../Bin/Resources/Textures/Snow/Snow.png", 1);
-	ADD_TEXTURE(Portrait, "../Bin/Resources/Textures/UI/Portrait/portrait%d.PNG", 25);
-	ADD_TEXTURE(Box, "../Bin/Resources/Textures/Object/Box/tile6628.png", 1);
-	ADD_TEXTURE(Cabinet, "../Bin/Resources/Textures/Object/Cabinet/Cabinet%d.png", 3);
-	ADD_TEXTURE(Trapezoid, "../Bin/Resources/Textures/Object/Trapezoid/Trapezoid%d.png", 2);
-	ADD_TEXTURE(Stall, "../Bin/Resources/Textures/Object/Stall/Stall%d.png", 2);
-	ADD_TEXTURE(Signboard, "../Bin/Resources/Textures/Object/Signboard/Signboard%d.png", 5);
-	ADD_TEXTURE(MyComputer, "../Bin/Resources/Textures/Object/Computer/Computer%d.png", 3);
-	ADD_TEXTURE(Canopy, "../Bin/Resources/Textures/Object/Canopy/Canopy%d.png", 2);
-	ADD_TEXTURE(TrashCan, "../Bin/Resources/Textures/Map/TrashCan/TrashCan%d.png", 2);
-	ADD_TEXTURE(GarbageBag, "../Bin/Resources/Textures/Map/GarbageBag/GarbageBag%d.png", 3);
-	ADD_TEXTURE(FirePlug, "../Bin/Resources/Textures/Map/FirePlug/FirePlug%d.png", 6);
-	ADD_TEXTURE(HydroPump, "../Bin/Resources/Textures/Map/FirePlug/HydroPump/HydroPump%d.png", 25);
-	ADD_TEXTURE(Generator, "../Bin/Resources/Textures/Map/Generator/Generator%d.PNG", 17);
-
-	/* 빌딩 */
-	ADD_TEXTURE(BuildingH, "../Bin/Resources/Textures/Object/BuildingH/BuildingH%d.PNG", 4);
-	ADD_TEXTURE(BuildingW, "../Bin/Resources/Textures/Object/BuildingW/BuildingW.PNG", 1);
-	ADD_TEXTURE(BuildingV, "../Bin/Resources/Textures/Object/BuildingV/BuildingV.PNG", 1);
-	ADD_TEXTURE(BuildingU, "../Bin/Resources/Textures/Object/BuildingU/BuildingU.PNG", 1);
-
 	/* 아이템 */
 	ADD_TEXTURE(Item_Weapon_ChainGun, "../Bin/Resources/Textures/Item/ChainGun.PNG", 1);
-
 	ADD_TEXTURE(Item_Ammo, "../Bin/Resources/Textures/Item/Ammo%d.PNG", 4);
 	ADD_TEXTURE(Item_Healkit, "../Bin/Resources/Textures/Item/Healkit.PNG", 1);
 	ADD_TEXTURE(Item_Armor, "../Bin/Resources/Textures/Item/Armor%d.PNG", 2);
@@ -1595,14 +1566,6 @@ HRESULT CLoader::Loading_For_UnderGround()
 
 	lstrcpy(m_szLoadingText, TEXT("원형객체을(를) 로딩중입니다."));
 	ADD_PRTOBJ(Terrain);
-
-	ADD_PRTOBJ(Portrait);
-	ADD_PRTOBJ(Trapezoid);
-	ADD_PRTOBJ(Stall);
-	ADD_PRTOBJ(Cabinet);
-	ADD_PRTOBJ(Signboard);
-	ADD_PRTOBJ(MyComputer);
-	ADD_PRTOBJ(Canopy);
 
 	ADD_PRTOBJ(Block);
 	ADD_PRTOBJ(BackGround);
