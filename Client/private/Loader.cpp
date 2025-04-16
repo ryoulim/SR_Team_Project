@@ -240,7 +240,7 @@ HRESULT CLoader::Loading()
 
 void CLoader::Output_LoadingText()
 {
-	SetWindowText(g_hWnd, m_szLoadingText);
+	//SetWindowText(g_hWnd, m_szLoadingText);
 
 	auto LoadingMenu = m_pGameInstance->Find_Object(LEVEL_LOADING, TEXT("Layer_LoadingUI"));
 	dynamic_cast<CLoadingUI*>(LoadingMenu)->Set_LoadingGauge(m_fLoadPercent);

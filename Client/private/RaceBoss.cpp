@@ -78,6 +78,10 @@ EVENT CRaceBoss::Update(_float fTimeDelta)
 	if (m_eCurState != DEAD &&	m_pPlayerpos->z > 8300)
 		Set_State(CRaceBoss::LEAVE);
 
+	if (KEY_DOWN(DIK_1))
+		Set_StartState(CRaceBoss::MOMBACKREADY);
+	if (KEY_DOWN(DIK_2))
+		Set_StartState(CRaceBoss::READYBOMB);
 
 	//이전 상태와 현재 상태가 다르다면 Enter 실행
 	if (m_eCurState != m_ePreState)

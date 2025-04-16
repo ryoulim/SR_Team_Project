@@ -93,7 +93,7 @@ HRESULT CLevel_RaceFirst::Render()
 	// 모든 랜더가 끝나고 들어오는 부분!! 
 	//m_pGraphic_Device->SetRenderState(D3DRS_LIGHTING, TRUE);
 	
-	SetWindowText(g_hWnd, TEXT("레이싱 first레벨입니다."));
+//SetWindowText(g_hWnd, TEXT("레이싱 first레벨입니다."));
 
 	return S_OK;
 }

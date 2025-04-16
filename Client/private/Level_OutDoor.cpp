@@ -681,9 +681,14 @@ CLevel_OutDoor* CLevel_OutDoor::Create(LPDIRECT3DDEVICE9 pGraphic_Device, CLevel
 
 void CLevel_OutDoor::Free()
 {
-	//CCameraManager* Cameramanager = CAMERA_MANAGER;
+ //	CCameraManager* Cameramanager = CAMERA_MANAGER;
+	//Safe_AddRef(Cameramanager);
+
 	//if (Cameramanager)
 	//	Cameramanager->Switch(CCameraManager::DYNAMIC);
+
+	//Safe_Release(Cameramanager);
+
 	__super::Free();
 
 	Safe_Release(m_pGenerator);

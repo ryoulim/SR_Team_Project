@@ -36,19 +36,22 @@ EVENT CDebugMode::Update(_float fTimeDelta)
 		m_iFPSConter = 0;
 	}
 
+	SetWindowText(g_hWnd, m_strFPS.c_str());
 	return EVN_NONE;
 }
 
 void CDebugMode::Late_Update(_float fTimeDelta)
 {
-	if (FAILED(m_pGameInstance->Add_RenderGroup(CRenderer::RG_UI, this)))
-		return;
+	//if (FAILED(m_pGameInstance->Add_RenderGroup(CRenderer::RG_UI, this)))
+	//	return;
 }
 
 
 HRESULT CDebugMode::Render()
 {
-  	return m_pGameInstance->Draw_Font(m_strFPS, &m_rcFPS);
+	//SetWindowText(g_hWnd, m_strFPS.c_str());
+
+	return S_OK; //m_pGameInstance->Draw_Font(m_strFPS, &m_rcFPS);
 }
 
 CDebugMode* CDebugMode::Create(LPDIRECT3DDEVICE9 pGraphic_Device)

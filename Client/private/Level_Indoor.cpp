@@ -66,7 +66,7 @@ void CLevel_Indoor::Update(_float fTimeDelta)
 
 HRESULT CLevel_Indoor::Render()
 {
-	SetWindowText(g_hWnd, TEXT("실내 레벨입니다."));
+	//SetWindowText(g_hWnd, TEXT("실내 레벨입니다."));
 	return S_OK;
 }
 
