@@ -46,6 +46,7 @@ private:
 	virtual HRESULT Animate_Monster(_float fTimeDelta);
 
 private:
+	CCollider* m_pAttackCollider{};
 	enum MONSTER_STATE { STATE_MOVE, STATE_FLY, STATE_ATTACK, STATE_STAY, STATE_DEAD, STATE_END };
 	enum STATE_MAXFRAME { MAX_MOVERUN = 4, MAX_FLY = 4, MAX_ATTACK = 4, MAX_STAY = 4, MAX_DEAD = 12 };
 	MONSTER_STATE	m_eCurMonsterState	 = { MONSTER_STATE::STATE_MOVE };

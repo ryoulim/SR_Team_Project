@@ -811,7 +811,8 @@ void CLevel_GamePlay::Free()
 	if (Cameramanager)
 		Cameramanager->Switch(CCameraManager::DYNAMIC);
 
-
+	m_pBGM->Stop();
+	m_pEnv->Stop();
 	//CUI_Manager::Get_Instance()->Clear_GamePlayUI();
 	Safe_Release(m_pCameraManager);
 	Safe_Release(m_pBGM);

@@ -132,7 +132,7 @@ void CArchangel::Late_Update(_float fTimeDelta)
 	m_pCollider->Update_Collider();
 	if (m_pHeadCollider != nullptr)
 		m_pHeadCollider->Update_Collider();
-
+	m_pAttackCollider->Update_Collider();
 
 	m_pGravityCom->Update(fTimeDelta);
 
@@ -514,17 +514,29 @@ HRESULT CArchangel::Ready_Components(void* pArg)
 		m_fAttackDistance = pDesc->fAttackDistance;
 	}
 
-	DESC* pDesc = static_cast<DESC*>(pArg);
-	CCollider_Capsule::DESC ColliderDesc{};
-	ColliderDesc.pTransform = m_pTransformCom;
-	//ColliderDesc.vOffSet = {0.f,10.f,0.f};
-	ColliderDesc.vScale = m_pTransformCom->Compute_Scaled();
-	ColliderDesc.pOwner = this;
-	ColliderDesc.iColliderGroupID = CG_MONSTER;
-	ColliderDesc.iColliderID = CI_MON_BODY;
+	//DESC* pDesc = static_cast<DESC*>(pArg);
+	//CCollider_Capsule::DESC ColliderDesc{};
+	//ColliderDesc.pTransform = m_pTransformCom;
+	////ColliderDesc.vOffSet = {0.f,10.f,0.f};
+	//ColliderDesc.vScale = m_pTransformCom->Compute_Scaled();
+	//ColliderDesc.pOwner = this;
+	//ColliderDesc.iColliderGroupID = CG_MONSTER;
+	//ColliderDesc.iColliderID = CI_MON_BODY;
 
-	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Collider_Capsule"),
-		TEXT("Com_Collider"), reinterpret_cast<CComponent**>(&m_pCollider), &ColliderDesc)))
+	//if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Collider_Capsule"),
+	//	TEXT("Com_Collider"), reinterpret_cast<CComponent**>(&m_pCollider), &ColliderDesc)))
+	//	return E_FAIL;
+
+		/* 콜라이드 컴포넌트  - 근접공격용 타격 범위 */
+	CCollider::DESC AttackColliderDesc{};
+	AttackColliderDesc.pTransform = m_pTransformCom;
+	AttackColliderDesc.vScale = m_pTransformCom->Compute_Scaled() * 1.2f;
+	AttackColliderDesc.pOwner = this;
+	AttackColliderDesc.iColliderGroupID = CG_MONSTER_BODY;
+	AttackColliderDesc.iColliderID = CI_MONSTER_ARCHANGELBODY;
+
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Collider_Sphere"),
+		TEXT("Com_Collider_CloseAttack"), reinterpret_cast<CComponent**>(&m_pAttackCollider), &AttackColliderDesc)))
 		return E_FAIL;
 
 	if (m_bActive)
@@ -537,7 +549,7 @@ HRESULT CArchangel::Ready_Components(void* pArg)
 			TEXT("Com_Gravity"), reinterpret_cast<CComponent**>(&m_pGravityCom), &GravityDesc)))
 			return E_FAIL;
 	}
-	Safe_Release(m_pCollider);
+	//Safe_Release(m_pCollider);
 
 
 	// 콜라이더 재할당 
@@ -852,6 +864,7 @@ CGameObject* CArchangel::Clone(void* pArg)
 void CArchangel::Free()
 {
 	__super::Free();
+	Safe_Release(m_pAttackCollider);
 	Safe_Release(m_pArchShaderCom);
 	Safe_Release(m_pSoundCom);
 	

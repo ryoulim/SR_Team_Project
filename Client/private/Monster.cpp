@@ -526,6 +526,8 @@ void CMonster::On_Collision_NormalMonster(_uint MyColliderID, _uint OtherCollide
 		Collision_With_Weapon();
 
 		//if (!m_pSoundCom->IsPlaying("Hit"))
+
+		if(!m_bDead)
 			m_pSoundCom->Play("Hit");
 	}
 	else if (OtherColliderID == CI_INTERACTIVE_DOOR)
