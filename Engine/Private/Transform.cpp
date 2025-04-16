@@ -39,23 +39,18 @@ HRESULT CTransform::Bind_Resource()
 
 const _float4x4& CTransform::Billboard_Inverse() const
 {
-	//媛앹껜 ?ㅼ???
 	_float3	vScaled = Compute_Scaled();
-	//媛앹껜 ?ъ???
 	_float3	vPosition = *Get_State(CTransform::STATE_POSITION);
 
-	//移대찓???ъ???
 	_float4x4 matCamWorld;
 	m_pGraphic_Device->GetTransform(D3DTS_VIEW, &matCamWorld);
 	matCamWorld.MakeInverseMat(matCamWorld);
 	_float3 vCameraPos = { matCamWorld._41, matCamWorld._42, matCamWorld._43 };
 
-	//移대찓?쇰? ?깆???猷⑸깹??
 	_float3		vLook = vPosition - vCameraPos;
 	_float3		vUp = { 0.f, 1.f, 0.f };
 	_float3		vRight = vUp.Cross(vLook);
 
-	//媛?異뺤쓣 ?몃쭚?쇱씠利?x ?ㅼ??쇨컪?쇰줈 ??
 	vRight.Normalize();
 	vRight *= -vScaled.x;
 
@@ -84,16 +79,46 @@ const _float4x4& CTransform::Billboard() const
 	matCamWorld.MakeInverseMat(matCamWorld);
 	_float3 vCameraPos = { matCamWorld._41, matCamWorld._42, matCamWorld._43 };
 
-	_float3 vRight = reinterpret_cast<_float3*>(&matCamWorld.m[0][0])->Normalize() * vScaled.x;
-	//_float3 vUp = reinterpret_cast<_float3*>(&matCamWorld.m[1][0])->Normalize() * vScaled.y;
-	_float3 vLook = reinterpret_cast<_float3*>(&matCamWorld.m[2][0])->Normalize() * vScaled.z;
+	_float3		vLook = vPosition - vCameraPos;
+	_float3		vUp = { 0.f, 1.f, 0.f };
+	_float3		vRight = vUp.Cross(vLook);
+
+	vRight.Normalize();
+	vRight *= vScaled.x;
+
+	vUp.Normalize();
+	vUp *= vScaled.y;
+
+	vLook.Normalize();
+	vLook *= vScaled.z;
+	vLook.y = 0.f;
 
 	memcpy(&m_Return._11, &vRight, sizeof _float3);
-	memcpy(&m_Return._21, Get_State(CTransform::STATE_UP), sizeof _float3);
+	memcpy(&m_Return._21, &vUp, sizeof _float3);
 	memcpy(&m_Return._31, &vLook, sizeof _float3);
 	memcpy(&m_Return._41, &vPosition, sizeof _float3);
 
 	return m_Return;
+
+
+	//_float3	vScaled = Compute_Scaled();
+	//_float3	vPosition = *Get_State(CTransform::STATE_POSITION);
+
+	//_float4x4 matCamWorld;
+	//m_pGraphic_Device->GetTransform(D3DTS_VIEW, &matCamWorld);
+	//matCamWorld.MakeInverseMat(matCamWorld);
+	//_float3 vCameraPos = { matCamWorld._41, matCamWorld._42, matCamWorld._43 };
+
+	//_float3 vRight = reinterpret_cast<_float3*>(&matCamWorld.m[0][0])->Normalize() * vScaled.x;
+	////_float3 vUp = reinterpret_cast<_float3*>(&matCamWorld.m[1][0])->Normalize() * vScaled.y;
+	//_float3 vLook = reinterpret_cast<_float3*>(&matCamWorld.m[2][0])->Normalize() * vScaled.z;
+
+	//memcpy(&m_Return._11, &vRight, sizeof _float3);
+	//memcpy(&m_Return._21, Get_State(CTransform::STATE_UP), sizeof _float3);
+	//memcpy(&m_Return._31, &vLook, sizeof _float3);
+	//memcpy(&m_Return._41, &vPosition, sizeof _float3);
+
+	//return m_Return;
 }
 
 const _float4x4& CTransform::Billboard_Y() const

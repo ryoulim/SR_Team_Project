@@ -479,6 +479,12 @@ HRESULT CLevel_Indoor::Ready_Layer_Pawn(const _wstring& strLayerTag)
 
 HRESULT CLevel_Indoor::Ready_Layer_Monster(const _wstring& strLayerTag)
 {
+	/* 테스트용 */
+	SPAWN_ARCHANGEL(611.f, 100.f, 690.f, LEVEL_INDOOR, false);
+	SPAWN_ARCHANGEL(1950.f, 100.f, 650.f, LEVEL_INDOOR, false);
+	SPAWN_ARCHANGEL(1780.f, 100.f, 1400.f, LEVEL_INDOOR, false);
+
+
 	/* 첫 광장 통로쪽 상자 뒤 */
 	SPAWN_SHOTGUNNER(900.f, 50.f, 830.f, LEVEL_INDOOR, true);
 	SPAWN_SHOTGUNNER(900.f, 50.f, 865.f, LEVEL_INDOOR, true);

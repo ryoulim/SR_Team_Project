@@ -154,6 +154,9 @@ void CArchangel::Late_Update(_float fTimeDelta)
 
 HRESULT CArchangel::Render()
 {
+	if (KEY_DOWN(DIK_G))
+		int a = 0;
+
 	if (m_bDebug)
 		Render_DebugFOV();
 
@@ -164,11 +167,18 @@ HRESULT CArchangel::Render()
 	{
 		if (m_pGraphic_Device->SetTransform(D3DTS_WORLD, &m_pTransformCom->Billboard()))
 			return E_FAIL;
+		_float4x4 tmp = {};
+		m_pGraphic_Device->GetTransform(D3DTS_WORLD, &tmp);
+		tmp = tmp;
 	}
 	else
 	{
 		if (m_pGraphic_Device->SetTransform(D3DTS_WORLD, &m_pTransformCom->Billboard_Inverse()))
 			return E_FAIL;
+
+		_float4x4 tmp = {};
+		m_pGraphic_Device->GetTransform(D3DTS_WORLD, &tmp);
+		tmp = tmp;
 	}
 
 	if (FAILED(m_pVIBufferCom->Bind_Buffers()))

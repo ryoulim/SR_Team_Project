@@ -55,7 +55,7 @@ HRESULT CDeacon::Initialize(void* pArg)
 	m_fCooldownTime = 0.5f;     // 공격 쉬는 텀
 	m_fBulletCooldown = 0.2f;	// 총알 발사 쿨
 	m_fAttackTime = 0.5f;		// 공격 시간
-
+	//82,115
 	/* [ 사운드 설정칸 ] */
 	m_pSoundCom->Set3DState(100.f, 1000.f);
 	m_pSoundCom->SetVolume("Attack", 0.4f);
@@ -116,8 +116,6 @@ void CDeacon::Late_Update(_float fTimeDelta)
 	if (m_pHeadCollider != nullptr)
 		m_pHeadCollider->Update_Collider();
 
-
-
 	Compute_ViewAngle();
 	Set_TextureType();
 
@@ -147,6 +145,21 @@ HRESULT CDeacon::Ready_Components(void* pArg)
 	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Sound_Deacon"),
 		TEXT("Com_Sound"), reinterpret_cast<CComponent**>(&m_pSoundCom))))
 		return E_FAIL;
+
+	// 머리 콜라이더 
+	DESC* pDesc = static_cast<DESC*>(pArg);
+	CCollider::DESC ColliderDesc{};
+	ColliderDesc.pTransform = m_pTransformCom;
+	ColliderDesc.vOffSet = { 0.f, 0.f, 0.f }; // y길이 * 0.5 - 머리위치y좌표 + 지름크기?
+	ColliderDesc.vScale = { 22.8f, 0.f, 0.f }; // 반지름 크기
+	ColliderDesc.pOwner = this;
+	ColliderDesc.iColliderGroupID = CG_MONSTER_HEAD;
+	ColliderDesc.iColliderID = CI_MON_HEAD;
+
+	if (FAILED(__super::Add_Component(LEVEL_STATIC, TEXT("Prototype_Component_Collider_Sphere"),
+		TEXT("Com_Collider_head"), reinterpret_cast<CComponent**>(&m_pHeadCollider), &ColliderDesc)))
+		return E_FAIL;
+
 
 	return S_OK;
 }
