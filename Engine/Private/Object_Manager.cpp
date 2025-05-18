@@ -147,6 +147,7 @@ CGameObject* CObject_Manager::Find_Object(_uint iLevelIndex, const _wstring& str
 	auto pLayer = Find_Layer(iLevelIndex, strLayerTag);
 	if (!pLayer)
 		return nullptr;
+
 	return pLayer->Find_Object(iVectorIndex);
 }
 
